@@ -1,0 +1,99 @@
+{
+  "breadcrumbs": {
+    "description": "Breadcrumbs component with different separator types and color styling",
+    "separators": {
+      "slash": "/",
+      "chevron": ">",
+      "dot": "•"
+    },
+    "structure": {
+      "item": {
+        "icon": {
+          "size": 16,
+          "color": {
+            "light": "#4e4e55",
+            "dark": "#ffffffb2"
+          },
+          "types": [
+            "folder",
+            "avatar",
+            "custom",
+            "brand"
+          ]
+        },
+        "label": {
+          "font": {
+            "family": "Spoqa Han Sans Neo",
+            "size": 14,
+            "weight": 500,
+            "lineHeight": 20,
+            "letterSpacing": -0.6
+          },
+          "color": {
+            "light": {
+              "active": "#111115",
+              "current": "#6f6f77"
+            },
+            "dark": {
+              "active": "#ffffff",
+              "current": "#ffffff80"
+            }
+          }
+        },
+        "spacing": {
+          "iconToLabel": 4,
+          "itemGap": 6
+        }
+      },
+      "separator": {
+        "color": {
+          "light": "#6f6f77",
+          "dark": "#ffffff80"
+        },
+        "spacing": {
+          "before": 4,
+          "after": 4
+        }
+      }
+    },
+    "variables": {
+      "light": {
+        "text/default": "#111115",
+        "text/muted": "#6f6f77",
+        "icon/default-subtle": "#4e4e55",
+        "icon/default-muted": "#6f6f77"
+      },
+      "dark": {
+        "text/default": "#ffffff",
+        "text/muted": "#ffffff80",
+        "icon/default-subtle": "#ffffffb2",
+        "icon/default-muted": "#ffffff80"
+      },
+      "size/sm": 14,
+      "sm": 16,
+      "2": 2,
+      "4": 4,
+      "letter-spacing/tracking-normal": -0.6000000238418579,
+      "line-height/leading-5": 20,
+      "weight/medium": 500,
+      "body": "Spoqa Han Sans Neo"
+    },
+    "colorRules": {
+      "light": {
+        "activeItems": "Intermediate/navigable items (all except last) use #111115 (text/default) - dark gray for active links",
+        "currentItem": "Last/current page item uses #6f6f77 (text/muted) - muted gray for current page (not interactive)",
+        "separators": "All separators use #6f6f77 (text/muted)"
+      },
+      "dark": {
+        "activeItems": "Intermediate/navigable items (all except last) use #ffffff (text/default) - white for active links",
+        "currentItem": "Last/current page item uses #ffffff80 (text/muted) - faded white for current page (not interactive)",
+        "separators": "All separators use #ffffff80 (text/muted)"
+      }
+    },
+    "examples": {
+      "chevron": "Framer > Marketplace > Templates > Manson",
+      "slash": "Tailwind CSS / Blog / Tailwind CSS v4.0",
+      "dot": "Project • Issues • #102"
+    }
+  }
+}

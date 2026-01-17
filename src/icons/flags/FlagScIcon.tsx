@@ -1,0 +1,25 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../Icon.types';
+
+import { Icon } from '../Icon';
+
+export const FlagScIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clipPath="url(#FlagScIcon__clip0_3811_32111)">
+<path d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z" fill="#F0F0F0"/>
+<path d="M20.1004 3.14705C17.9657 1.19273 15.1222 0 12 0C11.4889 0 10.9852 0.0322031 10.4909 0.0942187L4.69566 6.78263L0.379734 15.0061C0.658547 16.0871 1.08483 17.1087 1.63481 18.0491L12 12L20.1004 3.14705Z" fill="#FFDA44"/>
+<path d="M21.9905 18.6487L5.20139 21.8887C7.134 23.22 9.47578 24 12 24C16.1682 24 19.8394 21.8745 21.9905 18.6487Z" fill="#6DA544"/>
+<path d="M20.1021 3.14864L1.64166 18.0607C2.12452 18.8842 2.70263 19.6451 3.36108 20.328L24 12C24 8.49567 22.4976 5.34248 20.1021 3.14864Z" fill="#D80027"/>
+<path d="M0 12C0 13.0381 0.131906 14.0454 0.379734 15.0061L10.4909 0.0942187C4.57584 0.836437 0 5.88375 0 12Z" fill="#0052B4"/>
+</g>
+<defs>
+<clipPath id="FlagScIcon__clip0_3811_32111">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+    </Icon>
+  );
+};

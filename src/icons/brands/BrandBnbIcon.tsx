@@ -1,0 +1,48 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../Icon.types';
+
+import { Icon } from '../Icon';
+
+export const BrandBnbIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#BrandBnbIcon__filter0_d_3983_36718)">
+<path d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z" fill="black"/>
+</g>
+<path d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z" fill="#F3BA2F"/>
+<path style={{ mixBlendMode: 'soft-light' }} d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z" fill="url(#BrandBnbIcon__paint0_linear_3983_36718)"/>
+<path d="M11.9995 22.6329C17.8722 22.6329 22.6329 17.8722 22.6329 11.9995C22.6329 6.12692 17.8722 1.36621 11.9995 1.36621C6.12692 1.36621 1.36621 6.12692 1.36621 11.9995C1.36621 17.8722 6.12692 22.6329 11.9995 22.6329Z" stroke="black" strokeOpacity="0.097"/>
+<g filter="url(#BrandBnbIcon__filter1_d_3983_36718)">
+<path d="M9.15095 10.8291L11.9992 7.9809L14.8489 10.8306L16.5063 9.17323L11.9992 4.66602L7.4937 9.17176L9.15095 10.8291ZM4.66602 11.9991L6.3234 10.3417L7.98067 11.999L6.3233 13.6564L4.66602 11.9991ZM9.15095 13.1696L11.9992 16.0178L14.8489 13.1682L16.5071 14.8247L16.5063 14.8255L11.9992 19.3327L7.49355 14.8271L7.4912 14.8247L9.15095 13.1696ZM16.018 12L17.6754 10.3427L19.3327 11.9999L17.6753 13.6573L16.018 12ZM13.6802 11.9985L13.6818 11.9993L13.681 12.0002L11.9992 13.682L10.319 12.0017L10.3167 11.9993L10.319 11.997L10.6135 11.7024L10.7563 11.5596H10.7564L11.9992 10.3167L13.681 11.9985H13.6802Z" fill="black"/>
+</g>
+<path d="M9.15095 10.8291L11.9992 7.9809L14.8489 10.8306L16.5063 9.17323L11.9992 4.66602L7.4937 9.17176L9.15095 10.8291ZM4.66602 11.9991L6.3234 10.3417L7.98067 11.999L6.3233 13.6564L4.66602 11.9991ZM9.15095 13.1696L11.9992 16.0178L14.8489 13.1682L16.5071 14.8247L16.5063 14.8255L11.9992 19.3327L7.49355 14.8271L7.4912 14.8247L9.15095 13.1696ZM16.018 12L17.6754 10.3427L19.3327 11.9999L17.6753 13.6573L16.018 12ZM13.6802 11.9985L13.6818 11.9993L13.681 12.0002L11.9992 13.682L10.319 12.0017L10.3167 11.9993L10.319 11.997L10.6135 11.7024L10.7563 11.5596H10.7564L11.9992 10.3167L13.681 11.9985H13.6802Z" fill="white"/>
+<defs>
+<filter id="BrandBnbIcon__filter0_d_3983_36718" x="0" y="0.5" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="0.5"/>
+<feGaussianBlur stdDeviation="0.5"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.199474 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3983_36718"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3983_36718" result="shape"/>
+</filter>
+<filter id="BrandBnbIcon__filter1_d_3983_36718" x="3.66602" y="4.16602" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="0.5"/>
+<feGaussianBlur stdDeviation="0.5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.204257 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3983_36718"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3983_36718" result="shape"/>
+</filter>
+<linearGradient id="BrandBnbIcon__paint0_linear_3983_36718" x1="1101" y1="1" x2="1101" y2="2201" gradientUnits="userSpaceOnUse">
+<stop stopColor="white" stopOpacity="0.5"/>
+<stop offset="1" stopOpacity="0.5"/>
+</linearGradient>
+</defs>
+</svg>
+    </Icon>
+  );
+};

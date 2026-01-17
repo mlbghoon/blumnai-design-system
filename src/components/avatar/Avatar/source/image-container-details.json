@@ -1,0 +1,52 @@
+{
+  "imageContainer": {
+    "nodeId": "13202:3992",
+    "description": "Image container frame structure",
+    "figmaCode": {
+      "classes": "border border-[#27272a] border-solid overflow-clip rounded-[9999px] size-full",
+      "note": "This shows a solid border #27272a, different from the token-based border"
+    },
+    "structure": {
+      "container": "Frame named 'image'",
+      "innerElement": "rounded-rectangle named 'Image' inside"
+    },
+    "metadata": {
+      "x": 0,
+      "y": 0,
+      "width": 48,
+      "height": 48
+    },
+    "note": "This might be a different variant or state - need to verify which uses which border"
+  },
+  "avatarWithInitials": {
+    "nodeId": "3990:32258",
+    "description": "Complete Avatar structure with Initials variant",
+    "figmaCode": {
+      "avatarContainer": "relative size-full",
+      "imageContainer": "absolute bg-[var(--bg/basic/red-accent,#e74341)] border border-[var(--border/default,rgba(39,39,42,0.1))] border-solid inset-0 overflow-clip rounded-[var(--full,9999px)]",
+      "content": "Initials text directly inside (no Image wrapper)"
+    },
+    "findings": [
+      "Image container uses border token: var(--border/default,rgba(39,39,42,0.1))",
+      "Initials variant: text directly in image container (no Image element wrapper)",
+      "Border is 1px solid with rgba(39,39,42,0.1) opacity",
+      "Border-radius: 9999px (circular) or 6px (rounded) based on shape"
+    ]
+  },
+  "importantDifferences": {
+    "borderColor": {
+      "imageFrame": "#27272a (solid, opaque)",
+      "avatarInitials": "rgba(39,39,42,0.1) (semi-transparent token)",
+      "note": "Image frame might be a base structure, Avatar uses token-based border"
+    },
+    "structure": {
+      "imageFrame": "Contains 'Image' rounded-rectangle element inside",
+      "avatarInitials": "Contains initials text directly, no 'Image' element"
+    }
+  },
+  "questions": [
+    "Is the image frame (13202:3992) a different variant or base structure?",
+    "Does the 'Image' element inside the frame only exist for Empty/Userpic variants?",
+    "Which border should be used - solid #27272a or token rgba(39,39,42,0.1)?"
+  ]
+}

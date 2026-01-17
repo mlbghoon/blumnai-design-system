@@ -1,0 +1,17 @@
+{
+  "none": "0px",
+  "2xs": "2px",
+  "xs": "4px",
+  "sm": "6px",
+  "md": "8px",
+  "lg": "12px",
+  "xl": "16px",
+  "2xl": "24px",
+  "3xl": "28px",
+  "full": "9999px",
+  "Card/none": "0px",
+  "Card/xs": "4px",
+  "Card/sm": "8px",
+  "Card/md": "12px",
+  "Card/lg": "16px"
+}

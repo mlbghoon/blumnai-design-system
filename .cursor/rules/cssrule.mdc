@@ -1,0 +1,9 @@
+---
+name: cssrule
+description: This is a new rule
+---
+
+# Overview
+
+MCP (Figma) data saving: When using Figma MCP to get design data, save it to the ComponentName/source/ folder (e.g., figma-data.json). Always check for saved data first before calling MCP again. Only call MCP again if explicitly asked to refresh/update the data. This prevents redundant MCP calls and follows the pattern seen in your codebase (like src/components/avatar/Avatar/source/figma-data.json).
+Tailwind CSS usage: This project uses Tailwind CSS. Always use Tailwind CSS classes for styling, not Vanilla Extract styles. Use Tailwind classes directly in components.

@@ -1,0 +1,60 @@
+{
+  "avatarSize": "xs",
+  "verificationDate": "2025-01-27",
+  "findings": {
+    "ring": {
+      "positioning": "CENTERED - NOT -2px offset",
+      "figmaCode": "left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]",
+      "size": "24px (size-[24px])",
+      "cssClass": "absolute left-1/2 size-[24px] top-1/2 translate-x-[-50%] translate-y-[-50%]",
+      "interpretation": "Ring is CENTERED using transform translate(-50%, -50%) method, NOT positioned at top: -2px, left: -2px",
+      "verification": "CONFIRMED from Figma code generation"
+    },
+    "badge": {
+      "size": "10px (size-[10px])",
+      "topBadge": {
+        "position": "right-[-3px] top-[-3px]",
+        "size": "10px × 10px",
+        "type": "Checkmark badge",
+        "structure": {
+          "outer": "inset-0 (fills 10px)",
+          "inner": "inset-[8.33%] (creates 8.33px area)"
+        }
+      },
+      "bottomBadge": {
+        "position": "bottom-[-3px] right-[-3px]",
+        "size": "10px × 10px",
+        "type": "Online badge (Ring + Dot)",
+        "structure": {
+          "ring": "inset-[12.5%] (creates 7.5px area)",
+          "dot": "inset-[20.83%] (creates 5.83px area)"
+        }
+      },
+      "interpretation": "Badge size is 10px for xs avatar (scales with avatar size)"
+    },
+    "containerSize": {
+      "width": 20,
+      "height": 20,
+      "note": "Container is 20×20 for xs avatar"
+    }
+  },
+  "comparison": {
+    "2xs": {
+      "container": "16×16",
+      "ring": "20px",
+      "badge": "8px",
+      "badgeOffset": "-2px"
+    },
+    "xs": {
+      "container": "20×20",
+      "ring": "24px",
+      "badge": "10px",
+      "badgeOffset": "-3px"
+    },
+    "pattern": {
+      "ring": "Container size + 4px (20px for 2xs, 24px for xs)",
+      "badge": "Matches sizes object: 8px for 2xs, 10px for xs",
+      "badgeOffset": "Scales with badge size (roughly 25% of badge size)"
+    }
+  }
+}

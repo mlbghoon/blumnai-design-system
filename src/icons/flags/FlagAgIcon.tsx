@@ -1,0 +1,26 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../Icon.types';
+
+import { Icon } from '../Icon';
+
+export const FlagAgIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clipPath="url(#FlagAgIcon__clip0_3811_32405)">
+<path d="M0 12C0 12.822 0.082875 13.6245 0.240328 14.4L12 15.1305L23.7597 14.4C23.9172 13.6245 24 12.822 24 12C24 11.178 23.9171 10.3755 23.7597 9.6L12 8.86955L0.240328 9.6C0.082875 10.3755 0 11.178 0 12Z" fill="#0052B4"/>
+<path d="M23.7597 14.4H0.240328C1.35216 19.8773 6.19458 24 12 24C17.8054 24 22.6478 19.8773 23.7597 14.4Z" fill="#F0F0F0"/>
+<path d="M0.240328 9.6H23.7597C22.6478 4.12266 17.8055 0 12 0C6.19448 0 1.35216 4.12266 0.240328 9.6Z" fill="black"/>
+<path d="M17.2174 9.6H6.78263L8.9145 8.59716L7.77923 6.53255L10.0942 6.97528L10.3876 4.63673L12 6.35677L13.6125 4.63673L13.9058 6.97528L16.2208 6.53255L15.0856 8.59725L17.2174 9.6Z" fill="#FFDA44"/>
+<path d="M0 12C0 18.6274 5.37262 24 12 24L2.39981 4.79958C0.893062 6.80531 0 9.29827 0 12Z" fill="#A2001D"/>
+<path d="M12 24C18.6274 24 24 18.6274 24 12C24 9.29827 23.1069 6.80531 21.6002 4.79958L12 24Z" fill="#A2001D"/>
+</g>
+<defs>
+<clipPath id="FlagAgIcon__clip0_3811_32405">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+    </Icon>
+  );
+};

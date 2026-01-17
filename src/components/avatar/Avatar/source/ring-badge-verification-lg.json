@@ -1,0 +1,41 @@
+{
+  "avatarSize": "lg",
+  "verificationDate": "2025-01-27",
+  "findings": {
+    "ring": {
+      "positioning": "CENTERED - NOT -2px offset",
+      "figmaCode": "left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%]",
+      "size": "44px (size-[44px])",
+      "cssClass": "absolute left-1/2 size-[44px] top-1/2 translate-x-[-50%] translate-y-[-50%]",
+      "interpretation": "Ring is CENTERED using transform translate(-50%, -50%) method",
+      "verification": "CONFIRMED from Figma code generation"
+    },
+    "badge": {
+      "size": "16px (h-[16px] w-[var(--sm,16px)])",
+      "topBadge": {
+        "position": "right-[-2px] top-[-2px]",
+        "size": "16px × 16px",
+        "type": "Checkmark badge",
+        "structure": {
+          "outer": "inset-0 (fills 16px)",
+          "inner": "inset-[8.33%] (creates 13.33px area)"
+        }
+      },
+      "bottomBadge": {
+        "position": "bottom-[-2px] right-[-2px]",
+        "size": "16px × 16px",
+        "type": "Online badge (Ring + Dot)",
+        "structure": {
+          "ring": "inset-[12.5%] (creates 12px area)",
+          "dot": "inset-[20.83%] (creates 9.33px area)"
+        }
+      },
+      "interpretation": "Badge size is 16px for lg avatar"
+    },
+    "containerSize": {
+      "width": 40,
+      "height": 40,
+      "note": "Container is 40×40 for lg avatar"
+    }
+  }
+}

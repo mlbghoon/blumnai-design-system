@@ -1,0 +1,21 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../Icon.types';
+
+import { Icon } from '../Icon';
+
+export const BrandAffinityDesignerIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fillRule="evenodd" clipRule="evenodd" d="M23 3.14844C23 1.96267 22.0373 1 20.8516 1H3.14844C1.96267 1 1 1.96267 1 3.14844V20.8516C1 22.0373 1.96267 23 3.14844 23H20.8516C22.0373 23 23 22.0373 23 20.8516V3.14844Z" fill="#134881"/>
+<path fillRule="evenodd" clipRule="evenodd" d="M21.3887 20.536C21.385 21.0072 21.0013 21.3887 20.5293 21.3887H11.8563L8.14914 14.9675H21.3887V20.536ZM2.61133 20.5293V16.7591L10.7795 2.61133H13.9716L7.07105 14.5637L11.0113 21.3887H3.4707C2.99633 21.3887 2.61133 21.0036 2.61133 20.5293ZM13.0779 14.2353H9.85049C9.49019 14.2353 9.15719 14.0463 8.97715 13.7342C8.79711 13.4226 8.79711 13.0374 8.97715 12.7258L10.5917 9.92916L13.0779 14.2353ZM20.5293 2.61133C21.0013 2.61133 21.385 2.99278 21.3887 3.46402V14.2353H13.9233L11.0141 9.19734L14.8166 2.61133H20.5293Z" fill="url(#BrandAffinityDesignerIcon__paint0_radial_3983_36703)"/>
+<defs>
+<radialGradient id="BrandAffinityDesignerIcon__paint0_radial_3983_36703" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(16.9635 -0.917697) scale(22.3064)">
+<stop stopColor="#6BE1FB"/>
+<stop offset="1" stopColor="#38BDFA"/>
+</radialGradient>
+</defs>
+</svg>
+    </Icon>
+  );
+};

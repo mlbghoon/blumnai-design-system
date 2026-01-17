@@ -1,0 +1,22 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../Icon.types';
+
+import { Icon } from '../Icon';
+
+export const FlagQaIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clipPath="url(#FlagQaIcon__clip0_3811_32187)">
+<path d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z" fill="#F0F0F0"/>
+<path d="M24 12C24 5.37258 18.6274 0 12 0C9.6525 0 7.46278 0.674766 5.61319 1.83989L8.24348 2.95744L4.69566 4.46484L8.24348 5.9722L4.69566 7.47952L8.24348 8.98678L4.69566 10.4939L8.24348 12.0008L4.69566 13.5082L8.24348 15.0154L4.69566 16.5225L8.24348 18.0297L4.69566 19.537L8.24348 21.0441L5.61436 22.161C7.46372 23.3256 9.65297 24 12 24C18.6274 24 24 18.6274 24 12Z" fill="#751A46"/>
+</g>
+<defs>
+<clipPath id="FlagQaIcon__clip0_3811_32187">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+    </Icon>
+  );
+};

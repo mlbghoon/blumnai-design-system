@@ -1,0 +1,36 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../Icon.types';
+
+import { Icon } from '../Icon';
+
+export const FileMusicSmIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#FileMusicSmIcon__filter0_di_3887_28174)">
+<path d="M4.5 4C4.5 2.89543 5.39543 2 6.5 2H14.0983C14.3561 2 14.6039 2.09957 14.7901 2.27794L19.1918 6.49542C19.3886 6.68403 19.5 6.94485 19.5 7.21748V20C19.5 21.1045 18.6045 22 17.5 22H6.5C5.39543 22 4.5 21.1045 4.5 20V4Z" fill="#8655FD"/>
+<path d="M6.5 2.25H14.0986C14.2917 2.25009 14.4776 2.32442 14.6172 2.45801L19.0186 6.67578C19.1662 6.81728 19.25 7.01334 19.25 7.21777V20C19.25 20.9664 18.4664 21.75 17.5 21.75H6.5C5.53351 21.75 4.75001 20.9664 4.75 20V4L4.75879 3.82129C4.84829 2.93873 5.59383 2.25 6.5 2.25Z" stroke="#27272A" strokeOpacity="0.15" strokeWidth="0.5"/>
+</g>
+<path d="M14.5 3L18.5 6.99999H14.5V3Z" fill="white" fillOpacity="0.5"/>
+<path fillRule="evenodd" clipRule="evenodd" d="M14.0832 13.4025C14.2157 13.4025 14.3232 13.2951 14.3232 13.1625V12.777C14.3232 12.6444 14.2157 12.537 14.0832 12.537H12.8334C12.696 12.537 12.5761 12.6303 12.5425 12.7636L11.9997 14.9134C11.9086 14.8476 11.8087 14.7957 11.6998 14.7578C11.591 14.7198 11.4733 14.7009 11.3468 14.7009C11.0482 14.7009 10.7938 14.8059 10.5838 15.0159C10.3737 15.2259 10.2687 15.4803 10.2687 15.7789C10.2687 16.0776 10.3737 16.3319 10.5838 16.542C10.7938 16.752 11.0482 16.857 11.3468 16.857C11.6454 16.857 11.8795 16.7655 12.1136 16.542C12.3508 16.3155 12.4644 15.7789 12.4644 15.7789L13.0215 13.4486C13.0279 13.4216 13.0521 13.4025 13.0798 13.4025H14.0832ZM11.9997 10.3809C12.5919 10.3809 13.1512 10.4934 13.6776 10.7187C14.204 10.944 14.6621 11.2527 15.0518 11.6449C15.4416 12.0372 15.7503 12.4953 15.9781 13.0191C16.2058 13.543 16.3197 14.1036 16.3197 14.7009C16.3197 15.2931 16.2058 15.8523 15.9781 16.3788C15.7503 16.9051 15.4416 17.3631 15.0518 17.7529C14.6621 18.1427 14.204 18.4514 13.6776 18.6792C13.1512 18.9069 12.5919 19.0209 11.9997 19.0209C11.4025 19.0209 10.8419 18.9069 10.318 18.6792C9.79416 18.4514 9.33614 18.1427 8.94381 17.7529C8.55156 17.3631 8.24279 16.9051 8.01756 16.3788C7.79234 15.8523 7.67969 15.2931 7.67969 14.7009C7.67969 14.1036 7.79234 13.543 8.01756 13.0191C8.24279 12.4953 8.55156 12.0372 8.94381 11.6449C9.33614 11.2527 9.79416 10.944 10.318 10.7187C10.8419 10.4934 11.4025 10.3809 11.9997 10.3809Z" fill="white"/>
+<defs>
+<filter id="FileMusicSmIcon__filter0_di_3887_28174" x="3.5" y="1.5" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="0.5"/>
+<feGaussianBlur stdDeviation="0.5"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3887_28174"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3887_28174" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="-0.5"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="shape" result="effect2_innerShadow_3887_28174"/>
+</filter>
+</defs>
+</svg>
+    </Icon>
+  );
+};

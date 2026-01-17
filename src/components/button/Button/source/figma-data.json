@@ -1,0 +1,349 @@
+{
+  "button": {
+    "description": "Button component with multiple variants, sizes, states, and types",
+    "structure": {
+      "shape": {
+        "borderRadius": "full",
+        "value": 9999
+      },
+      "spacing": {
+        "xs": 4,
+        "sm": 6,
+        "md": 10,
+        "lg": 14
+      },
+      "typography": {
+        "xs": {
+          "size": 12,
+          "lineHeight": 16,
+          "weight": 500,
+          "letterSpacing": -0.6,
+          "font": "Spoqa Han Sans Neo"
+        },
+        "sm": {
+          "size": 14,
+          "lineHeight": 20,
+          "weight": 500,
+          "letterSpacing": -0.6,
+          "font": "Spoqa Han Sans Neo"
+        }
+      },
+      "effects": {
+        "default": "Effect(type: DROP_SHADOW, color: #0000000D, offset: (0, 1), radius: 2, spread: 0); Effect(type: INNER_SHADOW, color: #00000014, offset: (0, -1), radius: 0, spread: 0); Effect(type: INNER_SHADOW, color: border/darker, offset: (0, 0), radius: 0, spread: 1)",
+        "focus": "Effect(type: DROP_SHADOW, color: border/highlight, offset: (0, 0), radius: 0, spread: 3); Effect(type: DROP_SHADOW, color: bg/default, offset: (0, 0), radius: 0, spread: 1); Effect(type: DROP_SHADOW, color: #0000000D, offset: (0, 1), radius: 2, spread: 0); Effect(type: INNER_SHADOW, color: #0000001A, offset: (0, -1), radius: 0, spread: 0); Effect(type: INNER_SHADOW, color: border/darker, offset: (0, 0), radius: 0, spread: 1)"
+      }
+    },
+    "states": {
+      "default": {
+        "primary": {
+          "background": "#437dfc",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        },
+        "secondary": {
+          "background": "#ffffff",
+          "text": "#111115",
+          "border": "#27272a1a",
+          "icon": "#6f6f77"
+        },
+        "destructive": {
+          "background": "#e74341",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        },
+        "ghost": {
+          "background": "#27272a00",
+          "text": "#6f6f77",
+          "icon": "#6f6f77"
+        },
+        "soft": {
+          "background": "#27272a0f",
+          "text": "#6f6f77",
+          "icon": "#6f6f77"
+        }
+      },
+      "hover": {
+        "primary": {
+          "background": "#65a0fd",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        },
+        "secondary": {
+          "background": "#fafafa",
+          "text": "#111115",
+          "icon": "#6f6f77"
+        },
+        "destructive": {
+          "background": "#ed6664",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        },
+        "ghost": {
+          "background": "#27272a0f",
+          "text": "#6f6f77",
+          "icon": "#6f6f77"
+        },
+        "soft": {
+          "background": "#27272a14",
+          "text": "#6f6f77",
+          "icon": "#6f6f77"
+        }
+      },
+      "press": {
+        "primary": {
+          "background": "#437dfc",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        },
+        "secondary": {
+          "background": "#f4f4f5",
+          "text": "#111115",
+          "icon": "#6f6f77"
+        },
+        "destructive": {
+          "background": "#e74341",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        },
+        "ghost": {
+          "background": "#27272a14",
+          "text": "#6f6f77",
+          "icon": "#6f6f77"
+        },
+        "soft": {
+          "background": "#27272a1a",
+          "text": "#6f6f77",
+          "icon": "#6f6f77"
+        }
+      },
+      "focus": {
+        "primary": {
+          "background": "#437dfc",
+          "text": "#ffffff",
+          "icon": "#ffffff",
+          "ring": {
+            "color": "#65a0fd66",
+            "width": 2,
+            "offset": 2,
+            "shadow": "0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff"
+          }
+        },
+        "secondary": {
+          "background": "#ffffff",
+          "text": "#111115",
+          "icon": "#6f6f77",
+          "ring": {
+            "color": "#65a0fd66",
+            "width": 2,
+            "offset": 2,
+            "shadow": "0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff"
+          }
+        },
+        "destructive": {
+          "background": "#e74341",
+          "text": "#ffffff",
+          "icon": "#ffffff",
+          "ring": {
+            "color": "#ee6e6c66",
+            "width": 2,
+            "offset": 2,
+            "shadow": "0_0_0_3px_rgba(238,110,108,0.4),0_0_0_1px_#ffffff"
+          }
+        },
+        "ghost": {
+          "background": "#27272a00",
+          "text": "#6f6f77",
+          "icon": "#6f6f77",
+          "ring": {
+            "color": "#65a0fd66",
+            "width": 2,
+            "offset": 2,
+            "shadow": "0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff"
+          }
+        },
+        "soft": {
+          "background": "#27272a0f",
+          "text": "#6f6f77",
+          "icon": "#6f6f77",
+          "ring": {
+            "color": "#65a0fd66",
+            "width": 2,
+            "offset": 2,
+            "shadow": "0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff"
+          }
+        }
+      },
+      "loading": {
+        "primary": {
+          "background": "#9ac4fe",
+          "text": "#ffffff",
+          "icon": "#ffffff",
+          "cursor": "wait"
+        },
+        "secondary": {
+          "background": "#ffffff",
+          "text": "#111115",
+          "border": "#27272a1a",
+          "icon": "#6f6f77",
+          "cursor": "wait"
+        },
+        "destructive": {
+          "background": "#f4a6a5",
+          "text": "#ffffff",
+          "icon": "#ffffff",
+          "cursor": "wait"
+        },
+        "ghost": {
+          "background": "#27272a0f",
+          "text": "#6f6f77",
+          "icon": "#6f6f77",
+          "cursor": "wait"
+        },
+        "soft": {
+          "background": "#27272a0f",
+          "text": "#6f6f77",
+          "icon": "#6f6f77",
+          "cursor": "wait"
+        }
+      },
+      "disabled": {
+        "background": "#27272a14",
+        "text": "#27272a4d",
+        "icon": "#27272a40",
+        "cursor": "not-allowed"
+      }
+    },
+    "variants": {
+      "regular": {
+        "primary": {
+          "background": "#437dfc",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        },
+        "secondary": {
+          "background": "#ffffff",
+          "text": "#111115",
+          "border": "#27272a1a",
+          "icon": "#6f6f77",
+          "iconMuted": true
+        },
+        "destructive": {
+          "background": "#e74341",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        },
+        "ghost": {
+          "background": "#27272a00",
+          "text": "#6f6f77",
+          "icon": "#6f6f77",
+          "iconMuted": true
+        },
+        "soft": {
+          "background": "#27272a0f",
+          "text": "#6f6f77",
+          "icon": "#6f6f77",
+          "iconMuted": true
+        },
+        "gray": {
+          "background": "#111115",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        }
+      },
+      "social": {
+        "linkedin": {
+          "background": "#0077b5",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        },
+        "google": {
+          "background": "#ffffff",
+          "text": "#111115",
+          "border": "#27272a1a",
+          "icon": "#111115"
+        },
+        "facebook": {
+          "background": "#1877f2",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        },
+        "twitter": {
+          "background": "#111115",
+          "text": "#ffffff",
+          "icon": "#ffffff"
+        }
+      }
+    },
+    "features": {
+      "icons": {
+        "description": "Buttons can have icons on left or right side",
+        "iconBackground": "white circle with colored checkmark for primary buttons"
+      },
+      "keyboardShortcut": {
+        "description": "Buttons can display keyboard shortcuts (e.g., '/')",
+        "indicator": "rounded box with forward slash character",
+        "colors": {
+          "primary": "bg-[#ffffff1a] border border-[#ffffff33] text-white",
+          "secondary": "bg-[#27272a0f] border border-[#27272a1a] text-[#6f6f77]"
+        }
+      },
+      "sizes": {
+        "xs": {
+          "padding": "4px",
+          "fontSize": 12,
+          "lineHeight": 16
+        },
+        "sm": {
+          "padding": "6px",
+          "fontSize": 14,
+          "lineHeight": 20
+        },
+        "md": {
+          "padding": "10px",
+          "fontSize": 14,
+          "lineHeight": 20
+        },
+        "lg": {
+          "padding": "14px",
+          "fontSize": 16,
+          "lineHeight": 24
+        }
+      }
+    },
+    "variables": {
+      "colors": {
+        "primary": "#437dfc",
+        "primary-hover": "#65a0fd",
+        "primary-press": "#437dfc",
+        "primary-loading": "#9ac4fe",
+        "destructive": "#e74341",
+        "secondary": "#ffffff",
+        "soft": "#27272a0f",
+        "ghost": "#27272a00",
+        "gray": "#111115",
+        "text/default": "#111115",
+        "text/muted": "#6f6f77",
+        "text/white": "#ffffff",
+        "text/hint": "#27272a4d",
+        "icon/white": "#ffffff",
+        "icon/default-disabled": "#27272a40",
+        "border/default": "#27272a1a",
+        "border/darker": "#27272a26",
+        "border/highlight": "#65a0fd66",
+        "bg/default": "#ffffff",
+        "bg/state/disabled": "#27272a14",
+        "bg/badge/white": "#ffffff1a",
+        "border/white": "#ffffff33"
+      },
+      "spacing": {
+        "xs": 4,
+        "sm": 6,
+        "md": 10,
+        "lg": 14
+      },
+      "borderRadius": {
+        "full": 9999
+      }
+    }
+  }
+}

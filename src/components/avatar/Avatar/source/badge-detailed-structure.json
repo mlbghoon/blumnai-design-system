@@ -1,0 +1,527 @@
+{
+  "badgeContainer": {
+    "nodeId": "13202:4000",
+    "name": "Status Badge",
+    "size": {
+      "width": 16,
+      "height": 16,
+      "note": "This is an example size - actual badge sizes are VARIABLE: 8px (2xs), 10px (xs), 12px (sm, md), 16px (lg, xl), 18px (2xl), 20px (3xl)"
+    },
+    "structure": {
+      "description": "Container for all badge types",
+      "size": "VARIABLE size based on avatar size: 8px/10px/12px/16px/18px/20px (matches sizes[size].statusBadge values)",
+      "position": "absolute, positioned by statusBadgePositions[size][shape] with variable offsets",
+      "note": "Examples below use 16×16 for illustration - percentages scale proportionally for all badge sizes"
+    }
+  },
+  "ringAndDotBadges": {
+    "description": "Structure for Online, Offline, Notification badges",
+    "variants": ["online", "offline", "notification"],
+    "badgeStructure": {
+      "container": {
+        "size": "16×16 fixed",
+        "type": "div with relative positioning"
+      },
+      "ring": {
+        "nodeId": "13202:4003",
+        "name": "Ring",
+        "position": {
+          "css": "inset-[12.5%]",
+          "calculation": "16px × 12.5% = 2px from each edge",
+          "absolutePosition": "top: 2px, left: 2px",
+          "containerSize": "12×12 (16 - 4 = 12)"
+        },
+        "element": {
+          "type": "div with absolute inset-0",
+          "contains": "SVG image (img tag)",
+          "svgSize": "12×12",
+          "color": "rgba(255, 255, 255, 1) - white",
+          "fill": "--fill-0: rgba(255, 255, 255, 1)"
+        },
+        "structure": [
+          "<div className='absolute inset-[12.5%]'>",
+          "  <div className='absolute inset-0'>",
+          "    <img src={ringSvg} width='12' height='12' />",
+          "  </div>",
+          "</div>"
+        ]
+      },
+      "dot": {
+        "nodeId": "13202:4004",
+        "name": "Dot",
+        "position": {
+          "css": "inset-[20.83%]",
+          "calculation": "16px × 20.83% = 3.333px from each edge",
+          "absolutePosition": "top: 3.333px, left: 3.333px",
+          "containerSize": "9.333×9.333 (16 - 6.667 = 9.333)"
+        },
+        "element": {
+          "type": "div with absolute inset-0",
+          "contains": "SVG image (img tag)",
+          "svgSize": "9.333×9.333",
+          "colors": {
+            "online": "rgba(144, 205, 34, 1) - green #90CD22",
+            "offline": "rgba(39, 39, 42, 1) - gray #27272a",
+            "notification": "rgba(231, 67, 65, 1) - red #e74341"
+          },
+          "fill": "--fill-0: varies by variant"
+        },
+        "structure": [
+          "<div className='absolute inset-[20.83%]'>",
+          "  <div className='absolute inset-0'>",
+          "    <img src={dotSvg} width='9.333' height='9.333' />",
+          "  </div>",
+          "</div>"
+        ]
+      },
+      "completeStructure": {
+        "tsx": [
+          "<div className={statusBadge} style={{ width: '16px', height: '16px' }}>",
+          "  {/* Ring at 12.5% inset = 12×12 container */}",
+          "  <div className='absolute inset-[12.5%]'>",
+          "    <div className='absolute inset-0'>",
+          "      <img src={ringSvg} width='12' height='12' alt='' />",
+          "    </div>",
+          "  </div>",
+          "  {/* Dot at 20.83% inset = 9.333×9.333 container */}",
+          "  <div className='absolute inset-[20.83%]'>",
+          "    <div className='absolute inset-0'>",
+          "      <img src={dotSvg} width='9.333' height='9.333' alt='' />",
+          "    </div>",
+          "  </div>",
+          "</div>"
+        ]
+      }
+    }
+  },
+  "insetCalculations": {
+    "for16pxBadge": {
+      "ring": {
+        "inset": "12.5%",
+        "calculation": "16px × 0.125 = 2px",
+        "result": "Ring container: top: 2px, left: 2px, width: 12px, height: 12px",
+        "ringSvgSize": "12×12"
+      },
+      "dot": {
+        "inset": "20.83%",
+        "calculation": "16px × 0.2083 = 3.333px",
+        "result": "Dot container: top: 3.333px, left: 3.333px, width: 9.333px, height: 9.333px",
+        "dotSvgSize": "9.333×9.333"
+      }
+    }
+  },
+  "svgAssets": {
+    "ring": {
+      "description": "White circular ring SVG",
+      "size": "12×12",
+      "color": "white (rgba(255, 255, 255, 1))"
+    },
+    "dot": {
+      "description": "Colored dot SVG (varies by variant)",
+      "size": "9.333×9.333",
+      "colors": {
+        "online": "#90CD22",
+        "offline": "#27272a",
+        "notification": "#e74341"
+      }
+    }
+  },
+  "cssImplementation": {
+    "statusBadge": {
+      "position": "absolute",
+      "width": "16px",
+      "height": "16px",
+      "pointerEvents": "none"
+    },
+    "badgeRing": {
+      "position": "absolute",
+      "inset": "12.5%",
+      "note": "Creates 12×12 container (2px from each edge)"
+    },
+    "badgeRingInner": {
+      "position": "absolute",
+      "inset": 0,
+      "width": "100%",
+      "height": "100%",
+      "note": "Fills the 12×12 ring container"
+    },
+    "badgeRingSvg": {
+      "width": "12px",
+      "height": "12px",
+      "note": "SVG image fills the inner container"
+    },
+    "badgeDot": {
+      "position": "absolute",
+      "inset": "20.83%",
+      "zIndex": 1,
+      "note": "Creates 9.333×9.333 container (3.333px from each edge)"
+    },
+    "badgeDotInner": {
+      "position": "absolute",
+      "inset": 0,
+      "width": "100%",
+      "height": "100%",
+      "note": "Fills the 9.333×9.333 dot container"
+    },
+    "badgeDotSvg": {
+      "width": "9.333px",
+      "height": "9.333px",
+      "note": "SVG image fills the inner container"
+    }
+  },
+  "checkmarkBadge": {
+    "description": "Structure for Checkmark badge",
+    "nodeId": "13202:3739",
+    "badgeStructure": {
+      "container": {
+        "size": "16×16 fixed",
+        "type": "div with relative positioning"
+      },
+      "ring": {
+        "nodeId": "13202:3742",
+        "name": "Ring",
+        "description": "Outer white wavy star shape",
+        "position": {
+          "css": "inset-0",
+          "absolutePosition": "top: 0, left: 0",
+          "containerSize": "16×16 (fills entire badge)"
+        },
+        "element": {
+          "type": "div with absolute inset-0",
+          "contains": "SVG image (img tag)",
+          "svgSize": "16×16",
+          "color": "rgba(255, 255, 255, 1) - white",
+          "fill": "--fill-0: rgba(255, 255, 255, 1)",
+          "shape": "Wavy star shape (not circle)"
+        },
+        "structure": [
+          "<div className='absolute inset-0'>",
+          "  <img src={ringSvg} width='16' height='16' alt='' />",
+          "</div>"
+        ]
+      },
+      "vector": {
+        "nodeId": "13202:3743",
+        "name": "Vector",
+        "description": "Inner blue checkmark",
+        "position": {
+          "css": "inset-[8.33%]",
+          "calculation": "16px × 8.33% = 1.333px from each edge",
+          "absolutePosition": "top: 1.333px, left: 1.333px",
+          "containerSize": "13.333×13.333 (16 - 2.667 = 13.333)"
+        },
+        "element": {
+          "type": "div with absolute inset-0",
+          "contains": "SVG image (img tag)",
+          "svgSize": "13.333×13.333",
+          "color": "rgba(67, 125, 252, 1) - blue #437DFC",
+          "fill": "--fill-0: rgba(67, 125, 252, 1)"
+        },
+        "structure": [
+          "<div className='absolute inset-[8.33%]'>",
+          "  <div className='absolute inset-0'>",
+          "    <img src={vectorSvg} width='13.333' height='13.333' alt='' />",
+          "  </div>",
+          "</div>"
+        ]
+      },
+      "completeStructure": {
+        "tsx": [
+          "<div className={statusBadge} style={{ width: '16px', height: '16px' }}>",
+          "  {/* Ring (outer white wavy star) at inset-0 = 16×16 */}",
+          "  <div className='absolute inset-0'>",
+          "    <img src={ringSvg} width='16' height='16' alt='' />",
+          "  </div>",
+          "  {/* Vector (inner blue checkmark) at 8.33% inset = 13.333×13.333 */}",
+          "  <div className='absolute inset-[8.33%]'>",
+          "    <div className='absolute inset-0'>",
+          "      <img src={vectorSvg} width='13.333' height='13.333' alt='' />",
+          "    </div>",
+          "  </div>",
+          "</div>"
+        ]
+      }
+    },
+    "insetCalculations": {
+      "for16pxBadge": {
+        "ring": {
+          "inset": "0",
+          "calculation": "No inset - fills entire badge",
+          "result": "Ring container: top: 0, left: 0, width: 16px, height: 16px",
+          "ringSvgSize": "16×16"
+        },
+        "vector": {
+          "inset": "8.33%",
+          "calculation": "16px × 0.0833 = 1.333px",
+          "result": "Vector container: top: 1.333px, left: 1.333px, width: 13.333px, height: 13.333px",
+          "vectorSvgSize": "13.333×13.333"
+        }
+      }
+    },
+    "svgAssets": {
+      "ring": {
+        "description": "White wavy star shape SVG (outer)",
+        "size": "16×16",
+        "color": "white (rgba(255, 255, 255, 1))",
+        "shape": "Wavy star (not circle)"
+      },
+      "vector": {
+        "description": "Blue checkmark SVG (inner)",
+        "size": "13.333×13.333",
+        "color": "blue #437DFC (rgba(67, 125, 252, 1))"
+      }
+    }
+  },
+  "logoBadge": {
+    "description": "Structure for Logo badge",
+    "nodeId": "13202:4014",
+    "badgeStructure": {
+      "container": {
+        "size": "16×16 fixed",
+        "type": "div with relative positioning"
+      },
+      "ring": {
+        "nodeId": "13202:4015",
+        "name": "Ring",
+        "description": "Outer white circular ring (ellipse)",
+        "position": {
+          "css": "inset-0",
+          "absolutePosition": "top: 0, left: 0",
+          "containerSize": "16×16 (fills entire badge)"
+        },
+        "element": {
+          "type": "div with absolute inset-0",
+          "contains": "SVG image (img tag) - ellipse shape",
+          "svgSize": "16×16",
+          "color": "rgba(255, 255, 255, 1) - white",
+          "fill": "--fill-0: rgba(255, 255, 255, 1)",
+          "shape": "Circle (ellipse)"
+        },
+        "structure": [
+          "<div className='absolute inset-0'>",
+          "  <img src={ringSvg} width='16' height='16' alt='' />",
+          "</div>"
+        ]
+      },
+      "image": {
+        "nodeId": "13202:4016",
+        "name": "image",
+        "description": "Inner logo image (PNG)",
+        "position": {
+          "css": "inset-[8.33%]",
+          "calculation": "16px × 8.33% = 1.333px from each edge",
+          "absolutePosition": "top: 1.333px, left: 1.333px",
+          "containerSize": "13.333×13.333 (16 - 2.667 = 13.333)"
+        },
+        "element": {
+          "type": "div with relative size-full",
+          "contains": "PNG image (img tag) - logo",
+          "imageSize": "13.333×13.333",
+          "note": "Logo image fills the 13.333×13.333 container"
+        },
+        "structure": [
+          "<div className='absolute inset-[8.33%]'>",
+          "  <img src={logoImage} width='13.333' height='13.333' alt='' />",
+          "</div>"
+        ]
+      },
+      "completeStructure": {
+        "tsx": [
+          "<div className={statusBadge} style={{ width: '16px', height: '16px' }}>",
+          "  {/* Ring (outer white circle) at inset-0 = 16×16 */}",
+          "  <div className='absolute inset-0'>",
+          "    <img src={ringSvg} width='16' height='16' alt='' />",
+          "  </div>",
+          "  {/* Image (inner logo) at 8.33% inset = 13.333×13.333 */}",
+          "  <div className='absolute inset-[8.33%]'>",
+          "    <img src={logoImage} width='13.333' height='13.333' alt='' />",
+          "  </div>",
+          "</div>"
+        ]
+      }
+    },
+    "insetCalculations": {
+      "for16pxBadge": {
+        "ring": {
+          "inset": "0",
+          "calculation": "No inset - fills entire badge",
+          "result": "Ring container: top: 0, left: 0, width: 16px, height: 16px",
+          "ringSvgSize": "16×16"
+        },
+        "image": {
+          "inset": "8.33%",
+          "calculation": "16px × 0.0833 = 1.333px",
+          "result": "Image container: top: 1.333px, left: 1.333px, width: 13.333px, height: 13.333px",
+          "imageSize": "13.333×13.333"
+        }
+      }
+    },
+    "svgAssets": {
+      "ring": {
+        "description": "White circular ring SVG (outer) - ellipse shape",
+        "size": "16×16",
+        "color": "white (rgba(255, 255, 255, 1))",
+        "shape": "Circle (ellipse)"
+      },
+      "image": {
+        "description": "Logo PNG image (inner)",
+        "size": "13.333×13.333",
+        "type": "PNG image (not SVG)",
+        "note": "User-provided logo image"
+      }
+    }
+  },
+  "iconBadge": {
+    "description": "Structure for Icon badge",
+    "nodeId": "13202:4020",
+    "badgeStructure": {
+      "container": {
+        "size": "16×16 fixed",
+        "type": "div with relative positioning"
+      },
+      "ring": {
+        "nodeId": "13202:4021",
+        "name": "Ring",
+        "description": "Outer white circular ring (ellipse)",
+        "position": {
+          "css": "inset-0",
+          "absolutePosition": "top: 0, left: 0",
+          "containerSize": "16×16 (fills entire badge)"
+        },
+        "element": {
+          "type": "div with absolute inset-0",
+          "contains": "SVG image (img tag) - ellipse shape",
+          "svgSize": "16×16",
+          "color": "rgba(255, 255, 255, 1) - white",
+          "fill": "--fill-0: rgba(255, 255, 255, 1)",
+          "shape": "Circle (ellipse)"
+        },
+        "structure": [
+          "<div className='absolute inset-0'>",
+          "  <img src={ringSvg} width='16' height='16' alt='' />",
+          "</div>"
+        ]
+      },
+      "iconContainer": {
+        "nodeId": "13202:4022",
+        "name": "moon-fill",
+        "description": "Icon container (default: moon icon)",
+        "position": {
+          "css": "inset-[8.33%]",
+          "calculation": "16px × 8.33% = 1.333px from each edge",
+          "absolutePosition": "top: 1.333px, left: 1.333px",
+          "containerSize": "13.333×13.333 (16 - 2.667 = 13.333)",
+          "additionalCss": "overflow-clip"
+        },
+        "element": {
+          "type": "div with absolute positioning and overflow-clip",
+          "contains": "Icon component (customizable via prop/children) or default moon SVG",
+          "defaultIcon": "Moon icon SVG (11.101×11.101)",
+          "note": "User can pass custom Icon component as prop or children"
+        },
+        "vector": {
+          "nodeId": "13202:4023",
+          "name": "Vector",
+          "description": "Default moon icon (inner icon)",
+          "position": {
+            "css": "inset-[8.41%_8.41%_8.33%_8.33%]",
+            "calculation": "Asymmetric inset: top=8.41%, right=8.41%, bottom=8.33%, left=8.33%",
+            "absolutePosition": "top: 1.111px, left: 1.121px",
+            "containerSize": "11.101×11.101 (slightly smaller than 13.333×13.333 parent)"
+          },
+          "element": {
+            "type": "div with absolute inset (asymmetric)",
+            "contains": "SVG image (img tag) - moon icon",
+            "svgSize": "11.101×11.101",
+            "color": "rgba(111, 111, 119, 1) - gray #6F6F77 or rgba(17, 17, 21, 1) - dark #111115",
+            "fill": "--fill-0: varies (gray or dark)"
+          },
+          "structure": [
+            "<div className='absolute inset-[8.41%_8.41%_8.33%_8.33%]'>",
+            "  <div className='absolute inset-0'>",
+            "    <img src={moonSvg} width='11.101' height='11.101' alt='' />",
+            "  </div>",
+            "</div>"
+          ]
+        },
+        "structure": [
+          "<div className='absolute inset-[8.33%] overflow-clip'>",
+          "  {/* Custom Icon passed as prop/children, or default moon icon */}",
+          "  {iconComponent || <DefaultMoonIcon />}",
+          "</div>"
+        ]
+      },
+      "completeStructure": {
+        "tsx": [
+          "<div className={statusBadge} style={{ width: '16px', height: '16px' }}>",
+          "  {/* Ring (outer white circle) at inset-0 = 16×16 */}",
+          "  <div className={badgeIconRing}> {/* absolute, inset-0 */}",
+          "    <img src={ringSvg} width='16' height='16' alt='' />",
+          "  </div>",
+          "  {/* Icon container at 8.33% inset = 13.333×13.333 */}",
+          "  <div className={badgeIconContainer}> {/* absolute, inset-[8.33%], overflow-clip, zIndex: 1 */}",
+          "    {iconComponent || <DefaultMoonIcon className={badgeIconVector} />}",
+          "  </div>",
+          "</div>"
+        ]
+      }
+    },
+    "insetCalculations": {
+      "for16pxBadge": {
+        "ring": {
+          "inset": "0",
+          "calculation": "No inset - fills entire badge",
+          "result": "Ring container: top: 0, left: 0, width: 16px, height: 16px",
+          "ringSvgSize": "16×16"
+        },
+        "iconContainer": {
+          "inset": "8.33%",
+          "calculation": "16px × 0.0833 = 1.333px",
+          "result": "Icon container: top: 1.333px, left: 1.333px, width: 13.333px, height: 13.333px"
+        },
+        "iconVector": {
+          "inset": "8.41%_8.41%_8.33%_8.33%",
+          "calculation": "Asymmetric: top/right=8.41%, bottom/left=8.33%",
+          "result": "Icon vector: top: 1.111px, left: 1.121px, width: 11.101px, height: 11.101px",
+          "note": "Slightly smaller and offset from center"
+        }
+      }
+    },
+    "svgAssets": {
+      "ring": {
+        "description": "White circular ring SVG (outer) - ellipse shape",
+        "size": "16×16",
+        "color": "white (rgba(255, 255, 255, 1))",
+        "shape": "Circle (ellipse)"
+      },
+      "icon": {
+        "description": "Default moon icon SVG (inner)",
+        "size": "11.101×11.101",
+        "color": "gray (rgba(111, 111, 119, 1)) or dark (rgba(17, 17, 21, 1))",
+        "shape": "Moon icon",
+        "note": "Can be replaced with custom Icon component"
+      }
+    },
+    "customization": {
+      "description": "Icon badge supports custom icon via prop or children",
+      "implementation": {
+        "prop": "icon?: React.ReactNode - custom icon component",
+        "children": "If status='icon', can accept Icon component as children",
+        "default": "If no custom icon provided, uses default moon icon",
+        "styling": "Custom icon will be rendered inside badgeIconContainer (13.333×13.333 area)"
+      }
+    }
+  },
+  "notes": [
+    "Badge size is VARIABLE based on avatar size: 8px (2xs), 10px (xs), 12px (sm, md), 16px (lg, xl), 18px (2xl), 20px (3xl)",
+    "Examples below use 16×16 for illustration - percentages scale proportionally for all badge sizes",
+    "Ring + Dot pattern (Online, Offline, Notification):",
+    "  - Ring is at 12.5% inset (for 16px badge: 2px offset = 12×12 area, scales proportionally for other sizes)",
+    "  - Dot is at 20.83% inset (for 16px badge: 3.333px offset = 9.333×9.333 area, scales proportionally for other sizes)",
+    "Outer + Inner pattern (Checkmark, Logo, Icon):",
+    "  - Ring/Outer is at inset-0 (fills entire badge container - size varies)",
+    "  - Vector/Inner is at 8.33% inset (for 16px badge: 1.333px offset = 13.333×13.333 area, scales proportionally for other sizes)",
+    "All badges use SVG images (not CSS shapes)",
+    "Percentages ensure internal elements scale correctly for all badge sizes (8px-20px)"
+  ]
+}

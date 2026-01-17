@@ -1,0 +1,32 @@
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="BrandCanvaIcon__mask0_3983_36706" style={{ maskType: 'luminance' }} maskUnits="userSpaceOnUse" x="1" y="1">
+<path d="M23 1H1V23H23V1Z" fill="white"/>
+</mask>
+<g mask="url(#BrandCanvaIcon__mask0_3983_36706)">
+<path d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z" fill="#7D2AE7"/>
+<path d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z" fill="url(#BrandCanvaIcon__paint0_radial_3983_36706)"/>
+<path d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z" fill="url(#BrandCanvaIcon__paint1_radial_3983_36706)"/>
+<path d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z" fill="url(#BrandCanvaIcon__paint2_radial_3983_36706)"/>
+<path d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z" fill="url(#BrandCanvaIcon__paint3_radial_3983_36706)"/>
+<path d="M16.7486 14.2562C16.6578 14.2562 16.5779 14.3329 16.4948 14.5003C15.556 16.404 13.9345 17.7509 12.058 17.7509C9.88838 17.7509 8.54479 15.7924 8.54479 13.0866C8.54479 8.50327 11.0985 5.85326 13.3415 5.85326C14.3896 5.85326 15.0297 6.51194 15.0297 7.56013C15.0297 8.80415 14.3229 9.46283 14.3229 9.90157C14.3229 10.0985 14.4454 10.2178 14.6884 10.2178C15.6644 10.2178 16.8099 9.09628 16.8099 7.51198C16.8099 5.9758 15.4729 4.84668 13.2299 4.84668C9.52296 4.84668 6.22852 8.28335 6.22852 13.0384C6.22852 16.7191 8.33034 19.1514 11.5734 19.1514C15.0155 19.1514 17.0058 15.7267 17.0058 14.6151C17.0058 14.369 16.8799 14.2562 16.7486 14.2562Z" fill="white"/>
+</g>
+<defs>
+<radialGradient id="BrandCanvaIcon__paint0_radial_3983_36706" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(5.24958 20.4991) rotate(-49.416) scale(17.0152)">
+<stop stopColor="#6420FF"/>
+<stop offset="1" stopColor="#6420FF" stopOpacity="0"/>
+</radialGradient>
+<radialGradient id="BrandCanvaIcon__paint1_radial_3983_36706" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(6.82417 3.50101) rotate(54.703) scale(19.1877)">
+<stop stopColor="#00C4CC"/>
+<stop offset="1" stopColor="#00C4CC" stopOpacity="0"/>
+</radialGradient>
+<radialGradient id="BrandCanvaIcon__paint2_radial_3983_36706" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(5.24947 20.499) rotate(-45.1954) scale(16.8092 7.73075)">
+<stop stopColor="#6420FF"/>
+<stop offset="1" stopColor="#6420FF" stopOpacity="0"/>
+</radialGradient>
+<radialGradient id="BrandCanvaIcon__paint3_radial_3983_36706" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9.99684 3.9642) rotate(66.5198) scale(17.3205 29.0158)">
+<stop stopColor="#00C4CC" stopOpacity="0.725916"/>
+<stop offset="0.0001" stopColor="#00C4CC"/>
+<stop offset="1" stopColor="#00C4CC" stopOpacity="0"/>
+</radialGradient>
+</defs>
+</svg>
