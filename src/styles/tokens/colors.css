@@ -1,0 +1,1081 @@
+/**
+ * Color Tokens
+ * Figma Collection: Colors (449 variables) + Themes (224 variables)
+ * Supports all 4 themes: Theme-A Light/Dark, Theme-B Light/Dark
+ * Source: Figma Color Tokens
+ */
+
+/* ============================================
+   Theme-A Light (Default)
+   ============================================ */
+:root {
+  /* Text Colors */
+  --text-default: #111115;
+  --text-subtle: #4e4e55;
+  --text-muted: #4e4e55;
+  --text-hint: #27272a4d;
+  --text-inverted-default: #ffffff;
+  --text-inverted-subtle: #ffffffb2;
+  --text-inverted-muted: #4e4e55;
+  --text-inverted-hint: #ffffff4d;
+  --text-white-default: #ffffff;
+  --text-white-subtle: #ffffffb2;
+  --text-white-muted: #ffffff80;
+  --text-white-hint: #ffffff4d;
+  --text-dark-default: #111115;
+  --text-dark-subtle: #4e4e55;
+  --text-dark-muted: #6f6f77;
+  --text-dark-hint: #27272a59;
+  --text-destructive: #d42422;
+  --text-success: #3ea44b;
+  --text-warning: #e35706;
+  --text-informative: #2b5df3;
+
+  /* Background Colors */
+  --bg-default: #ffffff;
+  --bg-subtle: #fafafa;
+  --bg-muted: #f4f4f5;
+  --bg-inverted: #18181b;
+  --bg-card: #ffffff;
+  --bg-card-subtle: #fafafa;
+  --bg-card-inverted: #222225;
+  --bg-sidebar: #ffffff;
+  --bg-sidebar-subtle: #fafafa;
+  --bg-input: #ffffff;
+  --bg-input-soft: #27272a0f;
+  --bg-input-disabled: #27272a0f;
+  --bg-overlay: #27272a0f;
+
+  /* Background State Colors - ordered per Figma */
+  --bg-state-primary: #437dfc;
+  --bg-state-primary-hover: #65a0fd;
+  --bg-state-primary-press: #437dfc;
+  --bg-state-primary-loading: #9ac4fe;
+  --bg-state-secondary: #ffffff;
+  --bg-state-secondary-hover: #fafafa;
+  --bg-state-secondary-press: #f4f4f5;
+  --bg-state-secondary-loading: #ffffff;
+  --bg-state-soft: #27272a0f;
+  --bg-state-soft-hover: #27272a14;
+  --bg-state-soft-press: #27272a1a;
+  --bg-state-soft-loading: #27272a0f;
+  --bg-state-ghost: #27272a00;
+  --bg-state-ghost-hover: #27272a0f;
+  --bg-state-ghost-press: #27272a14;
+  --bg-state-ghost-loading: #27272a0f;
+  --bg-state-ghost-inverted: #ffffff00;
+  --bg-state-ghost-hover-inverted: #ffffff14;
+  --bg-state-ghost-press-inverted: #ffffff26;
+  --bg-state-ghost-loading-inverted: #ffffff14;
+  --bg-state-destructive: #e74341;
+  --bg-state-destructive-hover: #ed6664;
+  --bg-state-destructive-press: #e74341;
+  --bg-state-destructive-loading: #f4a6a5;
+  --bg-state-brand: #437dfc;
+  --bg-state-brand-hover: #65a0fd;
+  --bg-state-brand-press: #437dfc;
+  --bg-state-brand-loading: #9ac4fe;
+  --bg-state-gray: #111115;
+  --bg-state-disabled: #27272a14;
+
+  /* Icon Colors - ordered per Figma */
+  --icon-default: #111115;
+  --icon-default-subtle: #4e4e55;
+  --icon-default-muted: #6f6f77;
+  --icon-default-disabled: #27272a40;
+  --icon-inverted-default: #ffffff;
+  --icon-inverted-subtle: #ffffffa6;
+  --icon-inverted-muted: #ffffff80;
+  --icon-inverted-disabled: #ffffff59;
+  --icon-white-default: #ffffff;
+  --icon-white-subtle: #ffffffa6;
+  --icon-white-muted: #ffffff80;
+  --icon-white-disabled: #ffffff59;
+  --icon-black-default: #111115;
+  --icon-black-subtle: #4e4e55;
+  --icon-black-muted: #6f6f77;
+  --icon-black-disabled: #27272a59;
+  --icon-destructive: #e74341;
+  --icon-informative: #437dfc;
+  --icon-success: #4fc660;
+  --icon-warning: #f27313;
+
+  /* Border Colors - ordered per Figma */
+  --border-default: #27272a1a;
+  --border-darker: #27272a26;
+  --border-strong: #27272a40;
+  --border-inverted: #ffffff33;
+  --border-accent: #111115;
+  --border-accent-inverted: #ffffff;
+  --border-destructive: #e74341;
+  --border-informative: #437dfc;
+  --border-success: #4fc660;
+  --border-warning: #f27313;
+  --border-highlight: #65a0fd66;
+  --border-highlight-destructive: #ee6e6c66;
+  --border-highlight-accent: #437dfc;
+  --border-input-highlight: #27272a66;
+  --border-white: #ffffff33;
+  --border-red: #ee6e6c33;
+  --border-orange: #f38f3633;
+  --border-amber: #f5bd1e33;
+  --border-yellow: #f5ca0f33;
+  --border-lime: #abe43533;
+  --border-green: #66dc7e33;
+  --border-emerald: #56d19733;
+  --border-teal: #53d2be33;
+  --border-cyan: #4ad0ef33;
+  --border-sky: #4db9fa33;
+  --border-blue: #65a0fd33;
+  --border-indigo: #7e86fb33;
+  --border-violet: #a185fd33;
+  --border-purple: #b87efe33;
+  --border-fuchsia: #dd72fa33;
+  --border-pink: #ea6eb333;
+  --border-rose: #f16e8133;
+
+  /* Checkbox Colors */
+  --bg-checkbox-default: #ffffff;
+  --bg-checkbox-active: #437dfc;
+  --bg-checkbox-active-hover: #65a0fd;
+  --bg-checkbox-disabled: #27272a0f;
+
+  /* Switch Colors - ordered per Figma */
+  --bg-switch-default: #e9e9ec;
+  --bg-switch-default-hover: #dadadd;
+  --bg-switch-disabled: #f4f4f5;
+  --bg-switch-default-2: #111115;
+  --bg-switch-active: #4fc660;
+  --bg-switch-active-hover: #3ea44b;
+  --bg-switch-active-disabled: #c6f6d2;
+  --bg-switch-handle: #ffffff;
+  --bg-switch-handle-disabled: #fafafa;
+
+  /* Badge Colors - ordered per Figma */
+  --bg-badge-default: #ffffff;
+  --bg-badge-inverted: #111115;
+  --bg-badge-gray: #27272a0f;
+  --bg-badge-white: #ffffff1a;
+  --bg-badge-red: #ee6e6c1a;
+  --bg-badge-orange: #f38f361a;
+  --bg-badge-amber: #f5bd1e1a;
+  --bg-badge-yellow: #f5ca0f1a;
+  --bg-badge-lime: #abe4351a;
+  --bg-badge-green: #66dc7e1a;
+  --bg-badge-emerald: #56d1971a;
+  --bg-badge-teal: #53d2be1a;
+  --bg-badge-cyan: #4ad0ef1a;
+  --bg-badge-sky: #4db9fa1a;
+  --bg-badge-blue: #65a0fd1a;
+  --bg-badge-indigo: #7e86fb1a;
+  --bg-badge-violet: #a185fd1a;
+  --bg-badge-purple: #b87efe1a;
+  --bg-badge-fuchsia: #dd72fa1a;
+  --bg-badge-pink: #ea6eb31a;
+  --bg-badge-rose: #f16e811a;
+  --border-badge-default: #27272a1a;
+
+  /* Background Basic Colors - Light Mode */
+  /* Gray */
+  --bg-basic-gray-subtle: #f4f4f5;
+  --bg-basic-gray-accent: #6f6f77;
+  --bg-basic-gray-strong: #36363a;
+  --bg-basic-gray-contrast: #18181b;
+  /* Red */
+  --bg-basic-red-subtle: #fae3e3;
+  --bg-basic-red-accent: #e74341;
+  --bg-basic-red-strong: #b11e1b;
+  --bg-basic-red-contrast: #77221f;
+  /* Orange */
+  --bg-basic-orange-subtle: #fceed7;
+  --bg-basic-orange-accent: #f27313;
+  --bg-basic-orange-strong: #a73b0c;
+  --bg-basic-orange-contrast: #441c0d;
+  /* Amber */
+  --bg-basic-amber-subtle: #fdf4cb;
+  --bg-basic-amber-accent: #f09e0f;
+  --bg-basic-amber-strong: #ae540d;
+  --bg-basic-amber-contrast: #723715;
+  /* Yellow */
+  --bg-basic-yellow-subtle: #fef9c8;
+  --bg-basic-yellow-accent: #e7b413;
+  --bg-basic-yellow-strong: #9d630e;
+  --bg-basic-yellow-contrast: #6c4118;
+  /* Lime */
+  --bg-basic-lime-subtle: #effccf;
+  --bg-basic-lime-accent: #90cd22;
+  --bg-basic-lime-strong: #557c18;
+  --bg-basic-lime-contrast: #3c531b;
+  /* Green */
+  --bg-basic-green-subtle: #e2fbe8;
+  --bg-basic-green-accent: #4fc660;
+  --bg-basic-green-strong: #33803f;
+  --bg-basic-green-contrast: #265330;
+  /* Emerald */
+  --bg-basic-emerald-subtle: #d9f9e6;
+  --bg-basic-emerald-accent: #44ba82;
+  --bg-basic-emerald-strong: #2a7858;
+  --bg-basic-emerald-contrast: #1e4e3c;
+  /* Teal */
+  --bg-basic-teal-subtle: #d5faf2;
+  --bg-basic-teal-accent: #44b8a7;
+  --bg-basic-teal-strong: #2d766f;
+  --bg-basic-teal-contrast: #234e4a;
+  /* Cyan */
+  --bg-basic-cyan-subtle: #d7f9fd;
+  --bg-basic-cyan-accent: #3eb5d7;
+  --bg-basic-cyan-strong: #297392;
+  --bg-basic-cyan-contrast: #244d62;
+  /* Sky */
+  --bg-basic-sky-subtle: #e3f2fd;
+  --bg-basic-sky-accent: #37a3ee;
+  --bg-basic-sky-strong: #2067a4;
+  --bg-basic-sky-contrast: #1d496e;
+  /* Blue */
+  --bg-basic-blue-subtle: #deeafd;
+  --bg-basic-blue-accent: #437dfc;
+  --bg-basic-blue-strong: #2147dd;
+  --bg-basic-blue-contrast: #223889;
+  /* Indigo */
+  --bg-basic-indigo-subtle: #e1e7fd;
+  --bg-basic-indigo-accent: #6060f8;
+  --bg-basic-indigo-strong: #3f2fcf;
+  --bg-basic-indigo-contrast: #302c81;
+  /* Violet */
+  --bg-basic-violet-subtle: #ece9fd;
+  --bg-basic-violet-accent: #8655fd;
+  --bg-basic-violet-strong: #6717de;
+  --bg-basic-violet-contrast: #471b94;
+  /* Purple */
+  --bg-basic-purple-subtle: #f1e8fd;
+  --bg-basic-purple-accent: #a14efd;
+  --bg-basic-purple-strong: #7712d2;
+  --bg-basic-purple-contrast: #521b86;
+  /* Fuchsia */
+  --bg-basic-fuchsia-subtle: #f7e9fe;
+  --bg-basic-fuchsia-accent: #cf3ff3;
+  --bg-basic-fuchsia-strong: #9a15b1;
+  --bg-basic-fuchsia-contrast: #691d74;
+  /* Pink */
+  --bg-basic-pink-subtle: #f9e8f3;
+  --bg-basic-pink-accent: #e34798;
+  --bg-basic-pink-strong: #b61a5c;
+  --bg-basic-pink-contrast: #7b1e43;
+  /* Rose */
+  --bg-basic-rose-subtle: #fbe5e6;
+  --bg-basic-rose-accent: #eb3e5b;
+  --bg-basic-rose-strong: #d91a45;
+  --bg-basic-rose-contrast: #7f1d3a;
+  /* Gray Alpha (transparent) */
+  --bg-basic-gray-alpha-2: #27272a05;
+  --bg-basic-gray-alpha-4: #27272a0a;
+  --bg-basic-gray-alpha-10: #27272a1a;
+  --bg-basic-gray-alpha-15: #27272a26;
+}
+
+/* ============================================
+   Theme-A Dark
+   ============================================ */
+[data-theme="dark"],
+.dark {
+  /* Text Colors */
+  --text-default: #ffffff;
+  --text-subtle: #ffffffb2;
+  --text-muted: #ffffffb2;
+  --text-hint: #ffffff4d;
+  --text-inverted-default: #ffffff;
+  --text-inverted-subtle: #4e4e55;
+  --text-inverted-muted: #4e4e55;
+  --text-inverted-hint: #27272a4d;
+  --text-white-default: #ffffff;
+  --text-white-subtle: #ffffffb2;
+  --text-white-muted: #ffffff80;
+  --text-white-hint: #ffffff4d;
+  --text-dark-default: #111115;
+  --text-dark-subtle: #4e4e55;
+  --text-dark-muted: #6f6f77;
+  --text-dark-hint: #27272a59;
+  --text-destructive: #d42422;
+  --text-success: #66dc7e;
+  --text-warning: #f38f36;
+  --text-informative: #65a0fd;
+
+  /* Background Colors */
+  --bg-default: #18181b;
+  --bg-subtle: #222225;
+  --bg-muted: #222225;
+  --bg-inverted: #ffffff;
+  --bg-card: #222225;
+  --bg-card-subtle: #222225;
+  --bg-card-inverted: #ffffff;
+  --bg-sidebar: #18181b;
+  --bg-sidebar-subtle: #18181b;
+  --bg-input: #222225;
+  --bg-input-soft: #ffffff0f;
+  --bg-input-disabled: #ffffff0f;
+  --bg-overlay: #ffffff0f;
+
+  /* Background State Colors - ordered per Figma */
+  --bg-state-primary: #2b5df3;
+  --bg-state-primary-hover: #437dfc;
+  --bg-state-primary-press: #2b5df3;
+  --bg-state-primary-loading: #9ac4fe;
+  --bg-state-secondary: #ffffff0a;
+  --bg-state-secondary-hover: #ffffff14;
+  --bg-state-secondary-press: #ffffff1a;
+  --bg-state-secondary-loading: #ffffff0a;
+  --bg-state-soft: #ffffff14;
+  --bg-state-soft-hover: #ffffff1a;
+  --bg-state-soft-press: #ffffff26;
+  --bg-state-soft-loading: #ffffff14;
+  --bg-state-ghost: #ffffff00;
+  --bg-state-ghost-hover: #ffffff14;
+  --bg-state-ghost-press: #ffffff26;
+  --bg-state-ghost-loading: #ffffff14;
+  --bg-state-ghost-inverted: #27272a00;
+  --bg-state-ghost-hover-inverted: #27272a0a;
+  --bg-state-ghost-press-inverted: #27272a14;
+  --bg-state-ghost-loading-inverted: #27272a0a;
+  --bg-state-destructive: #e74341;
+  --bg-state-destructive-hover: #ed6664;
+  --bg-state-destructive-press: #e74341;
+  --bg-state-destructive-loading: #f4a6a5;
+  --bg-state-brand: #437dfc;
+  --bg-state-brand-hover: #65a0fd;
+  --bg-state-brand-press: #437dfc;
+  --bg-state-brand-loading: #9ac4fe;
+  --bg-state-gray: #ffffff;
+  --bg-state-disabled: #ffffff14;
+
+  /* Icon Colors - ordered per Figma */
+  --icon-default: #ffffff;
+  --icon-default-subtle: #ffffffb2;
+  --icon-default-muted: #ffffff80;
+  --icon-default-disabled: #ffffff40;
+  --icon-inverted-default: #111115;
+  --icon-inverted-subtle: #4e4e55;
+  --icon-inverted-muted: #a1a1a9;
+  --icon-inverted-disabled: #27272a59;
+  --icon-white-default: #ffffff;
+  --icon-white-subtle: #ffffffb2;
+  --icon-white-muted: #ffffff80;
+  --icon-white-disabled: #ffffff66;
+  --icon-black-default: #111115;
+  --icon-black-subtle: #4e4e55;
+  --icon-black-muted: #6f6f77;
+  --icon-black-disabled: #27272a59;
+  --icon-destructive: #f4a6a5;
+  --icon-informative: #9ac4fe;
+  --icon-success: #99efae;
+  --icon-warning: #f7bb77;
+
+  /* Border Colors - ordered per Figma */
+  --border-default: #ffffff1a;
+  --border-darker: #ffffff26;
+  --border-strong: #ffffff40;
+  --border-inverted: #27272a1a;
+  --border-accent: #ffffff;
+  --border-accent-inverted: #111115;
+  --border-destructive: #ed6664;
+  --border-informative: #65a0fd;
+  --border-success: #66dc7e;
+  --border-warning: #f38f36;
+  --border-highlight: #65a0fd66;
+  --border-highlight-destructive: #ee6e6c66;
+  --border-highlight-accent: #437dfc;
+  --border-input-highlight: #ffffff73;
+  --border-white: #ffffff33;
+  --border-red: #ee6e6c33;
+  --border-orange: #f38f3633;
+  --border-amber: #f5bd1e33;
+  --border-yellow: #f5ca0f33;
+  --border-lime: #abe43533;
+  --border-green: #66dc7e33;
+  --border-emerald: #56d19733;
+  --border-teal: #53d2be33;
+  --border-cyan: #4ad0ef33;
+  --border-sky: #4db9fa33;
+  --border-blue: #65a0fd33;
+  --border-indigo: #7e86fb33;
+  --border-violet: #a185fd33;
+  --border-purple: #b87efe33;
+  --border-fuchsia: #dd72fa33;
+  --border-pink: #ea6eb333;
+  --border-rose: #f16e8133;
+
+  /* Checkbox Colors */
+  --bg-checkbox-default: #ffffff0f;
+  --bg-checkbox-active: #437dfc;
+  --bg-checkbox-active-hover: #65a0fd;
+  --bg-checkbox-disabled: #ffffff0f;
+
+  /* Switch Colors - ordered per Figma */
+  --bg-switch-default: #4e4e55;
+  --bg-switch-default-hover: #6f6f77;
+  --bg-switch-disabled: #dadadd;
+  --bg-switch-default-2: #ffffff;
+  --bg-switch-active: #4fc660;
+  --bg-switch-active-hover: #66dc7e;
+  --bg-switch-active-disabled: #c6f6d2;
+  --bg-switch-handle: #ffffff;
+  --bg-switch-handle-disabled: #fafafa;
+
+  /* Badge Colors - ordered per Figma */
+  --bg-badge-default: #ffffff1a;
+  --bg-badge-inverted: #ffffff;
+  --bg-badge-gray: #ffffff1a;
+  --bg-badge-white: #ffffff1a;
+  --bg-badge-red: #ee6e6c1a;
+  --bg-badge-orange: #f38f361a;
+  --bg-badge-amber: #f5bd1e1a;
+  --bg-badge-yellow: #f5ca0f1a;
+  --bg-badge-lime: #abe4351a;
+  --bg-badge-green: #66dc7e1a;
+  --bg-badge-emerald: #56d1971a;
+  --bg-badge-teal: #53d2be1a;
+  --bg-badge-cyan: #4ad0ef1a;
+  --bg-badge-sky: #4db9fa1a;
+  --bg-badge-blue: #65a0fd1a;
+  --bg-badge-indigo: #7e86fb1a;
+  --bg-badge-violet: #a185fd1a;
+  --bg-badge-purple: #b87efe1a;
+  --bg-badge-fuchsia: #dd72fa1a;
+  --bg-badge-pink: #ea6eb31a;
+  --bg-badge-rose: #f16e811a;
+  --border-badge-default: #ffffff1a;
+
+  /* Background Basic Colors - Dark Mode */
+  /* Gray */
+  --bg-basic-gray-subtle: #18181b;
+  --bg-basic-gray-accent: #6f6f77;
+  --bg-basic-gray-strong: #a1a1a9;
+  --bg-basic-gray-contrast: #f4f4f5;
+  /* Red */
+  --bg-basic-red-subtle: #77221f;
+  --bg-basic-red-accent: #e74341;
+  --bg-basic-red-strong: #ed6664;
+  --bg-basic-red-contrast: #fae3e3;
+  /* Orange */
+  --bg-basic-orange-subtle: #441c0d;
+  --bg-basic-orange-accent: #f27313;
+  --bg-basic-orange-strong: #f38f36;
+  --bg-basic-orange-contrast: #fceed7;
+  /* Amber */
+  --bg-basic-amber-subtle: #723715;
+  --bg-basic-amber-accent: #f09e0f;
+  --bg-basic-amber-strong: #f5bd1e;
+  --bg-basic-amber-contrast: #fdf4cb;
+  /* Yellow */
+  --bg-basic-yellow-subtle: #6c4118;
+  --bg-basic-yellow-accent: #e7b413;
+  --bg-basic-yellow-strong: #f5ca0f;
+  --bg-basic-yellow-contrast: #fef9c8;
+  /* Lime */
+  --bg-basic-lime-subtle: #3c531b;
+  --bg-basic-lime-accent: #90cd22;
+  --bg-basic-lime-strong: #abe435;
+  --bg-basic-lime-contrast: #effccf;
+  /* Green */
+  --bg-basic-green-subtle: #265330;
+  --bg-basic-green-accent: #4fc660;
+  --bg-basic-green-strong: #66dc7e;
+  --bg-basic-green-contrast: #e2fbe8;
+  /* Emerald */
+  --bg-basic-emerald-subtle: #1e4e3c;
+  --bg-basic-emerald-accent: #44ba82;
+  --bg-basic-emerald-strong: #56d197;
+  --bg-basic-emerald-contrast: #d9f9e6;
+  /* Teal */
+  --bg-basic-teal-subtle: #234e4a;
+  --bg-basic-teal-accent: #44b8a7;
+  --bg-basic-teal-strong: #53d2be;
+  --bg-basic-teal-contrast: #d5faf2;
+  /* Cyan */
+  --bg-basic-cyan-subtle: #244d62;
+  --bg-basic-cyan-accent: #3eb5d7;
+  --bg-basic-cyan-strong: #4ad0ef;
+  --bg-basic-cyan-contrast: #d7f9fd;
+  /* Sky */
+  --bg-basic-sky-subtle: #1d496e;
+  --bg-basic-sky-accent: #37a3ee;
+  --bg-basic-sky-strong: #4db9fa;
+  --bg-basic-sky-contrast: #e3f2fd;
+  /* Blue */
+  --bg-basic-blue-subtle: #223889;
+  --bg-basic-blue-accent: #437dfc;
+  --bg-basic-blue-strong: #65a0fd;
+  --bg-basic-blue-contrast: #deeafd;
+  /* Indigo */
+  --bg-basic-indigo-subtle: #302c81;
+  --bg-basic-indigo-accent: #6060f8;
+  --bg-basic-indigo-strong: #7e86fb;
+  --bg-basic-indigo-contrast: #e1e7fd;
+  /* Violet */
+  --bg-basic-violet-subtle: #471b94;
+  --bg-basic-violet-accent: #8655fd;
+  --bg-basic-violet-strong: #a185fd;
+  --bg-basic-violet-contrast: #ece9fd;
+  /* Purple */
+  --bg-basic-purple-subtle: #521b86;
+  --bg-basic-purple-accent: #a14efd;
+  --bg-basic-purple-strong: #b87efe;
+  --bg-basic-purple-contrast: #f1e8fd;
+  /* Fuchsia */
+  --bg-basic-fuchsia-subtle: #691d74;
+  --bg-basic-fuchsia-accent: #cf3ff3;
+  --bg-basic-fuchsia-strong: #dd72fa;
+  --bg-basic-fuchsia-contrast: #f7e9fe;
+  /* Pink */
+  --bg-basic-pink-subtle: #7b1e43;
+  --bg-basic-pink-accent: #e34798;
+  --bg-basic-pink-strong: #ea6eb3;
+  --bg-basic-pink-contrast: #f9e8f3;
+  /* Rose */
+  --bg-basic-rose-subtle: #7f1d3a;
+  --bg-basic-rose-accent: #eb3e5b;
+  --bg-basic-rose-strong: #f16e81;
+  --bg-basic-rose-contrast: #fbe5e6;
+  /* Gray Alpha (transparent) */
+  --bg-basic-gray-alpha-2: #ffffff0a;
+  --bg-basic-gray-alpha-4: #ffffff14;
+  --bg-basic-gray-alpha-10: #ffffff26;
+  --bg-basic-gray-alpha-15: #ffffff33;
+}
+
+/* ============================================
+   Theme-B Light
+   ============================================ */
+[data-theme="theme-b-light"],
+.theme-b-light {
+  /* Text Colors */
+  --text-default: #212121;
+  --text-subtle: #6f6f77;
+  --text-muted: #6f6f77;
+  --text-hint: #2121214d;
+  --text-inverted-default: #ffffff;
+  --text-inverted-subtle: #ffffffb2;
+  --text-inverted-muted: #6f6f77;
+  --text-inverted-hint: #ffffff4d;
+  --text-white-default: #ffffff;
+  --text-white-subtle: #ffffffb2;
+  --text-white-muted: #ffffff80;
+  --text-white-hint: #ffffff4d;
+  --text-dark-default: #24211e;
+  --text-dark-subtle: #57534d;
+  --text-dark-muted: #79716b;
+  --text-dark-hint: #57534d4d;
+  --text-destructive: #eb3e5b;
+  --text-success: #35966a;
+  --text-warning: #c68b0b;
+  --text-informative: #e35706;
+
+  /* Background Colors */
+  --bg-default: #ffffff;
+  --bg-subtle: #fafaf9;
+  --bg-muted: #f5f5f4;
+  --bg-inverted: #24211e;
+  --bg-card: #ffffff;
+  --bg-card-subtle: #fafaf9;
+  --bg-card-inverted: #312c2b;
+  --bg-sidebar: #ffffff;
+  --bg-sidebar-subtle: #fef8ee;
+  --bg-input: #ffffff;
+  --bg-input-soft: #2121210f;
+  --bg-input-disabled: #2121210f;
+  --bg-overlay: #2121210f;
+
+  /* Background State Colors - ordered per Figma */
+  --bg-state-primary: #f27313;
+  --bg-state-primary-hover: #f38f36;
+  --bg-state-primary-press: #f27313;
+  --bg-state-primary-loading: #f7bb77;
+  --bg-state-secondary: #ffffff;
+  --bg-state-secondary-hover: #fafaf9;
+  --bg-state-secondary-press: #f5f5f4;
+  --bg-state-secondary-loading: #ffffff;
+  --bg-state-soft: #27272a0f;
+  --bg-state-soft-hover: #27272a14;
+  --bg-state-soft-press: #27272a1a;
+  --bg-state-soft-loading: #27272a0f;
+  --bg-state-ghost: #27272a00;
+  --bg-state-ghost-hover: #27272a0f;
+  --bg-state-ghost-press: #27272a14;
+  --bg-state-ghost-loading: #27272a0f;
+  --bg-state-ghost-inverted: #ffffff00;
+  --bg-state-ghost-hover-inverted: #ffffff14;
+  --bg-state-ghost-press-inverted: #ffffff26;
+  --bg-state-ghost-loading-inverted: #ffffff14;
+  --bg-state-destructive: #eb3e5b;
+  --bg-state-destructive-hover: #f16e81;
+  --bg-state-destructive-press: #eb3e5b;
+  --bg-state-destructive-loading: #f49fa9;
+  --bg-state-brand: #f27313;
+  --bg-state-brand-hover: #f38f36;
+  --bg-state-brand-press: #f27313;
+  --bg-state-brand-loading: #f7bb77;
+  --bg-state-gray: #24211e;
+  --bg-state-disabled: #27272a14;
+
+  /* Icon Colors - ordered per Figma */
+  --icon-default: #24211e;
+  --icon-default-subtle: #57534d;
+  --icon-default-muted: #79716b;
+  --icon-default-disabled: #27272a40;
+  --icon-inverted-default: #ffffff;
+  --icon-inverted-subtle: #ffffffa6;
+  --icon-inverted-muted: #ffffff80;
+  --icon-inverted-disabled: #ffffff59;
+  --icon-white-default: #ffffff;
+  --icon-white-subtle: #ffffffa6;
+  --icon-white-muted: #ffffff80;
+  --icon-white-disabled: #ffffff59;
+  --icon-black-default: #24211e;
+  --icon-black-subtle: #57534d;
+  --icon-black-muted: #79716b;
+  --icon-black-disabled: #27272a59;
+  --icon-destructive: #eb3e5b;
+  --icon-informative: #f27313;
+  --icon-success: #44b8a7;
+  --icon-warning: #e7b413;
+
+  /* Border Colors - ordered per Figma */
+  --border-default: #27272a1a;
+  --border-darker: #27272a26;
+  --border-strong: #27272a40;
+  --border-inverted: #ffffff33;
+  --border-accent: #24211e;
+  --border-accent-inverted: #ffffff;
+  --border-destructive: #eb3e5b;
+  --border-informative: #3eb5d7;
+  --border-success: #44b8a7;
+  --border-warning: #e7b413;
+  --border-highlight: #f38f3666;
+  --border-highlight-destructive: #f16e8166;
+  --border-highlight-accent: #f27313;
+  --border-input-highlight: #f38f3666;
+  --border-white: #ffffff33;
+  --border-red: #ee6e6c33;
+  --border-orange: #f38f3633;
+  --border-amber: #f5bd1e33;
+  --border-yellow: #f5ca0f33;
+  --border-lime: #abe43533;
+  --border-green: #66dc7e33;
+  --border-emerald: #56d19733;
+  --border-teal: #53d2be33;
+  --border-cyan: #4ad0ef33;
+  --border-sky: #4db9fa33;
+  --border-blue: #65a0fd33;
+  --border-indigo: #7e86fb33;
+  --border-violet: #a185fd33;
+  --border-purple: #b87efe33;
+  --border-fuchsia: #dd72fa33;
+  --border-pink: #ea6eb333;
+  --border-rose: #f16e8133;
+
+  /* Checkbox Colors */
+  --bg-checkbox-default: #ffffff;
+  --bg-checkbox-active: #f27313;
+  --bg-checkbox-active-hover: #f38f36;
+  --bg-checkbox-disabled: #27272a0f;
+
+  /* Switch Colors - ordered per Figma */
+  --bg-switch-default: #e7e5e4;
+  --bg-switch-default-hover: #d6d3d1;
+  --bg-switch-disabled: #f5f5f4;
+  --bg-switch-default-2: #24211e;
+  --bg-switch-active: #44b8a7;
+  --bg-switch-active-hover: #359489;
+  --bg-switch-active-disabled: #adf4e5;
+  --bg-switch-handle: #ffffff;
+  --bg-switch-handle-disabled: #fafaf9;
+
+  /* Badge Colors - ordered per Figma */
+  --bg-badge-default: #ffffff;
+  --bg-badge-inverted: #24211e;
+  --bg-badge-gray: #27272a0f;
+  --bg-badge-white: #ffffff1a;
+  --bg-badge-red: #ee6e6c1a;
+  --bg-badge-orange: #f38f361a;
+  --bg-badge-amber: #f5bd1e1a;
+  --bg-badge-yellow: #f5ca0f1a;
+  --bg-badge-lime: #abe4351a;
+  --bg-badge-green: #66dc7e1a;
+  --bg-badge-emerald: #56d1971a;
+  --bg-badge-teal: #53d2be1a;
+  --bg-badge-cyan: #4ad0ef1a;
+  --bg-badge-sky: #4db9fa1a;
+  --bg-badge-blue: #65a0fd1a;
+  --bg-badge-indigo: #7e86fb1a;
+  --bg-badge-violet: #a185fd1a;
+  --bg-badge-purple: #b87efe1a;
+  --bg-badge-fuchsia: #dd72fa1a;
+  --bg-badge-pink: #ea6eb31a;
+  --bg-badge-rose: #f16e811a;
+  --border-badge-default: #27272a1a;
+
+  /* Background Basic Colors - Theme-B Light */
+  /* Gray */
+  --bg-basic-gray-subtle: #f4f4f5;
+  --bg-basic-gray-accent: #6f6f77;
+  --bg-basic-gray-strong: #36363a;
+  --bg-basic-gray-contrast: #18181b;
+  /* Red */
+  --bg-basic-red-subtle: #fae3e3;
+  --bg-basic-red-accent: #e74341;
+  --bg-basic-red-strong: #b11e1b;
+  --bg-basic-red-contrast: #77221f;
+  /* Orange */
+  --bg-basic-orange-subtle: #fceed7;
+  --bg-basic-orange-accent: #f27313;
+  --bg-basic-orange-strong: #a73b0c;
+  --bg-basic-orange-contrast: #441c0d;
+  /* Amber */
+  --bg-basic-amber-subtle: #fdf4cb;
+  --bg-basic-amber-accent: #f09e0f;
+  --bg-basic-amber-strong: #ae540d;
+  --bg-basic-amber-contrast: #723715;
+  /* Yellow */
+  --bg-basic-yellow-subtle: #fef9c8;
+  --bg-basic-yellow-accent: #e7b413;
+  --bg-basic-yellow-strong: #9d630e;
+  --bg-basic-yellow-contrast: #6c4118;
+  /* Lime */
+  --bg-basic-lime-subtle: #effccf;
+  --bg-basic-lime-accent: #90cd22;
+  --bg-basic-lime-strong: #557c18;
+  --bg-basic-lime-contrast: #3c531b;
+  /* Green */
+  --bg-basic-green-subtle: #e2fbe8;
+  --bg-basic-green-accent: #4fc660;
+  --bg-basic-green-strong: #33803f;
+  --bg-basic-green-contrast: #265330;
+  /* Emerald */
+  --bg-basic-emerald-subtle: #d9f9e6;
+  --bg-basic-emerald-accent: #44ba82;
+  --bg-basic-emerald-strong: #2a7858;
+  --bg-basic-emerald-contrast: #1e4e3c;
+  /* Teal */
+  --bg-basic-teal-subtle: #d5faf2;
+  --bg-basic-teal-accent: #44b8a7;
+  --bg-basic-teal-strong: #2d766f;
+  --bg-basic-teal-contrast: #234e4a;
+  /* Cyan */
+  --bg-basic-cyan-subtle: #d7f9fd;
+  --bg-basic-cyan-accent: #3eb5d7;
+  --bg-basic-cyan-strong: #297392;
+  --bg-basic-cyan-contrast: #244d62;
+  /* Sky */
+  --bg-basic-sky-subtle: #e3f2fd;
+  --bg-basic-sky-accent: #37a3ee;
+  --bg-basic-sky-strong: #2067a4;
+  --bg-basic-sky-contrast: #1d496e;
+  /* Blue */
+  --bg-basic-blue-subtle: #deeafd;
+  --bg-basic-blue-accent: #437dfc;
+  --bg-basic-blue-strong: #2147dd;
+  --bg-basic-blue-contrast: #223889;
+  /* Indigo */
+  --bg-basic-indigo-subtle: #e1e7fd;
+  --bg-basic-indigo-accent: #6060f8;
+  --bg-basic-indigo-strong: #3f2fcf;
+  --bg-basic-indigo-contrast: #302c81;
+  /* Violet */
+  --bg-basic-violet-subtle: #ece9fd;
+  --bg-basic-violet-accent: #8655fd;
+  --bg-basic-violet-strong: #6717de;
+  --bg-basic-violet-contrast: #471b94;
+  /* Purple */
+  --bg-basic-purple-subtle: #f1e8fd;
+  --bg-basic-purple-accent: #a14efd;
+  --bg-basic-purple-strong: #7712d2;
+  --bg-basic-purple-contrast: #521b86;
+  /* Fuchsia */
+  --bg-basic-fuchsia-subtle: #f7e9fe;
+  --bg-basic-fuchsia-accent: #cf3ff3;
+  --bg-basic-fuchsia-strong: #9a15b1;
+  --bg-basic-fuchsia-contrast: #691d74;
+  /* Pink */
+  --bg-basic-pink-subtle: #f9e8f3;
+  --bg-basic-pink-accent: #e34798;
+  --bg-basic-pink-strong: #b61a5c;
+  --bg-basic-pink-contrast: #7b1e43;
+  /* Rose */
+  --bg-basic-rose-subtle: #fbe5e6;
+  --bg-basic-rose-accent: #eb3e5b;
+  --bg-basic-rose-strong: #d91a45;
+  --bg-basic-rose-contrast: #7f1d3a;
+  /* Gray Alpha (transparent) */
+  --bg-basic-gray-alpha-2: #27272a05;
+  --bg-basic-gray-alpha-4: #27272a0a;
+  --bg-basic-gray-alpha-10: #27272a1a;
+  --bg-basic-gray-alpha-15: #27272a26;
+}
+
+/* ============================================
+   Theme-B Dark
+   ============================================ */
+[data-theme="theme-b-dark"],
+.theme-b-dark {
+  /* Text Colors */
+  --text-default: #ffffff;
+  --text-subtle: #6f6f77;
+  --text-muted: #6f6f77;
+  --text-hint: #ffffff4d;
+  --text-inverted-default: #ffffff;
+  --text-inverted-subtle: #6f6f77;
+  --text-inverted-muted: #6f6f77;
+  --text-inverted-hint: #2121214d;
+  --text-white-default: #ffffff;
+  --text-white-subtle: #ffffffb2;
+  --text-white-muted: #ffffff80;
+  --text-white-hint: #ffffff4d;
+  --text-dark-default: #24211e;
+  --text-dark-subtle: #57534d;
+  --text-dark-muted: #79716b;
+  --text-dark-hint: #57534d4d;
+  --text-destructive: #eb3e5b;
+  --text-success: #56d197;
+  --text-warning: #f5ca0f;
+  --text-informative: #f38f36;
+
+  /* Background Colors */
+  --bg-default: #212121;
+  --bg-subtle: #14171f;
+  --bg-muted: #14171f;
+  --bg-inverted: #ffffff;
+  --bg-card: #301108;
+  --bg-card-subtle: #301108;
+  --bg-card-inverted: #ffffff;
+  --bg-sidebar: #301108;
+  --bg-sidebar-subtle: #441c0d;
+  --bg-input: #301108;
+  --bg-input-soft: #ffffff0f;
+  --bg-input-disabled: #ffffff0f;
+  --bg-overlay: #ffffff0f;
+
+  /* Background State Colors - ordered per Figma */
+  --bg-state-primary: #e35706;
+  --bg-state-primary-hover: #f27313;
+  --bg-state-primary-press: #e35706;
+  --bg-state-primary-loading: #f7bb77;
+  --bg-state-secondary: #ffffff0a;
+  --bg-state-secondary-hover: #ffffff14;
+  --bg-state-secondary-press: #ffffff1a;
+  --bg-state-secondary-loading: #ffffff0a;
+  --bg-state-soft: #ffffff14;
+  --bg-state-soft-hover: #ffffff1a;
+  --bg-state-soft-press: #ffffff26;
+  --bg-state-soft-loading: #ffffff14;
+  --bg-state-ghost: #ffffff00;
+  --bg-state-ghost-hover: #ffffff14;
+  --bg-state-ghost-press: #ffffff26;
+  --bg-state-ghost-loading: #ffffff14;
+  --bg-state-ghost-inverted: #27272a00;
+  --bg-state-ghost-hover-inverted: #27272a0a;
+  --bg-state-ghost-press-inverted: #27272a14;
+  --bg-state-ghost-loading-inverted: #27272a0a;
+  --bg-state-destructive: #eb3e5b;
+  --bg-state-destructive-hover: #f16e81;
+  --bg-state-destructive-press: #eb3e5b;
+  --bg-state-destructive-loading: #f49fa9;
+  --bg-state-brand: #e35706;
+  --bg-state-brand-hover: #f27313;
+  --bg-state-brand-press: #e35706;
+  --bg-state-brand-loading: #f7bb77;
+  --bg-state-gray: #ffffff;
+  --bg-state-disabled: #ffffff14;
+
+  /* Icon Colors - ordered per Figma */
+  --icon-default: #ffffff;
+  --icon-default-subtle: #ffffffb2;
+  --icon-default-muted: #ffffff80;
+  --icon-default-disabled: #ffffff40;
+  --icon-inverted-default: #24211e;
+  --icon-inverted-subtle: #57534d;
+  --icon-inverted-muted: #a6a09b;
+  --icon-inverted-disabled: #27272a59;
+  --icon-white-default: #ffffff;
+  --icon-white-subtle: #ffffffb2;
+  --icon-white-muted: #ffffff80;
+  --icon-white-disabled: #ffffff66;
+  --icon-black-default: #24211e;
+  --icon-black-subtle: #57534d;
+  --icon-black-muted: #79716b;
+  --icon-black-disabled: #27272a59;
+  --icon-destructive: #f49fa9;
+  --icon-informative: #f7bb77;
+  --icon-success: #7ce9d5;
+  --icon-warning: #f5ca0f;
+
+  /* Border Colors - ordered per Figma */
+  --border-default: #ffffff1a;
+  --border-darker: #ffffff26;
+  --border-strong: #ffffff40;
+  --border-inverted: #27272a1a;
+  --border-accent: #ffffff;
+  --border-accent-inverted: #24211e;
+  --border-destructive: #f16e81;
+  --border-informative: #4ad0ef;
+  --border-success: #53d2be;
+  --border-warning: #f5ca0f;
+  --border-highlight: #f38f3666;
+  --border-highlight-destructive: #f16e8166;
+  --border-highlight-accent: #f27313;
+  --border-input-highlight: #f38f3666;
+  --border-white: #ffffff33;
+  --border-red: #ee6e6c33;
+  --border-orange: #f38f3633;
+  --border-amber: #f5bd1e33;
+  --border-yellow: #f5ca0f33;
+  --border-lime: #abe43533;
+  --border-green: #66dc7e33;
+  --border-emerald: #56d19733;
+  --border-teal: #53d2be33;
+  --border-cyan: #4ad0ef33;
+  --border-sky: #4db9fa33;
+  --border-blue: #65a0fd33;
+  --border-indigo: #7e86fb33;
+  --border-violet: #a185fd33;
+  --border-purple: #b87efe33;
+  --border-fuchsia: #dd72fa33;
+  --border-pink: #ea6eb333;
+  --border-rose: #f16e8133;
+
+  /* Checkbox Colors */
+  --bg-checkbox-default: #ffffff0f;
+  --bg-checkbox-active: #f27313;
+  --bg-checkbox-active-hover: #f38f36;
+  --bg-checkbox-disabled: #ffffff0f;
+
+  /* Switch Colors - ordered per Figma */
+  --bg-switch-default: #57534d;
+  --bg-switch-default-hover: #79716b;
+  --bg-switch-disabled: #d6d3d1;
+  --bg-switch-default-2: #ffffff;
+  --bg-switch-active: #44b8a7;
+  --bg-switch-active-hover: #53d2be;
+  --bg-switch-active-disabled: #adf4e5;
+  --bg-switch-handle: #ffffff;
+  --bg-switch-handle-disabled: #fafaf9;
+
+  /* Badge Colors - ordered per Figma */
+  --bg-badge-default: #ffffff1a;
+  --bg-badge-inverted: #ffffff;
+  --bg-badge-gray: #ffffff1a;
+  --bg-badge-white: #ffffff1a;
+  --bg-badge-red: #ee6e6c1a;
+  --bg-badge-orange: #f38f361a;
+  --bg-badge-amber: #f5bd1e1a;
+  --bg-badge-yellow: #f5ca0f1a;
+  --bg-badge-lime: #abe4351a;
+  --bg-badge-green: #66dc7e1a;
+  --bg-badge-emerald: #56d1971a;
+  --bg-badge-teal: #53d2be1a;
+  --bg-badge-cyan: #4ad0ef1a;
+  --bg-badge-sky: #4db9fa1a;
+  --bg-badge-blue: #65a0fd1a;
+  --bg-badge-indigo: #7e86fb1a;
+  --bg-badge-violet: #a185fd1a;
+  --bg-badge-purple: #b87efe1a;
+  --bg-badge-fuchsia: #dd72fa1a;
+  --bg-badge-pink: #ea6eb31a;
+  --bg-badge-rose: #f16e811a;
+  --border-badge-default: #ffffff1a;
+
+  /* Background Basic Colors - Theme-B Dark */
+  /* Gray */
+  --bg-basic-gray-subtle: #18181b;
+  --bg-basic-gray-accent: #6f6f77;
+  --bg-basic-gray-strong: #a1a1a9;
+  --bg-basic-gray-contrast: #f4f4f5;
+  /* Red */
+  --bg-basic-red-subtle: #77221f;
+  --bg-basic-red-accent: #e74341;
+  --bg-basic-red-strong: #ed6664;
+  --bg-basic-red-contrast: #fae3e3;
+  /* Orange */
+  --bg-basic-orange-subtle: #441c0d;
+  --bg-basic-orange-accent: #f27313;
+  --bg-basic-orange-strong: #f38f36;
+  --bg-basic-orange-contrast: #fceed7;
+  /* Amber */
+  --bg-basic-amber-subtle: #723715;
+  --bg-basic-amber-accent: #f09e0f;
+  --bg-basic-amber-strong: #f5bd1e;
+  --bg-basic-amber-contrast: #fdf4cb;
+  /* Yellow */
+  --bg-basic-yellow-subtle: #6c4118;
+  --bg-basic-yellow-accent: #e7b413;
+  --bg-basic-yellow-strong: #f5ca0f;
+  --bg-basic-yellow-contrast: #fef9c8;
+  /* Lime */
+  --bg-basic-lime-subtle: #3c531b;
+  --bg-basic-lime-accent: #90cd22;
+  --bg-basic-lime-strong: #abe435;
+  --bg-basic-lime-contrast: #effccf;
+  /* Green */
+  --bg-basic-green-subtle: #265330;
+  --bg-basic-green-accent: #4fc660;
+  --bg-basic-green-strong: #66dc7e;
+  --bg-basic-green-contrast: #e2fbe8;
+  /* Emerald */
+  --bg-basic-emerald-subtle: #1e4e3c;
+  --bg-basic-emerald-accent: #44ba82;
+  --bg-basic-emerald-strong: #56d197;
+  --bg-basic-emerald-contrast: #d9f9e6;
+  /* Teal */
+  --bg-basic-teal-subtle: #234e4a;
+  --bg-basic-teal-accent: #44b8a7;
+  --bg-basic-teal-strong: #53d2be;
+  --bg-basic-teal-contrast: #d5faf2;
+  /* Cyan */
+  --bg-basic-cyan-subtle: #244d62;
+  --bg-basic-cyan-accent: #3eb5d7;
+  --bg-basic-cyan-strong: #4ad0ef;
+  --bg-basic-cyan-contrast: #d7f9fd;
+  /* Sky */
+  --bg-basic-sky-subtle: #1d496e;
+  --bg-basic-sky-accent: #37a3ee;
+  --bg-basic-sky-strong: #4db9fa;
+  --bg-basic-sky-contrast: #e3f2fd;
+  /* Blue */
+  --bg-basic-blue-subtle: #223889;
+  --bg-basic-blue-accent: #437dfc;
+  --bg-basic-blue-strong: #65a0fd;
+  --bg-basic-blue-contrast: #deeafd;
+  /* Indigo */
+  --bg-basic-indigo-subtle: #302c81;
+  --bg-basic-indigo-accent: #6060f8;
+  --bg-basic-indigo-strong: #7e86fb;
+  --bg-basic-indigo-contrast: #e1e7fd;
+  /* Violet */
+  --bg-basic-violet-subtle: #471b94;
+  --bg-basic-violet-accent: #8655fd;
+  --bg-basic-violet-strong: #a185fd;
+  --bg-basic-violet-contrast: #ece9fd;
+  /* Purple */
+  --bg-basic-purple-subtle: #521b86;
+  --bg-basic-purple-accent: #a14efd;
+  --bg-basic-purple-strong: #b87efe;
+  --bg-basic-purple-contrast: #f1e8fd;
+  /* Fuchsia */
+  --bg-basic-fuchsia-subtle: #691d74;
+  --bg-basic-fuchsia-accent: #cf3ff3;
+  --bg-basic-fuchsia-strong: #dd72fa;
+  --bg-basic-fuchsia-contrast: #f7e9fe;
+  /* Pink */
+  --bg-basic-pink-subtle: #7b1e43;
+  --bg-basic-pink-accent: #e34798;
+  --bg-basic-pink-strong: #ea6eb3;
+  --bg-basic-pink-contrast: #f9e8f3;
+  /* Rose */
+  --bg-basic-rose-subtle: #7f1d3a;
+  --bg-basic-rose-accent: #eb3e5b;
+  --bg-basic-rose-strong: #f16e81;
+  --bg-basic-rose-contrast: #fbe5e6;
+  /* Gray Alpha (transparent) */
+  --bg-basic-gray-alpha-2: #ffffff0a;
+  --bg-basic-gray-alpha-4: #ffffff14;
+  --bg-basic-gray-alpha-10: #ffffff26;
+  --bg-basic-gray-alpha-15: #ffffff33;
+}

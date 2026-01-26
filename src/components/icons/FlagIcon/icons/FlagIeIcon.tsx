@@ -1,0 +1,23 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../../Icon/IconWrapper.types';
+
+import { Icon } from '../../Icon/IconWrapper';
+
+export const FlagIeIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clipPath="url(#FlagIeIcon__clip0_3811_31981)">
+<path d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z" fill="#F0F0F0"/>
+<path d="M24 12C24 6.84047 20.7435 2.44191 16.1739 0.746437V23.2537C20.7435 21.5581 24 17.1596 24 12Z" fill="#FF9811"/>
+<path d="M0 12C0 17.1596 3.2565 21.5581 7.82611 23.2537V0.746437C3.2565 2.44191 0 6.84047 0 12Z" fill="#6DA544"/>
+</g>
+<defs>
+<clipPath id="FlagIeIcon__clip0_3811_31981">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+    </Icon>
+  );
+};

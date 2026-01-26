@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 
 import { cn } from '../../../utils/cn';
 
@@ -10,14 +10,18 @@ import type { BaseChartProps } from './Chart.types';
  * Provides common styling and container for all chart types.
  * Matches Figma design with white background, shadows, and proper spacing.
  */
-export const Chart = ({
-  width,
-  height,
-  darkMode = false,
-  className,
-  children,
-  ...props
-}: Omit<BaseChartProps, 'data'> & { children?: React.ReactNode }) => {
+export const Chart = forwardRef<HTMLDivElement, Omit<BaseChartProps, 'data'> & { children?: React.ReactNode }>(
+  (
+    {
+      width,
+      height,
+      darkMode = false,
+      className,
+      children,
+      ...props
+    },
+    ref
+  ) => {
   const containerStyle = useMemo(() => {
     const style: React.CSSProperties = {};
     if (width) {
@@ -41,10 +45,11 @@ export const Chart = ({
   );
 
   return (
-    <div className={containerClassName} style={containerStyle} {...props}>
+    <div ref={ref} className={containerClassName} style={containerStyle} {...props}>
       {children}
     </div>
   );
-};
+  }
+);
 
 Chart.displayName = 'Chart';

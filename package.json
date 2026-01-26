@@ -13,9 +13,13 @@
     "build-storybook": "NODE_OPTIONS='--max-old-space-size=8192' storybook build",
     "extract:icons": "node scripts/extract-icons-to-svg.mjs",
     "generate:icons": "node scripts/generate-icons.mjs",
-    "generate:icon-registry": "node scripts/generate-icon-registry.mjs",
-    "prebuild": "npm run generate:icons && npm run generate:icon-registry",
-    "prestorybook": "npm run generate:icons && npm run generate:icon-registry"
+    "generate:file-icons": "node scripts/generate-file-icons.mjs",
+    "generate:flag-registry": "node scripts/generate-flags-icons.mjs",
+    "generate:ui-icon-registry": "node scripts/generate-ui-icon-registry.mjs",
+    "generate:isometric-icons": "node scripts/generate-isometric-icons.mjs",
+    "clean:thumbnail-sources": "node scripts/clean-svg-source-thumbnails.mjs && node scripts/clean-thumbnail-base64.mjs",
+    "prebuild": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons",
+    "prestorybook": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons"
   },
   "dependencies": {
     "react": "^19.2.0",

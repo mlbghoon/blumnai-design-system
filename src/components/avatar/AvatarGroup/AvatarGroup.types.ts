@@ -19,17 +19,13 @@ export interface AvatarGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, '
   stacking?: AvatarGroupStacking;
   /**
    * Array of avatar props. Each item will be rendered as an Avatar component.
+   * Note: status badges are not supported in AvatarGroup.
    */
-  avatars: Array<Omit<AvatarProps, 'size' | 'darkMode'>>;
+  avatars: Array<Omit<AvatarProps, 'size' | 'ring' | 'status' | 'badgeLocation' | 'logoImage' | 'icon'>>;
   /**
    * Maximum number of avatars to display. If more avatars are provided,
    * the remaining will be shown as a "+N" overlay.
    * If not provided, all avatars will be displayed.
    */
   max?: number;
-  /**
-   * If true, applies dark mode styles to the avatar group.
-   * @default false
-   */
-  darkMode?: boolean;
 }

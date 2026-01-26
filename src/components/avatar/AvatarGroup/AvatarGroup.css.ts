@@ -1,7 +1,5 @@
 import { style } from '@vanilla-extract/css';
 
-import { color } from '../../../tokens/color';
-
 // Avatar ring sizes (from Avatar component)
 export const avatarRingSizes = {
   '2xs': 20,
@@ -14,17 +12,17 @@ export const avatarRingSizes = {
   '3xl': 68,
 } as const;
 
-// Overlap values in pixels for each avatar size
-// 3 smallest sizes: 4px, then 6px, 8px, 8px, 10px, 12px
+// Overlap values in pixels for each avatar size (with ring=true)
+// Figma overlap + ring padding (4px) to maintain same visual overlap
 export const overlaps = {
-  '2xs': 4, // 4px for 3 smallest sizes
-  xs: 4,    // 4px for 3 smallest sizes
-  sm: 4,    // 4px for 3 smallest sizes
-  md: 6,    // 6px
-  lg: 8,    // 8px
-  xl: 8,    // 8px
-  '2xl': 10, // 10px
-  '3xl': 12, // 12px
+  '2xs': 8,  // Figma: 4px + 4px ring padding
+  xs: 8,     // Figma: 4px + 4px ring padding
+  sm: 8,     // Figma: 4px + 4px ring padding
+  md: 10,    // Figma: 6px + 4px ring padding
+  lg: 12,    // Figma: 8px + 4px ring padding
+  xl: 12,    // Figma: 8px + 4px ring padding
+  '2xl': 14, // Figma: 10px + 4px ring padding
+  '3xl': 16, // Figma: 12px + 4px ring padding
 } as const;
 
 // Base container
@@ -92,7 +90,6 @@ export const overlay = style({
   justifyContent: 'center',
   flexShrink: 0,
   borderRadius: '50%',
-  color: color.text.default,
   fontFamily: 'Spoqa Han Sans Neo, sans-serif',
   fontWeight: 500,
   userSelect: 'none',
@@ -145,13 +142,6 @@ export const overlay3xl = style({
   width: `${avatarRingSizes['3xl']}px`,
   height: `${avatarRingSizes['3xl']}px`,
   fontSize: '22px',
-});
-
-// Dark mode overlay
-export const overlayDark = style({
-  backgroundColor: color.bg.state.soft,
-  borderColor: color.border.inverted,
-  color: color.text.white.default,
 });
 
 // Note: Functions cannot be exported from .css.ts files in Vanilla Extract

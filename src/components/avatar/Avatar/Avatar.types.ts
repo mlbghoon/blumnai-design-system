@@ -1,5 +1,7 @@
 import type { HTMLAttributes } from 'react';
 
+import type { IconType } from '../../icons/Icon/Icon.types';
+
 export type AvatarSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 
 export type AvatarShape = 'circular' | 'rounded';
@@ -52,7 +54,8 @@ export interface AvatarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'child
   /**
    * If true, renders the Ring element (white background ring around avatar).
    * Ring is always 4px larger than image and extends 2px on every side when centered.
-   * @default true
+   * Primarily used for AvatarGroup where overlapping avatars need visual separation.
+   * @default false
    */
   ring?: boolean;
   /**
@@ -73,17 +76,12 @@ export interface AvatarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'child
   /**
    * Icon type for icon status badge.
    * Only used when `status='icon'`.
-   * Accepts icon type names compatible with IconLoader (e.g., "moon-icon", "at-fill").
+   * @example icon={['system', 'check']}
    */
-  icon?: string;
+  icon?: IconType;
   /**
    * The location of the status badge.
    * @default 'top'
    */
   badgeLocation?: AvatarBadgeLocation;
-  /**
-   * If true, applies dark mode styles to the avatar.
-   * @default false
-   */
-  darkMode?: boolean;
 }

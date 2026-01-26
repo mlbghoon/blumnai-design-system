@@ -16,6 +16,17 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Path mapping */
+    "baseUrl": ".",
+    "paths": {
+      "constants/*": ["src/constants/*"],
+      "components/*": ["src/components/*"],
+      "icons/*": ["src/icons/*"],
+      "utils/*": ["src/utils/*"],
+      "styles/*": ["src/styles/*"],
+      "tokens/*": ["src/tokens/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

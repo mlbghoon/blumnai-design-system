@@ -1,7 +1,7 @@
-import { useMemo, useState, useCallback } from 'react';
+import { forwardRef, useMemo, useState, useCallback } from 'react';
 
 import { Chart } from '../Chart/Chart';
-import { Tooltip } from '../../tooltip/Tooltip';
+import { AdvancedTooltip } from '../../tooltip/Tooltip';
 import { cn } from '../../../utils/cn';
 
 import type { LineChartProps } from '../Chart/Chart.types';
@@ -13,24 +13,29 @@ import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
  * Displays data as a line with optional area fill and data points.
  * Matches Figma design with smooth lines and proper axis styling.
  */
-export const LineChart = ({
-  data,
-  xAxis,
-  yAxis,
-  dataKey,
-  dataKeys,
-  lineColors,
-  colors = ['#437dfc'],
-  width = 600,
-  height = 400,
-  showArea = false,
-  showPoints = true,
-  strokeWidth = 2,
-  showGrid = true,
-  showLegend = false,
-  darkMode = false,
-  className,
-}: LineChartProps) => {
+export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
+  (
+    {
+      data,
+      xAxis,
+      yAxis,
+      dataKey,
+      dataKeys,
+      lineColors,
+      colors = ['#437dfc'],
+      width = 600,
+      height = 400,
+      showArea = false,
+      showPoints = true,
+      strokeWidth = 2,
+      showGrid = true,
+      showLegend = false,
+      darkMode = false,
+      className,
+      ...props
+    },
+    ref
+  ) => {
   // Determine if we're using multiple lines
   const isMultiLine = dataKeys && dataKeys.length > 0;
   const activeKeys = isMultiLine ? dataKeys : (dataKey ? [dataKey] : []);
@@ -74,7 +79,12 @@ export const LineChart = ({
       values = [0];
     }
     const maxValue = Math.max(...values, 0);
-    const domain = yAxis.domain || [0, maxValue * 1.1];
+    const minValue = Math.min(...values, 0);
+    // Handle 'auto' domain or use provided domain, fallback to calculated
+    const domain: [number, number] =
+      yAxis.domain && yAxis.domain !== 'auto'
+        ? yAxis.domain
+        : [minValue, maxValue * 1.1];
     return {
       domain,
       scale: (value: number) => {
@@ -147,7 +157,7 @@ export const LineChart = ({
 
   // Generate Y-axis ticks
   const yTicks = useMemo(() => {
-    const [min, max] = yScale.domain;
+    const [min, max] = yScale.domain as [number, number];
     const tickCount = 5;
     const step = (max - min) / (tickCount - 1);
     return Array.from({ length: tickCount }, (_, i) => min + step * i);
@@ -244,7 +254,7 @@ export const LineChart = ({
   }, [data, dataKey, xAxis.dataKey, color, isMultiLine, activeKeys, getLineColor]);
 
   return (
-    <Chart width={width} height={height} darkMode={darkMode} className={className}>
+    <Chart ref={ref} width={width} height={height} darkMode={darkMode} className={className} {...props}>
       <svg width={width} height={height} className="overflow-visible">
         {/* Grid lines */}
         {showGrid &&
@@ -312,7 +322,7 @@ export const LineChart = ({
               textAnchor="end"
               className={cn(
                 'text-xs',
-                darkMode ? 'text-[#6f6f77]' : 'text-[#6f6f77]'
+                'text-subtle'
               )}
               fill="currentColor"
             >
@@ -436,7 +446,7 @@ export const LineChart = ({
               textAnchor="middle"
               className={cn(
                 'text-xs',
-                darkMode ? 'text-[#6f6f77]' : 'text-[#6f6f77]'
+                'text-subtle'
               )}
               fill="currentColor"
             >
@@ -456,10 +466,8 @@ export const LineChart = ({
             transform: 'translateY(-50%)',
           }}
         >
-          <Tooltip
-            variant="advanced"
+          <AdvancedTooltip
             items={getTooltipItems(tooltipState.pointIndex)}
-            darkMode={darkMode}
           />
         </div>
       )}
@@ -475,7 +483,7 @@ export const LineChart = ({
                   className="h-3 w-3 rounded-sm"
                   style={{ backgroundColor: lineColor }}
                 />
-                <span className={cn('text-xs', darkMode ? 'text-[#6f6f77]' : 'text-[#6f6f77]')}>
+                <span className={cn('text-xs', 'text-subtle')}>
                   {key}
                 </span>
               </div>
@@ -485,6 +493,7 @@ export const LineChart = ({
       )}
     </Chart>
   );
-};
+  }
+);
 
 LineChart.displayName = 'LineChart';

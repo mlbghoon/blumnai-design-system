@@ -7,25 +7,89 @@ const meta: Meta<typeof LinkButton> = {
   component: LinkButton,
   parameters: {
     layout: 'padded',
+    controls: { disable: true },
   },
   tags: ['autodocs'],
   argTypes: {
+    type: {
+      control: 'select',
+      options: ['default', 'muted', 'informative'],
+      description: '링크 버튼의 타입',
+      table: {
+        type: {
+          summary: 'LinkButtonType',
+          detail: `'default' | 'muted' | 'informative'`,
+        },
+      },
+    },
     size: {
       control: 'select',
-      options: ['xs', 'sm', 'md', 'lg'],
+      options: ['sm', 'md', 'lg'],
+      description: '링크 버튼의 크기',
+      table: {
+        type: {
+          summary: 'LinkButtonSize',
+          detail: `'sm' | 'md' | 'lg'`,
+        },
+      },
     },
-    iconPosition: {
-      control: 'select',
-      options: ['left', 'right'],
+    leadIcon: {
+      control: 'object',
+      description: '라벨 앞에 표시되는 아이콘',
+      table: {
+        type: {
+          summary: 'LinkButtonIconType | ReactNode',
+          detail: `[category, name] 튜플 형식
+예시: ['system', 'link']`,
+        },
+      },
     },
-    disabled: {
-      control: 'boolean',
+    tailIcon: {
+      control: 'object',
+      description: '라벨 뒤에 표시되는 아이콘',
+      table: {
+        type: {
+          summary: 'LinkButtonIconType | ReactNode',
+          detail: `[category, name] 튜플 형식
+예시: ['system', 'external-link']
+기본값: ['system', 'external-link']`,
+        },
+      },
     },
-    darkMode: {
-      control: 'boolean',
+    label: {
+      control: 'text',
+      description: '링크 버튼의 라벨 텍스트',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    href: {
+      control: 'text',
+      description: '이동할 URL (anchor로 렌더링됨)',
+      table: {
+        type: { summary: 'string' },
+      },
     },
     openInNewTab: {
       control: 'boolean',
+      description: '새 탭에서 링크 열기',
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
+    disabled: {
+      control: 'boolean',
+      description: '버튼 비활성화 여부',
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
+    onClick: {
+      action: 'clicked',
+      description: '버튼 클릭 시 호출되는 콜백 함수',
+      table: {
+        type: { summary: '(event: MouseEvent) => void' },
+      },
     },
   },
 };
@@ -33,60 +97,97 @@ const meta: Meta<typeof LinkButton> = {
 export default meta;
 type Story = StoryObj<typeof LinkButton>;
 
+/**
+ * 기본 링크 버튼
+ *
+ * LinkButton 컴포넌트는 `ref`와 `className` prop을 지원합니다.
+ * - `ref`: button/anchor 요소에 직접 접근 가능
+ * - `className`: 커스텀 스타일 클래스 추가 가능
+ */
 export const Default: Story = {
   args: {
     label: 'Preview',
+    type: 'default',
     size: 'md',
+    tailIcon: ['system', 'external-link'],
+  },
+  parameters: {
+    controls: { disable: false },
   },
 };
 
-export const WithHref: Story = {
-  args: {
-    label: 'Open Link',
-    href: 'https://example.com',
-    openInNewTab: false,
-  },
+/**
+ * 모든 타입
+ */
+export const AllTypes: Story = {
+  render: () => (
+    <div className="flex flex-wrap gap-16 items-center">
+      <LinkButton label="Default" type="default" />
+      <LinkButton label="Muted" type="muted" />
+      <LinkButton label="Informative" type="informative" />
+    </div>
+  ),
 };
 
+/**
+ * 모든 크기
+ */
 export const AllSizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-      <LinkButton label="Preview" size="xs" />
-      <LinkButton label="Preview" size="sm" />
-      <LinkButton label="Preview" size="md" />
-      <LinkButton label="Preview" size="lg" />
+    <div className="flex flex-wrap gap-12 items-center">
+      <LinkButton label="Small" size="sm" />
+      <LinkButton label="Medium" size="md" />
+      <LinkButton label="Large" size="lg" />
     </div>
   ),
 };
 
+/**
+ * 아이콘 위치
+ */
 export const IconPositions: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-      <LinkButton label="Preview" iconPosition="left" />
-      <LinkButton label="Preview" iconPosition="right" />
+    <div className="flex flex-wrap gap-12 items-center">
+      <LinkButton label="Lead Icon" leadIcon={['system', 'link']} tailIcon={undefined} />
+      <LinkButton label="Tail Icon" tailIcon={['system', 'external-link']} />
+      <LinkButton label="Both Icons" leadIcon={['system', 'link']} tailIcon={['system', 'external-link']} />
     </div>
   ),
 };
 
+/**
+ * 상태
+ */
 export const States: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-      <LinkButton label="Preview" />
-      <LinkButton label="Preview" disabled />
-      <LinkButton label="Open Link" href="https://example.com" />
-      <LinkButton label="Open in New Tab" href="https://example.com" openInNewTab />
+    <div className="flex flex-col gap-16">
+      <div className="flex flex-wrap gap-12 items-center">
+        <span className="text-muted size-sm width-80">Default:</span>
+        <LinkButton label="Normal" type="default" />
+        <LinkButton label="Disabled" type="default" disabled />
+      </div>
+      <div className="flex flex-wrap gap-12 items-center">
+        <span className="text-muted size-sm width-80">Muted:</span>
+        <LinkButton label="Normal" type="muted" />
+        <LinkButton label="Disabled" type="muted" disabled />
+      </div>
+      <div className="flex flex-wrap gap-12 items-center">
+        <span className="text-muted size-sm width-80">Informative:</span>
+        <LinkButton label="Normal" type="informative" />
+        <LinkButton label="Disabled" type="informative" disabled />
+      </div>
     </div>
   ),
 };
 
-export const DarkMode: Story = {
+/**
+ * 링크로 사용
+ */
+export const WithHref: Story = {
   render: () => (
-    <div style={{ backgroundColor: '#18181b', padding: '24px', borderRadius: '8px' }}>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-        <LinkButton label="Preview" darkMode />
-        <LinkButton label="Preview" darkMode disabled />
-        <LinkButton label="Open Link" href="https://example.com" darkMode />
-      </div>
+    <div className="flex flex-wrap gap-12 items-center">
+      <LinkButton label="Open Link" href="https://example.com" />
+      <LinkButton label="Open in New Tab" href="https://example.com" openInNewTab />
     </div>
   ),
 };

@@ -1,7 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
-import { IconLoader } from '../../../icons/IconLoader';
+import { Icon } from '../../icons/Icon';
 import { cn } from '../../../utils/cn';
 
 import type { BadgeColor, BadgeProps } from './Badge.types';
@@ -10,82 +10,50 @@ import type { BadgeColor, BadgeProps } from './Badge.types';
 const BADGE_PLACEHOLDER_IMAGE = avatarPlaceholderIcon;
 
 /**
- * Get dot color based on badge color and dark mode
+ * Get background class based on badge color
+ * Uses CSS variables that adapt to theme (light/dark mode)
  */
-const getDotColor = (color: BadgeColor, darkMode: boolean): string => {
-  if (darkMode) {
-    const darkDotColors: Record<BadgeColor, string> = {
-      red: '#ed6664',
-      orange: '#f38f36',
-      lime: '#90cd22',
-      green: '#4fc660',
-      cyan: '#3eb5d7',
-      blue: '#437dfc',
-      violet: '#8655fd',
-      fuchsia: '#cf3ff3',
-      pink: '#e34798',
-      neutral: '#ffffff80',
-    };
-    return darkDotColors[color];
+const getBgClass = (color: BadgeColor, hasBorder: boolean): string => {
+  if (color === 'neutral') {
+    return hasBorder ? 'bg-badge-default' : 'bg-badge-gray';
   }
-
-  const lightDotColors: Record<BadgeColor, string> = {
-    red: '#b11e1b',
-    orange: '#a73b0c',
-    lime: '#90cd22',
-    green: '#4fc660',
-    cyan: '#3eb5d7',
-    blue: '#437dfc',
-    violet: '#cf3ff3',
-    fuchsia: '#cf3ff3',
-    pink: '#cf3ff3',
-    neutral: '#6f6f77',
-  };
-  return lightDotColors[color];
+  return `bg-badge-${color}`;
 };
 
 /**
- * Get color classes based on badge color and dark mode
- * Special case: neutral color with border uses white background (light mode) or different background (dark mode)
+ * Get text color CSS variable based on badge color
+ * - Colored badges use --bg-basic-{color}-strong
+ * - Neutral badges use --text-subtle
  */
-const getColorClasses = (color: BadgeColor, hasBorder: boolean, darkMode: boolean): string => {
-  if (darkMode) {
-    const darkColorMap: Record<BadgeColor, { bg: string; text: string }> = {
-      red: { bg: 'bg-[#ee6e6c1a]', text: 'text-[#ed6664]' },
-      orange: { bg: 'bg-[#f38f361a]', text: 'text-[#f38f36]' },
-      lime: { bg: 'bg-[#66dc7e1a]', text: 'text-[#66dc7e]' },
-      green: { bg: 'bg-[#66dc7e1a]', text: 'text-[#66dc7e]' },
-      cyan: { bg: 'bg-[#65a0fd1a]', text: 'text-[#65a0fd]' },
-      blue: { bg: 'bg-[#65a0fd1a]', text: 'text-[#65a0fd]' },
-      violet: { bg: 'bg-[#dd72fa1a]', text: 'text-[#dd72fa]' },
-      fuchsia: { bg: 'bg-[#dd72fa1a]', text: 'text-[#dd72fa]' },
-      pink: { bg: 'bg-[#dd72fa1a]', text: 'text-[#dd72fa]' },
-      neutral: {
-        bg: 'bg-[#ffffff1a]',
-        text: 'text-[#ffffffb2]'
-      },
-    };
-    const colors = darkColorMap[color];
-    return `${colors.bg} ${colors.text}`;
+const getTextColor = (color: BadgeColor): string => {
+  if (color === 'neutral') {
+    return 'var(--text-subtle)';
   }
+  return `var(--bg-basic-${color}-strong)`;
+};
 
-  const lightColorMap: Record<BadgeColor, { bg: string; text: string }> = {
-    red: { bg: 'bg-[#ee6e6c1a]', text: 'text-[#b11e1b]' },
-    orange: { bg: 'bg-[#f38f361a]', text: 'text-[#a73b0c]' },
-    lime: { bg: 'bg-[#abe4351a]', text: 'text-[#557c18]' },
-    green: { bg: 'bg-[#66dc7e1a]', text: 'text-[#33803f]' },
-    cyan: { bg: 'bg-[#4ad0ef1a]', text: 'text-[#297392]' },
-    blue: { bg: 'bg-[#65a0fd1a]', text: 'text-[#2147dd]' },
-    violet: { bg: 'bg-[#a185fd1a]', text: 'text-[#6717de]' },
-    fuchsia: { bg: 'bg-[#dd72fa1a]', text: 'text-[#9a15b1]' },
-    pink: { bg: 'bg-[#ea6eb31a]', text: 'text-[#b61a5c]' },
-    neutral: {
-      bg: hasBorder ? 'bg-white' : 'bg-[#27272a0f]',
-      text: 'text-[#4e4e55]'
-    },
-  };
-  const colors = lightColorMap[color];
-  return `${colors.bg} ${colors.text}`;
+/**
+ * Get dot color CSS variable based on badge color
+ * - Colored badges use --bg-basic-{color}-accent
+ * - Neutral badges use --text-subtle
+ */
+const getDotColor = (color: BadgeColor): string => {
+  if (color === 'neutral') {
+    return 'var(--text-subtle)';
+  }
+  return `var(--bg-basic-${color}-accent)`;
+};
+
+/**
+ * Get icon color CSS variable based on badge color
+ * - Colored badges use same as text (--bg-basic-{color}-strong)
+ * - Neutral badges use --icon-default-muted
+ */
+const getIconColor = (color: BadgeColor): string => {
+  if (color === 'neutral') {
+    return 'var(--icon-default-muted)';
+  }
+  return `var(--bg-basic-${color}-strong)`;
 };
 
 /**
@@ -93,6 +61,7 @@ const getColorClasses = (color: BadgeColor, hasBorder: boolean, darkMode: boolea
  *
  * Displays a small badge with text, icon, image, or dot.
  * Supports multiple variants, sizes, colors, and shapes.
+ * Colors automatically adapt to the current theme (light/dark mode).
  */
 export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   variant = 'default',
@@ -105,8 +74,8 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   icon,
   image,
   onClose,
-  darkMode = false,
   className,
+  style,
   ...props
 }, ref) => {
 
@@ -131,16 +100,12 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
       classes.push('rounded-[6px]');
     }
 
-    // Color (neutral with border uses white background in light mode)
-    classes.push(getColorClasses(color, border, darkMode));
+    // Background color (uses CSS variables for theme support)
+    classes.push(getBgClass(color, border));
 
     // Border
     if (border) {
-      if (darkMode) {
-        classes.push('border border-solid border-[#ffffff1a]');
-      } else {
-        classes.push('border border-solid border-[#27272a1a]');
-      }
+      classes.push('border border-solid border-badge-default');
     }
 
     if (className) {
@@ -148,17 +113,20 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
     }
 
     return cn(...classes);
-  }, [size, shape, color, border, darkMode, className]);
+  }, [size, shape, color, border, className]);
 
   // Icon size based on badge size
   const iconSize = size === 'sm' ? 12 : 14;
 
+  // Text color style (uses --bg-basic-{color}-strong or --text-subtle for neutral)
+  const combinedStyle = { color: getTextColor(color), ...style };
+
   return (
-    <div ref={ref} className={containerClassName} {...props}>
+    <div ref={ref} className={containerClassName} style={combinedStyle} {...props}>
       {/* Icon variant */}
       {variant === 'icon' && icon && (
         <span className="inline-flex items-center shrink-0 leading-none" style={{ marginTop: '-1px' }}>
-          <IconLoader type={icon} size={iconSize} />
+          <Icon iconType={icon} size={iconSize} color={getIconColor(color)} />
         </span>
       )}
 
@@ -180,14 +148,14 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
         </span>
       )}
 
-      {/* Dot variant */}
+      {/* Dot variant - uses --bg-basic-{color}-accent or --text-subtle for neutral */}
       {variant === 'dot' && (
         <span
           className="inline-flex items-center shrink-0 rounded-full leading-none"
           style={{
             width: `${iconSize}px`,
             height: `${iconSize}px`,
-            backgroundColor: getDotColor(color, darkMode),
+            backgroundColor: getDotColor(color),
             marginTop: '-1px',
           }}
         />
@@ -204,7 +172,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
           onClick={onClose}
           aria-label="Close badge"
         >
-          <IconLoader type="close" size={iconSize} />
+          <Icon iconType={['system', 'close']} size={iconSize} color={getIconColor(color)} />
         </button>
       )}
     </div>

@@ -1,6 +1,4 @@
-import type { InputHTMLAttributes, ReactNode } from 'react';
-
-import type { CheckboxSize, CheckboxStyle } from '../Checkbox/Checkbox.types';
+import type { CheckboxStyle } from '../Checkbox/Checkbox.types';
 
 /**
  * CheckboxList 스타일
@@ -28,10 +26,6 @@ export interface CheckboxListItem {
    */
   checked?: boolean;
   /**
-   * Indeterminate 상태
-   */
-  indeterminate?: boolean;
-  /**
    * 비활성화 상태
    */
   disabled?: boolean;
@@ -54,17 +48,9 @@ export interface CheckboxListProps {
    */
   style?: CheckboxListStyle;
   /**
-   * 체크박스 크기
-   */
-  size?: CheckboxSize;
-  /**
    * 체크박스 스타일 (with-shadow 등)
    */
   checkboxStyle?: CheckboxStyle;
-  /**
-   * 다크 모드
-   */
-  darkMode?: boolean;
   /**
    * 추가 클래스명
    */

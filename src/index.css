@@ -1,87 +1,63 @@
-@import "tailwindcss";
-
 /**
- * Design Tokens as CSS Variables
- * Matches Figma variable format (e.g., --text-default, --bg-default)
+ * Blumnai Design System - Main Stylesheet
+ *
+ * Token files organized by Figma collections:
+ * - fonts.css: Font Family (4 variables)
+ * - typography.css: Font Size (39 variables) + responsive mobile overrides
+ * - colors.css: Colors (449 variables) + Themes (224 variables)
+ * - utilities.css: CSS utility classes
  */
-:root {
-  /* Text Colors */
-  --text-default: #111115;
-  --text-subtle: #4e4e55;
-  --text-muted: #6f6f77;
-  --text-hint: #27272a4d;
-  --text-inverted-default: #ffffff;
-  --text-inverted-subtle: #ffffffb2;
-  --text-inverted-muted: #ffffff80;
-  --text-inverted-hint: #ffffff4d;
-  --text-white-default: #ffffff;
-  --text-white-subtle: #ffffffb2;
-  --text-white-muted: #ffffff80;
-  --text-white-hint: #ffffff4d;
-  --text-dark-default: #111115;
-  --text-dark-subtle: #4e4e55;
-  --text-dark-muted: #6f6f77;
-  --text-dark-hint: #27272a59;
-  --text-destructive: #d42422;
-  --text-success: #3ea44b;
-  --text-warning: #e35706;
-  --text-informative: #2b5df3;
 
-  /* Background Colors */
-  --bg-default: #ffffff;
-  --bg-subtle: #fafafa;
-  --bg-muted: #f4f4f5;
-  --bg-inverted: #18181b;
-  --bg-card: #ffffff;
-  --bg-card-subtle: #fafafa;
-  --bg-card-inverted: #222225;
-  --bg-sidebar: #ffffff;
-  --bg-sidebar-subtle: #fafafa;
-  --bg-input: #ffffff;
-  --bg-input-soft: #27272a0f;
-  --bg-input-disabled: #27272a0f;
-  --bg-overlay: #27272a0f;
-  
-  /* Background State Colors */
-  --bg-state-soft: #27272a0f;
-  --bg-state-soft-hover: #27272a14;
-  --bg-state-soft-press: #27272a1a;
-  --bg-state-primary: #437dfc;
-  --bg-state-primary-hover: #65a0fd;
-  --bg-state-primary-press: #437dfc;
-  --bg-state-primary-loading: #9ac4fe;
-  --bg-state-secondary: #ffffff;
-  --bg-state-secondary-hover: #fafafa;
-  --bg-state-secondary-press: #f4f4f5;
-  --bg-state-ghost: #27272a00;
-  --bg-state-ghost-hover: #27272a0f;
-  --bg-state-ghost-press: #27272a14;
-  --bg-state-ghost-inverted: #ffffff00;
-  --bg-state-ghost-hover-inverted: #ffffff14;
-  --bg-state-ghost-press-inverted: #ffffff26;
-  --bg-state-destructive: #e74341;
-  --bg-state-destructive-hover: #ed6664;
-  --bg-state-destructive-press: #e74341;
-  --bg-state-destructive-loading: #f4a6a5;
-  --bg-state-brand: #437dfc;
-  --bg-state-brand-hover: #65a0fd;
-  --bg-state-brand-press: #437dfc;
-  --bg-state-brand-loading: #9ac4fe;
-  --bg-state-gray: #111115;
-  --bg-state-disabled: #27272a14;
+/* All @import statements first */
+@import "tailwindcss";
+@import "./styles/tokens/fonts.css";
+@import "./styles/tokens/typography.css";
+@import "./styles/tokens/colors.css";
+@import "./styles/tokens/spacing.css";
+@import "./styles/tokens/radius.css";
+@import "./styles/utilities.css";
 
-  /* Border Colors */
-  --border-default: #27272a1a;
-  --border-darker: #27272a26;
-  --border-strong: #27272a40;
-  --border-inverted: #ffffff33;
-  --border-accent: #111115;
-  --border-accent-inverted: #ffffff;
-  --border-destructive: #e74341;
-  --border-informative: #437dfc;
-  --border-success: #4fc660;
-  --border-warning: #f27313;
-  --border-highlight: #65a0fd66;
-  --border-highlight-destructive: #ee6e6c66;
-  --border-input-highlight: #27272a66;
+/* ============================================
+   Spoqa Han Sans Neo Font Family
+   License: SIL Open Font License 1.1
+   Note: @font-face must be in root CSS for Vite to bundle fonts
+   ============================================ */
+@font-face {
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Thin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Light.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Spoqa Han Sans Neo';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('./assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff2') format('woff2');
 }

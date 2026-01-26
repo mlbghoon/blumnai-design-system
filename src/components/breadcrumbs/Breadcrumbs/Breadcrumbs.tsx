@@ -1,6 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
-import { IconLoader } from '../../../icons/IconLoader';
+import { Icon } from '../../icons/Icon';
+import type { IconType } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
 
 import type { BreadcrumbsProps } from './Breadcrumbs.types';
@@ -71,11 +72,12 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
     }
 
     if (item.icon) {
-      if (typeof item.icon === 'string') {
+      // Check if icon is an IconType tuple [category, name]
+      if (Array.isArray(item.icon) && item.icon.length === 2 && typeof item.icon[0] === 'string' && typeof item.icon[1] === 'string') {
         return (
           <span className="inline-flex items-center shrink-0">
-            <IconLoader
-              type={item.icon}
+            <Icon
+              iconType={item.icon as IconType}
               size={iconSize}
               color={darkMode ? '#ffffffb2' : '#4e4e55'}
             />
@@ -110,7 +112,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
                   href={item.href}
                   className={cn(
                     'flex items-center gap-1 hover:underline',
-                    darkMode ? 'text-[#ffffffb2]' : 'text-[#111115]'
+                    'text-default'
                   )}
                 >
                   {renderIcon(item)}
@@ -120,9 +122,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
                 <span
                   className={cn(
                     'flex items-center gap-1',
-                    isLast
-                      ? (darkMode ? 'text-[#ffffff80]' : 'text-[#6f6f77]')
-                      : (darkMode ? 'text-[#ffffffb2]' : 'text-[#111115]'),
+                    isLast ? 'text-subtle' : 'text-default',
                     item.disabled && 'cursor-default opacity-60'
                   )}
                   aria-current={isLast ? 'page' : undefined}
@@ -134,7 +134,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
 
               {!isLast && (
                 <span
-                  className={cn(darkMode ? 'text-[#ffffffb2]' : 'text-[#6f6f77]')}
+                  className="text-subtle"
                   aria-hidden="true"
                 >
                   {separatorChar}

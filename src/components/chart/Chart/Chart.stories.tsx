@@ -69,21 +69,6 @@ export const BarChartMultipleColors: Story = {
   ),
 };
 
-export const BarChartDarkMode: Story = {
-  render: () => (
-    <BarChart
-      data={barChartData}
-      xAxis={{ dataKey: 'month' }}
-      yAxis={{ dataKey: 'sales' }}
-      dataKey="sales"
-      colors={['#44ba82']}
-      width={600}
-      height={400}
-      darkMode
-    />
-  ),
-};
-
 export const LineChartDefault: Story = {
   render: () => (
     <LineChart

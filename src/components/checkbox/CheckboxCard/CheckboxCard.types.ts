@@ -1,16 +1,9 @@
-import type { ReactNode } from 'react';
-
-import type { CheckboxSize, CheckboxStyle } from '../Checkbox/Checkbox.types';
+import type { CheckboxStyle } from '../Checkbox/Checkbox.types';
 
 /**
  * CheckboxCard 배경 스타일
  */
 export type CheckboxCardBackground = 'default' | 'soft';
-
-/**
- * CheckboxCard 테두리 스타일
- */
-export type CheckboxCardBorder = 'default' | 'selected';
 
 /**
  * CheckboxCard 체크박스 위치
@@ -63,10 +56,6 @@ export interface CheckboxCardProps {
    */
   checked?: boolean;
   /**
-   * Indeterminate 상태
-   */
-  indeterminate?: boolean;
-  /**
    * 비활성화 상태
    */
   disabled?: boolean;
@@ -75,25 +64,13 @@ export interface CheckboxCardProps {
    */
   background?: CheckboxCardBackground;
   /**
-   * 테두리 스타일
-   */
-  border?: CheckboxCardBorder;
-  /**
    * 체크박스 위치
    */
   checkboxPosition?: CheckboxCardPosition;
   /**
-   * 체크박스 크기
-   */
-  size?: CheckboxSize;
-  /**
    * 체크박스 스타일
    */
   checkboxStyle?: CheckboxStyle;
-  /**
-   * 다크 모드
-   */
-  darkMode?: boolean;
   /**
    * 변경 이벤트 핸들러
    */

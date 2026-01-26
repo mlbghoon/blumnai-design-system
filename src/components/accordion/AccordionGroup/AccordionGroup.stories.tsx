@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { AccordionGroup } from './AccordionGroup';
@@ -13,24 +15,56 @@ const meta = {
   argTypes: {
     items: {
       control: 'object',
-      description: 'AccordionItem 데이터 배열',
+      description: '아코디언 아이템 데이터 배열',
+      table: {
+        type: {
+          summary: 'AccordionGroupItem[]',
+          detail: `각 아이템 속성:
+- header: ReactNode (필수)
+- children: ReactNode (필수)
+- style?: AccordionItemStyle
+- isOpen?: boolean
+- disabled?: boolean
+- onToggle?: () => void`,
+        },
+      },
     },
     spacing: {
       control: 'number',
-      description: '아이템 간 간격 (px)',
+      description: '아이템 사이 간격 (픽셀)',
+      table: {
+        type: {
+          summary: 'number',
+          detail: '기본값: 8',
+        },
+      },
     },
     style: {
       control: 'select',
       options: ['default', 'soft', 'ghost', 'line'],
-      description: '모든 아이템에 적용할 스타일 variant',
+      description: '모든 아이템에 적용되는 스타일 변형',
+      table: {
+        type: {
+          summary: 'AccordionItemStyle',
+          detail: `'default' | 'soft' | 'ghost' | 'line'
+
+- default: 테두리와 그림자
+- soft: 은은한 배경
+- ghost: 최소한의 배경
+- line: 하단 테두리만`,
+        },
+      },
     },
-    darkMode: {
+    allowMultipleOpen: {
       control: 'boolean',
-      description: '다크 모드 활성화 여부',
-    },
-    allowMultiple: {
-      control: 'boolean',
-      description: '여러 아이템을 동시에 열 수 있는지 여부',
+      description: '여러 아이템을 동시에 열 수 있도록 허용',
+      table: {
+        type: {
+          summary: 'boolean',
+          detail: `true: 여러 아이템을 독립적으로 열 수 있음
+false: 하나를 열면 다른 것이 닫힘`,
+        },
+      },
     },
   },
 } satisfies Meta<typeof AccordionGroup>;
@@ -53,13 +87,31 @@ const sampleItems: AccordionGroupItem[] = [
   },
 ];
 
+/**
+ * 기본 AccordionGroup
+ *
+ * AccordionGroup 컴포넌트는 `ref`와 `className` prop을 지원합니다.
+ * - `ref`: DOM 요소에 직접 접근 가능
+ * - `className`: 커스텀 스타일 클래스 추가 가능
+ */
 export const Group: Story = {
   args: {
     items: sampleItems,
     spacing: 8,
     style: 'default',
-    darkMode: false,
-    allowMultiple: true,
+    allowMultipleOpen: true,
+    className: '',
+  },
+  render: (args) => {
+    const groupRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (groupRef.current) {
+        console.log('AccordionGroup ref:', groupRef.current);
+      }
+    }, []);
+
+    return <AccordionGroup ref={groupRef} {...args} />;
   },
 };
 
@@ -146,8 +198,19 @@ export const GroupSingleOpen: Story = {
     items: sampleItems,
     spacing: 8,
     style: 'default',
-    allowMultiple: false,
+    allowMultipleOpen: false,
   },
+  name: 'GroupSingleOpen (allowMultipleOpen: false)',
+};
+
+export const GroupMultipleOpen: Story = {
+  args: {
+    items: sampleItems,
+    spacing: 8,
+    style: 'default',
+    allowMultipleOpen: true,
+  },
+  name: 'GroupMultipleOpen (allowMultipleOpen: true)',
 };
 
 export const GroupDarkMode: Story = {
@@ -155,24 +218,14 @@ export const GroupDarkMode: Story = {
     items: sampleItems,
     spacing: 8,
     style: 'default',
-    darkMode: true,
   },
-  parameters: {
-    backgrounds: {
-      default: 'dark',
-    },
-  },
-  render: (args) => (
-    <div
-      style={{
-        padding: '24px',
-        backgroundColor: '#18181b',
-        borderRadius: '8px',
-      }}
-    >
-      <AccordionGroup {...args} />
-    </div>
-  ),
+  decorators: [
+    (Story) => (
+      <div data-theme="dark" style={{ padding: '24px', backgroundColor: 'var(--bg-default)', borderRadius: '8px' }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export const GroupAllVariants: Story = {

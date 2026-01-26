@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
@@ -12,16 +14,54 @@ const meta: Meta<typeof Breadcrumbs> = {
   },
   tags: ['autodocs'],
   argTypes: {
+    items: {
+      control: 'object',
+      description: '표시할 브레드크럼 아이템 배열',
+      table: {
+        type: {
+          summary: 'BreadcrumbItem[]',
+          detail: `각 아이템 속성:
+- label: string (필수) - 표시할 텍스트
+- href?: string - URL/경로 (링크로 만듦)
+- icon?: IconType | ReactNode - 이 아이템의 아이콘
+- image?: string - 아바타 변형용 이미지 URL
+- disabled?: boolean - 이 아이템 비활성화`,
+        },
+      },
+    },
     size: {
       control: 'select',
       options: ['sm', 'lg'],
+      description: '브레드크럼의 크기',
+      table: {
+        type: {
+          summary: 'BreadcrumbsSize',
+          detail: `'sm' | 'lg'
+기본값: 'sm'`,
+        },
+      },
     },
     separator: {
       control: 'select',
       options: ['slash', 'chevron', 'dot', 'arrow'],
+      description: '브레드크럼 아이템 사이의 구분자 타입',
+      table: {
+        type: {
+          summary: 'BreadcrumbsSeparator',
+          detail: `'slash' | 'chevron' | 'dot' | 'arrow'
+기본값: 'slash'`,
+        },
+      },
     },
     maxItems: {
       control: 'number',
+      description: '"..."으로 축소하기 전 표시할 최대 아이템 수',
+      table: {
+        type: {
+          summary: 'number',
+          detail: '미제공 시 모든 아이템이 표시됨',
+        },
+      },
     },
   },
 };
@@ -48,11 +88,30 @@ const itemsWithImages = [
   { label: 'Label' },
 ];
 
+/**
+ * 기본 Breadcrumbs
+ *
+ * Breadcrumbs 컴포넌트는 `ref`와 `className` prop을 지원합니다.
+ * - `ref`: DOM 요소에 직접 접근 가능
+ * - `className`: 커스텀 스타일 클래스 추가 가능
+ */
 export const Default: Story = {
   args: {
     items: sampleItems,
     size: 'sm',
     separator: 'slash',
+    className: '',
+  },
+  render: (args) => {
+    const breadcrumbsRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+      if (breadcrumbsRef.current) {
+        console.log('Breadcrumbs ref:', breadcrumbsRef.current);
+      }
+    }, []);
+
+    return <Breadcrumbs ref={breadcrumbsRef} {...args} />;
   },
 };
 
@@ -117,13 +176,6 @@ export const AllSizes: Story = {
   ),
 };
 
-export const DarkMode: Story = {
-  render: () => (
-    <div style={{ backgroundColor: '#18181b', padding: '24px', borderRadius: '8px' }}>
-      <Breadcrumbs items={sampleItems} darkMode size="sm" separator="slash" />
-    </div>
-  ),
-};
 
 export const WithIcons: Story = {
   args: {

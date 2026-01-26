@@ -1,43 +1,56 @@
-import type { ButtonHTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-export type LinkButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+import type { IconType } from '../../icons/Icon/Icon.types';
+
+/**
+ * LinkButton 아이콘 타입 (isFill 옵션 지원)
+ * @example ['system', 'external-link'] - 일반 아이콘
+ * @example ['system', 'external-link', true] - 채워진 아이콘
+ */
+export type LinkButtonIconType = IconType | [...IconType, boolean];
+
+export type LinkButtonSize = 'sm' | 'md' | 'lg';
+
+export type LinkButtonType = 'default' | 'muted' | 'informative';
 
 export interface LinkButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
   /**
-   * The size of the link button.
+   * 링크 버튼의 타입
+   * @default 'default'
+   */
+  type?: LinkButtonType;
+  /**
+   * 링크 버튼의 크기
    * @default 'md'
    */
   size?: LinkButtonSize;
   /**
-   * The label text for the link button.
+   * 링크 버튼의 라벨 텍스트
    */
   label: string;
   /**
-   * The URL to navigate to (optional, if provided renders as anchor tag).
+   * 이동할 URL (제공시 anchor 태그로 렌더링)
    */
   href?: string;
   /**
-   * If true, opens the link in a new tab.
+   * 새 탭에서 링크 열기
    * @default false
    */
   openInNewTab?: boolean;
   /**
-   * Icon name for the external link icon (optional, defaults to external-link icon).
+   * 라벨 앞에 표시되는 아이콘
+   * @example leadIcon={['system', 'link']}
    */
-  icon?: string;
+  leadIcon?: LinkButtonIconType | ReactNode;
   /**
-   * Position of the icon relative to the label.
-   * @default 'right'
+   * 라벨 뒤에 표시되는 아이콘
+   * @default ['system', 'external-link']
+   * @example tailIcon={['system', 'external-link']}
    */
-  iconPosition?: 'left' | 'right';
+  tailIcon?: LinkButtonIconType | ReactNode;
   /**
-   * If true, the button is disabled.
+   * 버튼 비활성화 여부
    * @default false
    */
   disabled?: boolean;
-  /**
-   * If true, applies dark mode styles.
-   * @default false
-   */
-  darkMode?: boolean;
 }

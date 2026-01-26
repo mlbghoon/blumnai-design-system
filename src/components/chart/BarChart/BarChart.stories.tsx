@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { BarChart } from './BarChart';
@@ -10,26 +12,135 @@ const meta: Meta<typeof BarChart> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    width: {
-      control: { type: 'number', min: 200, max: 1200, step: 50 },
+    data: {
+      control: 'object',
+      description: '키-값 쌍의 차트 데이터 배열',
+      table: {
+        type: {
+          summary: 'ChartDataPoint[]',
+          detail: `문자열 또는 숫자 값을 가진 객체 배열
+예시: [{ month: 'Jan', sales: 100 }, ...]`,
+        },
+      },
     },
-    height: {
-      control: { type: 'number', min: 200, max: 800, step: 50 },
+    xAxis: {
+      control: 'object',
+      description: 'X축 설정',
+      table: {
+        type: {
+          summary: 'ChartAxisConfig',
+          detail: `{
+  dataKey: string;
+  label?: string;
+  domain?: [number, number] | 'auto';
+  tickFormatter?: (value) => string;
+}`,
+        },
+      },
     },
-    barSize: {
-      control: { type: 'number', min: 8, max: 80, step: 4 },
-    },
-    gap: {
-      control: { type: 'number', min: 0, max: 32, step: 2 },
-    },
-    showGrid: {
-      control: 'boolean',
-    },
-    darkMode: {
-      control: 'boolean',
+    yAxis: {
+      control: 'object',
+      description: 'Y축 설정',
+      table: {
+        type: {
+          summary: 'ChartAxisConfig',
+          detail: `{
+  dataKey: string;
+  label?: string;
+  domain?: [number, number] | 'auto';
+  tickFormatter?: (value) => string;
+}`,
+        },
+      },
     },
     colors: {
       control: 'object',
+      description: '차트 막대의 색상 팔레트',
+      table: {
+        type: {
+          summary: 'ChartColor',
+          detail: `string | string[]
+
+단일 색상: '#44ba82'
+배열: ['#437dfc', '#44ba82', '#f59e0b']`,
+        },
+      },
+    },
+    width: {
+      control: { type: 'number', min: 200, max: 1200, step: 50 },
+      description: '차트 너비 (픽셀)',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    height: {
+      control: { type: 'number', min: 200, max: 800, step: 50 },
+      description: '차트 높이 (픽셀)',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    barSize: {
+      control: { type: 'number', min: 8, max: 80, step: 4 },
+      description: '각 막대의 크기 (픽셀)',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    gap: {
+      control: { type: 'number', min: 0, max: 32, step: 2 },
+      description: '막대 사이 간격 (픽셀)',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
+    },
+    showGrid: {
+      control: 'boolean',
+      description: '그리드 라인 표시',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    stacked: {
+      control: 'boolean',
+      description: '여러 데이터 시리즈를 누적 막대로 렌더링',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    stackedKeys: {
+      control: 'object',
+      description: '누적 막대용 데이터 키 배열',
+      table: {
+        type: {
+          summary: 'string[]',
+          detail: `각 키는 누적 막대의 레이어를 나타냄
+예시: ['value1', 'value2']`,
+        },
+      },
+    },
+    stackedColors: {
+      control: 'object',
+      description: '누적 값의 색상 매핑',
+      table: {
+        type: {
+          summary: 'Record<string, string> | string[]',
+          detail: `객체 매핑: { 'value1': '#F27313', 'value2': '#2D766F' }
+배열 매핑: ['#F27313', '#2D766F']`,
+        },
+      },
     },
   },
 };
@@ -37,7 +148,7 @@ const meta: Meta<typeof BarChart> = {
 export default meta;
 type Story = StoryObj<typeof BarChart>;
 
-// Sample data
+// 샘플 데이터
 const defaultData = [
   { month: 'Jan', sales: 100 },
   { month: 'Feb', sales: 150 },
@@ -47,6 +158,13 @@ const defaultData = [
   { month: 'Jun', sales: 160 },
 ];
 
+/**
+ * 기본 BarChart
+ *
+ * BarChart 컴포넌트는 `ref`와 `className` prop을 지원합니다.
+ * - `ref`: DOM 요소에 직접 접근 가능
+ * - `className`: 커스텀 스타일 클래스 추가 가능
+ */
 export const Default: Story = {
   args: {
     data: defaultData,
@@ -56,9 +174,20 @@ export const Default: Story = {
     colors: ['#44ba82'],
     width: 600,
     height: 400,
-    // barSize and gap not provided - will be calculated dynamically
+    // barSize와 gap 미제공 - 동적으로 계산됨
     showGrid: true,
-    darkMode: false,
+    className: '',
+  },
+  render: (args) => {
+    const chartRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (chartRef.current) {
+        console.log('BarChart ref:', chartRef.current);
+      }
+    }, []);
+
+    return <BarChart ref={chartRef} {...args} />;
   },
 };
 
@@ -74,25 +203,9 @@ export const MultipleColors: Story = {
     barSize: 24,
     gap: 8,
     showGrid: true,
-    darkMode: false,
   },
 };
 
-export const DarkMode: Story = {
-  args: {
-    data: defaultData,
-    xAxis: { dataKey: 'month' },
-    yAxis: { dataKey: 'sales' },
-    dataKey: 'sales',
-    colors: ['#44ba82'],
-    width: 600,
-    height: 400,
-    barSize: 24,
-    gap: 8,
-    showGrid: true,
-    darkMode: true,
-  },
-};
 
 export const NoGrid: Story = {
   args: {
@@ -106,7 +219,6 @@ export const NoGrid: Story = {
     barSize: 24,
     gap: 8,
     showGrid: false,
-    darkMode: false,
   },
 };
 
@@ -122,7 +234,6 @@ export const CustomSizes: Story = {
     barSize: 32,
     gap: 12,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -151,7 +262,6 @@ export const LargeDataset: Story = {
     barSize: 20,
     gap: 4,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -164,9 +274,8 @@ export const DynamicSizing: Story = {
     colors: ['#44ba82'],
     width: 600,
     height: 400,
-    // barSize and gap not provided - will be calculated dynamically
+    // barSize와 gap 미제공 - 동적으로 계산됨
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -180,9 +289,8 @@ export const CustomBarSizeOnly: Story = {
     width: 600,
     height: 400,
     barSize: 40,
-    // gap not provided - will be calculated dynamically
+    // gap 미제공 - 동적으로 계산됨
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -195,10 +303,9 @@ export const CustomGapOnly: Story = {
     colors: ['#44ba82'],
     width: 600,
     height: 400,
-    // barSize not provided - will be calculated dynamically
+    // barSize 미제공 - 동적으로 계산됨
     gap: 16,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -220,7 +327,6 @@ export const StackedBars: Story = {
     width: 600,
     height: 400,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -238,7 +344,7 @@ export const StackedBarsWithCustomColors: Story = {
     yAxis: { dataKey: 'value1' },
     stacked: true,
     stackedKeys: ['value1', 'value2'],
-    // Using object mapping for custom colors per key
+    // 키별 커스텀 색상을 위한 객체 매핑 사용
     stackedColors: {
       value1: '#F27313',
       value2: '#2D766F',
@@ -246,7 +352,6 @@ export const StackedBarsWithCustomColors: Story = {
     width: 600,
     height: 400,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -264,11 +369,10 @@ export const StackedBarsWithArrayColors: Story = {
     yAxis: { dataKey: 'value1' },
     stacked: true,
     stackedKeys: ['value1', 'value2'],
-    // Using array mapping (index-based)
+    // 배열 매핑 사용 (인덱스 기반)
     stackedColors: ['#F27313', '#2D766F'],
     width: 600,
     height: 400,
     showGrid: true,
-    darkMode: false,
   },
 };

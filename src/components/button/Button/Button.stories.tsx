@@ -1,43 +1,122 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
-
 import { Button } from './Button';
 
 const meta: Meta<typeof Button> = {
-  title: 'Components/Button',
+  title: 'Components/Button/Button',
   component: Button,
   parameters: {
     layout: 'padded',
+    controls: { disable: true },
   },
   tags: ['autodocs'],
   argTypes: {
+    style: {
+      control: 'select',
+      options: ['primary', 'secondary', 'destructive', 'ghost', 'ghostMuted', 'soft', 'dashed'],
+      description: '버튼의 스타일 변형',
+      table: {
+        type: {
+          summary: 'ButtonStyle',
+          detail: `'primary' | 'secondary' | 'destructive' | 'ghost' | 'ghostMuted' | 'soft' | 'dashed'`,
+        },
+      },
+    },
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'destructive', 'ghost', 'soft', 'gray', 'linkedin', 'google', 'facebook', 'twitter'],
+      options: ['default', 'iconOnly'],
+      description: '버튼의 변형 타입',
+      table: {
+        type: {
+          summary: 'ButtonVariant',
+          detail: `'default' | 'iconOnly'`,
+        },
+      },
     },
     size: {
       control: 'select',
-      options: ['xs', 'sm', 'md', 'lg'],
+      options: ['2xs', 'xs', 'sm', 'md', 'lg'],
+      description: '버튼의 크기',
+      table: {
+        type: {
+          summary: 'ButtonSize',
+          detail: `'2xs' | 'xs' | 'sm' | 'md' | 'lg'`,
+        },
+      },
     },
-    iconPosition: {
+    shape: {
       control: 'select',
-      options: ['left', 'right'],
-    },
-    iconOnly: {
-      control: 'boolean',
+      options: ['rounded', 'pill'],
+      description: '버튼의 모양',
+      table: {
+        type: {
+          summary: 'ButtonShape',
+          detail: `'rounded' | 'pill'`,
+        },
+      },
     },
     loading: {
       control: 'boolean',
+      description: '로딩 상태 표시 여부',
+      table: {
+        type: { summary: 'boolean' },
+      },
     },
     disabled: {
       control: 'boolean',
+      description: '버튼 비활성화 여부',
+      table: {
+        type: { summary: 'boolean' },
+      },
     },
     fullWidth: {
       control: 'boolean',
+      description: '버튼이 컨테이너 전체 너비를 차지하는지 여부',
+      table: {
+        type: { summary: 'boolean' },
+      },
     },
-    darkMode: {
-      control: 'boolean',
+    width: {
+      control: 'text',
+      description: '버튼의 커스텀 너비 (예: "200px", "100%", "auto")',
+      table: {
+        type: { summary: 'string | number' },
+      },
+    },
+    leadIcon: {
+      control: 'object',
+      description: '라벨 앞에 표시되는 아이콘 (iconOnly 변형에서는 버튼 아이콘)',
+      table: {
+        type: { summary: 'ButtonIconType | ReactNode' },
+      },
+    },
+    tailIcon: {
+      control: 'object',
+      description: '라벨 뒤에 표시되는 아이콘',
+      table: {
+        type: { summary: 'ButtonIconType | ReactNode' },
+      },
+    },
+    shortcut: {
+      control: 'text',
+      description: '키보드 단축키 표시 (예: "/", "⌘K")',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    children: {
+      control: 'text',
+      description: '버튼 라벨 텍스트. iconOnly 변형에서는 선택 사항',
+      table: {
+        type: { summary: 'ReactNode' },
+      },
+    },
+    onClick: {
+      action: 'clicked',
+      description: '버튼 클릭 시 호출되는 콜백 함수',
+      table: {
+        type: { summary: '(event: MouseEvent) => void' },
+      },
     },
   },
 };
@@ -45,39 +124,50 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
+/**
+ * 기본 버튼
+ *
+ * Button 컴포넌트는 `ref`와 `className` prop을 지원합니다.
+ * - `ref`: button 요소에 직접 접근 가능
+ * - `className`: 커스텀 스타일 클래스 추가 가능
+ */
 export const Default: Story = {
   args: {
     children: 'Button',
-    variant: 'primary',
+    style: 'primary',
     size: 'md',
+    leadIcon: ['system', 'add'],
+  },
+  parameters: {
+    controls: { disable: false },
   },
 };
 
-export const AllVariants: Story = {
+/**
+ * 모든 스타일
+ */
+export const AllStyles: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-        <Button variant="primary">Primary</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="destructive">Destructive</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button variant="soft">Soft</Button>
-        <Button variant="gray">Gray</Button>
-      </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-        <Button variant="linkedin">Sign in with LinkedIn</Button>
-        <Button variant="google">Sign in with Google</Button>
-        <Button variant="facebook">Sign in with Facebook</Button>
-        <Button variant="twitter">Sign in with Twitter</Button>
-      </div>
+    <div className="flex flex-wrap gap-12 items-center">
+      <Button style="primary">Primary</Button>
+      <Button style="secondary">Secondary</Button>
+      <Button style="destructive">Destructive</Button>
+      <Button style="ghost">Ghost</Button>
+      <Button style="ghostMuted">Ghost Muted</Button>
+      <Button style="soft">Soft</Button>
+      <Button style="dashed">Dashed</Button>
     </div>
   ),
 };
 
+/**
+ * 모든 크기
+ */
 export const AllSizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-      <Button size="xs">Extra Small</Button>
+    <div className="flex flex-wrap gap-12 items-center">
+      <Button size="2xs">2XS</Button>
+      <Button size="xs">XS</Button>
       <Button size="sm">Small</Button>
       <Button size="md">Medium</Button>
       <Button size="lg">Large</Button>
@@ -85,81 +175,135 @@ export const AllSizes: Story = {
   ),
 };
 
-export const WithIcons: Story = {
+/**
+ * 모든 모양
+ */
+export const AllShapes: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-        <Button icon="trash" iconPosition="left">Delete</Button>
-        <Button icon="external-link" iconPosition="right">Preview</Button>
-        <Button icon="plus" iconPosition="left">Add new</Button>
-        <Button icon="mute" iconPosition="left">Mute</Button>
+    <div className="flex flex-col gap-12">
+      <div className="flex flex-wrap gap-12 items-center">
+        <Button shape="rounded">Rounded</Button>
+        <Button shape="pill">Pill</Button>
+      </div>
+      <div className="flex flex-wrap gap-12 items-center">
+        <Button shape="rounded" style="secondary">Rounded</Button>
+        <Button shape="pill" style="secondary">Pill</Button>
       </div>
     </div>
   ),
 };
 
-export const IconOnly: Story = {
+/**
+ * 아이콘 포함
+ */
+export const WithIcons: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-      <Button iconOnly icon="settings" size="xs" />
-      <Button iconOnly icon="settings" size="sm" />
-      <Button iconOnly icon="settings" size="md" />
-      <Button iconOnly icon="settings" size="lg" />
+    <div className="flex flex-col gap-16">
+      <div className="flex flex-wrap gap-12 items-center">
+        <Button leadIcon={['system', 'delete-bin']}>Delete</Button>
+        <Button tailIcon={['system', 'external-link']}>Preview</Button>
+        <Button leadIcon={['system', 'add']}>Add New</Button>
+        <Button leadIcon={['media', 'volume-mute']}>Mute</Button>
+      </div>
+      <div className="flex flex-wrap gap-12 items-center">
+        <Button leadIcon={['system', 'check']} tailIcon={['arrows', 'arrow-down']}>Confirm</Button>
+      </div>
     </div>
   ),
 };
 
+/**
+ * 채워진 아이콘
+ * isFill=true로 채워진 아이콘 사용
+ */
+export const WithFilledIcons: Story = {
+  render: () => (
+    <div className="flex flex-col gap-16">
+      <p className="m-0 size-sm text-subtle">Regular icons vs Filled icons (isFill=true)</p>
+      <div className="flex flex-wrap gap-12 items-center">
+        <Button leadIcon={['system', 'star']}>Regular</Button>
+        <Button leadIcon={['system', 'star', true]}>Filled</Button>
+        <Button leadIcon={['health', 'heart']}>Regular</Button>
+        <Button leadIcon={['health', 'heart', true]}>Filled</Button>
+      </div>
+      <div className="flex flex-wrap gap-12 items-center">
+        <Button style="secondary" leadIcon={['system', 'settings']}>Regular</Button>
+        <Button style="secondary" leadIcon={['system', 'settings', true]}>Filled</Button>
+        <Button style="secondary" leadIcon={['business', 'bookmark']}>Regular</Button>
+        <Button style="secondary" leadIcon={['business', 'bookmark', true]}>Filled</Button>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * 아이콘 전용 변형
+ */
+export const IconOnlyVariant: Story = {
+  render: () => (
+    <div className="flex flex-wrap gap-12 items-center">
+      <Button variant="iconOnly" leadIcon={['system', 'settings']} size="2xs" />
+      <Button variant="iconOnly" leadIcon={['system', 'settings']} size="xs" />
+      <Button variant="iconOnly" leadIcon={['system', 'settings']} size="sm" />
+      <Button variant="iconOnly" leadIcon={['system', 'settings']} size="md" />
+      <Button variant="iconOnly" leadIcon={['system', 'settings']} size="lg" />
+    </div>
+  ),
+};
+
+/**
+ * 단축키 표시
+ */
 export const WithShortcut: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-      <Button shortcut="/">Search</Button>
-      <Button variant="primary" shortcut="/">Button</Button>
+    <div className="flex flex-col gap-16">
+      <div className="flex flex-wrap gap-12 items-center">
+        <Button size="2xs" shortcut="/">2XS</Button>
+        <Button size="xs" shortcut="/">XS</Button>
+        <Button size="sm" shortcut="/">Small</Button>
+        <Button size="md" shortcut="/">Medium</Button>
+        <Button size="lg" shortcut="/">Large</Button>
+      </div>
+      <div className="flex flex-wrap gap-12 items-center">
+        <Button style="secondary" size="2xs" shortcut="/">2XS</Button>
+        <Button style="secondary" size="xs" shortcut="/">XS</Button>
+        <Button style="secondary" size="sm" shortcut="/">Small</Button>
+        <Button style="secondary" size="md" shortcut="/">Medium</Button>
+        <Button style="secondary" size="lg" shortcut="/">Large</Button>
+      </div>
     </div>
   ),
 };
 
-export const WithAvatar: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-      <Button avatar={avatarPlaceholderIcon}>Profile</Button>
-      <Button avatar={avatarPlaceholderIcon} variant="secondary">Profile</Button>
-    </div>
-  ),
-};
-
+/**
+ * 상태
+ */
 export const States: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
+    <div className="flex flex-col gap-16">
+      <div className="flex flex-wrap gap-12 items-center">
         <Button>Default</Button>
         <Button disabled>Disabled</Button>
         <Button loading>Loading</Button>
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-        <Button variant="secondary">Default</Button>
-        <Button variant="secondary" disabled>Disabled</Button>
-        <Button variant="secondary" loading>Loading</Button>
+      <div className="flex flex-wrap gap-12 items-center">
+        <Button style="secondary">Default</Button>
+        <Button style="secondary" disabled>Disabled</Button>
+        <Button style="secondary" loading>Loading</Button>
       </div>
     </div>
   ),
 };
 
-export const DarkMode: Story = {
+/**
+ * 커스텀 너비
+ */
+export const CustomWidth: Story = {
   render: () => (
-    <div style={{ backgroundColor: '#18181b', padding: '24px', borderRadius: '8px' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-          <Button darkMode>Primary</Button>
-          <Button darkMode variant="secondary">Secondary</Button>
-          <Button darkMode variant="ghost">Ghost</Button>
-          <Button darkMode variant="soft">Soft</Button>
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
-          <Button darkMode disabled>Disabled</Button>
-          <Button darkMode loading>Loading</Button>
-          <Button darkMode iconOnly icon="settings" />
-        </div>
-      </div>
+    <div className="flex flex-col gap-12">
+      <Button width={200}>Fixed 200px</Button>
+      <Button width="100%">Full Width (100%)</Button>
+      <Button fullWidth>Full Width (prop)</Button>
     </div>
   ),
 };

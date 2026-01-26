@@ -1,9 +1,8 @@
 import { forwardRef } from 'react';
 
-import { IconLoader } from '../../../icons/IconLoader';
+import { Icon } from '../../icons/Icon';
+import type { IconType } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
-
-import { Button } from '../Button/Button';
 
 import type { ButtonGroupProps, ButtonGroupSize } from './ButtonGroup.types';
 
@@ -64,13 +63,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
             'rounded-full',
             darkMode ? 'bg-[rgba(255,255,255,0.06)]' : 'bg-[rgba(39,39,42,0.06)]',
             'text-xs leading-4 font-medium',
-            disabled
-              ? darkMode
-                ? 'text-[rgba(255,255,255,0.3)]'
-                : 'text-[rgba(39,39,42,0.30)]'
-              : darkMode
-                ? 'text-[rgba(255,255,255,0.8)]'
-                : 'text-[#4E4E55]'
+            disabled ? 'text-hint' : 'text-subtle'
           )}
         >
           {badge}
@@ -108,11 +101,12 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
 
           // Lead icon
           if (item.icon) {
-            if (typeof item.icon === 'string') {
+            // Check if icon is an IconType tuple [category, name]
+            if (Array.isArray(item.icon) && item.icon.length === 2 && typeof item.icon[0] === 'string' && typeof item.icon[1] === 'string') {
               buttonContent.push(
                 <span key="lead-icon" className="inline-flex items-center justify-center shrink-0">
-                  <IconLoader
-                    type={item.icon}
+                  <Icon
+                    iconType={item.icon as IconType}
                     size={iconSize}
                     color={
                       item.disabled
@@ -145,13 +139,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
                   'shrink-0 px-0.5',
                   labelTextSize,
                   'font-medium',
-                  item.disabled
-                    ? darkMode
-                      ? 'text-[rgba(255,255,255,0.3)]'
-                      : 'text-[rgba(39,39,42,0.30)]'
-                    : darkMode
-                      ? 'text-[rgba(255,255,255,0.8)]'
-                      : 'text-[#4E4E55]'
+                  item.disabled ? 'text-hint' : 'text-subtle'
                 )}
               >
                 {item.label}
@@ -166,11 +154,12 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
 
           // Tail icon
           if (item.tailIcon) {
-            if (typeof item.tailIcon === 'string') {
+            // Check if tailIcon is an IconType tuple [category, name]
+            if (Array.isArray(item.tailIcon) && item.tailIcon.length === 2 && typeof item.tailIcon[0] === 'string' && typeof item.tailIcon[1] === 'string') {
               buttonContent.push(
                 <span key="tail-icon" className="inline-flex items-center justify-center shrink-0">
-                  <IconLoader
-                    type={item.tailIcon}
+                  <Icon
+                    iconType={item.tailIcon as IconType}
                     size={iconSize}
                     color={
                       item.disabled

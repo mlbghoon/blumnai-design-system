@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { LineChart } from './LineChart';
@@ -10,26 +12,141 @@ const meta: Meta<typeof LineChart> = {
   },
   tags: ['autodocs'],
   argTypes: {
+    data: {
+      control: 'object',
+      description: '키-값 쌍의 차트 데이터 배열',
+      table: {
+        type: {
+          summary: 'ChartDataPoint[]',
+          detail: `문자열 또는 숫자 값을 가진 객체 배열
+예시: [{ month: 'Jan', revenue: 100 }, ...]`,
+        },
+      },
+    },
+    xAxis: {
+      control: 'object',
+      description: 'X축 설정',
+      table: {
+        type: {
+          summary: 'ChartAxisConfig',
+          detail: `{
+  dataKey: string;
+  label?: string;
+  domain?: [number, number] | 'auto';
+  tickFormatter?: (value) => string;
+}`,
+        },
+      },
+    },
+    yAxis: {
+      control: 'object',
+      description: 'Y축 설정',
+      table: {
+        type: {
+          summary: 'ChartAxisConfig',
+          detail: `{
+  dataKey: string;
+  label?: string;
+  domain?: [number, number] | 'auto';
+  tickFormatter?: (value) => string;
+}`,
+        },
+      },
+    },
+    dataKey: {
+      control: 'text',
+      description: '라인 값의 데이터 키 (단일 라인)',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
+    },
+    dataKeys: {
+      control: 'object',
+      description: '여러 라인용 데이터 키 배열',
+      table: {
+        type: {
+          summary: 'string[]',
+          detail: `각 키는 별도의 라인을 나타냄
+예시: ['revenue', 'cost']`,
+        },
+      },
+    },
+    lineColors: {
+      control: 'object',
+      description: '여러 라인의 색상 매핑',
+      table: {
+        type: {
+          summary: 'Record<string, string> | string[]',
+          detail: `객체 매핑: { 'revenue': '#437DFC', 'cost': '#44BA82' }
+배열 매핑: ['#437DFC', '#44BA82']`,
+        },
+      },
+    },
+    colors: {
+      control: 'object',
+      description: '라인의 색상 팔레트',
+      table: {
+        type: {
+          summary: 'ChartColor',
+          detail: `string | string[]`,
+        },
+      },
+    },
     width: {
       control: { type: 'number', min: 200, max: 1200, step: 50 },
+      description: '차트 너비 (픽셀)',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
     },
     height: {
       control: { type: 'number', min: 200, max: 800, step: 50 },
+      description: '차트 높이 (픽셀)',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
     },
     showArea: {
       control: 'boolean',
+      description: '라인 아래 영역 채우기 표시',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
     },
     showPoints: {
       control: 'boolean',
+      description: '라인 위에 데이터 포인트 표시',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
     },
     strokeWidth: {
       control: { type: 'number', min: 1, max: 10, step: 1 },
+      description: '라인 두께 (픽셀)',
+      table: {
+        type: {
+          summary: 'number',
+        },
+      },
     },
     showGrid: {
       control: 'boolean',
-    },
-    darkMode: {
-      control: 'boolean',
+      description: '그리드 라인 표시',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
     },
   },
 };
@@ -68,6 +185,13 @@ const sparseData = [
   { month: 'Oct', revenue: 160 },
 ];
 
+/**
+ * 기본 LineChart
+ *
+ * LineChart 컴포넌트는 `ref`와 `className` prop을 지원합니다.
+ * - `ref`: DOM 요소에 직접 접근 가능
+ * - `className`: 커스텀 스타일 클래스 추가 가능
+ */
 export const Default: Story = {
   args: {
     data: defaultData,
@@ -81,7 +205,18 @@ export const Default: Story = {
     showPoints: true,
     strokeWidth: 2,
     showGrid: true,
-    darkMode: false,
+    className: '',
+  },
+  render: (args) => {
+    const chartRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (chartRef.current) {
+        console.log('LineChart ref:', chartRef.current);
+      }
+    }, []);
+
+    return <LineChart ref={chartRef} {...args} />;
   },
 };
 
@@ -98,7 +233,6 @@ export const WithArea: Story = {
     showPoints: true,
     strokeWidth: 2,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -115,7 +249,6 @@ export const NoPoints: Story = {
     showPoints: false,
     strokeWidth: 2,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -132,7 +265,6 @@ export const AreaNoPoints: Story = {
     showPoints: false,
     strokeWidth: 2,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -149,7 +281,6 @@ export const ThickLine: Story = {
     showPoints: true,
     strokeWidth: 4,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -166,7 +297,6 @@ export const ThinLine: Story = {
     showPoints: true,
     strokeWidth: 1,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -183,43 +313,10 @@ export const NoGrid: Story = {
     showPoints: true,
     strokeWidth: 2,
     showGrid: false,
-    darkMode: false,
   },
 };
 
-export const DarkMode: Story = {
-  args: {
-    data: defaultData,
-    xAxis: { dataKey: 'month' },
-    yAxis: { dataKey: 'revenue' },
-    dataKey: 'revenue',
-    colors: ['#437dfc'],
-    width: 600,
-    height: 400,
-    showArea: false,
-    showPoints: true,
-    strokeWidth: 2,
-    showGrid: true,
-    darkMode: true,
-  },
-};
 
-export const DarkModeWithArea: Story = {
-  args: {
-    data: defaultData,
-    xAxis: { dataKey: 'month' },
-    yAxis: { dataKey: 'revenue' },
-    dataKey: 'revenue',
-    colors: ['#437dfc'],
-    width: 600,
-    height: 400,
-    showArea: true,
-    showPoints: true,
-    strokeWidth: 2,
-    showGrid: true,
-    darkMode: true,
-  },
-};
 
 export const LargeDataset: Story = {
   args: {
@@ -234,7 +331,6 @@ export const LargeDataset: Story = {
     showPoints: true,
     strokeWidth: 2,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -251,7 +347,6 @@ export const LargeDatasetWithArea: Story = {
     showPoints: true,
     strokeWidth: 2,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -268,7 +363,6 @@ export const SparseData: Story = {
     showPoints: true,
     strokeWidth: 2,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -285,7 +379,6 @@ export const LargeSize: Story = {
     showPoints: true,
     strokeWidth: 2,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -302,7 +395,6 @@ export const SmallSize: Story = {
     showPoints: true,
     strokeWidth: 2,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -319,7 +411,6 @@ export const DifferentColor: Story = {
     showPoints: true,
     strokeWidth: 2,
     showGrid: true,
-    darkMode: false,
   },
 };
 
@@ -336,6 +427,5 @@ export const DifferentColorWithArea: Story = {
     showPoints: true,
     strokeWidth: 2,
     showGrid: true,
-    darkMode: false,
   },
 };

@@ -1,0 +1,25 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../../Icon/IconWrapper.types';
+
+import { Icon } from '../../Icon/IconWrapper';
+
+export const FlagDkIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clipPath="url(#FlagDkIcon__clip0_3811_32173)">
+<path d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z" fill="#F0F0F0"/>
+<path d="M9.39136 10.4348H23.8984C23.1314 4.54697 18.0969 0 12 0C11.104 0 10.2313 0.0990469 9.39131 0.285234L9.39136 10.4348Z" fill="#D80027"/>
+<path d="M6.26086 10.4347V1.45908C2.96587 3.25692 0.607031 6.55462 0.101578 10.4348L6.26086 10.4347Z" fill="#D80027"/>
+<path d="M6.26081 13.5652H0.101578C0.607031 17.4454 2.96587 20.7431 6.26086 22.5409L6.26081 13.5652Z" fill="#D80027"/>
+<path d="M9.39131 13.5653V23.7148C10.2313 23.901 11.104 24 12 24C18.0969 24 23.1314 19.453 23.8984 13.5652L9.39131 13.5653Z" fill="#D80027"/>
+</g>
+<defs>
+<clipPath id="FlagDkIcon__clip0_3811_32173">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+    </Icon>
+  );
+};

@@ -1,7 +1,7 @@
-import { useMemo, useState, useCallback } from 'react';
+import { forwardRef, useMemo, useState, useCallback } from 'react';
 
 import { Chart } from '../Chart/Chart';
-import { Tooltip } from '../../tooltip/Tooltip';
+import { AdvancedTooltip } from '../../tooltip/Tooltip';
 import { cn } from '../../../utils/cn';
 
 import type { BarChartProps } from '../Chart/Chart.types';
@@ -13,24 +13,29 @@ import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
  * Displays data as vertical bars with configurable axes, colors, and styling.
  * Matches Figma design with rounded bars, proper spacing, and axis labels.
  */
-export const BarChart = ({
-  data,
-  xAxis,
-  yAxis,
-  dataKey,
-  colors = ['#44ba82'],
-  width = 600,
-  height = 400,
-  barSize,
-  gap,
-  stacked = false,
-  stackedKeys,
-  stackedColors,
-  showGrid = true,
-  showLegend = false,
-  darkMode = false,
-  className,
-}: BarChartProps) => {
+export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
+  (
+    {
+      data,
+      xAxis,
+      yAxis,
+      dataKey,
+      colors = ['#44ba82'],
+      width = 600,
+      height = 400,
+      barSize,
+      gap,
+      stacked = false,
+      stackedKeys,
+      stackedColors,
+      showGrid = true,
+      showLegend = false,
+      darkMode = false,
+      className,
+      ...props
+    },
+    ref
+  ) => {
   // Helper function to get color for stacked segments
   const getStackedColor = useCallback((key: string, keyIndex: number): string => {
     if (stackedColors) {
@@ -240,7 +245,7 @@ export const BarChart = ({
   }, [data, dataKey, xAxis.dataKey, getBarColor, stacked, stackedKeys, getStackedColor]);
 
   return (
-    <Chart width={width} height={height} darkMode={darkMode} className={className}>
+    <Chart ref={ref} width={width} height={height} darkMode={darkMode} className={className} {...props}>
       <svg width={width} height={height} className="overflow-hidden">
         {/* Grid lines - with left and right padding */}
         {showGrid &&
@@ -294,7 +299,7 @@ export const BarChart = ({
               textAnchor="end"
               className={cn(
                 'text-xs',
-                darkMode ? 'text-[#6f6f77]' : 'text-[#6f6f77]'
+                'text-subtle'
               )}
               fill="currentColor"
             >
@@ -424,7 +429,7 @@ export const BarChart = ({
               textAnchor="middle"
               className={cn(
                 'text-xs',
-                darkMode ? 'text-[#6f6f77]' : 'text-[#6f6f77]'
+                'text-subtle'
               )}
               fill="currentColor"
             >
@@ -444,10 +449,8 @@ export const BarChart = ({
             transform: 'translateY(-50%)',
           }}
         >
-          <Tooltip
-            variant="advanced"
+          <AdvancedTooltip
             items={getTooltipItems(tooltipState.barIndex)}
-            darkMode={darkMode}
           />
         </div>
       )}
@@ -464,7 +467,7 @@ export const BarChart = ({
                     className="h-3 w-3 rounded-sm"
                     style={{ backgroundColor: legendColor }}
                   />
-                  <span className={cn('text-xs', darkMode ? 'text-[#6f6f77]' : 'text-[#6f6f77]')}>
+                  <span className={cn('text-xs', 'text-subtle')}>
                     {key}
                   </span>
                 </div>
@@ -476,7 +479,7 @@ export const BarChart = ({
                   className="h-3 w-3 rounded-sm"
                   style={{ backgroundColor: Array.isArray(colors) ? colors[0] : colors }}
                 />
-                <span className={cn('text-xs', darkMode ? 'text-[#6f6f77]' : 'text-[#6f6f77]')}>
+                <span className={cn('text-xs', 'text-subtle')}>
                   {dataKey}
                 </span>
               </div>
@@ -485,6 +488,7 @@ export const BarChart = ({
       )}
     </Chart>
   );
-};
+  }
+);
 
 BarChart.displayName = 'BarChart';

@@ -10,6 +10,7 @@
 export const color = {
   palette: {
     zinc: {
+      0: '#ffffff', // zinc-00 (white)
       50: '#fafafa',
       100: '#f4f4f5',
       200: '#e9e9ec',
@@ -21,8 +22,10 @@ export const color = {
       800: '#222225',
       900: '#18181b',
       950: '#111115',
+      1000: '#09090b', // zinc-1000 (near black)
     },
     stone: {
+      0: '#ffffff', // stone-00 (white)
       50: '#fafaf9',
       100: '#f5f5f4',
       200: '#e7e5e4',
@@ -34,8 +37,25 @@ export const color = {
       800: '#312c2b',
       900: '#24211e',
       950: '#14110f',
+      1000: '#0c0a09', // stone-1000 (near black)
     },
     gray: {
+      0: '#ffffff', // neutral-00 (white, same as zinc-00)
+      50: '#f9fafb',
+      100: '#f3f4f6',
+      200: '#ebecef',
+      300: '#d7dadf',
+      400: '#9ea3ae',
+      500: '#6d727f',
+      600: '#4d5562',
+      700: '#353c4a',
+      800: '#1b2028',
+      900: '#14171f',
+      950: '#0d0f17',
+    },
+    // Neutral palette (alias for gray, used in Theme-B)
+    neutral: {
+      0: '#ffffff', // neutral-00 (white)
       50: '#f9fafb',
       100: '#f3f4f6',
       200: '#ebecef',
@@ -283,6 +303,41 @@ export const color = {
       950: '#460a19',
     },
     transparent: {
+      // Generic transparent tokens (base: white for light, #27272a for dark)
+      light: {
+        '00': '#ffffff00', // 0%
+        4: '#ffffff0a',    // 4%
+        6: '#ffffff0f',    // 6%
+        8: '#ffffff14',    // 8%
+        10: '#ffffff1a',   // 10%
+        15: '#ffffff26',   // 15%
+        20: '#ffffff33',   // 20%
+        25: '#ffffff40',   // 25%
+        30: '#ffffff4d',   // 30%
+        35: '#ffffff59',   // 35%
+        40: '#ffffff66',   // 40%
+        45: '#ffffff73',   // 45%
+        50: '#ffffff80',   // 50%
+        65: '#ffffffa6',   // 65%
+        70: '#ffffffb2',   // 70%
+      },
+      dark: {
+        '00': '#27272a00', // 0%
+        4: '#27272a0a',    // 4%
+        6: '#27272a0f',    // 6%
+        8: '#27272a14',    // 8%
+        10: '#27272a1a',   // 10%
+        15: '#27272a26',   // 15%
+        20: '#27272a33',   // 20%
+        25: '#27272a40',   // 25%
+        30: '#27272a4d',   // 30%
+        35: '#27272a59',   // 35%
+        40: '#27272a66',   // 40%
+        45: '#27272a73',   // 45%
+        50: '#27272a80',   // 50%
+        65: '#27272aa6',   // 65%
+        70: '#27272ab2',   // 70%
+      },
       red: {
         10: '#ee6e6c1a',
         20: '#ee6e6c33',
@@ -475,16 +530,15 @@ export const color = {
   text: {
     default: '#111115',
     subtle: '#4e4e55',
-    muted: '#6f6f77',
+    muted: '#4e4e55',
     hint: '#27272a4d',
 
     inverted: {
       default: '#ffffff',
       subtle: '#ffffffb2',
-      muted: '#ffffff80',
+      muted: '#4e4e55',
       hint: '#ffffff4d',
     },
-
     white: {
       default: '#ffffff',
       subtle: '#ffffffb2',
@@ -510,6 +564,7 @@ export const color = {
     subtle: '#fafafa',
     muted: '#f4f4f5',
     inverted: '#18181b',
+    accent: '#6f6f77', // --bg/basic/gray-accent from Figma (fixed color, used for avatar initials)
 
     card: {
       default: '#ffffff',

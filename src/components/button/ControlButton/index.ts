@@ -1,2 +1,3 @@
 export { ControlButton } from './ControlButton';
-export type { ControlButtonProps, ControlButtonSize, ControlButtonShape } from './ControlButton.types';
+export { SIZE_CONFIG, STYLE_CONFIG, SHAPE_CONFIG, CONTAINER_BASE, DISABLED_STYLE } from './ControlButton.constants';
+export type { ControlButtonProps, ControlButtonSize, ControlButtonShape, ControlButtonStyle } from './ControlButton.types';

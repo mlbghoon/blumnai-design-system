@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { AccordionItem } from './AccordionItem';
@@ -13,15 +15,63 @@ const meta = {
     style: {
       control: 'select',
       options: ['default', 'soft', 'ghost', 'line'],
+      description: '아코디언의 시각적 스타일 변형',
+      table: {
+        type: {
+          summary: 'AccordionItemStyle',
+          detail: `'default' | 'soft' | 'ghost' | 'line'
+
+- default: 테두리와 그림자
+- soft: 은은한 배경
+- ghost: 최소한의 배경
+- line: 하단 테두리만`,
+        },
+      },
     },
     isOpen: {
       control: 'boolean',
+      description: '아코디언 아이템이 펼쳐져 있는지 여부',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
     },
     disabled: {
       control: 'boolean',
+      description: '아코디언 아이템이 비활성화되어 있는지 여부',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
     },
-    darkMode: {
-      control: 'boolean',
+    header: {
+      control: 'text',
+      description: '헤더 콘텐츠 (질문/제목)',
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    children: {
+      control: 'text',
+      description: '펼쳐졌을 때 표시되는 콘텐츠 (답변/본문)',
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    onToggle: {
+      action: 'toggled',
+      description: '아코디언 토글 시 호출되는 콜백 함수',
+      table: {
+        type: {
+          summary: '() => void',
+        },
+      },
     },
   },
 } satisfies Meta<typeof AccordionItem>;
@@ -29,11 +79,30 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * 기본 AccordionItem
+ *
+ * AccordionItem 컴포넌트는 `ref`와 `className` prop을 지원합니다.
+ * - `ref`: DOM 요소에 직접 접근 가능
+ * - `className`: 커스텀 스타일 클래스 추가 가능
+ */
 export const Default: Story = {
   args: {
     header: 'Accordion Item Header',
     children: 'This is the content of the accordion item. It can contain any React node.',
     style: 'default',
+    className: '',
+  },
+  render: (args) => {
+    const accordionRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (accordionRef.current) {
+        console.log('AccordionItem ref:', accordionRef.current);
+      }
+    }, []);
+
+    return <AccordionItem ref={accordionRef} {...args} />;
   },
 };
 
@@ -79,19 +148,6 @@ export const Disabled: Story = {
   },
 };
 
-export const DarkMode: Story = {
-  args: {
-    header: 'Dark Mode Accordion',
-    children: 'This accordion is displayed in dark mode.',
-    style: 'default',
-    darkMode: true,
-  },
-  parameters: {
-    backgrounds: {
-      default: 'dark',
-    },
-  },
-};
 
 export const AllVariants: Story = {
   args: {

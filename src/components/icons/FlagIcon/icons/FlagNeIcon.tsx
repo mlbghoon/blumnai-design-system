@@ -1,0 +1,24 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../../Icon/IconWrapper.types';
+
+import { Icon } from '../../Icon/IconWrapper';
+
+export const FlagNeIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clipPath="url(#FlagNeIcon__clip0_3811_32273)">
+<path d="M1.19072 6.78263C0.427875 8.36025 0 10.1301 0 12C0 13.8699 0.427875 15.6397 1.19072 17.2174L12 18.2609L22.8093 17.2174C23.5721 15.6397 24 13.8699 24 12C24 10.1301 23.5721 8.36025 22.8093 6.78263L12 5.73914L1.19072 6.78263Z" fill="#F0F0F0"/>
+<path d="M1.19072 17.2174C3.13162 21.2313 7.24247 24 12 24C16.7575 24 20.8684 21.2313 22.8093 17.2174H1.19072Z" fill="#6DA544"/>
+<path d="M1.19072 6.78263H22.8093C20.8684 2.76867 16.7575 0 12 0C7.24252 0 3.13162 2.76867 1.19072 6.78263Z" fill="#FF9811"/>
+<path d="M12 16.1739C14.3052 16.1739 16.1739 14.3052 16.1739 12C16.1739 9.69482 14.3052 7.82611 12 7.82611C9.69482 7.82611 7.82611 9.69482 7.82611 12C7.82611 14.3052 9.69482 16.1739 12 16.1739Z" fill="#FF9811"/>
+</g>
+<defs>
+<clipPath id="FlagNeIcon__clip0_3811_32273">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+    </Icon>
+  );
+};

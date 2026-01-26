@@ -1,25 +1,41 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-export type ButtonVariant =
+import type { IconType } from '../../icons/Icon/Icon.types';
+
+/**
+ * Extended icon type for Button that supports isFill option.
+ * Can be a standard IconType tuple or a 3-element tuple with isFill.
+ * @example ['system', 'add'] - regular icon
+ * @example ['system', 'add', true] - filled icon
+ */
+export type ButtonIconType = IconType | [...IconType, boolean];
+
+export type ButtonStyle =
   | 'primary'
   | 'secondary'
   | 'destructive'
   | 'ghost'
+  | 'ghostMuted'
   | 'soft'
-  | 'gray'
-  | 'linkedin'
-  | 'google'
-  | 'facebook'
-  | 'twitter';
+  | 'dashed';
 
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+export type ButtonVariant = 'default' | 'iconOnly';
+
+export type ButtonSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg';
+
+export type ButtonShape = 'rounded' | 'pill';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
 
-export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'style'> {
   /**
-   * The visual style variant of the button.
+   * The visual style of the button.
    * @default 'primary'
+   */
+  style?: ButtonStyle;
+  /**
+   * The button variant.
+   * @default 'default'
    */
   variant?: ButtonVariant;
   /**
@@ -28,32 +44,33 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
    */
   size?: ButtonSize;
   /**
+   * The shape of the button.
+   * @default 'rounded'
+   */
+  shape?: ButtonShape;
+  /**
    * The button type attribute.
    * @default 'button'
    */
   type?: ButtonType;
   /**
-   * Icon to display. Can be an icon name string or a ReactNode.
+   * Icon to display before the label (or as the icon for iconOnly variant).
+   * Can be a ButtonIconType tuple or a ReactNode.
+   * @example leadIcon={['system', 'add']} - regular icon
+   * @example leadIcon={['system', 'add', true]} - filled icon
    */
-  icon?: string | ReactNode;
+  leadIcon?: ButtonIconType | ReactNode;
   /**
-   * Position of the icon relative to the label.
-   * @default 'left'
+   * Icon to display after the label.
+   * Can be a ButtonIconType tuple or a ReactNode.
+   * @example tailIcon={['arrows', 'arrow-right']} - regular icon
+   * @example tailIcon={['arrows', 'arrow-right', true]} - filled icon
    */
-  iconPosition?: 'left' | 'right';
-  /**
-   * Avatar image URL for avatar button variant.
-   */
-  avatar?: string;
+  tailIcon?: ButtonIconType | ReactNode;
   /**
    * Keyboard shortcut indicator (e.g., "/", "⌘K", etc.).
    */
   shortcut?: string;
-  /**
-   * If true, renders as an icon-only button (square, no text).
-   * @default false
-   */
-  iconOnly?: boolean;
   /**
    * If true, the button shows a loading state.
    * @default false
@@ -70,13 +87,13 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
    */
   fullWidth?: boolean;
   /**
-   * If true, applies dark mode styles.
-   * @default false
+   * Custom width for the button (e.g., '200px', '100%', 'auto').
+   * Overrides default width behavior.
    */
-  darkMode?: boolean;
+  width?: string | number;
   /**
    * The button label text.
-   * Optional when iconOnly is true.
+   * Optional when variant is 'iconOnly'.
    */
   children?: ReactNode;
 }

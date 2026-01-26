@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
 /**
  * Base data point for charts
@@ -15,7 +15,7 @@ export type ChartColor = string | string[];
 /**
  * Base props for all chart components
  */
-export interface BaseChartProps {
+export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /**
    * Chart data array
    */

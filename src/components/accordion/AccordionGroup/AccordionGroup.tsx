@@ -2,7 +2,7 @@ import { forwardRef, useCallback, useMemo, useState } from 'react';
 
 import { cn } from '../../../utils/cn';
 
-import { AccordionItem } from '../AccordionItem/AccordionItem';
+import { AccordionItem } from '../AccordionItem';
 import type { AccordionGroupProps } from './AccordionGroup.types';
 
 /**
@@ -15,8 +15,7 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
   items,
   spacing = 8,
   style = 'default',
-  darkMode = false,
-  allowMultiple = true,
+  allowMultipleOpen = true,
   className,
   ...restProps
 }, ref) => {
@@ -26,40 +25,48 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
 
   const handleToggle = useCallback(
     (index: number, itemOnToggle?: () => void) => {
-      if (itemOnToggle) {
+      if (itemOnToggle && typeof itemOnToggle === 'function') {
         itemOnToggle();
         return;
       }
 
       setOpenItems((prev) => {
         const newSet = new Set(prev);
-        if (newSet.has(index)) {
-          newSet.delete(index);
-        } else {
-          if (!allowMultiple) {
-            newSet.clear();
+        const isCurrentlyOpen = newSet.has(index);
+
+        if (allowMultipleOpen) {
+          if (isCurrentlyOpen) {
+            newSet.delete(index);
+          } else {
+            newSet.add(index);
           }
-          newSet.add(index);
+        } else {
+          if (isCurrentlyOpen) {
+            newSet.delete(index);
+          } else {
+            newSet.clear();
+            newSet.add(index);
+          }
         }
+
         return newSet;
       });
     },
-    [allowMultiple]
+    [allowMultipleOpen]
   );
 
   const containerClassName = useMemo(() => {
-    return cn('flex flex-col w-full gap-2', className);
-  }, [className]);
-
-  const containerStyle = useMemo(() => {
-    return spacing !== 8 ? { gap: `${spacing}px` } : undefined;
-  }, [spacing]);
+    return cn(
+      'flex flex-col w-full',
+      spacing === 8 ? 'gap-2' : `gap-[${spacing}px]`,
+      className
+    );
+  }, [className, spacing]);
 
   return (
     <div
       ref={ref}
       className={containerClassName}
-      style={containerStyle}
       {...restProps}
     >
       {items.map((item, index) => {
@@ -75,7 +82,6 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
             isOpen={isOpen}
             onToggle={() => handleToggle(index, item.onToggle)}
             disabled={item.disabled}
-            darkMode={darkMode}
             className={item.className}
           >
             {item.children}

@@ -32,10 +32,12 @@ export interface AccordionGroupProps extends Omit<HTMLAttributes<HTMLDivElement>
   spacing?: number;
   /** 모든 아이템에 적용할 스타일 variant (개별 아이템에 style이 없을 때 사용) */
   style?: AccordionItemStyle;
-  /** 다크 모드가 활성화되어 있는지 여부 */
-  darkMode?: boolean;
-  /** 여러 아이템을 동시에 열 수 있는지 여부 */
-  allowMultiple?: boolean;
+  /** 
+   * 여러 아이템을 동시에 열 수 있는지 여부
+   * - true: 여러 아이템을 독립적으로 동시에 열 수 있음 (각 아이템을 개별적으로 열고 닫을 수 있음)
+   * - false: 한 번에 하나의 아이템만 열 수 있음 (새 아이템을 열면 이전 아이템이 닫힘)
+   */
+  allowMultipleOpen?: boolean;
   /** 추가 CSS 클래스 이름 */
   className?: string;
 }

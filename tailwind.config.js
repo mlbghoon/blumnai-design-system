@@ -2,6 +2,7 @@ import { color } from './src/tokens/color';
 import { radius } from './src/tokens/radius';
 import { typography } from './src/tokens/typography';
 import { effects } from './src/tokens/effects';
+import { spacing, stroke } from './src/tokens/spacing';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -10,6 +11,19 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    // Spacing scale - used for margin, padding, gap, width, height, etc.
+    spacing: {
+      ...Object.fromEntries(
+        Object.entries(spacing).map(([key, value]) => [key, value])
+      ),
+    },
+    // Typography - disabled to enforce Figma-matching class names from utilities.css
+    // Use: size-xs, size-sm, size-md, etc. (NOT text-xs, text-sm)
+    // Use: line-height-leading-3, line-height-leading-4, etc. (NOT leading-3, leading-4)
+    // Use: letter-spacing-tracking-tighter, etc. (NOT tracking-tighter)
+    fontSize: {},
+    lineHeight: {},
+    letterSpacing: {},
     extend: {
       // Color tokens - using CSS variables to match Figma format
       colors: {
@@ -23,6 +37,64 @@ export default {
           ])
         ),
         // Text colors - matches Figma CSS variables (--text-default, etc.)
+        // Define at root level for direct use: text-muted, text-subtle, etc.
+        muted: 'var(--text-muted)',
+        subtle: 'var(--text-subtle)',
+        default: 'var(--text-default)',
+        hint: 'var(--text-hint)',
+        destructive: 'var(--text-destructive)',
+        success: 'var(--text-success)',
+        warning: 'var(--text-warning)',
+        informative: 'var(--text-informative)',
+        // Inverted text colors
+        'inverted-default': 'var(--text-inverted-default)',
+        'inverted-subtle': 'var(--text-inverted-subtle)',
+        'inverted-muted': 'var(--text-inverted-muted)',
+        'inverted-hint': 'var(--text-inverted-hint)',
+        // White text colors
+        'white-default': 'var(--text-white-default)',
+        'white-subtle': 'var(--text-white-subtle)',
+        'white-muted': 'var(--text-white-muted)',
+        'white-hint': 'var(--text-white-hint)',
+        // Dark text colors
+        'dark-default': 'var(--text-dark-default)',
+        'dark-subtle': 'var(--text-dark-subtle)',
+        'dark-muted': 'var(--text-dark-muted)',
+        'dark-hint': 'var(--text-dark-hint)',
+        // Icon colors - matches Figma CSS variables (--icon-*, etc.)
+        'icon-default': 'var(--icon-default)',
+        'icon-default-subtle': 'var(--icon-default-subtle)',
+        'icon-default-muted': 'var(--icon-default-muted)',
+        'icon-default-disabled': 'var(--icon-default-disabled)',
+        'icon-inverted-default': 'var(--icon-inverted-default)',
+        'icon-inverted-subtle': 'var(--icon-inverted-subtle)',
+        'icon-inverted-muted': 'var(--icon-inverted-muted)',
+        'icon-inverted-disabled': 'var(--icon-inverted-disabled)',
+        'icon-white-default': 'var(--icon-white-default)',
+        'icon-white-subtle': 'var(--icon-white-subtle)',
+        'icon-white-muted': 'var(--icon-white-muted)',
+        'icon-white-disabled': 'var(--icon-white-disabled)',
+        'icon-black-default': 'var(--icon-black-default)',
+        'icon-black-subtle': 'var(--icon-black-subtle)',
+        'icon-black-muted': 'var(--icon-black-muted)',
+        'icon-black-disabled': 'var(--icon-black-disabled)',
+        'icon-destructive': 'var(--icon-destructive)',
+        'icon-informative': 'var(--icon-informative)',
+        'icon-success': 'var(--icon-success)',
+        'icon-warning': 'var(--icon-warning)',
+        // Background state colors - for direct use: bg-state-secondary, etc.
+        'state-secondary': 'var(--bg-state-secondary)',
+        'state-secondary-hover': 'var(--bg-state-secondary-hover)',
+        'state-secondary-press': 'var(--bg-state-secondary-press)',
+        'state-soft': 'var(--bg-state-soft)',
+        'state-soft-hover': 'var(--bg-state-soft-hover)',
+        'state-soft-press': 'var(--bg-state-soft-press)',
+        'state-ghost': 'var(--bg-state-ghost)',
+        'state-ghost-hover': 'var(--bg-state-ghost-hover)',
+        'state-ghost-press': 'var(--bg-state-ghost-press)',
+        // Badge colors
+        'badge-blue': 'var(--bg-badge-blue)',
+        // Also keep text namespace for structured access if needed
         text: {
           DEFAULT: 'var(--text-default)',
           subtle: 'var(--text-subtle)',
@@ -36,6 +108,14 @@ export default {
           'inverted-subtle': 'var(--text-inverted-subtle)',
           'inverted-muted': 'var(--text-inverted-muted)',
           'inverted-hint': 'var(--text-inverted-hint)',
+          'white-default': 'var(--text-white-default)',
+          'white-subtle': 'var(--text-white-subtle)',
+          'white-muted': 'var(--text-white-muted)',
+          'white-hint': 'var(--text-white-hint)',
+          'dark-default': 'var(--text-dark-default)',
+          'dark-subtle': 'var(--text-dark-subtle)',
+          'dark-muted': 'var(--text-dark-muted)',
+          'dark-hint': 'var(--text-dark-hint)',
         },
         // Background colors - matches Figma CSS variables (--bg-default, etc.)
         bg: {
@@ -78,6 +158,97 @@ export default {
           'state-brand-loading': 'var(--bg-state-brand-loading)',
           'state-gray': 'var(--bg-state-gray)',
           'state-disabled': 'var(--bg-state-disabled)',
+          'checkbox-default': 'var(--bg-checkbox-default)',
+          'checkbox-active': 'var(--bg-checkbox-active)',
+          'checkbox-active-hover': 'var(--bg-checkbox-active-hover)',
+          'checkbox-disabled': 'var(--bg-checkbox-disabled)',
+          'switch-default': 'var(--bg-switch-default)',
+          'switch-default-hover': 'var(--bg-switch-default-hover)',
+          'switch-disabled': 'var(--bg-switch-disabled)',
+          'switch-active': 'var(--bg-switch-active)',
+          'switch-active-hover': 'var(--bg-switch-active-hover)',
+          'switch-active-disabled': 'var(--bg-switch-active-disabled)',
+          'switch-handle': 'var(--bg-switch-handle)',
+          'switch-handle-disabled': 'var(--bg-switch-handle-disabled)',
+        },
+        // Background Basic colors - semantic colors with subtle/accent/strong/contrast variants
+        'basic': {
+          'gray-subtle': 'var(--bg-basic-gray-subtle)',
+          'gray-accent': 'var(--bg-basic-gray-accent)',
+          'gray-strong': 'var(--bg-basic-gray-strong)',
+          'gray-contrast': 'var(--bg-basic-gray-contrast)',
+          'red-subtle': 'var(--bg-basic-red-subtle)',
+          'red-accent': 'var(--bg-basic-red-accent)',
+          'red-strong': 'var(--bg-basic-red-strong)',
+          'red-contrast': 'var(--bg-basic-red-contrast)',
+          'orange-subtle': 'var(--bg-basic-orange-subtle)',
+          'orange-accent': 'var(--bg-basic-orange-accent)',
+          'orange-strong': 'var(--bg-basic-orange-strong)',
+          'orange-contrast': 'var(--bg-basic-orange-contrast)',
+          'amber-subtle': 'var(--bg-basic-amber-subtle)',
+          'amber-accent': 'var(--bg-basic-amber-accent)',
+          'amber-strong': 'var(--bg-basic-amber-strong)',
+          'amber-contrast': 'var(--bg-basic-amber-contrast)',
+          'yellow-subtle': 'var(--bg-basic-yellow-subtle)',
+          'yellow-accent': 'var(--bg-basic-yellow-accent)',
+          'yellow-strong': 'var(--bg-basic-yellow-strong)',
+          'yellow-contrast': 'var(--bg-basic-yellow-contrast)',
+          'lime-subtle': 'var(--bg-basic-lime-subtle)',
+          'lime-accent': 'var(--bg-basic-lime-accent)',
+          'lime-strong': 'var(--bg-basic-lime-strong)',
+          'lime-contrast': 'var(--bg-basic-lime-contrast)',
+          'green-subtle': 'var(--bg-basic-green-subtle)',
+          'green-accent': 'var(--bg-basic-green-accent)',
+          'green-strong': 'var(--bg-basic-green-strong)',
+          'green-contrast': 'var(--bg-basic-green-contrast)',
+          'emerald-subtle': 'var(--bg-basic-emerald-subtle)',
+          'emerald-accent': 'var(--bg-basic-emerald-accent)',
+          'emerald-strong': 'var(--bg-basic-emerald-strong)',
+          'emerald-contrast': 'var(--bg-basic-emerald-contrast)',
+          'teal-subtle': 'var(--bg-basic-teal-subtle)',
+          'teal-accent': 'var(--bg-basic-teal-accent)',
+          'teal-strong': 'var(--bg-basic-teal-strong)',
+          'teal-contrast': 'var(--bg-basic-teal-contrast)',
+          'cyan-subtle': 'var(--bg-basic-cyan-subtle)',
+          'cyan-accent': 'var(--bg-basic-cyan-accent)',
+          'cyan-strong': 'var(--bg-basic-cyan-strong)',
+          'cyan-contrast': 'var(--bg-basic-cyan-contrast)',
+          'sky-subtle': 'var(--bg-basic-sky-subtle)',
+          'sky-accent': 'var(--bg-basic-sky-accent)',
+          'sky-strong': 'var(--bg-basic-sky-strong)',
+          'sky-contrast': 'var(--bg-basic-sky-contrast)',
+          'blue-subtle': 'var(--bg-basic-blue-subtle)',
+          'blue-accent': 'var(--bg-basic-blue-accent)',
+          'blue-strong': 'var(--bg-basic-blue-strong)',
+          'blue-contrast': 'var(--bg-basic-blue-contrast)',
+          'indigo-subtle': 'var(--bg-basic-indigo-subtle)',
+          'indigo-accent': 'var(--bg-basic-indigo-accent)',
+          'indigo-strong': 'var(--bg-basic-indigo-strong)',
+          'indigo-contrast': 'var(--bg-basic-indigo-contrast)',
+          'violet-subtle': 'var(--bg-basic-violet-subtle)',
+          'violet-accent': 'var(--bg-basic-violet-accent)',
+          'violet-strong': 'var(--bg-basic-violet-strong)',
+          'violet-contrast': 'var(--bg-basic-violet-contrast)',
+          'purple-subtle': 'var(--bg-basic-purple-subtle)',
+          'purple-accent': 'var(--bg-basic-purple-accent)',
+          'purple-strong': 'var(--bg-basic-purple-strong)',
+          'purple-contrast': 'var(--bg-basic-purple-contrast)',
+          'fuchsia-subtle': 'var(--bg-basic-fuchsia-subtle)',
+          'fuchsia-accent': 'var(--bg-basic-fuchsia-accent)',
+          'fuchsia-strong': 'var(--bg-basic-fuchsia-strong)',
+          'fuchsia-contrast': 'var(--bg-basic-fuchsia-contrast)',
+          'pink-subtle': 'var(--bg-basic-pink-subtle)',
+          'pink-accent': 'var(--bg-basic-pink-accent)',
+          'pink-strong': 'var(--bg-basic-pink-strong)',
+          'pink-contrast': 'var(--bg-basic-pink-contrast)',
+          'rose-subtle': 'var(--bg-basic-rose-subtle)',
+          'rose-accent': 'var(--bg-basic-rose-accent)',
+          'rose-strong': 'var(--bg-basic-rose-strong)',
+          'rose-contrast': 'var(--bg-basic-rose-contrast)',
+          'gray-alpha-2': 'var(--bg-basic-gray-alpha-2)',
+          'gray-alpha-4': 'var(--bg-basic-gray-alpha-4)',
+          'gray-alpha-10': 'var(--bg-basic-gray-alpha-10)',
+          'gray-alpha-15': 'var(--bg-basic-gray-alpha-15)',
         },
         // Border colors - matches Figma CSS variables (--border-default, etc.)
         border: {
@@ -96,48 +267,110 @@ export default {
           'input-highlight': 'var(--border-input-highlight)',
         },
       },
-      // Border radius tokens
+      // Border radius tokens - using radius-* prefix for clarity
       borderRadius: {
-        ...radius.global,
-        card: radius.card,
+        // Global radius - default mode
+        'radius-none': radius.none.default,
+        'radius-2xs': radius['2xs'].default,
+        'radius-xs': radius.xs.default,
+        'radius-sm': radius.sm.default,
+        'radius-md': radius.md.default,
+        'radius-lg': radius.lg.default,
+        'radius-xl': radius.xl.default,
+        'radius-2xl': radius['2xl'].default,
+        'radius-3xl': radius['3xl'].default,
+        'radius-full': radius.full.default,
+        // Global radius - rounded mode
+        'radius-2xs-rounded': radius['2xs'].rounded,
+        'radius-xs-rounded': radius.xs.rounded,
+        'radius-sm-rounded': radius.sm.rounded,
+        'radius-md-rounded': radius.md.rounded,
+        'radius-lg-rounded': radius.lg.rounded,
+        'radius-xl-rounded': radius.xl.rounded,
+        'radius-2xl-rounded': radius['2xl'].rounded,
+        'radius-3xl-rounded': radius['3xl'].rounded,
+        'radius-full-rounded': radius.full.rounded,
+        // Global radius - full mode
+        'radius-2xs-full': radius['2xs'].full,
+        'radius-xs-full': radius.xs.full,
+        'radius-sm-full': radius.sm.full,
+        'radius-md-full': radius.md.full,
+        'radius-lg-full': radius.lg.full,
+        'radius-xl-full': radius.xl.full,
+        'radius-2xl-full': radius['2xl'].full,
+        'radius-3xl-full': radius['3xl'].full,
+        'radius-full-full': radius.full.full,
+        // Global radius - none mode
+        'radius-2xs-none': radius['2xs'].none,
+        'radius-xs-none': radius.xs.none,
+        'radius-sm-none': radius.sm.none,
+        'radius-md-none': radius.md.none,
+        'radius-lg-none': radius.lg.none,
+        'radius-xl-none': radius.xl.none,
+        'radius-2xl-none': radius['2xl'].none,
+        'radius-3xl-none': radius['3xl'].none,
+        'radius-full-none': radius.full.none,
+        // Card radius - default mode
+        'radius-card-none': radius.card.none.default,
+        'radius-card-xs': radius.card.xs.default,
+        'radius-card-sm': radius.card.sm.default,
+        'radius-card-md': radius.card.md.default,
+        'radius-card-lg': radius.card.lg.default,
+        // Card radius - rounded mode
+        'radius-card-xs-rounded': radius.card.xs.rounded,
+        'radius-card-sm-rounded': radius.card.sm.rounded,
+        'radius-card-md-rounded': radius.card.md.rounded,
+        'radius-card-lg-rounded': radius.card.lg.rounded,
+        // Card radius - full mode
+        'radius-card-xs-full': radius.card.xs.full,
+        'radius-card-sm-full': radius.card.sm.full,
+        'radius-card-md-full': radius.card.md.full,
+        'radius-card-lg-full': radius.card.lg.full,
+        // Card radius - none mode
+        'radius-card-xs-none': radius.card.xs.none,
+        'radius-card-sm-none': radius.card.sm.none,
+        'radius-card-md-none': radius.card.md.none,
+        'radius-card-lg-none': radius.card.lg.none,
       },
-      // Typography tokens
-      fontFamily: {
-        body: [typography.font.family.body, 'sans-serif'],
-        headline: [typography.font.family.headline, 'sans-serif'],
-      },
-      fontSize: {
-        ...typography.size,
+      // Border width (stroke) tokens
+      borderWidth: {
+        'stroke-sm': stroke.sm,
+        'stroke-default': stroke.default,
+        'stroke-md': stroke.md,
+        'stroke-lg': stroke.lg,
+        'stroke-xl': stroke.xl,
+        'stroke-2xl': stroke['2xl'],
       },
       fontWeight: {
-        ...typography.font.weight,
+        // Font weights using CSS variables for consistency
+        light: 'var(--weight-light)',
+        normal: 'var(--weight-normal)',
+        medium: 'var(--weight-medium)',
+        semibold: 'var(--weight-semibold)',
+        bold: 'var(--weight-bold)',
+        extrabold: 'var(--weight-extrabold)',
+        black: 'var(--weight-black)',
       },
-      lineHeight: {
-        ...Object.fromEntries(
-          Object.entries(typography.lineHeight).map(([key, value]) => [
-            key.replace('leading', ''),
-            value,
-          ])
-        ),
-      },
-      letterSpacing: {
-        ...Object.fromEntries(
-          Object.entries(typography.letterSpacing).map(([key, value]) => [
-            key.replace('tracking', '').replace('neg', '-'),
-            value,
-          ])
-        ),
+      fontFamily: {
+        // Font families using CSS variables
+        headline: ['var(--font-headline)'],
+        body: ['var(--font-body)'],
+        quote: ['var(--font-quote)'],
+        code: ['var(--font-code)'],
       },
       // Box shadow tokens (effects)
+      // Keys here become shadow-{key} classes (e.g., 'card' → 'shadow-card')
       boxShadow: {
-        card: effects.shadows.card,
-        'modal-sm': effects.shadows.modalSm,
-        'modal-md': effects.shadows.modalMd,
-        'modal-lg': effects.shadows.modalLg,
-        'component-default': effects.components.default,
-        'component-focus': effects.components.focus,
-        'component-destructive-focus': effects.components.destructiveFocus,
-        'component-input-focus': effects.components.inputFocus,
+        // Global shadows
+        'card': effects['global-shadows'].card,
+        'modal-sm': effects['global-shadows']['modal-sm'],
+        'modal-md': effects['global-shadows']['modal-md'],
+        'modal-lg': effects['global-shadows']['modal-lg'],
+        // Component shadows
+        'component-default': effects['components-shadows'].default,
+        'component-focus': effects['components-shadows'].focus,
+        'component-destructive-focus': effects['components-shadows']['destructive-focus'],
+        'component-input-focus': effects['components-shadows']['input-focus'],
       },
     },
   },

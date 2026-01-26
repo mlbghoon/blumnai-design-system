@@ -19,96 +19,79 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(
       sections = [],
       layout = 'vertical',
       checked = false,
-      indeterminate = false,
       disabled = false,
       background = 'default',
-      border = 'default',
       checkboxPosition = 'right',
-      size = 'md',
       checkboxStyle = 'with-shadow',
-      darkMode = false,
       onChange,
       className,
     },
     ref
   ) => {
-    // Card container styles
+    // Background styles
+    const backgroundStyles = background === 'default' ? 'bg-card' : 'bg-state-soft';
+
+    // Border styles using inset box-shadow (no layout shift between states)
+    const getBorderStyles = () => {
+      if (checked) {
+        // Selected state: 2px inset accent border
+        return background === 'default' ? 'card-border-selected' : 'card-border-selected-soft';
+      }
+      if (background === 'default') {
+        // Default background: 1px inset gray border
+        return disabled ? 'card-border-default' : 'card-border-darker';
+      }
+      // Soft background unselected: no border
+      return '';
+    };
+
     const cardClassName = cn(
-      'w-full p-4 rounded-lg overflow-hidden', // padding: 16px
-      layout === 'vertical' ? 'flex flex-col gap-6' : 'flex', // gap: 24px for vertical
-      background === 'default'
-        ? darkMode
-          ? 'bg-white'
-          : 'bg-white shadow-[inset_0_-1px_0_rgba(0,0,0,0.05)]'
-        : 'bg-[rgba(39,39,42,0.06)]',
-      border === 'selected'
-        ? 'outline outline-2 outline-[#437DFC] outline-offset-[-2px]'
-        : background === 'default'
-          ? disabled
-            ? 'outline outline-1 outline-[rgba(39,39,42,0.10)] outline-offset-[-1px]'
-            : 'outline outline-1 outline-[rgba(39,39,42,0.15)] outline-offset-[-1px]'
-          : '',
+      'w-full padding-16 rounded-md overflow-hidden',
+      layout === 'vertical' ? 'flex flex-col gap-24' : 'flex',
+      backgroundStyles,
+      getBorderStyles(),
       className
     );
 
-    // Content row (checkbox + text)
     const contentRowClassName = cn(
-      'flex items-start gap-2.5', // gap: 10px
+      'flex items-start gap-10',
       layout === 'horizontal' && 'w-full'
     );
 
-    // Text container
     const textContainerClassName =
       layout === 'vertical'
-        ? 'flex-1 flex flex-col gap-6' // gap: 24px between sections
-        : 'flex-1 flex items-start'; // horizontal: row layout
+        ? 'flex-1 flex flex-col gap-24'
+        : 'flex-1 flex items-start';
 
-    // Section container
-    const sectionClassName = 'flex flex-col gap-1'; // gap: 4px between title and description
+    const sectionClassName = 'flex flex-col gap-4';
 
-    // Horizontal layout: right section (Supporter)
     const horizontalRightSectionClassName = cn(
-      'flex flex-col items-end gap-1', // gap: 4px, textAlign: right
+      'flex flex-col items-end gap-4',
       'text-right'
     );
 
-    // Title styles
     const getTitleClassName = () => {
       return cn(
-        'text-sm font-medium leading-5', // fontSize: 14, fontWeight: 500, lineHeight: 20
-        disabled
-          ? 'text-[rgba(39,39,42,0.30)]'
-          : darkMode
-            ? 'text-white'
-            : 'text-[#111115]'
+        'font-body size-sm font-medium line-height-leading-5 letter-spacing-tracking-normal',
+        disabled ? 'text-hint' : 'text-default'
       );
     };
 
-    // Description styles
     const getDescriptionClassName = () => {
       return cn(
-        'text-sm font-normal leading-5', // fontSize: 14, fontWeight: 400, lineHeight: 20
-        disabled
-          ? 'text-[rgba(39,39,42,0.30)]'
-          : darkMode
-            ? 'text-[rgba(255,255,255,0.6)]'
-            : 'text-[#4E4E55]'
+        'font-body size-sm font-normal line-height-leading-5 letter-spacing-tracking-normal',
+        disabled ? 'text-hint' : 'text-subtle'
       );
     };
 
-    // Checkbox wrapper (20x20px container for alignment)
-    const checkboxWrapperClassName = 'w-5 h-5 flex items-center justify-center shrink-0';
+    const checkboxWrapperClassName = 'width-20 height-20 flex items-center justify-center shrink-0';
 
-    // Checkbox element
     const checkboxElement = (
       <div className={checkboxWrapperClassName}>
         <Checkbox
           checked={checked}
-          indeterminate={indeterminate}
           disabled={disabled}
-          size={size}
           style={checkboxStyle}
-          darkMode={darkMode}
           onChange={(e) => {
             onChange?.(e.target.checked);
           }}
@@ -117,22 +100,18 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(
       </div>
     );
 
-    // Render content based on layout
     const renderContent = () => {
       if (layout === 'horizontal') {
-        // Horizontal layout: Title/Description on left, Supporter on right
-        const supporterSection = sections[0]; // First section is used as right side content
+        const supporterSection = sections[0];
 
         return (
           <div className={contentRowClassName}>
             {checkboxPosition === 'left' && checkboxElement}
             <div className={textContainerClassName}>
-              {/* Left section: Title/Description */}
-              <div className="flex-1 flex flex-col gap-1">
+              <div className="flex-1 flex flex-col gap-4">
                 <div className={getTitleClassName()}>{title}</div>
                 <div className={getDescriptionClassName()}>{description}</div>
               </div>
-              {/* Right section: Supporter (if provided) */}
               {supporterSection && (
                 <div className={horizontalRightSectionClassName}>
                   <div className={getTitleClassName()}>{supporterSection.title}</div>
@@ -145,7 +124,6 @@ export const CheckboxCard = forwardRef<HTMLDivElement, CheckboxCardProps>(
         );
       }
 
-      // Vertical layout: sections stacked vertically
       const mainSection = (
         <div className={sectionClassName}>
           <div className={getTitleClassName()}>{title}</div>

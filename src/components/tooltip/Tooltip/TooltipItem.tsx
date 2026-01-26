@@ -1,111 +1,97 @@
+import { forwardRef, type HTMLAttributes } from 'react';
 
 import { cn } from '../../../utils/cn';
+import { Icon } from '../../icons/Icon';
+import type { IconType } from '../../icons/Icon';
 
 import type { TooltipItemType } from './Tooltip.types';
 
 export type { TooltipItemType } from './Tooltip.types';
 
-export interface TooltipItemProps {
+export interface TooltipItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /**
-   * The type of tooltip item.
-   * - `divider`: A horizontal line separator
-   * - `label`: Label with optional caption
-   * - `item`: Item with indicator/icon, label, and caption
-   * - `text`: Plain text content
+   * 툴팁 아이템 타입
+   * - `divider`: 구분선
+   * - `label`: 라벨 및 캡션
+   * - `item`: 인디케이터/아이콘, 라벨, 캡션
+   * - `text`: 텍스트
    */
   type: TooltipItemType;
-  /**
-   * The label text (for label and item types).
-   */
+  /** 라벨 텍스트 */
   label?: string;
-  /**
-   * The caption text (for label and item types).
-   */
+  /** 캡션 텍스트 */
   caption?: string;
-  /**
-   * The indicator color (for item type).
-   * Can be a hex color or a color name.
-   */
+  /** 인디케이터 색상 (hex 또는 색상명) */
   indicatorColor?: string;
-  /**
-   * The icon name (for item type with icon).
-   */
-  icon?: string;
-  /**
-   * The text content (for text type).
-   */
+  /** 아이콘 타입 */
+  icon?: IconType;
+  /** 텍스트 내용 */
   text?: string;
-  /**
-   * If true, applies dark mode styles.
-   * @default false
-   */
-  darkMode?: boolean;
 }
 
 /**
- * TooltipItem component
- *
- * Renders different types of tooltip items for the advanced variant.
+ * 툴팁 아이템 컴포넌트
  */
-export const TooltipItem = ({
-  type,
-  label,
-  caption,
-  indicatorColor,
-  icon,
-  text,
-  darkMode = false,
-}: TooltipItemProps) => {
-  // Divider component - horizontal line with padding
+export const TooltipItem = forwardRef<HTMLDivElement, TooltipItemProps>(
+  (
+    {
+      type,
+      label,
+      caption,
+      indicatorColor,
+      icon,
+      text,
+      className,
+      ...props
+    },
+    ref
+  ) => {
   if (type === 'divider') {
     return (
       <div
+        ref={ref}
         className={cn(
           'self-stretch',
-          'py-0.5 px-1', // padding: 2px top/bottom, 4px left/right
-          'flex items-center justify-start gap-2',
-          'relative'
+          'padding-y-2 padding-x-4',
+          'flex items-center justify-start gap-8',
+          'relative',
+          className
         )}
+        {...props}
       >
-        <div
-          className={cn(
-            'absolute left-1 right-1', // horizontal padding from parent
-            'h-px',
-            darkMode ? 'bg-[rgba(255,255,255,0.1)]' : 'bg-[rgba(39,39,42,0.1)]' // stroke color from Figma
-          )}
-        />
+        <div className="flex-1 h-px bg-basic-gray-alpha-10" />
       </div>
     );
   }
 
-  // Text component (plain text) - HORIZONTAL layout like Caption variant
-  // Padding: 2px top/bottom, 4px left/right, gap: 8px
   if (type === 'text') {
-    const textColor = darkMode ? 'text-[rgba(255,255,255,0.5)]' : 'text-[#6F6F77]';
     return (
-      <div className={cn('self-stretch', 'py-0.5 px-1', 'flex items-center justify-start gap-2')}>
-        <span className={cn('flex-1', 'text-xs leading-4 font-normal', 'break-words', textColor)}>
+      <div
+        ref={ref}
+        className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-start gap-8', className)}
+        {...props}
+      >
+        <span className="flex-1 font-body size-xs line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
           {text}
         </span>
       </div>
     );
   }
 
-  // Label component (label + caption) - HORIZONTAL layout
-  // Padding: 2px top/bottom, 4px left/right, gap: 8px
   if (type === 'label') {
-    const labelColor = darkMode ? 'text-white' : 'text-[#111115]';
-    const captionColor = darkMode ? 'text-[rgba(255,255,255,0.5)]' : 'text-[#6F6F77]';
-
     return (
-      <div className={cn('self-stretch', 'py-0.5 px-1', 'flex items-center justify-start gap-2')}>
+      <div
+        ref={ref}
+        className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-between gap-8', className)}
+        {...props}
+      >
         {label && (
-          <span className={cn('flex-1', 'text-xs leading-4 font-medium', 'break-words', labelColor)}>
+          <span className="flex-1 font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-default">
             {label}
           </span>
         )}
         {caption && (
-          <span className={cn('text-xs leading-4 font-normal', 'break-words', captionColor)}>
+          <span className="font-body size-xs line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
             {caption}
           </span>
         )}
@@ -113,35 +99,33 @@ export const TooltipItem = ({
     );
   }
 
-  // Item component (indicator/icon + label + caption) - HORIZONTAL layout
-  // Indicator: 8x8 with borderRadius 2 (not 16x16 circle!)
-  // Padding: 2px top/bottom, 4px left/right, gap: 6px
   if (type === 'item') {
-    const labelColor = darkMode ? 'text-[rgba(255,255,255,0.7)]' : 'text-[#4E4E55]';
-    const captionColor = darkMode ? 'text-[rgba(255,255,255,0.5)]' : 'text-[#6F6F77]';
-
     return (
-      <div className={cn('self-stretch', 'py-0.5 px-1', 'flex items-center justify-start gap-1.5')}>
+      <div
+        ref={ref}
+        className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-start gap-6', className)}
+        {...props}
+      >
         {indicatorColor && (
-          <div className={cn('w-4 h-4', 'flex items-center justify-center', 'overflow-hidden', 'flex-shrink-0')}>
+          <div className="width-16 height-16 flex flex-col items-center justify-center flex-shrink-0">
             <div
-              className={cn('w-2 h-2', 'rounded-[2px]', 'relative')}
+              className="width-8 height-8 rounded-2xs flex-shrink-0"
               style={{ backgroundColor: indicatorColor }}
             />
           </div>
         )}
-        {icon && (
-          <div className={cn('w-4 h-4', 'flex items-center justify-center', 'overflow-hidden', 'flex-shrink-0')}>
-            <div className={cn('w-2 h-2 rounded-[2px]', indicatorColor ? `bg-[${indicatorColor}]` : 'bg-[#6F6F77]')} />
+        {icon && !indicatorColor && (
+          <div className="width-16 height-16 flex flex-col items-center justify-center flex-shrink-0">
+            <Icon iconType={icon} size={14} />
           </div>
         )}
         {label && (
-          <span className={cn('flex-1', 'text-xs leading-4 font-medium', 'break-words', labelColor)}>
+          <span className="flex-1 font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-subtle">
             {label}
           </span>
         )}
         {caption && (
-          <span className={cn('text-xs leading-4 font-normal', 'break-words', captionColor)}>
+          <span className="size-xs font-body line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
             {caption}
           </span>
         )}
@@ -150,4 +134,7 @@ export const TooltipItem = ({
   }
 
   return null;
-};
+  }
+);
+
+TooltipItem.displayName = 'TooltipItem';

@@ -1,36 +1,41 @@
 import type { ButtonHTMLAttributes } from 'react';
 
-export type ControlButtonSize = 'md' | 'lg';
+import type { IconType } from '../../icons/Icon/Icon.types';
+
+export type ControlButtonSize = 'sm' | 'md' | 'lg';
 
 export type ControlButtonShape = 'rounded' | 'circle';
 
-export interface ControlButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+export type ControlButtonStyle = 'default' | 'inverted';
+
+export interface ControlButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'style'> {
   /**
-   * The size of the control button.
+   * 컨트롤 버튼의 스타일
+   * @default 'default'
+   */
+  style?: ControlButtonStyle;
+  /**
+   * 컨트롤 버튼의 크기
    * @default 'md'
    */
   size?: ControlButtonSize;
   /**
-   * The shape of the control button.
+   * 컨트롤 버튼의 모양
    * @default 'rounded'
    */
   shape?: ControlButtonShape;
   /**
-   * Icon name for the control button (required).
+   * 아이콘 타입 (필수)
+   * @example icon={['media', 'play']}
    */
-  icon: string;
+  icon: IconType;
   /**
-   * If true, the button is disabled.
+   * 버튼 비활성화 여부
    * @default false
    */
   disabled?: boolean;
   /**
-   * If true, applies dark mode (inverted) styles.
-   * @default false
-   */
-  darkMode?: boolean;
-  /**
-   * Accessibility label for the button (required for icon-only buttons).
+   * 접근성 라벨 (아이콘 전용 버튼에 필수)
    */
   'aria-label': string;
 }

@@ -1,276 +1,126 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, isValidElement } from 'react';
 
-import { IconLoader } from '../../../icons/IconLoader';
+import { Icon } from '../../icons/Icon';
+import type { IconType } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
 
-import type { ButtonProps } from './Button.types';
+import { SIZE_CONFIG, STYLE_CONFIG, SHORTCUT_STYLE, CONTAINER_BASE, TEXT_STYLE, DISABLED_STYLE } from './Button.constants';
+import type { ButtonProps, ButtonIconType } from './Button.types';
 
 /**
- * Button component
+ * Button 컴포넌트
  *
- * A versatile button component supporting multiple variants, sizes, and types.
- * Supports regular buttons, social buttons, filter buttons, link buttons, and avatar buttons.
+ * 다양한 스타일, 변형, 크기, 모양을 지원하는 버튼 컴포넌트입니다.
+ * Primary, Secondary, Destructive, Ghost, Soft, Dashed 스타일과
+ * Default, IconOnly 변형을 지원합니다.
+ * Figma 디자인을 기반으로 구현되었습니다.
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
-  variant = 'primary',
+  style = 'primary',
+  variant = 'default',
   size = 'md',
+  shape = 'rounded',
   type = 'button',
-  icon,
-  iconPosition = 'left',
-  avatar,
+  leadIcon,
+  tailIcon,
   shortcut,
-  iconOnly = false,
   loading = false,
   disabled = false,
   fullWidth = false,
-  darkMode = false,
+  width,
   className,
   children,
   ...props
 }, ref) => {
-  // Size classes - using Figma spacing values
-  // Icon-only buttons have equal padding on all sides (square)
+  const isIconOnly = variant === 'iconOnly';
+  const isInvertedStyle = style === 'primary' || style === 'destructive';
+
   const sizeClasses = useMemo(() => {
-    if (iconOnly) {
-      switch (size) {
-        case 'xs':
-          return 'p-1';
-        case 'sm':
-          return 'p-1.5';
-        case 'md':
-          return 'p-2.5';
-        case 'lg':
-          return 'p-3.5';
-        default:
-          return 'p-2.5';
-      }
-    }
+    const config = isIconOnly ? SIZE_CONFIG.button.iconOnly : SIZE_CONFIG.button.default;
+    return config[size] ?? config.md;
+  }, [size, isIconOnly]);
 
-    switch (size) {
-      case 'xs':
-        return 'text-xs leading-4 px-1 py-0.5 gap-1';
-      case 'sm':
-        return 'text-sm leading-5 px-1.5 py-1.5 gap-1.5';
-      case 'md':
-        return 'text-sm leading-5 px-2.5 py-2.5 gap-2';
-      case 'lg':
-        return 'text-base leading-6 px-3.5 py-3.5 gap-2';
-      default:
-        return 'text-sm leading-5 px-2.5 py-2.5 gap-2';
-    }
-  }, [size, iconOnly]);
+  const styleClasses = useMemo(() => {
+    const config = STYLE_CONFIG[style];
+    if (!config) return 'bg-state-primary text-white border border-transparent';
+    if (loading) return `${config.loading} cursor-wait`;
+    if (disabled) return config.base;
+    return `${config.base} ${config.states} ${config.focus}`;
+  }, [style, loading, disabled]);
 
-  // Variant classes with proper hover/press/loading states
-  const variantClasses = useMemo(() => {
-    // Loading states
-    if (loading) {
-      switch (variant) {
-        case 'primary':
-          return 'bg-[#9ac4fe] text-white cursor-wait';
-        case 'secondary':
-          return 'bg-[#ffffff] text-[#111115] border border-[#27272a1a] cursor-wait';
-        case 'destructive':
-          return 'bg-[#f4a6a5] text-white cursor-wait';
-        case 'soft':
-          return 'bg-[#27272a0f] text-[#6f6f77] cursor-wait';
-        case 'ghost':
-          return 'bg-[#27272a0f] text-[#6f6f77] cursor-wait';
-        default:
-          return '';
-      }
-    }
-
-    switch (variant) {
-      case 'primary':
-        return darkMode
-          ? 'bg-[#437dfc] text-white hover:bg-[#65a0fd] active:bg-[#437dfc] focus:ring-2 focus:ring-[#65a0fd66] focus:ring-offset-2 focus:shadow-[0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff]'
-          : 'bg-[#437dfc] text-white hover:bg-[#65a0fd] active:bg-[#437dfc] focus:ring-2 focus:ring-[#65a0fd66] focus:ring-offset-2 focus:shadow-[0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff]';
-      case 'secondary':
-        return darkMode
-          ? 'bg-[#ffffff] text-[#111115] border border-[#27272a1a] hover:bg-[#fafafa] active:bg-[#f4f4f5] focus:ring-2 focus:ring-[#65a0fd66] focus:ring-offset-2 focus:shadow-[0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff]'
-          : 'bg-[#ffffff] text-[#111115] border border-[#27272a1a] hover:bg-[#fafafa] active:bg-[#f4f4f5] focus:ring-2 focus:ring-[#65a0fd66] focus:ring-offset-2 focus:shadow-[0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff]';
-      case 'destructive':
-        return darkMode
-          ? 'bg-[#e74341] text-white hover:bg-[#ed6664] active:bg-[#e74341] focus:ring-2 focus:ring-[#ee6e6c66] focus:ring-offset-2 focus:shadow-[0_0_0_3px_rgba(238,110,108,0.4),0_0_0_1px_#ffffff]'
-          : 'bg-[#e74341] text-white hover:bg-[#ed6664] active:bg-[#e74341] focus:ring-2 focus:ring-[#ee6e6c66] focus:ring-offset-2 focus:shadow-[0_0_0_3px_rgba(238,110,108,0.4),0_0_0_1px_#ffffff]';
-      case 'ghost':
-        return darkMode
-          ? 'bg-[#27272a00] text-[#6f6f77] hover:bg-[#27272a0f] active:bg-[#27272a14] focus:ring-2 focus:ring-[#65a0fd66] focus:ring-offset-2 focus:shadow-[0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff]'
-          : 'bg-[#27272a00] text-[#6f6f77] hover:bg-[#27272a0f] active:bg-[#27272a14] focus:ring-2 focus:ring-[#65a0fd66] focus:ring-offset-2 focus:shadow-[0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff]';
-      case 'soft':
-        return darkMode
-          ? 'bg-[#27272a0f] text-[#6f6f77] hover:bg-[#27272a14] active:bg-[#27272a1a] focus:ring-2 focus:ring-[#65a0fd66] focus:ring-offset-2 focus:shadow-[0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff]'
-          : 'bg-[#27272a0f] text-[#6f6f77] hover:bg-[#27272a14] active:bg-[#27272a1a] focus:ring-2 focus:ring-[#65a0fd66] focus:ring-offset-2 focus:shadow-[0_0_0_3px_rgba(101,160,253,0.4),0_0_0_1px_#ffffff]';
-      case 'gray':
-        return darkMode
-          ? 'bg-[#111115] text-white hover:opacity-90'
-          : 'bg-[#111115] text-white hover:opacity-90';
-      case 'linkedin':
-        return 'bg-[#0077b5] text-white hover:opacity-90';
-      case 'google':
-        return darkMode
-          ? 'bg-[#ffffff] text-[#111115] border border-[#27272a1a] hover:bg-[#f5f5f5]'
-          : 'bg-[#ffffff] text-[#111115] border border-[#27272a1a] hover:bg-[#f5f5f5]';
-      case 'facebook':
-        return 'bg-[#1877f2] text-white hover:opacity-90';
-      case 'twitter':
-        return darkMode
-          ? 'bg-[#111115] text-white hover:opacity-90'
-          : 'bg-[#111115] text-white hover:opacity-90';
-      default:
-        return 'bg-[#437dfc] text-white hover:opacity-90';
-    }
-  }, [variant, darkMode, loading]);
-
-  // Icon size based on button size
-  const iconSize = useMemo(() => {
-    switch (size) {
-      case 'xs':
-        return 12;
-      case 'sm':
-        return 14;
-      case 'md':
-        return 16;
-      case 'lg':
-        return 18;
-      default:
-        return 16;
-    }
-  }, [size]);
-
-  // Render icon or loading spinner
-  const renderIcon = () => {
-    if (loading) {
-      return (
-        <span className="inline-flex items-center">
-          <svg
-            className="animate-spin"
-            width={iconSize}
-            height={iconSize}
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeDasharray="32"
-              strokeDashoffset="32"
-              opacity="0.3"
-            />
-            <circle
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeDasharray="32"
-              strokeDashoffset="24"
-            />
-          </svg>
-        </span>
-      );
-    }
-
-    if (avatar) {
-      return (
-        <img
-          src={avatar}
-          alt=""
-          className="rounded-full object-cover"
-          style={{ width: iconSize, height: iconSize }}
-        />
-      );
-    }
-
-    if (!icon) return null;
-
-    if (typeof icon === 'string') {
-      let iconColor = '#ffffff';
-      if (disabled) {
-        iconColor = '#27272a40';
-      } else if (variant === 'primary' || variant === 'destructive' || variant === 'linkedin' || variant === 'facebook' || variant === 'twitter' || variant === 'gray') {
-        iconColor = '#ffffff';
-      } else if (variant === 'secondary' || variant === 'google') {
-        iconColor = '#6f6f77';
-      } else {
-        iconColor = '#6f6f77';
-      }
-
-      return (
-        <IconLoader
-          type={icon}
-          size={iconSize}
-          color={iconColor}
-        />
-      );
-    }
-
-    return <span className="inline-flex items-center">{icon}</span>;
-  };
+  const iconSizeConfig = isIconOnly ? SIZE_CONFIG.icon.iconOnly : SIZE_CONFIG.icon.default;
+  const iconSize = iconSizeConfig[size] ?? 16;
+  const shapeClasses = shape === 'pill' ? 'rounded-full' : 'rounded-md';
+  const shortcutClasses = SIZE_CONFIG.shortcut[size] ?? SIZE_CONFIG.shortcut.md;
+  const widthStyle = width !== undefined ? { width: typeof width === 'number' ? `${width}px` : width } : undefined;
 
   const containerClassName = cn(
-    'inline-flex items-center justify-center',
-    !iconOnly && 'font-medium tracking-[-0.6px]',
-    'rounded-full',
-    'transition-all duration-200',
-    'focus:outline-none',
-    iconOnly && 'aspect-square',
+    CONTAINER_BASE,
+    shapeClasses,
     sizeClasses,
-    variantClasses,
-    fullWidth && !iconOnly && 'w-full',
-    disabled && 'bg-[#27272a14] text-[#27272a4d] cursor-not-allowed hover:bg-[#27272a14]',
-    loading && 'cursor-wait',
+    styleClasses,
+    !isIconOnly && TEXT_STYLE,
+    isIconOnly && 'aspect-square',
+    fullWidth && !isIconOnly && 'w-full',
+    disabled && DISABLED_STYLE,
     className
   );
 
-  // Render keyboard shortcut indicator
+  const getIconColor = () => {
+    if (disabled) return 'var(--icon-default-disabled)';
+    if (isInvertedStyle) return 'var(--icon-white-default)';
+    return 'var(--icon-default-muted)';
+  };
+
+  const renderLoadingSpinner = () => (
+    <span className="inline-flex items-center">
+      <svg
+        className="animate-spin"
+        width={iconSize}
+        height={iconSize}
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="32" strokeDashoffset="32" opacity="0.3" />
+        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="32" strokeDashoffset="24" />
+      </svg>
+    </span>
+  );
+
+  const renderIcon = (icon: ButtonIconType | React.ReactNode) => {
+    if (!icon) return null;
+    if (typeof icon === 'object' && !Array.isArray(icon) && Object.keys(icon as object).length === 0) return null;
+
+    if (Array.isArray(icon) && (icon.length === 2 || icon.length === 3) && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
+      const fillValue = icon[2] as boolean | string | undefined;
+      const isFill = icon.length === 3 && (fillValue === true || fillValue === 'true');
+      return <Icon iconType={[icon[0], icon[1]] as IconType} isFill={isFill} size={iconSize} color={getIconColor()} />;
+    }
+
+    if (!isValidElement(icon)) return null;
+    return <span className="inline-flex items-center">{icon}</span>;
+  };
+
   const renderShortcut = () => {
     if (!shortcut) return null;
-
-    const shortcutColor = variant === 'primary' || variant === 'destructive' || variant === 'linkedin' || variant === 'facebook' || variant === 'twitter' || variant === 'gray'
-      ? 'bg-[#ffffff1a] border border-[#ffffff33] text-white'
-      : variant === 'secondary' || variant === 'google'
-      ? 'bg-[#27272a0f] border border-[#27272a1a] text-[#6f6f77]'
-      : 'bg-[#27272a0f] border border-[#27272a1a] text-[#6f6f77]';
-
     return (
-      <span
-        className={cn(
-          'inline-flex items-center justify-center',
-          'rounded px-1 py-0.5',
-          'text-xs leading-none',
-          'border',
-          shortcutColor
-        )}
-      >
+      <span className={cn('inline-flex items-center justify-center leading-none', shortcutClasses, isInvertedStyle ? SHORTCUT_STYLE.inverted : SHORTCUT_STYLE.light)}>
         {shortcut}
       </span>
     );
   };
 
   return (
-    <button
-      ref={ref}
-      type={type}
-      disabled={disabled}
-      className={containerClassName}
-      aria-label={iconOnly && typeof icon === 'string' ? icon : undefined}
-      {...props}
-    >
-      {iconOnly ? (
-        renderIcon()
+    <button ref={ref} type={type} disabled={disabled} className={containerClassName} style={widthStyle} {...props}>
+      {isIconOnly ? (
+        loading ? renderLoadingSpinner() : renderIcon(leadIcon)
       ) : (
         <>
-          {iconPosition === 'left' && renderIcon()}
+          {loading ? renderLoadingSpinner() : leadIcon && renderIcon(leadIcon)}
           {children}
           {shortcut && renderShortcut()}
-          {iconPosition === 'right' && renderIcon()}
+          {tailIcon && renderIcon(tailIcon)}
         </>
       )}
     </button>

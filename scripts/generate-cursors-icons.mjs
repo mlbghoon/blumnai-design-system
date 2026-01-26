@@ -2,12 +2,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const ICONS_DIR = path.join(ROOT, 'src', 'icons');
+const ICONS_SOURCE_DIR = path.join(ROOT, 'src', 'icons', 'source');
+const CURSOR_ICON_DIR = path.join(ROOT, 'src', 'components', 'icons', 'CursorIcon');
 
 const SNAPSHOT_PATH =
-  process.argv[2] ?? path.join(ICONS_DIR, 'source', 'sortui.cursors.json');
+  process.argv[2] ?? path.join(ICONS_SOURCE_DIR, 'sortui.cursors.json');
 
-const OUT_DIR = path.join(ICONS_DIR, 'cursors');
+const OUT_DIR = path.join(CURSOR_ICON_DIR, 'icons');
 
 const isDirectory = (p) => fs.existsSync(p) && fs.statSync(p).isDirectory();
 
@@ -47,6 +48,19 @@ const toJsxSafeSvgMarkup = (svg) => {
 
   out = out.replace(/style="mix-blend-mode:([^"]+)"/g, (_m, mode) => {
     return `style={{ mixBlendMode: '${String(mode).trim()}' }}`;
+  });
+
+  // Convert fill="white" to style={{ fill: 'white' }} to prevent IconWrapper override
+  // This is needed because IconWrapper sets fill: currentColor which would override the attribute
+  out = out.replace(/(<path[^>]*)\s+fill="white"([^>]*>)/g, '$1 style={{ fill: \'white\' }}$2');
+
+  // For stroke-only paths, ensure fill doesn't get inherited
+  out = out.replace(/(<path[^>]*)\s+stroke="([^"]+)"([^>]*)(\/?>)/g, (match, before, strokeVal, after, closing) => {
+    // If already has fill or style, leave it alone
+    if (before.includes('fill=') || before.includes('style=') || after.includes('fill=') || after.includes('style=')) {
+      return match;
+    }
+    return `${before} style={{ fill: 'none' }} stroke="${strokeVal}"${after}${closing}`;
   });
 
   const attrReplacements = [
@@ -99,9 +113,9 @@ const prefixSvgIds = (svg, prefix) => {
 
 const makeCategoryComponentTsx = (componentName, svgMarkup) => {
   return [
-    "import type { Props } from '../Icon.types';",
+    "import type { Props } from '../../Icon/IconWrapper.types';",
     '',
-    "import { Icon } from '../Icon';",
+    "import { Icon } from '../../Icon/IconWrapper';",
     '',
     `export const ${componentName} = (props: Props) => {`,
     '  return (',
@@ -138,5 +152,5 @@ for (const [rawKey, rawSvg] of entries) {
   );
 }
 
-console.log(`Generated ${entries.length} cursor icons into src/icons/cursors.`);
+console.log(`Generated ${entries.length} cursor icons into src/components/icons/CursorIcon/icons.`);
 

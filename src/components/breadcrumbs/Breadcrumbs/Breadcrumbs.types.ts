@@ -1,5 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
+import type { IconType } from '../../icons/Icon/Icon.types';
+
 export type BreadcrumbsSize = 'sm' | 'lg';
 
 export type BreadcrumbsSeparator = 'slash' | 'chevron' | 'dot' | 'arrow';
@@ -15,9 +17,10 @@ export interface BreadcrumbItem {
   href?: string;
   /**
    * Icon type for this breadcrumb item (optional).
-   * Can be an icon name for IconLoader or a custom ReactNode.
+   * Can be an IconType tuple or a custom ReactNode.
+   * @example icon={['system', 'home']}
    */
-  icon?: string | ReactNode;
+  icon?: IconType | ReactNode;
   /**
    * Image URL for avatar/image variant (optional).
    */

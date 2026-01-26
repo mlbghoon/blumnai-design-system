@@ -1,33 +1,50 @@
-import type { ButtonHTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-export type AvatarButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+import type { IconType } from '../../icons/Icon/Icon.types';
 
-export interface AvatarButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+/**
+ * 아이콘 타입 - isFill 옵션 지원
+ * @example ['system', 'add'] - 일반 아이콘
+ * @example ['system', 'add', true] - 채워진 아이콘
+ */
+export type AvatarButtonIconType = IconType | [...IconType, boolean];
+
+export type AvatarButtonSize = 'sm' | 'lg';
+
+export type AvatarButtonStyle = 'default' | 'dashed' | 'soft';
+
+export interface AvatarButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'style'> {
   /**
-   * The size of the avatar button.
-   * @default 'md'
+   * 아바타 버튼의 스타일
+   * @default 'default'
+   */
+  style?: AvatarButtonStyle;
+  /**
+   * 아바타 버튼의 크기
+   * @default 'lg'
    */
   size?: AvatarButtonSize;
   /**
-   * Avatar image URL.
+   * 아바타 이미지 URL
    */
   avatar: string;
   /**
-   * Alt text for the avatar image.
+   * 아바타 이미지의 대체 텍스트
    */
   alt?: string;
   /**
-   * The label text for the avatar button.
+   * 아바타 버튼의 라벨 텍스트
    */
   label: string;
   /**
-   * If true, the button is disabled.
+   * 라벨 뒤에 표시되는 아이콘
+   * @example tailIcon={['arrows', 'arrow-down-s']}
+   * @example tailIcon={['arrows', 'arrow-down-s', true]} - 채워진 아이콘
+   */
+  tailIcon?: AvatarButtonIconType | ReactNode;
+  /**
+   * 버튼 비활성화 여부
    * @default false
    */
   disabled?: boolean;
-  /**
-   * If true, applies dark mode styles.
-   * @default false
-   */
-  darkMode?: boolean;
 }

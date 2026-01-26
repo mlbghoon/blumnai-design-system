@@ -11,42 +11,54 @@ const config: StorybookConfig = {
   viteFinal: async (config) => {
     // Add Tailwind CSS Vite plugin
     const { default: tailwindcss } = await import('@tailwindcss/vite');
-    
+
     // Add Vanilla Extract plugin
     if (!config.plugins) {
       config.plugins = [];
     }
     config.plugins.push(tailwindcss());
     config.plugins.push(vanillaExtractPlugin());
-    
+
     // Suppress virtual module resolution warnings
     if (config.resolve) {
       config.resolve.dedupe = config.resolve.dedupe || [];
       config.resolve.dedupe.push("@storybook/react-vite");
-      
+
       // Optimize alias resolution - prevent index file resolution for icons
+      const path = await import('path');
+      const { fileURLToPath } = await import('url');
+
+      // Get __dirname equivalent for ESM
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = path.dirname(__filename);
+      const projectRoot = path.resolve(__dirname, '..');
+
       config.resolve.alias = {
         ...config.resolve.alias,
+        constants: path.resolve(projectRoot, 'src/constants'),
+        components: path.resolve(projectRoot, 'src/components'),
+        icons: path.resolve(projectRoot, 'src/icons'),
+        utils: path.resolve(projectRoot, 'src/utils'),
+        styles: path.resolve(projectRoot, 'src/styles'),
+        tokens: path.resolve(projectRoot, 'src/tokens'),
       };
-      
+
       // Prevent eager resolution of icon index files
       // This ensures lazy-loaded icons don't pull in entire category index files
       if (!config.resolve.conditions) {
         config.resolve.conditions = [];
       }
-      
+
       // Prevent resolving through index files for icon imports
       // This forces direct file imports instead of going through index.ts
       config.resolve.mainFields = config.resolve.mainFields || ['module', 'jsnext:main', 'jsnext'];
       config.resolve.extensions = config.resolve.extensions || ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json'];
-      
-      // Custom resolver to skip index files for icon imports
-      const originalResolveId = config.resolve.plugins;
+
+      // Add a plugin to skip index files for icon imports and optimize large file icons
       if (!config.plugins) {
         config.plugins = [];
       }
-      
-      // Add a plugin to skip index files for icon imports
+
       config.plugins.push({
         name: 'skip-icon-index-files',
         resolveId(id, importer) {
@@ -61,6 +73,15 @@ const config: StorybookConfig = {
           }
           return null;
         },
+        load(id) {
+          // Defer loading of large FileThumbnail icons until actually needed
+          // This prevents Storybook from processing 16MB files during startup
+          if (id.includes('fileIcons/FileThumbnail') && id.endsWith('.tsx')) {
+            // Return null to use default loader, but this ensures they're not eagerly loaded
+            return null;
+          }
+          return null;
+        },
       });
     }
 
@@ -68,7 +89,7 @@ const config: StorybookConfig = {
     // This allows true lazy loading where only icons actually used are loaded
     if (config.optimizeDeps) {
       config.optimizeDeps.exclude = config.optimizeDeps.exclude || [];
-      
+
       // Exclude entire icons directory from dependency optimization
       // This prevents Vite from pre-bundling all icons
       // Note: exclude uses string matching, not regex
@@ -100,8 +121,19 @@ const config: StorybookConfig = {
           'src/icons/user & faces',
           'src/icons/weather',
         );
+
+        // Explicitly exclude large FileThumbnail icons (16MB each) from optimization
+        // These are processed on-demand to avoid blocking Storybook startup
+        config.optimizeDeps.exclude.push(
+          'src/icons/fileIcons/FileThumbnail11LgIcon',
+          'src/icons/fileIcons/FileThumbnail11MdIcon',
+          'src/icons/fileIcons/FileThumbnail11SmIcon',
+          'src/icons/fileIcons/FileThumbnail43LgIcon',
+          'src/icons/fileIcons/FileThumbnail43MdIcon',
+          'src/icons/fileIcons/FileThumbnail43SmIcon',
+        );
       }
-      
+
       // Performance optimizations
       config.optimizeDeps.force = false; // Don't force re-optimization
       config.optimizeDeps.include = config.optimizeDeps.include || [];
@@ -122,9 +154,15 @@ const config: StorybookConfig = {
         output: {
           ...config.build.rollupOptions?.output,
           manualChunks: (id) => {
-            // Put large icon files in separate chunks
+            // Put large FileThumbnail icon files (16MB each) in separate chunks
+            // This prevents them from blocking other chunks and improves lazy loading
             if (id.includes('fileIcons/FileThumbnail')) {
-              return 'large-icons';
+              // Create individual chunks for each FileThumbnail to enable true lazy loading
+              const match = id.match(/src\/icons\/fileIcons\/(FileThumbnail[^/]+)\.tsx$/);
+              if (match) {
+                return `icon-thumbnail-${match[1]}`;
+              }
+              return 'icon-thumbnail';
             }
             // Create individual chunks for each icon file - enables true lazy loading
             // This prevents bundling all icons together
@@ -158,10 +196,10 @@ const config: StorybookConfig = {
 
     // Suppress virtual module warnings and improve performance
     config.logLevel = 'warn';
-    
+
     // Improve performance with better caching
     config.cacheDir = 'node_modules/.vite-storybook';
-    
+
     // Suppress virtual module warnings by configuring server
     if (!config.server) {
       config.server = {};
@@ -170,7 +208,7 @@ const config: StorybookConfig = {
       ...config.server.fs,
       strict: false, // Allow serving files outside of root
     };
-    
+
     // Performance optimizations
     config.define = {
       ...config.define,
@@ -178,7 +216,7 @@ const config: StorybookConfig = {
       __VITE_IS_MODERN__: true,
       'process.env.NODE_ENV': JSON.stringify('development'),
     };
-    
+
     // Reduce memory usage
     config.worker = {
       ...config.worker,
@@ -194,8 +232,6 @@ const config: StorybookConfig = {
         viteConfigPath: undefined,
       },
     },
-    // Set default locale for Storybook UI
-    locale: 'ko',
   },
 };
 

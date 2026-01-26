@@ -1,0 +1,58 @@
+/**
+ * Spacing tokens extracted from Figma Variables
+ * Source: Sort UI 1.3 Source
+ *
+ * Values are in pixels. Used for margin, padding, gap, etc.
+ */
+export const spacing = {
+  none: '0px',
+  1: '1px',
+  2: '2px',
+  4: '4px',
+  6: '6px',
+  8: '8px',
+  10: '10px',
+  12: '12px',
+  14: '14px',
+  16: '16px',
+  20: '20px',
+  24: '24px',
+  28: '28px',
+  32: '32px',
+  36: '36px',
+  40: '40px',
+  44: '44px',
+  48: '48px',
+  56: '56px',
+  64: '64px',
+  80: '80px',
+  96: '96px',
+  112: '112px',
+  128: '128px',
+  144: '144px',
+  160: '160px',
+  176: '176px',
+  192: '192px',
+  208: '208px',
+  224: '224px',
+  240: '240px',
+  256: '256px',
+  288: '288px',
+  320: '320px',
+  384: '384px',
+} as const;
+
+/**
+ * Stroke/border width tokens extracted from Figma Variables
+ * Source: Sort UI 1.3 Source
+ *
+ * Values are in pixels. Used for border-width, stroke-width, etc.
+ */
+export const stroke = {
+  sm: '0.5px',
+  default: '1px',
+  md: '1.5px',
+  lg: '2px',
+  xl: '3px',
+  '2xl': '4px',
+} as const;

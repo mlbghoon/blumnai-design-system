@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 
-import { IconLoader } from '../../../icons/IconLoader';
+import { Icon } from '../../icons/Icon';
+import type { IconType } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
 
-import { sizes, statusBadgePositions } from './Avatar.constants';
+import { sizes, statusBadgePositions } from '../../../constants/avatar/Avatar/Avatar.constants';
 import type { AvatarBadgeLocation, AvatarShape, AvatarSize, AvatarStatus } from './Avatar.types';
 
 interface AvatarBadgeProps {
@@ -11,9 +12,8 @@ interface AvatarBadgeProps {
   size: AvatarSize;
   shape: AvatarShape;
   badgeLocation: AvatarBadgeLocation;
-  darkMode: boolean;
   logoImage?: string;
-  icon?: string;
+  icon?: IconType;
   color?: string;
 }
 
@@ -28,7 +28,6 @@ export const AvatarBadge = ({
   size,
   shape,
   badgeLocation,
-  darkMode,
   logoImage,
   icon,
   color,
@@ -58,7 +57,8 @@ export const AvatarBadge = ({
     return badgeSize * 0.8334;
   }, [badgeSize]);
 
-  const ringColor = darkMode ? '#18181b' : '#ffffff';
+  // Use CSS variable for theme-aware ring color (bg-default: white in light, inverted in dark)
+  const ringColor = 'var(--bg-default)';
 
   // Checkmark badge doesn't use border, others do
   const containerClassName = useMemo(() => {
@@ -91,7 +91,7 @@ export const AvatarBadge = ({
         </svg>
       )}
 
-      {/* Offline badge: Single SVG with white outer and dark inner circle with opacity */}
+      {/* Offline badge: Single SVG with theme-aware ring and dot */}
       {status === 'offline' && (
         <svg
           viewBox="0 0 24 24"
@@ -100,7 +100,7 @@ export const AvatarBadge = ({
           style={{ width: `${badgeSize}px`, height: `${badgeSize}px` }}
         >
           <circle cx="12" cy="12" r="9" fill={ringColor} />
-          <circle cx="12" cy="12" r="7" fill="#27272A" fillOpacity="0.35" />
+          <circle cx="12" cy="12" r="7" fill="var(--text-hint)" />
         </svg>
       )}
 
@@ -184,8 +184,8 @@ export const AvatarBadge = ({
           {/* Icon - centered */}
           {icon && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
-              <IconLoader
-                type={icon}
+              <Icon
+                iconType={icon}
                 size={innerSize}
                 color={color}
               />

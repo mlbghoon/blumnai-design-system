@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react';
+import * as React from 'react';
 
 import '../src/index.css';
 
@@ -51,7 +52,58 @@ const preview: Preview = {
         dynamicTitle: true,
       },
     },
+    theme: {
+      description: '테마 설정',
+      defaultValue: 'theme-a-light',
+      toolbar: {
+        icon: 'circlehollow',
+        items: [
+          { value: 'theme-a-light', title: 'Theme-A Light', icon: 'circlehollow' },
+          { value: 'dark', title: 'Theme-A Dark', icon: 'circle' },
+          { value: 'theme-b-light', title: 'Theme-B Light', icon: 'circlehollow' },
+          { value: 'theme-b-dark', title: 'Theme-B Dark', icon: 'circle' },
+        ],
+        showName: true,
+        dynamicTitle: true,
+      },
+    },
   },
+  decorators: [
+    (Story, context) => {
+      const theme = context.globals.theme || 'theme-a-light';
+
+      // Map theme values to data-theme and class names
+      const themeMap: Record<string, { dataTheme: string; className?: string }> = {
+        'theme-a-light': { dataTheme: '' }, // default, no data-theme needed
+        'dark': { dataTheme: 'dark', className: 'dark' },
+        'theme-b-light': { dataTheme: 'theme-b-light', className: 'theme-b-light' },
+        'theme-b-dark': { dataTheme: 'theme-b-dark', className: 'theme-b-dark' },
+      };
+
+      const themeConfig = themeMap[theme] || themeMap['theme-a-light'];
+      const props: Record<string, any> = {
+        style: {
+          backgroundColor: 'var(--bg-default)',
+          minHeight: '100%',
+          width: '100%',
+          padding: '1rem',
+        },
+      };
+
+      if (themeConfig.dataTheme) {
+        props['data-theme'] = themeConfig.dataTheme;
+      }
+      if (themeConfig.className) {
+        props.className = themeConfig.className;
+      }
+
+      return React.createElement(
+        'div',
+        props,
+        React.createElement(Story)
+      );
+    },
+  ],
 };
 
 export default preview;

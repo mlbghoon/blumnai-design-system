@@ -1,10 +1,29 @@
-import { useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
-import { color as colorTokens } from '../../../tokens/color';
+import {
+  CONTAINER_BASE_CLASSES,
+  CONTAINER_SIZE_CLASSES,
+  IMAGE_CONTAINER_BASE_CLASSES,
+  IMAGE_CONTAINER_BG_CLASSES,
+  IMAGE_CONTAINER_BORDER_CLASS,
+  IMAGE_CONTAINER_SHAPE_CLASSES,
+  IMAGE_CLASSES,
+  IMAGE_SIZE_CLASSES,
+  IMAGE_WRAPPER_CLASSES,
+  INITIALS_LETTER_SPACING,
+  INITIALS_POSITION_CLASSES,
+  INITIALS_TEXT_BASE_CLASSES,
+  INITIALS_TYPOGRAPHY_CLASSES,
+  INITIALS_VERTICAL_OFFSET,
+  RING_BASE_CLASSES,
+  RING_BG_CLASS,
+  RING_ROUNDED_RADIUS_CLASSES,
+  RING_SHAPE_CLASSES_CIRCULAR,
+  RING_SIZE_CLASSES,
+} from '../../../constants/avatar/Avatar/Avatar.constants';
 import { cn } from '../../../utils/cn';
 
-import { sizes, initialsFontSizes } from './Avatar.constants';
 import { AvatarBadge } from './AvatarBadge';
 import type { AvatarProps } from './Avatar.types';
 
@@ -17,92 +36,99 @@ const EMPTY_VARIANT_PLACEHOLDER_ICON = avatarPlaceholderIcon;
  * Displays a user avatar with support for initials, images, or empty state.
  * Supports multiple sizes, shapes (circular/rounded), and status indicators.
  */
-export const Avatar = ({
-  variant = 'initials',
-  size = 'md',
-  shape = 'circular',
-  initials,
-  src,
-  alt,
-  color,
-  ring = true,
-  status,
-  logoImage,
-  icon,
-  badgeLocation = 'top',
-  darkMode = false,
-  className,
-  ...props
-}: AvatarProps) => {
-  // Get initials text (first letter of each word, max 2 characters)
+export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
+  (
+    {
+      variant = 'initials',
+      size = 'md',
+      shape = 'circular',
+      initials,
+      src,
+      alt,
+      color,
+      ring = false,
+      status,
+      logoImage,
+      icon,
+      badgeLocation = 'top',
+      className,
+      ...props
+    },
+    ref
+  ) => {
+  // Get initials text - 1 letter for small sizes (2xs~md), 2 letters for large sizes (lg~3xl)
   const initialsText = useMemo(() => {
     if (!initials) return '';
+    const smallSizes = ['2xs', 'xs', 'sm', 'md'];
+    const maxChars = smallSizes.includes(size) ? 1 : 2;
+
     const words = initials.trim().split(/\s+/);
-    if (words.length >= 2) {
-      return (words[0][0] + words[1][0]).toUpperCase().slice(0, 2);
+    if (words.length >= 2 && maxChars === 2) {
+      return (words[0][0] + words[1][0]).toUpperCase();
     }
-    return initials.toUpperCase().slice(0, 2);
-  }, [initials]);
+    return initials.toUpperCase().slice(0, maxChars);
+  }, [initials, size]);
 
-  // Get size values
-  const sizeValues = sizes[size];
-  const imageSize = sizeValues.image;
-  const ringSize = sizeValues.ring;
-
-  // Container styles - dynamic size via inline style
-  const containerStyle = useMemo(
-    () => ({
-      width: `${ringSize}px`,
-      height: `${ringSize}px`,
-    }),
-    [ringSize]
+  // Container classes
+  const containerClasses = useMemo(
+    () => cn(CONTAINER_BASE_CLASSES, CONTAINER_SIZE_CLASSES[size], className),
+    [size, className]
   );
 
-  // Ring styles - dynamic size via inline style
-  const ringStyle = useMemo(
-    () => ({
-      width: `${ringSize}px`,
-      height: `${ringSize}px`,
-    }),
-    [ringSize]
-  );
-
-  // Image container styles - dynamic size via inline style
-  const imageContainerStyle = useMemo(() => {
-    const style: React.CSSProperties = {
-      width: `${imageSize}px`,
-      height: `${imageSize}px`,
-    };
-
-    // Border color: 항상 반투명 rgba(39,39,42,0.1) - darkMode와 무관
-    style.borderColor = colorTokens.border.default;
-
-    // Background color for initials variant (if color prop is provided)
-    if (variant === 'initials' && color) {
-      style.backgroundColor = color;
-    }
-
-    return style;
-  }, [imageSize, variant, color]);
-
-  // Initials font size - dynamic via inline style
-  const initialsStyle = useMemo(
-    () => ({
-      fontSize: initialsFontSizes[size],
-    }),
+  // Ring wrapper classes
+  const ringWrapperClasses = useMemo(
+    () => cn(RING_BASE_CLASSES, RING_SIZE_CLASSES[size]),
     [size]
   );
 
-  // Variant background classes
-  const imageContainerBgClass = useMemo(() => {
-    if (variant === 'initials') {
-      return darkMode ? 'bg-[#6f6f77]' : color ? '' : 'bg-[#6f6f77]'; // color.text.muted
+  // Ring inner classes (with background and shape) - matching Figma structure
+  const ringInnerClasses = useMemo(() => {
+    const shapeClass =
+      shape === 'circular'
+        ? RING_SHAPE_CLASSES_CIRCULAR
+        : RING_ROUNDED_RADIUS_CLASSES[size];
+    return cn('w-full h-full', shapeClass, RING_BG_CLASS);
+  }, [shape, size]);
+
+  // Image container classes
+  const imageContainerClasses = useMemo(() => {
+    const bgClasses = IMAGE_CONTAINER_BG_CLASSES[variant];
+    let bgClass = bgClasses.default;
+
+    // For initials variant, use custom color if provided, otherwise use default
+    if (variant === 'initials' && color) {
+      bgClass = bgClasses.withColor || ''; // Will use inline style for custom color
     }
-    if (variant === 'userpic') {
-      return darkMode ? 'bg-[#18181b]' : 'bg-[#f4f4f5]'; // color.bg.inverted : color.bg.muted
+
+    return cn(
+      IMAGE_CONTAINER_BASE_CLASSES,
+      IMAGE_SIZE_CLASSES[size],
+      IMAGE_CONTAINER_SHAPE_CLASSES[shape],
+      IMAGE_CONTAINER_BORDER_CLASS,
+      bgClass
+    );
+  }, [size, shape, variant, color]);
+
+  // Image container inline style (only for custom color in initials variant)
+  const imageContainerStyle = useMemo(() => {
+    if (variant === 'initials' && color) {
+      return { backgroundColor: color };
     }
-    return 'bg-transparent';
-  }, [variant, darkMode, color]);
+    return undefined;
+  }, [variant, color]);
+
+  // Initials classes - combining base, position, typography, letter spacing, and vertical offset
+  const initialsClasses = useMemo(
+    () =>
+      cn(
+        INITIALS_TEXT_BASE_CLASSES,
+        INITIALS_POSITION_CLASSES[size],
+        INITIALS_TYPOGRAPHY_CLASSES[size],
+        INITIALS_LETTER_SPACING[size],
+        INITIALS_VERTICAL_OFFSET[size]
+      ),
+    [size]
+  );
 
   // Icon color for icon badge - matches imageContainerBgClass logic but returns color value
   const iconColor = useMemo(() => {
@@ -113,75 +139,39 @@ export const Avatar = ({
     if (variant === 'initials') {
       return '#6f6f77'; // color.text.muted
     }
-    if (variant === 'userpic') {
-      return darkMode ? '#18181b' : '#f4f4f5'; // color.bg.inverted : color.bg.muted
-    }
-    return '#6f6f77'; // Default fallback
-  }, [variant, darkMode, color]);
+    // For userpic, theme will handle the background color, so we return undefined to let theme handle it
+    return undefined;
+  }, [variant, color]);
 
   return (
-    <div
-      className={cn('relative inline-flex shrink-0 p-0.5', className)}
-      style={containerStyle}
-      {...props}
-    >
-      {/* Ring element - centered, conditional */}
+    <div ref={ref} className={containerClasses} {...props}>
+      {/* Ring element - centered, conditional - matching Figma structure */}
       {ring && (
-        <div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shrink-0"
-          style={ringStyle}
-        >
-          <div
-            className={cn(
-              'w-full h-full',
-              darkMode ? 'bg-[#18181b]' : 'bg-white', // color.bg.inverted : color.bg.default
-              shape === 'circular' ? 'rounded-full' : 'rounded-[10px]'
-            )}
-          />
+        <div className={ringWrapperClasses}>
+          <div className={ringInnerClasses}>
+            {/* Ring inner div matches Figma structure */}
+          </div>
         </div>
       )}
 
       {/* Image container - centered, with border */}
-      <div
-        className={cn(
-          'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
-          'flex items-center justify-center overflow-hidden shrink-0',
-          'border border-solid',
-          shape === 'circular' ? 'rounded-full' : 'rounded-[6px]',
-          imageContainerBgClass
-        )}
-        style={imageContainerStyle}
-      >
+      <div className={imageContainerClasses} style={imageContainerStyle}>
         {/* Initials variant: text only, NO Image wrapper */}
         {variant === 'initials' && initialsText && (
-          <span
-            className={cn(
-              'absolute top-1/2 -translate-y-1/2 left-[calc(0%-1px)] right-[-1px]',
-              'text-center leading-none flex flex-col justify-center',
-              'text-white font-medium select-none uppercase',
-              'font-["Spoqa_Han_Sans_Neo",sans-serif]'
-            )}
-            style={initialsStyle}
-          >
-            {initialsText}
-          </span>
+          <span className={initialsClasses}>{initialsText}</span>
         )}
 
         {/* Userpic variant: HAS Image wrapper */}
         {variant === 'userpic' && src && (
-          <div className="absolute aspect-square top-1/2 -translate-y-1/2 left-[-1px] right-[-1px] w-full h-full">
-            <img src={src} alt={alt || ''} className="w-full h-full object-cover" />
+          <div className={IMAGE_WRAPPER_CLASSES}>
+            <img src={src} alt={alt || ''} className={IMAGE_CLASSES} />
           </div>
         )}
 
         {/* Empty variant: HAS Image wrapper with placeholder icon */}
         {variant === 'empty' && (
-          <div className="absolute aspect-square top-1/2 -translate-y-1/2 left-[-1px] right-[-1px] w-full h-full">
-            <img
-              src={EMPTY_VARIANT_PLACEHOLDER_ICON}
-              alt=""
-              className="w-full h-full object-cover"
-            />
+          <div className={IMAGE_WRAPPER_CLASSES}>
+            <img src={EMPTY_VARIANT_PLACEHOLDER_ICON} alt="" className={IMAGE_CLASSES} />
           </div>
         )}
       </div>
@@ -193,7 +183,6 @@ export const Avatar = ({
           size={size}
           shape={shape}
           badgeLocation={badgeLocation}
-          darkMode={darkMode}
           logoImage={logoImage}
           icon={icon}
           color={iconColor}
@@ -201,4 +190,7 @@ export const Avatar = ({
       )}
     </div>
   );
-};
+  }
+);
+
+Avatar.displayName = 'Avatar';

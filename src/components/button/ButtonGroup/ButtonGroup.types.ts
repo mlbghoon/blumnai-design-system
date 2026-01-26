@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import type { IconType } from '../../icons/Icon/Icon.types';
 import type { ButtonProps } from '../Button/Button.types';
 
 /**
@@ -17,12 +18,16 @@ export interface ButtonGroupItem {
   label?: ReactNode;
   /**
    * 아이콘 (lead icon)
+   * Can be an IconType tuple or a custom ReactNode.
+   * @example icon={['system', 'settings']}
    */
-  icon?: string | ReactNode;
+  icon?: IconType | ReactNode;
   /**
    * Tail icon (우측 아이콘)
+   * Can be an IconType tuple or a custom ReactNode.
+   * @example tailIcon={['arrows', 'chevron-down']}
    */
-  tailIcon?: string | ReactNode;
+  tailIcon?: IconType | ReactNode;
   /**
    * Badge 텍스트
    */

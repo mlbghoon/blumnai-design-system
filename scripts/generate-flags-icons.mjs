@@ -2,168 +2,177 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 
+/**
+ * Generate flag-registry.tsx and FlagIcon.types.ts based on existing flag icon files.
+ *
+ * This script reads the actual generated flag icon files from the icons directory
+ * and creates a registry that maps country codes/names to components.
+ *
+ * It does NOT generate the icon files themselves - that's done by generate-icons.mjs
+ */
+
 const ROOT = process.cwd();
-const ICONS_DIR = path.join(ROOT, 'src', 'icons');
-
-const SNAPSHOT_PATH =
-  process.argv[2] ?? path.join(ICONS_DIR, 'source', 'sortui.flags.json');
-
-const OUT_DIR = path.join(ICONS_DIR, 'flags');
-const OVERRIDES_PATH = path.join(ROOT, 'scripts', 'flags.overrides.json');
+const FLAG_ICON_DIR = path.join(ROOT, 'src', 'components', 'icons', 'FlagIcon');
+const FLAGS_DIR = path.join(FLAG_ICON_DIR, 'icons');
+const REGISTRY_PATH = path.join(FLAG_ICON_DIR, 'flag-registry.tsx');
+const TYPES_PATH = path.join(FLAG_ICON_DIR, 'FlagIcon.types.ts');
 
 const require = createRequire(import.meta.url);
 const countries = require('i18n-iso-countries');
 const enLocale = require('i18n-iso-countries/langs/en.json');
 countries.registerLocale(enLocale);
 
-const isDirectory = (p) => fs.existsSync(p) && fs.statSync(p).isDirectory();
-
-const cleanOutDir = () => {
-  if (!isDirectory(OUT_DIR)) return;
-  const entries = fs.readdirSync(OUT_DIR, { withFileTypes: true });
-  for (const entry of entries) {
-    if (!entry.isFile()) continue;
-    if (!entry.name.endsWith('.tsx')) continue;
-    fs.unlinkSync(path.join(OUT_DIR, entry.name));
-  }
-};
-
-const toValidCode = (raw) => {
-  const upper = String(raw).trim().toUpperCase();
-  // keep alphanumerics only (supports rare numeric codes if any)
-  return upper.replace(/[^A-Z0-9]/g, '');
-};
-
-const normalizeName = (raw) => {
-  return String(raw)
-    .trim()
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') // strip diacritics
-    .replace(/&/g, 'and')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-};
-
-const buildNormalizedNameToAlpha2 = () => {
+/**
+ * Build a map from ISO alpha-2 codes to country names
+ */
+const buildAlpha2ToName = () => {
   const map = new Map();
   const names = countries.getNames('en'); // { US: 'United States', ... }
 
   for (const [alpha2, name] of Object.entries(names)) {
-    const normalized = normalizeName(name);
-    if (!map.has(normalized)) map.set(normalized, alpha2);
-
-    // Add a slightly “looser” form by removing some stopwords for better matching.
-    const loose = normalized
-      .split(' ')
-      .filter((w) => !['the', 'of', 'and'].includes(w))
-      .join(' ');
-    if (loose && !map.has(loose)) map.set(loose, alpha2);
+    map.set(alpha2.toLowerCase(), name.toLowerCase());
   }
 
   return map;
 };
 
-const loadOverrides = () => {
-  if (!fs.existsSync(OVERRIDES_PATH)) return {};
-  return JSON.parse(fs.readFileSync(OVERRIDES_PATH, 'utf8'));
+/**
+ * Extract the key part from a flag component name
+ * e.g., "FlagAfIcon" -> "af", "FlagAbkhaziaIcon" -> "abkhazia"
+ */
+const extractKeyFromComponentName = (componentName) => {
+  // Remove "Flag" prefix and "Icon" suffix
+  const match = componentName.match(/^Flag(.+)Icon$/);
+  if (!match) return null;
+
+  // Convert to lowercase
+  return match[1].toLowerCase();
 };
 
-const toValidIdentifierPart = (raw) => {
-  const cleaned = String(raw).replace(/[^A-Z0-9]/gi, '');
-  if (!cleaned) return 'Unknown';
-  if (/^\d/.test(cleaned)) return `_${cleaned}`;
-  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
-};
-
-const sanitizeId = (value) => String(value).replaceAll(':', '_').replaceAll('-', '_');
-
-const prefixSvgIds = (svg, prefix) => {
-  // Prefix ids + their references to avoid collisions when multiple flags render on the same page.
-  const idRegex = /\bid="([^"]+)"/g;
-  const ids = new Set();
-  for (const match of svg.matchAll(idRegex)) ids.add(match[1]);
-
-  if (ids.size === 0) return svg;
-
-  const map = new Map();
-  for (const id of ids) {
-    const safeOld = sanitizeId(id);
-    map.set(id, `${prefix}__${safeOld}`);
+/**
+ * Convert a key to a display name (for use in the registry)
+ * - If it's an ISO code, get the full country name
+ * - Otherwise, add spaces before capital letters and use as-is
+ */
+const keyToDisplayName = (key, alpha2ToName) => {
+  // Check if it's a 2-letter ISO code
+  if (key.length === 2 && alpha2ToName.has(key)) {
+    return alpha2ToName.get(key);
   }
 
-  let out = svg;
-  for (const [oldId, newId] of map.entries()) {
-    // id="old"
-    out = out.replaceAll(`id="${oldId}"`, `id="${newId}"`);
-    // url(#old)
-    out = out.replaceAll(`url(#${oldId})`, `url(#${newId})`);
-    // href="#old" / xlink:href="#old"
-    out = out.replaceAll(`href="#${oldId}"`, `href="#${newId}"`);
-    out = out.replaceAll(`xlink:href="#${oldId}"`, `xlink:href="#${newId}"`);
-    // clip-path="url(#old)" etc already handled by url(#old)
-  }
-
-  return out;
+  // For non-ISO codes (like "abkhazia", "basquecountry"),
+  // add spaces before capital letters in the original and make lowercase
+  return key
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .toLowerCase();
 };
 
-const makeCategoryComponentTsx = (componentName, svgMarkup) => {
+// Read all flag icon files
+if (!fs.existsSync(FLAGS_DIR)) {
+  console.error(`Flags directory not found: ${FLAGS_DIR}`);
+  console.error('Run npm run generate:icons first to generate flag icon files.');
+  process.exit(1);
+}
+
+const flagFiles = fs.readdirSync(FLAGS_DIR)
+  .filter(f => f.endsWith('.tsx') && f !== 'index.ts')
+  .sort();
+
+if (flagFiles.length === 0) {
+  console.error('No flag icon files found in flags directory.');
+  process.exit(1);
+}
+
+const alpha2ToName = buildAlpha2ToName();
+const registryEntries = [];
+
+for (const file of flagFiles) {
+  const componentName = file.replace('.tsx', '');
+  const key = extractKeyFromComponentName(componentName);
+
+  if (!key) {
+    console.warn(`Could not extract key from: ${componentName}`);
+    continue;
+  }
+
+  const displayName = keyToDisplayName(key, alpha2ToName);
+
+  registryEntries.push({
+    displayName,
+    componentName,
+    key,
+  });
+}
+
+// Sort by display name
+registryEntries.sort((a, b) => a.displayName.localeCompare(b.displayName));
+
+// Generate flag-registry.tsx
+const generateFlagRegistry = () => {
+  const lazyImports = registryEntries
+    .map(({ componentName }) =>
+      `const ${componentName} = lazy(() => import('./icons/${componentName}').then(m => ({ default: m.${componentName} })));`
+    )
+    .join('\n');
+
+  const registryObject = registryEntries
+    .map(({ displayName, componentName }) => `  '${displayName}': ${componentName},`)
+    .join('\n');
+
   return [
-    "import type { Props } from '../Icon.types';",
+    '// This file is auto-generated. Do not edit manually.',
+    '// Run: node scripts/generate-flags-icons.mjs',
     '',
-    "import { Icon } from '../Icon';",
+    "import React, { lazy } from 'react';",
     '',
-    `export const ${componentName} = (props: Props) => {`,
-    '  return (',
-    '    <Icon {...props}>',
-    `      ${svgMarkup}`,
-    '    </Icon>',
-    '  );',
+    "import type { Props } from '../Icon/IconWrapper.types';",
+    '',
+    lazyImports,
+    '',
+    'export const flagRegistry: Record<string, React.LazyExoticComponent<React.ComponentType<Props>>> = {',
+    registryObject,
     '};',
     '',
   ].join('\n');
 };
 
-if (!fs.existsSync(SNAPSHOT_PATH)) {
-  console.error(`Snapshot not found: ${SNAPSHOT_PATH}`);
-  process.exit(1);
-}
+// Generate FlagIcon.types.ts
+const generateFlagTypes = () => {
+  const countryCodes = registryEntries
+    .map(({ displayName }) => `  | '${displayName}'`)
+    .join('\n');
 
-const snapshot = JSON.parse(fs.readFileSync(SNAPSHOT_PATH, 'utf8'));
-const entries = Object.entries(snapshot).sort(([a], [b]) => a.localeCompare(b));
-const overrides = loadOverrides();
-const normalizedNameToAlpha2 = buildNormalizedNameToAlpha2();
+  return [
+    "import type { SVGProps } from 'react';",
+    '',
+    '/**',
+    ' * Available country/region codes for flag icons',
+    ' */',
+    'export type CountryCode =',
+    countryCodes + ';',
+    '',
+    "export interface FlagIconProps extends Omit<SVGProps<SVGSVGElement>, 'children' | 'cursor' | 'focusable'> {",
+    '  /**',
+    '   * Country or region name',
+    '   */',
+    '  country: CountryCode;',
+    '  /**',
+    '   * Icon size in pixels',
+    '   * @default 24',
+    '   */',
+    '  size?: number;',
+    '  /**',
+    '   * Additional CSS class name',
+    '   */',
+    '  className?: string;',
+    '}',
+    '',
+  ].join('\n');
+};
 
-cleanOutDir();
-fs.mkdirSync(OUT_DIR, { recursive: true });
+fs.mkdirSync(FLAG_ICON_DIR, { recursive: true });
+fs.writeFileSync(REGISTRY_PATH, generateFlagRegistry());
+fs.writeFileSync(TYPES_PATH, generateFlagTypes());
 
-for (const [rawKey, rawSvg] of entries) {
-  const [baseKey, discriminator] = String(rawKey).split('__');
-  const rawName = String(baseKey);
-  const normalized = normalizeName(rawName);
-
-  const overrideCode = overrides[normalized];
-  const alpha2 = normalizedNameToAlpha2.get(normalized) ?? normalizedNameToAlpha2.get(
-    normalized
-      .split(' ')
-      .filter((w) => !['the', 'of', 'and'].includes(w))
-      .join(' '),
-  );
-
-  const resolvedCode = overrideCode ?? alpha2 ?? rawName;
-  const code = toValidCode(resolvedCode);
-
-  const disc = discriminator ? `_${toValidIdentifierPart(discriminator)}` : '';
-
-  const componentName = `Flag${toValidIdentifierPart(code)}${disc}Icon`;
-  const prefixedSvg = prefixSvgIds(String(rawSvg).trim(), componentName);
-
-  fs.writeFileSync(
-    path.join(OUT_DIR, `${componentName}.tsx`),
-    makeCategoryComponentTsx(componentName, prefixedSvg),
-  );
-}
-
-console.log(`Generated ${entries.length} flag icons into src/icons/flags.`);
-
+console.log(`Generated flag-registry.tsx with ${registryEntries.length} flags.`);
+console.log(`Generated FlagIcon.types.ts in src/components/icons/FlagIcon/.`);

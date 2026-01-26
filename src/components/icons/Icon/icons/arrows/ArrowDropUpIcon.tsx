@@ -1,0 +1,12 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../../IconWrapper.types';
+
+import { Icon } from '../../IconWrapper';
+
+export const ArrowDropUpIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 11.8284L9.17154 14.6569L7.75732 13.2426L12 9L16.2426 13.2426L14.8284 14.6569L12 11.8284Z"/></svg>
+    </Icon>
+  );
+};

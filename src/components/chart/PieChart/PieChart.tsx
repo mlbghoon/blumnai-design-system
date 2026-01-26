@@ -1,7 +1,7 @@
-import { useMemo, useState, useCallback } from 'react';
+import { forwardRef, useMemo, useState, useCallback } from 'react';
 
 import { Chart } from '../Chart/Chart';
-import { Tooltip } from '../../tooltip/Tooltip';
+import { AdvancedTooltip } from '../../tooltip/Tooltip';
 import { cn } from '../../../utils/cn';
 
 import type { PieChartProps } from '../Chart/Chart.types';
@@ -13,22 +13,27 @@ import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
  * Displays data as a pie chart with slices representing proportions.
  * Matches Figma design with proper colors and spacing.
  */
-export const PieChart = ({
-  data,
-  dataKey,
-  nameKey,
-  colors = ['#437dfc', '#44ba82', '#f59e0b', '#ef4444', '#8b5cf6'],
-  width = 400,
-  height = 400,
-  outerRadius = 150,
-  startAngle = 0,
-  endAngle = 360,
-  paddingAngle = 0,
-  showLegend = false,
-  isHalf = false,
-  darkMode = false,
-  className,
-}: PieChartProps) => {
+export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
+  (
+    {
+      data,
+      dataKey,
+      nameKey,
+      colors = ['#437dfc', '#44ba82', '#f59e0b', '#ef4444', '#8b5cf6'],
+      width = 400,
+      height = 400,
+      outerRadius = 150,
+      startAngle = 0,
+      endAngle = 360,
+      paddingAngle = 0,
+      showLegend = false,
+      isHalf = false,
+      darkMode = false,
+      className,
+      ...props
+    },
+    ref
+  ) => {
   // For half chart, adjust dimensions and angles
   const chartWidth = width;
   // Padding for half chart (space around the chart)
@@ -160,7 +165,7 @@ export const PieChart = ({
   }, [slices]);
 
   return (
-    <Chart width={chartWidth} height={chartHeight} darkMode={darkMode} className={className}>
+    <Chart ref={ref} width={chartWidth} height={chartHeight} darkMode={darkMode} className={className} {...props}>
       <svg
         width={width}
         height={svgHeight}
@@ -193,10 +198,8 @@ export const PieChart = ({
             transform: 'translateY(-50%)',
           }}
         >
-          <Tooltip
-            variant="advanced"
+          <AdvancedTooltip
             items={getTooltipItems(tooltipState.sliceIndex)}
-            darkMode={darkMode}
           />
         </div>
       )}
@@ -208,7 +211,7 @@ export const PieChart = ({
                 className="h-3 w-3 rounded-full"
                 style={{ backgroundColor: slice.color }}
               />
-              <span className={cn('text-xs', darkMode ? 'text-[#6f6f77]' : 'text-[#6f6f77]')}>
+              <span className={cn('text-xs', 'text-subtle')}>
                 {slice.name} ({slice.percentage.toFixed(1)}%)
               </span>
             </div>
@@ -217,6 +220,7 @@ export const PieChart = ({
       )}
     </Chart>
   );
-};
+  }
+);
 
 PieChart.displayName = 'PieChart';

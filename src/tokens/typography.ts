@@ -1,7 +1,9 @@
 const font = {
   family: {
-    body: 'Spoqa Han Sans Neo',
     headline: 'Spoqa Han Sans Neo',
+    body: 'Spoqa Han Sans Neo',
+    quote: 'Fraunces',
+    code: 'JetBrains Mono',
   },
   weight: {
     light: 300,
@@ -15,6 +17,39 @@ const font = {
 } as const;
 
 const size = {
+  // Desktop sizes (default)
+  desktop: {
+    xs: '12px',
+    sm: '14px',
+    md: '16px',
+    lg: '18px',
+    xl: '20px',
+    '2xl': '24px',
+    '3xl': '30px',
+    '4xl': '36px',
+    '5xl': '48px',
+    '6xl': '60px',
+    '7xl': '72px',
+    '8xl': '96px',
+    '9xl': '128px',
+  },
+  // Mobile sizes (smaller for responsive)
+  mobile: {
+    xs: '12px',
+    sm: '14px',
+    md: '16px',
+    lg: '16px',
+    xl: '18px',
+    '2xl': '20px',
+    '3xl': '24px',
+    '4xl': '30px',
+    '5xl': '36px',
+    '6xl': '48px',
+    '7xl': '60px',
+    '8xl': '72px',
+    '9xl': '96px',
+  },
+  // Flat access (defaults to desktop for backwards compatibility)
   xs: '12px',
   sm: '14px',
   md: '16px',
@@ -31,6 +66,40 @@ const size = {
 } as const;
 
 const lineHeight = {
+  // Desktop line heights (default)
+  desktop: {
+    leading3: '12px',
+    leading4: '16px',
+    leading5: '20px',
+    leading6: '24px',
+    leading7: '28px',
+    leading8: '32px',
+    leading9: '36px',
+    leading10: '40px',
+    leading11: '48px',
+    leading12: '60px',
+    leading13: '72px',
+    leading14: '96px',
+    leading15: '128px',
+  },
+  // Mobile line heights (smaller for responsive)
+  mobile: {
+    leading3: '12px',
+    leading4: '16px',
+    leading5: '20px',
+    leading6: '24px',
+    leading7: '24px',
+    leading8: '28px',
+    leading9: '32px',
+    leading10: '36px',
+    leading11: '40px',
+    leading12: '48px',
+    leading13: '60px',
+    leading14: '72px',
+    leading15: '96px',
+  },
+  // Flat access (defaults to desktop for backwards compatibility)
+  leading3: '12px',
   leading4: '16px',
   leading5: '20px',
   leading6: '24px',
@@ -46,9 +115,14 @@ const lineHeight = {
 } as const;
 
 const letterSpacing = {
+  trackingTighter: '-1.2px',
+  trackingTight: '-0.8px',
   trackingNormal: '-0.6px',
   zero: '0px',
-  neg2: '-2px',
+  trackingWide: '0.4px',
+  trackingWider: '0.8px',
+  trackingWidest: '1.6px',
+  neg2: '-2px', // Legacy - used in headline text styles
 } as const;
 
 type FontFamilyKey = keyof typeof font.family;

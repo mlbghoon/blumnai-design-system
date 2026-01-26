@@ -1,109 +1,79 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, isValidElement } from 'react';
 
-import { IconLoader } from '../../../icons/IconLoader';
+import { Icon } from '../../icons/Icon';
+import type { IconType } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
 
-import type { LinkButtonProps } from './LinkButton.types';
+import { SIZE_CONFIG, TYPE_CONFIG, CONTAINER_BASE, DISABLED_STYLE, HOVER_STYLE } from './LinkButton.constants';
+import type { LinkButtonProps, LinkButtonIconType } from './LinkButton.types';
 
 /**
- * LinkButton component
+ * LinkButton 컴포넌트
  *
- * A specialized button for external links, typically with an external link icon.
+ * 외부 링크용 버튼으로, 일반적으로 외부 링크 아이콘과 함께 사용됩니다.
+ * Default, Muted, Informative 타입과 sm, md, lg 크기를 지원합니다.
+ * Figma 디자인을 기반으로 구현되었습니다.
  */
 export const LinkButton = forwardRef<HTMLElement, LinkButtonProps>(({
+  type = 'default',
   size = 'md',
   label,
   href,
   openInNewTab = false,
-  icon = 'external-link',
-  iconPosition = 'right',
+  leadIcon,
+  tailIcon = ['system', 'external-link'],
   disabled = false,
-  darkMode = false,
   className,
   ...props
 }, ref) => {
-  // Size classes
-  const sizeClasses = useMemo(() => {
-    switch (size) {
-      case 'xs':
-        return 'text-xs leading-4 px-1 py-0.5 gap-1';
-      case 'sm':
-        return 'text-sm leading-5 px-1.5 py-1.5 gap-1.5';
-      case 'md':
-        return 'text-sm leading-5 px-2.5 py-2.5 gap-2';
-      case 'lg':
-        return 'text-base leading-6 px-3.5 py-3.5 gap-2';
-      default:
-        return 'text-sm leading-5 px-2.5 py-2.5 gap-2';
+  const textClasses = SIZE_CONFIG.text[size] ?? SIZE_CONFIG.text.md;
+  const gapClasses = SIZE_CONFIG.gap[size] ?? SIZE_CONFIG.gap.md;
+  const letterSpacingClasses = SIZE_CONFIG.letterSpacing[size] ?? SIZE_CONFIG.letterSpacing.md;
+  const iconSize = SIZE_CONFIG.icon[size] ?? 16;
+
+  const typeConfig = TYPE_CONFIG[type] ?? TYPE_CONFIG.default;
+
+  const styleClasses = useMemo(() => {
+    if (disabled) {
+      return DISABLED_STYLE.text;
     }
-  }, [size]);
+    return `${typeConfig.text} ${typeConfig.hoverText} ${HOVER_STYLE}`;
+  }, [disabled, typeConfig]);
 
-  // Icon size based on button size
-  const iconSize = useMemo(() => {
-    switch (size) {
-      case 'xs':
-        return 12;
-      case 'sm':
-        return 14;
-      case 'md':
-        return 16;
-      case 'lg':
-        return 18;
-      default:
-        return 16;
-    }
-  }, [size]);
-
-  // Text color based on state and darkMode
-  const textColor = useMemo(() => {
-    if (disabled) return 'text-[#27272a4d]';
-    return darkMode ? 'text-[#6f6f77]' : 'text-[#111118]';
-  }, [disabled, darkMode]);
-
-  const hoverTextColor = useMemo(() => {
-    if (disabled) return '';
-    // In hover, text always changes to gray #6f6f77 (even if it was dark before)
-    return 'hover:text-[#6f6f77]';
-  }, [disabled]);
-
-  // Icon color based on state and darkMode
-  const iconColor = useMemo(() => {
-    if (disabled) return '#27272a40';
-    return '#6f6f77';
-  }, [disabled]);
+  const getIconColor = useMemo(() => {
+    if (disabled) return DISABLED_STYLE.iconColor;
+    return typeConfig.iconColor;
+  }, [disabled, typeConfig]);
 
   const containerClassName = cn(
-    'inline-flex items-center justify-center',
-    'font-medium tracking-[-0.6px]',
-    'rounded-full',
-    'bg-transparent',
-    textColor,
-    hoverTextColor,
-    !disabled && 'hover:underline hover:decoration-[#27272a27] hover:underline-offset-4',
-    'transition-all duration-200',
-    'focus:outline-none focus:ring-2 focus:ring-[#65a0fd66] focus:ring-offset-2',
-    sizeClasses,
-    disabled && 'cursor-not-allowed',
+    'group',
+    CONTAINER_BASE,
+    textClasses,
+    gapClasses,
+    letterSpacingClasses,
+    styleClasses,
     className
   );
 
+  const renderIcon = (icon: LinkButtonIconType | React.ReactNode) => {
+    if (!icon) return null;
+    if (typeof icon === 'object' && !Array.isArray(icon) && Object.keys(icon as object).length === 0) return null;
+
+    if (Array.isArray(icon) && (icon.length === 2 || icon.length === 3) && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
+      const fillValue = icon[2] as boolean | string | undefined;
+      const isFill = icon.length === 3 && (fillValue === true || fillValue === 'true');
+      return <Icon iconType={[icon[0], icon[1]] as IconType} isFill={isFill} size={iconSize} color={getIconColor} />;
+    }
+
+    if (!isValidElement(icon)) return null;
+    return <span className="inline-flex items-center">{icon}</span>;
+  };
+
   const content = (
     <>
-      {iconPosition === 'left' && (
-        <IconLoader
-          type={icon}
-          size={iconSize}
-          color={iconColor}
-        />
-      )}
-      <span className="relative">{label}</span>
-      {iconPosition === 'right' && (
-        <IconLoader
-          type={icon}
-          size={iconSize}
-          color={iconColor}
-        />
-      )}
+      {leadIcon && renderIcon(leadIcon)}
+      <span className={cn('relative', !disabled && 'link-label-hover')}>{label}</span>
+      {tailIcon && renderIcon(tailIcon)}
     </>
   );
 

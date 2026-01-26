@@ -1,0 +1,106 @@
+/**
+ * Typography Tokens
+ * Figma Collection: Font Size (39 variables)
+ * Includes: size, weight, line-height, letter-spacing
+ * Responsive: Desktop default, Mobile overrides via media query
+ */
+
+/* ============================================
+   Desktop Default
+   ============================================ */
+:root {
+  /* Font Size - Desktop */
+  --size-xs: 12px;
+  --size-sm: 14px;
+  --size-md: 16px;
+  --size-lg: 18px;
+  --size-xl: 20px;
+  --size-2xl: 24px;
+  --size-3xl: 30px;
+  --size-4xl: 36px;
+  --size-5xl: 48px;
+  --size-6xl: 60px;
+  --size-7xl: 72px;
+  --size-8xl: 96px;
+  --size-9xl: 128px;
+
+  /* Font Weight */
+  --weight-light: 300;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --weight-black: 900;
+
+  /* Line Height - Desktop */
+  --line-height-leading-3: 12px;
+  --line-height-leading-4: 16px;
+  --line-height-leading-5: 20px;
+  --line-height-leading-6: 24px;
+  --line-height-leading-7: 28px;
+  --line-height-leading-8: 32px;
+  --line-height-leading-9: 36px;
+  --line-height-leading-10: 40px;
+  --line-height-leading-11: 48px;
+  --line-height-leading-12: 60px;
+  --line-height-leading-13: 72px;
+  --line-height-leading-14: 96px;
+  --line-height-leading-15: 128px;
+
+  /* Letter Spacing */
+  --letter-spacing-tracking-tighter: -1.2px;
+  --letter-spacing-tracking-tight: -0.8px;
+  --letter-spacing-tracking-normal: -0.6px;
+  --letter-spacing-tracking-wide: 0.4px;
+  --letter-spacing-tracking-wider: 0.8px;
+  --letter-spacing-tracking-widest: 1.6px;
+}
+
+/* ============================================
+   Mobile Overrides
+   Automatically switches on screens < 768px
+   ============================================ */
+@media (max-width: 767px) {
+  :root {
+    /* Font Size - Mobile */
+    --size-lg: 16px;
+    --size-xl: 18px;
+    --size-2xl: 20px;
+    --size-3xl: 24px;
+    --size-4xl: 30px;
+    --size-5xl: 36px;
+    --size-6xl: 48px;
+    --size-7xl: 60px;
+    --size-8xl: 72px;
+    --size-9xl: 96px;
+
+    /* Line Height - Mobile */
+    --line-height-leading-7: 24px;
+    --line-height-leading-8: 28px;
+    --line-height-leading-9: 32px;
+    --line-height-leading-10: 36px;
+    --line-height-leading-11: 40px;
+    --line-height-leading-12: 48px;
+    --line-height-leading-13: 60px;
+    --line-height-leading-14: 72px;
+    --line-height-leading-15: 96px;
+
+    /* Font Weight - Mobile (same as desktop, for future updates) */
+    --weight-light: 300;
+    --weight-normal: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+    --weight-extrabold: 800;
+    --weight-black: 900;
+
+    /* Letter Spacing - Mobile (same as desktop, for future updates) */
+    --letter-spacing-tracking-tighter: -1.2px;
+    --letter-spacing-tracking-tight: -0.8px;
+    --letter-spacing-tracking-normal: -0.6px;
+    --letter-spacing-tracking-wide: 0.4px;
+    --letter-spacing-tracking-wider: 0.8px;
+    --letter-spacing-tracking-widest: 1.6px;
+  }
+}

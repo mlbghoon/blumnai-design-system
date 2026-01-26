@@ -1,9 +1,9 @@
 import { forwardRef } from 'react';
 
-import { IconLoader } from '../../../icons/IconLoader';
+import { Icon } from '../../icons/Icon';
 import { cn } from '../../../utils/cn';
 
-import type { ChipProps } from './Chip.types';
+import type { ChipProps, ChipShape, ChipStyle } from './Chip.types';
 
 /**
  * Chip 컴포넌트
@@ -16,196 +16,197 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
     {
       label,
       icon,
-      iconOnly = false,
-      size = 'md',
-      variant = 'soft',
+      variant = 'default',
+      style = 'default',
       shape = 'rounded',
-      darkMode = false,
+      size = 'md',
+      selected = false,
       className,
       ...props
     },
     ref
   ) => {
+    const iconOnly = variant === 'iconOnly';
     // Size styles
     const sizeStyles = {
       sm: {
-        padding: iconOnly ? 'min-h-6 min-w-6' : 'px-1.5 py-1',
-        textSize: 'text-xs leading-4',
+        padding: iconOnly ? 'min-height-24 min-width-24' : 'padding-x-6 padding-y-4',
+        textSize: 'font-body size-xs line-height-leading-4',
         iconSize: 16,
       },
       md: {
-        padding: iconOnly ? 'min-h-7 min-w-7' : 'px-2 py-1',
-        textSize: 'text-sm leading-5',
+        padding: iconOnly ? 'min-height-28 min-width-28' : 'padding-x-8 padding-y-4',
+        textSize: 'font-body size-sm line-height-leading-5',
         iconSize: 16,
       },
       lg: {
-        padding: iconOnly ? 'min-h-8 min-w-8' : 'px-2.5 py-1.5',
-        textSize: 'text-sm leading-5',
+        padding: iconOnly ? 'min-height-32 min-width-32' : 'padding-x-10 padding-y-6',
+        textSize: 'font-body size-sm line-height-leading-5',
         iconSize: iconOnly ? 20 : 16,
       },
     };
 
     const currentSize = sizeStyles[size];
 
-    // Variant styles
-    const variantStyles = {
-      soft: {
-        base: darkMode ? 'bg-[rgba(255,255,255,0.06)]' : 'bg-[rgba(39,39,42,0.06)]',
-        hover: darkMode ? 'bg-[rgba(255,255,255,0.08)]' : 'bg-[rgba(39,39,42,0.08)]',
-        press: darkMode ? 'bg-[rgba(255,255,255,0.10)]' : 'bg-[rgba(39,39,42,0.10)]',
-        text: darkMode ? 'text-[rgba(255,255,255,0.7)]' : 'text-[#6F6F77]',
-        textHover: darkMode ? 'text-[rgba(255,255,255,0.8)]' : 'text-[#4E4E55]',
-        icon: darkMode ? 'text-[rgba(255,255,255,0.7)]' : 'text-[#6F6F77]',
-        iconHover: darkMode ? 'text-[rgba(255,255,255,0.8)]' : 'text-[#4E4E55]',
-        border: '',
+    // Style styles (applies to both default and iconOnly variants)
+    const styleStyles: Record<
+      ChipStyle,
+      {
+        base: string;
+        hover: string;
+        press: string;
+        text: string;
+        icon: string;
+        border: string;
+      }
+    > = {
+      default: {
+        base: 'bg-state-secondary',
+        hover: 'hover:bg-state-secondary-hover',
+        press: 'active:bg-state-secondary-press',
+        text: 'text-muted group-hover-text-subtle',
+        icon: 'icon-default-muted group-hover-icon-default-subtle',
+        border: 'border-darker',
       },
-      secondary: {
-        base: darkMode ? 'bg-[#222225]' : 'bg-white',
-        hover: darkMode ? 'bg-[#2a2a2e]' : 'bg-[#FAFAFA]',
-        press: darkMode ? 'bg-[#2f2f33]' : 'bg-[#F4F4F5]',
-        text: darkMode ? 'text-[rgba(255,255,255,0.7)]' : 'text-[#6F6F77]',
-        textHover: darkMode ? 'text-[rgba(255,255,255,0.8)]' : 'text-[#4E4E55]',
-        icon: darkMode ? 'text-[rgba(255,255,255,0.7)]' : 'text-[#6F6F77]',
-        iconHover: darkMode ? 'text-[rgba(255,255,255,0.8)]' : 'text-[#4E4E55]',
-        border: darkMode
-          ? 'outline outline-1 outline-[rgba(255,255,255,0.15)] outline-offset-[-1px]'
-          : 'outline outline-1 outline-[rgba(39,39,42,0.15)] outline-offset-[-1px]',
+      soft: {
+        base: 'bg-state-soft',
+        hover: 'hover:bg-state-soft-hover',
+        press: 'active:bg-state-soft-press',
+        text: 'text-muted group-hover-text-subtle',
+        icon: 'icon-default-muted group-hover-icon-default-subtle',
+        border: '',
       },
       ghost: {
-        base: 'bg-transparent',
-        hover: darkMode ? 'bg-[rgba(255,255,255,0.06)]' : 'bg-[rgba(39,39,42,0.06)]',
-        press: darkMode ? 'bg-[rgba(255,255,255,0.08)]' : 'bg-[rgba(39,39,42,0.08)]',
-        text: darkMode ? 'text-[rgba(255,255,255,0.7)]' : 'text-[#6F6F77]',
-        textHover: darkMode ? 'text-[rgba(255,255,255,0.8)]' : 'text-[#4E4E55]',
-        icon: darkMode ? 'text-[rgba(255,255,255,0.7)]' : 'text-[#6F6F77]',
-        iconHover: darkMode ? 'text-[rgba(255,255,255,0.8)]' : 'text-[#4E4E55]',
+        base: 'bg-state-ghost',
+        hover: 'hover:bg-state-ghost-hover',
+        press: 'active:bg-state-ghost-press',
+        text: 'text-muted group-hover-text-subtle',
+        icon: 'icon-default-muted group-hover-icon-default-subtle',
         border: '',
       },
-      selected: {
-        base: darkMode ? 'bg-[rgba(101,160,253,0.15)]' : 'bg-[rgba(101,160,253,0.10)]',
-        hover: darkMode ? 'bg-[rgba(101,160,253,0.18)]' : 'bg-[rgba(101,160,253,0.12)]',
-        press: darkMode ? 'bg-[rgba(101,160,253,0.20)]' : 'bg-[rgba(101,160,253,0.14)]',
-        text: darkMode ? 'text-[#5A9FFF]' : 'text-[#2147DD]',
-        textHover: darkMode ? 'text-[#6AAFFF]' : 'text-[#2155ED]',
-        icon: '#437DFC',
-        iconHover: darkMode ? '#5A9FFF' : '#437DFC',
-        border:
-          variant === 'secondary'
-            ? darkMode
-              ? 'outline outline-1 outline-[rgba(101,160,253,0.25)] outline-offset-[-1px]'
-              : 'outline outline-1 outline-[rgba(101,160,253,0.20)] outline-offset-[-1px]'
-            : '',
+      ghostMuted: {
+        base: 'bg-state-ghost',
+        hover: 'hover:bg-state-ghost-hover',
+        press: 'active:bg-state-ghost-press',
+        text: 'text-muted group-hover-text-subtle',
+        icon: 'icon-default-muted group-hover-icon-default-subtle',
+        border: '',
       },
     };
 
-    const currentVariant = variantStyles[variant];
+    const currentStyle = styleStyles[style];
+
+    // Selected state styles (applies to any style)
+    const selectedStyles: Record<
+      ChipStyle,
+      {
+        base: string;
+        hover: string;
+        press: string;
+        text: string;
+        icon: string;
+        border: string;
+      }
+    > = {
+      default: {
+        base: 'bg-badge-blue',
+        hover: 'hover:bg-badge-blue',
+        press: 'active:bg-badge-blue',
+        text: 'text-basic-blue-strong',
+        icon: 'text-basic-blue-accent',
+        border: 'border-darker',
+      },
+      soft: {
+        base: 'bg-badge-blue',
+        hover: 'hover:bg-badge-blue',
+        press: 'active:bg-badge-blue',
+        text: 'text-basic-blue-strong',
+        icon: 'text-basic-blue-accent',
+        border: '',
+      },
+      ghost: {
+        base: 'bg-badge-blue',
+        hover: 'hover:bg-badge-blue',
+        press: 'active:bg-badge-blue',
+        text: 'text-basic-blue-strong',
+        icon: 'text-basic-blue-accent',
+        border: '',
+      },
+      ghostMuted: {
+        base: 'bg-state-soft',
+        hover: 'hover:bg-state-soft-hover',
+        press: 'active:bg-state-soft-press',
+        text: 'text-basic-blue-strong',
+        icon: 'text-basic-blue-accent',
+        border: '',
+      },
+    };
+
+    const currentSelectedStyle = selected ? selectedStyles[style] : null;
 
     // Shape styles
-    const shapeStyles = {
-      rounded: 'rounded-md',
-      circle: 'rounded-full',
+    const shapeStyles: Record<ChipShape, string> = {
+      rounded: 'rounded-sm',
+      pill: 'rounded-full',
     };
 
-    // Focus ring
-    const focusRing = 'focus:outline-none focus:ring-0 focus-visible:shadow-[0_0_0_3px_rgba(101,160,253,0.40)]';
+    // Focus styles
+    const focusStyles = 'focus-ring';
 
-    // Get hover and press background classes (full class names for Tailwind)
-    const getHoverBgClass = () => {
-      if (variant === 'soft') {
-        return darkMode ? 'hover:bg-[rgba(255,255,255,0.08)]' : 'hover:bg-[rgba(39,39,42,0.08)]';
-      }
-      if (variant === 'secondary') {
-        return darkMode ? 'hover:bg-[#2a2a2e]' : 'hover:bg-[#FAFAFA]';
-      }
-      if (variant === 'ghost') {
-        return darkMode ? 'hover:bg-[rgba(255,255,255,0.06)]' : 'hover:bg-[rgba(39,39,42,0.06)]';
-      }
-      if (variant === 'selected') {
-        return darkMode ? 'hover:bg-[rgba(101,160,253,0.18)]' : 'hover:bg-[rgba(101,160,253,0.12)]';
-      }
-      return '';
-    };
+    // Get styles based on selected state
+    const activeStyle = selected && currentSelectedStyle ? currentSelectedStyle : currentStyle;
 
-    const getPressBgClass = () => {
-      if (variant === 'soft') {
-        return darkMode ? 'active:bg-[rgba(255,255,255,0.10)]' : 'active:bg-[rgba(39,39,42,0.10)]';
-      }
-      if (variant === 'secondary') {
-        return darkMode ? 'active:bg-[#2f2f33]' : 'active:bg-[#F4F4F5]';
-      }
-      if (variant === 'ghost') {
-        return darkMode ? 'active:bg-[rgba(255,255,255,0.08)]' : 'active:bg-[rgba(39,39,42,0.08)]';
-      }
-      if (variant === 'selected') {
-        return darkMode ? 'active:bg-[rgba(101,160,253,0.20)]' : 'active:bg-[rgba(101,160,253,0.14)]';
-      }
-      return '';
-    };
-
-    // Get hover text color class
-    const getHoverTextClass = () => {
-      if (variant === 'selected') {
-        return darkMode ? 'group-hover:text-[#6AAFFF]' : 'group-hover:text-[#2155ED]';
-      }
-      return darkMode ? 'group-hover:text-[rgba(255,255,255,0.8)]' : 'group-hover:text-[#4E4E55]';
-    };
-
-    // Get hover icon color class
-    const getHoverIconClass = () => {
-      if (variant === 'selected') {
-        return ''; // Icons stay blue in selected variant
-      }
-      return darkMode ? 'group-hover:text-[rgba(255,255,255,0.8)]' : 'group-hover:text-[#4E4E55]';
-    };
+    // Fixed height based on Figma to ensure consistency across styles
+    const fixedHeightClass = iconOnly
+      ? size === 'sm'
+        ? 'height-24'
+        : size === 'md'
+          ? 'height-28'
+          : 'height-32'
+      : size === 'sm'
+        ? 'height-24'
+        : size === 'md'
+          ? 'height-28'
+          : 'height-32';
 
     const containerClassName = cn(
-      'inline-flex items-center justify-center gap-1',
+      'inline-flex items-center justify-center gap-4',
+      'box-border',
       'cursor-pointer select-none group',
       'transition-colors duration-150',
       currentSize.padding,
-      !iconOnly && 'min-w-8',
-      currentVariant.base,
-      currentVariant.border,
+      fixedHeightClass,
+      !iconOnly && 'min-width-32',
+      activeStyle.base,
+      activeStyle.border,
       shapeStyles[shape],
-      getHoverBgClass(),
-      getPressBgClass(),
-      focusRing,
+      activeStyle.hover,
+      activeStyle.press,
+      focusStyles,
       className
     );
 
+
     return (
       <div ref={ref} className={containerClassName} role="button" tabIndex={0} {...props}>
-        {/* Icon */}
         {icon && (
-          <span className={cn('inline-flex items-center justify-center shrink-0', iconOnly && 'w-full h-full')}>
-            <IconLoader
-              type={icon}
-              size={currentSize.iconSize}
-              color={
-                variant === 'selected'
-                  ? currentVariant.icon
-                  : darkMode
-                    ? 'currentColor'
-                    : undefined
-              }
-              className={cn(
-                'transition-colors duration-150',
-                variant === 'selected' ? '' : currentVariant.icon,
-                getHoverIconClass()
-              )}
-            />
+          <span
+            className={cn(
+              'inline-flex items-center justify-center shrink-0',
+              'transition-colors duration-150',
+              activeStyle.icon
+            )}
+          >
+            <Icon iconType={icon} size={currentSize.iconSize} />
           </span>
         )}
 
-        {/* Label */}
         {!iconOnly && label && (
           <span
-            className={cn(
+            className={`${cn(
               'shrink-0 transition-colors duration-150',
-              currentSize.textSize,
-              currentVariant.text,
-              getHoverTextClass()
-            )}
+              currentSize.textSize
+            )} ${activeStyle.text}`}
           >
             {label}
           </span>

@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Chip } from './Chip';
@@ -7,26 +9,93 @@ const meta: Meta<typeof Chip> = {
   component: Chip,
   parameters: {
     layout: 'padded',
+    controls: { disable: true },
   },
   tags: ['autodocs'],
   argTypes: {
-    size: {
-      control: 'select',
-      options: ['sm', 'md', 'lg'],
-    },
     variant: {
       control: 'select',
-      options: ['soft', 'secondary', 'ghost', 'selected'],
+      options: ['default', 'iconOnly'],
+      description: '칩 변형',
+      table: {
+        type: {
+          summary: 'ChipVariant',
+          detail: `'default' | 'iconOnly'
+
+- default: 아이콘과 텍스트 표시
+- iconOnly: 아이콘만 표시`,
+        },
+      },
+    },
+    style: {
+      control: 'select',
+      options: ['default', 'soft', 'ghost', 'ghostMuted'],
+      description: '칩 스타일',
+      table: {
+        type: {
+          summary: 'ChipStyle',
+          detail: `'default' | 'soft' | 'ghost' | 'ghostMuted'
+
+- default: 테두리가 있는 흰색 배경
+- soft: 연한 회색 배경
+- ghost: 투명 배경
+- ghostMuted: 흐린 텍스트의 투명 배경`,
+        },
+      },
     },
     shape: {
       control: 'select',
-      options: ['rounded', 'circle'],
+      options: ['rounded', 'pill'],
+      description: '칩 모양',
+      table: {
+        type: {
+          summary: 'ChipShape',
+          detail: `'rounded' | 'pill'
+
+- rounded: 둥근 모서리
+- pill: 완전히 둥근 형태 (알약 모양)`,
+        },
+      },
     },
-    iconOnly: {
-      control: 'boolean',
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: '칩 크기',
+      table: {
+        type: {
+          summary: 'ChipSize',
+          detail: `'sm' | 'md' | 'lg'`,
+        },
+      },
     },
-    darkMode: {
+    icon: {
+      control: 'object',
+      description: '아이콘 타입 튜플',
+      table: {
+        type: {
+          summary: 'IconType',
+          detail: `[category, name] 튜플 형식
+예시: ['system', 'add']`,
+        },
+      },
+    },
+    selected: {
       control: 'boolean',
+      description: '선택된 상태',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
+    label: {
+      control: 'text',
+      description: '표시할 텍스트 라벨',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
     },
   },
 };
@@ -34,98 +103,114 @@ const meta: Meta<typeof Chip> = {
 export default meta;
 type Story = StoryObj<typeof Chip>;
 
+/**
+ * 기본 Chip
+ *
+ * Chip 컴포넌트는 `ref`와 `className` prop을 지원합니다.
+ * - `ref`: DOM 요소에 직접 접근 가능
+ * - `className`: 커스텀 스타일 클래스 추가 가능
+ */
 export const Default: Story = {
   args: {
     label: 'Chip',
-    size: 'md',
-    variant: 'soft',
+    icon: ['system', 'add'],
+    variant: 'default',
+    style: 'default',
     shape: 'rounded',
+    size: 'md',
+    className: '',
+  },
+  parameters: {
+    controls: { disable: false },
+  },
+  render: (args) => {
+    const chipRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (chipRef.current) {
+        console.log('Chip ref:', chipRef.current);
+      }
+    }, []);
+
+    return <Chip ref={chipRef} {...args} />;
   },
 };
 
-export const WithIcon: Story = {
-  args: {
-    label: 'Chip',
-    icon: 'at-fill',
-    size: 'md',
-    variant: 'soft',
-    shape: 'rounded',
-  },
-};
-
+/**
+ * 아이콘만 표시
+ */
 export const IconOnly: Story = {
-  args: {
-    icon: 'at-fill',
-    iconOnly: true,
-    size: 'md',
-    variant: 'soft',
-    shape: 'rounded',
-  },
+  render: () => (
+    <Chip icon={['system', 'add']} variant="iconOnly" style="default" shape="rounded" size="md" />
+  ),
 };
 
+/**
+ * 크기 변형
+ */
 export const Sizes: Story = {
   render: () => (
     <div className="flex items-center gap-4">
-      <Chip label="Chip" icon="at-fill" size="sm" variant="soft" />
-      <Chip label="Chip" icon="at-fill" size="md" variant="soft" />
-      <Chip label="Chip" icon="at-fill" size="lg" variant="soft" />
+      <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" size="sm" />
+      <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" size="md" />
+      <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" size="lg" />
     </div>
   ),
 };
 
-export const Variants: Story = {
+/**
+ * 스타일 변형
+ */
+export const Styles: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-4">
-        <Chip label="Chip" icon="at-fill" variant="soft" />
-        <Chip label="Chip" icon="at-fill" variant="secondary" />
-        <Chip label="Chip" icon="at-fill" variant="ghost" />
-        <Chip label="Chip" icon="at-fill" variant="selected" />
+        <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" />
+        <Chip label="Chip" icon={['business', 'at']} variant="default" style="soft" />
+        <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghost" />
+        <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghostMuted" />
       </div>
       <div className="flex items-center gap-4">
-        <Chip label="Chip" icon="at-fill" variant="soft" shape="circle" />
-        <Chip label="Chip" icon="at-fill" variant="secondary" shape="circle" />
-        <Chip label="Chip" icon="at-fill" variant="ghost" shape="circle" />
-        <Chip label="Chip" icon="at-fill" variant="selected" shape="circle" />
+        <Chip icon={['business', 'at']} variant="iconOnly" style="default" />
+        <Chip icon={['business', 'at']} variant="iconOnly" style="soft" />
+        <Chip icon={['business', 'at']} variant="iconOnly" style="ghost" />
+        <Chip icon={['business', 'at']} variant="iconOnly" style="ghostMuted" />
       </div>
     </div>
   ),
 };
 
+/**
+ * 모양 변형
+ */
 export const Shapes: Story = {
   render: () => (
     <div className="flex items-center gap-4">
-      <Chip label="Chip" icon="at-fill" shape="rounded" />
-      <Chip label="Chip" icon="at-fill" shape="circle" />
+      <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" shape="rounded" />
+      <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" shape="pill" />
     </div>
   ),
 };
 
-export const IconOnlySizes: Story = {
+/**
+ * 선택된 상태
+ */
+export const Selected: Story = {
   render: () => (
-    <div className="flex items-center gap-4">
-      <Chip icon="at-fill" iconOnly size="sm" variant="soft" />
-      <Chip icon="at-fill" iconOnly size="md" variant="soft" />
-      <Chip icon="at-fill" iconOnly size="lg" variant="soft" />
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-4">
+        <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" selected />
+        <Chip label="Chip" icon={['business', 'at']} variant="default" style="soft" selected />
+        <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghost" selected />
+        <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghostMuted" selected />
+      </div>
+      <div className="flex items-center gap-4">
+        <Chip icon={['business', 'at']} variant="iconOnly" style="default" selected />
+        <Chip icon={['business', 'at']} variant="iconOnly" style="soft" selected />
+        <Chip icon={['business', 'at']} variant="iconOnly" style="ghost" selected />
+        <Chip icon={['business', 'at']} variant="iconOnly" style="ghostMuted" selected />
+      </div>
     </div>
   ),
 };
 
-export const DarkMode: Story = {
-  render: () => (
-    <div className="flex flex-col gap-4 p-4 bg-[#111115]">
-      <div className="flex items-center gap-4">
-        <Chip label="Chip" icon="at-fill" variant="soft" darkMode />
-        <Chip label="Chip" icon="at-fill" variant="secondary" darkMode />
-        <Chip label="Chip" icon="at-fill" variant="ghost" darkMode />
-        <Chip label="Chip" icon="at-fill" variant="selected" darkMode />
-      </div>
-      <div className="flex items-center gap-4">
-        <Chip icon="at-fill" iconOnly variant="soft" darkMode />
-        <Chip icon="at-fill" iconOnly variant="secondary" darkMode />
-        <Chip icon="at-fill" iconOnly variant="ghost" darkMode />
-        <Chip icon="at-fill" iconOnly variant="selected" darkMode />
-      </div>
-    </div>
-  ),
-};

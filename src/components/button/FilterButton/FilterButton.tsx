@@ -1,76 +1,71 @@
 import { forwardRef, useMemo } from 'react';
 
-import { IconLoader } from '../../../icons/IconLoader';
+import { Icon } from '../../icons/Icon';
 import { cn } from '../../../utils/cn';
 
+import {
+  SIZE_CONFIG,
+  SHAPE_CONFIG,
+  CONTAINER_BASE,
+  STATE_CONFIG,
+  DISABLED_STYLE,
+} from './FilterButton.constants';
 import type { FilterButtonProps } from './FilterButton.types';
 
 /**
- * FilterButton component
+ * FilterButton 컴포넌트
  *
- * A specialized button for filtering actions, typically with a dashed border and filter icon.
+ * 필터링 작업을 위한 특수 버튼입니다.
+ * xs, md, lg 크기와 rounded, pill 형태를 지원합니다.
+ * Figma 디자인을 기반으로 구현되었습니다.
  */
 export const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(({
   size = 'md',
   shape = 'rounded',
   selected = false,
   disabled = false,
-  darkMode = false,
   label,
-  icon = 'filter',
+  icon = ['system', 'filter'],
   className,
   ...props
 }, ref) => {
-  // Size classes - based on Figma padding values (left/right, top/bottom)
-  const sizeClasses = useMemo(() => {
-    switch (size) {
-      case 'xs':
-        return 'text-xs leading-4 px-1.5 py-1 gap-1'; // 6px horizontal, 4px vertical
-      case 'md':
-        return 'text-sm leading-5 px-2 py-1 gap-2'; // 8px horizontal, 4px vertical
-      case 'lg':
-        return 'text-base leading-6 px-2.5 py-1.5 gap-2'; // 10px horizontal, 6px vertical
-      default:
-        return 'text-sm leading-5 px-2 py-1 gap-2';
-    }
-  }, [size]);
+  const textClasses = SIZE_CONFIG.text[size] ?? SIZE_CONFIG.text.md;
+  const gapClasses = SIZE_CONFIG.gap[size] ?? SIZE_CONFIG.gap.md;
+  const paddingClasses = SIZE_CONFIG.padding[size] ?? SIZE_CONFIG.padding.md;
+  const letterSpacingClasses = SIZE_CONFIG.letterSpacing[size] ?? SIZE_CONFIG.letterSpacing.md;
+  const iconSize = SIZE_CONFIG.icon[size] ?? 16;
+  const shapeClasses = SHAPE_CONFIG[shape] ?? SHAPE_CONFIG.rounded;
 
-  // Icon size based on button size
-  const iconSize = useMemo(() => {
-    switch (size) {
-      case 'xs':
-        return 12;
-      case 'md':
-        return 16;
-      case 'lg':
-        return 18;
-      default:
-        return 16;
+  const stateClasses = useMemo(() => {
+    if (disabled) {
+      return selected ? DISABLED_STYLE.selected : DISABLED_STYLE.unselected;
     }
-  }, [size]);
 
-  // Shape classes
-  const shapeClasses = useMemo(() => {
-    return shape === 'pill' ? 'rounded-full' : 'rounded-md';
-  }, [shape]);
+    const baseState = selected ? STATE_CONFIG.selected : STATE_CONFIG.unselected;
+    return cn(
+      baseState.bg,
+      baseState.border,
+      baseState.text,
+      STATE_CONFIG.hover.bg,
+      STATE_CONFIG.active.bg,
+      STATE_CONFIG.focus.ring
+    );
+  }, [disabled, selected]);
+
+  const iconColor = useMemo(() => {
+    if (disabled) return DISABLED_STYLE.iconColor;
+    const baseState = selected ? STATE_CONFIG.selected : STATE_CONFIG.unselected;
+    return baseState.iconColor;
+  }, [disabled, selected]);
 
   const containerClassName = cn(
-    'inline-flex items-center justify-center',
-    'font-medium tracking-[-0.6px]',
+    CONTAINER_BASE,
     shapeClasses,
-    darkMode ? 'bg-[#222225]' : 'bg-white',
-    darkMode
-      ? 'border border-dashed border-[rgba(255,255,255,0.15)]'
-      : 'border border-dashed border-[#27272a26]',
-    darkMode ? 'text-[rgba(255,255,255,0.8)]' : 'text-[#6f6f77]',
-    darkMode ? 'hover:bg-[rgba(255,255,255,0.06)]' : 'hover:bg-[#fafafa]',
-    'transition-all duration-200',
-    'focus:outline-none focus:ring-2 focus:ring-[#65a0fd66] focus:ring-offset-2',
-    selected && 'shadow-[0_1px_2px_rgba(0,0,0,0.05)]',
-    sizeClasses,
-    disabled && darkMode
-      ? 'bg-[rgba(255,255,255,0.06)] text-[rgba(255,255,255,0.3)] border-[rgba(255,255,255,0.1)] cursor-not-allowed hover:bg-[rgba(255,255,255,0.06)]'
-      : disabled && 'bg-[#27272a14] text-[#27272a4d] border-[#27272a26] cursor-not-allowed hover:bg-[#27272a14]',
+    textClasses,
+    gapClasses,
+    paddingClasses,
+    letterSpacingClasses,
+    stateClasses,
     className
   );
 
@@ -82,18 +77,10 @@ export const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(({
       className={containerClassName}
       {...props}
     >
-      <IconLoader
-        type={icon}
+      <Icon
+        iconType={icon}
         size={iconSize}
-        color={
-          disabled
-            ? darkMode
-              ? 'rgba(255,255,255,0.25)'
-              : '#27272a40'
-            : darkMode
-              ? 'rgba(255,255,255,0.7)'
-              : '#6f6f77'
-        }
+        color={iconColor}
       />
       <span>{label}</span>
     </button>

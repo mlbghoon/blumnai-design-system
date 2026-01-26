@@ -1,0 +1,12 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../../IconWrapper.types';
+
+import { Icon } from '../../IconWrapper';
+
+export const Filter3Icon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M10 18H14V16H10V18ZM3 6V8H21V6H3ZM6 13H18V11H6V13Z"/></svg>
+    </Icon>
+  );
+};

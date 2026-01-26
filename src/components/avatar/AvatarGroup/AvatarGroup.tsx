@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 
 import { Avatar } from '../Avatar/Avatar';
 
@@ -11,15 +11,18 @@ import type { AvatarGroupProps } from './AvatarGroup.types';
  * Displays multiple avatars in a stacked/overlapping layout.
  * Supports different stacking orders and optional +N overlay for remaining avatars.
  */
-export const AvatarGroup = ({
-  size = 'md',
-  stacking = 'last-on-top',
-  avatars,
-  max,
-  darkMode = false,
-  className,
-  ...props
-}: AvatarGroupProps) => {
+export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
+  (
+    {
+      size = 'md',
+      stacking = 'last-on-top',
+      avatars,
+      max,
+      className,
+      ...props
+    },
+    ref
+  ) => {
   // Calculate overlap based on size
   const overlap = useMemo(() => {
     return styles.overlaps[size];
@@ -61,18 +64,15 @@ export const AvatarGroup = ({
 
   // Build overlay class names
   const overlayClassName = useMemo(() => {
-    const classes = [styles.overlay];
+    const classes = [styles.overlay, 'text-muted'];
     const sizeKey = `overlay${size}` as keyof typeof styles;
     const sizeClass = styles[sizeKey];
     if (sizeClass) classes.push(sizeClass as string);
-    if (darkMode) {
-      classes.push(styles.overlayDark);
-    }
     return classes.filter(Boolean).join(' ');
-  }, [size, darkMode]);
+  }, [size]);
 
   return (
-    <div className={containerClassName} {...props}>
+    <div ref={ref} className={containerClassName} {...props}>
       {visibleAvatars.map((avatarProps, index) => {
         const zIndex = getZIndex(index, visibleAvatars.length);
 
@@ -88,7 +88,7 @@ export const AvatarGroup = ({
             <Avatar
               {...avatarProps}
               size={size}
-              darkMode={darkMode}
+              ring={true}
             />
           </div>
         );
@@ -107,4 +107,7 @@ export const AvatarGroup = ({
       )}
     </div>
   );
-};
+  }
+);
+
+AvatarGroup.displayName = 'AvatarGroup';

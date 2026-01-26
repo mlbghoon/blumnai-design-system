@@ -1,0 +1,15 @@
+/**
+ * Font Family Tokens
+ * Figma Collection: Font Family (4 variables)
+ * Note: @font-face declarations are in index.css for proper path resolution
+ */
+
+/* ============================================
+   Font Family Variables
+   ============================================ */
+:root {
+  --font-headline: 'Spoqa Han Sans Neo', sans-serif;
+  --font-body: 'Spoqa Han Sans Neo', sans-serif;
+  --font-quote: 'Fraunces', serif;
+  --font-code: 'JetBrains Mono', monospace;
+}

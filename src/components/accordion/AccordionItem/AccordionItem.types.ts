@@ -21,8 +21,6 @@ export interface AccordionItemProps extends Omit<HTMLAttributes<HTMLDivElement>,
   children: ReactNode;
   /** 아코디언 아이템이 비활성화되어 있는지 여부 */
   disabled?: boolean;
-  /** 다크 모드가 활성화되어 있는지 여부 */
-  darkMode?: boolean;
   /** 추가 CSS 클래스 이름 */
   className?: string;
   /** 헤더 버튼에 전달할 추가 props */

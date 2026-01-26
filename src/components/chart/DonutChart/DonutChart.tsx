@@ -1,7 +1,7 @@
-import { useMemo, useState, useCallback } from 'react';
+import { forwardRef, useMemo, useState, useCallback } from 'react';
 
 import { Chart } from '../Chart/Chart';
-import { Tooltip } from '../../tooltip/Tooltip';
+import { AdvancedTooltip } from '../../tooltip/Tooltip';
 import { cn } from '../../../utils/cn';
 
 import type { PieChartProps } from '../Chart/Chart.types';
@@ -13,25 +13,30 @@ import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
  * Displays data as a donut chart (pie chart with center hole).
  * Matches Figma design with proper colors and spacing.
  */
-export const DonutChart = ({
-  data,
-  dataKey,
-  nameKey,
-  colors = ['#437dfc', '#44ba82', '#f59e0b', '#ef4444', '#8b5cf6'],
-  width = 400,
-  height = 400,
-  innerRadius = 80,
-  outerRadius = 150,
-  startAngle = 0,
-  endAngle = 360,
-  paddingAngle = 0,
-  showLegend = false,
-  centerLabel,
-  centerValue,
-  isHalf = false,
-  darkMode = false,
-  className,
-}: PieChartProps) => {
+export const DonutChart = forwardRef<HTMLDivElement, PieChartProps>(
+  (
+    {
+      data,
+      dataKey,
+      nameKey,
+      colors = ['#437dfc', '#44ba82', '#f59e0b', '#ef4444', '#8b5cf6'],
+      width = 400,
+      height = 400,
+      innerRadius = 80,
+      outerRadius = 150,
+      startAngle = 0,
+      endAngle = 360,
+      paddingAngle = 0,
+      showLegend = false,
+      centerLabel,
+      centerValue,
+      isHalf = false,
+      darkMode = false,
+      className,
+      ...props
+    },
+    ref
+  ) => {
   // For half chart, adjust dimensions and angles
   const chartWidth = width;
   // Padding for half chart (space around the chart)
@@ -161,7 +166,7 @@ export const DonutChart = ({
   }, [slices]);
 
   return (
-    <Chart width={chartWidth} height={chartHeight} darkMode={darkMode} className={className}>
+    <Chart ref={ref} width={chartWidth} height={chartHeight} darkMode={darkMode} className={className} {...props}>
       <svg
         width={width}
         height={svgHeight}
@@ -200,7 +205,7 @@ export const DonutChart = ({
             <div
               className={cn(
                 'text-xs leading-4 font-medium text-center',
-                darkMode ? 'text-[#6f6f77]' : 'text-[#6F6F77]'
+                'text-subtle'
               )}
             >
               {centerLabel}
@@ -210,7 +215,7 @@ export const DonutChart = ({
             <div
               className={cn(
                 'text-2xl leading-8 font-medium text-center',
-                darkMode ? 'text-white' : 'text-[#111115]'
+                'text-default'
               )}
             >
               {centerValue}
@@ -229,10 +234,8 @@ export const DonutChart = ({
             transform: 'translateY(-50%)',
           }}
         >
-          <Tooltip
-            variant="advanced"
+          <AdvancedTooltip
             items={getTooltipItems(tooltipState.sliceIndex)}
-            darkMode={darkMode}
           />
         </div>
       )}
@@ -244,7 +247,7 @@ export const DonutChart = ({
                 className="h-3 w-3 rounded-full"
                 style={{ backgroundColor: slice.color }}
               />
-              <span className={cn('text-xs', darkMode ? 'text-[#6f6f77]' : 'text-[#6f6f77]')}>
+              <span className={cn('text-xs', 'text-subtle')}>
                 {slice.name} ({slice.percentage.toFixed(1)}%)
               </span>
             </div>
@@ -253,6 +256,7 @@ export const DonutChart = ({
       )}
     </Chart>
   );
-};
+  }
+);
 
 DonutChart.displayName = 'DonutChart';

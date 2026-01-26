@@ -1,0 +1,49 @@
+import type { Props } from '../../Icon/IconWrapper.types';
+
+import { Icon } from '../../Icon/IconWrapper';
+
+export const CursorNotAllowedIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#CursorNotAllowedIcon__filter0_dd_4100_25036)">
+<path fillRule="evenodd" clipRule="evenodd" d="M13.9282 7.92773L9.96688 9.06648L7.00002 11.9277L6.46412 2.99953L13.9282 7.92773Z" fill="#18181B"/>
+<path d="M5.90504 2.03117L15.1094 8.10841L14.066 8.40861L10.2249 9.51333L7.34757 12.2875L6.56588 13.041L5.90504 2.03117Z" style={{ fill: 'none' }} stroke="white"/>
+</g>
+<g filter="url(#CursorNotAllowedIcon__filter1_dd_4100_25036)">
+<path fillRule="evenodd" clipRule="evenodd" d="M10.2212 21.0991C7.87808 18.7559 7.87808 14.9569 10.2212 12.6138C12.5644 10.2707 16.3634 10.2707 18.7065 12.6138C21.0497 14.957 21.0497 18.7559 18.7065 21.0991C16.3634 23.4422 12.5644 23.4422 10.2212 21.0991ZM16.4961 20.3029L11.0174 14.8242C10.1115 16.3581 10.3175 18.3669 11.6354 19.6849C12.9534 21.0028 14.9622 21.2088 16.4961 20.3029ZM17.9103 18.8887L12.4317 13.41C13.9656 12.5041 15.9744 12.7101 17.2923 14.028C18.6102 15.346 18.8162 17.3548 17.9103 18.8887Z" style={{ fill: 'white' }}/>
+</g>
+<defs>
+<filter id="CursorNotAllowedIcon__filter0_dd_4100_25036" x="3.84619" y="0.563477" width="13.9443" height="16.0908" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="0.75"/>
+<feGaussianBlur stdDeviation="0.5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4100_25036"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="0.75"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="effect1_dropShadow_4100_25036" result="effect2_dropShadow_4100_25036"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_4100_25036" result="shape"/>
+</filter>
+<filter id="CursorNotAllowedIcon__filter1_dd_4100_25036" x="6.96387" y="10.3564" width="15" height="15" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="0.75"/>
+<feGaussianBlur stdDeviation="0.5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4100_25036"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="0.75"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="effect1_dropShadow_4100_25036" result="effect2_dropShadow_4100_25036"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_4100_25036" result="shape"/>
+</filter>
+</defs>
+</svg>
+    </Icon>
+  );
+};

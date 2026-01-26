@@ -2,8 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const ICONS_DIR = path.join(ROOT, 'src', 'icons');
-const ICONS_SOURCE_DIR = path.join(ICONS_DIR, 'source');
+const ICONS_OUTPUT_DIR = path.join(ROOT, 'src', 'components', 'icons', 'Icon', 'icons');
+const ICONS_SOURCE_DIR = path.join(ROOT, 'src', 'icons', 'source');
 
 const category = process.argv[2];
 if (!category) {
@@ -12,7 +12,7 @@ if (!category) {
 }
 
 const categorySlug = category.toLowerCase();
-const ICONS_CATEGORY_DIR = path.join(ICONS_DIR, categorySlug);
+const ICONS_CATEGORY_DIR = path.join(ICONS_OUTPUT_DIR, categorySlug);
 
 const REMIX_CATEGORY_DIR = path.join(ROOT, 'node_modules', 'remixicon', 'icons', category);
 if (!fs.existsSync(REMIX_CATEGORY_DIR)) {
@@ -64,28 +64,11 @@ const writeFile = (outPath, contents) => {
   fs.writeFileSync(outPath, contents);
 };
 
-const makeComponentTsx = (componentName, svgMarkup) => {
-  return [
-    "import type { Props } from './Icon.types';",
-    '',
-    "import { Icon } from './Icon';",
-    '',
-    `export const ${componentName} = (props: Props) => {`,
-    '  return (',
-    '    <Icon {...props}>',
-    `      ${svgMarkup}`,
-    '    </Icon>',
-    '  );',
-    '};',
-    '',
-  ].join('\n');
-};
-
 const makeCategoryComponentTsx = (componentName, svgMarkup) => {
   return [
-    "import type { Props } from '../Icon.types';",
+    "import type { Props } from '../../IconWrapper.types';",
     '',
-    "import { Icon } from '../Icon';",
+    "import { Icon } from '../../IconWrapper';",
     '',
     `export const ${componentName} = (props: Props) => {`,
     '  return (',

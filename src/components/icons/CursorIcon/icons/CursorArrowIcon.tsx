@@ -1,0 +1,32 @@
+import type { Props } from '../../Icon/IconWrapper.types';
+
+import { Icon } from '../../Icon/IconWrapper';
+
+export const CursorArrowIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#CursorArrowIcon__filter0_dd_4100_25037)">
+<path fillRule="evenodd" clipRule="evenodd" d="M12.4932 13.0535H16.0535L8 5V16.0735L10.5188 13.5548L12.8301 19L14.6834 18.2133L12.4932 13.0535Z" fill="#18181B"/>
+<path d="M17.2607 13.5537H13.248L15.1436 18.0176L15.3389 18.4785L14.8789 18.6738L13.0254 19.46L12.5654 19.6553L12.3701 19.1953L10.3477 14.4316L8.35352 16.4268L7.5 17.2803V3.79297L17.2607 13.5537Z" style={{ fill: 'none' }} stroke="white"/>
+</g>
+<defs>
+<filter id="CursorArrowIcon__filter0_dd_4100_25037" x="5.5" y="2.08594" width="14.4678" height="20.7256" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="0.75"/>
+<feGaussianBlur stdDeviation="0.5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_4100_25037"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="0.75"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="effect1_dropShadow_4100_25037" result="effect2_dropShadow_4100_25037"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_4100_25037" result="shape"/>
+</filter>
+</defs>
+</svg>
+    </Icon>
+  );
+};

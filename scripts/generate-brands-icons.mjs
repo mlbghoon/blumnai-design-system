@@ -2,12 +2,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const ICONS_DIR = path.join(ROOT, 'src', 'icons');
+const ICONS_SOURCE_DIR = path.join(ROOT, 'src', 'icons', 'source');
+const BRAND_ICON_DIR = path.join(ROOT, 'src', 'components', 'icons', 'BrandIcon');
 
 const SNAPSHOT_PATH =
-  process.argv[2] ?? path.join(ICONS_DIR, 'source', 'sortui.brands.json');
+  process.argv[2] ?? path.join(ICONS_SOURCE_DIR, 'sortui.brands.json');
 
-const OUT_DIR = path.join(ICONS_DIR, 'brands');
+const OUT_DIR = path.join(BRAND_ICON_DIR, 'icons');
+const REGISTRY_PATH = path.join(BRAND_ICON_DIR, 'brand-registry.tsx');
+const TYPES_PATH = path.join(BRAND_ICON_DIR, 'BrandIcon.types.ts');
 
 const isDirectory = (p) => fs.existsSync(p) && fs.statSync(p).isDirectory();
 
@@ -19,6 +22,18 @@ const cleanOutDir = () => {
     if (!entry.name.endsWith('.tsx')) continue;
     fs.unlinkSync(path.join(OUT_DIR, entry.name));
   }
+};
+
+// Convert Figma name to registry key (lowercase with spaces, matching Figma exactly)
+const toRegistryKey = (raw) => {
+  return String(raw)
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // strip diacritics
+    .replace(/[^a-z0-9\s]+/g, '') // keep spaces
+    .replace(/\s+/g, ' ')
+    .trim();
 };
 
 const toPascalCase = (name) =>
@@ -114,9 +129,9 @@ const prefixSvgIds = (svg, prefix) => {
 
 const makeCategoryComponentTsx = (componentName, svgMarkup) => {
   return [
-    "import type { Props } from '../Icon.types';",
+    "import type { Props } from '../../Icon/IconWrapper.types';",
     '',
-    "import { Icon } from '../Icon';",
+    "import { Icon } from '../../Icon/IconWrapper';",
     '',
     `export const ${componentName} = (props: Props) => {`,
     '  return (',
@@ -140,11 +155,17 @@ const entries = Object.entries(snapshot).sort(([a], [b]) => a.localeCompare(b));
 cleanOutDir();
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
+// Track brand names to component names for registry generation
+const registryEntries = [];
+
 for (const [rawKey, rawSvg] of entries) {
   const [baseKey, discriminator] = String(rawKey).split('__');
   const base = String(baseKey).trim();
-  const disc = discriminator ? `_${toValidIdentifier(discriminator)}` : '';
 
+  // Use Figma name directly for registry key (lowercase with spaces)
+  const registryKey = toRegistryKey(base);
+
+  const disc = discriminator ? `_${toValidIdentifier(discriminator)}` : '';
   const componentName = `Brand${toValidIdentifier(base)}${disc}Icon`;
   const prefixedSvg = prefixSvgIds(toJsxSafeSvgMarkup(String(rawSvg).trim()), componentName);
 
@@ -152,7 +173,82 @@ for (const [rawKey, rawSvg] of entries) {
     path.join(OUT_DIR, `${componentName}.tsx`),
     makeCategoryComponentTsx(componentName, prefixedSvg),
   );
+
+  // Add to registry (Figma name as key -> component name)
+  registryEntries.push({ brandName: registryKey, componentName });
 }
 
-console.log(`Generated ${entries.length} brand icons into src/icons/brands.`);
+// Generate brand-registry.tsx
+const generateBrandRegistry = () => {
+  // Sort by brand name
+  registryEntries.sort((a, b) => a.brandName.localeCompare(b.brandName));
+
+  const imports = registryEntries
+    .map(({ componentName }) =>
+      `import { ${componentName} } from './icons/${componentName}';`
+    )
+    .join('\n');
+
+  const registryObject = registryEntries
+    .map(({ brandName, componentName }) => `  '${brandName}': ${componentName},`)
+    .join('\n');
+
+  return [
+    '// This file is auto-generated. Do not edit manually.',
+    '// Run: npm run generate:brands',
+    '',
+    "import type { ComponentType } from 'react';",
+    '',
+    "import type { Props } from '../Icon/IconWrapper.types';",
+    '',
+    imports,
+    '',
+    'export const brandRegistry: Record<string, ComponentType<Props>> = {',
+    registryObject,
+    '};',
+    '',
+  ].join('\n');
+};
+
+// Generate BrandIcon.types.ts
+const generateBrandTypes = () => {
+  const brandNames = registryEntries
+    .map(({ brandName }) => `  | '${brandName}'`)
+    .join('\n');
+
+  return [
+    "import type { SVGProps } from 'react';",
+    '',
+    '/**',
+    ' * Available brand/logo types',
+    ' * Names match Figma layer names exactly',
+    ' */',
+    'export type BrandType =',
+    brandNames + ';',
+    '',
+    "export interface BrandIconProps extends Omit<SVGProps<SVGSVGElement>, 'children' | 'cursor' | 'focusable'> {",
+    '  /**',
+    '   * Brand type (matches Figma)',
+    '   */',
+    '  brandType: BrandType;',
+    '  /**',
+    '   * Icon size in pixels',
+    '   * @default 24',
+    '   */',
+    '  size?: number;',
+    '  /**',
+    '   * Additional CSS class name',
+    '   */',
+    '  className?: string;',
+    '}',
+    '',
+  ].join('\n');
+};
+
+fs.writeFileSync(REGISTRY_PATH, generateBrandRegistry());
+fs.writeFileSync(TYPES_PATH, generateBrandTypes());
+
+console.log(`Generated ${entries.length} brand icons into src/components/icons/BrandIcon/icons.`);
+console.log(`Generated brand-registry.tsx in src/components/icons/BrandIcon/.`);
+console.log(`Generated BrandIcon.types.ts in src/components/icons/BrandIcon/.`);
 

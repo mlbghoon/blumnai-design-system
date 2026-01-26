@@ -1,0 +1,892 @@
+{
+  "description": "Figma Design Token Variables - extracted from Sort UI 1.3 Source",
+  "themes": ["Theme-1-Light", "Theme-1-Dark", "Theme-2-Light", "Theme-2-Dark"],
+  "nonThemedTokens": {
+    "stroke": {
+      "sm": "0.5px",
+      "default": "1px",
+      "md": "1.5px",
+      "lg": "2px",
+      "xl": "3px",
+      "2xl": "4px"
+    },
+    "spacing": {
+      "none": 0,
+      "1": 1, "2": 2, "4": 4, "6": 6, "8": 8, "10": 10, "12": 12, "14": 14, "16": 16,
+      "20": 20, "24": 24, "28": 28, "32": 32, "36": 36, "40": 40, "44": 44, "48": 48,
+      "56": 56, "64": 64, "80": 80, "96": 96, "112": 112, "128": 128, "144": 144,
+      "160": 160, "176": 176, "192": 192, "208": 208, "224": 224, "240": 240, "256": 256,
+      "288": 288, "320": 320, "384": 384
+    },
+    "fontSize": {
+      "desktop": {
+        "xs": 12, "sm": 14, "md": 16, "lg": 18, "xl": 20, "2xl": 24, "3xl": 30,
+        "4xl": 36, "5xl": 48, "6xl": 60, "7xl": 72, "8xl": 96, "9xl": 128
+      },
+      "mobile": {
+        "xs": 12, "sm": 14, "md": 16, "lg": 16, "xl": 18, "2xl": 20, "3xl": 24,
+        "4xl": 30, "5xl": 36, "6xl": 48, "7xl": 60, "8xl": 72, "9xl": 96
+      }
+    },
+    "fontWeight": {
+      "light": 300,
+      "normal": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700,
+      "extrabold": 800,
+      "black": 900
+    },
+    "lineHeight": {
+      "leading-3": 12, "leading-4": 16, "leading-5": 20, "leading-6": 24,
+      "leading-7": 28, "leading-8": 32, "leading-9": 36, "leading-10": 40,
+      "leading-11": 48, "leading-12": 60, "leading-13": 72, "leading-14": 96, "leading-15": 128
+    },
+    "letterSpacing": {
+      "tracking-tighter": -1.2,
+      "tracking-tight": -0.8,
+      "tracking-normal": -0.6,
+      "tracking-wide": 0.4,
+      "tracking-wider": 0.8,
+      "tracking-widest": 1.6
+    },
+    "fontFamily": {
+      "fontA": {
+        "headline": "Spoqa Han Sans Neo",
+        "body": "Spoqa Han Sans Neo",
+        "quote": "Fraunces",
+        "code": "JetBrains Mono"
+      },
+      "fontB": {
+        "headline": "Spoqa Han Sans Neo",
+        "body": "Spoqa Han Sans Neo",
+        "quote": "Fraunces",
+        "code": "JetBrains Mono"
+      }
+    },
+    "radius": {
+      "default": {
+        "none": 0, "2xs": 2, "xs": 4, "sm": 6, "md": 8, "lg": 12, "xl": 16, "2xl": 24, "3xl": 28, "full": 9999
+      },
+      "rounded": {
+        "none": 0, "2xs": 4, "xs": 6, "sm": 8, "md": 12, "lg": 16, "xl": 20, "2xl": 28, "3xl": 36, "full": 9999
+      },
+      "full": {
+        "none": 0, "2xs": 9999, "xs": 9999, "sm": 9999, "md": 9999, "lg": 9999, "xl": 9999, "2xl": 9999, "3xl": 9999, "full": 9999
+      },
+      "none": {
+        "none": 0, "2xs": 0, "xs": 0, "sm": 0, "md": 0, "lg": 0, "xl": 0, "2xl": 0, "3xl": 0, "full": 0
+      },
+      "card": {
+        "default": { "none": 0, "xs": 4, "sm": 8, "md": 12, "lg": 16 },
+        "rounded": { "none": 0, "xs": 8, "sm": 12, "md": 16, "lg": 20 },
+        "full": { "none": 0, "xs": 10, "sm": 16, "md": 24, "lg": 32 },
+        "none": { "none": 0, "xs": 0, "sm": 0, "md": 0, "lg": 0 }
+      }
+    }
+  },
+  "mappingNotes": {
+    "Theme-1-Light": "Theme-A Light (default :root)",
+    "Theme-1-Dark": "Theme-A Dark ([data-theme='dark'], .dark)",
+    "Theme-2-Light": "Theme-B Light ([data-theme='theme-b-light'], .theme-b-light)",
+    "Theme-2-Dark": "Theme-B Dark ([data-theme='theme-b-dark'], .theme-b-dark)"
+  },
+  "variables": {
+    "text": {
+      "default": {
+        "Theme-1-Light": "zinc/950",
+        "Theme-1-Dark": "zinc/00",
+        "Theme-2-Light": "stone/900",
+        "Theme-2-Dark": "stone/00"
+      },
+      "subtle": {
+        "Theme-1-Light": "zinc/600",
+        "Theme-1-Dark": "transparent/light/70",
+        "Theme-2-Light": "stone/600",
+        "Theme-2-Dark": "transparent/light/70"
+      },
+      "muted": {
+        "Theme-1-Light": "zinc/500",
+        "Theme-1-Dark": "transparent/light/50",
+        "Theme-2-Light": "stone/500",
+        "Theme-2-Dark": "transparent/light/50"
+      },
+      "hint": {
+        "Theme-1-Light": "transparent/dark/30",
+        "Theme-1-Dark": "transparent/light/30",
+        "Theme-2-Light": "transparent/dark/30",
+        "Theme-2-Dark": "transparent/light/30"
+      },
+      "inverted-default": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "zinc/950",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "stone/900"
+      },
+      "inverted-subtle": {
+        "Theme-1-Light": "transparent/light/70",
+        "Theme-1-Dark": "zinc/600",
+        "Theme-2-Light": "transparent/light/70",
+        "Theme-2-Dark": "stone/600"
+      },
+      "inverted-muted": {
+        "Theme-1-Light": "transparent/light/50",
+        "Theme-1-Dark": "zinc/500",
+        "Theme-2-Light": "transparent/light/50",
+        "Theme-2-Dark": "stone/500"
+      },
+      "inverted-hint": {
+        "Theme-1-Light": "transparent/light/30",
+        "Theme-1-Dark": "transparent/dark/35",
+        "Theme-2-Light": "transparent/light/30",
+        "Theme-2-Dark": "transparent/dark/35"
+      },
+      "white-default": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "zinc/00",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "stone/00"
+      },
+      "white-subtle": {
+        "Theme-1-Light": "transparent/light/70",
+        "Theme-1-Dark": "transparent/light/70",
+        "Theme-2-Light": "transparent/light/70",
+        "Theme-2-Dark": "transparent/light/70"
+      },
+      "white-muted": {
+        "Theme-1-Light": "transparent/light/50",
+        "Theme-1-Dark": "transparent/light/50",
+        "Theme-2-Light": "transparent/light/50",
+        "Theme-2-Dark": "transparent/light/50"
+      },
+      "white-hint": {
+        "Theme-1-Light": "transparent/light/30",
+        "Theme-1-Dark": "transparent/light/30",
+        "Theme-2-Light": "transparent/light/30",
+        "Theme-2-Dark": "transparent/light/30"
+      },
+      "dark-default": {
+        "Theme-1-Light": "zinc/950",
+        "Theme-1-Dark": "zinc/950",
+        "Theme-2-Light": "stone/900",
+        "Theme-2-Dark": "stone/900"
+      },
+      "dark-subtle": {
+        "Theme-1-Light": "zinc/600",
+        "Theme-1-Dark": "zinc/600",
+        "Theme-2-Light": "stone/600",
+        "Theme-2-Dark": "stone/600"
+      },
+      "dark-muted": {
+        "Theme-1-Light": "zinc/500",
+        "Theme-1-Dark": "zinc/500",
+        "Theme-2-Light": "stone/500",
+        "Theme-2-Dark": "stone/500"
+      },
+      "dark-hint": {
+        "Theme-1-Light": "transparent/dark/35",
+        "Theme-1-Dark": "transparent/dark/35",
+        "Theme-2-Light": "transparent/dark/35",
+        "Theme-2-Dark": "transparent/dark/35"
+      },
+      "destructive": {
+        "Theme-1-Light": "red/600",
+        "Theme-1-Dark": "red/400",
+        "Theme-2-Light": "rose/600",
+        "Theme-2-Dark": "rose/400"
+      },
+      "success": {
+        "Theme-1-Light": "green/600",
+        "Theme-1-Dark": "green/400",
+        "Theme-2-Light": "emerald/600",
+        "Theme-2-Dark": "emerald/400"
+      },
+      "warning": {
+        "Theme-1-Light": "orange/600",
+        "Theme-1-Dark": "orange/400",
+        "Theme-2-Light": "yellow/600",
+        "Theme-2-Dark": "yellow/400"
+      },
+      "informative": {
+        "Theme-1-Light": "blue/600",
+        "Theme-1-Dark": "blue/400",
+        "Theme-2-Light": "orange/600",
+        "Theme-2-Dark": "orange/400"
+      }
+    },
+    "bg": {
+      "default": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "zinc/900",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "orange/950"
+      },
+      "subtle": {
+        "Theme-1-Light": "zinc/50",
+        "Theme-1-Dark": "zinc/950",
+        "Theme-2-Light": "stone/50",
+        "Theme-2-Dark": "stone/950"
+      },
+      "muted": {
+        "Theme-1-Light": "zinc/100",
+        "Theme-1-Dark": "zinc/1000",
+        "Theme-2-Light": "stone/100",
+        "Theme-2-Dark": "stone/1000"
+      },
+      "inverted": {
+        "Theme-1-Light": "zinc/900",
+        "Theme-1-Dark": "zinc/00",
+        "Theme-2-Light": "stone/900",
+        "Theme-2-Dark": "stone/00"
+      },
+      "card": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "zinc/800",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "orange/950"
+      },
+      "card-subtle": {
+        "Theme-1-Light": "zinc/50",
+        "Theme-1-Dark": "zinc/700",
+        "Theme-2-Light": "stone/50",
+        "Theme-2-Dark": "stone/950"
+      },
+      "card-inverted": {
+        "Theme-1-Light": "zinc/800",
+        "Theme-1-Dark": "zinc/00",
+        "Theme-2-Light": "stone/800",
+        "Theme-2-Dark": "stone/00"
+      },
+      "sidebar": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "zinc/900",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "orange/950"
+      },
+      "sidebar-subtle": {
+        "Theme-1-Light": "zinc/50",
+        "Theme-1-Dark": "zinc/900",
+        "Theme-2-Light": "orange/50",
+        "Theme-2-Dark": "orange/900"
+      },
+      "input": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "transparent/light/6",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "transparent/light/6"
+      },
+      "input-soft": {
+        "Theme-1-Light": "transparent/dark/6",
+        "Theme-1-Dark": "transparent/light/8",
+        "Theme-2-Light": "transparent/dark/6",
+        "Theme-2-Dark": "transparent/light/8"
+      },
+      "input-disabled": {
+        "Theme-1-Light": "transparent/dark/6",
+        "Theme-1-Dark": "transparent/light/15",
+        "Theme-2-Light": "transparent/dark/6",
+        "Theme-2-Dark": "transparent/light/15"
+      },
+      "overlay": {
+        "Theme-1-Light": "transparent/dark/6",
+        "Theme-1-Dark": "transparent/dark/65",
+        "Theme-2-Light": "transparent/dark/6",
+        "Theme-2-Dark": "transparent/dark/65"
+      }
+    },
+    "bg/state": {
+      "primary": {
+        "Theme-1-Light": "blue/500",
+        "Theme-1-Dark": "blue/600",
+        "Theme-2-Light": "orange/500",
+        "Theme-2-Dark": "orange/600"
+      },
+      "primary-hover": {
+        "Theme-1-Light": "blue/400",
+        "Theme-1-Dark": "blue/500",
+        "Theme-2-Light": "orange/400",
+        "Theme-2-Dark": "orange/500"
+      },
+      "primary-press": {
+        "Theme-1-Light": "blue/500",
+        "Theme-1-Dark": "blue/600",
+        "Theme-2-Light": "orange/500",
+        "Theme-2-Dark": "orange/600"
+      },
+      "primary-loading": {
+        "Theme-1-Light": "blue/300",
+        "Theme-1-Dark": "blue/300",
+        "Theme-2-Light": "orange/300",
+        "Theme-2-Dark": "orange/300"
+      },
+      "secondary": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "transparent/light/4",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "transparent/light/4"
+      },
+      "secondary-hover": {
+        "Theme-1-Light": "zinc/50",
+        "Theme-1-Dark": "transparent/light/8",
+        "Theme-2-Light": "stone/50",
+        "Theme-2-Dark": "transparent/light/8"
+      },
+      "secondary-press": {
+        "Theme-1-Light": "zinc/100",
+        "Theme-1-Dark": "transparent/light/10",
+        "Theme-2-Light": "stone/100",
+        "Theme-2-Dark": "transparent/light/10"
+      },
+      "secondary-loading": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "transparent/light/4",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "transparent/light/4"
+      },
+      "soft": {
+        "Theme-1-Light": "transparent/dark/6",
+        "Theme-1-Dark": "transparent/light/8",
+        "Theme-2-Light": "transparent/dark/6",
+        "Theme-2-Dark": "transparent/light/8"
+      },
+      "soft-hover": {
+        "Theme-1-Light": "transparent/dark/8",
+        "Theme-1-Dark": "transparent/light/10",
+        "Theme-2-Light": "transparent/dark/8",
+        "Theme-2-Dark": "transparent/light/10"
+      },
+      "soft-press": {
+        "Theme-1-Light": "transparent/dark/10",
+        "Theme-1-Dark": "transparent/light/15",
+        "Theme-2-Light": "transparent/dark/10",
+        "Theme-2-Dark": "transparent/light/15"
+      },
+      "soft-loading": {
+        "Theme-1-Light": "transparent/dark/6",
+        "Theme-1-Dark": "transparent/light/8",
+        "Theme-2-Light": "transparent/dark/6",
+        "Theme-2-Dark": "transparent/light/8"
+      },
+      "ghost": {
+        "Theme-1-Light": "transparent/dark/00",
+        "Theme-1-Dark": "transparent/light/00",
+        "Theme-2-Light": "transparent/dark/00",
+        "Theme-2-Dark": "transparent/light/00"
+      },
+      "ghost-hover": {
+        "Theme-1-Light": "transparent/dark/6",
+        "Theme-1-Dark": "transparent/light/8",
+        "Theme-2-Light": "transparent/dark/6",
+        "Theme-2-Dark": "transparent/light/8"
+      },
+      "ghost-press": {
+        "Theme-1-Light": "transparent/dark/8",
+        "Theme-1-Dark": "transparent/light/15",
+        "Theme-2-Light": "transparent/dark/8",
+        "Theme-2-Dark": "transparent/light/15"
+      },
+      "ghost-loading": {
+        "Theme-1-Light": "transparent/dark/6",
+        "Theme-1-Dark": "transparent/light/8",
+        "Theme-2-Light": "transparent/dark/6",
+        "Theme-2-Dark": "transparent/light/8"
+      },
+      "ghost-inverted": {
+        "Theme-1-Light": "transparent/light/00",
+        "Theme-1-Dark": "transparent/dark/00",
+        "Theme-2-Light": "transparent/light/00",
+        "Theme-2-Dark": "transparent/dark/00"
+      },
+      "ghost-hover-inverted": {
+        "Theme-1-Light": "transparent/light/8",
+        "Theme-1-Dark": "transparent/dark/4",
+        "Theme-2-Light": "transparent/light/8",
+        "Theme-2-Dark": "transparent/dark/4"
+      },
+      "ghost-press-inverted": {
+        "Theme-1-Light": "transparent/light/15",
+        "Theme-1-Dark": "transparent/dark/8",
+        "Theme-2-Light": "transparent/light/15",
+        "Theme-2-Dark": "transparent/dark/8"
+      },
+      "ghost-loading-inverted": {
+        "Theme-1-Light": "transparent/light/8",
+        "Theme-1-Dark": "transparent/dark/4",
+        "Theme-2-Light": "transparent/light/8",
+        "Theme-2-Dark": "transparent/dark/4"
+      },
+      "destructive": {
+        "Theme-1-Light": "red/500",
+        "Theme-1-Dark": "red/500",
+        "Theme-2-Light": "rose/500",
+        "Theme-2-Dark": "rose/500"
+      },
+      "destructive-hover": {
+        "Theme-1-Light": "red/400",
+        "Theme-1-Dark": "red/400",
+        "Theme-2-Light": "rose/400",
+        "Theme-2-Dark": "rose/400"
+      },
+      "destructive-press": {
+        "Theme-1-Light": "red/500",
+        "Theme-1-Dark": "red/500",
+        "Theme-2-Light": "rose/500",
+        "Theme-2-Dark": "rose/500"
+      },
+      "destructive-loading": {
+        "Theme-1-Light": "red/300",
+        "Theme-1-Dark": "red/300",
+        "Theme-2-Light": "rose/300",
+        "Theme-2-Dark": "rose/300"
+      },
+      "brand": {
+        "Theme-1-Light": "blue/500",
+        "Theme-1-Dark": "blue/500",
+        "Theme-2-Light": "orange/500",
+        "Theme-2-Dark": "orange/600"
+      },
+      "brand-hover": {
+        "Theme-1-Light": "blue/400",
+        "Theme-1-Dark": "blue/400",
+        "Theme-2-Light": "orange/400",
+        "Theme-2-Dark": "orange/500"
+      },
+      "brand-press": {
+        "Theme-1-Light": "blue/500",
+        "Theme-1-Dark": "blue/500",
+        "Theme-2-Light": "orange/500",
+        "Theme-2-Dark": "orange/600"
+      },
+      "brand-loading": {
+        "Theme-1-Light": "blue/300",
+        "Theme-1-Dark": "blue/300",
+        "Theme-2-Light": "orange/300",
+        "Theme-2-Dark": "orange/300"
+      },
+      "gray": {
+        "Theme-1-Light": "zinc/950",
+        "Theme-1-Dark": "zinc/00",
+        "Theme-2-Light": "stone/900",
+        "Theme-2-Dark": "stone/00"
+      },
+      "disabled": {
+        "Theme-1-Light": "transparent/dark/8",
+        "Theme-1-Dark": "transparent/light/8",
+        "Theme-2-Light": "transparent/dark/8",
+        "Theme-2-Dark": "transparent/light/8"
+      }
+    },
+    "bg/checkbox": {
+      "default": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "transparent/light/6",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "transparent/light/6"
+      },
+      "active": {
+        "Theme-1-Light": "blue/500",
+        "Theme-1-Dark": "blue/500",
+        "Theme-2-Light": "orange/500",
+        "Theme-2-Dark": "orange/500"
+      },
+      "active-hover": {
+        "Theme-1-Light": "blue/400",
+        "Theme-1-Dark": "blue/400",
+        "Theme-2-Light": "orange/400",
+        "Theme-2-Dark": "orange/400"
+      },
+      "disabled": {
+        "Theme-1-Light": "transparent/dark/6",
+        "Theme-1-Dark": "transparent/light/6",
+        "Theme-2-Light": "transparent/dark/6",
+        "Theme-2-Dark": "transparent/light/6"
+      }
+    },
+    "bg/switch": {
+      "default": {
+        "Theme-1-Light": "zinc/200",
+        "Theme-1-Dark": "zinc/600",
+        "Theme-2-Light": "stone/200",
+        "Theme-2-Dark": "stone/600"
+      },
+      "default-hover": {
+        "Theme-1-Light": "zinc/300",
+        "Theme-1-Dark": "zinc/500",
+        "Theme-2-Light": "stone/300",
+        "Theme-2-Dark": "stone/500"
+      },
+      "disabled": {
+        "Theme-1-Light": "zinc/100",
+        "Theme-1-Dark": "zinc/300",
+        "Theme-2-Light": "stone/100",
+        "Theme-2-Dark": "stone/300"
+      },
+      "default-2": {
+        "Theme-1-Light": "zinc/950",
+        "Theme-1-Dark": "zinc/00",
+        "Theme-2-Light": "stone/950",
+        "Theme-2-Dark": "stone/00"
+      },
+      "active": {
+        "Theme-1-Light": "green/500",
+        "Theme-1-Dark": "green/500",
+        "Theme-2-Light": "teal/500",
+        "Theme-2-Dark": "teal/500"
+      },
+      "active-hover": {
+        "Theme-1-Light": "green/600",
+        "Theme-1-Dark": "green/400",
+        "Theme-2-Light": "teal/600",
+        "Theme-2-Dark": "teal/400"
+      },
+      "active-disabled": {
+        "Theme-1-Light": "green/200",
+        "Theme-1-Dark": "green/200",
+        "Theme-2-Light": "teal/200",
+        "Theme-2-Dark": "teal/200"
+      },
+      "handle": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "zinc/00",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "stone/00"
+      },
+      "handle-disabled": {
+        "Theme-1-Light": "zinc/50",
+        "Theme-1-Dark": "zinc/50",
+        "Theme-2-Light": "stone/50",
+        "Theme-2-Dark": "stone/50"
+      }
+    },
+    "bg/badge": {
+      "default": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "transparent/light/10",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "transparent/light/10"
+      },
+      "inverted": {
+        "Theme-1-Light": "zinc/950",
+        "Theme-1-Dark": "zinc/00",
+        "Theme-2-Light": "stone/900",
+        "Theme-2-Dark": "stone/00"
+      },
+      "gray": {
+        "Theme-1-Light": "transparent/dark/6",
+        "Theme-1-Dark": "transparent/light/10",
+        "Theme-2-Light": "transparent/dark/6",
+        "Theme-2-Dark": "transparent/light/10"
+      },
+      "white": {
+        "Theme-1-Light": "transparent/light/10",
+        "Theme-1-Dark": "transparent/light/10",
+        "Theme-2-Light": "transparent/light/10",
+        "Theme-2-Dark": "transparent/light/10"
+      },
+      "red": {
+        "Theme-1-Light": "transparent/red/10",
+        "Theme-1-Dark": "transparent/red/10",
+        "Theme-2-Light": "transparent/red/10",
+        "Theme-2-Dark": "transparent/red/10"
+      },
+      "orange": {
+        "Theme-1-Light": "transparent/orange/10",
+        "Theme-1-Dark": "transparent/orange/10",
+        "Theme-2-Light": "transparent/orange/10",
+        "Theme-2-Dark": "transparent/orange/10"
+      },
+      "amber": {
+        "Theme-1-Light": "transparent/amber/10",
+        "Theme-1-Dark": "transparent/amber/10",
+        "Theme-2-Light": "transparent/amber/10",
+        "Theme-2-Dark": "transparent/amber/10"
+      },
+      "yellow": {
+        "Theme-1-Light": "transparent/yellow/10",
+        "Theme-1-Dark": "transparent/yellow/10",
+        "Theme-2-Light": "transparent/yellow/10",
+        "Theme-2-Dark": "transparent/yellow/10"
+      },
+      "lime": {
+        "Theme-1-Light": "transparent/lime/10",
+        "Theme-1-Dark": "transparent/lime/10",
+        "Theme-2-Light": "transparent/lime/10",
+        "Theme-2-Dark": "transparent/lime/10"
+      },
+      "green": {
+        "Theme-1-Light": "transparent/green/10",
+        "Theme-1-Dark": "transparent/green/10",
+        "Theme-2-Light": "transparent/green/10",
+        "Theme-2-Dark": "transparent/green/10"
+      },
+      "emerald": {
+        "Theme-1-Light": "transparent/emerald/10",
+        "Theme-1-Dark": "transparent/emerald/10",
+        "Theme-2-Light": "transparent/emerald/10",
+        "Theme-2-Dark": "transparent/emerald/10"
+      },
+      "teal": {
+        "Theme-1-Light": "transparent/teal/10",
+        "Theme-1-Dark": "transparent/teal/10",
+        "Theme-2-Light": "transparent/teal/10",
+        "Theme-2-Dark": "transparent/teal/10"
+      },
+      "cyan": {
+        "Theme-1-Light": "transparent/cyan/10",
+        "Theme-1-Dark": "transparent/cyan/10",
+        "Theme-2-Light": "transparent/cyan/10",
+        "Theme-2-Dark": "transparent/cyan/10"
+      },
+      "sky": {
+        "Theme-1-Light": "transparent/sky/10",
+        "Theme-1-Dark": "transparent/sky/10",
+        "Theme-2-Light": "transparent/sky/10",
+        "Theme-2-Dark": "transparent/sky/10"
+      },
+      "blue": {
+        "Theme-1-Light": "transparent/blue/10",
+        "Theme-1-Dark": "transparent/blue/10",
+        "Theme-2-Light": "transparent/blue/10",
+        "Theme-2-Dark": "transparent/blue/10"
+      },
+      "indigo": {
+        "Theme-1-Light": "transparent/indigo/10",
+        "Theme-1-Dark": "transparent/indigo/10",
+        "Theme-2-Light": "transparent/indigo/10",
+        "Theme-2-Dark": "transparent/indigo/10"
+      },
+      "violet": {
+        "Theme-1-Light": "transparent/violet/10",
+        "Theme-1-Dark": "transparent/violet/10",
+        "Theme-2-Light": "transparent/violet/10",
+        "Theme-2-Dark": "transparent/violet/10"
+      },
+      "purple": {
+        "Theme-1-Light": "transparent/purple/10",
+        "Theme-1-Dark": "transparent/purple/10",
+        "Theme-2-Light": "transparent/purple/10",
+        "Theme-2-Dark": "transparent/purple/10"
+      },
+      "fuchsia": {
+        "Theme-1-Light": "transparent/fuchsia/10",
+        "Theme-1-Dark": "transparent/fuchsia/10",
+        "Theme-2-Light": "transparent/fuchsia/10",
+        "Theme-2-Dark": "transparent/fuchsia/10"
+      },
+      "pink": {
+        "Theme-1-Light": "transparent/pink/10",
+        "Theme-1-Dark": "transparent/pink/10",
+        "Theme-2-Light": "transparent/pink/10",
+        "Theme-2-Dark": "transparent/pink/10"
+      },
+      "rose": {
+        "Theme-1-Light": "transparent/rose/10",
+        "Theme-1-Dark": "transparent/rose/10",
+        "Theme-2-Light": "transparent/rose/10",
+        "Theme-2-Dark": "transparent/rose/10"
+      }
+    },
+    "icon": {
+      "default": {
+        "Theme-1-Light": "zinc/950",
+        "Theme-1-Dark": "zinc/00",
+        "Theme-2-Light": "stone/900",
+        "Theme-2-Dark": "stone/00"
+      },
+      "default-subtle": {
+        "Theme-1-Light": "zinc/600",
+        "Theme-1-Dark": "transparent/light/70",
+        "Theme-2-Light": "stone/600",
+        "Theme-2-Dark": "transparent/light/70"
+      },
+      "default-muted": {
+        "Theme-1-Light": "zinc/500",
+        "Theme-1-Dark": "transparent/light/50",
+        "Theme-2-Light": "stone/500",
+        "Theme-2-Dark": "transparent/light/50"
+      },
+      "default-disabled": {
+        "Theme-1-Light": "transparent/dark/25",
+        "Theme-1-Dark": "transparent/light/25",
+        "Theme-2-Light": "transparent/dark/25",
+        "Theme-2-Dark": "transparent/light/25"
+      },
+      "inverted-default": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "zinc/950",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "stone/900"
+      },
+      "inverted-subtle": {
+        "Theme-1-Light": "transparent/light/65",
+        "Theme-1-Dark": "zinc/600",
+        "Theme-2-Light": "transparent/light/65",
+        "Theme-2-Dark": "stone/600"
+      },
+      "inverted-muted": {
+        "Theme-1-Light": "transparent/light/50",
+        "Theme-1-Dark": "zinc/400",
+        "Theme-2-Light": "transparent/light/50",
+        "Theme-2-Dark": "stone/400"
+      },
+      "inverted-disabled": {
+        "Theme-1-Light": "transparent/light/35",
+        "Theme-1-Dark": "transparent/dark/35",
+        "Theme-2-Light": "transparent/light/35",
+        "Theme-2-Dark": "transparent/dark/35"
+      },
+      "white-default": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "zinc/00",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "stone/00"
+      },
+      "white-subtle": {
+        "Theme-1-Light": "transparent/light/65",
+        "Theme-1-Dark": "transparent/light/70",
+        "Theme-2-Light": "transparent/light/65",
+        "Theme-2-Dark": "transparent/light/70"
+      },
+      "white-muted": {
+        "Theme-1-Light": "transparent/light/50",
+        "Theme-1-Dark": "transparent/light/50",
+        "Theme-2-Light": "transparent/light/50",
+        "Theme-2-Dark": "transparent/light/50"
+      },
+      "white-disabled": {
+        "Theme-1-Light": "transparent/light/35",
+        "Theme-1-Dark": "transparent/light/40",
+        "Theme-2-Light": "transparent/light/35",
+        "Theme-2-Dark": "transparent/light/40"
+      },
+      "black-default": {
+        "Theme-1-Light": "zinc/950",
+        "Theme-1-Dark": "zinc/950",
+        "Theme-2-Light": "stone/900",
+        "Theme-2-Dark": "stone/900"
+      },
+      "black-subtle": {
+        "Theme-1-Light": "zinc/600",
+        "Theme-1-Dark": "zinc/600",
+        "Theme-2-Light": "stone/600",
+        "Theme-2-Dark": "stone/600"
+      },
+      "black-muted": {
+        "Theme-1-Light": "zinc/500",
+        "Theme-1-Dark": "zinc/500",
+        "Theme-2-Light": "stone/500",
+        "Theme-2-Dark": "stone/500"
+      },
+      "black-disabled": {
+        "Theme-1-Light": "transparent/dark/35",
+        "Theme-1-Dark": "transparent/dark/35",
+        "Theme-2-Light": "transparent/dark/35",
+        "Theme-2-Dark": "transparent/dark/35"
+      },
+      "destructive": {
+        "Theme-1-Light": "red/500",
+        "Theme-1-Dark": "red/300",
+        "Theme-2-Light": "rose/500",
+        "Theme-2-Dark": "rose/300"
+      },
+      "informative": {
+        "Theme-1-Light": "blue/500",
+        "Theme-1-Dark": "blue/400",
+        "Theme-2-Light": "orange/500",
+        "Theme-2-Dark": "orange/400"
+      },
+      "success": {
+        "Theme-1-Light": "green/500",
+        "Theme-1-Dark": "green/400",
+        "Theme-2-Light": "teal/500",
+        "Theme-2-Dark": "teal/400"
+      },
+      "warning": {
+        "Theme-1-Light": "orange/500",
+        "Theme-1-Dark": "orange/400",
+        "Theme-2-Light": "yellow/500",
+        "Theme-2-Dark": "yellow/400"
+      }
+    },
+    "border": {
+      "default": {
+        "Theme-1-Light": "transparent/dark/10",
+        "Theme-1-Dark": "transparent/light/10",
+        "Theme-2-Light": "transparent/dark/10",
+        "Theme-2-Dark": "transparent/light/10"
+      },
+      "darker": {
+        "Theme-1-Light": "transparent/dark/15",
+        "Theme-1-Dark": "transparent/light/15",
+        "Theme-2-Light": "transparent/dark/15",
+        "Theme-2-Dark": "transparent/light/15"
+      },
+      "strong": {
+        "Theme-1-Light": "transparent/dark/25",
+        "Theme-1-Dark": "transparent/light/25",
+        "Theme-2-Light": "transparent/dark/25",
+        "Theme-2-Dark": "transparent/light/25"
+      },
+      "inverted": {
+        "Theme-1-Light": "transparent/light/20",
+        "Theme-1-Dark": "transparent/dark/10",
+        "Theme-2-Light": "transparent/light/20",
+        "Theme-2-Dark": "transparent/dark/10"
+      },
+      "accent": {
+        "Theme-1-Light": "zinc/950",
+        "Theme-1-Dark": "zinc/00",
+        "Theme-2-Light": "stone/900",
+        "Theme-2-Dark": "stone/00"
+      },
+      "accent-inverted": {
+        "Theme-1-Light": "zinc/00",
+        "Theme-1-Dark": "zinc/950",
+        "Theme-2-Light": "stone/00",
+        "Theme-2-Dark": "stone/900"
+      },
+      "destructive": {
+        "Theme-1-Light": "red/500",
+        "Theme-1-Dark": "red/400",
+        "Theme-2-Light": "rose/500",
+        "Theme-2-Dark": "rose/400"
+      },
+      "informative": {
+        "Theme-1-Light": "blue/500",
+        "Theme-1-Dark": "blue/400",
+        "Theme-2-Light": "cyan/500",
+        "Theme-2-Dark": "cyan/400"
+      },
+      "success": {
+        "Theme-1-Light": "green/500",
+        "Theme-1-Dark": "green/400",
+        "Theme-2-Light": "teal/500",
+        "Theme-2-Dark": "teal/400"
+      },
+      "warning": {
+        "Theme-1-Light": "orange/500",
+        "Theme-1-Dark": "orange/400",
+        "Theme-2-Light": "yellow/500",
+        "Theme-2-Dark": "yellow/400"
+      },
+      "highlight": {
+        "Theme-1-Light": "transparent/blue/40",
+        "Theme-1-Dark": "transparent/blue/40",
+        "Theme-2-Light": "transparent/orange/40",
+        "Theme-2-Dark": "transparent/orange/40"
+      },
+      "highlight-destructive": {
+        "Theme-1-Light": "transparent/red/40",
+        "Theme-1-Dark": "transparent/red/40",
+        "Theme-2-Light": "transparent/rose/40",
+        "Theme-2-Dark": "transparent/rose/40"
+      },
+      "input-highlight": {
+        "Theme-1-Light": "transparent/dark/40",
+        "Theme-1-Dark": "transparent/light/45",
+        "Theme-2-Light": "transparent/orange/40",
+        "Theme-2-Dark": "transparent/orange/40"
+      }
+    }
+  }
+}

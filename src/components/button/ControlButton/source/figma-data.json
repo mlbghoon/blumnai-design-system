@@ -1,3157 +1,168 @@
 {
-  "metadata": {
-    "fileKey": "hNwky49HL9rYtxWb5smgqZ",
-    "nodeId": "3852:15208",
-    "nodeName": "Control buttons",
-    "fetchedAt": "2026-01-17T03:39:08.345Z",
-    "source": "Figma REST API"
-  },
-  "structure": {
-    "description": "ControlButton component structure from Figma",
-    "node": {
-      "id": "3852:15208",
-      "name": "Control buttons",
-      "type": "COMPONENT_SET",
-      "styles": {
-        "fills": [
-          {
-            "blendMode": "NORMAL",
-            "type": "SOLID",
+  "3852-15208": {
+    "id": "3852:15208",
+    "name": "Control buttons",
+    "type": "COMPONENT_SET",
+    "size": {
+      "width": 480,
+      "height": 456
+    },
+    "styles": {
+      "fills": [
+        {
+          "blendMode": "NORMAL",
+          "type": "SOLID",
+          "color": {
+            "r": 0.9803921580314636,
+            "g": 0.9803921580314636,
+            "b": 0.9803921580314636,
+            "a": 1
+          },
+          "boundVariables": {
             "color": {
-              "r": 0.9803921580314636,
-              "g": 0.9803921580314636,
-              "b": 0.9803921580314636,
-              "a": 1
-            },
-            "boundVariables": {
-              "color": {
-                "type": "VARIABLE_ALIAS",
-                "id": "VariableID:7:46"
-              }
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:7:46"
             }
           }
-        ],
-        "strokes": [],
-        "effects": [
-          {
-            "type": "DROP_SHADOW",
-            "visible": true,
-            "color": {
-              "r": 0.15294118225574493,
-              "g": 0.15294118225574493,
-              "b": 0.16470588743686676,
-              "a": 0.10000000149011612
-            },
-            "blendMode": "NORMAL",
-            "offset": {
-              "x": 0,
-              "y": 0
-            },
-            "radius": 0,
-            "spread": 1,
-            "showShadowBehindNode": true,
-            "boundVariables": {
-              "color": {
-                "type": "VARIABLE_ALIAS",
-                "id": "VariableID:21:21"
-              }
-            }
-          },
-          {
-            "type": "DROP_SHADOW",
-            "visible": true,
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.03999999910593033
-            },
-            "blendMode": "NORMAL",
-            "offset": {
-              "x": 0,
-              "y": 12
-            },
-            "radius": 12,
-            "spread": -6,
-            "showShadowBehindNode": false
-          },
-          {
-            "type": "DROP_SHADOW",
-            "visible": true,
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.03999999910593033
-            },
-            "blendMode": "NORMAL",
-            "offset": {
-              "x": 0,
-              "y": 6
-            },
-            "radius": 6,
-            "spread": -3,
-            "showShadowBehindNode": false
-          },
-          {
-            "type": "DROP_SHADOW",
-            "visible": true,
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.03999999910593033
-            },
-            "blendMode": "NORMAL",
-            "offset": {
-              "x": 0,
-              "y": 3
-            },
-            "radius": 3,
-            "spread": -1.5,
-            "showShadowBehindNode": false
-          },
-          {
-            "type": "DROP_SHADOW",
-            "visible": true,
-            "color": {
-              "r": 0,
-              "g": 0,
-              "b": 0,
-              "a": 0.03999999910593033
-            },
-            "blendMode": "NORMAL",
-            "offset": {
-              "x": 0,
-              "y": 1
-            },
-            "radius": 1,
-            "spread": -0.5,
-            "showShadowBehindNode": false
-          },
-          {
-            "type": "INNER_SHADOW",
-            "visible": false,
-            "color": {
-              "r": 0.15294118225574493,
-              "g": 0.15294118225574493,
-              "b": 0.16470588743686676,
-              "a": 0.15000000596046448
-            },
-            "blendMode": "NORMAL",
-            "offset": {
-              "x": 0,
-              "y": -1
-            },
-            "radius": 0,
-            "boundVariables": {
-              "color": {
-                "type": "VARIABLE_ALIAS",
-                "id": "VariableID:21:22"
-              }
-            }
-          }
-        ]
-      },
-      "children": [
-        {
-          "id": "3852:15207",
-          "name": "Style=Default, State=Default, Size=sm, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:2"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15119",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15119;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15324",
-          "name": "Style=Inverted, State=Default, Size=sm, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23787"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15325",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15325;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15243",
-          "name": "Style=Default, State=Default, Size=sm, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:2"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15244",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15244;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15326",
-          "name": "Style=Inverted, State=Default, Size=sm, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23787"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15327",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15327;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15204",
-          "name": "Style=Default, State=Default, Size=md, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:2"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15155",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15155;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15328",
-          "name": "Style=Inverted, State=Default, Size=md, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23787"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15329",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15329;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15245",
-          "name": "Style=Default, State=Default, Size=md, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:2"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15246",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15246;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15330",
-          "name": "Style=Inverted, State=Default, Size=md, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23787"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15331",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15331;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15203",
-          "name": "Style=Default, State=Default, Size=lg, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:2"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15164",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15164;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15332",
-          "name": "Style=Inverted, State=Default, Size=lg, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23787"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15333",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15333;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15247",
-          "name": "Style=Default, State=Default, Size=lg, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:2"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15248",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15248;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15334",
-          "name": "Style=Inverted, State=Default, Size=lg, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.00009999999747378752,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23787"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15335",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15335;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15201",
-          "name": "Style=Default, State=Hover, Size=sm, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.05999999865889549,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:3"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15131",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15131;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15336",
-          "name": "Style=Inverted, State=Hover, Size=sm, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23788"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15337",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15337;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15249",
-          "name": "Style=Default, State=Hover, Size=sm, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.05999999865889549,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:3"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15250",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15250;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15338",
-          "name": "Style=Inverted, State=Hover, Size=sm, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23788"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15339",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15339;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15202",
-          "name": "Style=Default, State=Hover, Size=md, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.05999999865889549,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:3"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15157",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15157;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15340",
-          "name": "Style=Inverted, State=Hover, Size=md, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23788"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15341",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15341;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15251",
-          "name": "Style=Default, State=Hover, Size=md, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.05999999865889549,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:3"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15252",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15252;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15342",
-          "name": "Style=Inverted, State=Hover, Size=md, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23788"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15343",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15343;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15200",
-          "name": "Style=Default, State=Hover, Size=lg, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.05999999865889549,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:3"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15166",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15166;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15344",
-          "name": "Style=Inverted, State=Hover, Size=lg, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23788"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15345",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15345;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15253",
-          "name": "Style=Default, State=Hover, Size=lg, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.05999999865889549,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:3"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15254",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15254;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15346",
-          "name": "Style=Inverted, State=Hover, Size=lg, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23788"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15347",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15347;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15206",
-          "name": "Style=Default, State=Press, Size=sm, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:4"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15137",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15137;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15348",
-          "name": "Style=Inverted, State=Press, Size=sm, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.15000000596046448,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23789"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15349",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15349;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15255",
-          "name": "Style=Default, State=Press, Size=sm, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:4"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15256",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15256;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15350",
-          "name": "Style=Inverted, State=Press, Size=sm, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.15000000596046448,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23789"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15351",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15351;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15205",
-          "name": "Style=Default, State=Press, Size=md, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:4"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15159",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15159;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15352",
-          "name": "Style=Inverted, State=Press, Size=md, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.15000000596046448,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23789"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15353",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15353;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15257",
-          "name": "Style=Default, State=Press, Size=md, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:4"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15258",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15258;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15354",
-          "name": "Style=Inverted, State=Press, Size=md, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.15000000596046448,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23789"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15355",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15355;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15199",
-          "name": "Style=Default, State=Press, Size=lg, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:4"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15168",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15168;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15356",
-          "name": "Style=Inverted, State=Press, Size=lg, Shape=Rounded",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.15000000596046448,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23789"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 2
-          },
-          "children": [
-            {
-              "id": "3852:15357",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15357;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15259",
-          "name": "Style=Default, State=Press, Size=lg, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.07999999821186066,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 0.15294118225574493,
-                  "g": 0.15294118225574493,
-                  "b": 0.16470588743686676,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:19:4"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15260",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15260;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 0.4346154034137726,
-                          "g": 0.4346154034137726,
-                          "b": 0.4653846025466919,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:61"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "3852:15358",
-          "name": "Style=Inverted, State=Press, Size=lg, Shape=Circle",
-          "type": "COMPONENT",
-          "styles": {
-            "fills": [
-              {
-                "opacity": 0.15000000596046448,
-                "blendMode": "NORMAL",
-                "type": "SOLID",
-                "color": {
-                  "r": 1,
-                  "g": 1,
-                  "b": 1,
-                  "a": 1
-                },
-                "boundVariables": {
-                  "color": {
-                    "type": "VARIABLE_ALIAS",
-                    "id": "VariableID:3848:23789"
-                  }
-                }
-              }
-            ],
-            "strokes": [],
-            "effects": [],
-            "cornerRadius": 9999
-          },
-          "children": [
-            {
-              "id": "3852:15359",
-              "name": "icon",
-              "type": "INSTANCE",
-              "styles": {
-                "fills": [
-                  {
-                    "blendMode": "NORMAL",
-                    "visible": false,
-                    "type": "SOLID",
-                    "color": {
-                      "r": 1,
-                      "g": 1,
-                      "b": 1,
-                      "a": 1
-                    }
-                  }
-                ],
-                "strokes": [],
-                "effects": []
-              },
-              "children": [
-                {
-                  "id": "I3852:15359;28:15032",
-                  "name": "Vector",
-                  "type": "VECTOR",
-                  "styles": {
-                    "fills": [
-                      {
-                        "blendMode": "NORMAL",
-                        "type": "SOLID",
-                        "color": {
-                          "r": 1,
-                          "g": 1,
-                          "b": 1,
-                          "a": 1
-                        },
-                        "boundVariables": {
-                          "color": {
-                            "type": "VARIABLE_ALIAS",
-                            "id": "VariableID:22:63"
-                          }
-                        }
-                      }
-                    ],
-                    "strokes": [],
-                    "effects": []
-                  },
-                  "children": []
-                }
-              ]
-            }
-          ]
         }
-      ]
-    }
-  },
-  "variants": {
-    "description": "ControlButton variants (sizes, shapes, states)",
-    "items": [
+      ],
+      "strokes": [],
+      "strokeWeight": 1,
+      "strokeAlign": "INSIDE",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "visible": true,
+          "color": {
+            "r": 0.15294118225574493,
+            "g": 0.15294118225574493,
+            "b": 0.16470588743686676,
+            "a": 0.10000000149011612
+          },
+          "blendMode": "NORMAL",
+          "offset": {
+            "x": 0,
+            "y": 0
+          },
+          "radius": 0,
+          "spread": 1,
+          "showShadowBehindNode": true,
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:21:21"
+            }
+          }
+        },
+        {
+          "type": "DROP_SHADOW",
+          "visible": true,
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.03999999910593033
+          },
+          "blendMode": "NORMAL",
+          "offset": {
+            "x": 0,
+            "y": 12
+          },
+          "radius": 12,
+          "spread": -6,
+          "showShadowBehindNode": false
+        },
+        {
+          "type": "DROP_SHADOW",
+          "visible": true,
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.03999999910593033
+          },
+          "blendMode": "NORMAL",
+          "offset": {
+            "x": 0,
+            "y": 6
+          },
+          "radius": 6,
+          "spread": -3,
+          "showShadowBehindNode": false
+        },
+        {
+          "type": "DROP_SHADOW",
+          "visible": true,
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.03999999910593033
+          },
+          "blendMode": "NORMAL",
+          "offset": {
+            "x": 0,
+            "y": 3
+          },
+          "radius": 3,
+          "spread": -1.5,
+          "showShadowBehindNode": false
+        },
+        {
+          "type": "DROP_SHADOW",
+          "visible": true,
+          "color": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.03999999910593033
+          },
+          "blendMode": "NORMAL",
+          "offset": {
+            "x": 0,
+            "y": 1
+          },
+          "radius": 1,
+          "spread": -0.5,
+          "showShadowBehindNode": false
+        },
+        {
+          "type": "INNER_SHADOW",
+          "visible": false,
+          "color": {
+            "r": 0.15294118225574493,
+            "g": 0.15294118225574493,
+            "b": 0.16470588743686676,
+            "a": 0.15000000596046448
+          },
+          "blendMode": "NORMAL",
+          "offset": {
+            "x": 0,
+            "y": -1
+          },
+          "radius": 0,
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:21:22"
+            }
+          }
+        }
+      ],
+      "constraints": {
+        "vertical": "TOP",
+        "horizontal": "LEFT"
+      }
+    },
+    "children": [
       {
         "id": "3852:15207",
         "name": "Style=Default, State=Default, Size=sm, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -3173,14 +184,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15119",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -3196,13 +222,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15119;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -3223,9 +261,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -3235,6 +278,10 @@
         "id": "3852:15324",
         "name": "Style=Inverted, State=Default, Size=sm, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -3256,14 +303,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15325",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -3279,13 +341,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15325;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -3306,9 +380,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -3318,6 +397,10 @@
         "id": "3852:15243",
         "name": "Style=Default, State=Default, Size=sm, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -3339,14 +422,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15244",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -3362,13 +460,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15244;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -3389,9 +499,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -3401,6 +516,10 @@
         "id": "3852:15326",
         "name": "Style=Inverted, State=Default, Size=sm, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -3422,14 +541,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15327",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -3445,13 +579,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15327;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -3472,9 +618,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -3484,6 +635,10 @@
         "id": "3852:15204",
         "name": "Style=Default, State=Default, Size=md, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -3505,14 +660,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15155",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -3528,13 +698,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15155;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -3555,9 +737,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -3567,6 +754,10 @@
         "id": "3852:15328",
         "name": "Style=Inverted, State=Default, Size=md, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -3588,14 +779,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15329",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -3611,13 +817,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15329;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -3638,9 +856,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -3650,6 +873,10 @@
         "id": "3852:15245",
         "name": "Style=Default, State=Default, Size=md, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -3671,14 +898,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15246",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -3694,13 +936,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15246;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -3721,9 +975,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -3733,6 +992,10 @@
         "id": "3852:15330",
         "name": "Style=Inverted, State=Default, Size=md, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -3754,14 +1017,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15331",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -3777,13 +1055,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15331;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -3804,9 +1094,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -3816,6 +1111,10 @@
         "id": "3852:15203",
         "name": "Style=Default, State=Default, Size=lg, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -3837,14 +1136,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15164",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -3860,13 +1174,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15164;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -3887,9 +1213,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -3899,6 +1230,10 @@
         "id": "3852:15332",
         "name": "Style=Inverted, State=Default, Size=lg, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -3920,14 +1255,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15333",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -3943,13 +1293,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15333;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -3970,9 +1332,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -3982,6 +1349,10 @@
         "id": "3852:15247",
         "name": "Style=Default, State=Default, Size=lg, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -4003,14 +1374,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15248",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -4026,13 +1412,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15248;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4053,9 +1451,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4065,6 +1468,10 @@
         "id": "3852:15334",
         "name": "Style=Inverted, State=Default, Size=lg, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -4086,14 +1493,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15335",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -4109,13 +1531,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15335;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4136,9 +1570,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4148,6 +1587,10 @@
         "id": "3852:15201",
         "name": "Style=Default, State=Hover, Size=sm, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -4169,14 +1612,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15131",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -4192,13 +1650,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15131;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4219,9 +1689,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4231,6 +1706,10 @@
         "id": "3852:15336",
         "name": "Style=Inverted, State=Hover, Size=sm, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -4252,14 +1731,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15337",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -4275,13 +1769,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15337;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4302,9 +1808,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4314,6 +1825,10 @@
         "id": "3852:15249",
         "name": "Style=Default, State=Hover, Size=sm, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -4335,14 +1850,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15250",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -4358,13 +1888,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15250;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4385,9 +1927,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4397,6 +1944,10 @@
         "id": "3852:15338",
         "name": "Style=Inverted, State=Hover, Size=sm, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -4418,14 +1969,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15339",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -4441,13 +2007,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15339;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4468,9 +2046,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4480,6 +2063,10 @@
         "id": "3852:15202",
         "name": "Style=Default, State=Hover, Size=md, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -4501,14 +2088,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15157",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -4524,13 +2126,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15157;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4551,9 +2165,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4563,6 +2182,10 @@
         "id": "3852:15340",
         "name": "Style=Inverted, State=Hover, Size=md, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -4584,14 +2207,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15341",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -4607,13 +2245,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15341;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4634,9 +2284,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4646,6 +2301,10 @@
         "id": "3852:15251",
         "name": "Style=Default, State=Hover, Size=md, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -4667,14 +2326,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15252",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -4690,13 +2364,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15252;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4717,9 +2403,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4729,6 +2420,10 @@
         "id": "3852:15342",
         "name": "Style=Inverted, State=Hover, Size=md, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -4750,14 +2445,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15343",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -4773,13 +2483,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15343;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4800,9 +2522,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4812,6 +2539,10 @@
         "id": "3852:15200",
         "name": "Style=Default, State=Hover, Size=lg, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -4833,14 +2564,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15166",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -4856,13 +2602,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15166;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4883,9 +2641,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4895,6 +2658,10 @@
         "id": "3852:15344",
         "name": "Style=Inverted, State=Hover, Size=lg, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -4916,14 +2683,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15345",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -4939,13 +2721,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15345;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -4966,9 +2760,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -4978,6 +2777,10 @@
         "id": "3852:15253",
         "name": "Style=Default, State=Hover, Size=lg, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -4999,14 +2802,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15254",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -5022,13 +2840,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15254;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5049,9 +2879,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5061,6 +2896,10 @@
         "id": "3852:15346",
         "name": "Style=Inverted, State=Hover, Size=lg, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -5082,14 +2921,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15347",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -5105,13 +2959,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15347;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5132,9 +2998,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5144,6 +3015,10 @@
         "id": "3852:15206",
         "name": "Style=Default, State=Press, Size=sm, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -5165,14 +3040,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15137",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -5188,13 +3078,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15137;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5215,9 +3117,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5227,6 +3134,10 @@
         "id": "3852:15348",
         "name": "Style=Inverted, State=Press, Size=sm, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -5248,14 +3159,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15349",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -5271,13 +3197,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15349;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5298,9 +3236,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5310,6 +3253,10 @@
         "id": "3852:15255",
         "name": "Style=Default, State=Press, Size=sm, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -5331,14 +3278,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15256",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -5354,13 +3316,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15256;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5381,9 +3355,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5393,6 +3372,10 @@
         "id": "3852:15350",
         "name": "Style=Inverted, State=Press, Size=sm, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
         "styles": {
           "fills": [
             {
@@ -5414,14 +3397,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15351",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 14,
+              "height": 14
+            },
             "styles": {
               "fills": [
                 {
@@ -5437,13 +3435,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15351;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 7.424643516540527,
+                  "height": 7.424595832824707
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5464,9 +3474,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5476,6 +3491,10 @@
         "id": "3852:15205",
         "name": "Style=Default, State=Press, Size=md, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -5497,14 +3516,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15159",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -5520,13 +3554,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15159;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5547,9 +3593,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5559,6 +3610,10 @@
         "id": "3852:15352",
         "name": "Style=Inverted, State=Press, Size=md, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -5580,14 +3635,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15353",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -5603,13 +3673,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15353;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5630,9 +3712,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5642,6 +3729,10 @@
         "id": "3852:15257",
         "name": "Style=Default, State=Press, Size=md, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -5663,14 +3754,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15258",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -5686,13 +3792,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15258;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5713,9 +3831,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5725,6 +3848,10 @@
         "id": "3852:15354",
         "name": "Style=Inverted, State=Press, Size=md, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
         "styles": {
           "fills": [
             {
@@ -5746,14 +3873,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15355",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -5769,13 +3911,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15355;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5796,9 +3950,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5808,6 +3967,10 @@
         "id": "3852:15199",
         "name": "Style=Default, State=Press, Size=lg, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -5829,14 +3992,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15168",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -5852,13 +4030,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15168;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5879,9 +4069,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5891,6 +4086,10 @@
         "id": "3852:15356",
         "name": "Style=Inverted, State=Press, Size=lg, Shape=Rounded",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -5912,14 +4111,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 2
+          "cornerRadius": 2,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15357",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -5935,13 +4149,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15357;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -5962,9 +4188,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -5974,6 +4205,10 @@
         "id": "3852:15259",
         "name": "Style=Default, State=Press, Size=lg, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -5995,14 +4230,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15260",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -6018,13 +4268,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15260;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -6045,9 +4307,14 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
@@ -6057,6 +4324,10 @@
         "id": "3852:15358",
         "name": "Style=Inverted, State=Press, Size=lg, Shape=Circle",
         "type": "COMPONENT",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
         "styles": {
           "fills": [
             {
@@ -6078,14 +4349,29 @@
             }
           ],
           "strokes": [],
+          "strokeWeight": 1,
+          "strokeAlign": "INSIDE",
           "effects": [],
-          "cornerRadius": 9999
+          "cornerRadius": 9999,
+          "layoutMode": "HORIZONTAL",
+          "primaryAxisAlignItems": "CENTER",
+          "counterAxisAlignItems": "CENTER",
+          "primaryAxisSizingMode": "FIXED",
+          "counterAxisSizingMode": "FIXED",
+          "constraints": {
+            "vertical": "TOP",
+            "horizontal": "LEFT"
+          }
         },
         "children": [
           {
             "id": "3852:15359",
             "name": "icon",
             "type": "INSTANCE",
+            "size": {
+              "width": 16,
+              "height": 16
+            },
             "styles": {
               "fills": [
                 {
@@ -6101,13 +4387,25 @@
                 }
               ],
               "strokes": [],
-              "effects": []
+              "strokeWeight": 1,
+              "strokeAlign": "INSIDE",
+              "effects": [],
+              "layoutAlign": "INHERIT",
+              "layoutGrow": 0,
+              "constraints": {
+                "vertical": "TOP",
+                "horizontal": "LEFT"
+              }
             },
             "children": [
               {
                 "id": "I3852:15359;28:15032",
                 "name": "Vector",
                 "type": "VECTOR",
+                "size": {
+                  "width": 8.485306739807129,
+                  "height": 8.485252380371094
+                },
                 "styles": {
                   "fills": [
                     {
@@ -6128,14 +4426,27 @@
                     }
                   ],
                   "strokes": [],
-                  "effects": []
-                },
-                "children": []
+                  "strokeWeight": 1,
+                  "strokeAlign": "INSIDE",
+                  "effects": [],
+                  "constraints": {
+                    "vertical": "SCALE",
+                    "horizontal": "SCALE"
+                  }
+                }
               }
             ]
           }
         ]
       }
     ]
+  },
+  "_metadata": {
+    "fileKey": "hNwky49HL9rYtxWb5smgqZ",
+    "nodeIds": [
+      "3852:15208"
+    ],
+    "fetchedAt": "2026-01-24T03:26:15.614Z",
+    "source": "Figma REST API"
   }
 }

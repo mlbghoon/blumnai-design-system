@@ -1,69 +1,52 @@
 import { forwardRef, useMemo } from 'react';
 
-import { IconLoader } from '../../../icons/IconLoader';
+import { Icon } from '../../icons/Icon';
 import { cn } from '../../../utils/cn';
 
+import { SIZE_CONFIG, STYLE_CONFIG, SHAPE_CONFIG, CONTAINER_BASE, DISABLED_STYLE } from './ControlButton.constants';
 import type { ControlButtonProps } from './ControlButton.types';
 
 /**
- * ControlButton component
+ * ControlButton 컴포넌트
  *
- * A specialized icon-only button for controls (play, pause, skip, etc.).
- * Always square/circular with equal padding.
+ * 미디어 컨트롤(재생, 일시정지, 건너뛰기 등)을 위한 아이콘 전용 버튼입니다.
+ * Default, Inverted 스타일과 sm, md, lg 크기를 지원합니다.
+ * Figma 디자인을 기반으로 구현되었습니다.
  */
 export const ControlButton = forwardRef<HTMLButtonElement, ControlButtonProps>(({
+  style = 'default',
   size = 'md',
   shape = 'rounded',
   icon,
   disabled = false,
-  darkMode = false,
   className,
   'aria-label': ariaLabel,
   ...props
 }, ref) => {
-  // Size classes - equal padding for square buttons
-  const sizeClasses = useMemo(() => {
-    switch (size) {
-      case 'md':
-        return 'p-2.5';
-      case 'lg':
-        return 'p-3.5';
-      default:
-        return 'p-2.5';
-    }
-  }, [size]);
+  const sizeClasses = SIZE_CONFIG.button[size] ?? SIZE_CONFIG.button.md;
+  const iconSize = SIZE_CONFIG.icon[size] ?? 16;
+  const shapeClasses = SHAPE_CONFIG[shape] ?? SHAPE_CONFIG.rounded;
 
-  // Icon size based on button size
-  const iconSize = useMemo(() => {
-    switch (size) {
-      case 'md':
-        return 16;
-      case 'lg':
-        return 18;
-      default:
-        return 16;
-    }
-  }, [size]);
-
-  // Shape classes
-  const shapeClasses = useMemo(() => {
-    return shape === 'circle' ? 'rounded-full' : 'rounded-md';
-  }, [shape]);
+  const styleClasses = useMemo(() => {
+    const config = STYLE_CONFIG[style];
+    if (!config) return STYLE_CONFIG.default.base;
+    if (disabled) return DISABLED_STYLE;
+    return `${config.base} ${config.states} ${config.focus}`;
+  }, [style, disabled]);
 
   const containerClassName = cn(
-    'inline-flex items-center justify-center',
-    'aspect-square',
-    'bg-transparent',
-    shapeClasses,
-    darkMode ? 'text-[#6f6f77] hover:bg-[#27272a0f]' : 'text-[#6f6f77] hover:bg-[#27272a0f]',
-    'transition-all duration-200',
-    'focus:outline-none focus:ring-1 focus:ring-[#65a0fd66]',
+    CONTAINER_BASE,
     sizeClasses,
-    disabled && 'bg-[#27272a14] text-[#27272a4d] cursor-not-allowed hover:bg-[#27272a14]',
+    shapeClasses,
+    styleClasses,
     className
   );
 
-  const iconColor = disabled ? '#27272a40' : '#6f6f77';
+  const getIconColor = () => {
+    const config = STYLE_CONFIG[style] ?? STYLE_CONFIG.default;
+    if (disabled) return config.disabledIconColor;
+    return config.iconColor;
+  };
 
   return (
     <button
@@ -74,10 +57,10 @@ export const ControlButton = forwardRef<HTMLButtonElement, ControlButtonProps>((
       aria-label={ariaLabel}
       {...props}
     >
-      <IconLoader
-        type={icon}
+      <Icon
+        iconType={icon}
         size={iconSize}
-        color={iconColor}
+        color={getIconColor()}
       />
     </button>
   );

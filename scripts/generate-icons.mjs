@@ -18,8 +18,8 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
-const ICONS_DIR = path.join(ROOT, 'src', 'icons');
-const SVG_SOURCE_DIR = path.join(ICONS_DIR, 'svg-source');
+const ICONS_OUTPUT_DIR = path.join(ROOT, 'src', 'components', 'icons', 'Icon', 'icons');
+const SVG_SOURCE_DIR = path.join(ROOT, 'src', 'icons', 'svg-source');
 
 /**
  * Convert kebab-case filename to PascalCase component name
@@ -167,6 +167,41 @@ function normalizeSVGIds(svgContent, componentName) {
 }
 
 /**
+ * Apply cursor-specific SVG transformations
+ * Cursor icons need fill="white" converted to inline styles to prevent IconWrapper override
+ * @param {string} svgContent - SVG content
+ * @returns {string} - Transformed SVG content
+ */
+function applyCursorTransforms(svgContent) {
+  let out = svgContent;
+
+  // Convert fill="white" to style={{ fill: 'white' }} to prevent IconWrapper override
+  // IconWrapper sets fill: currentColor which would override the attribute
+  out = out.replace(/(<path[^>]*)\s+fill="white"([^>]*>)/g, '$1 style={{ fill: \'white\' }}$2');
+
+  // For stroke-only paths, ensure fill doesn't get inherited
+  out = out.replace(/(<path[^>]*)\s+stroke="([^"]+)"([^>]*)(\/?>)/g, (match, before, strokeVal, after, closing) => {
+    // If already has fill or style, leave it alone
+    if (before.includes('fill=') || before.includes('style=') || after.includes('fill=') || after.includes('style=')) {
+      return match;
+    }
+    return `${before} style={{ fill: 'none' }} stroke="${strokeVal}"${after}${closing}`;
+  });
+
+  // Handle style="mask-type:..." for cursors
+  out = out.replace(/style="mask-type:([^"]+)"/g, (_m, maskType) => {
+    return `style={{ maskType: '${String(maskType).trim()}' }}`;
+  });
+
+  // Handle style="mix-blend-mode:..." for cursors
+  out = out.replace(/style="mix-blend-mode:([^"]+)"/g, (_m, mode) => {
+    return `style={{ mixBlendMode: '${String(mode).trim()}' }}`;
+  });
+
+  return out;
+}
+
+/**
  * Normalize SVG content for use in TSX
  * @param {string} svgContent - Raw SVG content
  * @param {string} componentName - Component name for ID normalization
@@ -175,6 +210,11 @@ function normalizeSVGIds(svgContent, componentName) {
  */
 function normalizeSVG(svgContent, componentName, category) {
   let normalized = svgContent.trim();
+
+  // Apply cursor-specific transformations first (before other processing)
+  if (category === 'cursors') {
+    normalized = applyCursorTransforms(normalized);
+  }
   
   // Ensure viewBox is present
   if (!normalized.includes('viewBox=')) {
@@ -231,9 +271,9 @@ function normalizeSVG(svgContent, componentName, category) {
  */
 function generateComponentContent(componentName, svgContent) {
   return `// This file is auto-generated. Do not edit manually.
-import type { Props } from '../Icon.types';
+import type { Props } from '../../IconWrapper.types';
 
-import { Icon } from '../Icon';
+import { Icon } from '../../IconWrapper';
 
 export const ${componentName} = (props: Props) => {
   return (
@@ -279,7 +319,7 @@ function processSVGFile(svgFilePath, category) {
     
     // Generate TSX file
     const componentContent = generateComponentContent(componentName, normalizedSVG);
-    const outputDir = path.join(ICONS_DIR, category);
+    const outputDir = path.join(ICONS_OUTPUT_DIR, category);
     const outputPath = path.join(outputDir, `${componentName}.tsx`);
     
     // Ensure output directory exists
@@ -298,6 +338,17 @@ function processSVGFile(svgFilePath, category) {
 }
 
 /**
+ * Categories that have their own dedicated generation scripts and folders.
+ * These are excluded from the main generate-icons.mjs script.
+ */
+const EXCLUDED_CATEGORIES = new Set([
+  'brands',    // -> BrandIcon/icons/ via generate-brands-icons.mjs
+  'cursors',   // -> CursorIcon/icons/ via generate-cursors-icons.mjs
+  'flags',     // -> FlagIcon/icons/ via generate-flags-icons.mjs
+  'fileIcons', // -> FileIcon/icons/ via generate-file-icons.mjs
+]);
+
+/**
  * Get all category directories from svg-source
  * @returns {string[]} - Array of category names
  */
@@ -306,10 +357,11 @@ function getCategoryDirectories() {
     console.error(`❌ SVG source directory not found: ${SVG_SOURCE_DIR}`);
     process.exit(1);
   }
-  
+
   const entries = fs.readdirSync(SVG_SOURCE_DIR, { withFileTypes: true });
   return entries
     .filter(entry => entry.isDirectory())
+    .filter(entry => !EXCLUDED_CATEGORIES.has(entry.name))
     .map(entry => entry.name);
 }
 
@@ -318,7 +370,7 @@ function getCategoryDirectories() {
  * @param {string} category - Category name
  */
 function cleanCategoryDirectory(category) {
-  const categoryDir = path.join(ICONS_DIR, category);
+  const categoryDir = path.join(ICONS_OUTPUT_DIR, category);
   
   if (!fs.existsSync(categoryDir)) {
     return;
@@ -375,7 +427,7 @@ function processCategory(category) {
   // Generate index.ts for category
   if (componentNames.length > 0) {
     const indexContent = generateIndexContent(componentNames);
-    const indexPath = path.join(ICONS_DIR, category, 'index.ts');
+    const indexPath = path.join(ICONS_OUTPUT_DIR, category, 'index.ts');
     fs.writeFileSync(indexPath, indexContent, 'utf-8');
   }
   
@@ -387,46 +439,22 @@ function processCategory(category) {
  * @param {string[]} categories - Array of category names
  */
 function updateMainIndex(categories) {
-  const indexPath = path.join(ICONS_DIR, 'index.ts');
-  
-  // Read existing index.ts to preserve Icon and IconProps exports
-  let existingContent = '';
-  if (fs.existsSync(indexPath)) {
-    existingContent = fs.readFileSync(indexPath, 'utf-8');
-  }
-  
-  // Extract existing Icon/IconProps exports (preserve exact format)
-  const iconExportLines = [];
-  const lines = existingContent.split('\n');
-  for (const line of lines) {
-    if (line.includes('from') && (line.includes('./Icon') || line.includes("'./Icon") || line.includes('"./Icon'))) {
-      iconExportLines.push(line.trim());
-    }
-  }
-  
-  // If no existing exports found, use default
-  if (iconExportLines.length === 0) {
-    iconExportLines.push("export { Icon } from './Icon';");
-    iconExportLines.push("export type { Props as IconProps } from './Icon.types';");
-  }
-  
-  // Generate category exports
+  const indexPath = path.join(ICONS_OUTPUT_DIR, 'index.ts');
+
+  // Generate category exports only
+  // Note: Icon and IconProps are exported from the parent Icon/index.ts, not from icons/index.ts
   const categoryExports = categories
     .sort()
     .map(category => {
       // Use quotes for category names with spaces or special characters
-      const needsQuotes = /[ &]/.test(category);
-      const categoryPath = needsQuotes ? `'./${category}'` : `'./${category}'`;
+      const categoryPath = `'./${category}'`;
       return `export * from ${categoryPath};`;
     })
     .join('\n');
-  
-  // Combine all exports
-  const newContent = `${iconExportLines.join('\n')}
 
-${categoryExports}
+  const newContent = `${categoryExports}
 `;
-  
+
   fs.writeFileSync(indexPath, newContent, 'utf-8');
 }
 

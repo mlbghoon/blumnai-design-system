@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { AvatarGroup } from './AvatarGroup';
@@ -13,13 +15,55 @@ const meta = {
     size: {
       control: 'select',
       options: ['2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'],
+      description: '그룹 내 모든 아바타의 크기',
+      table: {
+        type: {
+          summary: 'AvatarSize',
+          detail: `'2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'`,
+        },
+      },
     },
     stacking: {
       control: 'select',
       options: ['last-on-top', 'first-on-top'],
+      description: '아바타의 겹침 순서',
+      table: {
+        type: {
+          summary: 'AvatarGroupStacking',
+          detail: `'last-on-top' | 'first-on-top'
+
+- last-on-top: 마지막 아바타가 위에 표시됨 (z-index 증가)
+- first-on-top: 첫 번째 아바타가 위에 표시됨 (z-index 감소)`,
+        },
+      },
     },
-    darkMode: {
-      control: 'boolean',
+    avatars: {
+      control: 'object',
+      description: '아바타 props 배열',
+      table: {
+        type: {
+          summary: 'AvatarProps[]',
+          detail: `각 아바타 속성:
+- variant: 'initials' | 'userpic' | 'empty'
+- initials?: string
+- src?: string
+- alt?: string
+- shape?: 'circular' | 'rounded'
+- color?: string
+
+참고: AvatarGroup에서는 상태 배지가 지원되지 않음`,
+        },
+      },
+    },
+    max: {
+      control: 'number',
+      description: '+N 표시 전 표시할 최대 아바타 수',
+      table: {
+        type: {
+          summary: 'number',
+          detail: '미제공 시 모든 아바타가 표시됨',
+        },
+      },
     },
   },
 } satisfies Meta<typeof AvatarGroup>;
@@ -34,15 +78,35 @@ const sampleAvatars = [
   { variant: 'initials' as const, initials: 'EF' },
 ];
 
+/**
+ * 기본 AvatarGroup
+ *
+ * AvatarGroup 컴포넌트는 `ref`와 `className` prop을 지원합니다.
+ * - `ref`: DOM 요소에 직접 접근 가능
+ * - `className`: 커스텀 스타일 클래스 추가 가능
+ */
 export const Default: Story = {
   args: {
     size: 'md',
     stacking: 'last-on-top',
     avatars: sampleAvatars,
+    className: '',
+  },
+  render: (args) => {
+    const groupRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (groupRef.current) {
+        console.log('AvatarGroup ref:', groupRef.current);
+      }
+    }, []);
+
+    return <AvatarGroup ref={groupRef} {...args} />;
   },
 };
 
 export const LastOnTop: Story = {
+  parameters: { controls: { disable: true } },
   args: {
     size: 'md',
     stacking: 'last-on-top',
@@ -51,6 +115,7 @@ export const LastOnTop: Story = {
 };
 
 export const FirstOnTop: Story = {
+  parameters: { controls: { disable: true } },
   args: {
     size: 'md',
     stacking: 'first-on-top',
@@ -59,6 +124,7 @@ export const FirstOnTop: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '24px' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -85,11 +151,20 @@ export const Sizes: Story = {
         <span>xl</span>
         <AvatarGroup size="xl" avatars={sampleAvatars} />
       </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <span>2xl</span>
+        <AvatarGroup size="2xl" avatars={sampleAvatars} />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <span>3xl</span>
+        <AvatarGroup size="3xl" avatars={sampleAvatars} />
+      </div>
     </div>
   ),
 };
 
 export const WithMax: Story = {
+  parameters: { controls: { disable: true } },
   args: {
     size: 'md',
     stacking: 'last-on-top',
@@ -105,20 +180,8 @@ export const WithMax: Story = {
   },
 };
 
-export const WithStatus: Story = {
-  args: {
-    size: 'md',
-    stacking: 'last-on-top',
-    avatars: [
-      { variant: 'initials' as const, initials: 'JD', status: 'online' as const },
-      { variant: 'initials' as const, initials: 'AB', status: 'offline' as const },
-      { variant: 'initials' as const, initials: 'CD', status: 'notification' as const },
-      { variant: 'initials' as const, initials: 'EF', status: 'offline' as const },
-    ],
-  },
-};
-
 export const MixedVariants: Story = {
+  parameters: { controls: { disable: true } },
   args: {
     size: 'md',
     stacking: 'last-on-top',
@@ -131,27 +194,3 @@ export const MixedVariants: Story = {
   },
 };
 
-export const DarkMode: Story = {
-  args: {
-    size: 'md',
-    stacking: 'last-on-top',
-    avatars: sampleAvatars,
-    darkMode: true,
-  },
-  parameters: {
-    backgrounds: {
-      default: 'dark',
-    },
-  },
-  render: (args) => (
-    <div
-      style={{
-        padding: '24px',
-        backgroundColor: '#18181b',
-        borderRadius: '8px',
-      }}
-    >
-      <AvatarGroup {...args} />
-    </div>
-  ),
-};

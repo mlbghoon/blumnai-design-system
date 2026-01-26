@@ -1,5 +1,7 @@
 import type { HTMLAttributes } from 'react';
 
+import type { IconType } from '../../icons/Icon/Icon.types';
+
 export type BadgeVariant = 'default' | 'icon' | 'image' | 'dot';
 
 export type BadgeSize = 'sm' | 'lg';
@@ -59,9 +61,9 @@ export interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childr
   label?: string;
   /**
    * The icon type to display (for icon variant).
-   * Accepts icon type names compatible with IconLoader.
+   * @example icon={['system', 'check']}
    */
-  icon?: string;
+  icon?: IconType;
   /**
    * The image source URL (for image variant).
    */
@@ -70,9 +72,4 @@ export interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childr
    * Callback when close icon is clicked (only used when closeIcon=true).
    */
   onClose?: () => void;
-  /**
-   * If true, applies dark mode styles.
-   * @default false
-   */
-  darkMode?: boolean;
 }

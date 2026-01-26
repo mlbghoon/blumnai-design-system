@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-export type TooltipVariant = 'default' | 'advanced';
+import type { IconType } from '../../icons/Icon';
 
 export type TooltipItemType = 'divider' | 'label' | 'item' | 'text';
 
@@ -22,9 +22,9 @@ export interface TooltipItemData {
    */
   indicatorColor?: string;
   /**
-   * The icon name (for item type with icon).
+   * The icon type (for item type with icon).
    */
-  icon?: string;
+  icon?: IconType;
   /**
    * The text content (for text type).
    */
@@ -33,29 +33,29 @@ export interface TooltipItemData {
 
 export interface TooltipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
   /**
-   * The variant of the tooltip.
-   * - `default`: Simple tooltip with text and optional badge
-   * - `advanced`: Tooltip with multiple items (dividers, labels, icons, captions)
-   * @default 'default'
-   */
-  variant?: TooltipVariant;
-  /**
-   * The content of the tooltip (for default variant).
+   * The content of the tooltip.
    */
   children?: ReactNode;
   /**
-   * The badge text to display (for default variant).
+   * The badge text to display.
    * When provided, shows a badge next to the tooltip text.
    */
   badge?: string;
   /**
-   * The items array for advanced variant.
+   * The maximum width of the tooltip.
+   * @default 240
+   */
+  maxWidth?: number;
+}
+
+export interface AdvancedTooltipProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * The items array for advanced tooltip.
    * Each item can be a divider, label, item (with indicator/icon), or text.
    */
-  items?: TooltipItemData[];
+  items: TooltipItemData[];
   /**
-   * If true, applies dark mode styles.
-   * @default false
+   * The minimum width of the tooltip.
    */
-  darkMode?: boolean;
+  minWidth?: number;
 }

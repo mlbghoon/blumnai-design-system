@@ -1,0 +1,14 @@
+import type { Props } from '../../Icon/IconWrapper.types';
+
+import { Icon } from '../../Icon/IconWrapper';
+
+export const BrandDigitalOceanIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fillRule="evenodd" clipRule="evenodd" d="M11.1651 23V19.0607C15.3348 19.0607 18.5715 14.9257 16.9703 10.537C16.6762 9.73076 16.2094 8.99856 15.6026 8.39169C14.9958 7.78482 14.2637 7.31795 13.4575 7.02378C9.0688 5.43436 4.93376 8.65929 4.93376 12.829H1.00586C1.00586 6.1834 7.4333 1.00002 14.4018 3.17662C17.4429 4.13321 19.8731 6.5516 20.8178 9.59305C22.9949 16.5726 17.8229 23 11.1651 23Z" fill="#0080FF"/>
+<path fillRule="evenodd" clipRule="evenodd" d="M7.2603 19.0723H11.1764V15.1562H7.26071L7.2603 19.0723ZM4.24251 22.0901H7.25989V19.0727H4.24251V22.0901ZM1.71973 19.0727H4.24251V16.5495H1.71973V19.0727Z" fill="#0080FF"/>
+</svg>
+    </Icon>
+  );
+};

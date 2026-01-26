@@ -1,0 +1,26 @@
+// This file is auto-generated. Do not edit manually.
+import type { Props } from '../../Icon/IconWrapper.types';
+
+import { Icon } from '../../Icon/IconWrapper';
+
+export const FlagGrIcon = (props: Props) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clipPath="url(#FlagGrIcon__clip0_3811_32059)">
+<path d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z" fill="#F0F0F0"/>
+<path d="M12 8.86955H23.5866C23.2857 7.75327 22.8284 6.70134 22.2387 5.73909H12V8.86955Z" fill="#338AF3"/>
+<path d="M4.53014 21.3913H19.4698C20.565 20.5191 21.5041 19.4596 22.2387 18.2609H1.76128C2.49586 19.4595 3.43505 20.5191 4.53014 21.3913Z" fill="#338AF3"/>
+<path d="M4.17389 2.90339C3.23048 3.71578 2.41491 4.67245 1.76128 5.73914H4.17389V2.90339Z" fill="#338AF3"/>
+<path d="M12 12C12 10.7777 12 9.75473 12 8.86955H7.30434V12H4.17389V8.86955H0.413391C0.144375 9.8677 0 10.9169 0 12C0 13.0831 0.144375 14.1323 0.413391 15.1305H23.5867C23.8556 14.1323 24 13.0831 24 12H12Z" fill="#338AF3"/>
+<path d="M12 0C10.3336 0 8.74669 0.339984 7.30434 0.953812V5.73914L12 5.73909C12 4.64634 12 3.717 12 2.60869H19.4699C17.42 0.976125 14.8242 0 12 0Z" fill="#338AF3"/>
+</g>
+<defs>
+<clipPath id="FlagGrIcon__clip0_3811_32059">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+    </Icon>
+  );
+};

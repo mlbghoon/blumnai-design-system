@@ -1,69 +1,68 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, isValidElement } from 'react';
 
 import { Avatar } from '../../avatar/Avatar';
+import { Icon } from '../../icons/Icon';
+import type { IconType } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
 
-import type { AvatarButtonProps } from './AvatarButton.types';
+import { SIZE_CONFIG, STYLE_CONFIG, CONTAINER_BASE, TEXT_STYLE } from './AvatarButton.constants';
+import type { AvatarButtonProps, AvatarButtonIconType } from './AvatarButton.types';
 
 /**
- * AvatarButton component
+ * AvatarButton 컴포넌트
  *
- * A specialized button with an avatar image and label text.
+ * 아바타 이미지와 라벨 텍스트를 포함하는 버튼 컴포넌트입니다.
+ * Default, Dashed, Soft 스타일과 sm, lg 크기를 지원합니다.
+ * Figma 디자인을 기반으로 구현되었습니다.
  */
 export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
-  size = 'md',
+  style = 'default',
+  size = 'lg',
   avatar,
   alt,
   label,
+  tailIcon,
   disabled = false,
-  darkMode = false,
   className,
   ...props
 }, ref) => {
-  // Size classes
-  const sizeClasses = useMemo(() => {
-    switch (size) {
-      case 'xs':
-        return 'text-xs leading-4 px-1 py-0.5 gap-1';
-      case 'sm':
-        return 'text-sm leading-5 px-1.5 py-1.5 gap-1.5';
-      case 'md':
-        return 'text-sm leading-5 px-2.5 py-2.5 gap-2';
-      case 'lg':
-        return 'text-base leading-6 px-3.5 py-3.5 gap-2';
-      default:
-        return 'text-sm leading-5 px-2.5 py-2.5 gap-2';
-    }
-  }, [size]);
+  const sizeClasses = SIZE_CONFIG.button[size] ?? SIZE_CONFIG.button.lg;
+  const avatarSize = SIZE_CONFIG.avatar[size] ?? '2xs';
+  const iconSize = SIZE_CONFIG.icon[size] ?? 20;
 
-  // Map AvatarButton size to Avatar size
-  const avatarSize = useMemo(() => {
-    switch (size) {
-      case 'xs':
-        return 'xs';
-      case 'sm':
-        return 'sm';
-      case 'md':
-        return 'md';
-      case 'lg':
-        return 'lg';
-      default:
-        return 'md';
-    }
-  }, [size]);
+  const styleClasses = useMemo(() => {
+    const config = STYLE_CONFIG[style];
+    if (!config) return STYLE_CONFIG.default.base;
+    if (disabled) return config.disabled;
+    return `${config.base} ${config.states} ${config.focus}`;
+  }, [style, disabled]);
 
   const containerClassName = cn(
-    'inline-flex items-center justify-center',
-    'font-medium tracking-[-0.6px]',
-    'rounded-full',
-    'bg-transparent',
-    darkMode ? 'text-[#6f6f77] hover:bg-[#27272a0f]' : 'text-[#6f6f77] hover:bg-[#27272a0f]',
-    'transition-all duration-200',
-    'focus:outline-none focus:ring-2 focus:ring-[#65a0fd66] focus:ring-offset-2',
+    CONTAINER_BASE,
     sizeClasses,
-    disabled && 'bg-[#27272a14] text-[#27272a4d] cursor-not-allowed hover:bg-[#27272a14]',
+    styleClasses,
+    TEXT_STYLE,
     className
   );
+
+  const getIconColor = () => {
+    if (disabled) return 'var(--icon-default-disabled)';
+    return 'var(--icon-default-muted)';
+  };
+
+  const renderIcon = (icon: AvatarButtonIconType | React.ReactNode) => {
+    if (!icon) return null;
+    if (typeof icon === 'object' && !Array.isArray(icon) && Object.keys(icon as object).length === 0) return null;
+
+    if (Array.isArray(icon) && (icon.length === 2 || icon.length === 3) && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
+      const fillValue = icon[2] as boolean | string | undefined;
+      const isFill = icon.length === 3 && (fillValue === true || fillValue === 'true');
+      return <Icon iconType={[icon[0], icon[1]] as IconType} isFill={isFill} size={iconSize} color={getIconColor()} />;
+    }
+
+    if (!isValidElement(icon)) return null;
+    return <span className="inline-flex items-center">{icon}</span>;
+  };
 
   return (
     <button
@@ -80,9 +79,9 @@ export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
         src={avatar}
         alt={alt}
         ring={false}
-        darkMode={darkMode}
       />
       <span>{label}</span>
+      {tailIcon && renderIcon(tailIcon)}
     </button>
   );
 });
