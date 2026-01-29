@@ -21,7 +21,7 @@ import {
   RING_ROUNDED_RADIUS_CLASSES,
   RING_SHAPE_CLASSES_CIRCULAR,
   RING_SIZE_CLASSES,
-} from '../../../constants/avatar/Avatar/Avatar.constants';
+} from 'constants/avatar/Avatar/Avatar.constants';
 import { cn } from '../../../utils/cn';
 
 import { AvatarBadge } from './AvatarBadge';
@@ -31,10 +31,10 @@ import type { AvatarProps } from './Avatar.types';
 const EMPTY_VARIANT_PLACEHOLDER_ICON = avatarPlaceholderIcon;
 
 /**
- * Avatar component
+ * Avatar 컴포넌트
  *
- * Displays a user avatar with support for initials, images, or empty state.
- * Supports multiple sizes, shapes (circular/rounded), and status indicators.
+ * 이니셜, 이미지 또는 빈 상태를 지원하는 사용자 아바타를 표시합니다.
+ * 다양한 크기, 모양(원형/둥근 사각형), 상태 인디케이터를 지원합니다.
  */
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
   (

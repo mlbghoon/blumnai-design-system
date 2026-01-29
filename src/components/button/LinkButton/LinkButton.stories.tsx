@@ -59,6 +59,7 @@ const meta: Meta<typeof LinkButton> = {
     label: {
       control: 'text',
       description: '링크 버튼의 라벨 텍스트',
+      type: { required: true },
       table: {
         type: { summary: 'string' },
       },

@@ -277,6 +277,7 @@ const meta: Meta<typeof FlagIcon> = {
       control: 'select',
       options: allCountries,
       description: '국기의 국가 또는 지역 코드',
+      type: { required: true },
       table: {
         type: {
           summary: 'CountryCode',

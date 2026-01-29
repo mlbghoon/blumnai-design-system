@@ -15,8 +15,8 @@ export interface DropdownButtonProps extends Omit<ButtonHTMLAttributes<HTMLButto
    */
   isOpen?: boolean;
   /**
-   * 컨텐츠 정렬 방향
-   * @default 'left'
+   * 라벨 텍스트 정렬
+   * @default 'center'
    */
   align?: DropdownButtonAlign;
   /**
@@ -37,6 +37,10 @@ export interface DropdownButtonProps extends Omit<ButtonHTMLAttributes<HTMLButto
    * @default false
    */
   disabled?: boolean;
+  /**
+   * 버튼 너비 (예: 200, '100%', 'auto')
+   */
+  width?: number | string;
   /**
    * 커스텀 드롭다운 메뉴 컨텐츠
    */

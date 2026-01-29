@@ -12,6 +12,7 @@ const meta: Meta<typeof BrandIcon> = {
   argTypes: {
     brandType: {
       control: 'select',
+      type: { required: true },
       options: [
         'adobe', 'affinity designer', 'after effects', 'airbnb', 'algorand', 'aliexpress',
         'angular', 'apple', 'apple music', 'arc', 'arc browser', 'asana', 'binance', 'bing',

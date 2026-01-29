@@ -4,7 +4,7 @@ import { Icon } from '../../icons/Icon';
 import type { IconType } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
 
-import { sizes, statusBadgePositions } from '../../../constants/avatar/Avatar/Avatar.constants';
+import { sizes, statusBadgePositions } from 'constants/avatar/Avatar/Avatar.constants';
 import type { AvatarBadgeLocation, AvatarShape, AvatarSize, AvatarStatus } from './Avatar.types';
 
 interface AvatarBadgeProps {
@@ -18,10 +18,10 @@ interface AvatarBadgeProps {
 }
 
 /**
- * Avatar Badge component
+ * AvatarBadge 컴포넌트
  *
- * Displays status indicators (online, offline, notification, checkmark, logo, icon)
- * positioned at the top-right or bottom-right corner of the avatar.
+ * 아바타의 우측 상단 또는 우측 하단에 위치한 상태 인디케이터
+ * (온라인, 오프라인, 알림, 체크마크, 로고, 아이콘)를 표시합니다.
  */
 export const AvatarBadge = ({
   status,

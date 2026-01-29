@@ -5,7 +5,7 @@ import { cn } from '../../../utils/cn';
 import {
   MENU_CONTAINER_BASE,
   MENU_SIZE_CONFIG,
-} from './DropdownMenu.constants';
+} from 'constants/dropdown/DropdownMenu/DropdownMenu.constants';
 import type { DropdownMenuProps } from './DropdownMenu.types';
 
 /**
@@ -18,27 +18,33 @@ import type { DropdownMenuProps } from './DropdownMenu.types';
 export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>(({
   children,
   width,
+  maxHeight = 300,
   className,
   ...props
 }, ref) => {
   const containerClassName = cn(
     MENU_CONTAINER_BASE,
-    MENU_SIZE_CONFIG.minWidth,
-    MENU_SIZE_CONFIG.maxWidth,
+    width === undefined && MENU_SIZE_CONFIG.minWidth,
+    width === undefined && MENU_SIZE_CONFIG.maxWidth,
     MENU_SIZE_CONFIG.padding,
+    'overflow-y-auto overflow-x-hidden scrollbar-thin',
     className
   );
 
-  const widthStyle = width !== undefined
-    ? { width: typeof width === 'number' ? width : width }
-    : undefined;
+  const styleObj: React.CSSProperties = {};
+  if (width !== undefined) {
+    styleObj.width = typeof width === 'number' ? `${width}px` : width;
+  }
+  if (maxHeight) {
+    styleObj.maxHeight = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
+  }
 
   return (
     <div
       ref={ref}
       role="menu"
       className={containerClassName}
-      style={widthStyle}
+      style={styleObj}
       {...props}
     >
       {children}

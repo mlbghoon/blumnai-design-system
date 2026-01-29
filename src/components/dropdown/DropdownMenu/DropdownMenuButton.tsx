@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import { Button } from '../../button/Button';
 import { cn } from '../../../utils/cn';
 
-import { BUTTON_CONTAINER_CONFIG } from './DropdownMenu.constants';
+import { BUTTON_CONTAINER_CONFIG } from 'constants/dropdown/DropdownMenu/DropdownMenu.constants';
 import type { DropdownMenuButtonProps } from './DropdownMenu.types';
 
 /**
@@ -14,6 +14,7 @@ import type { DropdownMenuButtonProps } from './DropdownMenu.types';
  */
 export const DropdownMenuButton = forwardRef<HTMLDivElement, DropdownMenuButtonProps>(({
   label,
+  buttonStyle = 'secondary',
   leadIcon,
   tailIcon,
   disabled = false,
@@ -23,6 +24,7 @@ export const DropdownMenuButton = forwardRef<HTMLDivElement, DropdownMenuButtonP
 }, ref) => {
   const containerClassName = cn(
     BUTTON_CONTAINER_CONFIG.container,
+    disabled ? 'cursor-not-allowed' : 'cursor-pointer',
     className
   );
 
@@ -34,7 +36,7 @@ export const DropdownMenuButton = forwardRef<HTMLDivElement, DropdownMenuButtonP
       {...props}
     >
       <Button
-        style="secondary"
+        style={buttonStyle}
         size="sm"
         leadIcon={leadIcon}
         tailIcon={tailIcon}

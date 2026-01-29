@@ -4,7 +4,7 @@ import { Avatar } from '../../avatar/Avatar';
 import { Badge } from '../../badge/Badge';
 import { cn } from '../../../utils/cn';
 
-import { USERBAR_CONFIG } from './DropdownMenu.constants';
+import { USERBAR_CONFIG } from 'constants/dropdown/DropdownMenu/DropdownMenu.constants';
 import type { DropdownMenuUserbarProps } from './DropdownMenu.types';
 
 /**
@@ -19,6 +19,7 @@ export const DropdownMenuUserbar = forwardRef<HTMLDivElement, DropdownMenuUserba
   avatarSrc,
   avatarAlt,
   badge,
+  badgeColor = 'neutral',
   className,
   ...props
 }, ref) => {
@@ -51,7 +52,7 @@ export const DropdownMenuUserbar = forwardRef<HTMLDivElement, DropdownMenuUserba
       {badge && (
         <Badge
           size="sm"
-          color="neutral"
+          color={badgeColor}
           border
           label={badge}
         />

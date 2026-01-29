@@ -51,17 +51,17 @@ export const ITEM_STATE_CONFIG = {
     iconColor: 'var(--icon-default)',
   },
   hover: {
-    bg: 'hover:bg-muted',
+    bg: 'hover:bg-state-ghost-hover',
   },
   active: {
-    bg: 'active:bg-muted',
+    bg: 'active:bg-state-ghost-hover',
     text: 'text-default',
   },
   disabled: {
     bg: 'bg-transparent',
     text: 'text-hint',
     captionText: 'text-hint',
-    iconColor: 'var(--icon-default-hint)',
+    iconColor: 'var(--icon-default-disabled)',
   },
 } as const;
 

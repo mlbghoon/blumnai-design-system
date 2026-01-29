@@ -1,0 +1,586 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
+
+import { Input } from '../Input';
+
+const meta: Meta<typeof Input> = {
+  title: 'Components/Input/AddOn',
+  component: Input,
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'padded',
+    controls: { disable: true },
+  },
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['addon', 'inline-addon'],
+      description: '입력 필드의 변형 (addon: 분리된, inline-addon: 인라인)',
+      type: { required: true },
+      table: {
+        type: { summary: 'InputVariant' },
+        defaultValue: { summary: 'addon' },
+      },
+    },
+    inputStyle: {
+      control: 'select',
+      options: ['default', 'shadow', 'soft'],
+      description: '입력 필드의 스타일 변형',
+      table: {
+        type: {
+          summary: 'InputStyle',
+          detail: `'default' | 'shadow' | 'soft'`,
+        },
+        defaultValue: { summary: 'default' },
+      },
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'lg'],
+      description: '입력 필드의 크기',
+      table: {
+        type: {
+          summary: 'InputSize',
+          detail: `'sm' | 'lg'`,
+        },
+        defaultValue: { summary: 'sm' },
+      },
+    },
+    label: {
+      control: 'text',
+      description: '입력 필드의 라벨',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    placeholder: {
+      control: 'text',
+      description: '플레이스홀더 텍스트',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    value: {
+      control: 'text',
+      description: '입력 필드 값 (제어 컴포넌트)',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    onChange: {
+      action: 'changed',
+      description: '입력 값 변경 시 콜백',
+      table: {
+        type: { summary: '(e: ChangeEvent<HTMLInputElement>) => void' },
+      },
+    },
+    caption: {
+      control: 'text',
+      description: '입력 필드 아래 설명 텍스트',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    required: {
+      control: 'boolean',
+      description: '필수 입력 여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    disabled: {
+      control: 'boolean',
+      description: '비활성화 여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    error: {
+      control: 'text',
+      description: '에러 상태 또는 메시지',
+      table: {
+        type: { summary: 'boolean | string' },
+      },
+    },
+    success: {
+      control: 'text',
+      description: '성공 상태 또는 메시지',
+      table: {
+        type: { summary: 'boolean | string' },
+      },
+    },
+    leadIcon: {
+      control: 'object',
+      description: '입력 필드 앞에 표시되는 아이콘',
+      table: {
+        type: { summary: 'IconType' },
+      },
+    },
+    tailIcon: {
+      control: 'object',
+      description: '입력 필드 뒤에 표시되는 아이콘',
+      table: {
+        type: { summary: 'IconType' },
+      },
+    },
+    onClear: {
+      action: 'cleared',
+      description: '입력 내용 삭제 버튼 클릭 시 콜백',
+      table: {
+        type: { summary: '() => void' },
+      },
+    },
+    prefix: {
+      control: 'text',
+      description: '입력 필드 앞에 표시되는 애드온',
+      table: {
+        type: { summary: 'ReactNode' },
+      },
+    },
+    suffix: {
+      control: 'text',
+      description: '입력 필드 뒤에 표시되는 애드온',
+      table: {
+        type: { summary: 'ReactNode' },
+      },
+    },
+    autoComplete: {
+      control: 'text',
+      description: '브라우저 자동완성 설정 (기본값: "off"로 자동완성 비활성화)',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'off' },
+      },
+    },
+    width: {
+      control: 'text',
+      description: '입력 필드 컨테이너의 커스텀 너비 (숫자는 px, 문자열은 그대로 사용)',
+      table: {
+        type: { summary: 'string | number' },
+      },
+    },
+    className: {
+      control: 'text',
+      description: '컴포넌트에 전달할 추가 CSS 클래스',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof Input>;
+
+// ============================================================================
+// BASIC VARIANTS
+// ============================================================================
+
+/**
+ * 기본 애드온 입력 필드
+ *
+ * 이 스토리에서 컴포넌트의 모든 props를 테스트할 수 있습니다.
+ * Input 컴포넌트는 `ref`와 `className` prop을 지원합니다.
+ */
+export const Default: Story = {
+  args: {
+    variant: 'addon',
+    label: 'Website',
+    placeholder: 'your-site',
+    prefix: 'https://',
+    suffix: '.com',
+  },
+  parameters: {
+    controls: { disable: false },
+  },
+};
+
+/**
+ * 분리된 애드온 (입력 필드 외부)
+ *
+ * `variant="addon"`으로 애드온을 입력 필드 외부에 표시합니다.
+ */
+export const SeparateAddOn: Story = {
+  args: {
+    variant: 'addon',
+    label: 'Website',
+    placeholder: 'your-site',
+    prefix: 'https://',
+    suffix: '.com',
+  },
+};
+
+/**
+ * 인라인 애드온 (입력 필드 내부)
+ *
+ * `variant="inline-addon"`으로 애드온을 입력 필드 내부에 표시합니다.
+ */
+export const InlineAddOn: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Price',
+    placeholder: '0.00',
+    prefix: '$',
+    suffix: 'USD',
+  },
+};
+
+// ============================================================================
+// PREFIX ONLY
+// ============================================================================
+
+/**
+ * Twitter 핸들 (@)
+ */
+export const PrefixTwitter: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Twitter Handle',
+    placeholder: 'username',
+    prefix: '@',
+  },
+};
+
+/**
+ * 전화번호 (+1)
+ */
+export const PrefixPhone: Story = {
+  args: {
+    variant: 'addon',
+    label: 'Phone',
+    placeholder: '555-1234',
+    prefix: '+1',
+  },
+};
+
+/**
+ * 해시태그 (#)
+ */
+export const PrefixHashtag: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Hashtag',
+    placeholder: 'topic',
+    prefix: '#',
+  },
+};
+
+// ============================================================================
+// SUFFIX ONLY
+// ============================================================================
+
+/**
+ * 무게 (kg)
+ */
+export const SuffixWeight: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Weight',
+    placeholder: '0.0',
+    suffix: 'kg',
+  },
+};
+
+/**
+ * 이메일 도메인
+ */
+export const SuffixEmail: Story = {
+  args: {
+    variant: 'addon',
+    label: 'Email',
+    placeholder: 'username',
+    suffix: '@company.com',
+  },
+};
+
+/**
+ * 퍼센트 (%)
+ */
+export const SuffixPercent: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Percentage',
+    placeholder: '0',
+    suffix: '%',
+  },
+};
+
+// ============================================================================
+// WITH ICONS
+// ============================================================================
+
+/**
+ * 앞쪽 아이콘
+ *
+ * `leadIcon` prop으로 아이콘을 추가할 수 있습니다.
+ */
+export const WithLeadIcon: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Price with Icon',
+    placeholder: '0.00',
+    prefix: '$',
+    suffix: 'USD',
+    leadIcon: ['finance', 'money-dollar-circle'],
+  },
+};
+
+/**
+ * 뒤쪽 아이콘
+ *
+ * `tailIcon` prop으로 아이콘을 추가할 수 있습니다.
+ */
+export const WithTailIcon: Story = {
+  args: {
+    variant: 'addon',
+    label: 'Website with Icon',
+    placeholder: 'your-site',
+    prefix: 'https://',
+    suffix: '.com',
+    tailIcon: ['system', 'external-link'],
+  },
+};
+
+// ============================================================================
+// WITH CLEAR BUTTON
+// ============================================================================
+
+/**
+ * 삭제 버튼이 있는 애드온 입력 필드
+ *
+ * `onClear` prop을 전달하면 입력 내용을 삭제할 수 있는 버튼이 표시됩니다.
+ */
+export const WithClearButton: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('example');
+    return (
+      <Input
+        variant="addon"
+        label="Website"
+        placeholder="your-site"
+        prefix="https://"
+        suffix=".com"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onClear={() => setValue('')}
+      />
+    );
+  },
+};
+
+// ============================================================================
+// SIZES
+// ============================================================================
+
+/**
+ * Small 크기
+ */
+export const SizeSmall: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Small',
+    placeholder: '0.00',
+    prefix: '$',
+    suffix: 'USD',
+    size: 'sm',
+  },
+};
+
+/**
+ * Large 크기
+ */
+export const SizeLarge: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Large',
+    placeholder: '0.00',
+    prefix: '$',
+    suffix: 'USD',
+    size: 'lg',
+  },
+};
+
+// ============================================================================
+// STYLES
+// ============================================================================
+
+/**
+ * Default 스타일
+ */
+export const StyleDefault: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Default Style',
+    placeholder: '0.00',
+    prefix: '$',
+    suffix: 'USD',
+    inputStyle: 'default',
+  },
+};
+
+/**
+ * Shadow 스타일
+ */
+export const StyleShadow: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Shadow Style',
+    placeholder: '0.00',
+    prefix: '$',
+    suffix: 'USD',
+    inputStyle: 'shadow',
+  },
+};
+
+/**
+ * Soft 스타일
+ */
+export const StyleSoft: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Soft Style',
+    placeholder: '0.00',
+    prefix: '$',
+    suffix: 'USD',
+    inputStyle: 'soft',
+  },
+};
+
+// ============================================================================
+// STATES
+// ============================================================================
+
+/**
+ * 기본 상태
+ */
+export const StateDefault: Story = {
+  args: {
+    variant: 'addon',
+    label: 'Default',
+    placeholder: 'your-site',
+    prefix: 'https://',
+    suffix: '.com',
+  },
+};
+
+/**
+ * 비활성화 상태
+ */
+export const StateDisabled: Story = {
+  args: {
+    variant: 'addon',
+    label: 'Disabled',
+    placeholder: 'your-site',
+    prefix: 'https://',
+    suffix: '.com',
+    disabled: true,
+  },
+};
+
+/**
+ * 에러 상태
+ */
+export const StateError: Story = {
+  args: {
+    variant: 'addon',
+    label: 'Error',
+    placeholder: 'your-site',
+    prefix: 'https://',
+    suffix: '.com',
+    error: 'Invalid domain',
+  },
+};
+
+/**
+ * 성공 상태
+ */
+export const StateSuccess: Story = {
+  args: {
+    variant: 'addon',
+    label: 'Success',
+    placeholder: 'your-site',
+    prefix: 'https://',
+    suffix: '.com',
+    success: 'Domain available',
+  },
+};
+
+// ============================================================================
+// USE CASES
+// ============================================================================
+
+/**
+ * 금액 입력
+ */
+export const CurrencyInput: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Amount',
+    placeholder: '0.00',
+    prefix: '$',
+    suffix: 'USD',
+  },
+};
+
+/**
+ * 도메인 입력
+ */
+export const DomainInput: Story = {
+  args: {
+    variant: 'addon',
+    label: 'Website',
+    placeholder: 'your-site',
+    prefix: 'https://',
+    suffix: '.com',
+  },
+};
+
+/**
+ * 회사 이메일
+ */
+export const WorkEmail: Story = {
+  args: {
+    variant: 'addon',
+    label: 'Work Email',
+    placeholder: 'firstname.lastname',
+    suffix: '@company.com',
+  },
+};
+
+/**
+ * 소셜 핸들
+ */
+export const SocialHandle: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Twitter',
+    placeholder: 'username',
+    prefix: '@',
+  },
+};
+
+/**
+ * 치수 (픽셀)
+ */
+export const Measurement: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Width',
+    placeholder: '100',
+    suffix: 'px',
+  },
+};
+
+/**
+ * 할인율
+ */
+export const Discount: Story = {
+  args: {
+    variant: 'inline-addon',
+    label: 'Discount',
+    placeholder: '0',
+    suffix: '%',
+  },
+};

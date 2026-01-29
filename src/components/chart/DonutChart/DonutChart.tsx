@@ -8,10 +8,10 @@ import type { PieChartProps } from '../Chart/Chart.types';
 import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
 
 /**
- * DonutChart component
+ * DonutChart 컴포넌트
  *
- * Displays data as a donut chart (pie chart with center hole).
- * Matches Figma design with proper colors and spacing.
+ * 데이터를 도넛 차트(중앙에 구멍이 있는 파이 차트)로 표시합니다.
+ * Figma 디자인에 맞는 색상과 간격을 적용합니다.
  */
 export const DonutChart = forwardRef<HTMLDivElement, PieChartProps>(
   (

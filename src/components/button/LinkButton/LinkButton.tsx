@@ -4,7 +4,7 @@ import { Icon } from '../../icons/Icon';
 import type { IconType } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
 
-import { SIZE_CONFIG, TYPE_CONFIG, CONTAINER_BASE, DISABLED_STYLE, HOVER_STYLE } from './LinkButton.constants';
+import { SIZE_CONFIG, TYPE_CONFIG, CONTAINER_BASE, DISABLED_STYLE, HOVER_STYLE } from 'constants/button/LinkButton/LinkButton.constants';
 import type { LinkButtonProps, LinkButtonIconType } from './LinkButton.types';
 
 /**

@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 
 import { cn } from '../../../utils/cn';
 
-import { BUTTON_GROUP_CONFIG } from './DropdownMenu.constants';
+import { BUTTON_GROUP_CONFIG } from 'constants/dropdown/DropdownMenu/DropdownMenu.constants';
 import type { DropdownMenuButtonGroupProps } from './DropdownMenu.types';
 
 /**

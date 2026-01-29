@@ -40,6 +40,7 @@ const meta = {
     avatars: {
       control: 'object',
       description: '아바타 props 배열',
+      type: { required: true },
       table: {
         type: {
           summary: 'AvatarProps[]',

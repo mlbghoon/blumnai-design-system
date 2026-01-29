@@ -9,7 +9,7 @@ import {
   CONTAINER_BASE,
   STATE_CONFIG,
   DISABLED_STYLE,
-} from './FilterButton.constants';
+} from 'constants/button/FilterButton/FilterButton.constants';
 import type { FilterButtonProps } from './FilterButton.types';
 
 /**

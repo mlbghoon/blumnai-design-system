@@ -1,6 +1,8 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import type { IconType } from '../../icons/Icon/Icon.types';
+import type { BadgeColor } from '../../badge/Badge/Badge.types';
+import type { ButtonStyle } from '../../button/Button/Button.types';
+import type { IconColor, IconType } from '../../icons/Icon/Icon.types';
 
 /**
  * 메뉴 아이템 사이즈 타입
@@ -19,6 +21,11 @@ export interface DropdownMenuProps extends HTMLAttributes<HTMLDivElement> {
    * 메뉴 너비 (기본값: 자동)
    */
   width?: number | string;
+  /**
+   * 메뉴 최대 높이 (숫자는 px, 문자열은 그대로 사용)
+   * @default 300
+   */
+  maxHeight?: number | string;
 }
 
 /**
@@ -59,6 +66,16 @@ export interface DropdownMenuItemProps extends Omit<HTMLAttributes<HTMLDivElemen
    * @default false
    */
   disabled?: boolean;
+  /**
+   * 키보드 네비게이션으로 포커스된 상태
+   * @default false
+   */
+  focused?: boolean;
+  /**
+   * 아이콘 색상 (leadIcon, tailIcon에 적용)
+   * 비활성화 시에는 무시됩니다
+   */
+  iconColor?: IconColor;
   /**
    * 클릭 이벤트 핸들러
    */
@@ -125,6 +142,11 @@ export interface DropdownMenuAvatarProps extends Omit<HTMLAttributes<HTMLDivElem
    */
   disabled?: boolean;
   /**
+   * 아이콘 색상 (tailIcon에 적용)
+   * 비활성화 시에는 무시됩니다
+   */
+  iconColor?: IconColor;
+  /**
    * 클릭 이벤트 핸들러
    */
   onClick?: () => void;
@@ -155,6 +177,11 @@ export interface DropdownMenuUserbarProps extends HTMLAttributes<HTMLDivElement>
    * 우측에 표시되는 뱃지 텍스트
    */
   badge?: string;
+  /**
+   * 뱃지 색상
+   * @default 'neutral'
+   */
+  badgeColor?: BadgeColor;
 }
 
 /**
@@ -171,6 +198,11 @@ export interface DropdownMenuButtonProps extends HTMLAttributes<HTMLDivElement> 
    * 버튼 라벨
    */
   label: string;
+  /**
+   * 버튼 스타일
+   * @default 'secondary'
+   */
+  buttonStyle?: ButtonStyle;
   /**
    * 버튼 앞에 표시되는 아이콘
    */
@@ -199,4 +231,33 @@ export interface DropdownMenuButtonGroupProps extends HTMLAttributes<HTMLDivElem
    * 버튼 그룹 컨텐츠
    */
   children: ReactNode;
+}
+
+/**
+ * DropdownMenuSearch 컴포넌트 Props
+ * 드롭다운 메뉴 내에 검색 입력 필드를 배치할 때 사용
+ */
+export interface DropdownMenuSearchProps {
+  /**
+   * 현재 검색 값
+   */
+  value?: string;
+  /**
+   * 검색 값이 변경될 때 호출되는 콜백
+   */
+  onChange?: (value: string) => void;
+  /**
+   * 플레이스홀더 텍스트
+   * @default 'Search...'
+   */
+  placeholder?: string;
+  /**
+   * 마운트 시 자동 포커스 여부
+   * @default true
+   */
+  autoFocus?: boolean;
+  /**
+   * 추가 CSS 클래스
+   */
+  className?: string;
 }

@@ -80,6 +80,7 @@ const meta: Meta<typeof CheckboxCard> = {
     title: {
       control: 'text',
       description: '카드 제목',
+      type: { required: true },
       table: {
         type: {
           summary: 'string',
@@ -89,6 +90,7 @@ const meta: Meta<typeof CheckboxCard> = {
     description: {
       control: 'text',
       description: '카드 설명',
+      type: { required: true },
       table: {
         type: {
           summary: 'string',

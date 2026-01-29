@@ -26,6 +26,7 @@ const meta: Meta<typeof FileIcon> = {
       control: 'select',
       options: fileVariants,
       description: '표시할 파일 타입 변형',
+      type: { required: true },
       table: {
         type: {
           summary: 'FileVariant',

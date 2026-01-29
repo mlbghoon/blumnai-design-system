@@ -14,6 +14,25 @@ const meta: Meta<typeof AdvancedTooltip> = {
     controls: { disable: true },
   },
   tags: ['autodocs'],
+  argTypes: {
+    items: {
+      control: 'object',
+      description: '툴팁에 표시할 아이템 배열',
+      table: {
+        type: {
+          summary: 'TooltipItemData[]',
+          detail: `각 아이템의 type: 'label' | 'item' | 'divider' | 'text'`,
+        },
+      },
+    },
+    minWidth: {
+      control: 'number',
+      description: '툴팁의 최소 너비 (픽셀)',
+      table: {
+        type: { summary: 'number' },
+      },
+    },
+  },
 };
 
 export default meta;
@@ -42,7 +61,7 @@ export const Default: Story = {
   parameters: {
     controls: { disable: false },
   },
-  render: (args) => {
+  render: function Render(args) {
     const tooltipRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

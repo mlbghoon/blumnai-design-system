@@ -6,10 +6,10 @@ import * as styles from './AvatarGroup.css';
 import type { AvatarGroupProps } from './AvatarGroup.types';
 
 /**
- * AvatarGroup component
+ * AvatarGroup 컴포넌트
  *
- * Displays multiple avatars in a stacked/overlapping layout.
- * Supports different stacking orders and optional +N overlay for remaining avatars.
+ * 여러 아바타를 겹치는 레이아웃으로 표시합니다.
+ * 다양한 쌓기 순서와 나머지 아바타를 위한 +N 오버레이를 지원합니다.
  */
 export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
   (

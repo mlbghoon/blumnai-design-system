@@ -10,6 +10,12 @@ const meta: Meta<typeof CheckboxWithText> = {
   parameters: {
     layout: 'padded',
     controls: { disable: true },
+    docs: {
+      description: {
+        component:
+          '제목과 설명 텍스트를 포함한 체크박스 컴포넌트입니다. 체크박스 위치를 왼쪽 또는 오른쪽으로 설정할 수 있으며, 그림자 스타일을 적용할 수 있습니다.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -68,6 +74,7 @@ const meta: Meta<typeof CheckboxWithText> = {
     title: {
       control: 'text',
       description: '체크박스의 제목 텍스트',
+      type: { required: true },
       table: {
         type: {
           summary: 'string',

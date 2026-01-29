@@ -9,7 +9,7 @@ import {
   AVATAR_ITEM_CONFIG,
   ITEM_STATE_CONFIG,
   CAPTION_CONFIG,
-} from './DropdownMenu.constants';
+} from 'constants/dropdown/DropdownMenu/DropdownMenu.constants';
 import type { DropdownMenuAvatarProps } from './DropdownMenu.types';
 
 /**
@@ -26,6 +26,7 @@ export const DropdownMenuAvatar = forwardRef<HTMLDivElement, DropdownMenuAvatarP
   caption,
   shortcut,
   disabled = false,
+  iconColor: iconColorProp,
   onClick,
   className,
   ...props
@@ -71,7 +72,7 @@ export const DropdownMenuAvatar = forwardRef<HTMLDivElement, DropdownMenuAvatarP
 
   const iconColor = disabled
     ? ITEM_STATE_CONFIG.disabled.iconColor
-    : ITEM_STATE_CONFIG.default.iconColor;
+    : iconColorProp ?? ITEM_STATE_CONFIG.default.iconColor;
 
   return (
     <div

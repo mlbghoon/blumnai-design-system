@@ -143,6 +143,55 @@ disabled
 - Components should NOT have a `darkMode` prop
 - Dark mode is handled automatically via CSS variables and themes
 
+## Code Comments (CRITICAL)
+
+### Minimize Comments
+- **Only add comments when absolutely necessary** - when the code logic is not self-explanatory
+- Do NOT add obvious or redundant comments
+- Code should be self-documenting through clear naming
+
+### No English Comments in Code
+- **Do NOT write comments in English** in component code
+- If a comment is truly necessary, write it in Korean
+- Exception: JSDoc for public API documentation can be in English
+
+```tsx
+// WRONG - Unnecessary English comments
+// Set the disabled state
+const isDisabled = disabled || loading;
+
+// Handle click event
+const handleClick = () => {
+  onClick?.();
+};
+
+// CORRECT - No comments needed, code is self-explanatory
+const isDisabled = disabled || loading;
+
+const handleClick = () => {
+  onClick?.();
+};
+
+// CORRECT - If comment is truly needed, use Korean
+// 비밀번호 강도 계산 로직이 복잡하므로 주석 추가
+const calculateStrength = (password: string): PasswordStrength => {
+  // ...complex logic
+};
+```
+
+### What NOT to Comment
+- Variable declarations with clear names
+- Simple function calls
+- Obvious conditional logic
+- Import statements
+- Standard React patterns (useState, useEffect, etc.)
+
+### When Comments ARE Acceptable
+- Complex algorithms that need explanation
+- Non-obvious business logic
+- Workarounds for known issues (with issue reference)
+- JSDoc for exported functions/components (public API)
+
 ## Figma REST API Script
 
 Use `scripts/fetch-figma.mjs` to fetch component data from Figma. This is the standard way to get design specs.
@@ -200,3 +249,323 @@ The processed output includes:
 - Tailwind config: `tailwind.config.js`
 - Design tokens: `src/tokens/`
 - Figma fetch script: `scripts/fetch-figma.mjs`
+
+## Storybook Stories Documentation
+
+All Storybook stories must follow these conventions for proper Docs page generation.
+
+### Story Structure (CRITICAL)
+
+Each component's story file must have:
+1. **Docs page** - Auto-generated via `tags: ['autodocs']`
+2. **Default story** - Interactive story with controls ENABLED
+3. **Showcase stories** - All other stories with controls DISABLED
+
+#### Controls Configuration
+
+- **Meta level**: Disable controls globally with `parameters: { controls: { disable: true } }`
+- **Default story**: Enable controls with `parameters: { controls: { disable: false } }`
+- **All other stories**: Inherit disabled controls from meta (showcases only)
+
+```tsx
+const meta: Meta<typeof Component> = {
+  title: 'Components/Category/ComponentName',
+  component: Component,
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'padded',
+    controls: { disable: true },  // Disable controls globally
+  },
+  argTypes: { /* ... */ },
+};
+
+/**
+ * 기본 컴포넌트
+ *
+ * 이 스토리에서 컴포넌트의 모든 props를 테스트할 수 있습니다.
+ */
+export const Default: Story = {
+  args: {
+    label: 'Label',
+    placeholder: 'Placeholder...',
+  },
+  parameters: {
+    controls: { disable: false },  // Enable controls ONLY for Default
+  },
+};
+
+/**
+ * 비활성화 상태
+ */
+export const Disabled: Story = {
+  args: {
+    label: 'Disabled',
+    disabled: true,
+  },
+  // No parameters - inherits controls: { disable: true } from meta
+};
+
+/**
+ * 에러 상태
+ */
+export const Error: Story = {
+  args: {
+    label: 'Error',
+    error: 'Error message',
+  },
+  // No parameters - showcase only, no controls
+};
+```
+
+#### Why This Pattern?
+
+- **Default story**: Developers can interactively test all props via Storybook controls
+- **Showcase stories**: Display specific states/variants without cluttering with controls
+- **Docs page**: Shows all stories with the Default being the interactive example
+
+### argTypes Structure (CRITICAL)
+
+Every prop must have:
+1. **Korean description** - `description: '한글 설명'`
+2. **Proper type display** - Use `table.type.summary` to avoid "union" label
+
+#### For Union/Enum Types (select control)
+```tsx
+size: {
+  control: 'select',
+  options: ['sm', 'md', 'lg'],
+  description: '컴포넌트의 크기',
+  table: {
+    type: {
+      summary: 'ComponentSize',           // Type name shown in table
+      detail: `'sm' | 'md' | 'lg'`,       // Full type on hover
+    },
+  },
+},
+```
+
+#### For Boolean Types
+```tsx
+disabled: {
+  control: 'boolean',
+  description: '비활성화 여부',
+  table: {
+    type: { summary: 'boolean' },
+  },
+},
+```
+
+#### For String/Number Types
+```tsx
+label: {
+  control: 'text',
+  description: '라벨 텍스트',
+  table: {
+    type: { summary: 'string' },
+  },
+},
+```
+
+#### For Function Types
+```tsx
+onClick: {
+  action: 'clicked',
+  description: '클릭 시 호출되는 콜백 함수',
+  table: {
+    type: { summary: '(event: MouseEvent) => void' },
+  },
+},
+```
+
+#### For Complex/Object Types
+```tsx
+leadIcon: {
+  control: 'object',
+  description: '앞에 표시되는 아이콘',
+  table: {
+    type: { summary: 'IconType | ReactNode' },
+  },
+},
+```
+
+### Story Documentation
+
+Use JSDoc comments above stories for descriptions in Docs:
+```tsx
+/**
+ * 기본 컴포넌트
+ *
+ * Component는 `ref`와 `className` prop을 지원합니다.
+ */
+export const Default: Story = {
+  args: { ... },
+  parameters: {
+    controls: { disable: false },  // Enable controls for interactive story
+  },
+};
+```
+
+### Common Korean Descriptions
+
+| English | Korean |
+|---------|--------|
+| Size | 크기 |
+| Style/Variant | 스타일 변형 |
+| Disabled state | 비활성화 여부 |
+| Loading state | 로딩 상태 |
+| Full width | 전체 너비 사용 여부 |
+| Label | 라벨 |
+| Placeholder | 플레이스홀더 텍스트 |
+| Error state | 에러 상태 또는 메시지 |
+| Success state | 성공 상태 또는 메시지 |
+| Required | 필수 입력 여부 |
+| Callback on click | 클릭 시 호출되는 콜백 함수 |
+| Callback on change | 변경 시 호출되는 콜백 함수 |
+| Icon before/lead | 앞에 표시되는 아이콘 |
+| Icon after/tail | 뒤에 표시되는 아이콘 |
+
+### "Show Code" Best Practices (CRITICAL)
+
+The code shown in Storybook's "Show code" must match exactly how users would write it.
+
+#### Use Unified Components with `variant` Prop (CRITICAL)
+
+For components with multiple variants (like Input), always use the unified component with the `variant` prop.
+**NEVER** use the individual variant components directly in stories.
+
+```tsx
+// CORRECT - Use unified component with variant prop
+import { Input } from '../Input';
+
+export const PasswordExample: Story = {
+  args: {
+    variant: 'password',
+    label: 'Password',
+    showStrength: true,
+  },
+};
+
+// WRONG - Don't use individual variant components
+import { PasswordInput } from './PasswordInput';
+
+export const PasswordExample: Story = {
+  args: {
+    label: 'Password',
+    showStrength: true,
+  },
+};
+```
+
+This ensures "Show code" displays:
+```tsx
+// What developers will see and copy
+<Input variant="password" label="Password" showStrength />
+
+// NOT this (internal component)
+<PasswordInput label="Password" showStrength />
+```
+
+#### Never Spread `args` in Render Functions (CRITICAL)
+
+When using `render` functions with stateful components, **do NOT spread `args`**.
+Set all props explicitly to maintain TypeScript type safety and clean "Show code" output.
+
+```tsx
+// CORRECT - Set props explicitly
+export const WithClearButton: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('Hello World');
+    return (
+      <Input
+        variant="default"
+        label="With Clear Button"
+        placeholder="Type something..."
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onClear={() => setValue('')}
+      />
+    );
+  },
+};
+
+// WRONG - Spreading args loses TypeScript narrowing
+export const WithClearButton: Story = {
+  render: function Render(args) {
+    const [value, setValue] = useState('Hello World');
+    return (
+      <Input
+        {...args}  // DON'T DO THIS - loses type safety
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onClear={() => setValue('')}
+      />
+    );
+  },
+  args: {
+    variant: 'default',
+    label: 'With Clear Button',
+  },
+};
+```
+
+**Why this matters:**
+1. Spreading `args` breaks TypeScript's discriminated union narrowing
+2. The `variant` prop determines which other props are valid
+3. TypeScript can't narrow the type when `args` is spread
+4. "Show code" displays cleaner, more realistic code
+
+#### Use `render` with Direct Component Usage
+```tsx
+// CORRECT - Shows clean, realistic code
+export const WithIcons: Story = {
+  render: () => (
+    <div className="flex gap-12">
+      <Button leadIcon={['system', 'add']}>Add</Button>
+      <Button tailIcon={['system', 'check']}>Confirm</Button>
+    </div>
+  ),
+};
+```
+
+#### For Stateful Components
+When component needs state (like controlled inputs), use minimal wrapper:
+```tsx
+// CORRECT - Shows realistic controlled usage
+export const Controlled: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('');
+    return (
+      <Input
+        variant="default"
+        label="Email"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+    );
+  },
+};
+```
+
+#### Avoid Internal Helpers in Render
+```tsx
+// WRONG - Shows confusing internal code
+export const Example: Story = {
+  render: () => {
+    const helper = useInternalHelper();  // Don't expose internals
+    return <Button {...helper.props}>Click</Button>;
+  },
+};
+```
+
+#### Group Related Examples
+```tsx
+// CORRECT - Shows multiple variants together
+export const AllSizes: Story = {
+  render: () => (
+    <div className="flex gap-12 items-center">
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+    </div>
+  ),
+};

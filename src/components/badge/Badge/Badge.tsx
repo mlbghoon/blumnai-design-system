@@ -57,11 +57,11 @@ const getIconColor = (color: BadgeColor): string => {
 };
 
 /**
- * Badge component
+ * Badge 컴포넌트
  *
- * Displays a small badge with text, icon, image, or dot.
- * Supports multiple variants, sizes, colors, and shapes.
- * Colors automatically adapt to the current theme (light/dark mode).
+ * 텍스트, 아이콘, 이미지 또는 점이 있는 작은 배지를 표시합니다.
+ * 다양한 변형, 크기, 색상, 모양을 지원합니다.
+ * 색상은 현재 테마(라이트/다크 모드)에 자동으로 적응합니다.
  */
 export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   variant = 'default',

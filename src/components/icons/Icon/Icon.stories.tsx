@@ -36,6 +36,7 @@ const meta: Meta<typeof Icon> = {
     iconType: {
       control: { type: 'object' },
       description: '[category, name] 튜플 형식의 아이콘 타입',
+      type: { required: true },
       table: {
         type: {
           summary: 'IconType',

@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 
 import { cn } from '../../../utils/cn';
 
-import { MENU_CAPTION_CONFIG } from './DropdownMenu.constants';
+import { MENU_CAPTION_CONFIG } from 'constants/dropdown/DropdownMenu/DropdownMenu.constants';
 import type { DropdownMenuCaptionProps } from './DropdownMenu.types';
 
 /**

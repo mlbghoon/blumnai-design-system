@@ -7,6 +7,7 @@ export { DropdownMenuButtonGroup } from './DropdownMenuButtonGroup';
 export { DropdownMenuCaption } from './DropdownMenuCaption';
 export { DropdownMenuAvatar } from './DropdownMenuAvatar';
 export { DropdownMenuUserbar } from './DropdownMenuUserbar';
+export { DropdownMenuSearch } from './DropdownMenuSearch';
 export { MenuButton } from './MenuButton';
 export {
   MENU_CONTAINER_BASE,
@@ -23,7 +24,7 @@ export {
   MENU_CAPTION_CONFIG,
   AVATAR_ITEM_CONFIG,
   USERBAR_CONFIG,
-} from './DropdownMenu.constants';
+} from 'constants/dropdown/DropdownMenu/DropdownMenu.constants';
 export type {
   DropdownMenuProps,
   DropdownMenuItemProps,
@@ -35,4 +36,5 @@ export type {
   DropdownMenuCaptionProps,
   DropdownMenuAvatarProps,
   DropdownMenuUserbarProps,
+  DropdownMenuSearchProps,
 } from './DropdownMenu.types';

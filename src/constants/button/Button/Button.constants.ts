@@ -39,7 +39,7 @@ export const SHORTCUT_STYLE = {
 } as const;
 
 // 기본 컨테이너 클래스
-export const CONTAINER_BASE = 'inline-flex items-center justify-center transition-all duration-200 focus:outline-none' as const;
+export const CONTAINER_BASE = 'inline-flex items-center justify-center cursor-pointer transition-all duration-200 focus:outline-none' as const;
 
 // 기본 변형(iconOnly 아님)의 텍스트 스타일
 export const TEXT_STYLE = 'font-medium letter-spacing-tracking-normal' as const;

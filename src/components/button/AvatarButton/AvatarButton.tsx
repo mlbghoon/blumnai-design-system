@@ -5,7 +5,7 @@ import { Icon } from '../../icons/Icon';
 import type { IconType } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
 
-import { SIZE_CONFIG, STYLE_CONFIG, CONTAINER_BASE, TEXT_STYLE } from './AvatarButton.constants';
+import { SIZE_CONFIG, STYLE_CONFIG, CONTAINER_BASE, TEXT_STYLE } from 'constants/button/AvatarButton/AvatarButton.constants';
 import type { AvatarButtonProps, AvatarButtonIconType } from './AvatarButton.types';
 
 /**

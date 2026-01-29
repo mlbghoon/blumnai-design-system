@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 
 import { cn } from '../../../utils/cn';
 
-import { LABEL_CONFIG } from './DropdownMenu.constants';
+import { LABEL_CONFIG } from 'constants/dropdown/DropdownMenu/DropdownMenu.constants';
 import type { DropdownMenuLabelProps } from './DropdownMenu.types';
 
 /**

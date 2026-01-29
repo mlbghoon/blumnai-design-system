@@ -81,6 +81,22 @@ const preview: Preview = {
       };
 
       const themeConfig = themeMap[theme] || themeMap['theme-a-light'];
+
+      // Apply theme to document.documentElement so portaled content inherits it
+      React.useEffect(() => {
+        const root = document.documentElement;
+        // Clear previous theme
+        root.removeAttribute('data-theme');
+        root.classList.remove('dark', 'theme-b-light', 'theme-b-dark');
+
+        if (themeConfig.dataTheme) {
+          root.setAttribute('data-theme', themeConfig.dataTheme);
+        }
+        if (themeConfig.className) {
+          root.classList.add(themeConfig.className);
+        }
+      }, [theme, themeConfig.dataTheme, themeConfig.className]);
+
       const props: Record<string, any> = {
         style: {
           backgroundColor: 'var(--bg-default)',
@@ -89,13 +105,6 @@ const preview: Preview = {
           padding: '1rem',
         },
       };
-
-      if (themeConfig.dataTheme) {
-        props['data-theme'] = themeConfig.dataTheme;
-      }
-      if (themeConfig.className) {
-        props.className = themeConfig.className;
-      }
 
       return React.createElement(
         'div',

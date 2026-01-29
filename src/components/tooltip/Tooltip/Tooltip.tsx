@@ -5,9 +5,9 @@ import { cn } from '../../../utils/cn';
 import type { TooltipProps } from './Tooltip.types';
 
 /**
- * Tooltip component
+ * Tooltip 컴포넌트
  *
- * A simple tooltip that displays contextual information with optional badge.
+ * 선택적 배지와 함께 컨텍스트 정보를 표시하는 간단한 툴팁입니다.
  */
 export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(({
   className,

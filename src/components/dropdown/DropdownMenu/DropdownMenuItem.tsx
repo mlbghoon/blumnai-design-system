@@ -10,7 +10,7 @@ import {
   ITEM_SIZE_CONFIG,
   ITEM_STATE_CONFIG,
   CAPTION_CONFIG,
-} from './DropdownMenu.constants';
+} from 'constants/dropdown/DropdownMenu/DropdownMenu.constants';
 import type { DropdownMenuItemProps } from './DropdownMenu.types';
 
 /**
@@ -28,6 +28,8 @@ export const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps
   description,
   shortcut,
   disabled = false,
+  focused = false,
+  iconColor: iconColorProp,
   onClick,
   className,
   ...props
@@ -57,10 +59,10 @@ export const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps
     sizeConfig.height,
     sizeConfig.padding,
     sizeConfig.gap,
-    // Apply default bg, hover bg, and active bg separately so they all work
     disabled ? ITEM_STATE_CONFIG.disabled.bg : ITEM_STATE_CONFIG.default.bg,
     !disabled && ITEM_STATE_CONFIG.hover.bg,
     !disabled && ITEM_STATE_CONFIG.active.bg,
+    !disabled && focused && 'shadow-component-focus',
     disabled ? 'cursor-not-allowed' : 'cursor-pointer',
   );
 
@@ -79,7 +81,7 @@ export const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps
 
   const iconColor = disabled
     ? ITEM_STATE_CONFIG.disabled.iconColor
-    : ITEM_STATE_CONFIG.default.iconColor;
+    : iconColorProp ?? ITEM_STATE_CONFIG.default.iconColor;
 
   return (
     <div

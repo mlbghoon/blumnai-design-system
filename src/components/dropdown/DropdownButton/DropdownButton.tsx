@@ -10,7 +10,7 @@ import {
   STATE_CONFIG,
   DISABLED_STYLE,
   BADGE_STYLE,
-} from './DropdownButton.constants';
+} from 'constants/dropdown/DropdownButton/DropdownButton.constants';
 import type { DropdownButtonProps } from './DropdownButton.types';
 
 /**
@@ -23,16 +23,17 @@ import type { DropdownButtonProps } from './DropdownButton.types';
 export const DropdownButton = forwardRef<HTMLButtonElement, DropdownButtonProps>(({
   label,
   isOpen = false,
-  align = 'left',
+  align = 'center',
   leadIcon,
   tailIcon = ['arrows', 'arrow-down-s'],
   shortcut,
   disabled = false,
+  width,
   className,
   children,
   ...props
 }, ref) => {
-  const alignClasses = ALIGN_CONFIG[align] ?? ALIGN_CONFIG.left;
+  const alignClasses = ALIGN_CONFIG[align] ?? ALIGN_CONFIG.center;
 
   const stateClasses = useMemo(() => {
     if (disabled) {
@@ -63,10 +64,13 @@ export const DropdownButton = forwardRef<HTMLButtonElement, DropdownButtonProps>
     SIZE_CONFIG.padding,
     SIZE_CONFIG.letterSpacing,
     SIZE_CONFIG.radius,
-    alignClasses,
     stateClasses,
     className
   );
+
+  const widthStyle = width !== undefined
+    ? { width: typeof width === 'number' ? `${width}px` : width }
+    : undefined;
 
   return (
     <button
@@ -76,6 +80,7 @@ export const DropdownButton = forwardRef<HTMLButtonElement, DropdownButtonProps>
       aria-expanded={isOpen}
       aria-haspopup="listbox"
       className={containerClassName}
+      style={widthStyle}
       {...props}
     >
       {leadIcon && (
@@ -87,7 +92,7 @@ export const DropdownButton = forwardRef<HTMLButtonElement, DropdownButtonProps>
         />
       )}
 
-      <span className="flex-1 min-w-0 truncate">{label}</span>
+      <span className={cn('flex-1 min-w-0 truncate', alignClasses)}>{label}</span>
 
       {shortcut && (
         <span className={cn(BADGE_STYLE.container, BADGE_STYLE.size, 'flex-shrink-0')}>

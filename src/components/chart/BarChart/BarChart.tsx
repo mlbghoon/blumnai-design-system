@@ -8,10 +8,10 @@ import type { BarChartProps } from '../Chart/Chart.types';
 import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
 
 /**
- * BarChart component
+ * BarChart 컴포넌트
  *
- * Displays data as vertical bars with configurable axes, colors, and styling.
- * Matches Figma design with rounded bars, proper spacing, and axis labels.
+ * 설정 가능한 축, 색상, 스타일이 있는 세로 막대로 데이터를 표시합니다.
+ * Figma 디자인에 맞는 둥근 막대, 적절한 간격, 축 라벨을 적용합니다.
  */
 export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   (

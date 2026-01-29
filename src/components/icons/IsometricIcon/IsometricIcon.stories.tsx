@@ -94,6 +94,7 @@ const meta: Meta<typeof IsometricIcon> = {
       control: 'select',
       options: iconTypeOptions,
       description: '표시할 아이소메트릭 아이콘 타입',
+      type: { required: true },
       table: {
         type: {
           summary: 'IsometricIconType',

@@ -38,6 +38,7 @@ const meta: Meta<typeof AvatarButton> = {
     avatar: {
       control: 'text',
       description: '아바타 이미지 URL',
+      type: { required: true },
       table: {
         type: { summary: 'string' },
       },
@@ -52,6 +53,7 @@ const meta: Meta<typeof AvatarButton> = {
     label: {
       control: 'text',
       description: '아바타 버튼의 라벨 텍스트',
+      type: { required: true },
       table: {
         type: { summary: 'string' },
       },

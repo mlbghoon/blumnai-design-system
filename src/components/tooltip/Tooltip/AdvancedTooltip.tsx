@@ -6,9 +6,9 @@ import { TooltipItem } from './TooltipItem';
 import type { AdvancedTooltipProps } from './Tooltip.types';
 
 /**
- * AdvancedTooltip component
+ * AdvancedTooltip 컴포넌트
  *
- * A tooltip that displays multiple items including dividers, labels, items with indicators, and text.
+ * 구분선, 라벨, 인디케이터가 있는 아이템, 텍스트 등 다양한 항목을 표시하는 툴팁입니다.
  */
 export const AdvancedTooltip = forwardRef<HTMLDivElement, AdvancedTooltipProps>(({
   className,

@@ -11,12 +11,14 @@ const meta: Meta<typeof Breadcrumbs> = {
   component: Breadcrumbs,
   parameters: {
     layout: 'padded',
+    controls: { disable: true },
   },
   tags: ['autodocs'],
   argTypes: {
     items: {
       control: 'object',
       description: '표시할 브레드크럼 아이템 배열',
+      type: { required: true },
       table: {
         type: {
           summary: 'BreadcrumbItem[]',
@@ -25,7 +27,8 @@ const meta: Meta<typeof Breadcrumbs> = {
 - href?: string - URL/경로 (링크로 만듦)
 - icon?: IconType | ReactNode - 이 아이템의 아이콘
 - image?: string - 아바타 변형용 이미지 URL
-- disabled?: boolean - 이 아이템 비활성화`,
+- disabled?: boolean - 이 아이템 비활성화
+- onClick?: () => void - 클릭 시 호출되는 콜백 (href보다 우선)`,
         },
       },
     },
@@ -101,6 +104,9 @@ export const Default: Story = {
     size: 'sm',
     separator: 'slash',
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: (args) => {
     const breadcrumbsRef = useRef<HTMLElement>(null);
@@ -191,4 +197,35 @@ export const WithImages: Story = {
     size: 'sm',
     separator: 'slash',
   },
+};
+
+/**
+ * onClick 핸들러 사용
+ *
+ * 각 브레드크럼 아이템에 onClick 핸들러를 제공하여 프로그래밍 방식으로 네비게이션을 처리할 수 있습니다.
+ * onClick이 제공되면 href가 있어도 기본 네비게이션이 방지되고 onClick이 호출됩니다.
+ */
+export const WithOnClick: Story = {
+  render: () => (
+    <Breadcrumbs
+      items={[
+        {
+          label: 'Home',
+          icon: ['buildings', 'home'],
+          onClick: () => console.log('Home clicked'),
+        },
+        {
+          label: 'Products',
+          onClick: () => console.log('Products clicked'),
+        },
+        {
+          label: 'Category',
+          onClick: () => console.log('Category clicked'),
+        },
+        { label: 'Current Page' },
+      ]}
+      size="sm"
+      separator="slash"
+    />
+  ),
 };

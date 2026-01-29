@@ -3,7 +3,7 @@ import { forwardRef, useMemo } from 'react';
 import { Icon } from '../../icons/Icon';
 import { cn } from '../../../utils/cn';
 
-import { SIZE_CONFIG, STYLE_CONFIG, SHAPE_CONFIG, CONTAINER_BASE, DISABLED_STYLE } from './ControlButton.constants';
+import { SIZE_CONFIG, STYLE_CONFIG, SHAPE_CONFIG, CONTAINER_BASE, DISABLED_STYLE } from 'constants/button/ControlButton/ControlButton.constants';
 import type { ControlButtonProps } from './ControlButton.types';
 
 /**

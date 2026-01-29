@@ -1,7 +1,8 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import type { IconType } from '../../icons/Icon/Icon.types';
+import type { IconColor, IconType } from '../../icons/Icon/Icon.types';
 import type { DropdownMenuItemSize } from '../DropdownMenu/DropdownMenu.types';
+import type { DropdownButtonAlign } from '../DropdownButton/DropdownButton.types';
 
 /**
  * Dropdown menu item data
@@ -45,6 +46,11 @@ export interface DropdownItemData {
    * @default false
    */
   disabled?: boolean;
+  /**
+   * Icon color (for leadIcon and tailIcon)
+   * Ignored when disabled
+   */
+  iconColor?: IconColor;
 }
 
 /**
@@ -64,7 +70,13 @@ export interface DropdownSection {
 /**
  * Dropdown placement options
  */
-export type DropdownPlacement = 'bottom-start' | 'bottom-end' | 'bottom';
+export type DropdownPlacement =
+  | 'bottom-start'
+  | 'bottom'
+  | 'bottom-end'
+  | 'top-start'
+  | 'top'
+  | 'top-end';
 
 /**
  * Dropdown component props
@@ -105,14 +117,23 @@ export interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onC
    */
   placement?: DropdownPlacement;
   /**
-   * Menu width (number for pixels, string for CSS value, 'trigger' to match button width)
+   * Menu width (number for pixels, string for CSS value)
    */
-  menuWidth?: number | string | 'trigger';
+  menuWidth?: number | string;
   /**
    * Whether the dropdown is disabled
    * @default false
    */
   disabled?: boolean;
+  /**
+   * Button label text alignment
+   * @default 'center'
+   */
+  align?: DropdownButtonAlign;
+  /**
+   * Button width (number for pixels, string for CSS value)
+   */
+  buttonWidth?: number | string;
   /**
    * Custom trigger element (overrides default DropdownButton)
    */
@@ -125,4 +146,34 @@ export interface DropdownProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onC
    * Callback when open state changes
    */
   onOpenChange?: (open: boolean) => void;
+  /**
+   * Render menu in a portal at document body level to avoid clipping
+   * @default true
+   */
+  portal?: boolean;
+  /**
+   * Enable search functionality in dropdown menu
+   * @default false
+   */
+  searchable?: boolean;
+  /**
+   * Callback when search query changes
+   */
+  onSearch?: (query: string) => void;
+  /**
+   * Placeholder text for search input
+   * @default 'Search...'
+   */
+  searchPlaceholder?: string;
+  /**
+   * Filter items client-side based on search query
+   * Only works when searchable is true
+   * @default true
+   */
+  filterItems?: boolean;
+  /**
+   * Text to display when search yields no results
+   * @default 'No results found'
+   */
+  noResultsText?: string;
 }

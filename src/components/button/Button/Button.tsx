@@ -4,7 +4,7 @@ import { Icon } from '../../icons/Icon';
 import type { IconType } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
 
-import { SIZE_CONFIG, STYLE_CONFIG, SHORTCUT_STYLE, CONTAINER_BASE, TEXT_STYLE, DISABLED_STYLE } from './Button.constants';
+import { SIZE_CONFIG, STYLE_CONFIG, SHORTCUT_STYLE, CONTAINER_BASE, TEXT_STYLE, DISABLED_STYLE } from 'constants/button/Button/Button.constants';
 import type { ButtonProps, ButtonIconType } from './Button.types';
 
 /**

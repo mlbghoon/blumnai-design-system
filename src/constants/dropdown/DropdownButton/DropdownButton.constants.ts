@@ -1,5 +1,5 @@
 // 기본 컨테이너 클래스
-export const CONTAINER_BASE = 'inline-flex items-center font-medium transition-all duration-200 focus:outline-none' as const;
+export const CONTAINER_BASE = 'inline-flex items-center font-medium cursor-pointer transition-all duration-200 focus:outline-none' as const;
 
 // 크기 설정 (Figma 기준: 단일 크기)
 export const SIZE_CONFIG = {
@@ -17,11 +17,11 @@ export const SIZE_CONFIG = {
   radius: 'rounded-sm',                       // 6px
 } as const;
 
-// 정렬 설정
+// 라벨 텍스트 정렬 설정
 export const ALIGN_CONFIG = {
-  left: 'justify-start',
-  center: 'justify-center',
-  right: 'justify-end',
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
 } as const;
 
 // 상태 설정
@@ -39,7 +39,7 @@ export const STATE_CONFIG = {
     bg: 'active:bg-muted',
   },
   focus: {
-    ring: 'focus-visible:shadow-component-focus',
+    ring: '', // Focus handled by card-border-default:focus-visible CSS rule
   },
   opened: {
     bg: 'bg-input',

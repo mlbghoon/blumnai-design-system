@@ -15,6 +15,7 @@ const meta: Meta<typeof ButtonGroup> = {
     items: {
       control: 'object',
       description: '버튼 아이템 배열',
+      type: { required: true },
       table: {
         type: {
           summary: 'ButtonGroupItem[]',

@@ -7,10 +7,10 @@ import { cn } from '../../../utils/cn';
 import type { BreadcrumbsProps } from './Breadcrumbs.types';
 
 /**
- * Breadcrumbs component
+ * Breadcrumbs 컴포넌트
  *
- * Displays a navigation breadcrumb trail showing the user's location in a hierarchy.
- * Supports different sizes, separators, and item collapsing.
+ * 계층 구조에서 사용자의 현재 위치를 보여주는 내비게이션 브레드크럼 경로를 표시합니다.
+ * 다양한 크기, 구분자, 아이템 축소 기능을 지원합니다.
  */
 export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
   items,
@@ -100,19 +100,28 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
       <ol className="flex items-center gap-2 list-none">
         {visibleItems.map((item, index) => {
           const isLast = index === visibleItems.length - 1;
-          const isLink = !!item.href && !item.disabled && !isLast;
+          const isClickable = (!!item.href || !!item.onClick) && !item.disabled && !isLast;
+
+          const handleClick = (e: React.MouseEvent) => {
+            if (item.onClick) {
+              e.preventDefault();
+              item.onClick();
+            }
+          };
 
           return (
             <li
               key={index}
               className={cn('flex items-center gap-2', sizeClasses)}
             >
-              {isLink ? (
+              {isClickable ? (
                 <a
-                  href={item.href}
+                  href={item.href || '#'}
+                  onClick={handleClick}
                   className={cn(
                     'flex items-center gap-1 hover:underline',
-                    'text-default'
+                    'text-default',
+                    !item.href && item.onClick && 'cursor-pointer'
                   )}
                 >
                   {renderIcon(item)}

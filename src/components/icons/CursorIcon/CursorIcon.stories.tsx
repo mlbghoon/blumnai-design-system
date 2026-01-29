@@ -14,6 +14,7 @@ const meta: Meta<typeof CursorIcon> = {
       control: 'select',
       options: ['arrow', 'hand-closed', 'hand-open', 'not-allowed', 'pointer', 'text'],
       description: '표시할 커서 아이콘 타입',
+      type: { required: true },
       table: {
         type: {
           summary: 'CursorType',

@@ -8,10 +8,10 @@ import type { LineChartProps } from '../Chart/Chart.types';
 import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
 
 /**
- * LineChart component
+ * LineChart 컴포넌트
  *
- * Displays data as a line with optional area fill and data points.
- * Matches Figma design with smooth lines and proper axis styling.
+ * 선택적 영역 채우기와 데이터 포인트가 있는 라인으로 데이터를 표시합니다.
+ * Figma 디자인에 맞는 부드러운 선과 축 스타일을 적용합니다.
  */
 export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   (

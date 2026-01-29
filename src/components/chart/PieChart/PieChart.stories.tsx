@@ -15,6 +15,7 @@ const meta: Meta<typeof PieChart> = {
     data: {
       control: 'object',
       description: '키-값 쌍의 차트 데이터 배열',
+      type: { required: true },
       table: {
         type: {
           summary: 'ChartDataPoint[]',
@@ -26,6 +27,7 @@ const meta: Meta<typeof PieChart> = {
     dataKey: {
       control: 'text',
       description: '슬라이스 값의 데이터 키',
+      type: { required: true },
       table: {
         type: {
           summary: 'string',
@@ -37,6 +39,7 @@ const meta: Meta<typeof PieChart> = {
     nameKey: {
       control: 'text',
       description: '슬라이스 이름/라벨의 데이터 키',
+      type: { required: true },
       table: {
         type: {
           summary: 'string',

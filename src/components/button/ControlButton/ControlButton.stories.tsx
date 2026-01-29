@@ -47,6 +47,7 @@ const meta: Meta<typeof ControlButton> = {
     icon: {
       control: 'object',
       description: '아이콘 타입 튜플 (필수)',
+      type: { required: true },
       table: {
         type: { summary: 'IconType' },
       },
@@ -61,6 +62,7 @@ const meta: Meta<typeof ControlButton> = {
     'aria-label': {
       control: 'text',
       description: '접근성 라벨 (아이콘 전용 버튼에 필수)',
+      type: { required: true },
       table: {
         type: { summary: 'string' },
       },

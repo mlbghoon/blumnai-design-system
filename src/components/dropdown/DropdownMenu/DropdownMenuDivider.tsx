@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 
 import { cn } from '../../../utils/cn';
 
-import { DIVIDER_CONFIG } from './DropdownMenu.constants';
+import { DIVIDER_CONFIG } from 'constants/dropdown/DropdownMenu/DropdownMenu.constants';
 import type { DropdownMenuDividerProps } from './DropdownMenu.types';
 
 /**

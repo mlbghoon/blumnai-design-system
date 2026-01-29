@@ -15,6 +15,7 @@ const meta: Meta<typeof LineChart> = {
     data: {
       control: 'object',
       description: '키-값 쌍의 차트 데이터 배열',
+      type: { required: true },
       table: {
         type: {
           summary: 'ChartDataPoint[]',
@@ -26,6 +27,7 @@ const meta: Meta<typeof LineChart> = {
     xAxis: {
       control: 'object',
       description: 'X축 설정',
+      type: { required: true },
       table: {
         type: {
           summary: 'ChartAxisConfig',
@@ -41,6 +43,7 @@ const meta: Meta<typeof LineChart> = {
     yAxis: {
       control: 'object',
       description: 'Y축 설정',
+      type: { required: true },
       table: {
         type: {
           summary: 'ChartAxisConfig',

@@ -8,10 +8,10 @@ import type { PieChartProps } from '../Chart/Chart.types';
 import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
 
 /**
- * PieChart component
+ * PieChart 컴포넌트
  *
- * Displays data as a pie chart with slices representing proportions.
- * Matches Figma design with proper colors and spacing.
+ * 비율을 나타내는 조각이 있는 파이 차트로 데이터를 표시합니다.
+ * Figma 디자인에 맞는 색상과 간격을 적용합니다.
  */
 export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
   (

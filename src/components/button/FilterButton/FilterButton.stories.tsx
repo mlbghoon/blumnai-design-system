@@ -48,6 +48,7 @@ const meta: Meta<typeof FilterButton> = {
     label: {
       control: 'text',
       description: '필터 버튼의 라벨 텍스트',
+      type: { required: true },
       table: {
         type: { summary: 'string' },
       },
