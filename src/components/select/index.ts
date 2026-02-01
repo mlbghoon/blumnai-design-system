@@ -1,24 +1,42 @@
+// Unified Select component
 export { Select } from './Select';
-export { SelectTrigger, SelectValue } from './Select/index';
-export { SelectMenu, SelectMenuItem, SelectMenuItemAvatar } from './SelectMenu/index';
-export { useSelect, useSelectKeyboard } from './shared/index';
 
+// Types
 export type {
   SelectProps,
   SelectStyle,
   SelectSize,
   SelectVariant,
   SelectType,
-  SelectMenuItemVariant,
   SelectOption,
   SelectBaseProps,
   DefaultSelectProps,
   AvatarSelectProps,
   MultiSelectProps,
   TagsSelectProps,
-  SelectMenuItemProps,
+  RadixMultiSelectProps,
+  RadixMultiSelectVariant,
+  SelectTriggerProps,
+  SelectContentProps,
+  ExtendedSelectItemProps,
+  ExtendedSelectProps,
+  MultiSelectItemProps,
 } from './Select.types';
 
-export type { SelectTriggerProps, SelectValueProps } from './Select/index';
-export type { SelectMenuProps, SelectMenuItemAvatarProps } from './SelectMenu/index';
-export type { UseSelectOptions, UseSelectReturn, UseSelectKeyboardOptions, UseSelectKeyboardReturn } from './shared/index';
+// Radix primitives (for advanced customization)
+export {
+  Select as SelectRadix,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  ExtendedSelectItem,
+  SelectSeparator,
+  SelectScrollUpButton,
+  SelectScrollDownButton,
+  ExtendedSelect,
+} from './RadixSelect';
+
+export { MultiSelect as RadixMultiSelect } from './RadixMultiSelect';

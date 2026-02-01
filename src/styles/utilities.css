@@ -1379,24 +1379,23 @@
 }
 
 @utility shadow-component-default {
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05), inset 0px -1px 0px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 1px 2px 0px var(--bg-basic-gray-alpha-4), inset 0px -1px 0px 0px var(--bg-basic-gray-alpha-10);
 }
 
 @utility shadow-component-focus {
-  box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.10) inset, 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight);
+  box-shadow: 0 -1px 0 0 var(--bg-basic-gray-alpha-10) inset, 0 1px 2px 0 var(--bg-basic-gray-alpha-4), 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight);
 }
 
 @utility shadow-component-misc-focus {
   box-shadow: 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight);
-  ;
 }
 
 @utility shadow-component-destructive-focus {
-  box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.10) inset, 0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight-destructive);
+  box-shadow: 0 -1px 0 0 var(--bg-basic-gray-alpha-10) inset, 0 1px 2px 0 var(--bg-basic-gray-alpha-4), 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight-destructive);
 }
 
 @utility shadow-component-input-focus {
-  box-shadow: 0px 0px 0px 3px var(--border-default), inset 0px 0px 0px 1px rgba(39, 39, 42, 0.4);
+  box-shadow: 0px 0px 0px 3px var(--border-default), inset 0px 0px 0px 1px var(--border-strong);
 }
 
 /* ============================================
@@ -2047,6 +2046,10 @@
   width: var(--spacing-16);
 }
 
+.width-20 {
+  width: var(--spacing-20);
+}
+
 /* ============================================
    Height Utilities
    ============================================ */
@@ -2064,6 +2067,10 @@
 
 .height-16 {
   height: var(--spacing-16);
+}
+
+.height-20 {
+  height: var(--spacing-20);
 }
 
 .height-24 {

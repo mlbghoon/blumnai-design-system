@@ -249,6 +249,74 @@ The processed output includes:
 - Tailwind config: `tailwind.config.js`
 - Design tokens: `src/tokens/`
 - Figma fetch script: `scripts/fetch-figma.mjs`
+- shadcn bridge CSS: `src/styles/tokens/shadcn-bridge.css`
+- shadcn components: `src/components/ui/`
+- shadcn config: `components.json`
+
+## shadcn/ui Components
+
+### Component Location
+- shadcn components: `src/components/ui/`
+- Hooks: `src/hooks/`
+- CSS bridge: `src/styles/tokens/shadcn-bridge.css`
+
+### Adding New Components
+```bash
+npx shadcn@latest add [component-name]
+```
+
+### Customizing shadcn Components (CRITICAL)
+
+After adding a shadcn component, you MUST customize it to use design system classes:
+
+#### Typography
+| shadcn | Replace with |
+|--------|--------------|
+| `text-sm` | `size-sm` |
+| `text-lg` | `size-lg` |
+| `leading-none` | `line-height-leading-3` |
+| `leading-normal` | `line-height-leading-5` |
+| `tracking-tight` | `letter-spacing-tracking-tight` |
+
+#### Spacing
+| shadcn | Replace with |
+|--------|--------------|
+| `p-4` | `padding-16` |
+| `px-4` | `padding-x-16` |
+| `py-2` | `padding-y-8` |
+| `gap-2` | `gap-8` |
+| `gap-4` | `gap-16` |
+| `h-9` | `height-36` |
+| `h-10` | `height-40` |
+
+#### Add Font Family
+Always add `font-body` to text elements in shadcn components.
+
+### shadcn Color Variables
+
+shadcn components use these CSS variables (mapped via bridge):
+
+| shadcn Variable | Maps to Design Token |
+|-----------------|---------------------|
+| `--primary` | `--bg-state-primary` |
+| `--secondary` | `--bg-state-secondary` |
+| `--destructive` | `--bg-state-destructive` |
+| `--muted` | `--bg-muted` |
+| `--accent` | `--bg-state-soft` |
+| `--border` | `--border-default` |
+| `--ring` | `--border-highlight` |
+
+### Example - Customizing shadcn Button
+
+Before (shadcn default):
+```tsx
+"h-9 px-4 py-2 text-sm font-medium"
+```
+
+After (design system):
+```tsx
+"height-36 padding-x-16 padding-y-8 size-sm font-medium font-body line-height-leading-5"
+```
 
 ## Storybook Stories Documentation
 
@@ -423,6 +491,113 @@ export const Default: Story = {
 | Callback on change | 변경 시 호출되는 콜백 함수 |
 | Icon before/lead | 앞에 표시되는 아이콘 |
 | Icon after/tail | 뒤에 표시되는 아이콘 |
+
+### Connecting Controls to Default Story (CRITICAL)
+
+**Every prop defined in `argTypes` MUST be connected to the Default story in THREE places:**
+
+1. **In `argTypes`** - Define the control
+2. **In `args`** - Provide default value
+3. **In `render` function** - Pass to component
+
+If any of these are missing, the control will appear in Storybook but won't work.
+
+#### Checklist for Default Story
+```tsx
+// 1. Define in argTypes
+argTypes: {
+  selectType: {
+    control: 'select',
+    options: ['default', 'checkbox', 'radio'],
+    description: '선택 표시 타입',
+    table: { type: { summary: 'SelectType' } },
+  },
+  maxSelections: {
+    control: 'number',
+    description: '최대 선택 개수',
+    table: { type: { summary: 'number' } },
+  },
+},
+
+// 2. Add to args with default value
+export const Default: Story = {
+  args: {
+    selectType: 'default',        // ← MUST be here
+    maxSelections: undefined,      // ← MUST be here (use undefined for optional)
+    // ... other args
+  },
+
+  // 3. Pass in render function
+  render: function Render(args) {
+    return (
+      <Component
+        selectType={args.selectType}           // ← MUST be here
+        maxSelections={args.maxSelections}     // ← MUST be here
+        // ... other props
+      />
+    );
+  },
+};
+```
+
+#### Common Mistakes
+```tsx
+// WRONG - Control defined but not in args
+argTypes: { selectType: { control: 'select', ... } }
+args: { /* selectType missing! */ }
+
+// WRONG - In args but not passed to component
+args: { selectType: 'default' }
+render: (args) => <Component /* selectType not passed! */ />
+
+// WRONG - Empty string instead of undefined for optional props
+args: { maxSelections: '' }  // Should be: maxSelections: undefined
+```
+
+#### For String Props That Can Be Empty
+Use empty string to undefined conversion:
+```tsx
+args: {
+  supportText: 'Support text here',
+  error: '',  // Empty = no error
+},
+render: function Render(args) {
+  const supportText = args.supportText || undefined;
+  const error = args.error || undefined;
+  return <Component supportText={supportText} error={error} />;
+},
+```
+
+#### For Variant-Specific Props (Discriminated Unions)
+
+When a component uses discriminated union types (e.g., `SelectProps = DefaultSelectProps | MultiSelectProps | ...`), variant-specific props need the `in` type guard to avoid TypeScript errors:
+
+```tsx
+// WRONG - TypeScript error: Property 'selectType' does not exist on type 'SelectProps'
+render: function Render(args) {
+  return <Select selectType={args.selectType} />;  // Error!
+},
+
+// CORRECT - Use 'in' type guard for variant-specific props
+render: function Render(args) {
+  const selectType = 'selectType' in args ? args.selectType : undefined;
+  const maxSelections = 'maxSelections' in args ? args.maxSelections : undefined;
+  const selectedText = 'selectedText' in args ? (args.selectedText || undefined) : undefined;
+
+  return (
+    <Select
+      variant="default"
+      selectType={selectType}
+      maxSelections={maxSelections}
+      selectedText={selectedText}
+    />
+  );
+},
+```
+
+**Common variant-specific props:**
+- `SelectProps`: `selectType` (default), `maxSelections`/`selectedText` (multi-select), `maxVisibleTags`/`overflowText` (tags)
+- `InputProps`: `showStrength`/`showToggle` (password), `prefix`/`suffix` (default)
 
 ### "Show Code" Best Practices (CRITICAL)
 

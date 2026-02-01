@@ -1,0 +1,63 @@
+/**
+ * shadcn/ui CSS Variable Bridge
+ * Maps shadcn's expected variable names to Blumnai design system tokens
+ */
+
+:root {
+  /* === Core === */
+  --background: var(--bg-default);
+  --foreground: var(--text-default);
+
+  /* === Card === */
+  --card: var(--bg-card);
+  --card-foreground: var(--text-default);
+
+  /* === Popover === */
+  --popover: var(--bg-card);
+  --popover-foreground: var(--text-default);
+
+  /* === Primary === */
+  --primary: var(--bg-state-primary);
+  --primary-foreground: var(--text-white-default);
+
+  /* === Secondary === */
+  --secondary: var(--bg-state-secondary);
+  --secondary-foreground: var(--text-default);
+
+  /* === Muted === */
+  --muted: var(--bg-muted);
+  --muted-foreground: var(--text-muted);
+
+  /* === Accent === */
+  --accent: var(--bg-state-soft);
+  --accent-foreground: var(--text-default);
+
+  /* === Destructive === */
+  --destructive: var(--bg-state-destructive);
+  --destructive-foreground: var(--text-white-default);
+
+  /* === Border & Input === */
+  --border: var(--border-default);
+  --input: var(--border-darker);
+  --ring: var(--border-highlight);
+
+  /* === Radius === */
+  --radius: 6px;
+
+  /* === Sidebar === */
+  --sidebar-background: var(--bg-sidebar);
+  --sidebar-foreground: var(--text-default);
+  --sidebar-primary: var(--bg-state-primary);
+  --sidebar-primary-foreground: var(--text-white-default);
+  --sidebar-accent: var(--bg-state-soft);
+  --sidebar-accent-foreground: var(--text-default);
+  --sidebar-border: var(--border-default);
+  --sidebar-ring: var(--border-highlight);
+
+  /* === Chart Colors === */
+  --chart-1: var(--bg-basic-blue-accent);
+  --chart-2: var(--bg-basic-green-accent);
+  --chart-3: var(--bg-basic-orange-accent);
+  --chart-4: var(--bg-basic-purple-accent);
+  --chart-5: var(--bg-basic-red-accent);
+}

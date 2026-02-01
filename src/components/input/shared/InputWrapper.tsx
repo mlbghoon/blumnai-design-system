@@ -71,8 +71,10 @@ export const InputWrapper = ({
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
   const hasSuccess = success === true || (typeof success === 'string' && success.length > 0);
 
-  const captionText = typeof error === 'string' ? error : typeof success === 'string' ? success : caption;
-  const showCaption = captionText !== undefined;
+  const errorText = typeof error === 'string' && error.length > 0 ? error : undefined;
+  const successText = typeof success === 'string' && success.length > 0 ? success : undefined;
+  const captionText = errorText || successText || caption;
+  const showCaption = captionText !== undefined && captionText.length > 0;
 
   return (
     <div

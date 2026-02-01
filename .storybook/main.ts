@@ -41,6 +41,8 @@ const config: StorybookConfig = {
         utils: path.resolve(projectRoot, 'src/utils'),
         styles: path.resolve(projectRoot, 'src/styles'),
         tokens: path.resolve(projectRoot, 'src/tokens'),
+        hooks: path.resolve(projectRoot, 'src/hooks'),
+        '@': path.resolve(projectRoot, 'src'),
       };
 
       // Prevent eager resolution of icon index files

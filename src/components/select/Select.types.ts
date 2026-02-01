@@ -1,4 +1,5 @@
-import type { HTMLAttributes } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode, HTMLAttributes } from 'react';
+import type * as SelectPrimitive from '@radix-ui/react-select';
 
 import type { IconType } from '../icons/Icon/Icon.types';
 
@@ -21,11 +22,6 @@ export type SelectVariant = 'default' | 'avatar' | 'multi-select' | 'tags';
  * Select 메뉴 아이템 선택 타입
  */
 export type SelectType = 'default' | 'checkbox' | 'radio';
-
-/**
- * Select 메뉴 아이템 변형
- */
-export type SelectMenuItemVariant = 'default' | 'avatar' | 'country-flag';
 
 /**
  * Select 옵션 아이템 데이터
@@ -55,10 +51,6 @@ export interface SelectOption {
    * 아바타 이미지 URL (avatar 변형용)
    */
   avatarSrc?: string;
-  /**
-   * 국가 플래그 코드 (country-flag 변형용)
-   */
-  flagCode?: string;
   /**
    * 비활성화 여부
    */
@@ -150,11 +142,6 @@ export interface SelectBaseProps {
    */
   onOpenChange?: (open: boolean) => void;
   /**
-   * 포탈 사용 여부
-   * @default true
-   */
-  portal?: boolean;
-  /**
    * 메뉴 최대 높이 (숫자는 px, 문자열은 그대로 사용)
    * @default 300
    */
@@ -168,7 +155,7 @@ export interface SelectBaseProps {
 /**
  * 기본 Select Props - 단일 선택
  */
-export interface DefaultSelectProps extends SelectBaseProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface DefaultSelectProps extends SelectBaseProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
   variant?: 'default';
   /**
    * 현재 선택된 값
@@ -188,7 +175,7 @@ export interface DefaultSelectProps extends SelectBaseProps, Omit<HTMLAttributes
 /**
  * Avatar Select Props - 아바타가 있는 단일 선택
  */
-export interface AvatarSelectProps extends SelectBaseProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface AvatarSelectProps extends SelectBaseProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
   variant: 'avatar';
   /**
    * 현재 선택된 값
@@ -203,7 +190,7 @@ export interface AvatarSelectProps extends SelectBaseProps, Omit<HTMLAttributes<
 /**
  * Multi-select Props - 다중 선택
  */
-export interface MultiSelectProps extends SelectBaseProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface MultiSelectProps extends SelectBaseProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
   variant: 'multi-select';
   /**
    * 현재 선택된 값들
@@ -228,7 +215,7 @@ export interface MultiSelectProps extends SelectBaseProps, Omit<HTMLAttributes<H
 /**
  * Tags Select Props - 태그로 표시되는 다중 선택
  */
-export interface TagsSelectProps extends SelectBaseProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface TagsSelectProps extends SelectBaseProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
   variant: 'tags';
   /**
    * 현재 선택된 값들
@@ -242,6 +229,17 @@ export interface TagsSelectProps extends SelectBaseProps, Omit<HTMLAttributes<HT
    * 최대 선택 개수
    */
   maxSelections?: number;
+  /**
+   * 최대 표시 태그 수 - 이 수를 초과하면 "+N more" 형태로 표시
+   * undefined면 모든 태그 표시
+   */
+  maxVisibleTags?: number;
+  /**
+   * 오버플로우 텍스트 - 숨겨진 태그 수를 표시하는 텍스트
+   * 문자열 또는 (hiddenCount: number, totalCount: number) => string 함수
+   * @default '+{hiddenCount} more'
+   */
+  overflowText?: string | ((hiddenCount: number, totalCount: number) => string);
 }
 
 /**
@@ -254,60 +252,79 @@ export type SelectProps =
   | TagsSelectProps;
 
 /**
- * SelectMenuItem Props
+ * RadixMultiSelect 변형 타입
  */
-export interface SelectMenuItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
-  /**
-   * 메뉴 아이템 라벨
-   */
-  label: string;
-  /**
-   * 메뉴 아이템 변형
-   * @default 'default'
-   */
-  variant?: SelectMenuItemVariant;
-  /**
-   * 선택 타입
-   * @default 'default'
-   */
-  selectType?: SelectType;
-  /**
-   * 앞에 표시되는 아이콘
-   */
+export type RadixMultiSelectVariant = 'default' | 'avatar' | 'tags';
+
+/**
+ * RadixMultiSelect Props - Radix 기반 다중 선택 컴포넌트
+ */
+export interface RadixMultiSelectProps extends SelectBaseProps {
+  variant?: RadixMultiSelectVariant;
+  value?: string[];
+  onChange?: (value: string[]) => void;
+  defaultValue?: string[];
+  maxSelections?: number;
+  selectedText?: string | ((count: number) => string);
+  maxVisibleTags?: number;
+  overflowText?: string | ((hiddenCount: number, totalCount: number) => string);
+}
+
+// ============================================================================
+// Radix Select Component Types
+// ============================================================================
+
+/**
+ * SelectTrigger Props
+ */
+export interface SelectTriggerProps
+  extends ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> {
+  size?: SelectSize;
+  selectStyle?: SelectStyle;
+  state?: 'default' | 'disabled' | 'error' | 'success';
   leadIcon?: IconType;
-  /**
-   * 설명 텍스트
-   */
+}
+
+/**
+ * SelectContent Props
+ */
+export interface SelectContentProps
+  extends ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {
+  maxHeight?: number | string;
+  header?: ReactNode;
+}
+
+/**
+ * ExtendedSelectItem Props
+ */
+export interface ExtendedSelectItemProps
+  extends ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {
+  selectType?: SelectType;
+  leadIcon?: IconType;
   description?: string;
-  /**
-   * 뱃지 텍스트
-   */
   badge?: string;
-  /**
-   * 아바타 이미지 URL
-   */
   avatarSrc?: string;
-  /**
-   * 아바타 대체 텍스트
-   */
-  avatarAlt?: string;
-  /**
-   * 비활성화 여부
-   * @default false
-   */
+}
+
+/**
+ * ExtendedSelect Props
+ */
+export interface ExtendedSelectProps extends SelectBaseProps {
+  variant?: 'default' | 'avatar';
+  selectType?: SelectType;
+  value?: string;
+  onChange?: (value: string) => void;
+  defaultValue?: string;
+}
+
+/**
+ * MultiSelectItem Props (internal)
+ */
+export interface MultiSelectItemProps {
+  option: SelectOption;
+  selected: boolean;
+  focused: boolean;
   disabled?: boolean;
-  /**
-   * 선택된 상태
-   * @default false
-   */
-  selected?: boolean;
-  /**
-   * 포커스된 상태 (키보드 네비게이션)
-   * @default false
-   */
-  focused?: boolean;
-  /**
-   * 클릭 이벤트 핸들러
-   */
-  onClick?: () => void;
+  variant: RadixMultiSelectVariant;
+  onToggle: () => void;
 }

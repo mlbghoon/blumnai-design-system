@@ -355,3 +355,64 @@ Tailwind는 다음 용도로 계속 사용됩니다:
 - 모서리 (`rounded-*`)
 - 색상 (`bg-*`, `text-*`, `border-*`)
 - 타이포그래피 (`size-*`, `line-height-*`, `letter-spacing-*`)
+
+## shadcn/ui 통합
+
+### CSS 변수 브릿지
+
+shadcn/ui는 `--primary`, `--background` 등의 CSS 변수를 사용합니다. 우리 디자인 시스템과 연동하기 위해 `shadcn-bridge.css`에서 매핑합니다:
+
+**파일**: `src/styles/tokens/shadcn-bridge.css`
+
+```css
+:root {
+  /* shadcn 변수 → 우리 토큰 */
+  --background: var(--bg-default);
+  --foreground: var(--text-default);
+  --primary: var(--bg-state-primary);
+  --primary-foreground: var(--text-white-default);
+  --muted: var(--bg-muted);
+  --muted-foreground: var(--text-muted);
+  --border: var(--border-default);
+  /* ... */
+}
+```
+
+### 매핑 테이블
+
+| shadcn 변수 | 우리 토큰 | 라이트 모드 값 |
+|------------|----------|--------------|
+| `--background` | `--bg-default` | #FFFFFF |
+| `--foreground` | `--text-default` | #111115 |
+| `--primary` | `--bg-state-primary` | #437DFC |
+| `--primary-foreground` | `--text-white-default` | #FFFFFF |
+| `--secondary` | `--bg-state-secondary` | #FFFFFF |
+| `--muted` | `--bg-muted` | #F4F4F5 |
+| `--muted-foreground` | `--text-muted` | #6F6F77 |
+| `--accent` | `--bg-state-soft` | rgba(39,39,42,0.06) |
+| `--destructive` | `--bg-state-destructive` | #E74341 |
+| `--border` | `--border-default` | rgba(39,39,42,0.1) |
+| `--ring` | `--border-highlight` | rgba(101,160,253,0.4) |
+
+### shadcn 컴포넌트 커스터마이징
+
+shadcn 컴포넌트 추가 후, 다음 클래스를 교체해야 합니다:
+
+| shadcn 클래스 | 교체할 클래스 |
+|--------------|-------------|
+| `text-sm` | `size-sm` |
+| `text-lg` | `size-lg` |
+| `leading-*` | `line-height-leading-*` |
+| `tracking-*` | `letter-spacing-tracking-*` |
+| `p-4` | `padding-16` |
+| `px-4` | `padding-x-16` |
+| `py-2` | `padding-y-8` |
+| `gap-2` | `gap-8` |
+| `h-9` | `height-36` |
+| `h-10` | `height-40` |
+
+### shadcn 컴포넌트 위치
+
+- 컴포넌트: `src/components/ui/`
+- 훅: `src/hooks/`
+- 브릿지 CSS: `src/styles/tokens/shadcn-bridge.css`

@@ -24,7 +24,9 @@
       "icons/*": ["src/icons/*"],
       "utils/*": ["src/utils/*"],
       "styles/*": ["src/styles/*"],
-      "tokens/*": ["src/tokens/*"]
+      "tokens/*": ["src/tokens/*"],
+      "hooks/*": ["src/hooks/*"],
+      "@/*": ["./src/*"]
     },
 
     /* Linting */
