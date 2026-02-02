@@ -14,7 +14,7 @@ import { DropdownMenuSearch } from './DropdownMenuSearch';
 import { MenuButton } from './MenuButton';
 import type { IconColor } from '../../icons/Icon/Icon.types';
 import type { BadgeColor } from '../../badge/Badge/Badge.types';
-import type { ButtonStyle } from '../../button/Button/Button.types';
+import type { ButtonStyle } from '../../button/Button.types';
 
 const meta: Meta<typeof DropdownMenu> = {
   title: 'Components/Dropdown/DropdownMenu',

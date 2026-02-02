@@ -568,6 +568,106 @@ render: function Render(args) {
 },
 ```
 
+#### Compound Components (Radix UI Pattern) - CRITICAL
+
+For compound components like Dialog or Popover (based on Radix UI), create a combined type that includes props from both the root and content components. This allows documenting and controlling all props in Storybook.
+
+```tsx
+import type { DialogProps, DialogContentProps } from './Dialog.types';
+
+// Create combined type for story
+type DialogStoryProps = DialogProps & DialogContentProps;
+
+// Use combined type for Meta
+const meta: Meta<DialogStoryProps> = {
+  component: DialogContent,
+  argTypes: {
+    // Dialog (Root) props
+    modal: {
+      control: 'boolean',
+      description: '[Dialog] 모달 모드',
+      table: {
+        type: { summary: 'boolean' },
+        category: 'Dialog',  // Group by component
+      },
+    },
+    defaultOpen: {
+      control: 'boolean',
+      description: '[Dialog] 초기 열림 상태',
+      table: { category: 'Dialog' },
+    },
+    // DialogContent props
+    hideCloseButton: {
+      control: 'boolean',
+      description: '[DialogContent] 닫기 버튼 숨김',
+      table: { category: 'DialogContent' },
+    },
+  },
+};
+
+// Use combined type for Story
+type Story = StoryObj<DialogStoryProps>;
+
+export const Default: Story = {
+  args: {
+    modal: true,              // Root prop
+    hideCloseButton: false,   // Content prop
+  },
+  render: function Render(args) {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <Dialog open={open} onOpenChange={setOpen} modal={args.modal}>
+        <Button onClick={() => setOpen(true)}>Open</Button>
+        <DialogContent hideCloseButton={args.hideCloseButton}>
+          {/* content */}
+        </DialogContent>
+      </Dialog>
+    );
+  },
+};
+```
+
+**Key points:**
+- Create combined type: `type DialogStoryProps = DialogProps & DialogContentProps`
+- Use combined type for both `Meta<DialogStoryProps>` and `StoryObj<DialogStoryProps>`
+- Use `table: { category: 'ComponentName' }` to group props by component in Storybook UI
+- Prefix descriptions with `[ComponentName]` for clarity
+- Pass root props to root component, content props to content component in render
+
+#### Radix asChild Prop Conflict with Custom Components - CRITICAL
+
+Radix UI's `asChild` prop clones the child element and merges props. This causes conflicts with components that have custom props with common names like `style`.
+
+**Problem:** Our `Button` component has a custom `style` prop (for variants like "primary", "secondary"). When using `asChild`, Radix tries to pass its own `style` prop, causing conflicts.
+
+**Solution for Dialog:** Use controlled state without `DialogTrigger`:
+```tsx
+// Dialog doesn't need a trigger for positioning - it's centered on screen
+<Dialog open={open} onOpenChange={setOpen}>
+  <Button style="secondary" onClick={() => setOpen(true)}>Open</Button>
+  <DialogContent>...</DialogContent>
+</Dialog>
+```
+
+**Solution for Popover:** Popover NEEDS a trigger for positioning. Wrap Button in a span:
+```tsx
+// Popover needs PopoverTrigger for positioning
+<Popover open={open} onOpenChange={setOpen}>
+  <PopoverTrigger asChild>
+    <span>
+      <Button style="secondary" onClick={() => setOpen(true)}>Open</Button>
+    </span>
+  </PopoverTrigger>
+  <PopoverContent>...</PopoverContent>
+</Popover>
+```
+
+**Why span wrapper works:**
+- `asChild` passes props to the span (no conflicts)
+- Button keeps its custom `style` prop intact
+- PopoverTrigger still gets positioning reference from span
+
 #### For Variant-Specific Props (Discriminated Unions)
 
 When a component uses discriminated union types (e.g., `SelectProps = DefaultSelectProps | MultiSelectProps | ...`), variant-specific props need the `in` type guard to avoid TypeScript errors:

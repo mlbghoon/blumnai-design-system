@@ -1,7 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
 import type { BadgeColor } from '../../badge/Badge/Badge.types';
-import type { ButtonStyle } from '../../button/Button/Button.types';
+import type { ButtonStyle } from '../../button/Button.types';
 import type { IconColor, IconType } from '../../icons/Icon/Icon.types';
 
 /**

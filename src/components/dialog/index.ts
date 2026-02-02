@@ -1,0 +1,59 @@
+export {
+  Dialog,
+  DialogPortal,
+  DialogOverlay,
+  DialogTrigger,
+  DialogClose,
+  DialogAction,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogScrollArea,
+  DialogTitle,
+  DialogDescription,
+} from './Dialog';
+
+export type {
+  DialogProps,
+  DialogTriggerProps,
+  DialogPortalProps,
+  DialogCloseProps,
+  DialogOverlayProps,
+  DialogContentProps,
+  DialogHeaderProps,
+  DialogFooterProps,
+  DialogScrollAreaProps,
+  DialogTitleProps,
+  DialogDescriptionProps,
+  DialogActionProps,
+} from './Dialog.types';
+
+export {
+  AlertDialog,
+  AlertDialogPortal,
+  AlertDialogOverlay,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogScrollArea,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from './AlertDialog';
+
+export type {
+  AlertDialogProps,
+  AlertDialogTriggerProps,
+  AlertDialogPortalProps,
+  AlertDialogOverlayProps,
+  AlertDialogContentProps,
+  AlertDialogHeaderProps,
+  AlertDialogFooterProps,
+  AlertDialogScrollAreaProps,
+  AlertDialogTitleProps,
+  AlertDialogDescriptionProps,
+  AlertDialogActionProps,
+  AlertDialogCancelProps,
+} from './AlertDialog.types';

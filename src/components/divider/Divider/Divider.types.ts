@@ -1,7 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
 import type { IconType } from '../../icons/Icon/Icon.types';
-import type { ButtonIconType } from '../../button/Button/Button.types';
+import type { ButtonIconType } from '../../button/Button.types';
 
 /**
  * Divider 아이콘 타입 (isFill 지원)
