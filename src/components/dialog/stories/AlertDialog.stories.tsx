@@ -239,37 +239,3 @@ export const Controlled: Story = {
   },
 };
 
-/**
- * asChild로 Button 사용
- *
- * `asChild` prop을 사용하면 AlertDialogAction과 AlertDialogCancel에
- * Button 컴포넌트를 직접 전달하여 모든 Button props를 사용할 수 있습니다.
- */
-export const WithAsChild: Story = {
-  render: function Render() {
-    return (
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button buttonStyle="secondary">Open AlertDialog</Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>asChild 패턴</AlertDialogTitle>
-            <AlertDialogDescription>
-              asChild를 사용하여 Button 컴포넌트의 모든 기능을 활용할 수 있습니다.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel asChild>
-              <Button buttonStyle="ghost">나중에</Button>
-            </AlertDialogCancel>
-            <AlertDialogAction asChild>
-              <Button buttonStyle="destructive" leadIcon={['system', 'delete-bin']}>삭제</Button>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    );
-  },
-};
-

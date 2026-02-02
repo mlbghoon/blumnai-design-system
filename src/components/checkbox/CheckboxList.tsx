@@ -1,0 +1,61 @@
+import * as React from 'react';
+
+import { cn } from '@/lib/utils';
+import { Checkbox } from './Checkbox';
+import type { CheckboxListProps } from './CheckboxList.types';
+
+const CheckboxList = React.forwardRef<HTMLDivElement, CheckboxListProps>(
+  ({ items, listStyle = 'default', checkboxStyle = 'with-shadow', onItemChange, className }, ref) => {
+    const containerClassName = cn(
+      'flex flex-col',
+      listStyle === 'default' && 'gap-24',
+      className
+    );
+
+    const handleItemChange = (id: string) => (checked: boolean | 'indeterminate') => {
+      onItemChange?.(id, checked === true);
+    };
+
+    if (listStyle === 'bordered') {
+      return (
+        <div ref={ref} className={containerClassName}>
+          {items.map((item) => (
+            <div
+              key={item.id}
+              className="w-full padding-y-12 border-b-default"
+            >
+              <Checkbox
+                checked={item.checked}
+                disabled={item.disabled}
+                checkboxStyle={checkboxStyle}
+                onCheckedChange={handleItemChange(item.id)}
+                label={item.title}
+                description={item.description}
+              />
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div ref={ref} className={containerClassName}>
+        {items.map((item) => (
+          <Checkbox
+            key={item.id}
+            checked={item.checked}
+            disabled={item.disabled}
+            checkboxStyle={checkboxStyle}
+            onCheckedChange={handleItemChange(item.id)}
+            label={item.title}
+            description={item.description}
+          />
+        ))}
+      </div>
+    );
+  }
+);
+
+CheckboxList.displayName = 'CheckboxList';
+
+export { CheckboxList };
