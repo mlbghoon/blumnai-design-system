@@ -399,6 +399,10 @@
   border-right-color: var(--border-default);
 }
 
+.border-r-default:last-child {
+  border-right-width: 0;
+}
+
 .border-strong {
   border-width: 1px;
   border-color: var(--border-strong);
@@ -2073,6 +2077,10 @@
 
 .height-8 {
   height: var(--spacing-8);
+}
+
+.height-10 {
+  height: var(--spacing-10);
 }
 
 .height-14 {
