@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
 
 import { cn } from '@/lib/utils';
-import type { SliderProps } from './Slider.types';
+import type { SliderRangeProps } from './Slider.types';
 import { SliderThumb, SliderTrack, SliderRangeFilled, SliderTicks } from './shared';
 
-const Slider = React.forwardRef<
+const SliderRange = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
-  SliderProps
+  SliderRangeProps
 >(({
   className,
   color = 'gray',
@@ -26,13 +26,11 @@ const Slider = React.forwardRef<
   formatTick,
   ...props
 }, ref) => {
-  const internalValue = value ?? defaultValue ?? min;
-  const displayValue = formatValue
-    ? formatValue(internalValue)
-    : String(internalValue);
+  const internalValue = value ?? defaultValue ?? [min, max];
+  const formatFn = formatValue ?? String;
 
   const handleValueChange = React.useCallback((values: number[]) => {
-    onChange?.(values[0]);
+    onChange?.([values[0], values[1]]);
   }, [onChange]);
 
   return (
@@ -46,7 +44,7 @@ const Slider = React.forwardRef<
           )}
           {showValue && (
             <span className="font-body size-sm line-height-leading-5 text-muted">
-              {displayValue}
+              {formatFn(internalValue[0])} - {formatFn(internalValue[1])}
             </span>
           )}
         </div>
@@ -58,8 +56,8 @@ const Slider = React.forwardRef<
           'h-[16px] padding-x-8',
           disabled && 'cursor-not-allowed'
         )}
-        value={value !== undefined ? [value] : undefined}
-        defaultValue={defaultValue !== undefined ? [defaultValue] : [min]}
+        value={value}
+        defaultValue={defaultValue ?? [min, max]}
         min={min}
         max={max}
         step={step}
@@ -73,7 +71,12 @@ const Slider = React.forwardRef<
         <SliderThumb
           disabled={disabled}
           showTooltip
-          tooltipValue={displayValue}
+          tooltipValue={formatFn(internalValue[0])}
+        />
+        <SliderThumb
+          disabled={disabled}
+          showTooltip
+          tooltipValue={formatFn(internalValue[1])}
         />
       </SliderPrimitive.Root>
       {showTicks && (
@@ -89,6 +92,6 @@ const Slider = React.forwardRef<
   );
 });
 
-Slider.displayName = 'Slider';
+SliderRange.displayName = 'SliderRange';
 
-export { Slider };
+export { SliderRange };

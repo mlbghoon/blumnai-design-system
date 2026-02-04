@@ -1,2 +1,17 @@
 export { Slider } from './Slider';
-export type { SliderProps, SliderSize, SliderColor } from './Slider.types';
+export { SliderRange } from './SliderRange';
+export { DataRangeSlider } from './DataRangeSlider';
+export { SliderInput } from './SliderInput';
+export { SliderRangeInput } from './SliderRangeInput';
+export { DataRangeSliderInput } from './DataRangeSliderInput';
+
+export type {
+  SliderColor,
+  SliderBaseProps,
+  SliderProps,
+  SliderRangeProps,
+  DataRangeSliderProps,
+  SliderInputProps,
+  SliderRangeInputProps,
+  DataRangeSliderInputProps,
+} from './Slider.types';
