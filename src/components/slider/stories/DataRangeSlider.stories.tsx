@@ -13,25 +13,46 @@ const meta: Meta<DataRangeSliderProps> = {
     controls: { disable: true },
   },
   argTypes: {
+    value: {
+      description: '현재 범위 값 [최소값, 최대값]',
+      table: {
+        type: {
+          summary: '[number, number]',
+          detail: '첫 번째 값: 범위 시작값 (number)\n두 번째 값: 범위 끝값 (number)',
+        },
+      },
+    },
+    defaultValue: {
+      description: '기본 범위 값 [최소값, 최대값]',
+      table: {
+        type: {
+          summary: '[number, number]',
+          detail: '첫 번째 값: 범위 시작값 (number)\n두 번째 값: 범위 끝값 (number)',
+        },
+      },
+    },
     color: {
       control: 'select',
       options: ['gray', 'brand', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'],
-      description: '슬라이더 색상',
+      description: '슬라이더 트랙 및 차트 선택 영역 색상',
       table: {
-        type: { summary: 'SliderColor' },
+        type: {
+          summary: 'SliderColor',
+          detail: "'gray' | 'brand' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'",
+        },
         defaultValue: { summary: 'gray' },
       },
     },
     label: {
       control: 'text',
-      description: '라벨',
+      description: '슬라이더 상단 좌측에 표시되는 라벨 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     separator: {
       control: 'text',
-      description: '범위 구분자',
+      description: '범위 표시 시 최소값과 최대값 사이 구분자 (예: "~", "to", "-")',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '~' },
@@ -39,7 +60,7 @@ const meta: Meta<DataRangeSliderProps> = {
     },
     min: {
       control: 'number',
-      description: '최소값',
+      description: '슬라이더 범위의 최소값',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
@@ -47,7 +68,7 @@ const meta: Meta<DataRangeSliderProps> = {
     },
     max: {
       control: 'number',
-      description: '최대값',
+      description: '슬라이더 범위의 최대값',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '100' },
@@ -55,7 +76,7 @@ const meta: Meta<DataRangeSliderProps> = {
     },
     step: {
       control: 'number',
-      description: '스텝 단위',
+      description: '값 변경 단위 (1이면 1씩 증가/감소)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '1' },
@@ -63,7 +84,7 @@ const meta: Meta<DataRangeSliderProps> = {
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: '비활성화 상태 (true면 조작 불가)',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -71,21 +92,27 @@ const meta: Meta<DataRangeSliderProps> = {
     },
     onChange: {
       action: 'changed',
-      description: '범위 변경 콜백',
+      description: '값 변경 시 호출되는 콜백 함수',
       table: {
-        type: { summary: '(value: [number, number]) => void' },
+        type: {
+          summary: '(value: [number, number]) => void',
+          detail: 'value: [시작값, 끝값] 형태의 튜플',
+        },
       },
     },
     chartData: {
       control: 'object',
-      description: '차트 데이터 (0-1 사이 값 배열)',
+      description: '분포 차트 데이터 (각 값은 0~1 사이, 배열 길이가 데이터 포인트 수)',
       table: {
-        type: { summary: 'number[]' },
+        type: {
+          summary: 'number[]',
+          detail: '예: [0.2, 0.5, 0.8, 0.3] - 각 값은 해당 위치의 높이 비율',
+        },
       },
     },
     showTicks: {
       control: 'boolean',
-      description: '눈금 표시 여부',
+      description: '슬라이더 아래 눈금(0, 10, 20...) 표시 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -93,16 +120,28 @@ const meta: Meta<DataRangeSliderProps> = {
     },
     tickCount: {
       control: 'number',
-      description: '눈금 개수',
+      description: '표시할 눈금 개수 (min~max 사이를 균등 분할)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '11' },
       },
     },
     formatTick: {
-      description: '눈금 라벨 포맷 함수 (예: (v) => `$${v}` → "$0", "$10"...)',
+      description: '눈금 라벨 포맷 함수',
       table: {
-        type: { summary: '(value: number) => string' },
+        type: {
+          summary: '(value: number) => string',
+          detail: "예: (v) => `$${v}` → '$0', '$10', '$20'...",
+        },
+      },
+    },
+    formatValue: {
+      description: '상단 범위 표시 값 포맷 함수',
+      table: {
+        type: {
+          summary: '(value: number) => string',
+          detail: "예: (v) => `${v}%` → '20% ~ 80%'",
+        },
       },
     },
   },
