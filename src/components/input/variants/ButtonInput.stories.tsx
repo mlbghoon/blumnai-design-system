@@ -16,7 +16,6 @@ const meta: Meta<typeof Input> = {
       control: 'select',
       options: ['lead-button', 'tail-button'],
       description: '입력 필드의 변형 (lead-button: 앞쪽, tail-button: 뒤쪽)',
-      type: { required: true },
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'tail-button' },
@@ -327,7 +326,7 @@ export const WithInputTailIcon: Story = {
     variant: 'tail-button',
     label: 'Email',
     placeholder: 'Enter email...',
-    tailIcon: ['business', 'mail'],
+    leadIcon: ['business', 'mail'],
     buttonLabel: 'Send',
   },
 };
@@ -343,7 +342,7 @@ export const WithInputBothIcons: Story = {
     label: 'Website',
     placeholder: 'Enter URL...',
     leadIcon: ['business', 'global'],
-    tailIcon: ['system', 'external-link'],
+    buttonTailIcon: ['system', 'external-link'],
     buttonLabel: 'Go',
   },
 };

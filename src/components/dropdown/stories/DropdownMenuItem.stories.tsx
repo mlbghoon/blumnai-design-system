@@ -246,7 +246,7 @@ export const WithTailIcon: Story = {
         </DropdownMenuTrigger>
         <DropdownMenuContent width={250}>
           <DropdownMenuItem tailIcon={['arrows', 'arrow-right-s']}>더보기</DropdownMenuItem>
-          <DropdownMenuItem tailIcon={['arrows', 'external-link']}>외부 링크</DropdownMenuItem>
+          <DropdownMenuItem tailIcon={['system', 'external-link']}>외부 링크</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );

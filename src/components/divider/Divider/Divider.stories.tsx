@@ -133,7 +133,7 @@ export const Default: Story = {
   parameters: {
     controls: { disable: false },
   },
-  render: (args) => {
+  render: function Render(args) {
     const dividerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

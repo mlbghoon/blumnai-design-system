@@ -36,7 +36,6 @@ const meta: Meta<typeof Input> = {
       control: 'select',
       options: ['lead-dropdown', 'tail-dropdown'],
       description: '입력 필드의 변형 (lead-dropdown: 앞쪽, tail-dropdown: 뒤쪽)',
-      type: { required: true },
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'tail-dropdown' },
@@ -155,7 +154,6 @@ const meta: Meta<typeof Input> = {
     dropdownOptions: {
       control: 'object',
       description: '드롭다운 옵션 목록',
-      type: { required: true },
       table: {
         type: { summary: 'DropdownOption[]' },
       },
@@ -234,9 +232,23 @@ export const Default: Story = {
   render: function Render(args) {
     const [value, setValue] = useState('');
     const [dropdownValue, setDropdownValue] = useState('usd');
+    const dropdownOptions = 'dropdownOptions' in args ? args.dropdownOptions : currencyOptions;
+    const dropdownPlaceholder = 'dropdownPlaceholder' in args ? args.dropdownPlaceholder : 'Currency';
     return (
       <Input
-        {...args}
+        variant="tail-dropdown"
+        label={args.label}
+        placeholder={args.placeholder}
+        dropdownOptions={dropdownOptions}
+        dropdownPlaceholder={dropdownPlaceholder}
+        inputStyle={args.inputStyle}
+        size={args.size}
+        disabled={args.disabled}
+        required={args.required}
+        supportText={args.supportText}
+        caption={args.caption}
+        error={args.error}
+        success={args.success}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         dropdownValue={dropdownValue}

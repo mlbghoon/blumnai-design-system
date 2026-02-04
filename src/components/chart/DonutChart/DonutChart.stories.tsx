@@ -15,7 +15,6 @@ const meta: Meta<typeof DonutChart> = {
     data: {
       control: 'object',
       description: '키-값 쌍의 차트 데이터 배열',
-      type: { required: true },
       table: {
         type: {
           summary: 'ChartDataPoint[]',
@@ -27,7 +26,6 @@ const meta: Meta<typeof DonutChart> = {
     dataKey: {
       control: 'text',
       description: '슬라이스 값의 데이터 키',
-      type: { required: true },
       table: {
         type: {
           summary: 'string',
@@ -39,7 +37,6 @@ const meta: Meta<typeof DonutChart> = {
     nameKey: {
       control: 'text',
       description: '슬라이스 이름/라벨의 데이터 키',
-      type: { required: true },
       table: {
         type: {
           summary: 'string',
@@ -180,7 +177,7 @@ export const Default: Story = {
     showLegend: false,
     className: '',
   },
-  render: (args) => {
+  render: function Render(args) {
     const chartRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

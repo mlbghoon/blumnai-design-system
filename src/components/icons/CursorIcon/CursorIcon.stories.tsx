@@ -14,7 +14,6 @@ const meta: Meta<typeof CursorIcon> = {
       control: 'select',
       options: ['arrow', 'hand-closed', 'hand-open', 'not-allowed', 'pointer', 'text'],
       description: '표시할 커서 아이콘 타입',
-      type: { required: true },
       table: {
         type: {
           summary: 'CursorType',
@@ -51,7 +50,7 @@ export const Default: Story = {
     size: 24,
     className: '',
   },
-  render: (args) => {
+  render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
 
     useEffect(() => {
@@ -79,7 +78,7 @@ export const Sizes: Story = {
 };
 
 export const AllCursors: Story = {
-  render: () => {
+  render: function Render() {
     const cursors: CursorType[] = ['arrow', 'hand-closed', 'hand-open', 'not-allowed', 'pointer', 'text'];
     return (
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '24px' }}>

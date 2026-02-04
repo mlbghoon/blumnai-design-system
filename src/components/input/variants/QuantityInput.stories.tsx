@@ -16,7 +16,6 @@ const meta: Meta<typeof Input> = {
       control: 'select',
       options: ['quantity', 'quantity-2'],
       description: '입력 필드의 변형 (quantity: 양쪽 버튼, quantity-2: 컴팩트)',
-      type: { required: true },
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'quantity' },
@@ -169,9 +168,24 @@ type Story = StoryObj<typeof Input>;
 export const Default: Story = {
   render: function Render(args) {
     const [value, setValue] = useState(1);
+    const min = 'min' in args && typeof args.min === 'number' ? args.min : 0;
+    const max = 'max' in args && typeof args.max === 'number' ? args.max : 10;
+    const step = 'step' in args && typeof args.step === 'number' ? args.step : 1;
     return (
       <Input
-        {...args}
+        variant="quantity"
+        inputStyle={args.inputStyle}
+        size={args.size}
+        label={args.label}
+        required={args.required}
+        supportText={args.supportText}
+        caption={args.caption}
+        error={args.error}
+        success={args.success}
+        disabled={args.disabled}
+        min={min}
+        max={max}
+        step={step}
         value={value}
         onChange={setValue}
       />

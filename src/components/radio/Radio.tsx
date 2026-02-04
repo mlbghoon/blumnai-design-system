@@ -27,7 +27,7 @@ const RadioGroup = React.forwardRef<
   RadioGroupProps
 >(({ className, value, onValueChange, defaultValue, ...props }, ref) => {
   const [internalValue, setInternalValue] = React.useState(defaultValue);
-  const currentValue = value !== undefined ? value : internalValue;
+  const currentValue = value !== undefined ? (value ?? undefined) : internalValue;
 
   const handleValueChange = (newValue: string) => {
     if (value === undefined) {

@@ -277,7 +277,6 @@ const meta: Meta<typeof FlagIcon> = {
       control: 'select',
       options: allCountries,
       description: '국기의 국가 또는 지역 코드',
-      type: { required: true },
       table: {
         type: {
           summary: 'CountryCode',
@@ -315,7 +314,7 @@ export const Default: Story = {
     size: 24,
     className: '',
   },
-  render: (args) => {
+  render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
 
     useEffect(() => {
@@ -343,7 +342,7 @@ export const Sizes: Story = {
 };
 
 export const PopularCountries: Story = {
-  render: () => {
+  render: function Render() {
     const countries: { code: CountryCode; name: string }[] = [
       { code: 'unitedstates', name: 'United States' },
       { code: 'united kingdom', name: 'United Kingdom' },
@@ -375,7 +374,7 @@ export const PopularCountries: Story = {
 };
 
 export const Organizations: Story = {
-  render: () => {
+  render: function Render() {
     const orgs: { code: CountryCode; name: string }[] = [
       { code: 'europeanunion', name: 'European Union' },
       { code: 'unitednations', name: 'United Nations' },

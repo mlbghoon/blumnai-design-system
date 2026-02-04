@@ -161,7 +161,7 @@ export const Default: Story = {
     logoImage: 'https://picsum.photos/20',
     className: '',
   },
-  render: (args) => {
+  render: function Render(args) {
     const avatarRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

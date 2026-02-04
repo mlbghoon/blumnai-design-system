@@ -16,7 +16,6 @@ const meta: Meta<typeof Input> = {
       control: 'select',
       options: ['addon', 'inline-addon'],
       description: '입력 필드의 변형 (addon: 분리된, inline-addon: 인라인)',
-      type: { required: true },
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'addon' },

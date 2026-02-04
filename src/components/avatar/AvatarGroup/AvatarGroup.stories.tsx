@@ -40,7 +40,6 @@ const meta = {
     avatars: {
       control: 'object',
       description: '아바타 props 배열',
-      type: { required: true },
       table: {
         type: {
           summary: 'AvatarProps[]',
@@ -93,7 +92,7 @@ export const Default: Story = {
     avatars: sampleAvatars,
     className: '',
   },
-  render: (args) => {
+  render: function Render(args) {
     const groupRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

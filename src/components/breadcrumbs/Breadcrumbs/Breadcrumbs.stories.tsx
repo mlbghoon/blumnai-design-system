@@ -18,7 +18,6 @@ const meta: Meta<typeof Breadcrumbs> = {
     items: {
       control: 'object',
       description: '표시할 브레드크럼 아이템 배열',
-      type: { required: true },
       table: {
         type: {
           summary: 'BreadcrumbItem[]',
@@ -108,7 +107,7 @@ export const Default: Story = {
   parameters: {
     controls: { disable: false },
   },
-  render: (args) => {
+  render: function Render(args) {
     const breadcrumbsRef = useRef<HTMLElement>(null);
 
     useEffect(() => {

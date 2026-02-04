@@ -77,7 +77,7 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
         return (
           <Button
             size="xs"
-            style="secondary"
+            buttonStyle="secondary"
             leadIcon={buttonLeadIcon}
             tailIcon={buttonTailIcon}
             shortcut={buttonBadge}

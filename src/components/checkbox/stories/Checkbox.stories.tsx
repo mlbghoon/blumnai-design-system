@@ -112,7 +112,7 @@ export const AllVariants: Story = {
           <h3 className="size-sm font-medium text-default mb-12">Checkbox</h3>
           <Checkbox
             checked={basicChecked}
-            onCheckedChange={setBasicChecked}
+            onCheckedChange={(checked) => setBasicChecked(checked === true)}
             label="Title"
             description="Description"
             checkboxStyle={args.checkboxStyle}

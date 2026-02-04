@@ -15,7 +15,6 @@ const meta: Meta<typeof Input> = {
       control: 'select',
       options: ['shortcut'],
       description: '입력 필드의 변형',
-      type: { required: true },
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'shortcut' },
@@ -120,7 +119,6 @@ const meta: Meta<typeof Input> = {
     shortcut: {
       control: 'text',
       description: '단축키 텍스트',
-      type: { required: true },
       table: {
         type: { summary: 'string' },
       },

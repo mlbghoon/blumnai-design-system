@@ -148,7 +148,7 @@ export const Default: Story = {
     closeIcon: false,
     className: '',
   },
-  render: (args) => {
+  render: function Render(args) {
     const badgeRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

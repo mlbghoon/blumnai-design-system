@@ -167,7 +167,7 @@ export const Submenu: Story = {
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
               <DropdownMenuItem>
-                <Icon iconType={['communication', 'mail']} size={16} />
+                <Icon iconType={['business', 'mail']} size={16} />
                 Email
               </DropdownMenuItem>
               <DropdownMenuItem>

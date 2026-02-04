@@ -123,7 +123,7 @@ export const Default: Story = {
   parameters: {
     controls: { disable: false },
   },
-  render: (args) => {
+  render: function Render(args) {
     const chipRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

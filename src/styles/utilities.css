@@ -380,6 +380,7 @@
 
 .border-l-darker {
   border-left-width: 1px;
+  border-left-style: solid;
   border-left-color: var(--border-darker);
 }
 
@@ -391,6 +392,11 @@
 .border-t-default {
   border-top-width: 1px;
   border-top-color: var(--border-default);
+}
+
+.border-r-default {
+  border-right-width: 1px;
+  border-right-color: var(--border-default);
 }
 
 .border-strong {
@@ -450,6 +456,10 @@
 .border-highlight-accent {
   border-width: 2px;
   border-color: var(--border-highlight-accent);
+}
+
+.border-0 {
+  border-width: 0;
 }
 
 /* Card border utilities using inset box-shadow (no layout shift) */
@@ -1395,7 +1405,11 @@
 }
 
 @utility shadow-component-input-focus {
-  box-shadow: 0px 0px 0px 3px var(--border-default), inset 0px 0px 0px 1px var(--border-strong);
+  box-shadow: 0px 0px 0px 3px var(--border-default), inset 0px 0px 0px 1px var(--border-input-highlight);
+}
+
+@utility shadow-component-input-focus-error {
+  box-shadow: 0px 0px 0px 3px var(--border-highlight-destructive), inset 0px 0px 0px 1px var(--border-destructive);
 }
 
 /* ============================================
@@ -2099,6 +2113,10 @@
 
 .width-28 {
   width: var(--spacing-28);
+}
+
+.width-30 {
+  width: var(--spacing-30);
 }
 
 .width-32 {

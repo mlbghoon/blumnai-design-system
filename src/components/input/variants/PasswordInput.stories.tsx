@@ -17,7 +17,6 @@ const meta: Meta<typeof Input> = {
       control: 'select',
       options: ['password'],
       description: '입력 필드의 변형',
-      type: { required: true },
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'password' },

@@ -121,7 +121,7 @@ export const Default: Story = {
     return (
       <Checkbox
         checked={checked}
-        onCheckedChange={setChecked}
+        onCheckedChange={(checked) => setChecked(checked === true)}
         disabled={args.disabled}
         label={args.label}
         description={description}

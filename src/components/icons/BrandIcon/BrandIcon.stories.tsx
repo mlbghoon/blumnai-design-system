@@ -12,7 +12,6 @@ const meta: Meta<typeof BrandIcon> = {
   argTypes: {
     brandType: {
       control: 'select',
-      type: { required: true },
       options: [
         'adobe', 'affinity designer', 'after effects', 'airbnb', 'algorand', 'aliexpress',
         'angular', 'apple', 'apple music', 'arc', 'arc browser', 'asana', 'binance', 'bing',
@@ -69,7 +68,7 @@ export const Default: Story = {
     size: 24,
     className: '',
   },
-  render: (args) => {
+  render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
 
     useEffect(() => {
@@ -97,7 +96,7 @@ export const Sizes: Story = {
 };
 
 export const SocialMedia: Story = {
-  render: () => {
+  render: function Render() {
     const brands: { brandType: BrandType; label: string }[] = [
       { brandType: 'facebook', label: 'Facebook' },
       { brandType: 'youtube', label: 'YouTube' },

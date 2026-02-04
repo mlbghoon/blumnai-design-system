@@ -26,7 +26,6 @@ const meta: Meta<typeof FileIcon> = {
       control: 'select',
       options: fileVariants,
       description: '표시할 파일 타입 변형',
-      type: { required: true },
       table: {
         type: {
           summary: 'FileVariant',
@@ -75,7 +74,7 @@ export const Default: Story = {
     size: 'md',
     className: '',
   },
-  render: (args) => {
+  render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
 
     useEffect(() => {
@@ -89,7 +88,7 @@ export const Default: Story = {
 };
 
 export const AllTypes: Story = {
-  render: () => {
+  render: function Render() {
     const variants: FileVariant[] = ['archive', 'code', 'default', 'image', 'music', 'pdf', 'video'];
     return (
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '24px' }}>
@@ -108,7 +107,7 @@ export const AllTypes: Story = {
 };
 
 export const Sizes: Story = {
-  render: () => {
+  render: function Render() {
     const sizes = ['sm', 'md', 'lg'] as const;
     return (
       <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-end' }}>
@@ -127,7 +126,7 @@ export const Sizes: Story = {
 };
 
 export const Thumbnails: Story = {
-  render: () => {
+  render: function Render() {
     const sizes = ['sm', 'md', 'lg'] as const;
     return (
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '48px' }}>

@@ -49,7 +49,6 @@ const meta = {
     header: {
       control: 'text',
       description: '헤더 콘텐츠 (질문/제목)',
-      type: { required: true },
       table: {
         type: {
           summary: 'ReactNode',
@@ -59,7 +58,6 @@ const meta = {
     children: {
       control: 'text',
       description: '펼쳐졌을 때 표시되는 콘텐츠 (답변/본문)',
-      type: { required: true },
       table: {
         type: {
           summary: 'ReactNode',
@@ -95,7 +93,7 @@ export const Default: Story = {
     style: 'default',
     className: '',
   },
-  render: (args) => {
+  render: function Render(args) {
     const accordionRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

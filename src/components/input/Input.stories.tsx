@@ -32,7 +32,7 @@ const countryOptions = [
 ];
 
 export const AllVariants: Story = {
-  render: () => {
+  render: function Render() {
     const [password, setPassword] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [quantity2, setQuantity2] = useState(1);

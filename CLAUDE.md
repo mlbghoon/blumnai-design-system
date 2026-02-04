@@ -1,5 +1,24 @@
 # Blumnai Design System - Development Guidelines
 
+## Code Quality Verification (CRITICAL)
+
+**ALWAYS run type-check and lint after making code changes:**
+
+```bash
+npm run typecheck && npm run lint
+```
+
+This MUST be done:
+- After completing any code changes
+- Before telling the user the work is done
+- To catch TypeScript errors, ESLint violations, and React hooks issues
+
+**Common issues this catches:**
+- TypeScript type incompatibilities
+- React refs updated during render (use `useEffect` instead)
+- Missing or incorrect prop types
+- Import errors
+
 ## Typography Classes (CRITICAL)
 
 **NEVER use default Tailwind typography classes. ALWAYS use the design system's utility classes:**

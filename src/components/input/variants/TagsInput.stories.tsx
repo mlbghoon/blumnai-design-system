@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
+import type { IconType } from '../../icons/Icon/Icon.types';
 import { Input } from '../Input';
 
 const meta: Meta<typeof Input> = {
@@ -16,7 +17,6 @@ const meta: Meta<typeof Input> = {
       control: 'select',
       options: ['tags', 'inline-tags'],
       description: '입력 필드의 변형 (tags: 내부, inline-tags: 하단)',
-      type: { required: true },
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'tags' },
@@ -206,9 +206,29 @@ type Story = StoryObj<typeof Input>;
 export const Default: Story = {
   render: function Render(args) {
     const [tags, setTags] = useState(['React', 'TypeScript', 'Node.js']);
+    const leadIcon = 'leadIcon' in args ? (args.leadIcon as IconType | undefined) : undefined;
+    const maxTags = 'maxTags' in args ? args.maxTags : undefined;
+    const allowDuplicates = 'allowDuplicates' in args ? args.allowDuplicates : undefined;
+    const delimiters = 'delimiters' in args ? args.delimiters : undefined;
+    const removable = 'removable' in args ? args.removable : undefined;
     return (
       <Input
-        {...args}
+        variant="tags"
+        inputStyle={args.inputStyle}
+        size={args.size}
+        label={args.label}
+        placeholder={args.placeholder}
+        required={args.required}
+        supportText={args.supportText}
+        caption={args.caption}
+        error={args.error}
+        success={args.success}
+        disabled={args.disabled}
+        leadIcon={leadIcon}
+        maxTags={maxTags}
+        allowDuplicates={allowDuplicates}
+        delimiters={delimiters}
+        removable={removable}
         tags={tags}
         onTagsChange={setTags}
       />

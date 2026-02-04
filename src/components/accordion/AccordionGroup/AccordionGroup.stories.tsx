@@ -16,7 +16,6 @@ const meta = {
     items: {
       control: 'object',
       description: '아코디언 아이템 데이터 배열',
-      type: { required: true },
       table: {
         type: {
           summary: 'AccordionGroupItem[]',
@@ -103,7 +102,7 @@ export const Group: Story = {
     allowMultipleOpen: true,
     className: '',
   },
-  render: (args) => {
+  render: function Render(args) {
     const groupRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

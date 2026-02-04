@@ -94,7 +94,6 @@ const meta: Meta<typeof IsometricIcon> = {
       control: 'select',
       options: iconTypeOptions,
       description: '표시할 아이소메트릭 아이콘 타입',
-      type: { required: true },
       table: {
         type: {
           summary: 'IsometricIconType',
@@ -171,7 +170,7 @@ export const Default: Story = {
     strokeColor: 'accent',
     className: '',
   },
-  render: (args) => {
+  render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
 
     useEffect(() => {
@@ -215,7 +214,7 @@ export const Size: Story = {
 };
 
 export const FillColor: Story = {
-  render: () => {
+  render: function Render() {
     const showColors: IsometricFillColor[] = [
       'default', 'subtle', 'muted', 'inverted', 'accent',
       'state-primary', 'state-destructive', 'state-brand', 'state-gray',
@@ -284,7 +283,7 @@ export const StrokeColor: Story = {
 };
 
 export const Example: Story = {
-  render: () => {
+  render: function Render() {
     const exampleIcons: IsometricIconType[] = [
       'star', 'favorite', 'settings', 'check', 'shield',
       'rocketlaunch', 'diamond', 'bolt', 'key', 'house'
