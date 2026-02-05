@@ -157,6 +157,7 @@ export function useDataGridTable<T>(options: UseDataGridTableOptions<T>) {
   const totalRows = total ?? displayData.length;
   const totalPages = Math.ceil(totalRows / limit);
 
+  // eslint-disable-next-line react-hooks/incompatible-library -- TanStack Table is a known incompatible library
   const table = useReactTable({
     data: displayData,
     columns,

@@ -1,0 +1,136 @@
+import { forwardRef, useMemo } from 'react';
+
+import { Icon } from '../icons/Icon';
+import { ControlButton } from '../button/ControlButton';
+import { cn } from '../../lib/utils';
+import {
+  FILE_UPLOAD_CARD_BASE,
+  FILE_UPLOAD_CARD_SIZE,
+  FILE_UPLOAD_THUMBNAIL,
+  FILE_UPLOAD_CONTENT,
+  FILE_UPLOAD_FILENAME,
+  FILE_UPLOAD_META,
+  FILE_UPLOAD_META_DIVIDER,
+  FILE_UPLOAD_STATUS_TEXT,
+  FILE_UPLOAD_STATUS_LABEL,
+  FILE_UPLOAD_PROGRESS_TRACK,
+  FILE_UPLOAD_PROGRESS_FILL,
+  FILE_UPLOAD_ACTIONS,
+  FILE_UPLOAD_CARD_ICON_SIZE,
+} from '../../constants/file-upload/file-upload.constants';
+
+import type { FileUploadCardProps } from './FileUpload.types';
+import type { IconType } from '../icons/Icon/Icon.types';
+
+function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '0 B';
+
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+  const k = 1024;
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${units[i]}`;
+}
+
+function getFileTypeIcon(mimeType: string): IconType {
+  if (mimeType.startsWith('image/')) return ['media', 'image'];
+  if (mimeType.startsWith('video/')) return ['media', 'video'];
+  if (mimeType.startsWith('audio/')) return ['media', 'music'];
+  if (mimeType === 'application/pdf') return ['document', 'file-pdf'];
+  if (mimeType.includes('word') || mimeType.includes('document')) return ['document', 'file-word'];
+  if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) return ['document', 'file-excel'];
+  if (mimeType.includes('powerpoint') || mimeType.includes('presentation')) return ['document', 'file-ppt'];
+  if (mimeType.includes('zip') || mimeType.includes('rar') || mimeType.includes('archive')) return ['document', 'file-zip'];
+  return ['document', 'file'];
+}
+
+export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
+  file,
+  thumbnail,
+  status,
+  progress = 0,
+  errorMessage,
+  size = 'lg',
+  onRemove,
+  onRetry,
+  className,
+}, ref) => {
+  const sizeConfig = FILE_UPLOAD_CARD_SIZE[size];
+  const iconSize = FILE_UPLOAD_CARD_ICON_SIZE[size];
+
+  const fileTypeIcon = useMemo(() => getFileTypeIcon(file.type), [file.type]);
+  const formattedSize = useMemo(() => formatFileSize(file.size), [file.size]);
+
+  const statusLabel = status === 'error' && errorMessage ? errorMessage : FILE_UPLOAD_STATUS_LABEL[status];
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        FILE_UPLOAD_CARD_BASE,
+        sizeConfig.container,
+        className
+      )}
+    >
+      <div className={cn(FILE_UPLOAD_THUMBNAIL, sizeConfig.thumbnail)}>
+        {thumbnail ? (
+          <img
+            src={thumbnail}
+            alt={file.name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <Icon
+            iconType={fileTypeIcon}
+            size={iconSize}
+            color="default-muted"
+          />
+        )}
+      </div>
+
+      <div className={FILE_UPLOAD_CONTENT}>
+        <span className={FILE_UPLOAD_FILENAME} title={file.name}>
+          {file.name}
+        </span>
+
+        {status === 'uploading' ? (
+          <div className={FILE_UPLOAD_PROGRESS_TRACK}>
+            <div
+              className={FILE_UPLOAD_PROGRESS_FILL}
+              style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
+            />
+          </div>
+        ) : (
+          <div className={FILE_UPLOAD_META}>
+            <span>{formattedSize}</span>
+            <span className={FILE_UPLOAD_META_DIVIDER}>|</span>
+            <span className={FILE_UPLOAD_STATUS_TEXT[status]}>
+              {statusLabel}
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div className={FILE_UPLOAD_ACTIONS}>
+        {status === 'error' && onRetry && (
+          <ControlButton
+            icon={['system', 'refresh']}
+            size="sm"
+            onClick={onRetry}
+            aria-label="Retry upload"
+          />
+        )}
+        {onRemove && (
+          <ControlButton
+            icon={['system', 'close']}
+            size="sm"
+            onClick={onRemove}
+            aria-label="Remove file"
+          />
+        )}
+      </div>
+    </div>
+  );
+});
+
+FileUploadCard.displayName = 'FileUploadCard';

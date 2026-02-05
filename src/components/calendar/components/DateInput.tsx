@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect, forwardRef } from 'react';
+import { useState, useRef, useCallback, useEffect, forwardRef, useMemo } from 'react';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../icons/Icon/Icon';
 import {
@@ -101,11 +101,11 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
   const monthRef = useRef<HTMLInputElement>(null);
   const yearRef = useRef<HTMLInputElement>(null);
 
-  const segmentRefs: Record<DateSegment, React.RefObject<HTMLInputElement | null>> = {
+  const segmentRefs = useMemo<Record<DateSegment, React.RefObject<HTMLInputElement | null>>>(() => ({
     day: dayRef,
     month: monthRef,
     year: yearRef,
-  };
+  }), []);
 
   useEffect(() => {
     if (value) {

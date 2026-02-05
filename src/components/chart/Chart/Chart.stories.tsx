@@ -4,6 +4,7 @@ import { BarChart } from '../BarChart/BarChart';
 import { DonutChart } from '../DonutChart/DonutChart';
 import { LineChart } from '../LineChart/LineChart';
 import { PieChart } from '../PieChart/PieChart';
+import type { ChartConfig } from './Chart.types';
 
 const meta: Meta<typeof BarChart> = {
   title: 'Components/Chart',
@@ -41,6 +42,25 @@ const pieChartData = [
   { category: 'Category C', value: 25 },
 ];
 
+const salesConfig: ChartConfig = {
+  sales: { label: '매출', color: 'var(--chart-2)' },
+};
+
+const revenueConfig: ChartConfig = {
+  revenue: { label: '수익', color: 'var(--chart-1)' },
+};
+
+const pieConfig: ChartConfig = {
+  'Category A': { label: 'Category A', color: 'var(--chart-1)' },
+  'Category B': { label: 'Category B', color: 'var(--chart-2)' },
+  'Category C': { label: 'Category C', color: 'var(--chart-3)' },
+};
+
+const twoConfig: ChartConfig = {
+  'Category A': { label: 'Category A', color: 'var(--chart-2)' },
+  'Category B': { label: 'Category B', color: 'var(--chart-4)' },
+};
+
 export const BarChartDefault: Story = {
   render: () => (
     <BarChart
@@ -48,7 +68,7 @@ export const BarChartDefault: Story = {
       xAxis={{ dataKey: 'month' }}
       yAxis={{ dataKey: 'sales' }}
       dataKey="sales"
-      colors={['#44ba82']}
+      config={salesConfig}
       width={600}
       height={400}
     />
@@ -62,7 +82,7 @@ export const BarChartMultipleColors: Story = {
       xAxis={{ dataKey: 'month' }}
       yAxis={{ dataKey: 'sales' }}
       dataKey="sales"
-      colors={['#437dfc', '#44ba82', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899']}
+      config={salesConfig}
       width={600}
       height={400}
     />
@@ -76,7 +96,7 @@ export const LineChartDefault: Story = {
       xAxis={{ dataKey: 'month' }}
       yAxis={{ dataKey: 'revenue' }}
       dataKey="revenue"
-      colors={['#437dfc']}
+      config={revenueConfig}
       width={600}
       height={400}
     />
@@ -90,7 +110,7 @@ export const LineChartWithArea: Story = {
       xAxis={{ dataKey: 'month' }}
       yAxis={{ dataKey: 'revenue' }}
       dataKey="revenue"
-      colors={['#437dfc']}
+      config={revenueConfig}
       width={600}
       height={400}
       showArea
@@ -105,7 +125,7 @@ export const LineChartNoPoints: Story = {
       xAxis={{ dataKey: 'month' }}
       yAxis={{ dataKey: 'revenue' }}
       dataKey="revenue"
-      colors={['#437dfc']}
+      config={revenueConfig}
       width={600}
       height={400}
       showPoints={false}
@@ -119,7 +139,7 @@ export const PieChartDefault: Story = {
       data={pieChartData}
       dataKey="value"
       nameKey="category"
-      colors={['#437dfc', '#44ba82', '#f59e0b']}
+      config={pieConfig}
       width={400}
       height={400}
     />
@@ -132,7 +152,7 @@ export const PieChartWithLegend: Story = {
       data={pieChartData}
       dataKey="value"
       nameKey="category"
-      colors={['#437dfc', '#44ba82', '#f59e0b']}
+      config={pieConfig}
       width={400}
       height={400}
       showLegend
@@ -146,7 +166,7 @@ export const DonutChartDefault: Story = {
       data={pieChartData}
       dataKey="value"
       nameKey="category"
-      colors={['#437dfc', '#44ba82', '#f59e0b']}
+      config={pieConfig}
       width={400}
       height={400}
       innerRadius={80}
@@ -163,7 +183,7 @@ export const DonutChartWithLegend: Story = {
       data={pieChartData}
       dataKey="value"
       nameKey="category"
-      colors={['#437dfc', '#44ba82', '#f59e0b']}
+      config={pieConfig}
       width={400}
       height={400}
       innerRadius={80}
@@ -179,7 +199,7 @@ export const HalfPieChart: Story = {
       data={pieChartData}
       dataKey="value"
       nameKey="category"
-      colors={['#437dfc', '#44ba82', '#f59e0b', '#3eb5d7']}
+      config={pieConfig}
       width={280}
       outerRadius={140}
       isHalf
@@ -193,7 +213,7 @@ export const HalfDonutChart: Story = {
       data={pieChartData.slice(0, 2)}
       dataKey="value"
       nameKey="category"
-      colors={['#44ba82', '#3eb5d7']}
+      config={twoConfig}
       width={280}
       innerRadius={80}
       outerRadius={140}
@@ -214,7 +234,7 @@ export const AllCharts: Story = {
           xAxis={{ dataKey: 'month' }}
           yAxis={{ dataKey: 'sales' }}
           dataKey="sales"
-          colors={['#44ba82']}
+          config={salesConfig}
           width={600}
           height={400}
         />
@@ -226,7 +246,7 @@ export const AllCharts: Story = {
           xAxis={{ dataKey: 'month' }}
           yAxis={{ dataKey: 'revenue' }}
           dataKey="revenue"
-          colors={['#437dfc']}
+          config={revenueConfig}
           width={600}
           height={400}
         />
@@ -237,7 +257,7 @@ export const AllCharts: Story = {
           data={pieChartData}
           dataKey="value"
           nameKey="category"
-          colors={['#437dfc', '#44ba82', '#f59e0b']}
+          config={pieConfig}
           width={400}
           height={400}
         />
@@ -248,7 +268,7 @@ export const AllCharts: Story = {
           data={pieChartData}
           dataKey="value"
           nameKey="category"
-          colors={['#437dfc', '#44ba82', '#f59e0b']}
+          config={pieConfig}
           width={400}
           height={400}
           innerRadius={80}

@@ -1141,6 +1141,10 @@ table[data-striped] tbody tr:nth-child(even) {
   background-color: var(--bg-basic-gray-alpha-4);
 }
 
+.hover\:bg-subtle:hover {
+  background-color: var(--bg-subtle);
+}
+
 /* Group hover variants for DataGrid row hover */
 .group:hover .group-hover\:bg-basic-gray-alpha-4 {
   background-color: var(--bg-basic-gray-alpha-4);
@@ -2141,6 +2145,10 @@ table[data-striped] tbody tr:nth-child(even) {
    ============================================ */
 .height-2 {
   height: var(--spacing-2);
+}
+
+.height-4 {
+  height: var(--spacing-4);
 }
 
 .height-8 {

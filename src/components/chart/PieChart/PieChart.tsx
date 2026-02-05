@@ -1,10 +1,12 @@
 import { forwardRef, useMemo, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 
 import { Chart } from '../Chart/Chart';
 import { AdvancedTooltip } from '../../tooltip/Tooltip';
 import { cn } from '../../../utils/cn';
 
 import type { PieChartProps } from '../Chart/Chart.types';
+import { DEFAULT_CHART_COLORS } from '../Chart/Chart.types';
 import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
 
 /**
@@ -19,7 +21,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
       data,
       dataKey,
       nameKey,
-      colors = ['#437dfc', '#44ba82', '#f59e0b', '#ef4444', '#8b5cf6'],
+      config,
       width = 400,
       height = 400,
       outerRadius = 150,
@@ -28,38 +30,40 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
       paddingAngle = 0,
       showLegend = false,
       isHalf = false,
-      darkMode = false,
       className,
+      ariaLabel,
       ...props
     },
     ref
   ) => {
-  // For half chart, adjust dimensions and angles
+  const getColor = useCallback((key: string, index: number): string => {
+    if (config && config[key]) {
+      return config[key].color;
+    }
+    return DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length];
+  }, [config]);
+
+  const getLabel = useCallback((key: string): string => {
+    if (config && config[key]) {
+      return config[key].label;
+    }
+    return key;
+  }, [config]);
+
   const chartWidth = width;
-  // Padding for half chart (space around the chart)
-  const halfChartPadding = 20;
+  const halfChartPadding = 10;
 
-  // For half chart, container height should match the visible half circle + top padding only
-  const chartHeight = isHalf ? outerRadius + halfChartPadding : height;
+  const svgHeight = isHalf ? outerRadius + halfChartPadding : height;
   const chartCenterX = chartWidth / 2;
-  const chartCenterY = isHalf ? outerRadius + halfChartPadding : chartHeight / 2;
+  const chartCenterY = isHalf ? outerRadius : height / 2;
 
-  // For half chart, show top half (-90 to 90 degrees)
   const actualStartAngle = isHalf ? -90 : startAngle;
   const actualEndAngle = isHalf ? 90 : endAngle;
 
-  // Adjust SVG viewBox and height for half chart
-  // viewBox shows full circle with padding for proper coordinate system
-  // svgHeight matches container height (only top half visible, clipped at bottom)
-  const svgViewBox = isHalf ? `0 0 ${width} ${outerRadius * 2 + halfChartPadding * 2}` : undefined;
-  const svgHeight = isHalf ? chartHeight : height;
-
-  // Calculate total value
   const total = useMemo(() => {
     return data.reduce((sum, item) => sum + (Number(item[dataKey]) || 0), 0);
   }, [data, dataKey]);
 
-  // Calculate slice angles
   const slices = useMemo(() => {
     const angleRange = actualEndAngle - actualStartAngle;
     return data.reduce<Array<{
@@ -77,20 +81,21 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
       const start = prevEndAngle;
       const end = prevEndAngle + angle;
 
+      const itemName = String(item[nameKey] || '');
+
       acc.push({
-        name: String(item[nameKey] || ''),
+        name: itemName,
         value,
         percentage,
         startAngle: start,
         endAngle: end,
-        color: Array.isArray(colors) ? colors[index % colors.length] : colors,
+        color: getColor(itemName, index),
       });
 
       return acc;
     }, []);
-  }, [data, dataKey, nameKey, total, actualStartAngle, actualEndAngle, paddingAngle, colors]);
+  }, [data, dataKey, nameKey, total, actualStartAngle, actualEndAngle, paddingAngle, getColor]);
 
-  // Convert angle to radians and calculate path
   const getSlicePath = (startAngle: number, endAngle: number) => {
     const startRad = ((startAngle - 90) * Math.PI) / 180;
     const endRad = ((endAngle - 90) * Math.PI) / 180;
@@ -104,7 +109,6 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
     return `M ${chartCenterX} ${chartCenterY} L ${x1} ${y1} A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
   };
 
-  // Tooltip state
   const [tooltipState, setTooltipState] = useState<{
     visible: boolean;
     x: number;
@@ -117,17 +121,11 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
     sliceIndex: null,
   });
 
-  // Handle slice hover
   const handleSliceMouseEnter = useCallback((index: number, event: React.MouseEvent<SVGPathElement>) => {
-    const svgElement = (event.currentTarget as SVGPathElement).ownerSVGElement;
-    if (!svgElement) return;
-
-    const svgRect = svgElement.getBoundingClientRect();
-
     setTooltipState({
       visible: true,
-      x: event.clientX - svgRect.left,
-      y: event.clientY - svgRect.top,
+      x: event.clientX,
+      y: event.clientY,
       sliceIndex: index,
     });
   }, []);
@@ -135,15 +133,10 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
   const handleSliceMouseMove = useCallback((event: React.MouseEvent<SVGPathElement>) => {
     if (!tooltipState.visible) return;
 
-    const svgElement = (event.currentTarget as SVGPathElement).ownerSVGElement;
-    if (!svgElement) return;
-
-    const svgRect = svgElement.getBoundingClientRect();
-
     setTooltipState((prev) => ({
       ...prev,
-      x: event.clientX - svgRect.left,
-      y: event.clientY - svgRect.top,
+      x: event.clientX,
+      y: event.clientY,
     }));
   }, [tooltipState.visible]);
 
@@ -151,68 +144,83 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
     setTooltipState((prev) => ({ ...prev, visible: false }));
   }, []);
 
-  // Generate tooltip items
   const getTooltipItems = useCallback((index: number): TooltipItemData[] => {
     const slice = slices[index];
     if (!slice) return [];
 
     return [
-      { type: 'label', label: slice.name },
+      { type: 'label', label: getLabel(slice.name) },
       { type: 'divider' },
       { type: 'item', label: 'Value', caption: String(slice.value), indicatorColor: slice.color },
       { type: 'item', label: 'Percentage', caption: `${(slice.percentage * 100).toFixed(1)}%`, indicatorColor: slice.color },
     ];
-  }, [slices]);
+  }, [slices, getLabel]);
+
+  const chartAriaLabel = ariaLabel || `Pie chart showing ${slices.map(s => getLabel(s.name)).join(', ')}`;
 
   return (
-    <Chart ref={ref} width={chartWidth} height={chartHeight} darkMode={darkMode} className={className} {...props}>
-      <svg
-        width={width}
-        height={svgHeight}
-        viewBox={svgViewBox}
-        style={isHalf ? { overflow: 'hidden', position: 'absolute', top: 0, left: 0 } : undefined}
-        className={isHalf ? undefined : undefined}
-      >
-        {slices.map((slice, index) => (
-          <path
-            key={`slice-${index}`}
-            d={getSlicePath(slice.startAngle, slice.endAngle)}
-            fill={slice.color}
-            stroke="white"
-            strokeWidth={2}
-            onMouseEnter={(e) => handleSliceMouseEnter(index, e)}
-            onMouseMove={handleSliceMouseMove}
-            onMouseLeave={handleSliceMouseLeave}
-            style={{ cursor: 'pointer' }}
-          />
-        ))}
-      </svg>
+    <Chart ref={ref} width={chartWidth} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} {...props}>
+      <div className="relative" style={{ height: svgHeight }}>
+        <svg
+          width={width}
+          height={svgHeight}
+          className="overflow-visible"
+          role="graphics-document"
+          aria-label={chartAriaLabel}
+        >
+          <title>{chartAriaLabel}</title>
+          <g role="list" aria-label="Pie chart slices">
+            {slices.map((slice, index) => (
+              <path
+                key={`slice-${index}`}
+                d={getSlicePath(slice.startAngle, slice.endAngle)}
+                fill={slice.color}
+                stroke="white"
+                strokeWidth={2}
+                onMouseEnter={(e) => handleSliceMouseEnter(index, e)}
+                onMouseMove={handleSliceMouseMove}
+                onMouseLeave={handleSliceMouseLeave}
+                style={{ cursor: 'pointer' }}
+                tabIndex={0}
+                role="listitem"
+                aria-label={`${getLabel(slice.name)}: ${slice.value} (${(slice.percentage * 100).toFixed(1)}%)`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            ))}
+          </g>
+        </svg>
+      </div>
 
-      {/* Tooltip */}
-      {tooltipState.visible && tooltipState.sliceIndex !== null && (
+      {tooltipState.visible && tooltipState.sliceIndex !== null && createPortal(
         <div
-          className="absolute pointer-events-none z-50"
+          className="fixed pointer-events-none z-50"
           style={{
             left: `${tooltipState.x + 12}px`,
-            top: `${tooltipState.y - 20}px`,
+            top: `${tooltipState.y}px`,
             transform: 'translateY(-50%)',
           }}
         >
           <AdvancedTooltip
             items={getTooltipItems(tooltipState.sliceIndex)}
           />
-        </div>
+        </div>,
+        document.body
       )}
       {showLegend && (
-        <div className="mt-4 px-4 pb-4 flex flex-wrap justify-center gap-4">
+        <div className="mt-4 px-4 pb-4 flex flex-wrap justify-center gap-4" role="list" aria-label="Chart legend">
           {slices.map((slice, index) => (
-            <div key={`legend-${index}`} className="flex items-center gap-2">
+            <div key={`legend-${index}`} className="flex items-center gap-2" role="listitem">
               <div
                 className="h-3 w-3 rounded-full"
                 style={{ backgroundColor: slice.color }}
+                aria-hidden="true"
               />
-              <span className={cn('text-xs', 'text-subtle')}>
-                {slice.name} ({slice.percentage.toFixed(1)}%)
+              <span className={cn('size-xs', 'text-subtle')}>
+                {getLabel(slice.name)} ({(slice.percentage * 100).toFixed(1)}%)
               </span>
             </div>
           ))}

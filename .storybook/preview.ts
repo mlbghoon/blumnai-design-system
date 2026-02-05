@@ -97,7 +97,7 @@ const preview: Preview = {
         }
       }, [theme, themeConfig.dataTheme, themeConfig.className]);
 
-      const props: Record<string, any> = {
+      const props: React.HTMLAttributes<HTMLDivElement> = {
         style: {
           backgroundColor: 'var(--bg-default)',
           minHeight: '100%',

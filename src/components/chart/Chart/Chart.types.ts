@@ -8,9 +8,50 @@ export interface ChartDataPoint {
 }
 
 /**
- * Chart color configuration
+ * Configuration for a single data series in a chart
+ * Follows shadcn pattern of decoupling labels/colors from data
  */
-export type ChartColor = string | string[];
+export interface ChartConfigItem {
+  /**
+   * Human-readable label for this data series
+   */
+  label: string;
+  /**
+   * Color for this series - can be CSS variable (var(--chart-1)) or hex color
+   */
+  color: string;
+  /**
+   * Optional icon to show in legend/tooltip
+   */
+  icon?: ReactNode;
+}
+
+/**
+ * Chart configuration object
+ * Maps data keys to their display configuration
+ *
+ * @example
+ * const config: ChartConfig = {
+ *   desktop: { label: "데스크톱", color: "var(--chart-1)" },
+ *   mobile: { label: "모바일", color: "var(--chart-2)" },
+ * };
+ */
+export type ChartConfig = Record<string, ChartConfigItem>;
+
+/**
+ * Default chart colors using CSS variables
+ * Used when no config is provided
+ */
+export const DEFAULT_CHART_COLORS = [
+  'var(--chart-1)',
+  'var(--chart-2)',
+  'var(--chart-3)',
+  'var(--chart-4)',
+  'var(--chart-5)',
+  'var(--chart-6)',
+  'var(--chart-7)',
+  'var(--chart-8)',
+];
 
 /**
  * Base props for all chart components
@@ -21,10 +62,9 @@ export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
    */
   data: ChartDataPoint[];
   /**
-   * Color scheme for the chart
-   * Can be a single color or array of colors
+   * Chart configuration for labels and colors
    */
-  colors?: ChartColor;
+  config?: ChartConfig;
   /**
    * Chart width (defaults to responsive)
    */
@@ -34,13 +74,13 @@ export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
    */
   height?: number;
   /**
-   * Enable dark mode styling
+   * Show horizontal grid lines (Y-axis values)
    */
-  darkMode?: boolean;
+  showXGrid?: boolean;
   /**
-   * Show grid lines
+   * Show vertical grid lines (X-axis values)
    */
-  showGrid?: boolean;
+  showYGrid?: boolean;
   /**
    * Show legend
    */
@@ -53,6 +93,10 @@ export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
    * Children (for custom content)
    */
   children?: ReactNode;
+  /**
+   * Accessible label for the chart
+   */
+  ariaLabel?: string;
 }
 
 /**
@@ -74,7 +118,7 @@ export interface ChartAxisConfig {
   /**
    * Tick formatter function
    */
-  tickFormatter?: (value: any) => string;
+  tickFormatter?: (value: string | number) => string;
 }
 
 /**
@@ -162,7 +206,7 @@ export interface LineChartProps extends BaseChartProps {
 }
 
 /**
- * Pie/Donut Chart specific props
+ * Pie Chart specific props
  */
 export interface PieChartProps extends BaseChartProps {
   /**
@@ -173,10 +217,6 @@ export interface PieChartProps extends BaseChartProps {
    * Data key for slice names/labels
    */
   nameKey: string;
-  /**
-   * Inner radius (for donut chart, 0 for pie chart)
-   */
-  innerRadius?: number;
   /**
    * Outer radius
    */
@@ -194,17 +234,27 @@ export interface PieChartProps extends BaseChartProps {
    */
   paddingAngle?: number;
   /**
-   * Center label text (for donut chart)
-   */
-  centerLabel?: string;
-  /**
-   * Center value text (for donut chart)
-   */
-  centerValue?: string;
-  /**
    * If true, displays only the top half of the chart
    */
   isHalf?: boolean;
+}
+
+/**
+ * Donut Chart specific props
+ */
+export interface DonutChartProps extends PieChartProps {
+  /**
+   * Inner radius (creates the donut hole)
+   */
+  innerRadius?: number;
+  /**
+   * Center label text
+   */
+  centerLabel?: string;
+  /**
+   * Center value text
+   */
+  centerValue?: string;
 }
 
 /**

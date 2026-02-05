@@ -1,4 +1,4 @@
-import { forwardRef, useState, useCallback, useEffect } from 'react';
+import { forwardRef, useState, useCallback, useEffect, useRef } from 'react';
 import type { InputHTMLAttributes } from 'react';
 
 import { cn } from '../../../utils/cn';
@@ -150,7 +150,6 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
   ...props
 }, ref) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [internalStrength, setInternalStrength] = useState<PasswordStrength>('none');
 
   const { inputId, hasError, state, sizeConfig, styleConfig, iconColor } = useInputState({
     inputStyle,
@@ -160,17 +159,22 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
     success,
   });
 
-  // Determine which strength value to use
-  const strength = controlledStrength ?? internalStrength;
+  // Calculate strength directly from value (no state needed)
+  const calculatedStrength = autoCalculateStrength && typeof value === 'string'
+    ? calculatePasswordStrength(value)
+    : 'none';
 
-  // Auto-calculate strength when value changes
+  // Determine which strength value to use
+  const strength = controlledStrength ?? calculatedStrength;
+
+  // Track previous strength to notify parent only on changes
+  const prevStrengthRef = useRef<PasswordStrength>(strength);
   useEffect(() => {
-    if (autoCalculateStrength && typeof value === 'string') {
-      const calculatedStrength = calculatePasswordStrength(value);
-      setInternalStrength(calculatedStrength);
-      onStrengthChange?.(calculatedStrength);
+    if (autoCalculateStrength && onStrengthChange && prevStrengthRef.current !== calculatedStrength) {
+      prevStrengthRef.current = calculatedStrength;
+      onStrengthChange(calculatedStrength);
     }
-  }, [value, autoCalculateStrength, onStrengthChange]);
+  }, [calculatedStrength, autoCalculateStrength, onStrengthChange]);
 
   // Toggle visibility
   const toggleVisibility = useCallback(() => {

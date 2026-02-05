@@ -19,7 +19,10 @@
     "generate:isometric-icons": "node scripts/generate-isometric-icons.mjs",
     "clean:thumbnail-sources": "node scripts/clean-svg-source-thumbnails.mjs && node scripts/clean-thumbnail-base64.mjs",
     "prebuild": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons",
-    "prestorybook": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons"
+    "prestorybook": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons",
+    "test:visual": "playwright test",
+    "test:visual:ui": "playwright test --ui",
+    "test:visual:update": "playwright test --update-snapshots"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.17",
@@ -72,6 +75,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@playwright/test": "^1.58.1",
     "@storybook/addon-essentials": "^8.4.7",
     "@storybook/addon-interactions": "^8.4.7",
     "@storybook/react": "^8.4.7",

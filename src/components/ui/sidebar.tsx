@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -5,7 +6,6 @@ import { PanelLeft } from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import {
@@ -261,18 +261,20 @@ const Sidebar = React.forwardRef<
 Sidebar.displayName = "Sidebar"
 
 const SidebarTrigger = React.forwardRef<
-  React.ElementRef<typeof Button>,
-  React.ComponentProps<typeof Button>
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement>
 >(({ className, onClick, ...props }, ref) => {
   const { toggleSidebar } = useSidebar()
 
   return (
-    <Button
+    <button
       ref={ref}
+      type="button"
       data-sidebar="trigger"
-      variant="ghost"
-      size="icon"
-      className={cn("height-28 width-28", className)}
+      className={cn(
+        "height-28 width-28 inline-flex items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+        className
+      )}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
@@ -281,7 +283,7 @@ const SidebarTrigger = React.forwardRef<
     >
       <PanelLeft />
       <span className="sr-only">Toggle Sidebar</span>
-    </Button>
+    </button>
   )
 })
 SidebarTrigger.displayName = "SidebarTrigger"
@@ -645,9 +647,12 @@ const SidebarMenuSkeleton = React.forwardRef<
     showIcon?: boolean
   }
 >(({ className, showIcon = false, ...props }, ref) => {
-  const width = React.useMemo(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`
-  }, [])
+  const widthRef = React.useRef<string | null>(null)
+  if (widthRef.current === null) {
+    // eslint-disable-next-line react-hooks/purity -- Random width for skeleton visual variation is intentional
+    widthRef.current = `${Math.floor(Math.random() * 40) + 50}%`
+  }
+  const width = widthRef.current
 
   return (
     <div

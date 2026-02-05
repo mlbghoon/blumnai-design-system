@@ -1,10 +1,12 @@
 import { forwardRef, useMemo, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 
 import { Chart } from '../Chart/Chart';
 import { AdvancedTooltip } from '../../tooltip/Tooltip';
 import { cn } from '../../../utils/cn';
 
 import type { BarChartProps } from '../Chart/Chart.types';
+import { DEFAULT_CHART_COLORS } from '../Chart/Chart.types';
 import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
 
 /**
@@ -20,7 +22,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       xAxis,
       yAxis,
       dataKey,
-      colors = ['#44ba82'],
+      config,
       width = 600,
       height = 400,
       barSize,
@@ -28,77 +30,74 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       stacked = false,
       stackedKeys,
       stackedColors,
-      showGrid = true,
+      showXGrid = true,
+      showYGrid = false,
       showLegend = false,
-      darkMode = false,
       className,
+      ariaLabel,
       ...props
     },
     ref
   ) => {
-  // Helper function to get color for stacked segments
-  const getStackedColor = useCallback((key: string, keyIndex: number): string => {
+  const getColor = useCallback((key: string, index: number): string => {
+    if (config && config[key]) {
+      return config[key].color;
+    }
     if (stackedColors) {
       if (Array.isArray(stackedColors)) {
-        // If array, use index-based mapping
-        return stackedColors[keyIndex % stackedColors.length] || colors[keyIndex % colors.length];
-      } else {
-        // If object, use key-based mapping
-        return stackedColors[key] || colors[keyIndex % colors.length];
+        return stackedColors[index % stackedColors.length] || DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length];
       }
+      return stackedColors[key] || DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length];
     }
-    // Fall back to colors array with index cycling
-    return Array.isArray(colors) ? colors[keyIndex % colors.length] : colors;
-  }, [stackedColors, colors]);
-  // Calculate chart dimensions
+    return DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length];
+  }, [config, stackedColors]);
+
+  const getLabel = useCallback((key: string): string => {
+    if (config && config[key]) {
+      return config[key].label;
+    }
+    return key;
+  }, [config]);
+
   const padding = { top: 20, right: 20, bottom: 40, left: 60 };
-  const linePadding = 8; // Padding for grid/axis lines from chart edges
-  const barAreaPadding = 12; // Padding between y-axis and first bar, and between last bar and right edge
+  const linePadding = 8;
+  const barAreaPadding = 12;
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
 
-  // Calculate dynamic bar width and gap
   const xScale = useMemo(() => {
     const maxBars = data.length;
-    const availableWidth = chartWidth - (barAreaPadding * 2); // Reserve space for padding on both sides
+    const availableWidth = chartWidth - (barAreaPadding * 2);
 
     let calculatedBarWidth: number;
     let calculatedGap: number;
 
     if (barSize !== undefined && gap !== undefined) {
-      // User provided both - use them directly
       calculatedBarWidth = barSize;
       calculatedGap = gap;
     } else if (barSize !== undefined) {
-      // User provided barSize - calculate gap dynamically to fill space
       calculatedBarWidth = barSize;
       const totalBarsWidth = calculatedBarWidth * maxBars;
       const remainingSpace = availableWidth - totalBarsWidth;
       calculatedGap = maxBars > 1 ? Math.max(0, remainingSpace / (maxBars - 1)) : 0;
     } else if (gap !== undefined) {
-      // User provided gap - calculate barWidth dynamically to fill space
       calculatedGap = gap;
       const totalGapsWidth = calculatedGap * (maxBars > 1 ? maxBars - 1 : 0);
       const remainingSpace = availableWidth - totalGapsWidth;
       calculatedBarWidth = maxBars > 0 ? Math.max(4, remainingSpace / maxBars) : 24;
     } else {
-      // Both undefined - calculate both dynamically to fill available space
-      // Use a reasonable gap (8px) and calculate barWidth to fill the rest
       calculatedGap = 8;
       const totalGapsWidth = calculatedGap * (maxBars > 1 ? maxBars - 1 : 0);
       const remainingSpace = availableWidth - totalGapsWidth;
       calculatedBarWidth = maxBars > 0 ? Math.max(4, remainingSpace / maxBars) : 24;
     }
 
-    // Position bars with padding from y-axis and right edge
-    // For dynamic sizing, distribute bars to fill the available space
     const totalBarGroupWidth = (calculatedBarWidth * maxBars) + (calculatedGap * (maxBars > 1 ? maxBars - 1 : 0));
-    const startOffset = barAreaPadding + (availableWidth - totalBarGroupWidth) / 2; // Center bars in available space
+    const startOffset = barAreaPadding + (availableWidth - totalBarGroupWidth) / 2;
 
     return {
       barWidth: calculatedBarWidth,
       gap: calculatedGap,
-      // Calculate X position: startOffset + (barWidth + gap) * index
       getX: (index: number) => {
         return startOffset + (calculatedBarWidth + calculatedGap) * index;
       },
@@ -108,7 +107,6 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   const yScale = useMemo(() => {
     let values: number[];
     if (stacked && stackedKeys && stackedKeys.length > 0) {
-      // For stacked bars, calculate total value for each data point
       values = data.map((d) => {
         return stackedKeys.reduce((sum, key) => sum + (Number(d[key]) || 0), 0);
       });
@@ -133,17 +131,13 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     };
   }, [chartHeight, data, dataKey, yAxis.domain, stacked, stackedKeys]);
 
-  // Get color for each bar
   const getBarColor = useCallback((index: number) => {
-    if (Array.isArray(colors)) {
-      return colors[index % colors.length];
+    if (dataKey && config && config[dataKey]) {
+      return config[dataKey].color;
     }
-    return colors;
-  }, [colors]);
+    return DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length];
+  }, [config, dataKey]);
 
-  // Default green color from Figma: rgb(0.267, 0.729, 0.510) = #44ba82
-
-  // Generate Y-axis ticks
   const yTicks = useMemo(() => {
     const [min, max] = yScale.domain;
     const tickCount = 5;
@@ -151,7 +145,6 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     return Array.from({ length: tickCount }, (_, i) => min + step * i);
   }, [yScale.domain]);
 
-  // Tooltip state
   const [tooltipState, setTooltipState] = useState<{
     visible: boolean;
     x: number;
@@ -166,39 +159,28 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     barX: 0,
   });
 
-  // Hover state for bar background
   const [hoveredBarIndex, setHoveredBarIndex] = useState<number | null>(null);
 
-  // Handle bar hover
   const handleBarMouseEnter = useCallback((index: number, barX: number, event: React.MouseEvent<SVGRectElement>) => {
-    const svgElement = (event.currentTarget as SVGRectElement).ownerSVGElement;
-    if (!svgElement) return;
-
-    const svgRect = svgElement.getBoundingClientRect();
-    const x = barX + padding.left + xScale.barWidth / 2;
+    const indicatorX = barX + padding.left + xScale.barWidth / 2;
 
     setHoveredBarIndex(index);
     setTooltipState({
       visible: true,
-      x: event.clientX - svgRect.left,
-      y: event.clientY - svgRect.top,
+      x: event.clientX,
+      y: event.clientY,
       barIndex: index,
-      barX: x,
+      barX: indicatorX,
     });
   }, [xScale.barWidth, padding.left]);
 
   const handleBarMouseMove = useCallback((event: React.MouseEvent<SVGRectElement>) => {
     if (!tooltipState.visible) return;
 
-    const svgElement = (event.currentTarget as SVGRectElement).ownerSVGElement;
-    if (!svgElement) return;
-
-    const svgRect = svgElement.getBoundingClientRect();
-
     setTooltipState((prev) => ({
       ...prev,
-      x: event.clientX - svgRect.left,
-      y: event.clientY - svgRect.top,
+      x: event.clientX,
+      y: event.clientY,
     }));
   }, [tooltipState.visible]);
 
@@ -207,7 +189,6 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     setTooltipState((prev) => ({ ...prev, visible: false }));
   }, []);
 
-  // Generate tooltip items
   const getTooltipItems = useCallback((index: number): TooltipItemData[] => {
     const item = data[index];
     const dateLabel = String(item[xAxis.dataKey] || '');
@@ -218,74 +199,94 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     ];
 
     if (stacked && stackedKeys && stackedKeys.length > 0) {
-      // For stacked bars, show all stacked values
       stackedKeys.forEach((key, keyIndex) => {
         const value = Number(item[key]) || 0;
-        const segmentColor = getStackedColor(key, keyIndex);
+        const segmentColor = getColor(key, keyIndex);
         items.push({
           type: 'item',
-          label: key,
+          label: getLabel(key),
           caption: String(value),
           indicatorColor: segmentColor,
         });
       });
     } else if (dataKey) {
-      // For regular bars, show single value
       const value = Number(item[dataKey]) || 0;
       const barColor = getBarColor(index);
       items.push({
         type: 'item',
-        label: 'Subscriptions',
+        label: getLabel(dataKey),
         caption: String(value),
         indicatorColor: barColor,
       });
     }
 
     return items;
-  }, [data, dataKey, xAxis.dataKey, getBarColor, stacked, stackedKeys, getStackedColor]);
+  }, [data, dataKey, xAxis.dataKey, getBarColor, stacked, stackedKeys, getColor, getLabel]);
+
+  const chartAriaLabel = ariaLabel || `Bar chart showing ${dataKey || (stackedKeys?.join(', ') || 'data')}`;
 
   return (
-    <Chart ref={ref} width={width} height={height} darkMode={darkMode} className={className} {...props}>
-      <svg width={width} height={height} className="overflow-hidden">
-        {/* Grid lines - with left and right padding */}
-        {showGrid &&
+    <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
+      <svg
+        width={width}
+        height={height}
+        className="overflow-hidden"
+        role="graphics-document"
+        aria-label={chartAriaLabel}
+      >
+        <title>{chartAriaLabel}</title>
+        {showXGrid &&
           yTicks.map((tick, i) => {
             const y = padding.top + yScale.scale(tick);
             return (
               <line
-                key={`grid-${i}`}
+                key={`grid-x-${i}`}
                 x1={padding.left + linePadding}
                 y1={y}
                 x2={padding.left + chartWidth - linePadding}
                 y2={y}
-                stroke={darkMode ? '#27272a' : '#e4e4e7'}
+                stroke="var(--chart-grid-line)"
                 strokeWidth={1}
-                strokeDasharray="4 4"
               />
             );
           })}
 
-        {/* Y-axis line */}
+        {showYGrid &&
+          data.slice(0, -1).map((_, index) => {
+            const x1 = padding.left + xScale.getX(index) + xScale.barWidth;
+            const x2 = padding.left + xScale.getX(index + 1);
+            const midX = (x1 + x2) / 2;
+            return (
+              <line
+                key={`grid-y-${index}`}
+                x1={midX}
+                y1={padding.top}
+                x2={midX}
+                y2={padding.top + chartHeight}
+                stroke="var(--chart-grid-line)"
+                strokeWidth={1}
+              />
+            );
+          })}
+
         <line
           x1={padding.left}
           y1={padding.top}
           x2={padding.left}
           y2={padding.top + chartHeight}
-          stroke={darkMode ? '#3f3f46' : '#a1a1aa'}
+          stroke="var(--chart-axis)"
           strokeWidth={1}
         />
 
-        {/* X-axis line - full length across chart area */}
         <line
           x1={padding.left}
           y1={padding.top + chartHeight}
           x2={padding.left + chartWidth}
           y2={padding.top + chartHeight}
-          stroke={darkMode ? '#3f3f46' : '#a1a1aa'}
+          stroke="var(--chart-axis)"
           strokeWidth={1}
         />
 
-        {/* Y-axis labels */}
         {yTicks.map((tick, i) => {
           const y = padding.top + yScale.scale(tick);
           const formattedValue = yAxis.tickFormatter
@@ -298,7 +299,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
               y={y + 4}
               textAnchor="end"
               className={cn(
-                'text-xs',
+                'size-xs',
                 'text-subtle'
               )}
               fill="currentColor"
@@ -308,116 +309,126 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
           );
         })}
 
-        {/* Hover indicator line */}
         {tooltipState.visible && tooltipState.barIndex !== null && (
           <line
             x1={tooltipState.barX}
             y1={padding.top}
             x2={tooltipState.barX}
             y2={padding.top + chartHeight}
-            stroke={darkMode ? '#437dfc' : '#437dfc'}
+            stroke="var(--chart-indicator)"
             strokeWidth={1}
             strokeDasharray="4 4"
             opacity={0.5}
           />
         )}
 
-        {/* Bars */}
-        {data.map((item, index) => {
-          const barX = xScale.getX(index);
-          const x = padding.left + barX;
-          const isHovered = hoveredBarIndex === index;
+        <g role="list" aria-label="Bar chart data">
+          {data.map((item, index) => {
+            const barX = xScale.getX(index);
+            const x = padding.left + barX;
+            const isHovered = hoveredBarIndex === index;
 
-          // Calculate bar segments for stacked or regular bars
-          const barSegments: Array<{ value: number; height: number; y: number; color: string }> = [];
+            const barSegments: Array<{ value: number; height: number; y: number; color: string; key: string }> = [];
 
-          if (stacked && stackedKeys && stackedKeys.length > 0) {
-            // Stacked bars: calculate each segment
-            const totalValue = stackedKeys.reduce((sum, key) => sum + (Number(item[key]) || 0), 0);
-            let cumulativeHeight = 0;
+            if (stacked && stackedKeys && stackedKeys.length > 0) {
+              const totalValue = stackedKeys.reduce((sum, key) => sum + (Number(item[key]) || 0), 0);
+              const totalBarHeight = chartHeight - yScale.scale(totalValue);
+              let cumulativeHeight = 0;
 
-            stackedKeys.forEach((key, keyIndex) => {
-              const segmentValue = Number(item[key]) || 0;
-              const segmentColor = getStackedColor(key, keyIndex);
+              stackedKeys.forEach((key, keyIndex) => {
+                const segmentValue = Number(item[key]) || 0;
+                const segmentColor = getColor(key, keyIndex);
 
-              // Calculate segment height as percentage of total
-              const segmentHeight = totalValue > 0 ? (segmentValue / totalValue) * chartHeight : 0;
-              const segmentY = padding.top + chartHeight - cumulativeHeight - segmentHeight;
+                const segmentHeight = totalValue > 0 ? (segmentValue / totalValue) * totalBarHeight : 0;
+                const segmentY = padding.top + chartHeight - cumulativeHeight - segmentHeight;
+
+                barSegments.push({
+                  value: segmentValue,
+                  height: segmentHeight,
+                  y: segmentY,
+                  color: segmentColor,
+                  key,
+                });
+
+                cumulativeHeight += segmentHeight;
+              });
+            } else if (dataKey) {
+              const value = Number(item[dataKey]) || 0;
+              const barHeight = chartHeight - yScale.scale(value);
+              const y = padding.top + yScale.scale(value);
+              const barColor = getBarColor(index);
 
               barSegments.push({
-                value: segmentValue,
-                height: segmentHeight,
-                y: segmentY,
-                color: segmentColor,
+                value,
+                height: barHeight,
+                y,
+                color: barColor,
+                key: dataKey,
               });
+            }
 
-              cumulativeHeight += segmentHeight;
-            });
-          } else if (dataKey) {
-            // Regular bars: single segment
-            const value = Number(item[dataKey]) || 0;
-            const barHeight = chartHeight - yScale.scale(value);
-            const y = padding.top + yScale.scale(value);
-            const barColor = getBarColor(index);
+            const xLabel = String(item[xAxis.dataKey] || '');
 
-            barSegments.push({
-              value,
-              height: barHeight,
-              y,
-              color: barColor,
-            });
-          }
-
-          return (
-            <g key={`bar-${index}`}>
-              {/* Background on hover */}
-              {isHovered && (
-                <rect
-                  x={x}
-                  y={padding.top}
-                  width={xScale.barWidth}
-                  height={chartHeight}
-                  fill={darkMode ? 'rgba(255, 255, 255, 0.08)' : 'rgba(39, 39, 42, 0.06)'}
-                  rx={2}
-                  ry={2}
-                  pointerEvents="none"
-                />
-              )}
-              {/* Bar segments (stacked or single) */}
+            return (
               <g
-                className="overflow-hidden"
-                style={{ borderRadius: '2px' }}
-                clipPath={stacked ? `url(#bar-clip-${index})` : undefined}
+                key={`bar-${index}`}
+                role="listitem"
+                aria-label={`${xLabel}: ${barSegments.map(s => `${getLabel(s.key)} ${s.value}`).join(', ')}`}
               >
-                {stacked && (
-                  <defs>
-                    <clipPath id={`bar-clip-${index}`}>
-                      <rect x={x} y={padding.top} width={xScale.barWidth} height={chartHeight} rx={2} ry={2} />
-                    </clipPath>
-                  </defs>
-                )}
-                {barSegments.map((segment, segmentIndex) => (
+                {isHovered && (
                   <rect
-                    key={`segment-${segmentIndex}`}
                     x={x}
-                    y={segment.y}
+                    y={padding.top}
                     width={xScale.barWidth}
-                    height={segment.height}
-                    fill={segment.color}
-                    rx={stacked && segmentIndex === 0 ? 2 : 0}
-                    ry={stacked && segmentIndex === 0 ? 2 : 0}
-                    onMouseEnter={(e) => handleBarMouseEnter(index, barX, e)}
-                    onMouseMove={handleBarMouseMove}
-                    onMouseLeave={handleBarMouseLeave}
-                    style={{ cursor: 'pointer' }}
+                    height={chartHeight}
+                    fill="var(--chart-hover-bg)"
+                    rx={2}
+                    ry={2}
+                    pointerEvents="none"
                   />
-                ))}
+                )}
+                <g
+                  className="overflow-hidden"
+                  style={{ borderRadius: '2px' }}
+                  clipPath={stacked ? `url(#bar-clip-${index})` : undefined}
+                >
+                  {stacked && (
+                    <defs>
+                      <clipPath id={`bar-clip-${index}`}>
+                        <rect x={x} y={padding.top} width={xScale.barWidth} height={chartHeight} rx={2} ry={2} />
+                      </clipPath>
+                    </defs>
+                  )}
+                  {barSegments.map((segment, segmentIndex) => (
+                    <rect
+                      key={`segment-${segmentIndex}`}
+                      x={x}
+                      y={segment.y}
+                      width={xScale.barWidth}
+                      height={segment.height}
+                      fill={segment.color}
+                      rx={stacked && segmentIndex === 0 ? 2 : 0}
+                      ry={stacked && segmentIndex === 0 ? 2 : 0}
+                      onMouseEnter={(e) => handleBarMouseEnter(index, barX, e)}
+                      onMouseMove={handleBarMouseMove}
+                      onMouseLeave={handleBarMouseLeave}
+                      style={{ cursor: 'pointer' }}
+                      tabIndex={0}
+                      role="graphics-symbol"
+                      aria-label={`${getLabel(segment.key)}: ${segment.value}`}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  ))}
+                </g>
               </g>
-            </g>
-          );
-        })}
+            );
+          })}
+        </g>
 
-        {/* X-axis labels */}
         {data.map((item, index) => {
           const x = padding.left + xScale.getX(index) + xScale.barWidth / 2;
           const label = String(item[xAxis.dataKey] || '');
@@ -428,7 +439,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
               y={height - padding.bottom + 20}
               textAnchor="middle"
               className={cn(
-                'text-xs',
+                'size-xs',
                 'text-subtle'
               )}
               fill="currentColor"
@@ -439,48 +450,49 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         })}
       </svg>
 
-      {/* Tooltip */}
-      {tooltipState.visible && tooltipState.barIndex !== null && (
+      {tooltipState.visible && tooltipState.barIndex !== null && createPortal(
         <div
-          className="absolute pointer-events-none z-50"
+          className="fixed pointer-events-none z-50"
           style={{
             left: `${tooltipState.x + 12}px`,
-            top: `${tooltipState.y - 20}px`,
+            top: `${tooltipState.y}px`,
             transform: 'translateY(-50%)',
           }}
         >
           <AdvancedTooltip
             items={getTooltipItems(tooltipState.barIndex)}
           />
-        </div>
+        </div>,
+        document.body
       )}
 
-      {/* Legend */}
       {showLegend && (
-        <div className="mt-4 px-4 pb-4 flex flex-wrap justify-center gap-4">
+        <div className="mt-4 px-4 pb-4 flex flex-wrap justify-center gap-4" role="list" aria-label="Chart legend">
           {stacked && stackedKeys && stackedKeys.length > 0
             ? stackedKeys.map((key, index) => {
-              const legendColor = getStackedColor(key, index);
+              const legendColor = getColor(key, index);
               return (
-                <div key={`legend-${key}`} className="flex items-center gap-2">
+                <div key={`legend-${key}`} className="flex items-center gap-2" role="listitem">
                   <div
                     className="h-3 w-3 rounded-sm"
                     style={{ backgroundColor: legendColor }}
+                    aria-hidden="true"
                   />
-                  <span className={cn('text-xs', 'text-subtle')}>
-                    {key}
+                  <span className={cn('size-xs', 'text-subtle')}>
+                    {getLabel(key)}
                   </span>
                 </div>
               );
             })
             : dataKey && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2" role="listitem">
                 <div
                   className="h-3 w-3 rounded-sm"
-                  style={{ backgroundColor: Array.isArray(colors) ? colors[0] : colors }}
+                  style={{ backgroundColor: config?.[dataKey]?.color || DEFAULT_CHART_COLORS[0] }}
+                  aria-hidden="true"
                 />
-                <span className={cn('text-xs', 'text-subtle')}>
-                  {dataKey}
+                <span className={cn('size-xs', 'text-subtle')}>
+                  {getLabel(dataKey)}
                 </span>
               </div>
             )}

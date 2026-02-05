@@ -3,8 +3,6 @@
  * This template can be used to generate stories for individual icons
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
-
 /**
  * Helper function to check if icon is from file, brands, or flags category
  * These icons should not have color/cursor controls
@@ -78,16 +76,16 @@ export const createIconArgTypes = (componentName: string) => {
  * @param componentName - Name of the icon component
  * @returns Render function
  */
-export const createIconRender = <T extends React.ComponentType<any>>(
+export const createIconRender = <T extends React.ComponentType<Record<string, unknown>>>(
   IconComponent: T,
   componentName: string
 ) => {
   const isRestricted = isRestrictedIcon(componentName);
-  
-  return (args: any) => {
+
+  return (args: Record<string, unknown>) => {
     if (isRestricted) {
       // Remove color and cursor for restricted icons
-      const { color, cursor, ...restArgs } = args;
+      const { color: _color, cursor: _cursor, ...restArgs } = args;
       return <IconComponent {...restArgs} />;
     }
     return <IconComponent {...args} />;

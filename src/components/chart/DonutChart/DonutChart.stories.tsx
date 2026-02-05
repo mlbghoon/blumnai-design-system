@@ -3,12 +3,14 @@ import { useEffect, useRef } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { DonutChart } from './DonutChart';
+import type { ChartConfig } from '../Chart/Chart.types';
 
 const meta: Meta<typeof DonutChart> = {
   title: 'Components/Chart/DonutChart',
   component: DonutChart,
   parameters: {
     layout: 'padded',
+    controls: { disable: true },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -20,6 +22,21 @@ const meta: Meta<typeof DonutChart> = {
           summary: 'ChartDataPoint[]',
           detail: `문자열 또는 숫자 값을 가진 객체 배열
 예시: [{ category: 'A', value: 30 }, ...]`,
+        },
+      },
+    },
+    config: {
+      control: 'object',
+      description: '차트 데이터 시리즈 설정 (라벨, 색상)',
+      table: {
+        type: {
+          summary: 'ChartConfig',
+          detail: `{
+  [nameKey값]: {
+    label: string;
+    color: string;
+  }
+}`,
         },
       },
     },
@@ -42,19 +59,6 @@ const meta: Meta<typeof DonutChart> = {
           summary: 'string',
           detail: `각 슬라이스의 라벨을 포함하는 데이터 객체의 키
 예시: 'category'`,
-        },
-      },
-    },
-    colors: {
-      control: 'object',
-      description: '차트 슬라이스의 색상 팔레트',
-      table: {
-        type: {
-          summary: 'ChartColor',
-          detail: `string | string[]
-
-단일 색상: '#437dfc'
-배열: ['#437dfc', '#44ba82', '#f59e0b']`,
         },
       },
     },
@@ -132,6 +136,13 @@ const meta: Meta<typeof DonutChart> = {
         },
       },
     },
+    ariaLabel: {
+      control: 'text',
+      description: '접근성을 위한 차트 설명',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
   },
 };
 
@@ -157,25 +168,46 @@ const multipleData = [
   { category: 'Category E', value: 10 },
 ];
 
+const defaultConfig: ChartConfig = {
+  'Category A': { label: 'Category A', color: 'var(--chart-1)' },
+  'Category B': { label: 'Category B', color: 'var(--chart-2)' },
+  'Category C': { label: 'Category C', color: 'var(--chart-3)' },
+};
+
+const twoConfig: ChartConfig = {
+  'Category A': { label: 'Category A', color: 'var(--chart-2)' },
+  'Category B': { label: 'Category B', color: 'var(--chart-4)' },
+};
+
+const multipleConfig: ChartConfig = {
+  'Category A': { label: 'Category A', color: 'var(--chart-1)' },
+  'Category B': { label: 'Category B', color: 'var(--chart-2)' },
+  'Category C': { label: 'Category C', color: 'var(--chart-3)' },
+  'Category D': { label: 'Category D', color: 'var(--chart-4)' },
+  'Category E': { label: 'Category E', color: 'var(--chart-5)' },
+};
+
 /**
  * 기본 DonutChart
  *
  * DonutChart 컴포넌트는 `ref`와 `className` prop을 지원합니다.
- * - `ref`: DOM 요소에 직접 접근 가능
- * - `className`: 커스텀 스타일 클래스 추가 가능
+ * config를 사용해 각 슬라이스의 라벨과 색상을 설정합니다.
  */
 export const Default: Story = {
   args: {
     data: defaultData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#437dfc', '#44ba82', '#f59e0b'],
+    config: defaultConfig,
     width: 400,
     height: 400,
     innerRadius: 80,
     outerRadius: 150,
     showLegend: false,
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const chartRef = useRef<HTMLDivElement>(null);
@@ -195,7 +227,7 @@ export const WithCenterText: Story = {
     data: defaultData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#437dfc', '#44ba82', '#f59e0b'],
+    config: defaultConfig,
     width: 400,
     height: 400,
     innerRadius: 80,
@@ -211,7 +243,7 @@ export const WithLegend: Story = {
     data: defaultData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#437dfc', '#44ba82', '#f59e0b'],
+    config: defaultConfig,
     width: 400,
     height: 400,
     innerRadius: 80,
@@ -225,7 +257,7 @@ export const WithCenterTextAndLegend: Story = {
     data: defaultData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#437dfc', '#44ba82', '#f59e0b'],
+    config: defaultConfig,
     width: 400,
     height: 400,
     innerRadius: 80,
@@ -241,7 +273,7 @@ export const TwoCategories: Story = {
     data: twoCategoryData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#44ba82', '#3eb5d7'],
+    config: twoConfig,
     width: 400,
     height: 400,
     innerRadius: 80,
@@ -257,7 +289,7 @@ export const MultipleCategories: Story = {
     data: multipleData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#437dfc', '#44ba82', '#f59e0b', '#ef4444', '#8b5cf6'],
+    config: multipleConfig,
     width: 400,
     height: 400,
     innerRadius: 80,
@@ -271,7 +303,7 @@ export const MultipleCategoriesWithLegend: Story = {
     data: multipleData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#437dfc', '#44ba82', '#f59e0b', '#ef4444', '#8b5cf6'],
+    config: multipleConfig,
     width: 400,
     height: 400,
     innerRadius: 80,
@@ -280,15 +312,12 @@ export const MultipleCategoriesWithLegend: Story = {
   },
 };
 
-
-
-
 export const HalfChart: Story = {
   args: {
     data: twoCategoryData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#44ba82', '#3eb5d7'],
+    config: twoConfig,
     width: 280,
     innerRadius: 80,
     outerRadius: 140,
@@ -304,7 +333,7 @@ export const HalfChartWithLegend: Story = {
     data: twoCategoryData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#44ba82', '#3eb5d7'],
+    config: twoConfig,
     width: 280,
     innerRadius: 80,
     outerRadius: 140,
@@ -320,26 +349,10 @@ export const HalfChartMultipleCategories: Story = {
     data: multipleData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#437dfc', '#44ba82', '#f59e0b', '#3eb5d7'],
+    config: multipleConfig,
     width: 280,
     innerRadius: 80,
     outerRadius: 140,
-    isHalf: true,
-    showLegend: false,
-  },
-};
-
-export const HalfChartDarkMode: Story = {
-  args: {
-    data: twoCategoryData,
-    dataKey: 'value',
-    nameKey: 'category',
-    colors: ['#44ba82', '#3eb5d7'],
-    width: 280,
-    innerRadius: 80,
-    outerRadius: 140,
-    centerLabel: 'Label',
-    centerValue: '$20,000',
     isHalf: true,
     showLegend: false,
   },
@@ -350,7 +363,7 @@ export const LargeSize: Story = {
     data: defaultData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#437dfc', '#44ba82', '#f59e0b'],
+    config: defaultConfig,
     width: 600,
     height: 600,
     innerRadius: 120,
@@ -366,7 +379,7 @@ export const SmallSize: Story = {
     data: defaultData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#437dfc', '#44ba82', '#f59e0b'],
+    config: defaultConfig,
     width: 250,
     height: 250,
     innerRadius: 50,
@@ -380,7 +393,7 @@ export const ThinDonut: Story = {
     data: defaultData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#437dfc', '#44ba82', '#f59e0b'],
+    config: defaultConfig,
     width: 400,
     height: 400,
     innerRadius: 130,
@@ -396,7 +409,7 @@ export const ThickDonut: Story = {
     data: defaultData,
     dataKey: 'value',
     nameKey: 'category',
-    colors: ['#437dfc', '#44ba82', '#f59e0b'],
+    config: defaultConfig,
     width: 400,
     height: 400,
     innerRadius: 50,
@@ -404,5 +417,27 @@ export const ThickDonut: Story = {
     centerLabel: 'Total',
     centerValue: '$20,000',
     showLegend: false,
+  },
+};
+
+/**
+ * 접근성 라벨
+ *
+ * ariaLabel prop을 사용해 스크린 리더에서 차트를 설명합니다.
+ */
+export const WithAccessibility: Story = {
+  args: {
+    data: defaultData,
+    dataKey: 'value',
+    nameKey: 'category',
+    config: defaultConfig,
+    width: 400,
+    height: 400,
+    innerRadius: 80,
+    outerRadius: 150,
+    centerLabel: 'Total',
+    centerValue: '$20,000',
+    showLegend: true,
+    ariaLabel: '카테고리별 분포 도넛 차트',
   },
 };

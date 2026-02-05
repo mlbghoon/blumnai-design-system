@@ -16,6 +16,7 @@
 @import "./styles/tokens/spacing.css";
 @import "./styles/tokens/radius.css";
 @import "./styles/tokens/shadcn-bridge.css";
+@import "./styles/tokens/chart-tokens.css";
 @import "./styles/utilities.css";
 @import "tw-animate-css";
 

@@ -23,3 +23,11 @@ storybook-static
 *.njsproj
 *.sln
 *.sw?
+
+# Playwright & Visual Testing (local-only)
+playwright.config.ts
+e2e/
+playwright-report/
+test-results/
+.playwright/
+blob-report/

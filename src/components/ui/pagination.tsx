@@ -1,8 +1,29 @@
 import * as React from "react"
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
+import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
-import { type ButtonProps, buttonVariants } from "@/components/ui/button"
+
+const paginationButtonVariants = cva(
+  "inline-flex items-center justify-center gap-8 whitespace-nowrap rounded-md size-sm font-body font-medium line-height-leading-5 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        outline:
+          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+      },
+      size: {
+        default: "height-36 padding-x-16 padding-y-8",
+        icon: "height-36 width-36",
+      },
+    },
+    defaultVariants: {
+      variant: "ghost",
+      size: "default",
+    },
+  }
+)
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
@@ -36,7 +57,7 @@ PaginationItem.displayName = "PaginationItem"
 
 type PaginationLinkProps = {
   isActive?: boolean
-} & Pick<ButtonProps, "size"> &
+} & VariantProps<typeof paginationButtonVariants> &
   React.ComponentProps<"a">
 
 const PaginationLink = ({
@@ -48,7 +69,7 @@ const PaginationLink = ({
   <a
     aria-current={isActive ? "page" : undefined}
     className={cn(
-      buttonVariants({
+      paginationButtonVariants({
         variant: isActive ? "outline" : "ghost",
         size,
       }),

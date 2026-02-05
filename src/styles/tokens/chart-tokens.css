@@ -1,0 +1,53 @@
+/**
+ * Chart Color Tokens
+ * CSS variables for chart components
+ * Maps to existing design tokens for consistent theming
+ */
+
+:root {
+  /* Primary chart colors - maps to basic accent colors */
+  --chart-1: var(--bg-basic-blue-accent);
+  --chart-2: var(--bg-basic-emerald-accent);
+  --chart-3: var(--bg-basic-orange-accent);
+  --chart-4: var(--bg-basic-red-accent);
+  --chart-5: var(--bg-basic-violet-accent);
+  --chart-6: var(--bg-basic-teal-accent);
+  --chart-7: var(--bg-basic-amber-accent);
+  --chart-8: var(--bg-basic-pink-accent);
+
+  /* Chart axis and grid colors - uses border tokens from Figma */
+  --chart-axis: var(--border-default);
+  --chart-grid: var(--border-default);
+  --chart-grid-line: var(--border-default);
+
+  /* Chart tooltip and indicator */
+  --chart-indicator: var(--bg-basic-blue-accent);
+  --chart-hover-bg: var(--bg-overlay);
+}
+
+
+/* Theme-B Light */
+[data-theme="theme-b-light"],
+.theme-b-light {
+  --chart-1: var(--bg-basic-orange-accent);
+  --chart-2: var(--bg-basic-teal-accent);
+  --chart-3: var(--bg-basic-blue-accent);
+  --chart-4: var(--bg-basic-rose-accent);
+  --chart-5: var(--bg-basic-purple-accent);
+  --chart-6: var(--bg-basic-emerald-accent);
+  --chart-7: var(--bg-basic-amber-accent);
+  --chart-8: var(--bg-basic-pink-accent);
+}
+
+/* Theme-B Dark */
+[data-theme="theme-b-dark"],
+.theme-b-dark {
+  --chart-1: var(--bg-basic-orange-accent);
+  --chart-2: var(--bg-basic-teal-accent);
+  --chart-3: var(--bg-basic-blue-accent);
+  --chart-4: var(--bg-basic-rose-accent);
+  --chart-5: var(--bg-basic-purple-accent);
+  --chart-6: var(--bg-basic-emerald-accent);
+  --chart-7: var(--bg-basic-amber-accent);
+  --chart-8: var(--bg-basic-pink-accent);
+}

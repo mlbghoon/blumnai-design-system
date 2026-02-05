@@ -1,10 +1,12 @@
 import { forwardRef, useMemo, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 
 import { Chart } from '../Chart/Chart';
 import { AdvancedTooltip } from '../../tooltip/Tooltip';
 import { cn } from '../../../utils/cn';
 
 import type { LineChartProps } from '../Chart/Chart.types';
+import { DEFAULT_CHART_COLORS } from '../Chart/Chart.types';
 import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
 
 /**
@@ -22,44 +24,50 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       dataKey,
       dataKeys,
       lineColors,
-      colors = ['#437dfc'],
+      config,
       width = 600,
       height = 400,
       showArea = false,
       showPoints = true,
       strokeWidth = 2,
-      showGrid = true,
+      showXGrid = true,
+      showYGrid = false,
       showLegend = false,
-      darkMode = false,
       className,
+      ariaLabel,
       ...props
     },
     ref
   ) => {
-  // Determine if we're using multiple lines
   const isMultiLine = dataKeys && dataKeys.length > 0;
-  const activeKeys = isMultiLine ? dataKeys : (dataKey ? [dataKey] : []);
+  const activeKeys = useMemo(() => {
+    return isMultiLine ? dataKeys : (dataKey ? [dataKey] : []);
+  }, [isMultiLine, dataKeys, dataKey]);
 
-  // Helper function to get color for lines
-  const getLineColor = useCallback((key: string, keyIndex: number): string => {
+  const getColor = useCallback((key: string, keyIndex: number): string => {
+    if (config && config[key]) {
+      return config[key].color;
+    }
     if (lineColors) {
       if (Array.isArray(lineColors)) {
-        // If array, use index-based mapping
-        return lineColors[keyIndex % lineColors.length] || colors[keyIndex % colors.length];
-      } else {
-        // If object, use key-based mapping
-        return lineColors[key] || colors[keyIndex % colors.length];
+        return lineColors[keyIndex % lineColors.length] || DEFAULT_CHART_COLORS[keyIndex % DEFAULT_CHART_COLORS.length];
       }
+      return lineColors[key] || DEFAULT_CHART_COLORS[keyIndex % DEFAULT_CHART_COLORS.length];
     }
-    // Fall back to colors array with index cycling
-    return Array.isArray(colors) ? colors[keyIndex % colors.length] : colors;
-  }, [lineColors, colors]);
-  // Calculate chart dimensions
+    return DEFAULT_CHART_COLORS[keyIndex % DEFAULT_CHART_COLORS.length];
+  }, [config, lineColors]);
+
+  const getLabel = useCallback((key: string): string => {
+    if (config && config[key]) {
+      return config[key].label;
+    }
+    return key;
+  }, [config]);
+
   const padding = { top: 20, right: 20, bottom: 40, left: 60 };
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
 
-  // Calculate scales
   const xScale = useMemo(() => {
     const step = chartWidth / (data.length - 1 || 1);
     return {
@@ -71,7 +79,6 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   const yScale = useMemo(() => {
     let values: number[];
     if (isMultiLine && activeKeys.length > 0) {
-      // For multiple lines, get max value across all keys
       values = data.flatMap((d) => activeKeys.map((key) => Number(d[key]) || 0));
     } else if (dataKey) {
       values = data.map((d) => Number(d[dataKey]) || 0);
@@ -80,7 +87,6 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     }
     const maxValue = Math.max(...values, 0);
     const minValue = Math.min(...values, 0);
-    // Handle 'auto' domain or use provided domain, fallback to calculated
     const domain: [number, number] =
       yAxis.domain && yAxis.domain !== 'auto'
         ? yAxis.domain
@@ -94,7 +100,6 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     };
   }, [chartHeight, data, dataKey, yAxis.domain, isMultiLine, activeKeys]);
 
-  // Generate paths for multiple lines
   const linePaths = useMemo(() => {
     return activeKeys.map((key) => {
       const points = data.map((item, index) => {
@@ -107,7 +112,6 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     });
   }, [data, activeKeys, xScale, yScale, padding.top]);
 
-  // Generate area paths for multiple lines
   const areaPaths = useMemo(() => {
     if (!showArea) return activeKeys.map(() => '');
     return activeKeys.map((key) => {
@@ -124,7 +128,6 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     });
   }, [data, activeKeys, xScale, yScale, padding.top, chartHeight, showArea]);
 
-  // Legacy single line support (for backward compatibility)
   const linePath = useMemo(() => {
     if (isMultiLine) return '';
     if (!dataKey) return '';
@@ -152,10 +155,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     return `${points.join(' ')} L ${lastX} ${bottomY} L ${firstX} ${bottomY} Z`;
   }, [data, dataKey, xScale, yScale, padding.top, chartHeight, showArea, isMultiLine]);
 
-  // Get color for single line (legacy)
-  const color = Array.isArray(colors) ? colors[0] : colors;
+  const color = getColor(dataKey || '', 0);
 
-  // Generate Y-axis ticks
   const yTicks = useMemo(() => {
     const [min, max] = yScale.domain as [number, number];
     const tickCount = 5;
@@ -163,7 +164,6 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     return Array.from({ length: tickCount }, (_, i) => min + step * i);
   }, [yScale.domain]);
 
-  // Tooltip state
   const [tooltipState, setTooltipState] = useState<{
     visible: boolean;
     x: number;
@@ -180,20 +180,15 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     lineIndex: undefined,
   });
 
-  // Handle point hover
   const handlePointMouseEnter = useCallback((index: number, keyIndex: number, event: React.MouseEvent<SVGCircleElement>) => {
-    const svgElement = (event.currentTarget as SVGCircleElement).ownerSVGElement;
-    if (!svgElement) return;
-
-    const svgRect = svgElement.getBoundingClientRect();
-    const x = xScale.scale(index);
+    const indicatorX = xScale.scale(index);
 
     setTooltipState({
       visible: true,
-      x: event.clientX - svgRect.left,
-      y: event.clientY - svgRect.top,
+      x: event.clientX,
+      y: event.clientY,
       pointIndex: index,
-      pointX: x,
+      pointX: indicatorX,
       lineIndex: keyIndex,
     });
   }, [xScale]);
@@ -201,15 +196,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   const handlePointMouseMove = useCallback((event: React.MouseEvent<SVGCircleElement>) => {
     if (!tooltipState.visible) return;
 
-    const svgElement = (event.currentTarget as SVGCircleElement).ownerSVGElement;
-    if (!svgElement) return;
-
-    const svgRect = svgElement.getBoundingClientRect();
-
     setTooltipState((prev) => ({
       ...prev,
-      x: event.clientX - svgRect.left,
-      y: event.clientY - svgRect.top,
+      x: event.clientX,
+      y: event.clientY,
     }));
   }, [tooltipState.visible]);
 
@@ -217,10 +207,35 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     setTooltipState((prev) => ({ ...prev, visible: false }));
   }, []);
 
-  // Generate tooltip items
+  const handleChartMouseMove = useCallback((event: React.MouseEvent<SVGRectElement>) => {
+    const svgElement = event.currentTarget.ownerSVGElement;
+    if (!svgElement) return;
+
+    const svgRect = svgElement.getBoundingClientRect();
+    const mouseX = event.clientX - svgRect.left - padding.left;
+
+    const index = Math.round(mouseX / xScale.step);
+    const clampedIndex = Math.max(0, Math.min(data.length - 1, index));
+    const indicatorX = xScale.scale(clampedIndex);
+
+    setTooltipState({
+      visible: true,
+      x: event.clientX,
+      y: event.clientY,
+      pointIndex: clampedIndex,
+      pointX: indicatorX,
+      lineIndex: 0,
+    });
+  }, [xScale, data.length, padding.left]);
+
+  const handleChartMouseLeave = useCallback(() => {
+    setTooltipState((prev) => ({ ...prev, visible: false }));
+  }, []);
+
   const getTooltipItems = useCallback((index: number): TooltipItemData[] => {
     const item = data[index];
-    const dateLabel = String(item[xAxis.dataKey] || '');
+    const rawLabel = item[xAxis.dataKey] || item['date'] || item['label'] || item['name'];
+    const dateLabel = rawLabel ? String(rawLabel) : `#${index + 1}`;
 
     const items: TooltipItemData[] = [
       { type: 'label', label: dateLabel },
@@ -228,87 +243,106 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     ];
 
     if (isMultiLine && activeKeys.length > 0) {
-      // For multiple lines, show all values
       activeKeys.forEach((key, keyIndex) => {
         const value = Number(item[key]) || 0;
-        const lineColor = getLineColor(key, keyIndex);
+        const lineColor = getColor(key, keyIndex);
         items.push({
           type: 'item',
-          label: key,
+          label: getLabel(key),
           caption: String(value),
           indicatorColor: lineColor,
         });
       });
     } else if (dataKey) {
-      // For single line, show single value
       const value = Number(item[dataKey]) || 0;
       items.push({
         type: 'item',
-        label: 'Revenue',
+        label: getLabel(dataKey),
         caption: String(value),
         indicatorColor: color,
       });
     }
 
     return items;
-  }, [data, dataKey, xAxis.dataKey, color, isMultiLine, activeKeys, getLineColor]);
+  }, [data, dataKey, xAxis.dataKey, color, isMultiLine, activeKeys, getColor, getLabel]);
+
+  const chartAriaLabel = ariaLabel || `Line chart showing ${activeKeys.join(', ') || 'data'}`;
 
   return (
-    <Chart ref={ref} width={width} height={height} darkMode={darkMode} className={className} {...props}>
-      <svg width={width} height={height} className="overflow-visible">
-        {/* Grid lines */}
-        {showGrid &&
+    <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
+      <svg
+        width={width}
+        height={height}
+        className="overflow-visible"
+        role="graphics-document"
+        aria-label={chartAriaLabel}
+      >
+        <title>{chartAriaLabel}</title>
+        {showXGrid &&
           yTicks.map((tick, i) => {
             const y = padding.top + yScale.scale(tick);
             return (
               <line
-                key={`grid-${i}`}
+                key={`grid-x-${i}`}
                 x1={padding.left}
                 y1={y}
                 x2={padding.left + chartWidth}
                 y2={y}
-                stroke={darkMode ? '#27272a' : '#e4e4e7'}
+                stroke="var(--chart-grid-line)"
                 strokeWidth={1}
-                strokeDasharray="4 4"
               />
             );
           })}
 
-        {/* Y-axis line */}
+        {showYGrid &&
+          data.slice(0, -1).map((_, index) => {
+            const x1 = xScale.scale(index);
+            const x2 = xScale.scale(index + 1);
+            const midX = (x1 + x2) / 2;
+            return (
+              <line
+                key={`grid-y-${index}`}
+                x1={midX}
+                y1={padding.top}
+                x2={midX}
+                y2={padding.top + chartHeight}
+                stroke="var(--chart-grid-line)"
+                strokeWidth={1}
+              />
+            );
+          })}
+
         <line
           x1={padding.left}
           y1={padding.top}
           x2={padding.left}
           y2={padding.top + chartHeight}
-          stroke={darkMode ? '#3f3f46' : '#a1a1aa'}
+          stroke="var(--chart-axis)"
           strokeWidth={1}
         />
 
-        {/* X-axis line */}
         <line
           x1={padding.left}
           y1={padding.top + chartHeight}
           x2={padding.left + chartWidth}
           y2={padding.top + chartHeight}
-          stroke={darkMode ? '#3f3f46' : '#a1a1aa'}
+          stroke="var(--chart-axis)"
           strokeWidth={1}
         />
 
-        {/* Hover indicator line */}
         {tooltipState.visible && tooltipState.pointIndex !== null && (
           <line
             x1={tooltipState.pointX}
             y1={padding.top}
             x2={tooltipState.pointX}
             y2={padding.top + chartHeight}
-            stroke={darkMode ? '#437dfc' : '#437dfc'}
+            stroke="var(--chart-indicator)"
             strokeWidth={1}
             strokeDasharray="4 4"
             opacity={0.5}
           />
         )}
 
-        {/* Y-axis labels */}
         {yTicks.map((tick, i) => {
           const y = padding.top + yScale.scale(tick);
           const formattedValue = yAxis.tickFormatter
@@ -321,7 +355,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
               y={y + 4}
               textAnchor="end"
               className={cn(
-                'text-xs',
+                'size-xs',
                 'text-subtle'
               )}
               fill="currentColor"
@@ -331,11 +365,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
           );
         })}
 
-        {/* Area fills for multiple lines */}
         {showArea && isMultiLine &&
           areaPaths.map((path, keyIndex) => {
             const key = activeKeys[keyIndex];
-            const lineColor = getLineColor(key, keyIndex);
+            const lineColor = getColor(key, keyIndex);
             return (
               <path
                 key={`area-${key}`}
@@ -346,7 +379,6 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             );
           })}
 
-        {/* Area fill for single line (legacy) */}
         {showArea && !isMultiLine && areaPath && (
           <path
             d={areaPath}
@@ -355,44 +387,48 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
           />
         )}
 
-        {/* Lines for multiple series */}
-        {isMultiLine &&
-          linePaths.map((path, keyIndex) => {
-            const key = activeKeys[keyIndex];
-            const lineColor = getLineColor(key, keyIndex);
-            return (
-              <path
-                key={`line-${key}`}
-                d={path}
-                fill="none"
-                stroke={lineColor}
-                strokeWidth={strokeWidth}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            );
-          })}
+        <g role="list" aria-label="Line chart data">
+          {isMultiLine &&
+            linePaths.map((path, keyIndex) => {
+              const key = activeKeys[keyIndex];
+              const lineColor = getColor(key, keyIndex);
+              return (
+                <path
+                  key={`line-${key}`}
+                  d={path}
+                  fill="none"
+                  stroke={lineColor}
+                  strokeWidth={strokeWidth}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  role="listitem"
+                  aria-label={`Line for ${getLabel(key)}`}
+                />
+              );
+            })}
 
-        {/* Single line (legacy) */}
-        {!isMultiLine && linePath && (
-          <path
-            d={linePath}
-            fill="none"
-            stroke={color}
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        )}
+          {!isMultiLine && linePath && (
+            <path
+              d={linePath}
+              fill="none"
+              stroke={color}
+              strokeWidth={strokeWidth}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              role="listitem"
+              aria-label={`Line for ${getLabel(dataKey || '')}`}
+            />
+          )}
+        </g>
 
-        {/* Data points for multiple lines */}
         {showPoints && isMultiLine &&
           activeKeys.map((key, keyIndex) => {
-            const lineColor = getLineColor(key, keyIndex);
+            const lineColor = getColor(key, keyIndex);
             return data.map((item, index) => {
               const value = Number(item[key]) || 0;
               const x = xScale.scale(index);
               const y = padding.top + yScale.scale(value);
+              const xLabel = String(item[xAxis.dataKey] || '');
               return (
                 <circle
                   key={`point-${key}-${index}`}
@@ -406,17 +442,25 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                   onMouseMove={handlePointMouseMove}
                   onMouseLeave={handlePointMouseLeave}
                   style={{ cursor: 'pointer' }}
+                  tabIndex={0}
+                  role="graphics-symbol"
+                  aria-label={`${xLabel}: ${getLabel(key)} ${value}`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               );
             });
           })}
 
-        {/* Data points for single line (legacy) */}
         {showPoints && !isMultiLine && dataKey &&
           data.map((item, index) => {
             const value = Number(item[dataKey]) || 0;
             const x = xScale.scale(index);
             const y = padding.top + yScale.scale(value);
+            const xLabel = String(item[xAxis.dataKey] || '');
             return (
               <circle
                 key={`point-${index}`}
@@ -430,11 +474,18 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 onMouseMove={handlePointMouseMove}
                 onMouseLeave={handlePointMouseLeave}
                 style={{ cursor: 'pointer' }}
+                tabIndex={0}
+                role="graphics-symbol"
+                aria-label={`${xLabel}: ${getLabel(dataKey)} ${value}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                  }
+                }}
               />
             );
           })}
 
-        {/* X-axis labels */}
         {data.map((item, index) => {
           const x = xScale.scale(index);
           const label = String(item[xAxis.dataKey] || '');
@@ -445,7 +496,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
               y={height - padding.bottom + 20}
               textAnchor="middle"
               className={cn(
-                'text-xs',
+                'size-xs',
                 'text-subtle'
               )}
               fill="currentColor"
@@ -454,37 +505,49 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             </text>
           );
         })}
+
+        {/* Invisible overlay for hover detection - must be last for z-index */}
+        <rect
+          x={padding.left}
+          y={padding.top}
+          width={chartWidth}
+          height={chartHeight}
+          fill="transparent"
+          onMouseMove={handleChartMouseMove}
+          onMouseLeave={handleChartMouseLeave}
+          style={{ cursor: 'crosshair' }}
+        />
       </svg>
 
-      {/* Tooltip */}
-      {tooltipState.visible && tooltipState.pointIndex !== null && (
+      {tooltipState.visible && tooltipState.pointIndex !== null && createPortal(
         <div
-          className="absolute pointer-events-none z-50"
+          className="fixed pointer-events-none z-50"
           style={{
             left: `${tooltipState.x + 12}px`,
-            top: `${tooltipState.y - 20}px`,
+            top: `${tooltipState.y}px`,
             transform: 'translateY(-50%)',
           }}
         >
           <AdvancedTooltip
             items={getTooltipItems(tooltipState.pointIndex)}
           />
-        </div>
+        </div>,
+        document.body
       )}
 
-      {/* Legend */}
       {showLegend && activeKeys.length > 0 && (
-        <div className="mt-4 px-4 pb-4 flex flex-wrap justify-center gap-4">
+        <div className="mt-4 px-4 pb-4 flex flex-wrap justify-center gap-4" role="list" aria-label="Chart legend">
           {activeKeys.map((key, index) => {
-            const lineColor = getLineColor(key, index);
+            const lineColor = getColor(key, index);
             return (
-              <div key={`legend-${key}`} className="flex items-center gap-2">
+              <div key={`legend-${key}`} className="flex items-center gap-2" role="listitem">
                 <div
                   className="h-3 w-3 rounded-sm"
                   style={{ backgroundColor: lineColor }}
+                  aria-hidden="true"
                 />
-                <span className={cn('text-xs', 'text-subtle')}>
-                  {key}
+                <span className={cn('size-xs', 'text-subtle')}>
+                  {getLabel(key)}
                 </span>
               </div>
             );

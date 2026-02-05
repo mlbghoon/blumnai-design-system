@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect, forwardRef } from 'react';
+import { useState, useRef, useCallback, useEffect, forwardRef, useMemo } from 'react';
 import { cn } from '../../../utils/cn';
 import { Icon } from '../../icons/Icon/Icon';
 import {
@@ -158,10 +158,10 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
   const toMonthRef = useRef<HTMLInputElement>(null);
   const toYearRef = useRef<HTMLInputElement>(null);
 
-  const segmentRefs: Record<DatePart, Record<DateSegment, React.RefObject<HTMLInputElement | null>>> = {
+  const segmentRefs = useMemo<Record<DatePart, Record<DateSegment, React.RefObject<HTMLInputElement | null>>>>(() => ({
     from: { day: fromDayRef, month: fromMonthRef, year: fromYearRef },
     to: { day: toDayRef, month: toMonthRef, year: toYearRef },
-  };
+  }), []);
 
   const getAllSegments = useCallback((): Array<{ part: DatePart; segment: DateSegment }> => {
     return [

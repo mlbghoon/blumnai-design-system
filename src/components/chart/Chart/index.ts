@@ -4,8 +4,11 @@ export type {
   BarChartProps,
   LineChartProps,
   PieChartProps,
+  DonutChartProps,
   ChartDataPoint,
   ChartAxisConfig,
   ChartVariant,
-  ChartColor,
+  ChartConfig,
+  ChartConfigItem,
 } from './Chart.types';
+export { DEFAULT_CHART_COLORS } from './Chart.types';
