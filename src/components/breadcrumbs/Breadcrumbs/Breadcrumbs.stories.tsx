@@ -72,14 +72,14 @@ export default meta;
 type Story = StoryObj<typeof Breadcrumbs>;
 
 const sampleItems = [
-  { label: 'Home', href: '/', icon: 'folder-open-fill' },
+  { label: 'Home', href: '/', icon: ['document', 'folder-open', true] as const },
   { label: 'Products', href: '/products' },
   { label: 'Category', href: '/products/category' },
   { label: 'Current Page' },
 ];
 
 const itemsWithIcons = [
-  { label: 'Label', icon: 'folder-open-fill' },
+  { label: 'Label', icon: ['document', 'folder-open', true] as const },
   { label: 'Label' },
   { label: 'Label' },
 ];

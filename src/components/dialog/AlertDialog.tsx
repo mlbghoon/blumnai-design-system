@@ -3,6 +3,7 @@ import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '../button/Button';
+import { ScrollArea } from '../scroll-area';
 import type {
   AlertDialogContentProps,
   AlertDialogHeaderProps,
@@ -111,26 +112,14 @@ const AlertDialogFooter = React.forwardRef<HTMLDivElement, AlertDialogFooterProp
 );
 AlertDialogFooter.displayName = 'AlertDialogFooter';
 
-const AlertDialogScrollArea = React.forwardRef<HTMLDivElement, AlertDialogScrollAreaProps>(
-  ({ className, maxHeight, style, ...props }, ref) => {
-    const maxHeightStyle = maxHeight !== undefined && maxHeight !== ''
-      ? { maxHeight: getPixelValue(maxHeight) }
-      : undefined;
-
-    const mergedStyle: React.CSSProperties = {
-      ...(style || {}),
-      ...(maxHeightStyle || {}),
-    };
-
-    return (
-      <div
-        ref={ref}
-        className={cn('overflow-y-auto', className)}
-        style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
-        {...props}
-      />
-    );
-  }
+const AlertDialogScrollArea = ({ className, maxHeight, children }: AlertDialogScrollAreaProps) => (
+  <ScrollArea
+    orientation="vertical"
+    maxHeight={maxHeight}
+    className={className}
+  >
+    {children}
+  </ScrollArea>
 );
 AlertDialogScrollArea.displayName = 'AlertDialogScrollArea';
 

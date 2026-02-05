@@ -7,6 +7,7 @@ import type {
   OnChangeFn,
   Row,
 } from '@tanstack/react-table';
+import type { PaginationVariant } from '../pagination';
 
 declare module '@tanstack/react-table' {
   interface ColumnMeta<TData, TValue> {
@@ -18,6 +19,10 @@ declare module '@tanstack/react-table' {
      * Text alignment
      */
     align?: 'left' | 'center' | 'right';
+    /**
+     * 수평 스크롤 시 컬럼 고정 여부
+     */
+    sticky?: boolean | 'left';
     _unused?: [TData, TValue];
   }
 }
@@ -136,6 +141,32 @@ export interface DataGridProps<T> {
   paginationAlign?: 'left' | 'center' | 'right';
 
   /**
+   * 페이지네이션 스타일 변형 (기본값: 'numbered')
+   */
+  paginationVariant?: PaginationVariant;
+
+  /**
+   * 최대 표시할 페이지 번호 수 (numbered 변형에서만 사용)
+   * @default 7
+   */
+  maxVisiblePages?: number;
+
+  /**
+   * 페이지네이션 비활성화 여부
+   */
+  paginationDisabled?: boolean;
+
+  /**
+   * 이전/다음 버튼 숨김
+   */
+  hideNavButtons?: boolean;
+
+  /**
+   * 결과 텍스트 포맷터 (simple 변형에서 사용)
+   */
+  resultTextFormatter?: (current: number, total: number) => string;
+
+  /**
    * 항목 수 표시 여부 (기본값: true)
    */
   showItemCount?: boolean;
@@ -165,6 +196,21 @@ export interface DataGridProps<T> {
    * 최대 높이
    */
   maxHeight?: string;
+
+  /**
+   * 헤더 행 높이 (기본값: '32px')
+   */
+  headerHeight?: string;
+
+  /**
+   * 데이터 행 높이 (기본값: '32px')
+   */
+  rowHeight?: string;
+
+  /**
+   * 행별 높이 계산 함수 (rowHeight보다 우선순위 높음)
+   */
+  getRowHeight?: (row: T) => string | undefined;
 
   // ============================================
   // Empty State

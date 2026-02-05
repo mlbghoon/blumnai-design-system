@@ -5,7 +5,7 @@ interface CellAvatarProps {
   src?: string;
   name?: string;
   initials?: string;
-  size?: 'xs' | 'sm' | 'md';
+  size?: '2xs' | 'xs' | 'sm' | 'md';
   showName?: boolean;
 }
 
@@ -21,7 +21,7 @@ export function CellAvatar({
   src,
   name,
   initials,
-  size = 'sm',
+  size = '2xs',
   showName = true,
 }: CellAvatarProps) {
   const avatarInitials = initials ?? (name ? getInitials(name) : undefined);
@@ -36,7 +36,7 @@ export function CellAvatar({
         size={size}
       />
       {showName && name && (
-        <span className={cn('truncate font-body size-sm text-default')}>
+        <span className={cn('truncate font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default')}>
           {name}
         </span>
       )}

@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode, HTMLAttributes } from 'react';
 import type * as SelectPrimitive from '@radix-ui/react-select';
 
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
 
 /**
  * Select 스타일 변형
@@ -42,7 +42,7 @@ export interface SelectOption {
   /**
    * 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
   /**
    * 뱃지 텍스트
    */
@@ -113,7 +113,7 @@ export interface SelectBaseProps {
   /**
    * 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
   /**
    * 선택 가능한 옵션 목록
    */
@@ -282,7 +282,7 @@ export interface SelectTriggerProps
   size?: SelectSize;
   selectStyle?: SelectStyle;
   state?: 'default' | 'disabled' | 'error' | 'success';
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
 }
 
 /**
@@ -300,7 +300,7 @@ export interface SelectContentProps
 export interface ExtendedSelectItemProps
   extends ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {
   selectType?: SelectType;
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
   description?: string;
   badge?: string;
   avatarSrc?: string;

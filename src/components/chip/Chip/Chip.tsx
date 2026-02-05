@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { Icon } from '../../icons/Icon';
+import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import { cn } from '../../../utils/cn';
 
 import type { ChipProps, ChipShape, ChipStyle } from './Chip.types';
@@ -197,7 +197,10 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
               activeStyle.icon
             )}
           >
-            <Icon iconType={icon} size={currentSize.iconSize} />
+            {(() => {
+              const { iconType, isFill } = parseIconTypeWithFill(icon);
+              return <Icon iconType={iconType} size={currentSize.iconSize} isFill={isFill} />;
+            })()}
           </span>
         )}
 

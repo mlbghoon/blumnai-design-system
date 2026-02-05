@@ -4,7 +4,7 @@ import { ChevronDown, ChevronUp, Search, X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
-import { Icon } from '../icons/Icon';
+import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import type {
@@ -84,15 +84,18 @@ const SelectTrigger = React.forwardRef<
         )}
         {...props}
       >
-        {leadIcon && (
-          <Icon
-            iconType={leadIcon}
-            size={sizeConfig.iconSize}
-            color={iconColor}
-            className="flex-shrink-0"
-            isFill
-          />
-        )}
+        {leadIcon && (() => {
+          const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
+          return (
+            <Icon
+              iconType={iconType}
+              size={sizeConfig.iconSize}
+              color={iconColor}
+              className="flex-shrink-0"
+              isFill={isFill}
+            />
+          );
+        })()}
         <span className="flex-1 min-w-0">{children}</span>
         <SelectPrimitive.Icon asChild>
           <Icon
@@ -326,6 +329,7 @@ const ExtendedSelectItem = React.forwardRef<
       }
 
       if (leadIcon) {
+        const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
         return (
           <div
             className={cn(
@@ -334,10 +338,10 @@ const ExtendedSelectItem = React.forwardRef<
             )}
           >
             <Icon
-              iconType={leadIcon}
+              iconType={iconType}
               size={sizeConfig.iconSize}
               color={iconColor}
-              isFill
+              isFill={isFill}
             />
           </div>
         );

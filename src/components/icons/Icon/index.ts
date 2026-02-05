@@ -1,2 +1,3 @@
 export { Icon } from './Icon';
-export type { IconCategory, IconColor, IconProps, IconType } from './Icon.types';
+export { parseIconTypeWithFill } from './Icon.types';
+export type { IconCategory, IconColor, IconProps, IconType, IconTypeWithFill } from './Icon.types';

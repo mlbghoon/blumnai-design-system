@@ -1,14 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import type { IconType } from '../../icons/Icon/Icon.types';
+import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import type { ButtonIconType } from '../../button/Button.types';
-
-/**
- * Divider 아이콘 타입 (isFill 지원)
- * @example ['system', 'star'] - 일반 아이콘
- * @example ['system', 'star', true] - 채워진 아이콘
- */
-export type DividerIconType = IconType | [...IconType, boolean];
 
 /**
  * Divider 타입
@@ -59,7 +52,7 @@ export interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chil
    * @example icon={['system', 'add']}
    * @example icon={['system', 'add', true]} - 채워진 아이콘
    */
-  icon?: DividerIconType;
+  icon?: IconTypeWithFill;
   /**
    * 버튼 라벨 (button-* 타입에서 사용)
    */

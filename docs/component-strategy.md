@@ -169,8 +169,23 @@
 | **Accordion** | ✅ 완료 | 4가지 variant, 다크 모드 |
 | **Breadcrumbs** | ✅ 완료 | 경로 탐색 |
 | **Checkbox** | ✅ 완료 | Card, List, WithText 변형 포함 |
+| **Radio** | ✅ 완료 | 라디오 버튼 |
 | **Tooltip** | ✅ 완료 | 기본 툴팁 |
+| **Popover** | ✅ 완료 | Radix 기반 팝오버 |
 | **Chart** | ✅ 완료 | Bar, Line, Pie, Donut |
+| **Input** | ✅ 완료 | default, password, textarea variant 지원 |
+| **Select** | ✅ 완료 | 단일 선택, 다중 선택, 태그 모드 지원 |
+| **Dropdown** | ✅ 완료 | Radix 기반 드롭다운 메뉴 |
+| **Dialog** | ✅ 완료 | Radix 기반 모달 |
+| **AlertDialog** | ✅ 완료 | 확인/취소 다이얼로그 |
+| **Calendar** | ✅ 완료 | 날짜 선택, 범위 선택 지원 |
+| **DatePicker** | ✅ 완료 | Calendar + Popover + Input 통합 |
+| **DateRangePicker** | ✅ 완료 | 날짜 범위 선택 |
+| **Slider** | ✅ 완료 | Radix 기반 슬라이더 |
+| **Pagination** | ✅ 완료 | numbered, dot, simple variant 지원 |
+| **Divider** | ✅ 완료 | 구분선 |
+| **Table** | ✅ 완료 | compositional 패턴, 페이지네이션, 스크롤/고정 헤더 |
+| **DataGrid** | ✅ 완료 | TanStack Table 기반, 정렬/필터/페이지네이션 자동 관리 |
 
 ### 4.2 신규 구현 시 자체 개발 권장
 

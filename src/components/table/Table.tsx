@@ -1,9 +1,10 @@
 import * as React from 'react';
-import * as SelectPrimitive from '@radix-ui/react-select';
 
 import { cn } from '@/lib/utils';
 import { Icon } from '../icons/Icon';
 import { Pagination } from '../pagination';
+import { Select } from '../select';
+import { ScrollArea } from '../scroll-area';
 import type {
   TableProps,
   TableHeaderProps,
@@ -37,6 +38,11 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
       onLimitChange,
       pageChangeConfirmMessage,
       paginationAlign = 'right',
+      paginationVariant = 'numbered',
+      maxVisiblePages,
+      paginationDisabled,
+      hideNavButtons,
+      resultTextFormatter,
       showItemCount,
       total,
       itemCountFormatter,
@@ -57,67 +63,31 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
     };
 
     const limitSelector = onLimitChange && (
-      <SelectPrimitive.Root
+      <Select
+        size="sm"
+        selectStyle="default"
+        options={(limitOptions ?? [10, 20, 50, 100]).map((option) => ({
+          id: String(option),
+          label: limitOptionLabel(option),
+        }))}
         value={String(limit)}
-        onValueChange={(value) => onLimitChange(Number(value))}
-      >
-        <SelectPrimitive.Trigger
-          className={cn(
-            'inline-flex items-center gap-4 height-28 padding-x-8',
-            'font-body size-sm text-default',
-            'bg-default border-default rounded-sm',
-            'hover:bg-basic-gray-alpha-2 cursor-pointer',
-            'focus:outline-none focus-visible:shadow-component-misc-focus'
-          )}
-        >
-          <SelectPrimitive.Value />
-          <SelectPrimitive.Icon>
-            <Icon
-              iconType={['arrows', 'arrow-up-down']}
-              size={12}
-              className="text-subtle"
-            />
-          </SelectPrimitive.Icon>
-        </SelectPrimitive.Trigger>
-        <SelectPrimitive.Portal>
-          <SelectPrimitive.Content
-            className={cn(
-              'overflow-hidden bg-default rounded-md shadow-modal-sm',
-              'animate-in fade-in-0 zoom-in-95'
-            )}
-            position="popper"
-            sideOffset={4}
-          >
-            <SelectPrimitive.Viewport className="padding-4">
-              {(limitOptions ?? [10, 20, 50, 100]).map((option) => (
-                <SelectPrimitive.Item
-                  key={option}
-                  value={String(option)}
-                  className={cn(
-                    'relative flex items-center height-28 padding-x-8 rounded-sm',
-                    'font-body size-sm text-default',
-                    'cursor-pointer select-none outline-none',
-                    'hover:bg-basic-gray-alpha-4 focus:bg-basic-gray-alpha-4',
-                    'data-[state=checked]:bg-basic-blue-subtle'
-                  )}
-                >
-                  <SelectPrimitive.ItemText>
-                    {limitOptionLabel(option)}
-                  </SelectPrimitive.ItemText>
-                </SelectPrimitive.Item>
-              ))}
-            </SelectPrimitive.Viewport>
-          </SelectPrimitive.Content>
-        </SelectPrimitive.Portal>
-      </SelectPrimitive.Root>
+        onChange={(value) => onLimitChange(Number(value))}
+        width={140}
+      />
     );
 
     const paginationElement = pagination && onPageChange && (
       <Pagination
+        variant={paginationVariant}
         page={page}
         totalPages={totalPages}
+        total={total}
         onPageChange={onPageChange}
         pageChangeConfirmMessage={pageChangeConfirmMessage}
+        maxVisiblePages={maxVisiblePages}
+        disabled={paginationDisabled}
+        hideNavButtons={hideNavButtons}
+        resultTextFormatter={resultTextFormatter}
       />
     );
 
@@ -128,9 +98,14 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
           bordered && 'bg-default border-default rounded-lg'
         )}
       >
-        <div
-          className={cn('overflow-auto', stickyHeader && '[&_thead]:sticky [&_thead]:top-0 [&_thead]:z-10 [&_thead]:bg-default')}
-          style={{ minHeight, maxHeight }}
+        <ScrollArea
+          orientation="both"
+          maxHeight={maxHeight}
+          className={cn(
+            stickyHeader && '[&_thead]:sticky [&_thead]:top-[0px] [&_thead]:z-10'
+          )}
+          data-sticky-bordered={bordered && stickyHeader ? '' : undefined}
+          style={{ minHeight }}
         >
           <table
             ref={ref}
@@ -140,7 +115,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
           >
             {children}
           </table>
-        </div>
+        </ScrollArea>
 
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-default/80 z-20">
@@ -203,7 +178,7 @@ const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
   ({ className, ...props }, ref) => (
     <thead
       ref={ref}
-      className={cn('[&_tr]:border-b-default', className)}
+      className={cn(className)}
       {...props}
     />
   )
@@ -214,11 +189,7 @@ const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ className, ...props }, ref) => (
     <tbody
       ref={ref}
-      className={cn(
-        '[&_tr:last-child]:border-0',
-        '[&[data-striped]_tr:nth-child(even)]:bg-basic-gray-alpha-2',
-        className
-      )}
+      className={cn(className)}
       {...props}
     />
   )
@@ -245,7 +216,6 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
       ref={ref}
       className={cn(
         'border-b-default transition-colors',
-        'hover:bg-basic-gray-alpha-4',
         selected && 'bg-basic-gray-alpha-4',
         className
       )}
@@ -257,42 +227,47 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
 TableRow.displayName = 'TableRow';
 
 const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
-  ({ className, sortable, sortDirection, children, onClick, ...props }, ref) => (
-    <th
-      ref={ref}
-      className={cn(
-        'height-32 padding-x-10 text-left align-middle',
-        'font-body size-xs line-height-leading-4 font-medium text-subtle',
-        '[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
-        sortable && 'cursor-pointer select-none hover:bg-basic-gray-alpha-2',
-        className
-      )}
-      onClick={sortable ? onClick : undefined}
-      aria-sort={
-        sortDirection === 'asc'
-          ? 'ascending'
-          : sortDirection === 'desc'
-            ? 'descending'
-            : undefined
-      }
-      {...props}
-    >
-      {sortable ? (
-        <div className="flex items-center gap-4">
-          <span>{children}</span>
-          {sortDirection && (
+  ({ className, sortable, sortDirection, children, onClick, ...props }, ref) => {
+    const getSortIcon = () => {
+      if (!sortDirection) return 'expand-up-down';
+      return sortDirection === 'asc' ? 'arrow-up-s' : 'arrow-down-s';
+    };
+
+    return (
+      <th
+        ref={ref}
+        className={cn(
+          'height-32 padding-x-10 text-left align-middle bg-default',
+          'font-body size-xs line-height-leading-4 font-medium text-subtle',
+          '[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+          sortable && 'cursor-pointer select-none',
+          className
+        )}
+        onClick={sortable ? onClick : undefined}
+        aria-sort={
+          sortDirection === 'asc'
+            ? 'ascending'
+            : sortDirection === 'desc'
+              ? 'descending'
+              : undefined
+        }
+        {...props}
+      >
+        {sortable ? (
+          <div className="flex items-center gap-4">
+            <span>{children}</span>
             <Icon
-              iconType={['arrows', sortDirection === 'asc' ? 'arrow-up-s' : 'arrow-down-s']}
+              iconType={['arrows', getSortIcon()]}
               size={12}
-              className="text-subtle"
+              className={cn('shrink-0', sortDirection ? 'text-subtle' : 'text-hint')}
             />
-          )}
-        </div>
-      ) : (
-        children
-      )}
-    </th>
-  )
+          </div>
+        ) : (
+          children
+        )}
+      </th>
+    );
+  }
 );
 TableHead.displayName = 'TableHead';
 
@@ -302,7 +277,7 @@ const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
       ref={ref}
       className={cn(
         'height-32 padding-x-10 align-middle',
-        'font-body size-sm line-height-leading-5 text-default',
+        'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default',
         '[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
         className
       )}

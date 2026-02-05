@@ -40,6 +40,13 @@ export default meta;
 export const Loading: StoryObj = {
   render: function Render() {
     const gridTemplateColumns = '100px 1fr 120px 100px';
+    const columns = [
+      { id: 'col1', meta: { width: '100px' } },
+      { id: 'col2' },
+      { id: 'col3', meta: { width: '120px' } },
+      { id: 'col4', meta: { width: '100px' } },
+    ];
+    const emptyStickyPositions = new Map();
 
     return (
       <div className="flex flex-col gap-24">
@@ -47,7 +54,12 @@ export const Loading: StoryObj = {
           <span className="font-body size-sm font-medium">스켈레톤 모드 (기본)</span>
           <span className="font-body size-xs text-subtle">데이터가 없을 때 표시되는 스켈레톤 로딩</span>
           <div className="border-default rounded-md overflow-hidden">
-            <DataGridLoading gridTemplateColumns={gridTemplateColumns} rowCount={3} />
+            <DataGridLoading
+              columns={columns}
+              gridTemplateColumns={gridTemplateColumns}
+              rowCount={3}
+              stickyColumnPositions={emptyStickyPositions}
+            />
           </div>
         </div>
 
@@ -55,7 +67,12 @@ export const Loading: StoryObj = {
           <span className="font-body size-sm font-medium">오버레이 모드</span>
           <span className="font-body size-xs text-subtle">데이터 위에 표시되는 로딩 오버레이 (preserveDataWhileLoading)</span>
           <div className="relative border-default rounded-md overflow-hidden height-200">
-            <DataGridLoading gridTemplateColumns={gridTemplateColumns} overlay />
+            <DataGridLoading
+              columns={columns}
+              gridTemplateColumns={gridTemplateColumns}
+              overlay
+              stickyColumnPositions={emptyStickyPositions}
+            />
           </div>
         </div>
 
@@ -63,7 +80,12 @@ export const Loading: StoryObj = {
           <span className="font-body size-sm font-medium">행 수 조정</span>
           <span className="font-body size-xs text-subtle">rowCount로 스켈레톤 행 수를 조절할 수 있습니다</span>
           <div className="border-default rounded-md overflow-hidden">
-            <DataGridLoading gridTemplateColumns={gridTemplateColumns} rowCount={2} />
+            <DataGridLoading
+              columns={columns}
+              gridTemplateColumns={gridTemplateColumns}
+              rowCount={2}
+              stickyColumnPositions={emptyStickyPositions}
+            />
           </div>
         </div>
       </div>
@@ -189,13 +211,25 @@ export const Error: StoryObj = {
 export const AllStates: StoryObj = {
   render: function Render() {
     const gridTemplateColumns = '100px 1fr 120px 100px';
+    const columns = [
+      { id: 'col1', meta: { width: '100px' } },
+      { id: 'col2' },
+      { id: 'col3', meta: { width: '120px' } },
+      { id: 'col4', meta: { width: '100px' } },
+    ];
+    const emptyStickyPositions = new Map();
 
     return (
       <div className="grid grid-cols-1 gap-16">
         <div className="flex flex-col gap-8">
           <span className="font-body size-sm font-medium">로딩 (스켈레톤)</span>
           <div className="border-default rounded-md overflow-hidden">
-            <DataGridLoading gridTemplateColumns={gridTemplateColumns} rowCount={2} />
+            <DataGridLoading
+              columns={columns}
+              gridTemplateColumns={gridTemplateColumns}
+              rowCount={2}
+              stickyColumnPositions={emptyStickyPositions}
+            />
           </div>
         </div>
 

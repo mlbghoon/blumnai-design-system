@@ -1,7 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
-import { Icon } from '../../icons/Icon';
+import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import { cn } from '../../../utils/cn';
 
 import type { BadgeColor, BadgeProps } from './Badge.types';
@@ -126,7 +126,10 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
       {/* Icon variant */}
       {variant === 'icon' && icon && (
         <span className="inline-flex items-center shrink-0 leading-none" style={{ marginTop: '-1px' }}>
-          <Icon iconType={icon} size={iconSize} color={getIconColor(color)} />
+          {(() => {
+            const { iconType, isFill } = parseIconTypeWithFill(icon);
+            return <Icon iconType={iconType} size={iconSize} color={getIconColor(color)} isFill={isFill} />;
+          })()}
         </span>
       )}
 

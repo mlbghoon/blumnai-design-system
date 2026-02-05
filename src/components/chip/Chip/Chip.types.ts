@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react';
 
-import type { IconType } from '../../icons/Icon/Icon.types';
+import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 
 /**
  * Chip 크기
@@ -42,10 +42,11 @@ export interface ChipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childre
    */
   label?: string;
   /**
-   * 아이콘 타입 [카테고리, 이름] 형식
+   * 아이콘 타입 [카테고리, 이름] 또는 [카테고리, 이름, isFill] 형식
    * @example icon={['system', 'add']}
+   * @example icon={['system', 'star', true]} - 채워진 아이콘
    */
-  icon?: IconType;
+  icon?: IconTypeWithFill;
   /**
    * Chip 변형
    * @default 'default'

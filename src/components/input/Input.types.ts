@@ -1,9 +1,8 @@
 import type { InputHTMLAttributes, ReactNode } from 'react';
 
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
 import type { PasswordStrength } from './variants/PasswordInput';
 import type { DropdownOption } from './variants/DropdownInput';
-import type { IconTypeWithFill } from './variants/AddOnInput';
 
 /**
  * 입력 필드 스타일 변형
@@ -96,11 +95,11 @@ export interface DefaultVariantProps extends InputBaseProps, Omit<InputHTMLAttri
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
   /**
    * 입력 필드 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconType;
+  tailIcon?: IconTypeWithFill;
   /**
    * 끝에 표시되는 단축키 뱃지 텍스트
    */
@@ -119,7 +118,7 @@ export interface PasswordVariantProps extends InputBaseProps, Omit<InputHTMLAttr
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
   /**
    * 비밀번호 표시/숨김 토글 버튼 표시 여부
    * @default true
@@ -195,7 +194,7 @@ interface TagsBaseProps extends InputBaseProps, Omit<InputHTMLAttributes<HTMLInp
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
   /**
    * 현재 태그 배열
    * @default []
@@ -304,7 +303,7 @@ export interface LeadButtonVariantProps extends InputBaseProps, Omit<InputHTMLAt
   /**
    * 입력 필드 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconType;
+  tailIcon?: IconTypeWithFill;
   /**
    * 지우기 버튼 클릭 시 호출되는 콜백 (제공 시 지우기 버튼 표시)
    */
@@ -316,11 +315,11 @@ export interface LeadButtonVariantProps extends InputBaseProps, Omit<InputHTMLAt
   /**
    * 버튼 앞에 표시되는 아이콘
    */
-  buttonLeadIcon?: IconType;
+  buttonLeadIcon?: IconTypeWithFill;
   /**
    * 버튼 뒤에 표시되는 아이콘
    */
-  buttonTailIcon?: IconType;
+  buttonTailIcon?: IconTypeWithFill;
   /**
    * 버튼 클릭 시 호출되는 콜백
    */
@@ -340,7 +339,7 @@ export interface TailButtonVariantProps extends InputBaseProps, Omit<InputHTMLAt
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
   /**
    * 지우기 버튼 클릭 시 호출되는 콜백 (제공 시 지우기 버튼 표시)
    */
@@ -352,11 +351,11 @@ export interface TailButtonVariantProps extends InputBaseProps, Omit<InputHTMLAt
   /**
    * 버튼 앞에 표시되는 아이콘
    */
-  buttonLeadIcon?: IconType;
+  buttonLeadIcon?: IconTypeWithFill;
   /**
    * 버튼 뒤에 표시되는 아이콘
    */
-  buttonTailIcon?: IconType;
+  buttonTailIcon?: IconTypeWithFill;
   /**
    * 버튼 클릭 시 호출되는 콜백
    */
@@ -376,7 +375,7 @@ export interface LeadDropdownVariantProps extends InputBaseProps, Omit<InputHTML
   /**
    * 입력 필드 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconType;
+  tailIcon?: IconTypeWithFill;
   /**
    * 지우기 버튼 클릭 시 호출되는 콜백 (제공 시 지우기 버튼 표시)
    */
@@ -408,7 +407,7 @@ export interface TailDropdownVariantProps extends InputBaseProps, Omit<InputHTML
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
   /**
    * 지우기 버튼 클릭 시 호출되는 콜백 (제공 시 지우기 버튼 표시)
    */
@@ -440,7 +439,7 @@ export interface ShortcutVariantProps extends InputBaseProps, Omit<InputHTMLAttr
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
   /**
    * 끝에 표시되는 단축키 뱃지 텍스트 (이 변형에서 필수)
    */
@@ -465,7 +464,7 @@ export type InputProps =
   | InlineAddOnVariantProps
   | PasswordVariantProps;
 
-// 편의를 위해 변형에서 타입 재내보내기
+// 편의를 위해 타입 재내보내기
 export type { PasswordStrength } from './variants/PasswordInput';
 export type { DropdownOption } from './variants/DropdownInput';
-export type { IconTypeWithFill } from './variants/AddOnInput';
+export type { IconTypeWithFill } from '../icons/Icon/Icon.types';

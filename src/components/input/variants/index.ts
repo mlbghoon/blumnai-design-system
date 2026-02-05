@@ -16,7 +16,7 @@ export type { TagsInputProps } from './TagsInput';
 
 // Add-on input variant
 export { AddOnInput } from './AddOnInput';
-export type { AddOnInputProps, IconTypeWithFill } from './AddOnInput';
+export type { AddOnInputProps } from './AddOnInput';
 
 // Button input variant
 export { ButtonInput } from './ButtonInput';

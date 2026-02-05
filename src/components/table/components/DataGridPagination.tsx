@@ -1,8 +1,7 @@
-import * as SelectPrimitive from '@radix-ui/react-select';
-
 import { cn } from '@/lib/utils';
-import { Icon } from '../../icons/Icon';
 import { Pagination } from '../../pagination';
+import type { PaginationVariant } from '../../pagination';
+import { Select } from '../../select';
 
 interface DataGridPaginationProps {
   page: number;
@@ -17,6 +16,11 @@ interface DataGridPaginationProps {
   onLimitChange?: (limit: number) => void;
   pageChangeConfirmMessage?: string;
   align?: 'left' | 'center' | 'right';
+  variant?: PaginationVariant;
+  maxVisiblePages?: number;
+  disabled?: boolean;
+  hideNavButtons?: boolean;
+  resultTextFormatter?: (current: number, total: number) => string;
   showItemCount?: boolean;
 }
 
@@ -35,77 +39,48 @@ export function DataGridPagination({
   onLimitChange,
   pageChangeConfirmMessage,
   align = 'right',
+  variant = 'numbered',
+  maxVisiblePages,
+  disabled,
+  hideNavButtons,
+  resultTextFormatter,
   showItemCount = true,
 }: DataGridPaginationProps) {
   const showLeftSection = showItemCount || onLimitChange;
 
   const limitSelector = onLimitChange && (
-    <SelectPrimitive.Root
+    <Select
+      size="sm"
+      selectStyle="default"
+      options={limitOptions.map((option) => ({
+        id: String(option),
+        label: limitOptionLabel(option),
+      }))}
       value={String(limit)}
-      onValueChange={(value) => onLimitChange(Number(value))}
-    >
-      <SelectPrimitive.Trigger
-        className={cn(
-          'inline-flex items-center gap-4 height-28 padding-x-8',
-          'font-body size-sm text-default',
-          'bg-default border-default rounded-sm',
-          'hover:bg-basic-gray-alpha-2 cursor-pointer',
-          'focus:outline-none focus-visible:shadow-component-misc-focus'
-        )}
-      >
-        <SelectPrimitive.Value />
-        <SelectPrimitive.Icon>
-          <Icon
-            iconType={['arrows', 'arrow-up-down']}
-            size={12}
-            className="text-subtle"
-          />
-        </SelectPrimitive.Icon>
-      </SelectPrimitive.Trigger>
-      <SelectPrimitive.Portal>
-        <SelectPrimitive.Content
-          className={cn(
-            'overflow-hidden bg-default rounded-md shadow-modal-sm',
-            'animate-in fade-in-0 zoom-in-95'
-          )}
-          position="popper"
-          sideOffset={4}
-        >
-          <SelectPrimitive.Viewport className="padding-4">
-            {limitOptions.map((option) => (
-              <SelectPrimitive.Item
-                key={option}
-                value={String(option)}
-                className={cn(
-                  'relative flex items-center height-28 padding-x-8 rounded-sm',
-                  'font-body size-sm text-default',
-                  'cursor-pointer select-none outline-none',
-                  'hover:bg-basic-gray-alpha-4 focus:bg-basic-gray-alpha-4',
-                  'data-[state=checked]:bg-basic-blue-subtle'
-                )}
-              >
-                <SelectPrimitive.ItemText>{limitOptionLabel(option)}</SelectPrimitive.ItemText>
-              </SelectPrimitive.Item>
-            ))}
-          </SelectPrimitive.Viewport>
-        </SelectPrimitive.Content>
-      </SelectPrimitive.Portal>
-    </SelectPrimitive.Root>
+      onChange={(value) => onLimitChange(Number(value))}
+      width={140}
+    />
   );
 
   const paginationElement = (
     <Pagination
+      variant={variant}
       page={page}
       totalPages={totalPages}
+      total={total}
       onPageChange={onPageChange}
       pageChangeConfirmMessage={pageChangeConfirmMessage}
+      maxVisiblePages={maxVisiblePages}
+      disabled={disabled}
+      hideNavButtons={hideNavButtons}
+      resultTextFormatter={resultTextFormatter}
     />
   );
 
   return (
     <div
       className={cn(
-        'flex items-center padding-y-8 padding-x-10',
+        'flex items-center padding-y-8 padding-x-10 border-t-default',
         align === 'left' && 'justify-start',
         align === 'center' && 'justify-center',
         align === 'right' && showLeftSection && 'justify-between',

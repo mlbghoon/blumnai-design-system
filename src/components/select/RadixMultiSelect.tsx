@@ -4,7 +4,7 @@ import { Search, X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
-import { Icon } from '../icons/Icon';
+import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import type {
@@ -95,6 +95,7 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
       }
 
       if (option.leadIcon) {
+        const { iconType, isFill } = parseIconTypeWithFill(option.leadIcon);
         return (
           <div
             className={cn(
@@ -103,10 +104,10 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
             )}
           >
             <Icon
-              iconType={option.leadIcon}
+              iconType={iconType}
               size={sizeConfig.iconSize}
               color={iconColor}
-              isFill
+              isFill={isFill}
             />
           </div>
         );
@@ -511,15 +512,18 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                 className={triggerClassName}
                 id={selectId}
               >
-                {leadIcon && (
-                  <Icon
-                    iconType={leadIcon}
-                    size={sizeConfig.iconSize}
-                    color={iconColor}
-                    className="flex-shrink-0"
-                    isFill
-                  />
-                )}
+                {leadIcon && (() => {
+                  const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
+                  return (
+                    <Icon
+                      iconType={iconType}
+                      size={sizeConfig.iconSize}
+                      color={iconColor}
+                      className="flex-shrink-0"
+                      isFill={isFill}
+                    />
+                  );
+                })()}
 
                 <div
                   className={cn(

@@ -1,8 +1,8 @@
 import { forwardRef, type HTMLAttributes } from 'react';
 
 import { cn } from '../../../utils/cn';
-import { Icon } from '../../icons/Icon';
-import type { IconType } from '../../icons/Icon';
+import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import type { IconTypeWithFill } from '../../icons/Icon';
 
 import type { TooltipItemType } from './Tooltip.types';
 
@@ -24,7 +24,7 @@ export interface TooltipItemProps extends Omit<HTMLAttributes<HTMLDivElement>, '
   /** 인디케이터 색상 (hex 또는 색상명) */
   indicatorColor?: string;
   /** 아이콘 타입 */
-  icon?: IconType;
+  icon?: IconTypeWithFill;
   /** 텍스트 내용 */
   text?: string;
 }
@@ -114,11 +114,14 @@ export const TooltipItem = forwardRef<HTMLDivElement, TooltipItemProps>(
             />
           </div>
         )}
-        {icon && !indicatorColor && (
-          <div className="width-16 height-16 flex flex-col items-center justify-center flex-shrink-0">
-            <Icon iconType={icon} size={14} />
-          </div>
-        )}
+        {icon && !indicatorColor && (() => {
+          const { iconType, isFill } = parseIconTypeWithFill(icon);
+          return (
+            <div className="width-16 height-16 flex flex-col items-center justify-center flex-shrink-0">
+              <Icon iconType={iconType} isFill={isFill} size={14} />
+            </div>
+          );
+        })()}
         {label && (
           <span className="flex-1 font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-subtle">
             {label}

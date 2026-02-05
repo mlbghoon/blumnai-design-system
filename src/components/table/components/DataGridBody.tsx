@@ -2,6 +2,7 @@ import type { Row } from '@tanstack/react-table';
 
 import { cn } from '@/lib/utils';
 import { DataGridRow } from './DataGridRow';
+import type { StickyColumnInfo } from '../utils/stickyColumnUtils';
 
 interface DataGridBodyProps<T> {
   rows: Row<T>[];
@@ -10,6 +11,9 @@ interface DataGridBodyProps<T> {
   preserveDataWhileLoading?: boolean;
   onRowClick?: (row: T) => void;
   showSelectedRowBackground?: boolean;
+  stickyColumnPositions: Map<string, StickyColumnInfo>;
+  rowHeight?: string;
+  getRowHeight?: (row: T) => string | undefined;
 }
 
 export function DataGridBody<T>({
@@ -19,6 +23,9 @@ export function DataGridBody<T>({
   preserveDataWhileLoading,
   onRowClick,
   showSelectedRowBackground,
+  stickyColumnPositions,
+  rowHeight,
+  getRowHeight,
 }: DataGridBodyProps<T>) {
   const showLoadingOverlay = isLoading && preserveDataWhileLoading && rows.length > 0;
 
@@ -27,7 +34,6 @@ export function DataGridBody<T>({
       role="rowgroup"
       className={cn(
         'relative',
-        '[&>*:last-child]:border-b-0',
         showLoadingOverlay && 'opacity-60 pointer-events-none'
       )}
     >
@@ -38,6 +44,9 @@ export function DataGridBody<T>({
           gridTemplateColumns={gridTemplateColumns}
           onRowClick={onRowClick}
           showSelectedRowBackground={showSelectedRowBackground}
+          stickyColumnPositions={stickyColumnPositions}
+          rowHeight={rowHeight}
+          getRowHeight={getRowHeight}
         />
       ))}
     </div>

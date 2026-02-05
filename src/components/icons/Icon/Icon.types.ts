@@ -1588,6 +1588,30 @@ export type IconType =
   | ['user', UserIconName]
   | ['weather', WeatherIconName];
 
+/**
+ * IconType with optional isFill support.
+ * Can be a standard IconType tuple or a 3-element tuple with isFill.
+ * @example ['system', 'add'] - regular icon
+ * @example ['system', 'add', true] - filled icon
+ */
+export type IconTypeWithFill = IconType | [...IconType, boolean];
+
+/**
+ * Helper to parse IconTypeWithFill into iconType and isFill
+ */
+export function parseIconTypeWithFill(icon: IconTypeWithFill): { iconType: IconType; isFill: boolean } {
+  if (icon.length === 3 && typeof icon[2] === 'boolean') {
+    return {
+      iconType: [icon[0], icon[1]] as IconType,
+      isFill: icon[2],
+    };
+  }
+  return {
+    iconType: icon as IconType,
+    isFill: false,
+  };
+}
+
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'children' | 'cursor'> {
   /**
    * [카테고리, 이름] 튜플 형식의 아이콘 타입

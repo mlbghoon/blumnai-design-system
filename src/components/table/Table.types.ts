@@ -1,4 +1,5 @@
 import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from 'react';
+import type { PaginationVariant } from '../pagination';
 
 export type TablePaginationAlign = 'left' | 'center' | 'right';
 
@@ -89,6 +90,33 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
    * @default 'right'
    */
   paginationAlign?: TablePaginationAlign;
+
+  /**
+   * 페이지네이션 스타일 변형
+   * @default 'numbered'
+   */
+  paginationVariant?: PaginationVariant;
+
+  /**
+   * 최대 표시할 페이지 번호 수 (numbered 변형에서만 사용)
+   * @default 7
+   */
+  maxVisiblePages?: number;
+
+  /**
+   * 페이지네이션 비활성화 여부
+   */
+  paginationDisabled?: boolean;
+
+  /**
+   * 이전/다음 버튼 숨김
+   */
+  hideNavButtons?: boolean;
+
+  /**
+   * 결과 텍스트 포맷터 (simple 변형에서 사용)
+   */
+  resultTextFormatter?: (current: number, total: number) => string;
 
   // === Item Count ===
 

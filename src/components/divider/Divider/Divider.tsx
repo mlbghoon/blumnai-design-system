@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 
 import { cn } from '../../../utils/cn';
-import { Icon } from '../../icons/Icon';
+import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import { Button } from '../../button/Button';
 
 import {
@@ -15,7 +15,6 @@ import {
   CONTAINER_BASE,
   CONTAINER_WITH_CONTENT,
 } from 'constants/divider/Divider/Divider.constants';
-import type { IconType } from '../../icons/Icon/Icon.types';
 import type { DividerProps } from './Divider.types';
 
 /**
@@ -64,8 +63,7 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
       }
 
       if (type.startsWith('icon-') && icon) {
-        const isFill = icon.length === 3 && icon[2] === true;
-        const iconType = [icon[0], icon[1]] as IconType;
+        const { iconType, isFill } = parseIconTypeWithFill(icon);
         return (
           <span className={ICON_CONTAINER}>
             <Icon iconType={iconType} isFill={isFill} size={ICON_SIZE} color={ICON_COLOR} />

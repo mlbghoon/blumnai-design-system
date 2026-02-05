@@ -1,16 +1,24 @@
+import type { ColumnDef } from '@tanstack/react-table';
 import { cn } from '@/lib/utils';
+import type { StickyColumnInfo } from '../utils/stickyColumnUtils';
 
-interface DataGridLoadingProps {
+interface DataGridLoadingProps<T> {
+  columns: ColumnDef<T>[];
   gridTemplateColumns: string;
   rowCount?: number;
   overlay?: boolean;
+  stickyColumnPositions: Map<string, StickyColumnInfo>;
+  rowHeight?: string;
 }
 
-export function DataGridLoading({
+export function DataGridLoading<T>({
+  columns,
   gridTemplateColumns,
   rowCount = 5,
   overlay = false,
-}: DataGridLoadingProps) {
+  stickyColumnPositions,
+  rowHeight,
+}: DataGridLoadingProps<T>) {
   if (overlay) {
     return (
       <div className="absolute inset-0 flex items-center justify-center bg-default/80 z-20">
@@ -22,34 +30,46 @@ export function DataGridLoading({
     );
   }
 
-  const columnCount = gridTemplateColumns.split(' ').length;
+  const height = rowHeight ?? '32px';
 
   return (
-    <div role="rowgroup" className="[&>*:last-child]:border-b-0">
+    <div role="rowgroup">
       {Array.from({ length: rowCount }).map((_, rowIndex) => (
         <div
           key={rowIndex}
           role="row"
-          className="grid border-b-default animate-pulse"
+          className="grid animate-pulse group"
           style={{ gridTemplateColumns }}
         >
-          {Array.from({ length: columnCount }).map((_, colIndex) => (
-            <div
-              key={colIndex}
-              role="gridcell"
-              className={cn(
-                'height-32 padding-x-10 flex items-center',
-                'border-r-default last:border-r-0'
-              )}
-            >
+          {columns.map((col, colIndex) => {
+            const columnId = col.id ?? (col as { accessorKey?: string }).accessorKey ?? `col-${colIndex}`;
+            const stickyInfo = stickyColumnPositions.get(columnId);
+            const isSticky = !!stickyInfo;
+
+            return (
               <div
-                className="h-4 bg-basic-gray-alpha-10 rounded"
+                key={colIndex}
+                role="gridcell"
+                className={cn(
+                  'padding-x-10 flex items-center',
+                  'border-r-default border-b-default last:border-r-0',
+                  'bg-default',
+                  isSticky ? 'sticky z-[100]' : 'relative z-[1]'
+                )}
                 style={{
-                  width: `${Math.random() * 40 + 40}%`,
+                  height,
+                  ...(isSticky ? { left: stickyInfo.leftOffset, width: stickyInfo.width } : undefined),
                 }}
-              />
-            </div>
-          ))}
+              >
+                <div
+                  className="h-4 bg-basic-gray-alpha-10 rounded"
+                  style={{
+                    width: `${Math.random() * 40 + 40}%`,
+                  }}
+                />
+              </div>
+            );
+          })}
         </div>
       ))}
     </div>

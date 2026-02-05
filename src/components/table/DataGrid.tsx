@@ -9,6 +9,9 @@ import { DataGridPagination } from './components/DataGridPagination';
 import { DataGridLoading } from './components/DataGridLoading';
 import { DataGridEmpty } from './components/DataGridEmpty';
 import { DataGridError } from './components/DataGridError';
+import { TableTooltipProvider } from './components/TableTooltip';
+import { ScrollArea } from '../scroll-area';
+import { calculateStickyPositions } from './utils/stickyColumnUtils';
 import type { DataGridProps } from './DataGrid.types';
 
 function DataGridInner<T>(
@@ -33,11 +36,19 @@ function DataGridInner<T>(
     onLimitChange,
     pageChangeConfirmMessage,
     paginationAlign = 'right',
+    paginationVariant = 'numbered',
+    maxVisiblePages,
+    paginationDisabled,
+    hideNavButtons,
+    resultTextFormatter,
     showItemCount = true,
     isLoading,
     preserveDataWhileLoading,
     minHeight,
     maxHeight,
+    headerHeight,
+    rowHeight,
+    getRowHeight,
     emptyText,
     emptyContent,
     error,
@@ -81,6 +92,11 @@ function DataGridInner<T>(
       .join(' ');
   }, [columns]);
 
+  const stickyColumnPositions = useMemo(
+    () => calculateStickyPositions(columns),
+    [columns]
+  );
+
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
   const hasData = displayData.length > 0;
@@ -90,72 +106,88 @@ function DataGridInner<T>(
   const showErrorState = !!error;
 
   return (
-    <div
-      ref={ref}
-      role="grid"
-      className={cn(
-        'relative overflow-hidden bg-default border-default rounded-lg',
-        className
-      )}
-    >
+    <TableTooltipProvider>
       <div
-        className="overflow-auto"
-        style={{
-          minHeight,
-          maxHeight,
-        }}
-      >
-        <DataGridHeader
-          headerGroups={headerGroups}
-          gridTemplateColumns={gridTemplateColumns}
-        />
-
-        {showErrorState ? (
-          <DataGridError error={error} onRetry={onRetry} />
-        ) : showEmptyState ? (
-          <DataGridEmpty text={emptyText} content={emptyContent} />
-        ) : showSkeletonLoading ? (
-          <DataGridLoading
-            gridTemplateColumns={gridTemplateColumns}
-            rowCount={limit}
-          />
-        ) : (
-          <DataGridBody
-            rows={rows}
-            gridTemplateColumns={gridTemplateColumns}
-            isLoading={isLoading}
-            preserveDataWhileLoading={preserveDataWhileLoading}
-            onRowClick={onRowClick}
-            showSelectedRowBackground={showSelectedRowBackground}
-          />
+        ref={ref}
+        role="grid"
+        className={cn(
+          'relative overflow-hidden bg-default border-default rounded-lg',
+          className
         )}
-
-        {showOverlayLoading && (
-          <DataGridLoading
+      >
+        <ScrollArea
+          orientation="both"
+          maxHeight={maxHeight}
+          style={{ minHeight }}
+        >
+          <DataGridHeader
+            headerGroups={headerGroups}
             gridTemplateColumns={gridTemplateColumns}
-            overlay
+            stickyColumnPositions={stickyColumnPositions}
+            headerHeight={headerHeight}
+          />
+
+          {showErrorState ? (
+            <DataGridError error={error} onRetry={onRetry} />
+          ) : showEmptyState ? (
+            <DataGridEmpty text={emptyText} content={emptyContent} />
+          ) : showSkeletonLoading ? (
+            <DataGridLoading
+              columns={columns}
+              gridTemplateColumns={gridTemplateColumns}
+              rowCount={limit}
+              stickyColumnPositions={stickyColumnPositions}
+              rowHeight={rowHeight}
+            />
+          ) : (
+            <DataGridBody
+              rows={rows}
+              gridTemplateColumns={gridTemplateColumns}
+              isLoading={isLoading}
+              preserveDataWhileLoading={preserveDataWhileLoading}
+              onRowClick={onRowClick}
+              showSelectedRowBackground={showSelectedRowBackground}
+              stickyColumnPositions={stickyColumnPositions}
+              rowHeight={rowHeight}
+              getRowHeight={getRowHeight}
+            />
+          )}
+
+          {showOverlayLoading && (
+            <DataGridLoading
+              columns={columns}
+              gridTemplateColumns={gridTemplateColumns}
+              overlay
+              stickyColumnPositions={stickyColumnPositions}
+              rowHeight={rowHeight}
+            />
+          )}
+        </ScrollArea>
+
+        {pagination && hasData && !showErrorState && (
+          <DataGridPagination
+            page={paginationInfo.page}
+            totalPages={paginationInfo.totalPages}
+            total={paginationInfo.total}
+            limit={paginationInfo.limit}
+            limitOptions={limitOptions}
+            limitOptionLabel={limitOptionLabel}
+            startIndex={paginationInfo.startIndex}
+            endIndex={paginationInfo.endIndex}
+            onPageChange={handlePageChange}
+            onLimitChange={onLimitChange ? handleLimitChange : undefined}
+            pageChangeConfirmMessage={pageChangeConfirmMessage}
+            align={paginationAlign}
+            variant={paginationVariant}
+            maxVisiblePages={maxVisiblePages}
+            disabled={paginationDisabled}
+            hideNavButtons={hideNavButtons}
+            resultTextFormatter={resultTextFormatter}
+            showItemCount={showItemCount}
           />
         )}
       </div>
-
-      {pagination && hasData && !showErrorState && (
-        <DataGridPagination
-          page={paginationInfo.page}
-          totalPages={paginationInfo.totalPages}
-          total={paginationInfo.total}
-          limit={paginationInfo.limit}
-          limitOptions={limitOptions}
-          limitOptionLabel={limitOptionLabel}
-          startIndex={paginationInfo.startIndex}
-          endIndex={paginationInfo.endIndex}
-          onPageChange={handlePageChange}
-          onLimitChange={onLimitChange ? handleLimitChange : undefined}
-          pageChangeConfirmMessage={pageChangeConfirmMessage}
-          align={paginationAlign}
-          showItemCount={showItemCount}
-        />
-      )}
-    </div>
+    </TableTooltipProvider>
   );
 }
 

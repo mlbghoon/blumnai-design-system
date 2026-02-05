@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 
 import { cn } from '@/lib/utils';
+import { ScrollArea } from '../scroll-area';
 import type {
   PopoverContentProps,
   PopoverScrollAreaProps,
@@ -65,26 +66,14 @@ const PopoverContent = React.forwardRef<
 });
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 
-const PopoverScrollArea = React.forwardRef<HTMLDivElement, PopoverScrollAreaProps>(
-  ({ className, maxHeight, style, ...props }, ref) => {
-    const maxHeightStyle = maxHeight !== undefined && maxHeight !== ''
-      ? { maxHeight: getPixelValue(maxHeight) }
-      : undefined;
-
-    const mergedStyle: React.CSSProperties = {
-      ...(style || {}),
-      ...(maxHeightStyle || {}),
-    };
-
-    return (
-      <div
-        ref={ref}
-        className={cn('overflow-y-auto', className)}
-        style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
-        {...props}
-      />
-    );
-  }
+const PopoverScrollArea = ({ className, maxHeight, children }: PopoverScrollAreaProps) => (
+  <ScrollArea
+    orientation="vertical"
+    maxHeight={maxHeight}
+    className={className}
+  >
+    {children}
+  </ScrollArea>
 );
 PopoverScrollArea.displayName = 'PopoverScrollArea';
 

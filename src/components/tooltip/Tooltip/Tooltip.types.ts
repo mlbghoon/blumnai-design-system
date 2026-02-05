@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import type { IconType } from '../../icons/Icon';
+import type { IconTypeWithFill } from '../../icons/Icon';
 
 export type TooltipItemType = 'divider' | 'label' | 'item' | 'text';
 
@@ -23,8 +23,10 @@ export interface TooltipItemData {
   indicatorColor?: string;
   /**
    * The icon type (for item type with icon).
+   * @example icon={['system', 'info']}
+   * @example icon={['system', 'star', true]} - filled icon
    */
-  icon?: IconType;
+  icon?: IconTypeWithFill;
   /**
    * The text content (for text type).
    */

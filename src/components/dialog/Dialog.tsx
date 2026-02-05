@@ -4,6 +4,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cn } from '@/lib/utils';
 import { Icon } from '../icons/Icon';
 import { buttonVariants } from '../button/Button';
+import { ScrollArea } from '../scroll-area';
 import type {
   DialogProps,
   DialogContentProps,
@@ -226,26 +227,14 @@ const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
 );
 DialogFooter.displayName = 'DialogFooter';
 
-const DialogScrollArea = React.forwardRef<HTMLDivElement, DialogScrollAreaProps>(
-  ({ className, maxHeight, style, ...props }, ref) => {
-    const maxHeightStyle = maxHeight !== undefined && maxHeight !== ''
-      ? { maxHeight: getPixelValue(maxHeight) }
-      : undefined;
-
-    const mergedStyle: React.CSSProperties = {
-      ...(style || {}),
-      ...(maxHeightStyle || {}),
-    };
-
-    return (
-      <div
-        ref={ref}
-        className={cn('overflow-y-auto', className)}
-        style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
-        {...props}
-      />
-    );
-  }
+const DialogScrollArea = ({ className, maxHeight, children }: DialogScrollAreaProps) => (
+  <ScrollArea
+    orientation="vertical"
+    maxHeight={maxHeight}
+    className={className}
+  >
+    {children}
+  </ScrollArea>
 );
 DialogScrollArea.displayName = 'DialogScrollArea';
 

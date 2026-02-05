@@ -2,8 +2,8 @@ import { forwardRef } from 'react';
 import type { InputHTMLAttributes, ReactNode } from 'react';
 
 import { cn } from '../../../utils/cn';
-import { Icon } from '../../icons/Icon/Icon';
-import type { IconType } from '../../icons/Icon/Icon.types';
+import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
   STATE_CONFIG,
   INPUT_WRAPPER_BASE,
@@ -18,11 +18,6 @@ import {
 import { InputWrapper } from '../shared/InputWrapper';
 import { useInputState } from '../shared/useInputState';
 import type { InputStyle, InputSize } from '../Input/Input.types';
-
-/**
- * 선택적 fill 속성을 지원하는 아이콘 타입
- */
-export type IconTypeWithFill = IconType | [string, string, boolean];
 
 export interface AddOnInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> {
   /**
@@ -91,22 +86,6 @@ export interface AddOnInputProps extends Omit<InputHTMLAttributes<HTMLInputEleme
    */
   inline?: boolean;
 }
-
-/**
- * 아이콘 튜플에서 iconType과 isFill 추출
- */
-const parseIconType = (icon: IconTypeWithFill): { iconType: IconType; isFill: boolean } => {
-  if (icon.length === 3) {
-    return {
-      iconType: [icon[0], icon[1]] as IconType,
-      isFill: icon[2] as boolean,
-    };
-  }
-  return {
-    iconType: icon as IconType,
-    isFill: false,
-  };
-};
 
 /**
  * AddOnInput 변형
@@ -233,7 +212,7 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
           <div className={inputAreaClassName}>
             {/* Lead Icon */}
             {showLeadIcon && leadIcon && (() => {
-              const { iconType, isFill } = parseIconType(leadIcon);
+              const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
               return (
                 <Icon
                   iconType={iconType}
@@ -276,7 +255,7 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
 
             {/* Tail Icon */}
             {showTailIcon && !hasClearButton && tailIcon && (() => {
-              const { iconType, isFill } = parseIconType(tailIcon);
+              const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
               return (
                 <Icon
                   iconType={iconType}
@@ -342,7 +321,7 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
 
         {/* Lead Icon */}
         {showLeadIcon && leadIcon && (() => {
-          const { iconType, isFill } = parseIconType(leadIcon);
+          const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
           return (
             <Icon
               iconType={iconType}
@@ -385,7 +364,7 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
 
         {/* Tail Icon */}
         {showTailIcon && !hasClearButton && tailIcon && (() => {
-          const { iconType, isFill } = parseIconType(tailIcon);
+          const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
           return (
             <Icon
               iconType={iconType}

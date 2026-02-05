@@ -23,15 +23,18 @@ const meta: Meta<TableProps> = {
   argTypes: {
     striped: {
       control: 'boolean',
-      description: '줄무늬 행 스타일 사용 여부',
+      description: '짝수 행에 배경색 적용 여부',
       table: {
-        type: { summary: 'boolean' },
+        type: {
+          summary: 'boolean',
+          detail: 'true 시 짝수 행에 연한 회색 배경 적용',
+        },
         defaultValue: { summary: 'false' },
       },
     },
     bordered: {
       control: 'boolean',
-      description: '테두리 표시 여부',
+      description: '테이블 외곽 테두리 및 둥근 모서리 적용 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -41,29 +44,41 @@ const meta: Meta<TableProps> = {
       control: 'text',
       description: '테이블 컨테이너의 최소 높이',
       table: {
-        type: { summary: 'string' },
+        type: {
+          summary: 'string',
+          detail: '예시: "300px", "50vh"',
+        },
       },
     },
     maxHeight: {
       control: 'text',
-      description: '테이블 컨테이너의 최대 높이 (스크롤 활성화)',
+      description: '테이블 컨테이너의 최대 높이',
       table: {
-        type: { summary: 'string' },
+        type: {
+          summary: 'string',
+          detail: '설정 시 스크롤 활성화. stickyHeader와 함께 사용 권장.',
+        },
       },
     },
     stickyHeader: {
       control: 'boolean',
-      description: '헤더 고정 여부 (스크롤 시 상단에 고정)',
+      description: '스크롤 시 헤더 상단 고정 여부',
       table: {
-        type: { summary: 'boolean' },
+        type: {
+          summary: 'boolean',
+          detail: 'maxHeight와 함께 사용해야 효과 있음',
+        },
         defaultValue: { summary: 'false' },
       },
     },
     isLoading: {
       control: 'boolean',
-      description: '로딩 상태',
+      description: '로딩 오버레이 표시 여부',
       table: {
-        type: { summary: 'boolean' },
+        type: {
+          summary: 'boolean',
+          detail: 'true 시 테이블 위에 로딩 스피너 오버레이 표시',
+        },
         defaultValue: { summary: 'false' },
       },
     },
@@ -71,13 +86,16 @@ const meta: Meta<TableProps> = {
       control: 'boolean',
       description: '페이지네이션 UI 표시 여부',
       table: {
-        type: { summary: 'boolean' },
+        type: {
+          summary: 'boolean',
+          detail: 'true 시 테이블 하단에 페이지네이션 컨트롤 표시',
+        },
         defaultValue: { summary: 'false' },
       },
     },
     page: {
       control: 'number',
-      description: '현재 페이지 (1-indexed)',
+      description: '현재 페이지 번호 (1부터 시작)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '1' },
@@ -87,38 +105,62 @@ const meta: Meta<TableProps> = {
       control: 'number',
       description: '전체 페이지 수',
       table: {
-        type: { summary: 'number' },
+        type: {
+          summary: 'number',
+          detail: '페이지네이션 UI에서 표시할 총 페이지 수',
+        },
         defaultValue: { summary: '1' },
       },
     },
     onPageChange: {
       action: 'pageChanged',
-      description: '페이지 변경 콜백',
+      description: '페이지 변경 시 호출되는 콜백',
       table: {
-        type: { summary: '(page: number) => void' },
+        type: {
+          summary: '(page: number) => void',
+          detail: '새 페이지 번호를 인자로 받음. 데이터 슬라이싱은 직접 처리해야 함.',
+        },
       },
     },
     limit: {
       control: 'number',
-      description: '페이지당 아이템 수',
+      description: '페이지당 표시할 항목 수',
       table: {
-        type: { summary: 'number' },
+        type: {
+          summary: 'number',
+          detail: 'showItemCount와 함께 사용 시 "1-10 / 50" 형태로 표시',
+        },
         defaultValue: { summary: '10' },
       },
     },
     limitOptions: {
       control: 'object',
-      description: '페이지당 아이템 수 옵션 목록',
+      description: '페이지 크기 선택 옵션 배열',
       table: {
-        type: { summary: 'number[]' },
+        type: {
+          summary: 'number[]',
+          detail: 'onLimitChange와 함께 제공 시 선택 UI 표시\n예시: [10, 20, 50, 100]',
+        },
         defaultValue: { summary: '[10, 20, 50, 100]' },
       },
     },
     onLimitChange: {
       action: 'limitChanged',
-      description: '페이지당 아이템 수 변경 콜백',
+      description: '페이지 크기 변경 시 호출되는 콜백',
       table: {
-        type: { summary: '(limit: number) => void' },
+        type: {
+          summary: '(limit: number) => void',
+          detail: '제공 시 페이지 크기 선택 UI 표시',
+        },
+      },
+    },
+    limitOptionLabel: {
+      description: '페이지 크기 옵션 레이블 포매터',
+      table: {
+        type: {
+          summary: '(limit: number) => string',
+          detail: '기본값: (limit) => `${limit}개씩 보기`',
+        },
       },
     },
     paginationAlign: {
@@ -126,28 +168,109 @@ const meta: Meta<TableProps> = {
       options: ['left', 'center', 'right'],
       description: '페이지네이션 정렬 위치',
       table: {
-        type: { summary: "'left' | 'center' | 'right'" },
+        type: {
+          summary: "'left' | 'center' | 'right'",
+          detail: `'left': 왼쪽 정렬 (아이템 수 오른쪽)
+'center': 가운데 정렬 (아이템 수 표시 안함)
+'right': 오른쪽 정렬 (아이템 수 왼쪽)`,
+        },
         defaultValue: { summary: "'right'" },
       },
     },
-    showItemCount: {
+    paginationVariant: {
+      control: 'select',
+      options: ['numbered', 'dot', 'simple'],
+      description: '페이지네이션 스타일 변형',
+      table: {
+        type: {
+          summary: 'PaginationVariant',
+          detail: `'numbered': 페이지 번호 버튼 표시 (기본값)
+'dot': 도트 인디케이터로 표시
+'simple': 이전/다음 버튼만 표시`,
+        },
+        defaultValue: { summary: "'numbered'" },
+      },
+    },
+    maxVisiblePages: {
+      control: 'number',
+      description: '최대 표시할 페이지 번호 수',
+      table: {
+        type: {
+          summary: 'number',
+          detail: 'numbered 변형에서만 사용. 페이지 번호와 ellipsis(...)를 포함한 총 개수.',
+        },
+        defaultValue: { summary: '7' },
+      },
+    },
+    paginationDisabled: {
       control: 'boolean',
-      description: '아이템 수 표시 여부',
+      description: '페이지네이션 비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
       },
     },
+    hideNavButtons: {
+      control: 'boolean',
+      description: '이전/다음 버튼 숨김 여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    resultTextFormatter: {
+      description: '결과 텍스트 포맷터 (simple 변형에서 사용)',
+      table: {
+        type: {
+          summary: '(current: number, total: number) => string',
+          detail: `기본값: (current, total) => \`\${current} of \${total} results\`
+예시: (current, total) => \`\${current} / \${total}개\``,
+        },
+      },
+    },
+    showItemCount: {
+      control: 'boolean',
+      description: '현재 표시 범위 및 전체 개수 표시 여부',
+      table: {
+        type: {
+          summary: 'boolean',
+          detail: 'true 시 "1-10 / 50" 형태로 표시. total prop 필요.',
+        },
+        defaultValue: { summary: 'false' },
+      },
+    },
     total: {
       control: 'number',
-      description: '전체 아이템 수',
+      description: '전체 데이터 항목 수',
       table: {
-        type: { summary: 'number' },
+        type: {
+          summary: 'number',
+          detail: 'showItemCount=true 시 필수. 아이템 수 표시에 사용.',
+        },
+      },
+    },
+    itemCountFormatter: {
+      description: '아이템 수 표시 커스텀 포매터',
+      table: {
+        type: {
+          summary: '(start: number, end: number, total: number) => string',
+          detail: '기본값: `${start}-${end} / ${total}`',
+        },
+      },
+    },
+    pageChangeConfirmMessage: {
+      control: 'text',
+      description: '페이지 이동 전 확인 메시지',
+      table: {
+        type: {
+          summary: 'string',
+          detail: '제공 시 페이지 이동 전 confirm 다이얼로그 표시',
+        },
       },
     },
     className: {
       control: 'text',
-      description: '추가 CSS 클래스',
+      description: '테이블 요소에 추가할 CSS 클래스',
       table: {
         type: { summary: 'string' },
       },
@@ -906,6 +1029,103 @@ export const FullFeatured: Story = {
           ))}
         </TableBody>
       </Table>
+    );
+  },
+};
+
+/**
+ * ## 컬럼 너비 지정 방식
+ *
+ * Table은 HTML `<table>` 레이아웃을 사용하므로, CSS Grid의 `fr`이나 `minmax()`를 사용할 수 없습니다.
+ *
+ * ---
+ *
+ * ### 지원 형식
+ *
+ * | 형식 | 예시 | Table | DataGrid |
+ * |------|------|:-----:|:--------:|
+ * | **픽셀** | `width-120` / `'120px'` | ✅ | ✅ |
+ * | **fr 단위** | `'1fr'` | ❌ | ✅ |
+ * | **minmax** | `'minmax(100px, 1fr)'` | ❌ | ✅ |
+ *
+ * ---
+ *
+ * ### Table에서 너비 지정
+ *
+ * `className`에 design system의 width 유틸리티 클래스를 사용합니다:
+ *
+ * ```tsx
+ * <TableHead className="width-120">이름</TableHead>
+ * <TableCell className="width-120">홍길동</TableCell>
+ * ```
+ *
+ * ---
+ *
+ * ### DataGrid와의 차이
+ *
+ * | 항목 | Table | DataGrid |
+ * |------|-------|----------|
+ * | 레이아웃 | HTML Table | CSS Grid |
+ * | 너비 지정 | `className="width-*"` | `meta: { width: '...' }` |
+ * | 유연한 너비 | ❌ 미지원 | ✅ `1fr`, `minmax()` |
+ * | Sticky 컬럼 | ❌ 미지원 | ✅ `meta.sticky` |
+ *
+ * 유연한 컬럼 너비가 필요하면 DataGrid를 사용하세요.
+ */
+export const ColumnWidthGuide: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col gap-24">
+        <div>
+          <h3 className="font-body size-md font-bold text-default padding-y-8">
+            Table - 픽셀 고정 너비만 지원
+          </h3>
+          <p className="font-body size-sm text-subtle padding-y-4">
+            TableHead와 TableCell에 <code className="bg-muted padding-x-4 rounded-xs">width-*</code> 클래스로 너비 지정
+          </p>
+          <Table bordered>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="width-120">이름</TableHead>
+                <TableHead className="width-200">이메일</TableHead>
+                <TableHead>역할</TableHead>
+                <TableHead className="width-100">상태</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sampleData.slice(0, 3).map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell className="width-120">{user.name}</TableCell>
+                  <TableCell className="width-200">{user.email}</TableCell>
+                  <TableCell>{user.role}</TableCell>
+                  <TableCell className="width-100">{user.status}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <p className="font-body size-sm text-hint padding-y-8">
+            ※ 너비를 지정하지 않은 컬럼(역할)은 HTML table의 기본 동작에 따라 콘텐츠에 맞게 자동 조절됩니다.
+          </p>
+        </div>
+
+        <div>
+          <h3 className="font-body size-md font-bold text-default padding-y-8">
+            fr / minmax가 필요하면 DataGrid 사용
+          </h3>
+          <p className="font-body size-sm text-subtle padding-y-4">
+            CSS Grid 기반의 DataGrid는 <code className="bg-muted padding-x-4 rounded-xs">1fr</code>,{' '}
+            <code className="bg-muted padding-x-4 rounded-xs">minmax()</code> 등 유연한 너비 지정이 가능합니다.
+          </p>
+          <pre className="bg-muted padding-12 rounded-md font-code size-xs overflow-x-auto">
+{`// DataGrid - 유연한 너비 지정 가능
+const columns = [
+  { accessorKey: 'name', meta: { width: '120px' } },
+  { accessorKey: 'email', meta: { width: 'minmax(150px, 1fr)' } },
+  { accessorKey: 'description', meta: { width: '1fr' } },
+];`}
+          </pre>
+        </div>
+      </div>
     );
   },
 };

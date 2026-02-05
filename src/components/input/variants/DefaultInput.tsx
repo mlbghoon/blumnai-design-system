@@ -2,8 +2,8 @@ import { forwardRef } from 'react';
 import type { InputHTMLAttributes } from 'react';
 
 import { cn } from '../../../utils/cn';
-import { Icon } from '../../icons/Icon/Icon';
-import type { IconType } from '../../icons/Icon/Icon.types';
+import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
   STATE_CONFIG,
   SHORTCUT_STYLE,
@@ -53,11 +53,11 @@ export interface DefaultInputProps extends Omit<InputHTMLAttributes<HTMLInputEle
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
   /**
    * 입력 필드 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconType;
+  tailIcon?: IconTypeWithFill;
   /**
    * 끝에 표시되는 단축키 뱃지 텍스트
    */
@@ -159,14 +159,18 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
       {/* Input Wrapper */}
       <div className={wrapperClassName}>
         {/* Lead Icon */}
-        {hasLeadIcon && (
-          <Icon
-            iconType={leadIcon}
-            size={sizeConfig.iconSize}
-            color={iconColor}
-            className="flex-shrink-0"
-          />
-        )}
+        {hasLeadIcon && leadIcon && (() => {
+          const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
+          return (
+            <Icon
+              iconType={iconType}
+              isFill={isFill}
+              size={sizeConfig.iconSize}
+              color={iconColor}
+              className="flex-shrink-0"
+            />
+          );
+        })()}
 
         {/* Input Field */}
         <input
@@ -205,14 +209,18 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
         )}
 
         {/* Tail Icon */}
-        {tailIcon && !shortcut && !hasClearButton && (
-          <Icon
-            iconType={tailIcon}
-            size={sizeConfig.iconSize}
-            color={iconColor}
-            className="flex-shrink-0"
-          />
-        )}
+        {tailIcon && !shortcut && !hasClearButton && (() => {
+          const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
+          return (
+            <Icon
+              iconType={iconType}
+              isFill={isFill}
+              size={sizeConfig.iconSize}
+              color={iconColor}
+              className="flex-shrink-0"
+            />
+          );
+        })()}
       </div>
     </InputWrapper>
   );

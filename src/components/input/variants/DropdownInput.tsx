@@ -3,8 +3,8 @@ import type { InputHTMLAttributes } from 'react';
 import { createPortal } from 'react-dom';
 
 import { cn } from '../../../utils/cn';
-import { Icon } from '../../icons/Icon/Icon';
-import type { IconType } from '../../icons/Icon/Icon.types';
+import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
   SIZE_CONFIG,
   STATE_CONFIG,
@@ -37,7 +37,7 @@ export type DropdownPosition = 'lead' | 'tail';
 export interface DropdownOption {
   value: string;
   label: string;
-  icon?: IconType;
+  icon?: IconTypeWithFill;
 }
 
 export interface DropdownInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -79,11 +79,11 @@ export interface DropdownInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
   /**
    * 입력 필드 앞에 표시되는 아이콘 (드롭다운이 lead가 아닐 때)
    */
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
   /**
    * 입력 필드 뒤에 표시되는 아이콘 (드롭다운이 tail이 아닐 때)
    */
-  tailIcon?: IconType;
+  tailIcon?: IconTypeWithFill;
   /**
    * 입력 필드 컨테이너의 커스텀 너비 (숫자는 px, 문자열은 그대로 사용)
    * 미지정 시 전체 너비 사용
@@ -257,13 +257,17 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
             )}
             onClick={() => handleSelectOption(option.value)}
           >
-            {option.icon && (
-              <Icon
-                iconType={option.icon}
-                size={dropdownSizeConfig.iconSize}
-                color="default-subtle"
-              />
-            )}
+            {option.icon && (() => {
+              const { iconType, isFill } = parseIconTypeWithFill(option.icon);
+              return (
+                <Icon
+                  iconType={iconType}
+                  isFill={isFill}
+                  size={dropdownSizeConfig.iconSize}
+                  color="default-subtle"
+                />
+              );
+            })()}
             <span className={DROPDOWN_OPTION_TEXT}>{option.label}</span>
           </div>
         ))}
@@ -289,13 +293,17 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
-        {selectedOption?.icon && (
-          <Icon
-            iconType={selectedOption.icon}
-            size={dropdownSizeConfig.iconSize}
-            color={iconColor}
-          />
-        )}
+        {selectedOption?.icon && (() => {
+          const { iconType, isFill } = parseIconTypeWithFill(selectedOption.icon);
+          return (
+            <Icon
+              iconType={iconType}
+              isFill={isFill}
+              size={dropdownSizeConfig.iconSize}
+              color={iconColor}
+            />
+          );
+        })()}
         <span className={selectedOption ? DROPDOWN_TRIGGER_TEXT : DROPDOWN_TRIGGER_PLACEHOLDER}>
           {selectedOption?.label || dropdownPlaceholder}
         </span>
@@ -333,14 +341,20 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
         )}
 
         {/* Lead Icon */}
-        {showLeadIcon && (
+        {showLeadIcon && leadIcon && (
           <div className="padding-l-8">
-            <Icon
-              iconType={leadIcon}
-              size={SIZE_CONFIG[size].iconSize}
-              color={iconColor}
-              className="flex-shrink-0"
-            />
+            {(() => {
+              const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
+              return (
+                <Icon
+                  iconType={iconType}
+                  isFill={isFill}
+                  size={SIZE_CONFIG[size].iconSize}
+                  color={iconColor}
+                  className="flex-shrink-0"
+                />
+              );
+            })()}
           </div>
         )}
 
@@ -376,14 +390,18 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
           )}
 
           {/* Tail Icon */}
-          {showTailIcon && !hasClearButton && (
-            <Icon
-              iconType={tailIcon}
-              size={SIZE_CONFIG[size].iconSize}
-              color={iconColor}
-              className="flex-shrink-0"
-            />
-          )}
+          {showTailIcon && !hasClearButton && tailIcon && (() => {
+            const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
+            return (
+              <Icon
+                iconType={iconType}
+                isFill={isFill}
+                size={SIZE_CONFIG[size].iconSize}
+                color={iconColor}
+                className="flex-shrink-0"
+              />
+            );
+          })()}
         </div>
 
         {/* Tail Dropdown */}

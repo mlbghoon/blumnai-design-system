@@ -1,7 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
-import { Icon } from '../../icons/Icon';
-import type { IconType } from '../../icons/Icon/Icon.types';
+import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
 
 import type { BreadcrumbsProps } from './Breadcrumbs.types';
@@ -72,12 +72,14 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
     }
 
     if (item.icon) {
-      // Check if icon is an IconType tuple [category, name]
-      if (Array.isArray(item.icon) && item.icon.length === 2 && typeof item.icon[0] === 'string' && typeof item.icon[1] === 'string') {
+      // Check if icon is an IconTypeWithFill tuple [category, name] or [category, name, isFill]
+      if (Array.isArray(item.icon) && (item.icon.length === 2 || item.icon.length === 3) && typeof item.icon[0] === 'string' && typeof item.icon[1] === 'string') {
+        const { iconType, isFill } = parseIconTypeWithFill(item.icon as IconTypeWithFill);
         return (
           <span className="inline-flex items-center shrink-0">
             <Icon
-              iconType={item.icon as IconType}
+              iconType={iconType}
+              isFill={isFill}
               size={iconSize}
               color={darkMode ? '#ffffffb2' : '#4e4e55'}
             />

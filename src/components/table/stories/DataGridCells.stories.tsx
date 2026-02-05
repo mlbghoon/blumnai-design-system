@@ -1,11 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ColumnDef } from '@tanstack/react-table';
 
+import { DataGrid } from '../DataGrid';
 import { CellText } from '../cells/CellText';
 import { CellBadge } from '../cells/CellBadge';
 import { CellAvatar } from '../cells/CellAvatar';
 import { CellProgress } from '../cells/CellProgress';
 import { CellLink } from '../cells/CellLink';
-import { cn } from '@/lib/utils';
+import { CellIcon } from '../cells/CellIcon';
+import { CellDate } from '../cells/CellDate';
+import { CellDateRange } from '../cells/CellDateRange';
+import type { IconTypeWithFill, IconColor } from '../../icons/Icon/Icon.types';
 
 /**
  * DataGrid 셀 헬퍼 컴포넌트들입니다.
@@ -33,84 +38,22 @@ const meta: Meta = {
 
 export default meta;
 
-// Grid wrapper component for realistic preview
-function GridPreview({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="border-default rounded-md overflow-hidden">
-      {children}
-    </div>
-  );
-}
-
-function GridHeader({
-  columns,
-  headers,
-}: {
-  columns: string;
-  headers: string[];
-}) {
-  return (
-    <div
-      className="grid bg-default border-b-default"
-      style={{ gridTemplateColumns: columns }}
-    >
-      {headers.map((header, index) => (
-        <div
-          key={index}
-          className={cn(
-            'height-32 padding-x-10 flex items-center',
-            'font-body size-xs font-medium text-subtle',
-            'border-r-default last:border-r-0'
-          )}
-        >
-          {header}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function GridRow({
-  columns,
-  children,
-}: {
-  columns: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className="grid border-b-default last:border-b-0"
-      style={{ gridTemplateColumns: columns }}
-    >
-      {children}
-    </div>
-  );
-}
-
-function GridCell({
-  children,
-  align = 'left',
-}: {
-  children: React.ReactNode;
-  align?: 'left' | 'center' | 'right';
-}) {
-  return (
-    <div
-      className={cn(
-        'height-32 padding-x-10 flex items-center group',
-        'border-r-default last:border-r-0',
-        align === 'center' && 'justify-center',
-        align === 'right' && 'justify-end'
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
 // ============================================
 // CellText
 // ============================================
+
+interface TextData {
+  id: string;
+  type: string;
+  value: string | null;
+}
+
+const textData: TextData[] = [
+  { id: '1', type: '기본', value: '홍길동' },
+  { id: '2', type: '툴팁', value: '매우 긴 텍스트가 있는 경우 툴팁으로 전체 내용을 확인할 수 있습니다. 매우 긴 텍스트가 있는 경우 툴팁으로 전체 내용을 확인할 수 있습니다. 매우 긴 텍스트가 있는 경우 툴팁으로 전체 내용을 확인할 수 있습니다. 매우 긴 텍스트가 있는 경우 툴팁으로 전체 내용을 확인할 수 있습니다. 매우 긴 텍스트가 있는 경우 툴팁으로 전체 내용을 확인할 수 있습니다.' },
+  { id: '3', type: '복사 가능', value: 'hong@example.com' },
+  { id: '4', type: 'null 값', value: null },
+];
 
 /**
  * ## CellText
@@ -127,44 +70,35 @@ function GridCell({
  */
 export const TextCell: StoryObj = {
   render: function Render() {
-    const columns = '100px 1fr';
+    const columns: ColumnDef<TextData>[] = [
+      {
+        accessorKey: 'type',
+        header: '유형',
+        cell: ({ row }) => (
+          <span className="font-body size-sm text-subtle">{row.original.type}</span>
+        ),
+        meta: { width: '100px' },
+      },
+      {
+        accessorKey: 'value',
+        header: '값',
+        cell: ({ row }) => {
+          const { type, value } = row.original;
+          if (type === '툴팁') return <CellText value={value} tooltip />;
+          if (type === '복사 가능') return <CellText value={value} copyable />;
+          return <CellText value={value} />;
+        },
+        meta: { width: '1fr' },
+      },
+    ];
 
     return (
-      <GridPreview>
-        <GridHeader columns={columns} headers={['유형', '값']} />
-        <GridRow columns={columns}>
-          <GridCell>
-            <span className="font-body size-sm text-subtle">기본</span>
-          </GridCell>
-          <GridCell>
-            <CellText value="홍길동" />
-          </GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell>
-            <span className="font-body size-sm text-subtle">툴팁</span>
-          </GridCell>
-          <GridCell>
-            <CellText value="매우 긴 텍스트가 있는 경우 툴팁으로 전체 내용을 확인할 수 있습니다." tooltip />
-          </GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell>
-            <span className="font-body size-sm text-subtle">복사 가능</span>
-          </GridCell>
-          <GridCell>
-            <CellText value="hong@example.com" copyable />
-          </GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell>
-            <span className="font-body size-sm text-subtle">null 값</span>
-          </GridCell>
-          <GridCell>
-            <CellText value={null} />
-          </GridCell>
-        </GridRow>
-      </GridPreview>
+      <DataGrid
+        data={textData}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+      />
     );
   },
 };
@@ -172,6 +106,31 @@ export const TextCell: StoryObj = {
 // ============================================
 // CellBadge
 // ============================================
+
+interface BadgeData {
+  id: string;
+  name: string;
+  role: 'admin' | 'editor' | 'viewer';
+  status: 'active' | 'pending' | 'inactive';
+}
+
+const badgeData: BadgeData[] = [
+  { id: '1', name: '홍길동', role: 'admin', status: 'active' },
+  { id: '2', name: '김철수', role: 'editor', status: 'pending' },
+  { id: '3', name: '이영희', role: 'viewer', status: 'inactive' },
+];
+
+const roleColorMap = {
+  admin: 'blue',
+  editor: 'violet',
+  viewer: 'neutral',
+} as const;
+
+const statusColorMap = {
+  active: 'green',
+  pending: 'orange',
+  inactive: 'neutral',
+} as const;
 
 /**
  * ## CellBadge
@@ -186,27 +145,38 @@ export const TextCell: StoryObj = {
  */
 export const BadgeCell: StoryObj = {
   render: function Render() {
-    const columns = '1fr 100px 100px';
+    const columns: ColumnDef<BadgeData>[] = [
+      {
+        accessorKey: 'name',
+        header: '이름',
+        cell: ({ row }) => <CellText value={row.original.name} />,
+        meta: { width: '1fr' },
+      },
+      {
+        accessorKey: 'role',
+        header: '역할',
+        cell: ({ row }) => (
+          <CellBadge label={row.original.role} color={roleColorMap[row.original.role]} />
+        ),
+        meta: { width: '100px', align: 'center' },
+      },
+      {
+        accessorKey: 'status',
+        header: '상태',
+        cell: ({ row }) => (
+          <CellBadge label={row.original.status} color={statusColorMap[row.original.status]} />
+        ),
+        meta: { width: '100px', align: 'center' },
+      },
+    ];
 
     return (
-      <GridPreview>
-        <GridHeader columns={columns} headers={['이름', '역할', '상태']} />
-        <GridRow columns={columns}>
-          <GridCell><CellText value="홍길동" /></GridCell>
-          <GridCell align="center"><CellBadge label="admin" color="blue" /></GridCell>
-          <GridCell align="center"><CellBadge label="active" color="green" /></GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell><CellText value="김철수" /></GridCell>
-          <GridCell align="center"><CellBadge label="editor" color="violet" /></GridCell>
-          <GridCell align="center"><CellBadge label="pending" color="orange" /></GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell><CellText value="이영희" /></GridCell>
-          <GridCell align="center"><CellBadge label="viewer" color="neutral" /></GridCell>
-          <GridCell align="center"><CellBadge label="inactive" color="neutral" /></GridCell>
-        </GridRow>
-      </GridPreview>
+      <DataGrid
+        data={badgeData}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+      />
     );
   },
 };
@@ -214,6 +184,20 @@ export const BadgeCell: StoryObj = {
 // ============================================
 // CellAvatar
 // ============================================
+
+interface AvatarData {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+  status: 'active' | 'inactive';
+}
+
+const avatarData: AvatarData[] = [
+  { id: '1', name: '홍길동', email: 'hong@example.com', status: 'active' },
+  { id: '2', name: '김철수', email: 'kim@example.com', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix', status: 'active' },
+  { id: '3', name: '이영희', email: 'lee@example.com', status: 'inactive' },
+];
 
 /**
  * ## CellAvatar
@@ -231,32 +215,41 @@ export const BadgeCell: StoryObj = {
  */
 export const AvatarCell: StoryObj = {
   render: function Render() {
-    const columns = '180px 1fr 100px';
+    const columns: ColumnDef<AvatarData>[] = [
+      {
+        accessorKey: 'name',
+        header: '사용자',
+        cell: ({ row }) => (
+          <CellAvatar name={row.original.name} src={row.original.avatar} />
+        ),
+        meta: { width: '180px' },
+      },
+      {
+        accessorKey: 'email',
+        header: '이메일',
+        cell: ({ row }) => <CellText value={row.original.email} />,
+        meta: { width: '1fr' },
+      },
+      {
+        accessorKey: 'status',
+        header: '상태',
+        cell: ({ row }) => (
+          <CellBadge
+            label={row.original.status}
+            color={row.original.status === 'active' ? 'green' : 'neutral'}
+          />
+        ),
+        meta: { width: '100px', align: 'center' },
+      },
+    ];
 
     return (
-      <GridPreview>
-        <GridHeader columns={columns} headers={['사용자', '이메일', '상태']} />
-        <GridRow columns={columns}>
-          <GridCell><CellAvatar name="홍길동" /></GridCell>
-          <GridCell><CellText value="hong@example.com" /></GridCell>
-          <GridCell align="center"><CellBadge label="active" color="green" /></GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell>
-            <CellAvatar
-              name="김철수"
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
-            />
-          </GridCell>
-          <GridCell><CellText value="kim@example.com" /></GridCell>
-          <GridCell align="center"><CellBadge label="active" color="green" /></GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell><CellAvatar name="이영희" /></GridCell>
-          <GridCell><CellText value="lee@example.com" /></GridCell>
-          <GridCell align="center"><CellBadge label="inactive" color="neutral" /></GridCell>
-        </GridRow>
-      </GridPreview>
+      <DataGrid
+        data={avatarData}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+      />
     );
   },
 };
@@ -264,6 +257,26 @@ export const AvatarCell: StoryObj = {
 // ============================================
 // CellProgress
 // ============================================
+
+interface ProgressData {
+  id: string;
+  task: string;
+  progress: number;
+  status: 'complete' | 'in-progress' | 'delayed';
+}
+
+const progressData: ProgressData[] = [
+  { id: '1', task: '데이터 마이그레이션', progress: 100, status: 'complete' },
+  { id: '2', task: 'API 연동', progress: 75, status: 'in-progress' },
+  { id: '3', task: '테스트 코드 작성', progress: 45, status: 'in-progress' },
+  { id: '4', task: '문서화', progress: 20, status: 'delayed' },
+];
+
+const progressStatusMap = {
+  complete: { label: '완료', color: 'green' },
+  'in-progress': { label: '진행중', color: 'blue' },
+  delayed: { label: '지연', color: 'red' },
+} as const;
 
 /**
  * ## CellProgress
@@ -280,32 +293,41 @@ export const AvatarCell: StoryObj = {
  */
 export const ProgressCell: StoryObj = {
   render: function Render() {
-    const columns = '1fr 150px 100px';
+    const columns: ColumnDef<ProgressData>[] = [
+      {
+        accessorKey: 'task',
+        header: '작업',
+        cell: ({ row }) => <CellText value={row.original.task} />,
+        meta: { width: '1fr' },
+      },
+      {
+        accessorKey: 'progress',
+        header: '진행률',
+        cell: ({ row }) => {
+          const { progress, status } = row.original;
+          const color = status === 'complete' ? 'success' : status === 'delayed' ? 'destructive' : 'default';
+          return <CellProgress value={progress} color={color} />;
+        },
+        meta: { width: '150px' },
+      },
+      {
+        accessorKey: 'status',
+        header: '상태',
+        cell: ({ row }) => {
+          const statusInfo = progressStatusMap[row.original.status];
+          return <CellBadge label={statusInfo.label} color={statusInfo.color} />;
+        },
+        meta: { width: '100px', align: 'center' },
+      },
+    ];
 
     return (
-      <GridPreview>
-        <GridHeader columns={columns} headers={['작업', '진행률', '상태']} />
-        <GridRow columns={columns}>
-          <GridCell><CellText value="데이터 마이그레이션" /></GridCell>
-          <GridCell><CellProgress value={100} color="success" /></GridCell>
-          <GridCell align="center"><CellBadge label="완료" color="green" /></GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell><CellText value="API 연동" /></GridCell>
-          <GridCell><CellProgress value={75} color="default" /></GridCell>
-          <GridCell align="center"><CellBadge label="진행중" color="blue" /></GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell><CellText value="테스트 코드 작성" /></GridCell>
-          <GridCell><CellProgress value={45} color="warning" /></GridCell>
-          <GridCell align="center"><CellBadge label="진행중" color="orange" /></GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell><CellText value="문서화" /></GridCell>
-          <GridCell><CellProgress value={20} color="destructive" /></GridCell>
-          <GridCell align="center"><CellBadge label="지연" color="red" /></GridCell>
-        </GridRow>
-      </GridPreview>
+      <DataGrid
+        data={progressData}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+      />
     );
   },
 };
@@ -313,6 +335,20 @@ export const ProgressCell: StoryObj = {
 // ============================================
 // CellLink
 // ============================================
+
+interface LinkData {
+  id: string;
+  project: string;
+  url: string;
+  label: string;
+  external: boolean;
+}
+
+const linkData: LinkData[] = [
+  { id: '1', project: 'Design System', url: 'https://github.com', label: 'GitHub', external: true },
+  { id: '2', project: 'Documentation', url: '/docs', label: '문서 보기', external: false },
+  { id: '3', project: 'API Reference', url: 'https://api.example.com/docs', label: 'API Docs', external: true },
+];
 
 /**
  * ## CellLink
@@ -329,27 +365,265 @@ export const ProgressCell: StoryObj = {
  */
 export const LinkCell: StoryObj = {
   render: function Render() {
-    const columns = '1fr 180px 100px';
+    const columns: ColumnDef<LinkData>[] = [
+      {
+        accessorKey: 'project',
+        header: '프로젝트',
+        cell: ({ row }) => <CellText value={row.original.project} />,
+        meta: { width: '1fr' },
+      },
+      {
+        accessorKey: 'url',
+        header: '저장소',
+        cell: ({ row }) => (
+          <CellLink
+            href={row.original.url}
+            label={row.original.label}
+            external={row.original.external}
+          />
+        ),
+        meta: { width: '180px' },
+      },
+      {
+        accessorKey: 'external',
+        header: '유형',
+        cell: ({ row }) => (
+          <CellBadge
+            label={row.original.external ? '외부' : '내부'}
+            color={row.original.external ? 'blue' : 'neutral'}
+          />
+        ),
+        meta: { width: '100px', align: 'center' },
+      },
+    ];
 
     return (
-      <GridPreview>
-        <GridHeader columns={columns} headers={['프로젝트', '저장소', '유형']} />
-        <GridRow columns={columns}>
-          <GridCell><CellText value="Design System" /></GridCell>
-          <GridCell><CellLink href="https://github.com" label="GitHub" external /></GridCell>
-          <GridCell align="center"><CellBadge label="외부" color="blue" /></GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell><CellText value="Documentation" /></GridCell>
-          <GridCell><CellLink href="/docs" label="문서 보기" /></GridCell>
-          <GridCell align="center"><CellBadge label="내부" color="neutral" /></GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell><CellText value="API Reference" /></GridCell>
-          <GridCell><CellLink href="https://api.example.com/docs" label="API Docs" external /></GridCell>
-          <GridCell align="center"><CellBadge label="외부" color="blue" /></GridCell>
-        </GridRow>
-      </GridPreview>
+      <DataGrid
+        data={linkData}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+      />
+    );
+  },
+};
+
+// ============================================
+// CellIcon
+// ============================================
+
+interface IconData {
+  id: string;
+  filename: string;
+  fileType: 'pdf' | 'excel' | 'image' | 'word';
+  status: 'complete' | 'pending' | 'failed' | 'processing';
+}
+
+const iconData: IconData[] = [
+  { id: '1', filename: 'report.pdf', fileType: 'pdf', status: 'complete' },
+  { id: '2', filename: 'data.xlsx', fileType: 'excel', status: 'pending' },
+  { id: '3', filename: 'image.png', fileType: 'image', status: 'failed' },
+  { id: '4', filename: 'notes.docx', fileType: 'word', status: 'processing' },
+];
+
+const fileTypeIconMap: Record<string, { icon: IconTypeWithFill; color: IconColor }> = {
+  pdf: { icon: ['document', 'file-pdf'], color: 'destructive' },
+  excel: { icon: ['document', 'file-excel'], color: 'success' },
+  image: { icon: ['media', 'image'], color: 'informative' },
+  word: { icon: ['document', 'file-word'], color: 'informative' },
+};
+
+const statusIconMap: Record<string, { icon: IconTypeWithFill; color: IconColor; label: string }> = {
+  complete: { icon: ['system', 'check'], color: 'success', label: '완료' },
+  pending: { icon: ['system', 'time'], color: 'warning', label: '대기중' },
+  failed: { icon: ['system', 'close'], color: 'destructive', label: '실패' },
+  processing: { icon: ['system', 'loader-2'], color: 'default-subtle', label: '처리중' },
+};
+
+/**
+ * ## CellIcon
+ *
+ * 아이콘 셀 컴포넌트입니다. 상태나 유형을 아이콘으로 표시할 때 사용합니다.
+ *
+ * ### Props
+ * | Name | Type | Default | Description |
+ * |------|------|---------|-------------|
+ * | iconType | `IconType` | - | 아이콘 타입 (예: `['system', 'check']`) |
+ * | size | `number` | `16` | 아이콘 크기 |
+ * | color | `IconColor` | `'default'` | 아이콘 색상 |
+ * | label | `string` | - | 아이콘 옆에 표시할 텍스트 |
+ * | className | `string` | - | 추가 CSS 클래스 |
+ */
+export const IconCell: StoryObj = {
+  render: function Render() {
+    const columns: ColumnDef<IconData>[] = [
+      {
+        accessorKey: 'filename',
+        header: '파일명',
+        cell: ({ row }) => <CellText value={row.original.filename} />,
+        meta: { width: '1fr' },
+      },
+      {
+        accessorKey: 'fileType',
+        header: '유형',
+        cell: ({ row }) => {
+          const { icon, color } = fileTypeIconMap[row.original.fileType];
+          return <CellIcon iconType={icon} color={color} />;
+        },
+        meta: { width: '120px', align: 'center' },
+      },
+      {
+        accessorKey: 'status',
+        header: '상태',
+        cell: ({ row }) => {
+          const { icon, color, label } = statusIconMap[row.original.status];
+          return <CellIcon iconType={icon} color={color} label={label} />;
+        },
+        meta: { width: '120px', align: 'center' },
+      },
+    ];
+
+    return (
+      <DataGrid
+        data={iconData}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+      />
+    );
+  },
+};
+
+// ============================================
+// CellDate
+// ============================================
+
+interface DateData {
+  id: string;
+  format: string;
+  date: Date | null;
+}
+
+const sampleDate = new Date('2024-03-15T14:30:00');
+
+const dateData: DateData[] = [
+  { id: '1', format: '날짜만', date: sampleDate },
+  { id: '2', format: '날짜+시간', date: sampleDate },
+  { id: '3', format: '시간만', date: sampleDate },
+  { id: '4', format: 'null 값', date: null },
+];
+
+/**
+ * ## CellDate
+ *
+ * 날짜 셀 컴포넌트입니다. Date 객체를 받아 지역화된 날짜 문자열로 표시합니다.
+ *
+ * ### Props
+ * | Name | Type | Default | Description |
+ * |------|------|---------|-------------|
+ * | value | `Date \| string \| number \| null` | - | 날짜 값 |
+ * | format | `'date' \| 'datetime' \| 'time'` | `'date'` | 날짜 형식 |
+ * | locale | `'ko' \| 'en' \| 'ja' \| 'zh'` | `'ko'` | 지역화 설정 |
+ * | className | `string` | - | 추가 CSS 클래스 |
+ */
+export const DateCell: StoryObj = {
+  render: function Render() {
+    const columns: ColumnDef<DateData>[] = [
+      {
+        accessorKey: 'format',
+        header: '형식',
+        cell: ({ row }) => (
+          <span className="font-body size-sm text-subtle">{row.original.format}</span>
+        ),
+        meta: { width: '100px' },
+      },
+      {
+        accessorKey: 'date',
+        header: '값',
+        cell: ({ row }) => {
+          const { format, date } = row.original;
+          if (format === '날짜+시간') return <CellDate value={date} format="datetime" />;
+          if (format === '시간만') return <CellDate value={date} format="time" />;
+          return <CellDate value={date} format="date" />;
+        },
+        meta: { width: '1fr' },
+      },
+    ];
+
+    return (
+      <DataGrid
+        data={dateData}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+      />
+    );
+  },
+};
+
+// ============================================
+// CellDateRange
+// ============================================
+
+interface DateRangeData {
+  id: string;
+  format: string;
+  startDate: Date | null;
+  endDate: Date | null;
+}
+
+const dateRangeData: DateRangeData[] = [
+  { id: '1', format: '날짜 범위', startDate: new Date('2024-03-15'), endDate: new Date('2024-03-22') },
+  { id: '2', format: '날짜+시간', startDate: new Date('2024-03-15T09:00:00'), endDate: new Date('2024-03-15T18:00:00') },
+  { id: '3', format: '시작만', startDate: new Date('2024-03-15'), endDate: null },
+  { id: '4', format: '종료만', startDate: null, endDate: new Date('2024-03-22') },
+];
+
+/**
+ * ## CellDateRange
+ *
+ * 날짜 범위 셀 컴포넌트입니다. 시작일과 종료일을 받아 표시합니다.
+ *
+ * ### Props
+ * | Name | Type | Default | Description |
+ * |------|------|---------|-------------|
+ * | startDate | `Date \| string \| number \| null` | - | 시작 날짜 |
+ * | endDate | `Date \| string \| number \| null` | - | 종료 날짜 |
+ * | format | `'date' \| 'datetime' \| 'time'` | `'date'` | 날짜 형식 |
+ * | locale | `'ko' \| 'en' \| 'ja' \| 'zh'` | `'ko'` | 지역화 설정 |
+ * | separator | `string` | `'~'` | 구분자 |
+ * | className | `string` | - | 추가 CSS 클래스 |
+ */
+export const DateRangeCell: StoryObj = {
+  render: function Render() {
+    const columns: ColumnDef<DateRangeData>[] = [
+      {
+        accessorKey: 'format',
+        header: '형식',
+        cell: ({ row }) => (
+          <span className="font-body size-sm text-subtle">{row.original.format}</span>
+        ),
+        meta: { width: '100px' },
+      },
+      {
+        accessorKey: 'startDate',
+        header: '값',
+        cell: ({ row }) => {
+          const { format, startDate, endDate } = row.original;
+          const dateFormat = format === '날짜+시간' ? 'datetime' : 'date';
+          return <CellDateRange startDate={startDate} endDate={endDate} format={dateFormat} />;
+        },
+        meta: { width: '1fr' },
+      },
+    ];
+
+    return (
+      <DataGrid
+        data={dateRangeData}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+      />
     );
   },
 };
@@ -358,6 +632,23 @@ export const LinkCell: StoryObj = {
 // All Cells Combined
 // ============================================
 
+interface CombinedData {
+  id: string;
+  name: string;
+  avatar?: string;
+  email: string;
+  role: 'admin' | 'editor' | 'viewer';
+  fileType: 'pdf' | 'excel' | 'image';
+  progress: number;
+  createdAt: Date;
+}
+
+const combinedData: CombinedData[] = [
+  { id: '1', name: '홍길동', email: 'hong@example.com', role: 'admin', fileType: 'pdf', progress: 100, createdAt: new Date('2024-01-15') },
+  { id: '2', name: '김철수', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kim', email: 'kim@example.com', role: 'editor', fileType: 'excel', progress: 75, createdAt: new Date('2024-02-20') },
+  { id: '3', name: '이영희', email: 'lee@example.com', role: 'viewer', fileType: 'image', progress: 45, createdAt: new Date('2024-03-10') },
+];
+
 /**
  * ## 모든 셀 타입
  *
@@ -365,38 +656,69 @@ export const LinkCell: StoryObj = {
  */
 export const AllCells: StoryObj = {
   render: function Render() {
-    const columns = '180px 1fr 100px 150px 100px';
+    const columns: ColumnDef<CombinedData>[] = [
+      {
+        accessorKey: 'name',
+        header: '사용자',
+        cell: ({ row }) => (
+          <CellAvatar name={row.original.name} src={row.original.avatar} />
+        ),
+        meta: { width: '180px' },
+      },
+      {
+        accessorKey: 'email',
+        header: '이메일',
+        cell: ({ row }) => <CellText value={row.original.email} copyable />,
+        meta: { width: '1fr' },
+      },
+      {
+        accessorKey: 'role',
+        header: '역할',
+        cell: ({ row }) => (
+          <CellBadge label={row.original.role} color={roleColorMap[row.original.role]} />
+        ),
+        meta: { width: '100px', align: 'center' },
+      },
+      {
+        accessorKey: 'fileType',
+        header: '유형',
+        cell: ({ row }) => {
+          const { icon, color } = fileTypeIconMap[row.original.fileType];
+          return <CellIcon iconType={icon} color={color} />;
+        },
+        meta: { width: '80px', align: 'center' },
+      },
+      {
+        accessorKey: 'progress',
+        header: '진행률',
+        cell: ({ row }) => {
+          const progress = row.original.progress;
+          const color = progress >= 80 ? 'success' : progress >= 50 ? 'default' : 'warning';
+          return <CellProgress value={progress} color={color} />;
+        },
+        meta: { width: '150px' },
+      },
+      {
+        accessorKey: 'createdAt',
+        header: '등록일',
+        cell: ({ row }) => <CellDate value={row.original.createdAt} />,
+        meta: { width: '120px' },
+      },
+      {
+        id: 'action',
+        header: '상세',
+        cell: () => <CellLink href="#" label="보기" />,
+        meta: { width: '100px', align: 'center' },
+      },
+    ];
 
     return (
-      <GridPreview>
-        <GridHeader columns={columns} headers={['사용자', '이메일', '역할', '진행률', '상세']} />
-        <GridRow columns={columns}>
-          <GridCell><CellAvatar name="홍길동" /></GridCell>
-          <GridCell><CellText value="hong@example.com" copyable /></GridCell>
-          <GridCell align="center"><CellBadge label="admin" color="blue" /></GridCell>
-          <GridCell><CellProgress value={100} color="success" /></GridCell>
-          <GridCell align="center"><CellLink href="#" label="보기" /></GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell>
-            <CellAvatar
-              name="김철수"
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=Kim"
-            />
-          </GridCell>
-          <GridCell><CellText value="kim@example.com" copyable /></GridCell>
-          <GridCell align="center"><CellBadge label="editor" color="violet" /></GridCell>
-          <GridCell><CellProgress value={75} /></GridCell>
-          <GridCell align="center"><CellLink href="#" label="보기" /></GridCell>
-        </GridRow>
-        <GridRow columns={columns}>
-          <GridCell><CellAvatar name="이영희" /></GridCell>
-          <GridCell><CellText value="lee@example.com" copyable /></GridCell>
-          <GridCell align="center"><CellBadge label="viewer" color="neutral" /></GridCell>
-          <GridCell><CellProgress value={45} color="warning" /></GridCell>
-          <GridCell align="center"><CellLink href="#" label="보기" /></GridCell>
-        </GridRow>
-      </GridPreview>
+      <DataGrid
+        data={combinedData}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+      />
     );
   },
 };

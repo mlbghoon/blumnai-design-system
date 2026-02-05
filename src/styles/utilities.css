@@ -386,16 +386,66 @@
 
 .border-b-default {
   border-bottom-width: 1px;
+  border-bottom-style: solid;
   border-bottom-color: var(--border-default);
+}
+
+/* Remove border from last row in table body */
+tbody tr:last-child.border-b-default {
+  border-bottom-width: 0;
+}
+
+/* Remove border from cells in last row of datagrid body */
+[role="rowgroup"] > [role="row"]:last-child > .border-b-default {
+  border-bottom-width: 0;
+}
+
+/* Table header row border */
+thead tr {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: var(--border-default);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--border-default);
+}
+
+/* Bordered + sticky header */
+[data-sticky-bordered] thead tr {
+  border-top: 0;
+  border-bottom: 0;
+}
+
+[data-sticky-bordered] thead::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: var(--border-default);
+  pointer-events: none;
+}
+
+/* Table body row hover */
+tbody tr:hover {
+  background-color: var(--bg-basic-gray-alpha-4);
+}
+
+/* Striped table rows */
+table[data-striped] tbody tr:nth-child(even) {
+  background-color: var(--bg-basic-gray-alpha-2);
 }
 
 .border-t-default {
   border-top-width: 1px;
+  border-top-style: solid;
   border-top-color: var(--border-default);
 }
 
 .border-r-default {
   border-right-width: 1px;
+  border-right-style: solid;
   border-right-color: var(--border-default);
 }
 
@@ -1080,6 +1130,24 @@
 
 .bg-basic-gray-alpha-15 {
   background-color: var(--bg-basic-gray-alpha-15);
+}
+
+/* Hover variants for row hover effects */
+.hover\:bg-basic-gray-alpha-2:hover {
+  background-color: var(--bg-basic-gray-alpha-2);
+}
+
+.hover\:bg-basic-gray-alpha-4:hover {
+  background-color: var(--bg-basic-gray-alpha-4);
+}
+
+/* Group hover variants for DataGrid row hover */
+.group:hover .group-hover\:bg-basic-gray-alpha-4 {
+  background-color: var(--bg-basic-gray-alpha-4);
+}
+
+.group:hover .group-hover\:bg-subtle {
+  background-color: var(--bg-subtle);
 }
 
 /* ============================================
@@ -2230,4 +2298,27 @@
     0 1px 2px 0 rgba(0, 0, 0, 0.04),
     0 0 0 1px var(--bg-default),
     0 0 0 3px var(--border-highlight);
+}
+
+/* ============================================
+   DataGrid Sticky Cell Hover Utilities
+   Opaque equivalent of bg-basic-gray-alpha-4 on bg-default
+   (for sticky cells to prevent content showing through)
+   ============================================ */
+.bg-hover-solid {
+  background-color: #f6f6f6;
+}
+
+.group:hover .group-hover\:bg-hover-solid {
+  background-color: #f6f6f6;
+}
+
+[data-theme="dark"] .bg-hover-solid,
+.dark .bg-hover-solid {
+  background-color: #2a2a2d;
+}
+
+[data-theme="dark"] .group:hover .group-hover\:bg-hover-solid,
+.dark .group:hover .group-hover\:bg-hover-solid {
+  background-color: #2a2a2d;
 }
