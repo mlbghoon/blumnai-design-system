@@ -400,8 +400,8 @@ tbody tr:last-child.border-b-default {
   border-bottom-width: 0;
 }
 
-/* Table header row border */
-thead tr {
+/* Table header row border - scoped to Table component only */
+[data-slot="table"] thead tr {
   border-top-width: 1px;
   border-top-style: solid;
   border-top-color: var(--border-default);
@@ -427,8 +427,8 @@ thead tr {
   pointer-events: none;
 }
 
-/* Table body row hover */
-tbody tr:hover {
+/* Table body row hover - scoped to Table component only */
+[data-slot="table"] tbody tr:hover {
   background-color: var(--bg-basic-gray-alpha-4);
 }
 

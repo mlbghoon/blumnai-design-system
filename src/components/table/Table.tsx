@@ -110,6 +110,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
           <table
             ref={ref}
             className={cn('w-full caption-bottom size-sm font-body', className)}
+            data-slot="table"
             data-striped={striped || undefined}
             {...props}
           >
