@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type * as TabsPrimitive from '@radix-ui/react-tabs';
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
 
 export type TabsVariant = 'pill' | 'segmented' | 'underline';
 export type TabsShape = 'pill' | 'rounded';
@@ -21,10 +21,28 @@ export interface TabsListProps extends ComponentPropsWithoutRef<typeof TabsPrimi
 }
 
 export interface TabsTriggerProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {
-  /** 앞에 표시되는 아이콘 */
-  leadIcon?: IconType | ReactNode;
-  /** 뒤에 표시되는 아이콘 */
-  tailIcon?: IconType | ReactNode;
+  /**
+   * 앞에 표시되는 아이콘
+   *
+   * IconTypeWithFill 또는 ReactNode를 사용할 수 있습니다.
+   * IconTypeWithFill은 [카테고리, 이름] 또는 [카테고리, 이름, isFill] 형식입니다.
+   *
+   * @example leadIcon={['system', 'settings']}
+   * @example leadIcon={['system', 'star', true]} - filled icon
+   * @example leadIcon={<CustomIcon />} - ReactNode
+   */
+  leadIcon?: IconTypeWithFill | ReactNode;
+  /**
+   * 뒤에 표시되는 아이콘
+   *
+   * IconTypeWithFill 또는 ReactNode를 사용할 수 있습니다.
+   * IconTypeWithFill은 [카테고리, 이름] 또는 [카테고리, 이름, isFill] 형식입니다.
+   *
+   * @example tailIcon={['arrows', 'arrow-right']}
+   * @example tailIcon={['health', 'heart', true]} - filled icon
+   * @example tailIcon={<CustomIcon />} - ReactNode
+   */
+  tailIcon?: IconTypeWithFill | ReactNode;
   /** 배지 텍스트/숫자 */
   badge?: string | number;
 }

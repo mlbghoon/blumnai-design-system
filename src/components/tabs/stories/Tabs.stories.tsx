@@ -118,17 +118,42 @@ const meta: Meta<TabsStoryProps> = {
     // TabsTrigger props
     leadIcon: {
       control: 'object',
-      description: '[TabsTrigger] 앞에 표시되는 아이콘',
+      description: `[TabsTrigger] 앞에 표시되는 아이콘
+
+IconTypeWithFill 또는 ReactNode를 사용할 수 있습니다.
+- \`['system', 'settings']\` - 기본 아이콘
+- \`['system', 'star', true]\` - filled 아이콘
+- \`<CustomIcon />\` - ReactNode`,
       table: {
-        type: { summary: 'IconType | ReactNode' },
+        type: {
+          summary: 'IconTypeWithFill | ReactNode',
+          detail: `IconTypeWithFill = [category, name] | [category, name, isFill]
+
+예시:
+  ['system', 'check']        - 기본 아이콘
+  ['system', 'star', true]   - filled 아이콘
+  ['health', 'heart', true]  - filled heart`,
+        },
         category: 'TabsTrigger',
       },
     },
     tailIcon: {
       control: 'object',
-      description: '[TabsTrigger] 뒤에 표시되는 아이콘',
+      description: `[TabsTrigger] 뒤에 표시되는 아이콘
+
+IconTypeWithFill 또는 ReactNode를 사용할 수 있습니다.
+- \`['arrows', 'arrow-right']\` - 기본 아이콘
+- \`['health', 'heart', true]\` - filled 아이콘
+- \`<CustomIcon />\` - ReactNode`,
       table: {
-        type: { summary: 'IconType | ReactNode' },
+        type: {
+          summary: 'IconTypeWithFill | ReactNode',
+          detail: `IconTypeWithFill = [category, name] | [category, name, isFill]
+
+예시:
+  ['arrows', 'arrow-down']   - 기본 아이콘
+  ['health', 'heart', true]  - filled 아이콘`,
+        },
         category: 'TabsTrigger',
       },
     },
@@ -706,6 +731,50 @@ export const ShapeComparison: Story = {
             <TabsTrigger value="tab1">Overview</TabsTrigger>
             <TabsTrigger value="tab2">Analytics</TabsTrigger>
             <TabsTrigger value="tab3">Reports</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * Filled 아이콘
+ *
+ * 아이콘 튜플에 세 번째 인자로 true를 전달하면 filled 스타일이 적용됩니다.
+ * 예: ['health', 'heart', true]
+ */
+export const WithFilledIcons: Story = {
+  render: () => (
+    <div className="flex flex-col gap-24">
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">기본 아이콘 vs Filled 아이콘</p>
+        <Tabs defaultValue="tab1">
+          <TabsList variant="segmented">
+            <TabsTrigger value="tab1" leadIcon={['system', 'star']}>Default Star</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={['system', 'star', true]}>Filled Star</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">Filled 아이콘 탭들</p>
+        <Tabs defaultValue="tab1">
+          <TabsList variant="pill">
+            <TabsTrigger value="tab1" leadIcon={['health', 'heart', true]}>Favorites</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={['business', 'bookmark', true]}>Bookmarks</TabsTrigger>
+            <TabsTrigger value="tab3" leadIcon={['system', 'settings']}>Settings</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">Underline with Filled Icons</p>
+        <Tabs defaultValue="tab1">
+          <TabsList variant="underline">
+            <TabsTrigger value="tab1" leadIcon={['buildings', 'home', true]}>Home</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={['user', 'user', true]}>Profile</TabsTrigger>
+            <TabsTrigger value="tab3" leadIcon={['system', 'settings', true]}>Settings</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>

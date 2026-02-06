@@ -185,6 +185,13 @@
 | **Divider** | ✅ 완료 | 구분선 |
 | **Table** | ✅ 완료 | compositional 패턴, 페이지네이션, 스크롤/고정 헤더 |
 | **DataGrid** | ✅ 완료 | TanStack Table 기반, 정렬/필터/페이지네이션 자동 관리 |
+| **Scroll Area** | ✅ 완료 | Radix 기반 커스텀 스크롤바 |
+| **Sheet** | ✅ 완료 | 사이드 패널/드로어 |
+| **Sidebar** | ✅ 완료 | 네비게이션 사이드바, 접힘/펼침 지원 |
+| **Switch** | ✅ 완료 | 토글 스위치 |
+| **Tabs** | ✅ 완료 | pill, segmented, underline 변형 지원 |
+| **Toast** | ✅ 완료 | Sonner 기반 알림 토스트 |
+| **FileInput** | ✅ 완료 | 파일 업로드, 드래그 앤 드롭 지원 |
 
 ### 4.2 신규 구현 시 자체 개발 권장
 
@@ -198,7 +205,6 @@
 | **Typography** | CSS 클래스 | 낮음 |
 | **Kbd** | 키보드 표시 스타일링 | 낮음 |
 | **Empty** | 빈 상태 메시지 | 낮음 |
-| **Switch** | 단순 토글 스타일링 | 낮음 |
 | **Toggle/Toggle Group** | 토글 버튼 스타일링 | 낮음 |
 
 ### 4.3 아이콘 시스템 (자체 구현 완료)
@@ -262,32 +268,43 @@
 
 ## 6. 우선순위 로드맵
 
-### Phase 1: 핵심 인터랙션 컴포넌트
+### Phase 1: 핵심 인터랙션 컴포넌트 ✅ 완료
 
-1. **Select** - 드롭다운 선택
-2. **Dialog** - 모달 다이얼로그
-3. **Popover** - 팝오버
-4. **Dropdown Menu** - 드롭다운 메뉴
+1. ~~**Select** - 드롭다운 선택~~
+2. ~~**Dialog** - 모달 다이얼로그~~
+3. ~~**Popover** - 팝오버~~
+4. ~~**Dropdown Menu** - 드롭다운 메뉴~~
 
-### Phase 2: 폼 컴포넌트
+### Phase 2: 폼 컴포넌트 ✅ 완료
 
-1. **Calendar** - 달력
-2. **Date Picker** - 날짜 선택
-3. **Combobox** - 자동완성 입력
-4. **Slider** - 슬라이더
+1. ~~**Calendar** - 달력~~
+2. ~~**Date Picker** - 날짜 선택~~
+3. **Combobox** - 자동완성 입력 (미완료)
+4. ~~**Slider** - 슬라이더~~
 
-### Phase 3: 고급 컴포넌트
+### Phase 3: 고급 컴포넌트 ✅ 완료
 
-1. **Data Table** - 데이터 테이블
-2. **Toast** - 알림 토스트
-3. **Sheet** - 사이드 시트
+1. ~~**Data Table** - 데이터 테이블~~
+2. ~~**Toast** - 알림 토스트~~
+3. ~~**Sheet** - 사이드 시트~~
 
-### Phase 4: 레이아웃 컴포넌트
+### Phase 4: 레이아웃 컴포넌트 ✅ 대부분 완료
 
-1. **Tabs** - 탭
-2. **Navigation Menu** - 네비게이션
-3. **Sidebar** - 사이드바
-4. **Resizable** - 리사이즈 패널
+1. ~~**Tabs** - 탭~~
+2. **Navigation Menu** - 네비게이션 (미완료)
+3. ~~**Sidebar** - 사이드바~~
+4. **Resizable** - 리사이즈 패널 (미완료)
+
+### Phase 5: 남은 컴포넌트 (다음 구현 대상)
+
+1. **Combobox** - 자동완성 입력 (검색 가능한 Select)
+2. **Navigation Menu** - 네비게이션 메뉴
+3. **Resizable** - 리사이즈 패널
+4. **Context Menu** - 우클릭 메뉴
+5. **Carousel** - 이미지 슬라이더
+6. **Card** - 카드 컴포넌트
+7. **Skeleton** - 로딩 스켈레톤
+8. **Progress** - 진행 표시줄
 
 ---
 
@@ -304,4 +321,5 @@ Blumnai Design System은 **SortUI의 디자인 품질**과 **shadcn/ui의 기술
 ---
 
 *문서 작성일: 2026-01-31*
+*최종 업데이트: 2026-02-06*
 *작성: Blumnai Design System Team*

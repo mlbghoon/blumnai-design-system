@@ -3,7 +3,8 @@ import * as TabsPrimitive from '@radix-ui/react-tabs';
 
 import { cn } from '@/lib/utils';
 import { Icon } from '../icons/Icon';
-import type { IconType } from '../icons/Icon/Icon.types';
+import { parseIconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
 import type {
   TabsListProps,
   TabsTriggerProps,
@@ -87,11 +88,12 @@ const TabsTrigger = React.forwardRef<
   const { variant, shape, size, type } = useTabsContext();
   const iconSize = variant === 'underline' ? ICON_SIZE[size] : 14;
 
-  const renderIcon = (icon: IconType | React.ReactNode) => {
+  const renderIcon = (icon: IconTypeWithFill | React.ReactNode) => {
     if (!icon) return null;
 
     if (Array.isArray(icon) && icon.length >= 2 && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
-      return <Icon iconType={icon as IconType} size={iconSize} className="shrink-0" />;
+      const { iconType, isFill } = parseIconTypeWithFill(icon as IconTypeWithFill);
+      return <Icon iconType={iconType} isFill={isFill} size={iconSize} className="shrink-0" />;
     }
 
     if (React.isValidElement(icon)) {
