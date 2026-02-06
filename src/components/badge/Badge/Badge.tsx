@@ -88,16 +88,16 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
 
     // Size
     if (size === 'sm') {
-      classes.push('min-h-[20px] py-1 px-2 text-xs leading-4 tracking-[-0.6px]');
+      classes.push('min-height-20 padding-y-4 padding-x-8 size-xs line-height-leading-4 letter-spacing-tracking-normal');
     } else {
-      classes.push('min-h-[24px] py-1.5 px-2.5 text-sm leading-4 tracking-[-0.6px]');
+      classes.push('min-height-24 padding-y-6 padding-x-10 size-sm line-height-leading-4 letter-spacing-tracking-normal');
     }
 
     // Shape
     if (shape === 'pill') {
       classes.push('rounded-full');
     } else {
-      classes.push('rounded-[6px]');
+      classes.push('rounded-sm');
     }
 
     // Background color (uses CSS variables for theme support)

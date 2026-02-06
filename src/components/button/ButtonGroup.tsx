@@ -30,9 +30,9 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
 
     const containerClassName = cn(
       'inline-flex items-center justify-start',
-      'bg-white',
+      'bg-default',
       'shadow-[0px_1px_2px_rgba(0,0,0,0.05)]',
-      'outline outline-1 outline-[rgba(39,39,42,0.15)] outline-offset-[-1px]',
+      'outline outline-1 outline-darker outline-offset-[-1px]',
       currentSize.containerRadius,
       'overflow-hidden',
       className
@@ -42,9 +42,9 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
       <span
         className={cn(
           'inline-flex items-center justify-center',
-          'min-w-5 padding-x-6 padding-y-2',
+          'min-width-20 padding-x-6 padding-y-2',
           'rounded-full',
-          'bg-[rgba(39,39,42,0.06)]',
+          'bg-basic-gray-alpha-4',
           'size-xs line-height-leading-4 font-medium',
           disabled ? 'text-hint' : 'text-subtle'
         )}
@@ -129,9 +129,9 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
                 'bg-transparent',
                 padding,
                 'transition-colors duration-150',
-                hasSeparator && 'border-l border-l-[rgba(39,39,42,0.1)]',
+                hasSeparator && 'border-l-default',
                 item.disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-                !item.disabled && 'hover:bg-[rgba(39,39,42,0.06)] active:bg-[rgba(39,39,42,0.08)]'
+                !item.disabled && 'hover:bg-basic-gray-alpha-4 active:bg-basic-gray-alpha-10'
               )}
               onClick={item.disabled ? undefined : item.onClick}
               role="button"

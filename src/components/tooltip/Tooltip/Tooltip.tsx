@@ -40,15 +40,15 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(({
       {badge && (
         <div
           className={cn(
-            'h-4 min-w-4',
-            'px-1',
+            'height-16 min-width-16',
+            'padding-x-4',
             'rounded',
             'inline-flex items-center justify-center',
             'bg-state-soft',
-            'border border-darker'
+            'border-darker'
           )}
         >
-          <span className="text-xs leading-4 font-medium tracking-tight text-subtle">
+          <span className="size-xs line-height-leading-4 font-medium letter-spacing-tracking-tight text-subtle">
             {badge}
           </span>
         </div>

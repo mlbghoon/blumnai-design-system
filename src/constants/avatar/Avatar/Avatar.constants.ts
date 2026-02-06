@@ -15,60 +15,60 @@ export const sizes = {
 } as const;
 
 export const CONTAINER_SIZE_CLASSES: Record<AvatarSize, string> = {
-  '2xs': 'size-[20px]',
-  xs: 'size-[24px]',
-  sm: 'size-[28px]',
-  md: 'size-[36px]',
-  lg: 'size-[44px]',
-  xl: 'size-[52px]',
-  '2xl': 'size-[60px]',
-  '3xl': 'size-[68px]',
+  '2xs': 'width-20 height-20',
+  xs: 'width-24 height-24',
+  sm: 'width-28 height-28',
+  md: 'width-36 height-36',
+  lg: 'width-44 height-44',
+  xl: 'width-52 height-52',
+  '2xl': 'width-60 height-60',
+  '3xl': 'width-68 height-68',
 };
 
 export const RING_SIZE_CLASSES: Record<AvatarSize, string> = {
-  '2xs': 'size-[20px]',
-  xs: 'size-[24px]',
-  sm: 'size-[28px]',
-  md: 'size-[36px]',
-  lg: 'size-[44px]',
-  xl: 'size-[52px]',
-  '2xl': 'size-[60px]',
-  '3xl': 'size-[68px]',
+  '2xs': 'width-20 height-20',
+  xs: 'width-24 height-24',
+  sm: 'width-28 height-28',
+  md: 'width-36 height-36',
+  lg: 'width-44 height-44',
+  xl: 'width-52 height-52',
+  '2xl': 'width-60 height-60',
+  '3xl': 'width-68 height-68',
 };
 
 export const IMAGE_SIZE_CLASSES: Record<AvatarSize, string> = {
-  '2xs': 'size-[16px]',
-  xs: 'size-[20px]',
-  sm: 'size-[24px]',
-  md: 'size-[32px]',
-  lg: 'size-[40px]',
-  xl: 'size-[48px]',
-  '2xl': 'size-[56px]',
-  '3xl': 'size-[64px]',
+  '2xs': 'width-16 height-16',
+  xs: 'width-20 height-20',
+  sm: 'width-24 height-24',
+  md: 'width-32 height-32',
+  lg: 'width-40 height-40',
+  xl: 'width-48 height-48',
+  '2xl': 'width-56 height-56',
+  '3xl': 'width-64 height-64',
 };
 
-// 이니셜 타이포그래피 - leading-none으로 flexbox 중앙정렬 최적화
+// 이니셜 타이포그래피 - Figma 기준 line-height 값 적용
 export const INITIALS_TYPOGRAPHY_CLASSES: Record<AvatarSize, string> = {
-  '2xs': 'text-[12px] leading-none',
-  xs: 'text-[12px] leading-none',
-  sm: 'text-[12px] leading-none',
-  md: 'text-[14px] leading-none',
-  lg: 'text-[14px] leading-none',
-  xl: 'text-[16px] leading-none',
-  '2xl': 'text-[18px] leading-none',
-  '3xl': 'text-[20px] leading-none',
+  '2xs': 'size-xs line-height-leading-4',
+  xs: 'size-xs line-height-leading-4',
+  sm: 'size-xs line-height-leading-4',
+  md: 'size-sm line-height-leading-5',
+  lg: 'size-sm line-height-leading-5',
+  xl: 'size-md line-height-leading-6',
+  '2xl': 'size-lg line-height-leading-7',
+  '3xl': 'size-xl line-height-leading-7',
 };
 
 // 자간 - xl만 0, 나머지는 -0.6px
 export const INITIALS_LETTER_SPACING: Record<AvatarSize, string> = {
-  '2xs': 'tracking-[-0.6px]',
-  xs: 'tracking-[-0.6px]',
-  sm: 'tracking-[-0.6px]',
-  md: 'tracking-[-0.6px]',
-  lg: 'tracking-[-0.6px]',
-  xl: 'tracking-[0px]',
-  '2xl': 'tracking-[-0.6px]',
-  '3xl': 'tracking-[-0.6px]',
+  '2xs': 'letter-spacing-tracking-normal',
+  xs: 'letter-spacing-tracking-normal',
+  sm: 'letter-spacing-tracking-normal',
+  md: 'letter-spacing-tracking-normal',
+  lg: 'letter-spacing-tracking-normal',
+  xl: '',
+  '2xl': 'letter-spacing-tracking-normal',
+  '3xl': 'letter-spacing-tracking-normal',
 };
 
 // 폰트 메트릭 보정 - 브라우저와 Figma 렌더링 차이 보정
@@ -104,9 +104,9 @@ export const RING_BG_CLASS = BG.default;
 export const RING_SHAPE_CLASSES_CIRCULAR = 'rounded-full';
 
 export const RING_ROUNDED_RADIUS_CLASSES: Record<AvatarSize, string> = {
-  '2xs': 'rounded-[6px]',
-  xs: 'rounded-[8px]',
-  sm: 'rounded-[8px]',
+  '2xs': 'rounded-sm',
+  xs: 'rounded-md',
+  sm: 'rounded-md',
   md: 'rounded-[10px]',
   lg: 'rounded-[10px]',
   xl: 'rounded-[10px]',
@@ -127,7 +127,7 @@ export const IMAGE_CONTAINER_BORDER_CLASS = BORDER.default;
 
 export const IMAGE_CONTAINER_BG_CLASSES: Record<AvatarVariant, { default: string; withColor?: string }> = {
   initials: {
-    default: 'bg-[#6f6f77]',
+    default: 'bg-basic-gray-accent',
     withColor: '',
   },
   userpic: {

@@ -384,6 +384,12 @@
   border-left-color: var(--border-darker);
 }
 
+.border-l-default {
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: var(--border-default);
+}
+
 .border-b-default {
   border-bottom-width: 1px;
   border-bottom-style: solid;
@@ -514,6 +520,11 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .border-0 {
   border-width: 0;
+}
+
+/* Outline utilities for button groups */
+.outline-darker {
+  outline-color: var(--border-darker);
 }
 
 /* Card border utilities using inset box-shadow (no layout shift) */
@@ -1152,6 +1163,15 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .group:hover .group-hover\:bg-subtle {
   background-color: var(--bg-subtle);
+}
+
+/* Hover and active variants for button states */
+.hover\:bg-basic-gray-alpha-4:hover {
+  background-color: var(--bg-basic-gray-alpha-4);
+}
+
+.active\:bg-basic-gray-alpha-10:active {
+  background-color: var(--bg-basic-gray-alpha-10);
 }
 
 /* ============================================
@@ -2120,6 +2140,10 @@ table[data-striped] tbody tr:nth-child(even) {
   width: var(--spacing-2);
 }
 
+.width-4 {
+  width: var(--spacing-4);
+}
+
 .width-8 {
   width: var(--spacing-8);
 }
@@ -2191,6 +2215,34 @@ table[data-striped] tbody tr:nth-child(even) {
   height: var(--spacing-40);
 }
 
+.height-44 {
+  height: var(--spacing-44);
+}
+
+.height-48 {
+  height: var(--spacing-48);
+}
+
+.height-52 {
+  height: 52px;
+}
+
+.height-56 {
+  height: var(--spacing-56);
+}
+
+.height-60 {
+  height: 60px;
+}
+
+.height-64 {
+  height: var(--spacing-64);
+}
+
+.height-68 {
+  height: 68px;
+}
+
 .width-24 {
   width: var(--spacing-24);
 }
@@ -2215,9 +2267,45 @@ table[data-striped] tbody tr:nth-child(even) {
   width: var(--spacing-40);
 }
 
+.width-44 {
+  width: var(--spacing-44);
+}
+
+.width-48 {
+  width: var(--spacing-48);
+}
+
+.width-52 {
+  width: 52px;
+}
+
+.width-56 {
+  width: var(--spacing-56);
+}
+
+.width-60 {
+  width: 60px;
+}
+
+.width-64 {
+  width: var(--spacing-64);
+}
+
+.width-68 {
+  width: 68px;
+}
+
 /* ============================================
    Min Width Utilities
    ============================================ */
+.min-width-16 {
+  min-width: var(--spacing-16);
+}
+
+.min-width-20 {
+  min-width: var(--spacing-20);
+}
+
 .min-width-24 {
   min-width: var(--spacing-24);
 }

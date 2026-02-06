@@ -53,8 +53,8 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
 
   // Size classes - using Figma typography values
   const sizeClasses = size === 'sm'
-    ? 'text-sm leading-5 font-medium tracking-[-0.6px]'
-    : 'text-base leading-6 font-medium tracking-[-0.6px]';
+    ? 'size-sm line-height-leading-5 font-medium letter-spacing-tracking-normal'
+    : 'size-md line-height-leading-6 font-medium letter-spacing-tracking-normal';
 
   // Render icon or image for breadcrumb item
   const renderIcon = (item: typeof items[0]) => {
@@ -64,7 +64,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
           <img
             src={item.image}
             alt=""
-            className="rounded-full object-cover border border-[#27272a1a]"
+            className="rounded-full object-cover border-default"
             style={{ width: iconSize, height: iconSize }}
           />
         </span>
