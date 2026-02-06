@@ -1,0 +1,44 @@
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import type * as SwitchPrimitive from '@radix-ui/react-switch';
+
+/**
+ * Switch 위치
+ */
+export type SwitchPosition = 'left' | 'right';
+
+/**
+ * Switch 색상
+ */
+export type SwitchColor =
+  | 'green'
+  | 'blue'
+  | 'red'
+  | 'orange'
+  | 'violet'
+  | 'cyan'
+  | 'pink';
+
+/**
+ * Switch Props
+ */
+export interface SwitchProps
+  extends Omit<ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>, 'children'> {
+  /**
+   * Switch 라벨 텍스트 (Title)
+   */
+  label?: ReactNode;
+  /**
+   * 라벨 아래 설명 텍스트
+   */
+  description?: ReactNode;
+  /**
+   * 스위치 위치 (라벨 기준)
+   * @default 'left'
+   */
+  switchPosition?: SwitchPosition;
+  /**
+   * 활성화 시 스위치 색상
+   * @default 'green'
+   */
+  color?: SwitchColor;
+}

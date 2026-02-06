@@ -705,6 +705,14 @@ table[data-striped] tbody tr:nth-child(even) {
   background-color: var(--bg-switch-handle-disabled);
 }
 
+.hover\:bg-switch-default-hover:hover {
+  background-color: var(--bg-switch-default-hover);
+}
+
+.hover\:bg-switch-active-hover:hover {
+  background-color: var(--bg-switch-active-hover);
+}
+
 /* ============================================
    Badge Color Utilities
    ============================================ */
