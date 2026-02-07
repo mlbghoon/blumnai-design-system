@@ -304,6 +304,10 @@ export interface ExtendedSelectItemProps
   description?: string;
   badge?: string;
   avatarSrc?: string;
+  /**
+   * 선택된 상태 여부 (checkbox/radio 타입에서 사용)
+   */
+  isSelected?: boolean;
 }
 
 /**

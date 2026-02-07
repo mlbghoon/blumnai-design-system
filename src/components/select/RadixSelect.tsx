@@ -21,6 +21,40 @@ import {
 } from '@/constants/select/Select/Select.constants';
 
 // ============================================================================
+// SVG Icons for Checkbox/Radio indicators
+// ============================================================================
+
+const SelectCheckIcon = ({ color = 'currentColor' }: { color?: string }) => (
+  <svg
+    width="8"
+    height="8"
+    viewBox="0 0 8 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1 4L3 6L7 2"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const SelectRadioDot = ({ color = 'currentColor' }: { color?: string }) => (
+  <svg
+    width="8"
+    height="8"
+    viewBox="0 0 8 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="4" cy="4" r="4" fill={color} />
+  </svg>
+);
+
+// ============================================================================
 // Primitive Re-exports
 // ============================================================================
 
@@ -285,6 +319,7 @@ const ExtendedSelectItem = React.forwardRef<
       badge,
       avatarSrc,
       disabled,
+      isSelected,
       ...props
     },
     ref
@@ -298,8 +333,44 @@ const ExtendedSelectItem = React.forwardRef<
       : 'var(--icon-default)';
 
     const renderIndicator = () => {
-      if (selectType === 'checkbox' || selectType === 'radio') {
-        return null;
+      const checkIconColor = disabled ? 'var(--icon-default-disabled)' : 'var(--icon-white-default, #FFF)';
+
+      if (selectType === 'checkbox') {
+        return (
+          <span className="flex width-20 height-20 items-center justify-center flex-shrink-0">
+            <span
+              className={cn(
+                'flex items-center justify-center width-16 height-16 rounded-default transition-colors',
+                disabled
+                  ? 'bg-checkbox-disabled border-default'
+                  : isSelected
+                    ? 'bg-checkbox-active border-none'
+                    : 'bg-checkbox-default border-darker'
+              )}
+            >
+              {isSelected && <SelectCheckIcon color={checkIconColor} />}
+            </span>
+          </span>
+        );
+      }
+
+      if (selectType === 'radio') {
+        return (
+          <span className="flex width-20 height-20 items-center justify-center flex-shrink-0">
+            <span
+              className={cn(
+                'flex items-center justify-center width-16 height-16 rounded-full transition-colors',
+                disabled
+                  ? 'bg-checkbox-disabled border-default'
+                  : isSelected
+                    ? 'bg-checkbox-active border-none'
+                    : 'bg-checkbox-default border-darker'
+              )}
+            >
+              {isSelected && <SelectRadioDot color={checkIconColor} />}
+            </span>
+          </span>
+        );
       }
 
       return (
@@ -364,7 +435,7 @@ const ExtendedSelectItem = React.forwardRef<
       <SelectPrimitive.Item
         ref={ref}
         className={cn(
-          'flex w-full select-none items-center rounded-sm outline-none',
+          'group flex w-full select-none items-center rounded-sm outline-none',
           sizeConfig.height,
           sizeConfig.padding,
           sizeConfig.gap,
@@ -374,6 +445,7 @@ const ExtendedSelectItem = React.forwardRef<
           'hover:bg-[var(--bg-state-ghost-hover)]',
           'data-[highlighted]:bg-[var(--bg-state-ghost-hover)]',
           'data-[disabled]:pointer-events-none data-[disabled]:text-hint',
+          isSelected && (selectType === 'checkbox' || selectType === 'radio') && 'bg-[var(--bg-state-ghost-hover)]',
           className
         )}
         disabled={disabled}
@@ -619,6 +691,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                     badge={option.badge}
                     avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}
                     disabled={option.disabled}
+                    isSelected={option.id === value}
                   >
                     {option.label}
                   </ExtendedSelectItem>

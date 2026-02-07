@@ -1,6 +1,20 @@
 // Unified Select component
 export { Select } from './Select';
 
+// Combobox component
+export { Combobox } from './Combobox';
+export type {
+  ComboboxProps,
+  ComboboxOption,
+  ComboboxStyle,
+  ComboboxSize,
+  ComboboxVariant,
+  ComboboxBaseProps,
+  DefaultComboboxProps,
+  AvatarComboboxProps,
+  TagsComboboxProps,
+} from './Combobox';
+
 // Types
 export type {
   SelectProps,
