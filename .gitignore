@@ -31,3 +31,7 @@ playwright-report/
 test-results/
 .playwright/
 blob-report/
+
+# Development source files (fetched on-demand via scripts/fetch-figma.mjs)
+**/source/figma-*.json
+src/icons/svg-source/

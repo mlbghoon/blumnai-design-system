@@ -1,0 +1,58 @@
+import type { Props } from '../../Icon/IconWrapper.types';
+
+import { Icon } from '../../Icon/IconWrapper';
+
+interface ThumbnailProps extends Props {
+  /** 외부 이미지 URL 또는 경로. 제공되지 않으면 프레임만 표시됩니다. */
+  imageSrc?: string;
+}
+
+export const FileThumbnail43MdIcon = ({ imageSrc, ...props }: ThumbnailProps) => {
+  return (
+    <Icon {...props}>
+      <svg viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+<g clipPath="url(#FileThumbnail43MdIcon__clip0_3887_28237)">
+<g filter="url(#FileThumbnail43MdIcon__filter0_di_3887_28237)">
+<g>
+        <path d="M0 4C0 1.79086 1.79086 0 4 0H28C30.2091 0 32 1.79086 32 4V20C32 22.2091 30.2091 24 28 24H4C1.79086 24 0 22.2091 0 20V4Z" fill="transparent" shapeRendering="crispEdges"/>
+        {imageSrc ? (
+          <image
+            x="0"
+            y="0"
+            width="32"
+            height="24"
+            preserveAspectRatio="xMidYMid slice"
+            href={imageSrc}
+            clipPath={`url(#FileThumbnail43MdIcon__clip0_3887_28237)`}
+          />
+        ) : null}
+      </g>
+<path d="M4 0.25H28C30.0711 0.25 31.75 1.92893 31.75 4V20C31.75 22.0711 30.0711 23.75 28 23.75H4C1.92893 23.75 0.25 22.0711 0.25 20V4C0.25 1.92893 1.92893 0.25 4 0.25Z" style={{ fill: 'none' }} stroke="#27272A" strokeOpacity="0.15" strokeWidth="0.5" shape-rendering="crispEdges"/>
+</g>
+</g>
+<defs>
+<filter id="FileThumbnail43MdIcon__filter0_di_3887_28237" x="-3" y="-2" width="38" height="30" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="1.5"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3887_28237"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3887_28237" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="-0.5"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="shape" result="effect2_innerShadow_3887_28237"/>
+</filter>
+
+<clipPath id="FileThumbnail43MdIcon__clip0_3887_28237">
+<rect width="32" height="24" style={{ fill: 'white' }}/>
+</clipPath>
+
+</defs>
+</svg>
+    </Icon>
+  );
+};
