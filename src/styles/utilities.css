@@ -1863,6 +1863,10 @@ table[data-striped] tbody tr:nth-child(even) {
   padding-left: var(--spacing-12);
 }
 
+.padding-l-32 {
+  padding-left: var(--spacing-32);
+}
+
 .padding-r-4 {
   padding-right: var(--spacing-4);
 }
@@ -2301,6 +2305,30 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .width-68 {
   width: 68px;
+}
+
+/* ============================================
+   Position Utilities
+   ============================================ */
+.left-8 {
+  left: var(--spacing-8);
+}
+
+/* ============================================
+   Separator Utilities
+   ============================================ */
+.height-1 {
+  height: 1px;
+}
+
+.-margin-x-4 {
+  margin-left: calc(var(--spacing-4) * -1);
+  margin-right: calc(var(--spacing-4) * -1);
+}
+
+.margin-y-4 {
+  margin-top: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
 }
 
 /* ============================================
