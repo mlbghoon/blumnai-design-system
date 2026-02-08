@@ -1,0 +1,34 @@
+'use client';
+
+import { DragOverlay as DndKitDragOverlay, useDndContext } from '@dnd-kit/core';
+import { cn } from '@/lib/utils';
+import type { DragOverlayProps, DndItem } from './dnd.types';
+
+const defaultDropAnimation = {
+  duration: 250,
+  easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)',
+};
+
+export function DragOverlay({
+  children,
+  className,
+  dropAnimation = defaultDropAnimation,
+}: DragOverlayProps) {
+  const { active } = useDndContext();
+
+  const activeItem: DndItem | null = active
+    ? { id: active.id, data: active.data.current as Record<string, unknown> }
+    : null;
+
+  const content =
+    typeof children === 'function' ? children(activeItem) : children;
+
+  return (
+    <DndKitDragOverlay
+      dropAnimation={dropAnimation}
+      className={cn('shadow-lg', className)}
+    >
+      {active ? content : null}
+    </DndKitDragOverlay>
+  );
+}
