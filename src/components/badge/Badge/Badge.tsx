@@ -80,7 +80,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
     classes.push(getBgClass(color, border));
 
     if (border) {
-      classes.push('border border-solid border-badge-default');
+      classes.push('border-badge-default');
     }
 
     if (className) {
