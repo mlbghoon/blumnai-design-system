@@ -12,7 +12,7 @@ import { Button } from '@blumnai/design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `buttonStyle` | `'primary'` `'secondary'` `'ghost'` `'outline'` `'destructive'` | `'secondary'` | Visual style |
+| `buttonStyle` | `'primary'` `'secondary'` `'destructive'` `'ghost'` `'ghostMuted'` `'soft'` `'dashed'` | `'secondary'` | Visual style |
 | `size` | `'sm'` `'md'` `'lg'` | `'md'` | Button size |
 | `shape` | `'rectangle'` `'pill'` `'square'` `'circle'` | `'rectangle'` | Button shape |
 | `fullWidth` | `boolean` | `false` | Full container width |
@@ -233,23 +233,44 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 
 ---
 
-## AlertDialog / ConfirmDialog
+## SimpleAlertDialog
 
 ```tsx
-import { AlertDialog, ConfirmDialog } from '@blumnai/design-system';
+import { SimpleAlertDialog } from '@blumnai/design-system';
 ```
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `open` | `boolean` | - | Open state |
 | `onOpenChange` | `(open: boolean) => void` | - | Open change callback |
-| `variant` | `'info'` `'success'` `'warning'` `'destructive'` | `'info'` | Visual variant |
-| `title` | `string` | - | Title text |
+| `title` | `string` | required | Title text |
 | `description` | `string` | - | Description text |
-| `confirmText` | `string` | `'확인'` | Confirm button text |
-| `cancelText` | `string` | `'취소'` | Cancel button text |
+| `confirmLabel` | `string` | `'확인'` | Confirm button text |
 | `onConfirm` | `() => void` | - | Confirm callback |
+| `width` | `string \| number` | - | Dialog width |
+
+---
+
+## ConfirmDialog
+
+```tsx
+import { ConfirmDialog } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | - | Open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Open change callback |
+| `title` | `string` | required | Title text |
+| `description` | `string` | - | Description text |
+| `variant` | `'default'` `'destructive'` | `'default'` | Confirm button style |
+| `confirmLabel` | `string` | `'확인'` | Confirm button text |
+| `cancelLabel` | `string` | `'취소'` | Cancel button text |
+| `onConfirm` | `() => void \| Promise<void>` | - | Confirm callback |
 | `onCancel` | `() => void` | - | Cancel callback |
+| `loading` | `boolean` | `false` | Loading state |
+| `confirmDisabled` | `boolean` | `false` | Disable confirm button |
+| `width` | `string \| number` | - | Dialog width |
 
 ---
 

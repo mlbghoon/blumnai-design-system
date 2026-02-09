@@ -179,8 +179,8 @@ function DeleteConfirmation() {
         onOpenChange={setOpen}
         title="정말 삭제하시겠습니까?"
         description="이 작업은 되돌릴 수 없습니다."
-        confirmText="삭제"
-        cancelText="취소"
+        confirmLabel="삭제"
+        cancelLabel="취소"
         variant="destructive"
         onConfirm={handleConfirm}
       />
@@ -189,28 +189,27 @@ function DeleteConfirmation() {
 }
 ```
 
-### Alert Dialog with Custom Content
+### Simple Alert Dialog
 
 ```tsx
 import {
-  AlertDialog,
+  SimpleAlertDialog,
   Button,
 } from '@blumnai/design-system';
+import { useState } from 'react';
 
 function AlertExample() {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>경고 표시</Button>
-      <AlertDialog
+      <Button onClick={() => setOpen(true)}>알림 표시</Button>
+      <SimpleAlertDialog
         open={open}
         onOpenChange={setOpen}
-        variant="warning"
         title="주의가 필요합니다"
         description="이 작업을 진행하면 일부 데이터가 변경됩니다."
-        confirmText="계속"
-        cancelText="취소"
+        confirmLabel="확인"
         onConfirm={() => {
           console.log('Confirmed');
           setOpen(false);
@@ -639,7 +638,6 @@ import { Button, Icon } from '@blumnai/design-system';
 <Button buttonStyle="primary">Primary</Button>
 <Button buttonStyle="secondary">Secondary</Button>
 <Button buttonStyle="ghost">Ghost</Button>
-<Button buttonStyle="outline">Outline</Button>
 <Button buttonStyle="destructive">Destructive</Button>
 
 // Sizes

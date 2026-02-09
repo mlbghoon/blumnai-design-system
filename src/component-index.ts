@@ -176,19 +176,19 @@ export const COMPONENT_INDEX = {
     quickUse: '<Dialog open={open} onOpenChange={setOpen}><DialogContent>...</DialogContent></Dialog>',
   },
 
-  AlertDialog: {
-    keywords: ['alert', 'confirm', 'confirmation', 'warning', 'danger', 'delete confirm'],
-    description: 'Confirmation dialog with icon and actions',
-    import: "import { AlertDialog } from '@blumnai/design-system'",
-    quickUse: '<AlertDialog open={open} title="Are you sure?" variant="warning" onConfirm={...} />',
-    variants: ['info', 'success', 'warning', 'destructive'],
+  SimpleAlertDialog: {
+    keywords: ['alert', 'alert dialog', 'notification', 'info dialog'],
+    description: 'Simple alert dialog with confirm button only',
+    import: "import { SimpleAlertDialog } from '@blumnai/design-system'",
+    quickUse: '<SimpleAlertDialog open={open} onOpenChange={setOpen} title="알림" confirmLabel="확인" onConfirm={...} />',
   },
 
   ConfirmDialog: {
     keywords: ['confirm dialog', 'yes no', 'simple confirm', 'delete'],
-    description: 'Simple yes/no confirmation dialog',
+    description: 'Confirmation dialog with confirm and cancel buttons',
     import: "import { ConfirmDialog } from '@blumnai/design-system'",
-    quickUse: '<ConfirmDialog open={open} title="Delete?" onConfirm={handleDelete} />',
+    quickUse: '<ConfirmDialog open={open} onOpenChange={setOpen} title="Delete?" variant="destructive" onConfirm={handleDelete} />',
+    variants: ['default', 'destructive'],
   },
 
   toast: {
