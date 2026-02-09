@@ -19,12 +19,14 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
   className,
   ...restProps
 }, ref) => {
-  const [openItems, setOpenItems] = useState<Set<number>>(() =>
-    new Set(items.map((item, index) => (item.isOpen ? index : -1)).filter((i) => i !== -1))
+  const getItemId = useCallback((item: (typeof items)[number], index: number) => item.id ?? `__idx_${index}`, []);
+
+  const [openItems, setOpenItems] = useState<Set<string>>(() =>
+    new Set(items.filter((item) => item.isOpen).map((item, index) => getItemId(item, index)))
   );
 
   const handleToggle = useCallback(
-    (index: number, itemOnToggle?: () => void) => {
+    (id: string, itemOnToggle?: () => void) => {
       if (itemOnToggle) {
         itemOnToggle();
         return;
@@ -32,20 +34,20 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
 
       setOpenItems((prev) => {
         const newSet = new Set(prev);
-        const isCurrentlyOpen = newSet.has(index);
+        const isCurrentlyOpen = newSet.has(id);
 
         if (allowMultipleOpen) {
           if (isCurrentlyOpen) {
-            newSet.delete(index);
+            newSet.delete(id);
           } else {
-            newSet.add(index);
+            newSet.add(id);
           }
         } else {
           if (isCurrentlyOpen) {
-            newSet.delete(index);
+            newSet.delete(id);
           } else {
             newSet.clear();
-            newSet.add(index);
+            newSet.add(id);
           }
         }
 
@@ -67,17 +69,18 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
       {...restProps}
     >
       {items.map((item, index) => {
-        const isControlled = item.isOpen !== undefined;
-        const isOpen = isControlled ? item.isOpen : openItems.has(index);
+        const id = getItemId(item, index);
+        const isControlled = item.onToggle !== undefined;
+        const isOpen = isControlled ? (item.isOpen ?? false) : openItems.has(id);
         const itemStyle = item.style ?? style;
 
         return (
           <AccordionItem
-            key={item.id ?? index}
+            key={id}
             header={item.header}
             style={itemStyle}
             isOpen={isOpen}
-            onToggle={() => handleToggle(index, item.onToggle)}
+            onToggle={() => handleToggle(id, item.onToggle)}
             disabled={item.disabled}
             className={item.className}
           >

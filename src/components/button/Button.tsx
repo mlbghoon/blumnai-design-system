@@ -110,6 +110,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   const isIconOnly = variant === 'iconOnly';
   const isInvertedStyle = buttonStyle === 'primary' || buttonStyle === 'destructive';
 
+  if (import.meta.env.DEV && isIconOnly && !props['aria-label']) {
+    console.error('Button: variant="iconOnly" requires an aria-label prop for accessibility.');
+  }
+
   const iconSizeConfig = isIconOnly ? ICON_SIZE.iconOnly : ICON_SIZE.default;
   const iconSize = iconSizeConfig[size] ?? 16;
   const shortcutClasses = SHORTCUT_SIZE[size] ?? SHORTCUT_SIZE.md;
@@ -187,7 +191,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (asChild && (disabled || loading)) {
+    if (disabled || loading) {
       e.preventDefault();
       return;
     }
@@ -198,7 +202,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     <Comp
       ref={ref}
       type={asChild ? undefined : type}
-      disabled={asChild ? undefined : disabled}
+      disabled={asChild ? undefined : (disabled || loading)}
       aria-disabled={disabled || loading || undefined}
       aria-busy={loading || undefined}
       className={containerClassName}

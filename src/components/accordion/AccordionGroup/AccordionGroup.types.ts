@@ -6,7 +6,7 @@ import type { AccordionItemStyle } from '../AccordionItem/AccordionItem.types';
  * AccordionGroup 아이템 데이터
  */
 export interface AccordionGroupItem {
-  /** 고유 식별자 (key로 사용) */
+  /** 고유 식별자 (가능하면 제공하여 안정적인 key/상태 유지) */
   id?: string;
   /** 헤더 내용 (질문) */
   header: ReactNode;

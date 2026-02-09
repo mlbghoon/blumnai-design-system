@@ -8,7 +8,7 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
   ],
-  viteFinal: async (config) => {
+  viteFinal: async (config, { configType }) => {
     // Add Tailwind CSS Vite plugin
     const { default: tailwindcss } = await import('@tailwindcss/vite');
 
@@ -214,9 +214,8 @@ const config: StorybookConfig = {
     // Performance optimizations
     config.define = {
       ...config.define,
-      // Suppress development warnings
       __VITE_IS_MODERN__: true,
-      'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.NODE_ENV': JSON.stringify(configType === 'DEVELOPMENT' ? 'development' : 'production'),
     };
 
     // Reduce memory usage

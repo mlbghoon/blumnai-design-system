@@ -15,7 +15,7 @@ export const COMPONENT_INDEX = {
     description: 'Clickable button for actions',
     import: "import { Button } from '@blumnai/design-system'",
     quickUse: '<Button buttonStyle="primary">Click me</Button>',
-    variants: ['primary', 'secondary', 'ghost', 'outline', 'destructive'],
+    variants: ['primary', 'secondary', 'destructive', 'ghost', 'ghostMuted', 'soft', 'dashed'],
   },
 
   LinkButton: {
@@ -593,6 +593,6 @@ export function findComponentsByKeyword(keyword: string): string[] {
 /**
  * Get component info by name
  */
-export function getComponentInfo(name: string) {
+export function getComponentInfo(name: string): (typeof COMPONENT_INDEX)[keyof typeof COMPONENT_INDEX] | undefined {
   return COMPONENT_INDEX[name as keyof typeof COMPONENT_INDEX];
 }

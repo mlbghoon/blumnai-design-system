@@ -79,6 +79,11 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
           const isFirst = index === 0;
           const hasSeparator = !isFirst;
           const iconOnly = !item.label && !item.badge;
+
+          if (import.meta.env.DEV && iconOnly && !item.ariaLabel) {
+            console.error('ButtonGroup: icon-only items require an ariaLabel prop for accessibility.');
+          }
+
           const labelTextSize = size === '2xs' ? 'size-xs line-height-leading-4' : 'size-sm line-height-leading-5';
           const padding = iconOnly ? BUTTON_PADDING[size].iconOnly : BUTTON_PADDING[size].default;
 
@@ -122,6 +127,8 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
             );
           }
 
+          const isDisabled = item.disabled || !item.onClick;
+
           return (
             <div
               key={item.id ?? index}
@@ -131,21 +138,23 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
                 padding,
                 'transition-colors duration-150',
                 hasSeparator && 'border-l-default',
-                item.disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-                !item.disabled && 'hover:bg-basic-gray-alpha-4 active:bg-basic-gray-alpha-10'
+                isDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
+                !isDisabled && 'hover:bg-basic-gray-alpha-4 active:bg-basic-gray-alpha-10'
               )}
-              onClick={item.disabled ? undefined : item.onClick}
+              onClick={isDisabled ? undefined : item.onClick}
               onKeyDown={(e: KeyboardEvent) => {
-                if (item.disabled || !item.onClick) return;
+                if (isDisabled) return;
                 if (e.key === 'Enter') {
-                  item.onClick();
+                  item.onClick!();
                 } else if (e.key === ' ' || e.key === 'Spacebar') {
                   e.preventDefault();
-                  item.onClick();
+                  item.onClick!();
                 }
               }}
               role="button"
-              tabIndex={item.disabled ? -1 : 0}
+              aria-label={iconOnly ? item.ariaLabel : undefined}
+              aria-disabled={isDisabled || undefined}
+              tabIndex={isDisabled ? -1 : 0}
             >
               {buttonContent.length === 1 && iconOnly ? (
                 buttonContent[0]

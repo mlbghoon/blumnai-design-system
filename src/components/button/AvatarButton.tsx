@@ -99,14 +99,26 @@ export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
     return <span className="inline-flex items-center">{icon}</span>;
   };
 
+  const asChildDisabled = asChild && disabled;
+
+  const handleDisabledClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   return (
     <Comp
       ref={ref}
       type={asChild ? undefined : 'button'}
-      disabled={disabled}
+      disabled={asChild ? undefined : disabled}
       className={containerClassName}
       style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
       {...props}
+      {...(asChildDisabled ? {
+        'aria-disabled': true,
+        tabIndex: -1,
+        onClick: handleDisabledClick,
+      } : {})}
     >
       <Avatar
         variant="userpic"

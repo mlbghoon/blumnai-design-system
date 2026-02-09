@@ -59,14 +59,16 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
   // Get initials text - 1 letter for small sizes (2xs~md), 2 letters for large sizes (lg~3xl)
   const initialsText = useMemo(() => {
     if (!initials) return '';
+    const trimmed = initials.trim();
+    if (!trimmed) return '';
     const smallSizes = ['2xs', 'xs', 'sm', 'md'];
     const maxChars = smallSizes.includes(size) ? 1 : 2;
 
-    const words = initials.trim().split(/\s+/);
+    const words = trimmed.split(/\s+/);
     if (words.length >= 2 && maxChars === 2) {
       return (words[0][0] + words[1][0]).toUpperCase();
     }
-    return initials.toUpperCase().slice(0, maxChars);
+    return trimmed.toUpperCase().slice(0, maxChars);
   }, [initials, size]);
 
   // Container classes

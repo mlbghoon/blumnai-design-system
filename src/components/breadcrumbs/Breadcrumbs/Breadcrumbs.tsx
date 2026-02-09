@@ -7,6 +7,12 @@ import { cn } from '../../../utils/cn';
 
 import type { BreadcrumbsProps } from './Breadcrumbs.types';
 
+const isIconTypeWithFill = (icon: unknown): icon is IconTypeWithFill =>
+  Array.isArray(icon) &&
+  (icon.length === 2 || icon.length === 3) &&
+  typeof icon[0] === 'string' &&
+  typeof icon[1] === 'string';
+
 /**
  * Breadcrumbs 컴포넌트
  *
@@ -22,19 +28,16 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
   className,
   ...props
 }, ref) => {
-  // Determine visible items (handle maxItems collapsing)
   const visibleItems = useMemo(() => {
     if (!maxItems || items.length <= maxItems) {
       return items;
     }
 
-    // Show first item, ellipsis, and last maxItems - 1 items
     const firstItem = items[0];
     const lastItems = items.slice(-(maxItems - 1));
     return [firstItem, { label: '...', disabled: true }, ...lastItems] as typeof items;
   }, [items, maxItems]);
 
-  // Separator character/text based on separator type
   const separatorChar = useMemo(() => {
     switch (separator) {
       case 'chevron':
@@ -49,15 +52,12 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
     }
   }, [separator]);
 
-  // Icon size based on breadcrumb size
   const iconSize = size === 'sm' ? 16 : 18;
 
-  // Size classes - using Figma typography values
   const sizeClasses = size === 'sm'
     ? 'size-sm line-height-leading-5 font-medium letter-spacing-tracking-normal'
     : 'size-md line-height-leading-6 font-medium letter-spacing-tracking-normal';
 
-  // Render icon or image for breadcrumb item
   const renderIcon = (item: typeof items[0]) => {
     if (item.image) {
       return (
@@ -73,9 +73,8 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
     }
 
     if (item.icon) {
-      // Check if icon is an IconTypeWithFill tuple [category, name] or [category, name, isFill]
-      if (Array.isArray(item.icon) && (item.icon.length === 2 || item.icon.length === 3) && typeof item.icon[0] === 'string' && typeof item.icon[1] === 'string') {
-        const { iconType, isFill } = parseIconTypeWithFill(item.icon as IconTypeWithFill);
+      if (isIconTypeWithFill(item.icon)) {
+        const { iconType, isFill } = parseIconTypeWithFill(item.icon);
         return (
           <span className="inline-flex items-center shrink-0">
             <Icon
@@ -114,7 +113,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
 
           return (
             <li
-              key={index}
+              key={item.href ?? `${item.label}-${index}`}
               className={cn('flex items-center gap-2', sizeClasses)}
             >
               {isClickable ? (

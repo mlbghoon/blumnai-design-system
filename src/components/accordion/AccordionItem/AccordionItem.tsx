@@ -73,6 +73,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
       cn(
         'flex items-center justify-between w-full gap-2 cursor-pointer select-none outline-none border-none bg-transparent p-0',
         'text-default transition-colors duration-200 ease-in-out',
+        'focus-visible:shadow-component-misc-focus focus-visible:rounded-sm',
         !disabled && 'hover:text-default',
         disabled && 'cursor-not-allowed opacity-50'
       ),

@@ -6,13 +6,8 @@ import { cn } from '../../../utils/cn';
 
 import type { BadgeColor, BadgeProps } from './Badge.types';
 
-// Placeholder image for badge image variant
 const BADGE_PLACEHOLDER_IMAGE = avatarPlaceholderIcon;
 
-/**
- * Get background class based on badge color
- * Uses CSS variables that adapt to theme (light/dark mode)
- */
 const getBgClass = (color: BadgeColor, hasBorder: boolean): string => {
   if (color === 'neutral') {
     return hasBorder ? 'bg-badge-default' : 'bg-badge-gray';
@@ -20,11 +15,6 @@ const getBgClass = (color: BadgeColor, hasBorder: boolean): string => {
   return `bg-badge-${color}`;
 };
 
-/**
- * Get text color CSS variable based on badge color
- * - Colored badges use --bg-basic-{color}-strong
- * - Neutral badges use --text-subtle
- */
 const getTextColor = (color: BadgeColor): string => {
   if (color === 'neutral') {
     return 'var(--text-subtle)';
@@ -32,11 +22,6 @@ const getTextColor = (color: BadgeColor): string => {
   return `var(--bg-basic-${color}-strong)`;
 };
 
-/**
- * Get dot color CSS variable based on badge color
- * - Colored badges use --bg-basic-{color}-accent
- * - Neutral badges use --text-subtle
- */
 const getDotColor = (color: BadgeColor): string => {
   if (color === 'neutral') {
     return 'var(--text-subtle)';
@@ -44,11 +29,6 @@ const getDotColor = (color: BadgeColor): string => {
   return `var(--bg-basic-${color}-accent)`;
 };
 
-/**
- * Get icon color CSS variable based on badge color
- * - Colored badges use same as text (--bg-basic-{color}-strong)
- * - Neutral badges use --icon-default-muted
- */
 const getIconColor = (color: BadgeColor): string => {
   if (color === 'neutral') {
     return 'var(--icon-default-muted)';
@@ -79,31 +59,26 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   ...props
 }, ref) => {
 
-  // Build container class names
   const containerClassName = useMemo(() => {
     const classes = [
       'relative inline-flex items-center justify-center gap-1',
       'font-["Spoqa_Han_Sans_Neo",sans-serif] font-medium select-none whitespace-nowrap',
     ];
 
-    // Size
     if (size === 'sm') {
       classes.push('min-height-20 padding-y-4 padding-x-8 size-xs line-height-leading-4 letter-spacing-tracking-normal');
     } else {
       classes.push('min-height-24 padding-y-6 padding-x-10 size-sm line-height-leading-4 letter-spacing-tracking-normal');
     }
 
-    // Shape
     if (shape === 'pill') {
       classes.push('rounded-full');
     } else {
       classes.push('rounded-sm');
     }
 
-    // Background color (uses CSS variables for theme support)
     classes.push(getBgClass(color, border));
 
-    // Border
     if (border) {
       classes.push('border border-solid border-badge-default');
     }
@@ -115,15 +90,12 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
     return cn(...classes);
   }, [size, shape, color, border, className]);
 
-  // Icon size based on badge size
   const iconSize = size === 'sm' ? 12 : 14;
 
-  // Text color style (uses --bg-basic-{color}-strong or --text-subtle for neutral)
   const combinedStyle = { color: getTextColor(color), ...style };
 
   return (
     <div ref={ref} className={containerClassName} style={combinedStyle} {...props}>
-      {/* Icon variant */}
       {variant === 'icon' && icon && (
         <span className="inline-flex items-center shrink-0 leading-none" style={{ marginTop: '-1px' }}>
           {(() => {
@@ -133,7 +105,6 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
         </span>
       )}
 
-      {/* Image variant */}
       {variant === 'image' && (
         <span
           className="inline-flex items-center shrink-0 overflow-hidden rounded-full leading-none"
@@ -151,7 +122,6 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
         </span>
       )}
 
-      {/* Dot variant - uses --bg-basic-{color}-accent or --text-subtle for neutral */}
       {variant === 'dot' && (
         <span
           className="inline-flex items-center shrink-0 rounded-full leading-none"
@@ -164,10 +134,8 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
         />
       )}
 
-      {/* Label (for default variant or when label is provided) */}
       {(variant === 'default' || label) && <span className="shrink-0 leading-none">{label}</span>}
 
-      {/* Close icon */}
       {closeIcon && (
         <button
           type="button"

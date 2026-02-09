@@ -81,7 +81,7 @@ export const WithIcons: Story = {
   args: {
     items: [
       { label: 'Live preview', icon: ['system', 'eye'] },
-      { icon: ['system', 'settings'] },
+      { icon: ['system', 'settings'], ariaLabel: 'Settings' },
     ],
     size: 'sm',
   },
@@ -107,7 +107,7 @@ export const WithTailIcon: Story = {
   args: {
     items: [
       { label: 'Close issue', icon: ['system', 'close-circle'], tailIcon: ['arrows', 'chevron-down'] },
-      { icon: ['system', 'settings'] },
+      { icon: ['system', 'settings'], ariaLabel: 'Settings' },
     ],
     size: 'sm',
   },
@@ -134,10 +134,10 @@ export const Sizes: Story = {
 export const IconOnly: Story = {
   args: {
     items: [
-      { icon: ['editor', 'bold'] },
-      { icon: ['editor', 'italic'] },
-      { icon: ['editor', 'underline'] },
-      { icon: ['editor', 'strikethrough'] },
+      { icon: ['editor', 'bold'], ariaLabel: 'Bold' },
+      { icon: ['editor', 'italic'], ariaLabel: 'Italic' },
+      { icon: ['editor', 'underline'], ariaLabel: 'Underline' },
+      { icon: ['editor', 'strikethrough'], ariaLabel: 'Strikethrough' },
     ],
     size: 'sm',
   },
@@ -151,7 +151,7 @@ export const Disabled: Story = {
     items: [
       { label: 'Label', icon: ['system', 'add'], badge: '8', tailIcon: ['arrows', 'chevron-down'] },
       { label: 'Label', icon: ['system', 'add'], badge: '8', tailIcon: ['arrows', 'chevron-down'], disabled: true },
-      { icon: ['system', 'settings'], disabled: true },
+      { icon: ['system', 'settings'], ariaLabel: 'Settings', disabled: true },
     ],
     size: 'sm',
   },

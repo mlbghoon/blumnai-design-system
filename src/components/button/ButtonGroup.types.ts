@@ -12,7 +12,7 @@ export type ButtonGroupSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg';
  */
 export interface ButtonGroupItem {
   /**
-   * 고유 식별자 (key로 사용)
+   * 고유 식별자 (가능하면 제공하여 안정적인 key/상태 유지)
    */
   id?: string;
   /**
@@ -35,6 +35,10 @@ export interface ButtonGroupItem {
    * Badge 텍스트
    */
   badge?: string;
+  /**
+   * 아이콘 전용 버튼의 접근성 라벨 (icon-only 시 필수)
+   */
+  ariaLabel?: string;
   /**
    * 버튼이 비활성화되었는지 여부
    */

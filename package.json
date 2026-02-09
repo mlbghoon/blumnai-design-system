@@ -19,7 +19,8 @@
     "README.md"
   ],
   "sideEffects": [
-    "*.css"
+    "*.css",
+    "dist/*.css"
   ],
   "scripts": {
     "dev": "vite",
