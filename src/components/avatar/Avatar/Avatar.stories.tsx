@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -157,18 +157,10 @@ export const Default: Story = {
     size: 'md',
     shape: 'circular',
     initials: 'JD',
-    icon: ['weather', 'moon'],
-    logoImage: 'https://picsum.photos/20',
     className: '',
   },
   render: function Render(args) {
     const avatarRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      if (avatarRef.current) {
-        console.log('Avatar ref:', avatarRef.current);
-      }
-    }, []);
 
     return <Avatar ref={avatarRef} {...args} />;
   },

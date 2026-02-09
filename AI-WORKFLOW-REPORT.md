@@ -85,7 +85,7 @@
 - aria-label, aria-describedby 등 ARIA 속성이 올바르게 설정되는지 확인
 
 **피드백 방식:**
-- 문제 발견 시 간단히 설명 ("can not fucust on component using tab", "no action firing on Enter key")
+- 문제 발견 시 간단히 설명 ("cannot focus on component using Tab", "no action firing on Enter key")
 - 필요시 브라우저 DevTools 콘솔 스크린샷 공유
 - AI가 해당 이벤트 핸들러 또는 접근성 속성 수정
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -106,13 +106,6 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
-
-    useEffect(() => {
-      if (iconRef.current) {
-        console.log('Icon ref:', iconRef.current);
-      }
-    }, []);
-
     return <Icon ref={iconRef} {...args} />;
   },
 };

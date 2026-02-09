@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react';
 import { forwardRef, useMemo } from 'react';
 
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
@@ -104,7 +105,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
           const isLast = index === visibleItems.length - 1;
           const isClickable = (!!item.href || !!item.onClick) && !item.disabled && !isLast;
 
-          const handleClick = (e: React.MouseEvent) => {
+          const handleClick = (e: MouseEvent) => {
             if (item.onClick) {
               e.preventDefault();
               item.onClick();

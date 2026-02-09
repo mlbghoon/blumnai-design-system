@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -150,14 +150,20 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const badgeRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      if (badgeRef.current) {
-        console.log('Badge ref:', badgeRef.current);
-      }
-    }, []);
-
-    return <Badge ref={badgeRef} {...args} />;
+    return (
+      <Badge
+        ref={badgeRef}
+        variant={args.variant}
+        label={args.label}
+        size={args.size}
+        color={args.color}
+        shape={args.shape}
+        border={args.border}
+        closeIcon={args.closeIcon}
+        className={args.className}
+        onClose={args.onClose}
+      />
+    );
   },
 };
 

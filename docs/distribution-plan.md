@@ -76,7 +76,7 @@ export default defineConfig({
 
 ```json
 {
-  "name": "@blumnai/design-system",
+  "name": "@mbisolution/blumnai-design-system",
   "version": "1.0.0",
   "private": false,
   "type": "module",
@@ -104,7 +104,7 @@ export default defineConfig({
     "prepublishOnly": "npm run build:lib"
   },
   "publishConfig": {
-    "registry": "https://your-private-registry.com/"
+    "registry": "https://npm.pkg.github.com"
   }
 }
 ```
@@ -115,45 +115,17 @@ export default defineConfig({
 npm install -D vite-plugin-dts
 ```
 
-### 1.5 Private Registry Setup (Detailed Guide for Beginners)
+### 1.5 GitHub Packages Setup
 
-#### What is a Registry?
+> **Decision**: We're using **GitHub Packages** for private npm hosting.
 
-Think of npm (Node Package Manager) like an app store for code libraries. When you run `npm install react`, npm goes to a **registry** (a server that stores packages) and downloads React.
-
-By default, npm uses the **public registry** at `registry.npmjs.org`. Anyone can download packages from there.
-
-#### What is a Private Registry?
-
-A **private registry** is your own "private app store" for code. Only people in your company can access it. This is important because:
-- Your design system code stays confidential
-- Only authorized team members can download/install it
-- You control who has access
-
-#### Your Options (Choose One)
-
-| Option | Best For | Cost | Difficulty |
-|--------|----------|------|------------|
-| **GitHub Packages** | Teams already using GitHub | Free for private repos | Easy |
-| **npm Pro/Teams** | Simple setup, official npm | $7-14/user/month | Very Easy |
-| **Verdaccio** | Self-hosted, full control | Free (server costs only) | Medium |
-| **AWS CodeArtifact** | AWS-based companies | Pay per use | Medium |
-| **JFrog Artifactory** | Enterprise companies | Varies | Complex |
-
-**Recommendation for most teams**: GitHub Packages (if you're already on GitHub) or npm Teams.
-
----
-
-#### Option A: GitHub Packages (Recommended)
-
-GitHub Packages lets you host npm packages directly in your GitHub repository.
+GitHub Packages lets you host npm packages directly in your GitHub repository. Free for private repos, easy setup.
 
 **Step 1: Update package.json**
 
-Change the package name to include your GitHub organization:
 ```json
 {
-  "name": "@your-github-org/design-system",
+  "name": "@mbisolution/blumnai-design-system",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   }
@@ -162,46 +134,37 @@ Change the package name to include your GitHub organization:
 
 **Step 2: Create `.npmrc` file in project root**
 
-This file tells npm where to find and publish packages.
-
-Create a new file called `.npmrc` (note the dot at the beginning) in your project folder:
 ```
-@your-github-org:registry=https://npm.pkg.github.com
+@mbisolution:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-**What does this mean?**
-- Line 1: "Any package starting with @your-github-org should be downloaded from GitHub Packages"
-- Line 2: "Use this token to authenticate" (the `${GITHUB_TOKEN}` will be replaced with your actual token)
-
 **Step 3: Create a Personal Access Token**
 
-1. Go to GitHub.com → Click your profile picture → Settings
-2. Scroll down to "Developer settings" (bottom of left sidebar)
-3. Click "Personal access tokens" → "Tokens (classic)"
-4. Click "Generate new token (classic)"
-5. Give it a name like "npm-publish"
-6. Select these permissions:
-   - `write:packages` (to publish packages)
-   - `read:packages` (to download packages)
-   - `delete:packages` (optional, to delete old versions)
-7. Click "Generate token"
-8. **IMPORTANT**: Copy the token now! You won't see it again.
+1. Go to GitHub.com → Profile → Settings → Developer settings
+2. Click "Personal access tokens" → "Tokens (classic)"
+3. Click "Generate new token (classic)"
+4. Name: "npm-publish"
+5. Select permissions:
+   - `write:packages` (to publish)
+   - `read:packages` (to download)
+   - `delete:packages` (optional)
+6. Click "Generate token"
+7. **Copy the token immediately!**
 
-**Step 4: Save your token safely**
+**Step 4: Save your token**
 
-On your computer, add this to your shell profile (`~/.bashrc`, `~/.zshrc`, or `~/.bash_profile`):
+Add to your shell profile (`~/.zshrc` or `~/.bashrc`):
 ```bash
 export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
-Replace `ghp_xxx...` with your actual token.
 
 Then run:
 ```bash
-source ~/.zshrc  # or ~/.bashrc
+source ~/.zshrc
 ```
 
-**Step 5: Publish your package**
+**Step 5: Publish**
 ```bash
 npm run build:lib
 npm publish
@@ -209,105 +172,21 @@ npm publish
 
 **For team members to install:**
 
-They also need to:
 1. Create their own GitHub token (with `read:packages` permission)
-2. Add to their `~/.npmrc` file (in their home folder, not the project):
+2. Add to `~/.npmrc` (home folder):
 ```
 //npm.pkg.github.com/:_authToken=ghp_their_token_here
 ```
-3. Then they can install:
+3. Install:
 ```bash
-npm install @your-github-org/design-system
+npm install @mbisolution/blumnai-design-system
 ```
-
----
-
-#### Option B: npm Teams/Pro
-
-This uses npm's official private registry. Simpler but costs money.
-
-**Step 1: Sign up at npmjs.com**
-
-1. Go to npmjs.com and create an account
-2. Go to account settings → "Upgrade to Pro" or "Create Organization"
-3. For teams: Create an organization (e.g., "blumnai")
-
-**Step 2: Update package.json**
-```json
-{
-  "name": "@blumnai/design-system",
-  "publishConfig": {
-    "access": "restricted"
-  }
-}
-```
-
-**Step 3: Login and publish**
-```bash
-npm login
-# Enter your npm username, password, email
-
-npm run build:lib
-npm publish
-```
-
-**For team members:**
-```bash
-npm login  # Login with their npm account
-npm install @blumnai/design-system
-```
-
-The organization admin needs to invite team members on npmjs.com.
-
----
-
-#### Option C: Self-hosted with Verdaccio
-
-Verdaccio is free software that creates your own npm registry on a server you control.
-
-**Step 1: Install Verdaccio on a server**
-```bash
-npm install -g verdaccio
-verdaccio  # Starts on http://localhost:4873
-```
-
-For production, you'd deploy this to a server (AWS EC2, DigitalOcean, etc.) and run it behind a domain like `npm.your-company.com`.
-
-**Step 2: Create `.npmrc` in project**
-```
-@blumnai:registry=https://npm.your-company.com/
-//npm.your-company.com/:_authToken=${NPM_TOKEN}
-```
-
-**Step 3: Create user and get token**
-```bash
-npm adduser --registry https://npm.your-company.com/
-# Creates account and saves token locally
-```
-
-This option requires more DevOps knowledge but gives you full control.
 
 ---
 
 #### Important: Never Commit Tokens!
 
-Add `.npmrc` to `.gitignore` if it contains actual tokens:
-```
-# .gitignore
-.npmrc
-```
-
-Instead, use environment variables (`${GITHUB_TOKEN}`) and let each developer set their own token locally.
-
----
-
-#### Quick Summary
-
-| What | Where | Purpose |
-|------|-------|---------|
-| `.npmrc` in project | Project root folder | Tells npm which registry to use |
-| `.npmrc` in home | `~/.npmrc` | Stores your personal auth token |
-| Token | Environment variable or ~/.npmrc | Proves you're allowed to access packages |
+The project `.npmrc` uses `${GITHUB_TOKEN}` environment variable. Each developer sets their own token locally.
 
 ---
 
@@ -375,7 +254,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          registry-url: 'https://your-private-registry.com/'
+          registry-url: 'https://npm.pkg.github.com'
 
       - run: npm ci
       - run: npm run typecheck
@@ -384,7 +263,7 @@ jobs:
 
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ---
@@ -405,11 +284,11 @@ jobs:
 2. [ ] Share Storybook URL with team
 3. [ ] Document installation instructions for developers:
    ```bash
-   npm install @blumnai/design-system
+   npm install @mbisolution/blumnai-design-system
    ```
    ```tsx
-   import { Button, Input } from '@blumnai/design-system';
-   import '@blumnai/design-system/styles';
+   import { Button, Input } from '@mbisolution/blumnai-design-system';
+   import '@mbisolution/blumnai-design-system/styles';
    ```
 
 ### Phase 3: Automation (Optional, Later)
@@ -477,7 +356,7 @@ The `exports` field in package.json tells bundlers which format to use:
 ### CSS Compatibility
 ✅ **Universal** - CSS is output as plain `.css` file, works everywhere:
 ```tsx
-import '@blumnai/design-system/styles';
+import '@mbisolution/blumnai-design-system/styles';
 ```
 
 ### TypeScript Versions
@@ -489,11 +368,11 @@ import '@blumnai/design-system/styles';
 
 ```bash
 # Install
-npm install @blumnai/design-system
+npm install @mbisolution/blumnai-design-system
 
 # In code
-import { Button, Input, Checkbox } from '@blumnai/design-system';
-import '@blumnai/design-system/styles';
+import { Button, Input, Checkbox } from '@mbisolution/blumnai-design-system';
+import '@mbisolution/blumnai-design-system/styles';
 
 function App() {
   return <Button style="primary">Click me</Button>;

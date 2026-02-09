@@ -83,7 +83,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
     () =>
       cn(
         'flex items-center justify-center w-6 h-6 shrink-0 text-muted',
-        'transition-transform transition-colors duration-200 ease-in-out',
+        'transition-all duration-200 ease-in-out',
         isOpen && 'rotate-180'
       ),
     [isOpen]
@@ -92,8 +92,8 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
   const contentClassName = useMemo(
     () =>
       cn(
-        'overflow-hidden transition-all duration-300 ease-in-out max-h-0 opacity-0',
-        isOpen && 'max-h-[1000px] opacity-100'
+        'grid transition-[grid-template-rows,opacity] duration-300 ease-in-out',
+        isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
       ),
     [isOpen]
   );
@@ -124,7 +124,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
         </span>
       </button>
       <div className={contentClassName}>
-        <div className="pt-2 text-base font-normal leading-6 text-muted">{children}</div>
+        <div className="overflow-hidden pt-2 text-base font-normal leading-6 text-muted">{children}</div>
       </div>
     </div>
   );

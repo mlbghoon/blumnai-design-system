@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { forwardRef, isValidElement } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 
@@ -68,7 +69,7 @@ export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
     ? { width: getWidthValue(width) }
     : undefined;
 
-  const mergedStyle: React.CSSProperties = {
+  const mergedStyle: CSSProperties = {
     ...(style || {}),
     ...(widthStyle || {}),
   };
@@ -84,7 +85,7 @@ export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
     return 'var(--icon-default-muted)';
   };
 
-  const renderIcon = (icon: AvatarButtonIconType | React.ReactNode) => {
+  const renderIcon = (icon: AvatarButtonIconType | ReactNode) => {
     if (!icon) return null;
     if (typeof icon === 'object' && !Array.isArray(icon) && Object.keys(icon as object).length === 0) return null;
 

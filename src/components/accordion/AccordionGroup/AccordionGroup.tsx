@@ -19,13 +19,13 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
   className,
   ...restProps
 }, ref) => {
-  const [openItems, setOpenItems] = useState<Set<number>>(
+  const [openItems, setOpenItems] = useState<Set<number>>(() =>
     new Set(items.map((item, index) => (item.isOpen ? index : -1)).filter((i) => i !== -1))
   );
 
   const handleToggle = useCallback(
     (index: number, itemOnToggle?: () => void) => {
-      if (itemOnToggle && typeof itemOnToggle === 'function') {
+      if (itemOnToggle) {
         itemOnToggle();
         return;
       }
@@ -56,17 +56,14 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
   );
 
   const containerClassName = useMemo(() => {
-    return cn(
-      'flex flex-col w-full',
-      spacing === 8 ? 'gap-2' : `gap-[${spacing}px]`,
-      className
-    );
-  }, [className, spacing]);
+    return cn('flex flex-col w-full', className);
+  }, [className]);
 
   return (
     <div
       ref={ref}
       className={containerClassName}
+      style={{ gap: spacing }}
       {...restProps}
     >
       {items.map((item, index) => {
@@ -76,7 +73,7 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
 
         return (
           <AccordionItem
-            key={index}
+            key={item.id ?? index}
             header={item.header}
             style={itemStyle}
             isOpen={isOpen}

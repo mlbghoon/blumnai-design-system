@@ -1,6 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
 import { Avatar } from '../Avatar/Avatar';
+import { cn } from '../../../utils/cn';
 
 import * as styles from './AvatarGroup.css';
 import type { AvatarGroupProps } from './AvatarGroup.types';
@@ -42,13 +43,8 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
     };
   }, [avatars, max]);
 
-  // Build container class names
   const containerClassName = useMemo(() => {
-    const classes = [styles.container];
-    if (className) {
-      classes.push(className);
-    }
-    return classes.filter(Boolean).join(' ');
+    return cn(styles.container, className);
   }, [className]);
 
   // Calculate z-index based on stacking
@@ -62,13 +58,9 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
     }
   };
 
-  // Build overlay class names
   const overlayClassName = useMemo(() => {
-    const classes = [styles.overlay, 'text-muted'];
     const sizeKey = `overlay${size}` as keyof typeof styles;
-    const sizeClass = styles[sizeKey];
-    if (sizeClass) classes.push(sizeClass as string);
-    return classes.filter(Boolean).join(' ');
+    return cn(styles.overlay, 'text-muted', styles[sizeKey]);
   }, [size]);
 
   return (

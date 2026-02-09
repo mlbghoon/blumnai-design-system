@@ -12,6 +12,10 @@ export type ButtonGroupSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg';
  */
 export interface ButtonGroupItem {
   /**
+   * 고유 식별자 (key로 사용)
+   */
+  id?: string;
+  /**
    * 버튼 라벨 텍스트
    */
   label?: ReactNode;

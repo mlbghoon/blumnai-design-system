@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -95,13 +95,6 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const accordionRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      if (accordionRef.current) {
-        console.log('AccordionItem ref:', accordionRef.current);
-      }
-    }, []);
-
     return <AccordionItem ref={accordionRef} {...args} />;
   },
 };

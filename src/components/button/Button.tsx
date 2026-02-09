@@ -186,14 +186,25 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     ...(widthStyle || {}),
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (asChild && (disabled || loading)) {
+      e.preventDefault();
+      return;
+    }
+    props.onClick?.(e);
+  };
+
   return (
     <Comp
       ref={ref}
       type={asChild ? undefined : type}
-      disabled={disabled}
+      disabled={asChild ? undefined : disabled}
+      aria-disabled={disabled || loading || undefined}
+      aria-busy={loading || undefined}
       className={containerClassName}
       style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
       {...props}
+      onClick={handleClick}
     >
       {isIconOnly ? (
         loading ? renderLoadingSpinner() : renderIcon(leadIcon)

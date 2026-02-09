@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -182,13 +182,6 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const chartRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      if (chartRef.current) {
-        console.log('LineChart ref:', chartRef.current);
-      }
-    }, []);
-
     return <LineChart ref={chartRef} {...args} />;
   },
 };

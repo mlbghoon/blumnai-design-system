@@ -1,3 +1,4 @@
+import type { KeyboardEvent } from 'react';
 import { forwardRef } from 'react';
 
 import { Icon } from '../icons/Icon';
@@ -60,7 +61,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
             <Icon
               iconType={icon as IconType}
               size={iconSize}
-              color={disabled ? 'rgba(39,39,42,0.25)' : '#6F6F77'}
+              color={disabled ? 'var(--icon-default-disabled)' : 'var(--icon-default-muted)'}
             />
           </span>
         );
@@ -123,7 +124,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
 
           return (
             <div
-              key={index}
+              key={item.id ?? index}
               className={cn(
                 'inline-flex items-center justify-center',
                 'bg-transparent',
@@ -134,6 +135,15 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
                 !item.disabled && 'hover:bg-basic-gray-alpha-4 active:bg-basic-gray-alpha-10'
               )}
               onClick={item.disabled ? undefined : item.onClick}
+              onKeyDown={(e: KeyboardEvent) => {
+                if (item.disabled || !item.onClick) return;
+                if (e.key === 'Enter') {
+                  item.onClick();
+                } else if (e.key === ' ' || e.key === 'Spacebar') {
+                  e.preventDefault();
+                  item.onClick();
+                }
+              }}
               role="button"
               tabIndex={item.disabled ? -1 : 0}
             >

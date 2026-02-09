@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -70,13 +70,6 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const groupRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      if (groupRef.current) {
-        console.log('ButtonGroup ref:', groupRef.current);
-      }
-    }, []);
-
     return <ButtonGroup ref={groupRef} {...args} />;
   },
 };

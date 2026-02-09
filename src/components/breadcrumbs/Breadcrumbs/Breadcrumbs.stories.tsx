@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -24,7 +24,7 @@ const meta: Meta<typeof Breadcrumbs> = {
           detail: `각 아이템 속성:
 - label: string (필수) - 표시할 텍스트
 - href?: string - URL/경로 (링크로 만듦)
-- icon?: IconType | ReactNode - 이 아이템의 아이콘
+- icon?: IconTypeWithFill | ReactNode - 이 아이템의 아이콘 (tuple 지원)
 - image?: string - 아바타 변형용 이미지 URL
 - disabled?: boolean - 이 아이템 비활성화
 - onClick?: () => void - 클릭 시 호출되는 콜백 (href보다 우선)`,
@@ -109,13 +109,6 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const breadcrumbsRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-      if (breadcrumbsRef.current) {
-        console.log('Breadcrumbs ref:', breadcrumbsRef.current);
-      }
-    }, []);
-
     return <Breadcrumbs ref={breadcrumbsRef} {...args} />;
   },
 };

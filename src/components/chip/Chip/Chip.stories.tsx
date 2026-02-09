@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -125,13 +125,6 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const chipRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      if (chipRef.current) {
-        console.log('Chip ref:', chipRef.current);
-      }
-    }, []);
-
     return <Chip ref={chipRef} {...args} />;
   },
 };

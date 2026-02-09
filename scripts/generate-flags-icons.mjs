@@ -38,30 +38,33 @@ const buildAlpha2ToName = () => {
 
 /**
  * Extract the key part from a flag component name
- * e.g., "FlagAfIcon" -> "af", "FlagAbkhaziaIcon" -> "abkhazia"
+ * e.g., "FlagAfIcon" -> "Af", "FlagAbkhaziaIcon" -> "Abkhazia"
+ * Preserves original case for later processing
  */
 const extractKeyFromComponentName = (componentName) => {
   // Remove "Flag" prefix and "Icon" suffix
   const match = componentName.match(/^Flag(.+)Icon$/);
   if (!match) return null;
 
-  // Convert to lowercase
-  return match[1].toLowerCase();
+  // Return as-is, preserving case for keyToDisplayName
+  return match[1];
 };
 
 /**
  * Convert a key to a display name (for use in the registry)
  * - If it's an ISO code, get the full country name
- * - Otherwise, add spaces before capital letters and use as-is
+ * - Otherwise, add spaces before capital letters and convert to lowercase
  */
 const keyToDisplayName = (key, alpha2ToName) => {
+  const lowerKey = key.toLowerCase();
+
   // Check if it's a 2-letter ISO code
-  if (key.length === 2 && alpha2ToName.has(key)) {
-    return alpha2ToName.get(key);
+  if (lowerKey.length === 2 && alpha2ToName.has(lowerKey)) {
+    return alpha2ToName.get(lowerKey);
   }
 
-  // For non-ISO codes (like "abkhazia", "basquecountry"),
-  // add spaces before capital letters in the original and make lowercase
+  // For non-ISO codes (like "BasqueCountry" -> "basque country"),
+  // add spaces before capital letters, then convert to lowercase
   return key
     .replace(/([a-z])([A-Z])/g, '$1 $2')
     .toLowerCase();
@@ -100,7 +103,7 @@ for (const file of flagFiles) {
   registryEntries.push({
     displayName,
     componentName,
-    key,
+    key: key.toLowerCase(),
   });
 }
 
@@ -116,7 +119,7 @@ const generateFlagRegistry = () => {
     .join('\n');
 
   const registryObject = registryEntries
-    .map(({ displayName, componentName }) => `  '${displayName}': ${componentName},`)
+    .map(({ displayName, componentName }) => `  '${displayName.replace(/'/g, "\\'")}': ${componentName},`)
     .join('\n');
 
   return [
@@ -139,7 +142,7 @@ const generateFlagRegistry = () => {
 // Generate FlagIcon.types.ts
 const generateFlagTypes = () => {
   const countryCodes = registryEntries
-    .map(({ displayName }) => `  | '${displayName}'`)
+    .map(({ displayName }) => `  | '${displayName.replace(/'/g, "\\'")}'`)
     .join('\n');
 
   return [

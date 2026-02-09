@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -135,13 +135,6 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const dividerRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      if (dividerRef.current) {
-        console.log('Divider ref:', dividerRef.current);
-      }
-    }, []);
-
     return (
       <div style={{ width: '100%', maxWidth: '400px' }}>
         <Divider ref={dividerRef} {...args} />

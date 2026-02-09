@@ -212,6 +212,23 @@ const generateBrandRegistry = () => {
 
 // Generate BrandIcon.types.ts
 const generateBrandTypes = () => {
+  if (registryEntries.length === 0) {
+    console.warn('Warning: No brand icons found. Generating empty types.');
+    return [
+      "import type { SVGProps } from 'react';",
+      '',
+      '// No brand icons found',
+      'export type BrandType = never;',
+      '',
+      "export interface BrandIconProps extends Omit<SVGProps<SVGSVGElement>, 'children' | 'cursor' | 'focusable'> {",
+      '  brandType: BrandType;',
+      '  size?: number;',
+      '  className?: string;',
+      '}',
+      '',
+    ].join('\n');
+  }
+
   const brandNames = registryEntries
     .map(({ brandName }) => `  | '${brandName}'`)
     .join('\n');

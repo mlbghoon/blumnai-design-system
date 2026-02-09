@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -66,13 +66,6 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const tooltipRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      if (tooltipRef.current) {
-        console.log('Tooltip ref:', tooltipRef.current);
-      }
-    }, []);
-
     return <Tooltip ref={tooltipRef} {...args} />;
   },
 };

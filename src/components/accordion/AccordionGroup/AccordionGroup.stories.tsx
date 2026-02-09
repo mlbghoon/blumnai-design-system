@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -104,13 +104,6 @@ export const Group: Story = {
   },
   render: function Render(args) {
     const groupRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      if (groupRef.current) {
-        console.log('AccordionGroup ref:', groupRef.current);
-      }
-    }, []);
-
     return <AccordionGroup ref={groupRef} {...args} />;
   },
 };

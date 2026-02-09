@@ -9,10 +9,8 @@
  */
 export const isRestrictedIcon = (componentName: string): boolean => {
   return (
-    (componentName.includes('File') && 
-     (componentName.includes('FileThumbnail') || 
-      componentName.includes('FileArchive') || 
-      componentName.includes('FileCode'))) ||
+    componentName.includes('FileArchive') ||
+    componentName.includes('FileCode') ||
     componentName.includes('Brand') ||
     componentName.includes('Flag')
   );

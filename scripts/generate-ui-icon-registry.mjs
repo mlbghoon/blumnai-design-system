@@ -30,10 +30,14 @@ function componentNameToRegistryKey(componentName) {
  */
 function collectIcons() {
   const icons = [];
+  const seenRegistryKeys = new Map();
+  const seenComponentNames = new Map();
 
   const categories = fs.readdirSync(ICONS_DIR, { withFileTypes: true })
     .filter(d => d.isDirectory() && !EXCLUDED_CATEGORIES.includes(d.name))
     .map(d => d.name);
+
+  const duplicates = [];
 
   for (const category of categories) {
     const categoryPath = path.join(ICONS_DIR, category);
@@ -44,6 +48,34 @@ function collectIcons() {
       const componentName = file.replace('.tsx', '');
       const registryKey = componentNameToRegistryKey(componentName);
 
+      if (seenRegistryKeys.has(registryKey)) {
+        const existing = seenRegistryKeys.get(registryKey);
+        duplicates.push({
+          type: 'registryKey',
+          key: registryKey,
+          locations: [
+            { componentName: existing.componentName, category: existing.category },
+            { componentName, category },
+          ],
+        });
+      } else {
+        seenRegistryKeys.set(registryKey, { componentName, category });
+      }
+
+      if (seenComponentNames.has(componentName)) {
+        const existingCategory = seenComponentNames.get(componentName);
+        duplicates.push({
+          type: 'componentName',
+          key: componentName,
+          locations: [
+            { category: existingCategory },
+            { category },
+          ],
+        });
+      } else {
+        seenComponentNames.set(componentName, category);
+      }
+
       icons.push({
         componentName,
         registryKey,
@@ -51,6 +83,23 @@ function collectIcons() {
         importPath: `./icons/${category}/${componentName}`,
       });
     }
+  }
+
+  if (duplicates.length > 0) {
+    console.error('\n❌ Duplicate icons detected:\n');
+    for (const dup of duplicates) {
+      console.error(`  ${dup.type}: "${dup.key}"`);
+      for (const loc of dup.locations) {
+        if (loc.componentName) {
+          console.error(`    - ${loc.componentName} in category "${loc.category}"`);
+        } else {
+          console.error(`    - category "${loc.category}"`);
+        }
+      }
+      console.error('');
+    }
+    console.error('Please rename conflicting icons to have unique names.\n');
+    process.exit(1);
   }
 
   return icons.sort((a, b) => a.registryKey.localeCompare(b.registryKey));

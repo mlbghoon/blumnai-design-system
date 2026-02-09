@@ -167,55 +167,14 @@ function normalizeSVGIds(svgContent, componentName) {
 }
 
 /**
- * Apply cursor-specific SVG transformations
- * Cursor icons need fill="white" converted to inline styles to prevent IconWrapper override
- * @param {string} svgContent - SVG content
- * @returns {string} - Transformed SVG content
- */
-function applyCursorTransforms(svgContent) {
-  let out = svgContent;
-
-  // Convert fill="white" to style={{ fill: 'white' }} to prevent IconWrapper override
-  // IconWrapper sets fill: currentColor which would override the attribute
-  out = out.replace(/(<path[^>]*)\s+fill="white"([^>]*>)/g, '$1 style={{ fill: \'white\' }}$2');
-
-  // For stroke-only paths, ensure fill doesn't get inherited
-  out = out.replace(/(<path[^>]*)\s+stroke="([^"]+)"([^>]*)(\/?>)/g, (match, before, strokeVal, after, closing) => {
-    // If already has fill or style, leave it alone
-    if (before.includes('fill=') || before.includes('style=') || after.includes('fill=') || after.includes('style=')) {
-      return match;
-    }
-    return `${before} style={{ fill: 'none' }} stroke="${strokeVal}"${after}${closing}`;
-  });
-
-  // Handle style="mask-type:..." for cursors
-  out = out.replace(/style="mask-type:([^"]+)"/g, (_m, maskType) => {
-    return `style={{ maskType: '${String(maskType).trim()}' }}`;
-  });
-
-  // Handle style="mix-blend-mode:..." for cursors
-  out = out.replace(/style="mix-blend-mode:([^"]+)"/g, (_m, mode) => {
-    return `style={{ mixBlendMode: '${String(mode).trim()}' }}`;
-  });
-
-  return out;
-}
-
-/**
  * Normalize SVG content for use in TSX
  * @param {string} svgContent - Raw SVG content
  * @param {string} componentName - Component name for ID normalization
- * @param {string} category - Category name (e.g., 'fileIcons', 'flags')
  * @returns {string} - Normalized SVG content
  */
-function normalizeSVG(svgContent, componentName, category) {
+function normalizeSVG(svgContent, componentName) {
   let normalized = svgContent.trim();
 
-  // Apply cursor-specific transformations first (before other processing)
-  if (category === 'cursors') {
-    normalized = applyCursorTransforms(normalized);
-  }
-  
   // Ensure viewBox is present
   if (!normalized.includes('viewBox=')) {
     console.warn('Warning: SVG missing viewBox attribute');
@@ -314,8 +273,8 @@ function processSVGFile(svgFilePath, category) {
     const fileName = path.basename(svgFilePath, '.svg');
     const componentName = kebabCaseToComponentName(fileName);
     
-    // Normalize SVG (pass componentName for ID normalization and category for color conversion)
-    const normalizedSVG = normalizeSVG(svgContent, componentName, category);
+    // Normalize SVG (pass componentName for ID normalization)
+    const normalizedSVG = normalizeSVG(svgContent, componentName);
     
     // Generate TSX file
     const componentContent = generateComponentContent(componentName, normalizedSVG);

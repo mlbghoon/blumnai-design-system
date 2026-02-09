@@ -30,6 +30,11 @@ async function main() {
   const files = fs.readdirSync(ICONS_DIR)
     .filter(f => f.endsWith('.tsx') && f.startsWith('Iso') && f !== 'index.tsx');
 
+  const outputDir = path.dirname(OUTPUT_FILE);
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
   console.log(`${files.length}개 아이콘 파일 발견\n`);
 
   const components = [];
@@ -53,7 +58,7 @@ async function main() {
     .join('\n');
 
   const registry = `// 이 파일은 자동 생성됩니다 - 직접 수정하지 마세요
-import { lazy } from 'react';
+import React, { lazy } from 'react';
 
 ${imports}
 
