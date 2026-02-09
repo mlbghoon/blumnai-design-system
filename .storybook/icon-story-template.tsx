@@ -1,3 +1,5 @@
+import type { ComponentType } from 'react';
+
 /**
  * Template for creating icon stories with proper controls
  * This template can be used to generate stories for individual icons
@@ -74,7 +76,7 @@ export const createIconArgTypes = (componentName: string) => {
  * @param componentName - Name of the icon component
  * @returns Render function
  */
-export const createIconRender = <T extends React.ComponentType<Record<string, unknown>>>(
+export const createIconRender = <T extends ComponentType<Record<string, unknown>>>(
   IconComponent: T,
   componentName: string
 ) => {

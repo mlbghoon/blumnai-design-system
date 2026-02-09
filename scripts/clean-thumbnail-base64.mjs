@@ -83,8 +83,12 @@ const thumbnailKeys = Object.keys(data).filter(key =>
 
 for (const key of thumbnailKeys) {
   const originalSvg = data[key];
+  if (typeof originalSvg !== 'string') {
+    console.warn(`  ⚠️ Skipped (not a string): ${key}`);
+    continue;
+  }
   const cleanedSvg = removeBase64FromSvg(originalSvg);
-  
+
   if (originalSvg !== cleanedSvg) {
     data[key] = cleanedSvg;
     cleanedCount++;

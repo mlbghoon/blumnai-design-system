@@ -863,6 +863,12 @@ export const AllSizes: Story = {
     </div>
   ),
 };
-Add under a new ## CSS/Styling Guidelines section\n\nWhen fixing CSS/styling issues, always analyze the existing styles and their interactions before proposing changes. Never remove styles (like border-bottom) unless explicitly requested.
-Add under ## Testing or ## Quality Assurance section\n\nAfter implementing fixes, verify that related functionality still works. For component changes, check that dependent features (like tooltips, hover states) are not affected.
-Add under a new ## Storybook section\n\nFor Storybook stories, follow existing patterns in the codebase. Check for existing stories in the same component folder or similar components before creating new ones.
+```
+
+## CSS/Styling Guidelines
+
+When fixing CSS or styling issues, always analyze the existing styles and their interactions before proposing changes. Never remove styles (like `border-bottom`) unless explicitly requested — existing styles may be intentional and removing them can break dependent visual behavior.
+
+## Quality Assurance
+
+After implementing fixes, verify that related functionality still works. For component changes, check that dependent features (like tooltips, hover states, and focus rings) are not affected by the change.

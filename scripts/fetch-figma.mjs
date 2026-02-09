@@ -59,7 +59,12 @@ function parseArgs() {
     } else if (arg === '--raw') {
       result.raw = true;
     } else if (arg.startsWith('--depth=')) {
-      result.depth = parseInt(arg.slice(8), 10);
+      const parsedDepth = parseInt(arg.slice(8), 10);
+      if (!Number.isInteger(parsedDepth) || parsedDepth < 0) {
+        console.error(`❌ Invalid --depth value: "${arg.slice(8)}". Must be a non-negative integer.`);
+        process.exit(1);
+      }
+      result.depth = parsedDepth;
     }
   }
 

@@ -4,6 +4,7 @@ import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '../button/Button';
 import { ScrollArea } from '../scroll-area';
+import { Button } from '../button/Button';
 import type {
   AlertDialogContentProps,
   AlertDialogHeaderProps,
@@ -14,6 +15,7 @@ import type {
   AlertDialogOverlayProps,
   AlertDialogActionProps,
   AlertDialogCancelProps,
+  SimpleAlertDialogProps,
 } from './AlertDialog.types';
 
 const AlertDialog = AlertDialogPrimitive.Root;
@@ -179,7 +181,45 @@ const AlertDialogCancel = React.forwardRef<
 ));
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName;
 
+const SimpleAlertDialog: React.FC<SimpleAlertDialogProps> = ({
+  open,
+  onOpenChange,
+  title,
+  description,
+  confirmLabel = '확인',
+  onConfirm,
+  width,
+}) => {
+  const handleConfirm = () => {
+    onConfirm?.();
+    onOpenChange(false);
+  };
+
+  return (
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent width={width}>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          {description && (
+            <AlertDialogDescription>{description}</AlertDialogDescription>
+          )}
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogAction asChild>
+            <Button buttonStyle="primary" onClick={handleConfirm}>
+              {confirmLabel}
+            </Button>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
+
+SimpleAlertDialog.displayName = 'SimpleAlertDialog';
+
 export {
+  SimpleAlertDialog,
   AlertDialog,
   AlertDialogPortal,
   AlertDialogOverlay,

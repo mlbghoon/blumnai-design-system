@@ -51,20 +51,27 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'BlumnaiDesignSystem',
       formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format === 'es' ? 'mjs' : 'cjs'}`
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM'
+      output: [
+        {
+          format: 'es',
+          dir: 'dist/es',
+          entryFileNames: '[name].mjs',
+          preserveModules: true,
+          preserveModulesRoot: 'src',
         },
-        preserveModules: true,
-        preserveModulesRoot: 'src'
-      }
+        {
+          format: 'cjs',
+          dir: 'dist/cjs',
+          entryFileNames: '[name].cjs',
+          exports: 'named',
+          preserveModules: true,
+          preserveModulesRoot: 'src',
+        },
+      ],
     },
     sourcemap: true,
     cssCodeSplit: true
@@ -80,14 +87,18 @@ export default defineConfig({
   "version": "1.0.0",
   "private": false,
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/es/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
+      "import": "./dist/es/index.mjs",
+      "require": "./dist/cjs/index.cjs",
       "types": "./dist/index.d.ts"
+    },
+    "./*": {
+      "import": "./dist/es/*.mjs",
+      "require": "./dist/cjs/*.cjs"
     },
     "./styles": "./dist/style.css"
   },
@@ -313,7 +324,7 @@ jobs:
 
 ## Verification
 
-1. **Build test**: `npm run build:lib` produces `dist/` with `.mjs`, `.cjs`, `.d.ts` files
+1. **Build test**: `npm run build:lib` produces `dist/es/` (`.mjs`), `dist/cjs/` (`.cjs`), and `.d.ts` files
 2. **Local test**: Install in a test project and import components
 3. **Storybook**: Access deployed URL and verify all components render
 4. **Publish test**: `npm publish --dry-run` to verify package contents
@@ -338,16 +349,16 @@ The plan handles different environments:
 Each project uses its own React version; the design system doesn't bundle React.
 
 ### Different Bundlers (Vite, Webpack, Next.js, etc.)
-✅ **Handled** via dual format output:
-- `.mjs` (ESM) - for Vite, modern bundlers, Next.js
-- `.cjs` (CommonJS) - for older Webpack, Jest, Node require()
+✅ **Handled** via dual format output with `preserveModules`:
+- `dist/es/` (ESM `.mjs`) - for Vite, modern bundlers, Next.js
+- `dist/cjs/` (CJS `.cjs`) - for older Webpack, Jest, Node require()
 
 The `exports` field in package.json tells bundlers which format to use:
 ```json
 "exports": {
   ".": {
-    "import": "./dist/index.mjs",   // ESM for import
-    "require": "./dist/index.cjs",  // CJS for require()
+    "import": "./dist/es/index.mjs",   // ESM for import
+    "require": "./dist/cjs/index.cjs",  // CJS for require()
     "types": "./dist/index.d.ts"
   }
 }

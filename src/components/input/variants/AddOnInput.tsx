@@ -146,7 +146,7 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
   if (!inline && hasAddOn) {
     // Outer container - has the border, background, and border-radius
     const outerContainerClassName = cn(
-      'flex items-center w-full transition-colors duration-150',
+      'flex items-center w-full overflow-hidden transition-colors duration-150',
       sizeConfig.container,
       styleConfig.base,
       !disabled && styleConfig.focus,

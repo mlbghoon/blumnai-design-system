@@ -75,15 +75,6 @@ const config: StorybookConfig = {
           }
           return null;
         },
-        load(id) {
-          // Defer loading of large FileThumbnail icons until actually needed
-          // This prevents Storybook from processing 16MB files during startup
-          if (id.includes('fileIcons/FileThumbnail') && id.endsWith('.tsx')) {
-            // Return null to use default loader, but this ensures they're not eagerly loaded
-            return null;
-          }
-          return null;
-        },
       });
     }
 

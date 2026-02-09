@@ -29,6 +29,7 @@ export type {
 } from './Dialog.types';
 
 export {
+  SimpleAlertDialog,
   AlertDialog,
   AlertDialogPortal,
   AlertDialogOverlay,
@@ -44,6 +45,7 @@ export {
 } from './AlertDialog';
 
 export type {
+  SimpleAlertDialogProps,
   AlertDialogProps,
   AlertDialogTriggerProps,
   AlertDialogPortalProps,

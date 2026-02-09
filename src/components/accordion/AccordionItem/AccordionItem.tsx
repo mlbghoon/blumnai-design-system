@@ -1,13 +1,13 @@
 import { forwardRef, useCallback, useMemo, useState } from 'react';
 
 import { ArrowDownIcon } from '../../icons/Icon/icons/arrows/ArrowDownIcon';
-import { cn } from 'utils/cn';
+import { cn } from '../../../utils/cn';
 import {
   BOX_SHADOW,
   STYLE_BASE_CLASSES,
   STYLE_HOVER_CLASSES,
   STYLE_OPEN_CLASSES,
-} from 'constants/accordion/AccordionItem/AccordionItem.constants';
+} from '../../../constants/accordion/AccordionItem/AccordionItem.constants';
 
 import type { AccordionItemProps } from './AccordionItem.types';
 

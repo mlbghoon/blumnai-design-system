@@ -21,9 +21,13 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
 }, ref) => {
   const getItemId = useCallback((item: (typeof items)[number], index: number) => item.id ?? `__idx_${index}`, []);
 
-  const [openItems, setOpenItems] = useState<Set<string>>(() =>
-    new Set(items.filter((item) => item.isOpen).map((item, index) => getItemId(item, index)))
-  );
+  const [openItems, setOpenItems] = useState<Set<string>>(() => {
+    const ids = new Set<string>();
+    items.forEach((item, index) => {
+      if (item.isOpen) ids.add(getItemId(item, index));
+    });
+    return ids;
+  });
 
   const handleToggle = useCallback(
     (id: string, itemOnToggle?: () => void) => {

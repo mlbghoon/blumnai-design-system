@@ -92,16 +92,15 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
 
   const iconSize = size === 'sm' ? 12 : 14;
 
+  const parsedIcon = variant === 'icon' && icon ? parseIconTypeWithFill(icon) : null;
+
   const combinedStyle = { color: getTextColor(color), ...style };
 
   return (
     <div ref={ref} className={containerClassName} style={combinedStyle} {...props}>
-      {variant === 'icon' && icon && (
+      {parsedIcon && (
         <span className="inline-flex items-center shrink-0 leading-none" style={{ marginTop: '-1px' }}>
-          {(() => {
-            const { iconType, isFill } = parseIconTypeWithFill(icon);
-            return <Icon iconType={iconType} size={iconSize} color={getIconColor(color)} isFill={isFill} />;
-          })()}
+          <Icon iconType={parsedIcon.iconType} size={iconSize} color={getIconColor(color)} isFill={parsedIcon.isFill} />
         </span>
       )}
 

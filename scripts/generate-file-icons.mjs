@@ -247,9 +247,12 @@ const addThumbnailImageSupport = (svg, componentName) => {
   // Find clipPath ID from the SVG (will be prefixed by prefixSvgIds later)
   // Look for clipPath id in defs or clip-path reference
   const clipPathRefMatch = cleaned.match(/clipPath="url\(#([^)]+)\)"/) || cleaned.match(/clip-path="url\(#([^)]+)\)"/);
-  const originalClipPathId = clipPathRefMatch ? clipPathRefMatch[1] : 'clip0_3887_28206';
-  // After prefixSvgIds, this will become componentName__clip0_3887_28206
-  const clipPathId = `${componentName}__${originalClipPathId}`;
+  const clipPathId = clipPathRefMatch
+    ? `${componentName}__${clipPathRefMatch[1]}`
+    : null;
+  if (!clipPathId) {
+    console.warn(`  ⚠️ ${componentName}: no clipPath found in SVG, image will render without clipping`);
+  }
 
   // Find the main rectangle path (the one that should contain the image)
   // Look for path with d starting with "M0 4" or "M0 4C0" which is the main rectangle
@@ -270,6 +273,10 @@ const addThumbnailImageSupport = (svg, componentName) => {
       const shapeRenderingMatch = allAttrs.match(/shape-rendering="([^"]+)"/);
       const shapeRendering = shapeRenderingMatch ? ` shapeRendering="${shapeRenderingMatch[1]}"` : '';
 
+      const clipPathAttr = clipPathId
+        ? `\n            clipPath={\`url(#${clipPathId})\`}`
+        : '';
+
       const replacement = `<g>
         <path d="${pathData}" fill="transparent"${shapeRendering}/>
         {imageSrc ? (
@@ -279,8 +286,7 @@ const addThumbnailImageSupport = (svg, componentName) => {
             width="${width}"
             height="${height}"
             preserveAspectRatio="xMidYMid slice"
-            href={imageSrc}
-            clipPath={\`url(#${clipPathId})\`}
+            href={imageSrc}${clipPathAttr}
           />
         ) : null}
       </g>`;

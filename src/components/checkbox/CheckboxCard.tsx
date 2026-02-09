@@ -37,7 +37,7 @@ const CheckboxCard = React.forwardRef<HTMLDivElement, CheckboxCardProps>(
     };
 
     const cardClassName = cn(
-      'w-full padding-16 rounded-md overflow-hidden',
+      'group w-full padding-16 rounded-md overflow-hidden',
       layout === 'vertical' ? 'flex flex-col gap-24' : 'flex',
       backgroundStyles,
       getBorderStyles(),

@@ -126,7 +126,7 @@ export const overlaylg = style({
   fontSize: '16px',
 });
 
-export const overlayXl = style({
+export const overlayxl = style({
   width: `${avatarRingSizes.xl}px`,
   height: `${avatarRingSizes.xl}px`,
   fontSize: '18px',

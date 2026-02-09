@@ -186,7 +186,7 @@
 
 ### Text Input Needs
 
-```
+```text
 Need text input?
 ├── Single line? → Input variant="default"
 ├── Password? → Input variant="password"
@@ -198,7 +198,7 @@ Need text input?
 
 ### Selection Needs
 
-```
+```text
 Need to select from options?
 ├── Single selection?
 │   ├── Few options (≤5)? → RadioGroup or Select
@@ -212,7 +212,7 @@ Need to select from options?
 
 ### Button Needs
 
-```
+```text
 Need a clickable element?
 ├── Primary action (submit, save)? → Button buttonStyle="primary"
 ├── Secondary action? → Button buttonStyle="secondary"
@@ -225,7 +225,7 @@ Need a clickable element?
 
 ### Feedback Needs
 
-```
+```text
 Need to show feedback?
 ├── Blocking confirmation? → AlertDialog or ConfirmDialog
 ├── Non-blocking message? → toast()

@@ -18,7 +18,7 @@ Generate the standard file structure and boilerplate for a new component.
 
 Create the following structure:
 
-```
+```text
 src/components/{component-name}/
 ├── {ComponentName}.tsx           # Main component
 ├── {ComponentName}.types.ts      # TypeScript types
@@ -140,7 +140,7 @@ export const Default: Story = {
 
 Report to user:
 
-```
+```text
 ✓ Component created: {ComponentName}
 
 Files:

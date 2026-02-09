@@ -8,37 +8,23 @@ import type { IconType } from '../icons/Icon/Icon.types';
 export type ButtonGroupSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg';
 
 /**
- * ButtonGroup Item (각 버튼 아이템)
+ * ButtonGroup Item 공통 속성
  */
-export interface ButtonGroupItem {
+interface ButtonGroupItemBase {
   /**
    * 고유 식별자 (가능하면 제공하여 안정적인 key/상태 유지)
    */
   id?: string;
   /**
-   * 버튼 라벨 텍스트
-   */
-  label?: ReactNode;
-  /**
    * 아이콘 (lead icon)
-   * Can be an IconType tuple or a custom ReactNode.
    * @example icon={['system', 'settings']}
    */
   icon?: IconType | ReactNode;
   /**
    * Tail icon (우측 아이콘)
-   * Can be an IconType tuple or a custom ReactNode.
    * @example tailIcon={['arrows', 'chevron-down']}
    */
   tailIcon?: IconType | ReactNode;
-  /**
-   * Badge 텍스트
-   */
-  badge?: string;
-  /**
-   * 아이콘 전용 버튼의 접근성 라벨 (icon-only 시 필수)
-   */
-  ariaLabel?: string;
   /**
    * 버튼이 비활성화되었는지 여부
    */
@@ -48,6 +34,42 @@ export interface ButtonGroupItem {
    */
   onClick?: () => void;
 }
+
+/**
+ * 아이콘 전용 버튼 (label/badge 없이 icon만 표시, ariaLabel 필수)
+ */
+interface IconOnlyItem extends ButtonGroupItemBase {
+  icon: IconType | ReactNode;
+  /**
+   * 접근성 라벨 (icon-only 시 필수)
+   */
+  ariaLabel: string;
+  label?: never;
+  badge?: never;
+}
+
+/**
+ * 라벨/뱃지가 있는 일반 버튼
+ */
+interface RegularItem extends ButtonGroupItemBase {
+  /**
+   * 버튼 라벨 텍스트
+   */
+  label?: ReactNode;
+  /**
+   * Badge 텍스트
+   */
+  badge?: string;
+  /**
+   * 접근성 라벨 (선택)
+   */
+  ariaLabel?: string;
+}
+
+/**
+ * ButtonGroup Item (각 버튼 아이템)
+ */
+export type ButtonGroupItem = IconOnlyItem | RegularItem;
 
 /**
  * ButtonGroup Props

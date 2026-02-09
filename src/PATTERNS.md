@@ -311,6 +311,7 @@ toast({
 ### DataGrid with Sorting and Selection
 
 ```tsx
+import { useState } from 'react';
 import { DataGrid, CellText, CellBadge, CellAvatar } from '@blumnai/design-system';
 import type { ColumnDef } from '@blumnai/design-system';
 
@@ -672,7 +673,9 @@ import { Button, Icon } from '@blumnai/design-system';
 ### Basic Time Picker
 
 ```tsx
+import { useState } from 'react';
 import { TimePicker } from '@blumnai/design-system';
+import type { TimeValue } from '@blumnai/design-system';
 
 function TimePickerExample() {
   const [time, setTime] = useState<TimeValue | undefined>();
@@ -691,7 +694,9 @@ function TimePickerExample() {
 ### Time Range Picker
 
 ```tsx
+import { useState } from 'react';
 import { TimeRangePicker } from '@blumnai/design-system';
+import type { TimeRange } from '@blumnai/design-system';
 
 function TimeRangeExample() {
   const [range, setRange] = useState<TimeRange | undefined>();
