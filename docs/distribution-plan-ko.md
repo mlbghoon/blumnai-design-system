@@ -41,43 +41,49 @@ export type { ... } from './components/...';
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import react from '@vitejs/plugin-react';
-import dts from 'vite-plugin-dts';
 
-export default defineConfig({
-  plugins: [
-    react(),
-    dts({ include: ['src'], exclude: ['src/App.tsx', 'src/main.tsx', '**/*.stories.tsx'] })
-  ],
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'BlumnaiDesignSystem',
-      formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format === 'es' ? 'mjs' : 'cjs'}`
-    },
-    rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
-      output: [
-        {
-          format: 'es',
-          dir: 'dist/es',
-          entryFileNames: '[name].mjs',
-          preserveModules: true,
-          preserveModulesRoot: 'src',
-        },
-        {
-          format: 'cjs',
-          dir: 'dist/cjs',
-          entryFileNames: '[name].cjs',
-          exports: 'named',
-          preserveModules: true,
-          preserveModulesRoot: 'src',
-        },
-      ],
-    },
-    sourcemap: true,
-    cssCodeSplit: true
-  }
+export default defineConfig(({ mode }) => {
+  const isLibraryBuild = mode === 'lib';
+
+  return {
+    plugins: [react()],
+    build: isLibraryBuild
+      ? {
+          lib: {
+            entry: resolve(__dirname, 'src/index.ts'),
+            formats: ['es', 'cjs'],
+          },
+          rollupOptions: {
+            external: (id) => {
+              // 상대/절대 경로가 아닌 모든 import를 external 처리 (node_modules)
+              if (id.startsWith('.') || path.isAbsolute(id)) return false;
+              return true;
+            },
+            output: [
+              {
+                format: 'es',
+                dir: 'dist',
+                entryFileNames: '[name].mjs',
+                preserveModules: true,
+                preserveModulesRoot: 'src',
+              },
+              {
+                format: 'cjs',
+                dir: 'dist',
+                entryFileNames: '[name].cjs',
+                exports: 'named',
+                preserveModules: true,
+                preserveModulesRoot: 'src',
+              },
+            ],
+          },
+          sourcemap: true,
+          cssCodeSplit: false,
+          copyPublicDir: false,
+          minify: 'esbuild',
+        }
+      : {},
+  };
 });
 ```
 
@@ -89,20 +95,20 @@ export default defineConfig({
   "version": "1.0.0",
   "private": false,
   "type": "module",
-  "main": "./dist/cjs/index.cjs",
-  "module": "./dist/es/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/es/index.mjs",
-      "require": "./dist/cjs/index.cjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./*": {
-      "import": "./dist/es/*.mjs",
-      "require": "./dist/cjs/*.cjs"
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.cjs"
     },
-    "./styles": "./dist/style.css"
+    "./styles": "./dist/blumnai-design-system.css"
   },
   "files": [
     "dist",
@@ -326,7 +332,7 @@ jobs:
 
 ## 검증
 
-1. **빌드 테스트**: `npm run build:lib`가 `dist/es/` (ESM)과 `dist/cjs/` (CJS)에 파일 생성, `dist/`에 `.d.ts` 파일 생성
+1. **빌드 테스트**: `npm run build:lib`가 `dist/`에 `.mjs` (ESM), `.cjs` (CJS), `.d.ts` 파일 생성
 2. **로컬 테스트**: 테스트 프로젝트에 설치하고 컴포넌트 import
 3. **Storybook**: 배포된 URL 접속하여 모든 컴포넌트 렌더링 확인
 4. **퍼블리시 테스트**: `npm publish --dry-run`으로 패키지 내용 확인
@@ -355,12 +361,12 @@ jobs:
 - `.mjs` (ESM) - Vite, 모던 번들러, Next.js용
 - `.cjs` (CommonJS) - 이전 Webpack, Jest, Node require()용
 
-package.json의 `exports` 필드가 번들러에게 어떤 포맷을 사용할지 알려줌:
+두 포맷이 `dist/`에 다른 확장자로 공존. `exports` 필드가 번들러에게 어떤 포맷을 사용할지 알려줌:
 ```json
 "exports": {
   ".": {
-    "import": "./dist/es/index.mjs",   // import용 ESM
-    "require": "./dist/cjs/index.cjs",  // require()용 CJS
+    "import": "./dist/index.mjs",   // import용 ESM
+    "require": "./dist/index.cjs",  // require()용 CJS
     "types": "./dist/index.d.ts"
   }
 }

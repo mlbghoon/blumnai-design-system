@@ -41,41 +41,48 @@ Update `vite.config.ts` to add library build mode:
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import react from '@vitejs/plugin-react';
-import dts from 'vite-plugin-dts';
 
-export default defineConfig({
-  plugins: [
-    react(),
-    dts({ include: ['src'], exclude: ['src/App.tsx', 'src/main.tsx', '**/*.stories.tsx'] })
-  ],
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      formats: ['es', 'cjs'],
-    },
-    rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
-      output: [
-        {
-          format: 'es',
-          dir: 'dist/es',
-          entryFileNames: '[name].mjs',
-          preserveModules: true,
-          preserveModulesRoot: 'src',
-        },
-        {
-          format: 'cjs',
-          dir: 'dist/cjs',
-          entryFileNames: '[name].cjs',
-          exports: 'named',
-          preserveModules: true,
-          preserveModulesRoot: 'src',
-        },
-      ],
-    },
-    sourcemap: true,
-    cssCodeSplit: true
-  }
+export default defineConfig(({ mode }) => {
+  const isLibraryBuild = mode === 'lib';
+
+  return {
+    plugins: [react()],
+    build: isLibraryBuild
+      ? {
+          lib: {
+            entry: resolve(__dirname, 'src/index.ts'),
+            formats: ['es', 'cjs'],
+          },
+          rollupOptions: {
+            external: (id) => {
+              if (id.startsWith('.') || path.isAbsolute(id)) return false;
+              return true;
+            },
+            output: [
+              {
+                format: 'es',
+                dir: 'dist',
+                entryFileNames: '[name].mjs',
+                preserveModules: true,
+                preserveModulesRoot: 'src',
+              },
+              {
+                format: 'cjs',
+                dir: 'dist',
+                entryFileNames: '[name].cjs',
+                exports: 'named',
+                preserveModules: true,
+                preserveModulesRoot: 'src',
+              },
+            ],
+          },
+          sourcemap: true,
+          cssCodeSplit: false,
+          copyPublicDir: false,
+          minify: 'esbuild',
+        }
+      : {},
+  };
 });
 ```
 
@@ -87,20 +94,20 @@ export default defineConfig({
   "version": "1.0.0",
   "private": false,
   "type": "module",
-  "main": "./dist/cjs/index.cjs",
-  "module": "./dist/es/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/es/index.mjs",
-      "require": "./dist/cjs/index.cjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./*": {
-      "import": "./dist/es/*.mjs",
-      "require": "./dist/cjs/*.cjs"
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.cjs"
     },
-    "./styles": "./dist/style.css"
+    "./styles": "./dist/blumnai-design-system.css"
   },
   "files": [
     "dist",
@@ -145,7 +152,7 @@ GitHub Packages lets you host npm packages directly in your GitHub repository. F
 
 **Step 2: Create `.npmrc` file in project root**
 
-```
+```ini
 @mbisolution:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
@@ -185,7 +192,7 @@ npm publish
 
 1. Create their own GitHub token (with `read:packages` permission)
 2. Add to `~/.npmrc` (home folder):
-```
+```ini
 //npm.pkg.github.com/:_authToken=ghp_their_token_here
 ```
 3. Install:
@@ -324,7 +331,7 @@ jobs:
 
 ## Verification
 
-1. **Build test**: `npm run build:lib` produces `dist/es/` (`.mjs`), `dist/cjs/` (`.cjs`), and `.d.ts` files
+1. **Build test**: `npm run build:lib` produces `dist/` with `.mjs` (ESM), `.cjs` (CJS), and `.d.ts` files
 2. **Local test**: Install in a test project and import components
 3. **Storybook**: Access deployed URL and verify all components render
 4. **Publish test**: `npm publish --dry-run` to verify package contents
@@ -350,15 +357,15 @@ Each project uses its own React version; the design system doesn't bundle React.
 
 ### Different Bundlers (Vite, Webpack, Next.js, etc.)
 ✅ **Handled** via dual format output with `preserveModules`:
-- `dist/es/` (ESM `.mjs`) - for Vite, modern bundlers, Next.js
-- `dist/cjs/` (CJS `.cjs`) - for older Webpack, Jest, Node require()
+- `.mjs` files (ESM) - for Vite, modern bundlers, Next.js
+- `.cjs` files (CJS) - for older Webpack, Jest, Node require()
 
-The `exports` field in package.json tells bundlers which format to use:
+Both formats coexist in `dist/` with different extensions. The `exports` field tells bundlers which format to use:
 ```json
 "exports": {
   ".": {
-    "import": "./dist/es/index.mjs",   // ESM for import
-    "require": "./dist/cjs/index.cjs",  // CJS for require()
+    "import": "./dist/index.mjs",   // ESM for import
+    "require": "./dist/index.cjs",  // CJS for require()
     "types": "./dist/index.d.ts"
   }
 }

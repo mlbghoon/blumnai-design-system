@@ -32,29 +32,34 @@ export default defineConfig(({ mode }) => {
             fileName: (format) => `index.${format === 'es' ? 'mjs' : 'cjs'}`,
           },
           rollupOptions: {
-            external: [
-              'react',
-              'react-dom',
-              'react/jsx-runtime',
-              'react-hook-form',
-              'zod',
-              '@hookform/resolvers',
-              '@hookform/resolvers/zod',
-            ],
-            output: {
-              globals: {
-                react: 'React',
-                'react-dom': 'ReactDOM',
-                'react/jsx-runtime': 'jsxRuntime',
-              },
-              assetFileNames: (assetInfo) => {
-                if (assetInfo.name === 'style.css') return 'styles.css'
-                return assetInfo.name || 'assets/[name][extname]'
-              },
+            external: (id) => {
+              // 상대/절대 경로가 아닌 모든 import를 external 처리 (node_modules)
+              if (id.startsWith('.') || path.isAbsolute(id)) return false
+              return true
             },
+            output: [
+              {
+                format: 'es',
+                dir: 'dist',
+                entryFileNames: '[name].mjs',
+                assetFileNames: '[name][extname]',
+                preserveModules: true,
+                preserveModulesRoot: 'src',
+              },
+              {
+                format: 'cjs',
+                dir: 'dist',
+                entryFileNames: '[name].cjs',
+                assetFileNames: '[name][extname]',
+                exports: 'named',
+                preserveModules: true,
+                preserveModulesRoot: 'src',
+              },
+            ],
           },
           sourcemap: true,
           cssCodeSplit: false,
+          copyPublicDir: false,
           minify: 'esbuild',
         }
       : {},
