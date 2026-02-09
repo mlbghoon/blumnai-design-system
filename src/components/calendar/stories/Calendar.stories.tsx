@@ -15,7 +15,7 @@ type CalendarStoryProps = CalendarProps & {
 };
 
 const meta: Meta<CalendarStoryProps> = {
-  title: 'Components/Calendar/Calendar',
+  title: 'DataEntry/Calendar',
   component: Calendar,
   tags: ['autodocs'],
   parameters: {

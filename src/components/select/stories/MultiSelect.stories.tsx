@@ -32,7 +32,7 @@ const manyOptions: SelectOption[] = Array.from({ length: 15 }, (_, i) => ({
 }));
 
 const meta: Meta<typeof Select> = {
-  title: 'Components/Select/Multi-Select',
+  title: 'DataEntry/Select/MultiSelect',
   component: Select,
   tags: ['autodocs'],
   parameters: {

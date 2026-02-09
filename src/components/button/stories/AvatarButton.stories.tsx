@@ -5,7 +5,7 @@ import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
 import { AvatarButton } from '../AvatarButton';
 
 const meta: Meta<typeof AvatarButton> = {
-  title: 'Components/Button/AvatarButton',
+  title: 'Actions/Button/AvatarButton',
   component: AvatarButton,
   parameters: {
     layout: 'padded',

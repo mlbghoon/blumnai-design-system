@@ -21,7 +21,7 @@ import { Checkbox } from '@/components/checkbox';
 import { Button } from '@/components/button';
 
 const meta: Meta = {
-  title: 'Components/DnD/Patterns',
+  title: 'DnD/Patterns',
   parameters: {
     layout: 'padded',
     controls: { disable: true },
@@ -58,24 +58,24 @@ export const KanbanBoard: Story = {
     const [columns, setColumns] = useState<KanbanColumn[]>([
       {
         id: 'todo',
-        title: '할 일',
+        title: 'To Do',
         cards: [
-          { id: 'card-1', title: '디자인 시스템 구축', priority: 'high' },
-          { id: 'card-2', title: 'API 문서화', priority: 'medium' },
+          { id: 'card-1', title: 'API 설계', priority: 'high' },
+          { id: 'card-2', title: '문서 작성', priority: 'medium' },
         ],
       },
       {
         id: 'in-progress',
-        title: '진행 중',
+        title: 'In Progress',
         cards: [
-          { id: 'card-3', title: '컴포넌트 개발', priority: 'high' },
+          { id: 'card-3', title: '버그 수정', priority: 'high' },
         ],
       },
       {
         id: 'done',
-        title: '완료',
+        title: 'Done',
         cards: [
-          { id: 'card-4', title: '프로젝트 설정', priority: 'low' },
+          { id: 'card-4', title: '코드 리뷰', priority: 'low' },
         ],
       },
     ]);
@@ -650,11 +650,11 @@ interface Song extends DndItem {
 export const Playlist: Story = {
   render: function Render() {
     const [songs, setSongs] = useState<Song[]>([
-      { id: '1', title: 'Song One', artist: 'Artist A', duration: '3:45' },
-      { id: '2', title: 'Song Two', artist: 'Artist B', duration: '4:12' },
-      { id: '3', title: 'Song Three', artist: 'Artist C', duration: '3:21' },
-      { id: '4', title: 'Song Four', artist: 'Artist D', duration: '5:07' },
-      { id: '5', title: 'Song Five', artist: 'Artist E', duration: '4:33' },
+      { id: '1', title: 'Bohemian Rhapsody', artist: 'Queen', duration: '3:45' },
+      { id: '2', title: 'Stairway to Heaven', artist: 'Led Zeppelin', duration: '4:12' },
+      { id: '3', title: 'Hotel California', artist: 'Eagles', duration: '3:21' },
+      { id: '4', title: 'Sweet Child O Mine', artist: 'Guns N Roses', duration: '5:07' },
+      { id: '5', title: 'Wonderwall', artist: 'Oasis', duration: '4:33' },
     ]);
 
     return (

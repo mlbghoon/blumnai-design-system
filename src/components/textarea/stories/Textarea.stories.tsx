@@ -5,7 +5,7 @@ import { Textarea } from '../Textarea';
 import type { TextareaProps, TextareaToolbarAction } from '../Textarea.types';
 
 const meta: Meta<typeof Textarea> = {
-  title: 'Components/DataEntry/Textarea',
+  title: 'DataEntry/Textarea',
   component: Textarea,
   tags: ['autodocs'],
   parameters: {

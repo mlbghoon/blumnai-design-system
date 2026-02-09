@@ -17,7 +17,7 @@ import { Button } from '../../button';
 import { Icon } from '../../icons/Icon';
 
 const meta: Meta<DropdownMenuLabelProps> = {
-  title: 'Components/Overlay/DropdownMenu/Structure',
+  title: 'Overlay/Dropdown/Structure',
   component: DropdownMenuLabel,
   tags: ['autodocs'],
   parameters: {

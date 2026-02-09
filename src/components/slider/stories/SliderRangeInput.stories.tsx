@@ -5,7 +5,7 @@ import { SliderRangeInput } from '../SliderRangeInput';
 import type { SliderRangeInputProps } from '../Slider.types';
 
 const meta: Meta<SliderRangeInputProps> = {
-  title: 'Components/Slider/SliderRangeInput',
+  title: 'DataEntry/Slider/SliderRangeInput',
   component: SliderRangeInput,
   tags: ['autodocs'],
   parameters: {

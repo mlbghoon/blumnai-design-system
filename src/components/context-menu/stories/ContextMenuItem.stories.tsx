@@ -11,7 +11,7 @@ import {
 import type { ContextMenuItemProps } from '../ContextMenu.types';
 
 const meta: Meta<ContextMenuItemProps> = {
-  title: 'Components/Overlay/ContextMenu/MenuItem',
+  title: 'Overlay/ContextMenu/Item',
   component: ContextMenuItem,
   tags: ['autodocs'],
   parameters: {

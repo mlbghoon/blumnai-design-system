@@ -6,7 +6,7 @@ import { TimeRangeInput } from '../TimeRangePicker';
 import type { TimeRangePickerProps, TimeRange, TimeValue } from '../time-picker.types';
 
 const meta: Meta<TimeRangePickerProps> = {
-  title: 'Components/DataEntry/TimePicker/TimeRangePicker',
+  title: 'DataEntry/TimeRangePicker',
   component: TimeRangePicker,
   tags: ['autodocs'],
   parameters: {

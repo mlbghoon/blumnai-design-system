@@ -5,7 +5,7 @@ import { CheckboxCard } from '../CheckboxCard';
 import type { CheckboxCardProps } from '../CheckboxCard.types';
 
 const meta: Meta<CheckboxCardProps> = {
-  title: 'Components/Checkbox/CheckboxCard',
+  title: 'DataEntry/Checkbox/CheckboxCard',
   component: CheckboxCard,
   tags: ['autodocs'],
   parameters: {

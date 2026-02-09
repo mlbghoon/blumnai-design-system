@@ -86,7 +86,7 @@ const strokeColorOptions: IsometricStrokeColor[] = [
 ];
 
 const meta: Meta<typeof IsometricIcon> = {
-  title: 'Components/Icons/IsometricIcon',
+  title: 'Icons/IsometricIcon',
   component: IsometricIcon,
   tags: ['autodocs'],
   argTypes: {

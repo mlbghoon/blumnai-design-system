@@ -9,7 +9,7 @@ import { ToastContent } from './ToastContent';
 import type { ToastContentProps } from './Toast.types';
 
 const meta: Meta<ToastContentProps> = {
-  title: 'Components/Toast',
+  title: 'Feedback/Toast',
   component: ToastContent,
   parameters: {
     layout: 'centered',

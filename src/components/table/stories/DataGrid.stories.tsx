@@ -46,7 +46,7 @@ const roleColorMap = {
 } as const;
 
 const meta: Meta<DataGridProps<User>> = {
-  title: 'Components/Table/DataGrid',
+  title: 'DataDisplay/Table/DataGrid',
   component: DataGrid,
   tags: ['autodocs'],
   parameters: {

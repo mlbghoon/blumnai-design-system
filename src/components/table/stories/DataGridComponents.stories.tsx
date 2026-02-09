@@ -11,7 +11,7 @@ import { DataGridError } from '../components/DataGridError';
  * 독립적으로 사용하거나 커스터마이징할 때 참고할 수 있습니다.
  */
 const meta: Meta = {
-  title: 'Components/Table/DataGrid Components',
+  title: 'DataDisplay/Table/DataGrid/Components',
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',

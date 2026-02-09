@@ -21,7 +21,7 @@ interface TabsStoryProps {
 }
 
 const meta: Meta<TabsStoryProps> = {
-  title: 'Components/Navigation/Tabs',
+  title: 'Navigation/Tabs',
   component: TabsList,
   tags: ['autodocs'],
   parameters: {

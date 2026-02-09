@@ -5,7 +5,7 @@ import { Radio, RadioGroup } from '../Radio';
 import type { RadioProps } from '../Radio.types';
 
 const meta: Meta<RadioProps> = {
-  title: 'Components/Radio/Radio',
+  title: 'DataEntry/Radio/RadioDefault',
   component: Radio,
   tags: ['autodocs'],
   parameters: {

@@ -7,6 +7,7 @@ import WheelGestures from 'embla-carousel-wheel-gestures';
 import {
   Carousel,
   CarouselContent,
+  CarouselViewport,
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
@@ -16,7 +17,7 @@ import {
 import type { CarouselApi, CarouselIndicatorVariant } from '../Carousel.types';
 
 const meta: Meta<typeof Carousel> = {
-  title: 'Components/Navigation/Carousel',
+  title: 'DataDisplay/Carousel',
   component: Carousel,
   tags: ['autodocs'],
   parameters: {
@@ -170,21 +171,23 @@ export const Default: StoryObj<DefaultStoryArgs> = {
   },
   render: function Render(args) {
     return (
-      <div style={{ width: 400 }} className="padding-x-40">
+      <div style={{ width: 400, paddingLeft: 24, paddingRight: 24 }}>
         <Carousel
           orientation={args.orientation}
           opts={{ loop: args.loop, align: args.align }}
           gap={args.gap}
         >
-          <CarouselContent>
-            {[1, 2, 3, 4, 5].map((i) => (
-              <CarouselItem key={i}>
-                <SlideItem>{i}</SlideItem>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselViewport>
+            <CarouselContent>
+              {[1, 2, 3, 4, 5].map((i) => (
+                <CarouselItem key={i}>
+                  <SlideItem>{i}</SlideItem>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </CarouselViewport>
           <div className="padding-y-16">
             <CarouselIndicators variant={args.indicatorVariant} />
           </div>

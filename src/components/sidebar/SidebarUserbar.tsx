@@ -5,7 +5,7 @@ import { cva } from 'class-variance-authority';
 import { Icon } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar/Avatar';
 import { cn } from '../../lib/utils';
-import { useSidebar } from '../ui/sidebar';
+import { useSidebar } from './SidebarPrimitives';
 
 import type { SidebarUserbarProps } from './Sidebar.types';
 

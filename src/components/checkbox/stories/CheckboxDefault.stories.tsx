@@ -5,7 +5,7 @@ import { Checkbox } from '../Checkbox';
 import type { CheckboxProps } from '../Checkbox.types';
 
 const meta: Meta<CheckboxProps> = {
-  title: 'Components/Checkbox/Checkbox',
+  title: 'DataEntry/Checkbox/CheckboxDefault',
   component: Checkbox,
   tags: ['autodocs'],
   parameters: {

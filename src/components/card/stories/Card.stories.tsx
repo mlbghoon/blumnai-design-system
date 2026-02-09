@@ -12,7 +12,7 @@ import { Button } from '../../button/Button';
 import { Input } from '../../input/Input';
 
 const meta: Meta<typeof Card> = {
-  title: 'Components/Layout/Card',
+  title: 'DataDisplay/Card',
   component: Card,
   tags: ['autodocs'],
   parameters: {
@@ -143,8 +143,8 @@ export const NotificationCard: Story = {
         <CardContent className="flex flex-col gap-12">
           {[
             { title: '새 메시지', desc: '홍길동님이 메시지를 보냈습니다.', time: '5분 전' },
-            { title: '업데이트 완료', desc: '시스템이 업데이트되었습니다.', time: '1시간 전' },
-            { title: '새 팔로워', desc: '김철수님이 팔로우했습니다.', time: '2시간 전' },
+            { title: '시스템 알림', desc: '시스템이 업데이트되었습니다.', time: '1시간 전' },
+            { title: '팔로우', desc: '김철수님이 팔로우했습니다.', time: '2시간 전' },
           ].map((item, i) => (
             <div key={i} className="flex items-start gap-12 padding-12 rounded-md bg-muted/30">
               <div className="width-8 height-8 rounded-full bg-state-primary mt-1" />

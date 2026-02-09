@@ -5,7 +5,7 @@ import { SwitchList } from '../SwitchList';
 import type { SwitchListItem } from '../SwitchList.types';
 
 const meta: Meta<typeof SwitchList> = {
-  title: 'Components/Switch/SwitchList',
+  title: 'DataEntry/Switch/SwitchList',
   component: SwitchList,
   tags: ['autodocs'],
   parameters: {

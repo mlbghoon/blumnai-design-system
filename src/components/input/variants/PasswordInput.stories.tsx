@@ -5,7 +5,7 @@ import { Input } from '../Input';
 import type { PasswordStrength } from '../Input.types';
 
 const meta: Meta<typeof Input> = {
-  title: 'Components/Input/Password',
+  title: 'DataEntry/Input/PasswordInput',
   component: Input,
   tags: ['autodocs'],
   parameters: {

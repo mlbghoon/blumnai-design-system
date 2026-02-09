@@ -18,7 +18,7 @@ type SidebarGroupStoryProps = {
 };
 
 const meta: Meta<SidebarGroupStoryProps> = {
-  title: 'Components/Navigation/Sidebar/SidebarGroup',
+  title: 'Navigation/Sidebar/Group',
   parameters: {
     layout: 'padded',
     controls: { disable: true },

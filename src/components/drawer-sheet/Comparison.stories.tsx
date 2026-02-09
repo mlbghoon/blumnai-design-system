@@ -23,7 +23,7 @@ import {
 import { Button } from '../button';
 
 const meta: Meta = {
-  title: 'Components/Overlay/Drawer & Sheet/Comparison',
+  title: 'Overlay/DrawerSheet/Comparison',
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',

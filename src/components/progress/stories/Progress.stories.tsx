@@ -5,7 +5,7 @@ import { Progress } from '../Progress';
 import type { ProgressProps } from '../Progress.types';
 
 const meta: Meta<ProgressProps> = {
-  title: 'Components/Progress/Progress',
+  title: 'Feedback/Progress',
   component: Progress,
   tags: ['autodocs'],
   parameters: {

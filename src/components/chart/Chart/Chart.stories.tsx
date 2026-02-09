@@ -7,7 +7,7 @@ import { PieChart } from '../PieChart/PieChart';
 import type { ChartConfig } from './Chart.types';
 
 const meta: Meta<typeof BarChart> = {
-  title: 'Components/Chart',
+  title: 'DataDisplay/Chart',
   parameters: {
     layout: 'padded',
   },

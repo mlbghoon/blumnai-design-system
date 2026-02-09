@@ -42,7 +42,7 @@ const tagOptions: SelectOption[] = [
 ];
 
 const meta: Meta<typeof Select> = {
-  title: 'Components/Select',
+  title: 'DataEntry/Select',
   component: Select,
   tags: ['autodocs'],
   parameters: {

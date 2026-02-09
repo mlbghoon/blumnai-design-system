@@ -6,7 +6,7 @@ import { BrandIcon } from './BrandIcon';
 import type { BrandType } from './BrandIcon.types';
 
 const meta: Meta<typeof BrandIcon> = {
-  title: 'Components/Icons/BrandIcon',
+  title: 'Icons/BrandIcon',
   component: BrandIcon,
   tags: ['autodocs'],
   argTypes: {

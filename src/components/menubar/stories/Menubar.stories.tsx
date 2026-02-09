@@ -19,7 +19,7 @@ import {
 import type { MenubarProps } from '../Menubar.types';
 
 const meta: Meta<MenubarProps> = {
-  title: 'Components/Overlay/Menubar',
+  title: 'Navigation/Menubar',
   component: Menubar,
   tags: ['autodocs'],
   parameters: {

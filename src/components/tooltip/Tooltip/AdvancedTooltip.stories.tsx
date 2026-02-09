@@ -7,7 +7,7 @@ import { AdvancedTooltip } from './AdvancedTooltip';
 import type { TooltipItemData } from './Tooltip.types';
 
 const meta: Meta<typeof AdvancedTooltip> = {
-  title: 'Components/Tooltip/AdvancedTooltip',
+  title: 'DataDisplay/Tooltip/AdvancedTooltip',
   component: AdvancedTooltip,
   parameters: {
     layout: 'centered',

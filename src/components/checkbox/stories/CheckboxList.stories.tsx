@@ -6,7 +6,7 @@ import { CheckboxList } from '../CheckboxList';
 import type { CheckboxListProps, CheckboxListItem } from '../CheckboxList.types';
 
 const meta: Meta<CheckboxListProps> = {
-  title: 'Components/Checkbox/CheckboxList',
+  title: 'DataEntry/Checkbox/CheckboxList',
   component: CheckboxList,
   tags: ['autodocs'],
   parameters: {

@@ -269,7 +269,7 @@ const allCountries: CountryCode[] = [
 ];
 
 const meta: Meta<typeof FlagIcon> = {
-  title: 'Components/Icons/FlagIcon',
+  title: 'Icons/FlagIcon',
   component: FlagIcon,
   tags: ['autodocs'],
   argTypes: {

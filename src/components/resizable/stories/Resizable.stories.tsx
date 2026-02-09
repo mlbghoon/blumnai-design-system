@@ -18,7 +18,7 @@ interface ResizableStoryProps {
 }
 
 const meta: Meta<ResizableStoryProps> = {
-  title: 'Components/Layout/Resizable',
+  title: 'Layout/Resizable',
   component: ResizablePanelGroup,
   tags: ['autodocs'],
   parameters: {

@@ -18,7 +18,7 @@ const fileVariants: FileVariant[] = [
 ];
 
 const meta: Meta<typeof FileIcon> = {
-  title: 'Components/Icons/FileIcon',
+  title: 'Icons/FileIcon',
   component: FileIcon,
   tags: ['autodocs'],
   argTypes: {

@@ -6,7 +6,7 @@ import { DonutChart } from './DonutChart';
 import type { ChartConfig } from '../Chart/Chart.types';
 
 const meta: Meta<typeof DonutChart> = {
-  title: 'Components/Chart/DonutChart',
+  title: 'DataDisplay/Chart/DonutChart',
   component: DonutChart,
   parameters: {
     layout: 'padded',

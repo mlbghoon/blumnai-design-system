@@ -4,7 +4,7 @@ import { Skeleton } from '../Skeleton';
 import { Card, CardHeader, CardContent } from '../../card/Card';
 
 const meta: Meta<typeof Skeleton> = {
-  title: 'Components/Feedback/Skeleton',
+  title: 'DataDisplay/Skeleton',
   component: Skeleton,
   tags: ['autodocs'],
   parameters: {

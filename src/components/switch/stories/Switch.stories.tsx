@@ -5,7 +5,7 @@ import { Switch } from '../Switch';
 import type { SwitchColor } from '../Switch.types';
 
 const meta: Meta<typeof Switch> = {
-  title: 'Components/Switch',
+  title: 'DataEntry/Switch',
   component: Switch,
   tags: ['autodocs'],
   parameters: {

@@ -22,7 +22,7 @@ type DialogStoryProps = DialogProps & DialogContentProps & DialogScrollAreaProps
 };
 
 const meta: Meta<DialogStoryProps> = {
-  title: 'Components/Overlay/Dialog',
+  title: 'Feedback/Dialog',
   component: DialogContent,
   tags: ['autodocs'],
   parameters: {

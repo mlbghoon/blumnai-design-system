@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ControlButton } from '../ControlButton';
 
 const meta: Meta<typeof ControlButton> = {
-  title: 'Components/Button/ControlButton',
+  title: 'Actions/Button/ControlButton',
   component: ControlButton,
   parameters: {
     layout: 'padded',

@@ -29,7 +29,7 @@ const iconColorOptions = [
 ] as const;
 
 const meta: Meta<typeof Icon> = {
-  title: 'Components/Icons/Icon',
+  title: 'Icons/Icon',
   component: Icon,
   tags: ['autodocs'],
   argTypes: {

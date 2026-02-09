@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { AvatarGroup } from './AvatarGroup';
 
 const meta = {
-  title: 'Components/Avatar/AvatarGroup',
+  title: 'DataDisplay/Avatar/AvatarGroup',
   component: AvatarGroup,
   parameters: {
     layout: 'centered',

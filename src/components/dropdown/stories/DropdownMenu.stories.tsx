@@ -18,7 +18,7 @@ import { Button } from '../../button';
 type DropdownStoryProps = DropdownMenuProps & DropdownMenuContentProps;
 
 const meta: Meta<DropdownStoryProps> = {
-  title: 'Components/Overlay/DropdownMenu',
+  title: 'Overlay/Dropdown',
   component: DropdownMenuContent,
   tags: ['autodocs'],
   parameters: {

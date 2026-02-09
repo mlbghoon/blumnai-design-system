@@ -13,7 +13,7 @@ import type { TableProps } from '../Table.types';
 import { Checkbox } from '../../checkbox/Checkbox';
 
 const meta: Meta<TableProps> = {
-  title: 'Components/Table/Table',
+  title: 'DataDisplay/Table/Table',
   component: Table,
   tags: ['autodocs'],
   parameters: {

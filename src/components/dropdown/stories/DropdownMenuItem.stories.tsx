@@ -12,7 +12,7 @@ import type { DropdownMenuItemProps } from '../Dropdown.types';
 import { Button } from '../../button';
 
 const meta: Meta<DropdownMenuItemProps> = {
-  title: 'Components/Overlay/DropdownMenu/MenuItem',
+  title: 'Overlay/Dropdown/Item',
   component: DropdownMenuItem,
   tags: ['autodocs'],
   parameters: {

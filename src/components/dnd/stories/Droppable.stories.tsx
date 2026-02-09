@@ -5,7 +5,7 @@ import type { DroppableProps, DragEndEvent } from '../dnd.types';
 import { Icon } from '@/components/icons';
 
 const meta: Meta<DroppableProps> = {
-  title: 'Components/DnD/Droppable',
+  title: 'DnD/Droppable',
   component: Droppable,
   tags: ['autodocs'],
   parameters: {

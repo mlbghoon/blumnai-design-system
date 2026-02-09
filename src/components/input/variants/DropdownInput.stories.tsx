@@ -24,7 +24,7 @@ const protocolOptions = [
 ];
 
 const meta: Meta<typeof Input> = {
-  title: 'Components/Input/Dropdown',
+  title: 'DataEntry/Input/DropdownInput',
   component: Input,
   tags: ['autodocs'],
   parameters: {

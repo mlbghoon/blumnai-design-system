@@ -20,7 +20,7 @@ import type { DropdownMenuAvatarProps } from '../Dropdown.types';
 import { Button } from '../../button';
 
 const meta: Meta<DropdownMenuAvatarProps> = {
-  title: 'Components/Overlay/DropdownMenu/Special',
+  title: 'Overlay/Dropdown/Special',
   component: DropdownMenuAvatar,
   tags: ['autodocs'],
   parameters: {

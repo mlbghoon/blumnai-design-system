@@ -6,7 +6,7 @@ import type { ConfirmDialogProps } from '../ConfirmDialog.types';
 import { Button } from '../../button';
 
 const meta: Meta<ConfirmDialogProps> = {
-  title: 'Components/Overlay/ConfirmDialog',
+  title: 'Feedback/ConfirmDialog',
   component: ConfirmDialog,
   tags: ['autodocs'],
   parameters: {
@@ -121,7 +121,7 @@ type Story = StoryObj<ConfirmDialogProps>;
  */
 export const Default: Story = {
   args: {
-    title: '확인이 필요합니다',
+    title: '작업 확인',
     description: '이 작업을 진행하시겠습니까?',
     confirmLabel: '확인',
     cancelLabel: '취소',

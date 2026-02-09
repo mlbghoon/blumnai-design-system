@@ -12,7 +12,7 @@ import {
   SidebarMenuItem as ShadcnSidebarMenuItem,
   SidebarMenuButton,
   useSidebar,
-} from '../ui/sidebar';
+} from './SidebarPrimitives';
 
 import type {
   SidebarMenuItemProps,

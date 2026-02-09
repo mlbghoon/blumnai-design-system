@@ -14,7 +14,7 @@ import {
 import type { NavigationMenuProps } from '../NavigationMenu.types';
 
 const meta: Meta<NavigationMenuProps> = {
-  title: 'Components/Navigation/NavigationMenu',
+  title: 'Navigation/NavigationMenu',
   component: NavigationMenu,
   tags: ['autodocs'],
   parameters: {

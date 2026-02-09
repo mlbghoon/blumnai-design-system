@@ -19,7 +19,7 @@ import { Button } from '../../button';
 type AlertDialogStoryProps = AlertDialogProps & AlertDialogContentProps & AlertDialogScrollAreaProps;
 
 const meta: Meta<AlertDialogStoryProps> = {
-  title: 'Components/Overlay/AlertDialog',
+  title: 'Feedback/AlertDialog',
   component: AlertDialogContent,
   tags: ['autodocs'],
   parameters: {

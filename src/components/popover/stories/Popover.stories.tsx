@@ -14,7 +14,7 @@ import { Input } from '../../input/Input';
 type PopoverStoryProps = PopoverProps & PopoverContentProps & PopoverScrollAreaProps;
 
 const meta: Meta<PopoverStoryProps> = {
-  title: 'Components/Overlay/Popover',
+  title: 'Overlay/Popover',
   component: PopoverContent,
   tags: ['autodocs'],
   parameters: {

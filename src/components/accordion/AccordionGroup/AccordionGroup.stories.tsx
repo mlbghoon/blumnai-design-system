@@ -6,7 +6,7 @@ import { AccordionGroup } from './AccordionGroup';
 import type { AccordionGroupItem } from './AccordionGroup.types';
 
 const meta = {
-  title: 'Components/Accordion/AccordionGroup',
+  title: 'Layout/Accordion',
   component: AccordionGroup,
   parameters: {
     layout: 'padded',

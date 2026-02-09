@@ -4,7 +4,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '../HoverCard';
 import { Avatar } from '../../avatar/Avatar';
 
 const meta: Meta<typeof HoverCard> = {
-  title: 'Components/Overlay/HoverCard',
+  title: 'DataDisplay/HoverCard',
   component: HoverCard,
   tags: ['autodocs'],
   parameters: {

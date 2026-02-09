@@ -32,7 +32,7 @@ type SidebarStoryProps = {
 };
 
 const meta: Meta<SidebarStoryProps> = {
-  title: 'Components/Navigation/Sidebar',
+  title: 'Navigation/Sidebar/Layout',
   component: SidebarProvider,
   parameters: {
     layout: 'fullscreen',

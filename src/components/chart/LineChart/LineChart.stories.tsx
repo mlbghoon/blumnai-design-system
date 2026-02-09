@@ -6,7 +6,7 @@ import { LineChart } from './LineChart';
 import type { ChartConfig } from '../Chart/Chart.types';
 
 const meta: Meta<typeof LineChart> = {
-  title: 'Components/Chart/LineChart',
+  title: 'DataDisplay/Chart/LineChart',
   component: LineChart,
   parameters: {
     layout: 'padded',

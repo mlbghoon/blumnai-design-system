@@ -17,7 +17,7 @@ const LOCALE_MAP: Record<string, Locale> = {
 type StoryProps = Omit<DatePickerProps, 'locale'> & { locale: string };
 
 const meta: Meta<StoryProps> = {
-  title: 'Components/Calendar/DatePicker',
+  title: 'DataEntry/DatePicker',
   component: DatePicker as unknown as React.ComponentType<StoryProps>,
   tags: ['autodocs'],
   parameters: {

@@ -6,7 +6,7 @@ import { RadioCard } from '../RadioCard';
 import type { RadioCardProps } from '../RadioCard.types';
 
 const meta: Meta<RadioCardProps> = {
-  title: 'Components/Radio/RadioCard',
+  title: 'DataEntry/Radio/RadioCard',
   component: RadioCard,
   tags: ['autodocs'],
   parameters: {

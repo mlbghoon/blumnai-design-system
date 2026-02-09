@@ -5,7 +5,7 @@ import type { DndItem } from '../dnd.types';
 import { Icon } from '@/components/icons';
 
 const meta: Meta<typeof Sortable> = {
-  title: 'Components/DnD/Sortable',
+  title: 'DnD/Sortable',
   component: Sortable,
   tags: ['autodocs'],
   parameters: {
@@ -52,10 +52,10 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const [items, setItems] = useState<ListItem[]>([
-      { id: '1', title: '아이템 1' },
-      { id: '2', title: '아이템 2' },
-      { id: '3', title: '아이템 3' },
-      { id: '4', title: '아이템 4' },
+      { id: '1', title: 'Item 1' },
+      { id: '2', title: 'Item 2' },
+      { id: '3', title: 'Item 3' },
+      { id: '4', title: 'Item 4' },
     ]);
 
     return (
@@ -89,9 +89,9 @@ export const Default: Story = {
 export const WithHandle: Story = {
   render: function Render() {
     const [items, setItems] = useState<ListItem[]>([
-      { id: '1', title: '드래그 핸들로 이동' },
-      { id: '2', title: '아이템 내용은 선택 가능' },
-      { id: '3', title: '편집이 필요한 경우 유용' },
+      { id: '1', title: 'Item 1' },
+      { id: '2', title: 'Item 2' },
+      { id: '3', title: 'Item 3' },
     ]);
 
     return (
@@ -121,11 +121,11 @@ export const WithHandle: Story = {
 export const Horizontal: Story = {
   render: function Render() {
     const [items, setItems] = useState<ListItem[]>([
-      { id: '1', title: 'A' },
-      { id: '2', title: 'B' },
-      { id: '3', title: 'C' },
-      { id: '4', title: 'D' },
-      { id: '5', title: 'E' },
+      { id: '1', title: '1' },
+      { id: '2', title: '2' },
+      { id: '3', title: '3' },
+      { id: '4', title: '4' },
+      { id: '5', title: '5' },
     ]);
 
     return (
@@ -190,11 +190,11 @@ interface TaskItem extends DndItem {
 export const TaskList: Story = {
   render: function Render() {
     const [tasks, setTasks] = useState<TaskItem[]>([
-      { id: '1', title: '디자인 시스템 문서화', priority: 'high' },
-      { id: '2', title: 'API 엔드포인트 구현', priority: 'high' },
-      { id: '3', title: '버그 수정', priority: 'medium' },
+      { id: '1', title: 'API 설계 검토', priority: 'high' },
+      { id: '2', title: '버그 수정', priority: 'high' },
+      { id: '3', title: '문서 업데이트', priority: 'medium' },
       { id: '4', title: '코드 리뷰', priority: 'medium' },
-      { id: '5', title: '미팅 준비', priority: 'low' },
+      { id: '5', title: '테스트 작성', priority: 'low' },
     ]);
 
     const priorityColors = {
@@ -294,9 +294,9 @@ export const ImageGallery: Story = {
 export const RenderProps: Story = {
   render: function Render() {
     const [items, setItems] = useState<ListItem[]>([
-      { id: '1', title: '커스텀 스타일 1' },
-      { id: '2', title: '커스텀 스타일 2' },
-      { id: '3', title: '커스텀 스타일 3' },
+      { id: '1', title: 'Item 1' },
+      { id: '2', title: 'Item 2' },
+      { id: '3', title: 'Item 3' },
     ]);
 
     return (

@@ -5,7 +5,7 @@ import type { IconType } from '../../icons/Icon/Icon.types';
 import { Input } from '../Input';
 
 const meta: Meta<typeof Input> = {
-  title: 'Components/Input/Tags',
+  title: 'DataEntry/Input/TagsInput',
   component: Input,
   tags: ['autodocs'],
   parameters: {

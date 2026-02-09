@@ -1,6 +1,7 @@
 export {
   Carousel,
   CarouselContent,
+  CarouselViewport,
   CarouselItem,
   CarouselPrevious,
   CarouselNext,

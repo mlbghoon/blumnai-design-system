@@ -31,7 +31,7 @@ const manyOptions: SelectOption[] = Array.from({ length: 20 }, (_, i) => ({
 }));
 
 const meta: Meta<typeof Select> = {
-  title: 'Components/Select/Default',
+  title: 'DataEntry/Select/DefaultSelect',
   component: Select,
   tags: ['autodocs'],
   parameters: {

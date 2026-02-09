@@ -150,6 +150,14 @@ export const CarouselContent = React.forwardRef<
 });
 CarouselContent.displayName = 'CarouselContent';
 
+export const CarouselViewport = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn('relative', className)} {...props} />
+));
+CarouselViewport.displayName = 'CarouselViewport';
+
 export const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
   ({ className, ...props }, ref) => (
     <div
@@ -166,9 +174,13 @@ CarouselItem.displayName = 'CarouselItem';
 export const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   CarouselNavProps
->(({ className, ...props }, ref) => {
+>(({ className, style, ...props }, ref) => {
   const { orientation, scrollPrev, canScrollPrev, opts } = useCarousel();
   const isDisabled = opts?.loop ? false : !canScrollPrev;
+
+  const positionStyle = orientation === 'horizontal'
+    ? { left: -20, top: '50%', transform: 'translateY(-50%)' }
+    : { top: -20, left: '50%', transform: 'translateX(-50%) rotate(90deg)' };
 
   return (
     <ControlButton
@@ -179,13 +191,8 @@ export const CarouselPrevious = React.forwardRef<
       disabled={isDisabled}
       onClick={scrollPrev}
       aria-label="Previous slide"
-      className={cn(
-        'absolute',
-        orientation === 'horizontal'
-          ? '-left-40 top-1/2 -translate-y-1/2'
-          : '-top-40 left-1/2 -translate-x-1/2 rotate-90',
-        className
-      )}
+      className={cn('absolute', className)}
+      style={{ ...positionStyle, ...style }}
       {...props}
     />
   );
@@ -195,9 +202,13 @@ CarouselPrevious.displayName = 'CarouselPrevious';
 export const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   CarouselNavProps
->(({ className, ...props }, ref) => {
+>(({ className, style, ...props }, ref) => {
   const { orientation, scrollNext, canScrollNext, opts } = useCarousel();
   const isDisabled = opts?.loop ? false : !canScrollNext;
+
+  const positionStyle = orientation === 'horizontal'
+    ? { right: -20, top: '50%', transform: 'translateY(-50%)' }
+    : { bottom: -20, left: '50%', transform: 'translateX(-50%) rotate(90deg)' };
 
   return (
     <ControlButton
@@ -208,13 +219,8 @@ export const CarouselNext = React.forwardRef<
       disabled={isDisabled}
       onClick={scrollNext}
       aria-label="Next slide"
-      className={cn(
-        'absolute',
-        orientation === 'horizontal'
-          ? '-right-40 top-1/2 -translate-y-1/2'
-          : '-bottom-40 left-1/2 -translate-x-1/2 rotate-90',
-        className
-      )}
+      className={cn('absolute', className)}
+      style={{ ...positionStyle, ...style }}
       {...props}
     />
   );

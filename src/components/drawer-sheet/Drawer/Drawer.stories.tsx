@@ -25,7 +25,7 @@ interface DrawerStoryProps {
 }
 
 const meta: Meta<DrawerStoryProps> = {
-  title: 'Components/Overlay/Drawer & Sheet/Drawer',
+  title: 'Overlay/DrawerSheet/Drawer',
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',

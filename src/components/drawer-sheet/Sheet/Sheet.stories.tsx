@@ -24,7 +24,7 @@ interface SheetStoryProps {
 }
 
 const meta: Meta<SheetStoryProps> = {
-  title: 'Components/Overlay/Drawer & Sheet/Sheet',
+  title: 'Overlay/DrawerSheet/Sheet',
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -240,7 +240,7 @@ export const Notifications: Story = {
   render: function Render() {
     const notifications = [
       { id: 1, title: '새 메시지', description: '홍길동님이 메시지를 보냈습니다.', time: '5분 전' },
-      { id: 2, title: '업데이트 완료', description: '시스템 업데이트가 완료되었습니다.', time: '1시간 전' },
+      { id: 2, title: '시스템 알림', description: '시스템 업데이트가 완료되었습니다.', time: '1시간 전' },
       { id: 3, title: '새 댓글', description: '게시물에 새 댓글이 달렸습니다.', time: '2시간 전' },
     ];
 

@@ -5,7 +5,7 @@ import { Input } from './Input';
 import type { InputProps } from './Input.types';
 
 const meta: Meta<InputProps> = {
-  title: 'Components/Input',
+  title: 'DataEntry/Input',
   component: Input,
   parameters: {
     layout: 'padded',

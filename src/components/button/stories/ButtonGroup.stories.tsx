@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ButtonGroup } from '../ButtonGroup';
 
 const meta: Meta<typeof ButtonGroup> = {
-  title: 'Components/Button/ButtonGroup',
+  title: 'Actions/Button/ButtonGroup',
   component: ButtonGroup,
   parameters: {
     layout: 'padded',

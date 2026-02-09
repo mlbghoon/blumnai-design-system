@@ -20,7 +20,7 @@ type SidebarMenuItemStoryProps = {
 };
 
 const meta: Meta<SidebarMenuItemStoryProps> = {
-  title: 'Components/Navigation/Sidebar/SidebarMenuItem',
+  title: 'Navigation/Sidebar/MenuItem',
   parameters: {
     layout: 'padded',
     controls: { disable: true },

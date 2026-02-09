@@ -6,7 +6,7 @@ import { BarChart } from './BarChart';
 import type { ChartConfig } from '../Chart/Chart.types';
 
 const meta: Meta<typeof BarChart> = {
-  title: 'Components/Chart/BarChart',
+  title: 'DataDisplay/Chart/BarChart',
   component: BarChart,
   parameters: {
     layout: 'padded',

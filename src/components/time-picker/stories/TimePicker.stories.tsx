@@ -6,7 +6,7 @@ import { TimeInput } from '../TimePicker';
 import type { TimePickerProps, TimeValue } from '../time-picker.types';
 
 const meta: Meta<TimePickerProps> = {
-  title: 'Components/DataEntry/TimePicker/TimePicker',
+  title: 'DataEntry/TimePicker',
   component: TimePicker,
   tags: ['autodocs'],
   parameters: {

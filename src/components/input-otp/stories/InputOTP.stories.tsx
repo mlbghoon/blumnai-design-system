@@ -9,7 +9,7 @@ import {
 } from '../InputOTP';
 
 const meta: Meta<typeof InputOTP> = {
-  title: 'Components/DataEntry/InputOTP',
+  title: 'DataEntry/InputOTP',
   component: InputOTP,
   tags: ['autodocs'],
   parameters: {

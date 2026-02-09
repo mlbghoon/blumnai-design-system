@@ -5,7 +5,7 @@ import { AdvancedTooltip } from './AdvancedTooltip';
 import { Button } from '../../button/Button';
 
 const meta: Meta<typeof TooltipTrigger> = {
-  title: 'Components/Tooltip/TooltipTrigger',
+  title: 'DataDisplay/Tooltip/TooltipTrigger',
   component: TooltipTrigger,
   parameters: {
     layout: 'centered',

@@ -28,7 +28,7 @@ import type { IconTypeWithFill, IconColor } from '../../icons/Icon/Icon.types';
  * ```
  */
 const meta: Meta = {
-  title: 'Components/Table/DataGrid Cells',
+  title: 'DataDisplay/Table/DataGrid/Cells',
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',

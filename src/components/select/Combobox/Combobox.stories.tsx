@@ -55,7 +55,7 @@ const tagOptions: ComboboxOption[] = [
 ];
 
 const meta: Meta<typeof Combobox> = {
-  title: 'Components/Combobox',
+  title: 'DataEntry/Combobox',
   component: Combobox,
   tags: ['autodocs'],
   parameters: {

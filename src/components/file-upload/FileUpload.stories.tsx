@@ -8,7 +8,7 @@ import type { FileUploadAreaProps, FileUploadCardProps, FileInfo } from './FileU
 type FileUploadStoryProps = FileUploadAreaProps & FileUploadCardProps;
 
 const meta: Meta<FileUploadStoryProps> = {
-  title: 'Components/FileUpload',
+  title: 'DataEntry/FileUpload',
   component: FileUploadArea,
   parameters: {
     layout: 'padded',

@@ -5,7 +5,7 @@ import { DataRangeSliderInput } from '../DataRangeSliderInput';
 import type { DataRangeSliderInputProps } from '../Slider.types';
 
 const meta: Meta<DataRangeSliderInputProps> = {
-  title: 'Components/Slider/DataRangeSliderInput',
+  title: 'DataEntry/Slider/DataRangeSliderInput',
   component: DataRangeSliderInput,
   tags: ['autodocs'],
   parameters: {

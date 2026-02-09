@@ -20,7 +20,7 @@ const manyUserOptions: SelectOption[] = Array.from({ length: 15 }, (_, i) => ({
 }));
 
 const meta: Meta<typeof Select> = {
-  title: 'Components/Select/Avatar',
+  title: 'DataEntry/Select/AvatarSelect',
   component: Select,
   tags: ['autodocs'],
   parameters: {

@@ -5,7 +5,7 @@ import { ProgressCircular } from '../ProgressCircular';
 import type { ProgressCircularProps } from '../Progress.types';
 
 const meta: Meta<ProgressCircularProps> = {
-  title: 'Components/Progress/ProgressCircular',
+  title: 'Feedback/Progress/Circular',
   component: ProgressCircular,
   tags: ['autodocs'],
   parameters: {

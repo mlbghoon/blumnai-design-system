@@ -12,7 +12,7 @@ import { Button } from '../../button/Button';
 import type { FormProps } from '../Form.types';
 
 const meta: Meta<FormProps> = {
-  title: 'Components/DataEntry/Form',
+  title: 'DataEntry/Form',
   component: Form,
   tags: ['autodocs'],
   parameters: {

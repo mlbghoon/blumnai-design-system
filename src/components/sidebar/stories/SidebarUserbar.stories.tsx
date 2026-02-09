@@ -5,7 +5,7 @@ import { SidebarProvider, SidebarUserbar } from '../Sidebar';
 import type { SidebarUserbarProps } from '../Sidebar.types';
 
 const meta: Meta<typeof SidebarUserbar> = {
-  title: 'Components/Navigation/Sidebar/SidebarUserbar',
+  title: 'Navigation/Sidebar/Userbar',
   component: SidebarUserbar,
   parameters: {
     layout: 'padded',

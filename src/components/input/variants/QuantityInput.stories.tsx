@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Input } from '../Input';
 
 const meta: Meta<typeof Input> = {
-  title: 'Components/Input/Quantity',
+  title: 'DataEntry/Input/QuantityInput',
   component: Input,
   tags: ['autodocs'],
   parameters: {

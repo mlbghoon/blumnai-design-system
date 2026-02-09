@@ -6,7 +6,7 @@ import { CursorIcon } from './CursorIcon';
 import type { CursorType } from './CursorIcon.types';
 
 const meta: Meta<typeof CursorIcon> = {
-  title: 'Components/Icons/CursorIcon',
+  title: 'Icons/CursorIcon',
   component: CursorIcon,
   tags: ['autodocs'],
   argTypes: {

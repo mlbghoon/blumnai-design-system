@@ -3,14 +3,14 @@
  * Sidebar Component System
  *
  * Re-exports shadcn/ui sidebar components with SortUI styling applied.
- * The base shadcn sidebar (src/components/ui/sidebar.tsx) has been customized
+ * The base shadcn sidebar (SidebarPrimitives.tsx) has been customized
  * with design system tokens.
  *
  * This file provides additional wrapper components and custom SortUI components:
  * - SidebarMenuItem: Custom menu item with multiple variants
  * - SidebarUserbar: Custom userbar/header component
  *
- * Width constants (defined in ui/sidebar.tsx):
+ * Width constants (defined in SidebarPrimitives.tsx):
  * - Expanded: 16rem (256px) - customizable via CSS variable --sidebar-width
  * - Collapsed: 3rem (48px) - customizable via CSS variable --sidebar-width-icon
  * - Mobile: 18rem (288px)
@@ -45,7 +45,7 @@ export {
   SidebarToggleButton,
   SidebarTrigger,
   useSidebar,
-} from '../ui/sidebar';
+} from './SidebarPrimitives';
 
 export { ScrollArea, ScrollBar } from '../scroll-area/ScrollArea';
 

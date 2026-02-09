@@ -23,7 +23,7 @@ import type {
 type ContextMenuStoryProps = ContextMenuProps & ContextMenuContentProps;
 
 const meta: Meta<ContextMenuStoryProps> = {
-  title: 'Components/Overlay/ContextMenu',
+  title: 'Overlay/ContextMenu',
   component: ContextMenuContent,
   tags: ['autodocs'],
   parameters: {

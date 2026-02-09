@@ -12,7 +12,7 @@ import {
 import type { MenubarItemProps } from '../Menubar.types';
 
 const meta: Meta<MenubarItemProps> = {
-  title: 'Components/Overlay/Menubar/MenuItem',
+  title: 'Navigation/Menubar/Item',
   component: MenubarItem,
   tags: ['autodocs'],
   parameters: {

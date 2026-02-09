@@ -5,7 +5,7 @@ import { SliderInput } from '../SliderInput';
 import type { SliderInputProps } from '../Slider.types';
 
 const meta: Meta<SliderInputProps> = {
-  title: 'Components/Slider/SliderInput',
+  title: 'DataEntry/Slider/SliderInput',
   component: SliderInput,
   tags: ['autodocs'],
   parameters: {
