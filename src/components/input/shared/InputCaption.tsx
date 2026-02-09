@@ -36,7 +36,7 @@ export const InputCaption = ({
   return (
     <div
       className={cn(
-        'mt-1',
+        'margin-t-4',
         error ? ERROR_CAPTION_STYLE : success ? SUCCESS_CAPTION_STYLE : CAPTION_STYLE,
         className
       )}

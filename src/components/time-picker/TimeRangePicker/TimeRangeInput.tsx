@@ -477,7 +477,8 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
             disabled={disabled}
             onClick={() => handlePeriodToggle(part)}
             className={cn(
-              'ml-1 padding-x-4 padding-y-2 rounded-xs',
+              'padding-x-4 padding-y-2 rounded-xs',
+              'ml-[4px]',
               'font-body size-sm line-height-leading-5 font-medium',
               'transition-colors duration-150',
               disabled

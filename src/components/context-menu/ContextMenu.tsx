@@ -47,7 +47,7 @@ const ContextMenuContent = React.forwardRef<
       <ContextMenuPrimitive.Content
         ref={ref}
         className={cn(
-          "z-50 max-h-[var(--radix-context-menu-content-available-height)] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-lg border-default bg-card padding-4 text-default shadow-modal-sm",
+          "z-50 max-h-[var(--radix-context-menu-content-available-height)] min-w-[128px] overflow-y-auto overflow-x-hidden rounded-lg border-default bg-card padding-4 text-default shadow-modal-sm",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -123,7 +123,7 @@ const ContextMenuItem = React.forwardRef<
       )}
 
       {isLarge && description ? (
-        <div className="flex flex-col flex-1 min-w-0 gap-1">
+        <div className="flex flex-col flex-1 min-w-0 gap-2">
           <span className="truncate">{children}</span>
           <span className="font-body size-xs line-height-leading-4 text-muted truncate">
             {description}
@@ -240,7 +240,7 @@ const ContextMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-muted", className)}
+    className={cn("-margin-x-4 margin-y-4 height-1 bg-muted", className)}
     {...props}
   />
 ));
@@ -284,7 +284,7 @@ const ContextMenuSubContent = React.forwardRef<
   <ContextMenuPrimitive.SubContent
     ref={ref}
     className={cn(
-      "z-50 min-w-[8rem] overflow-hidden rounded-lg border-default bg-card padding-4 text-default shadow-modal-sm",
+      "z-50 min-w-[128px] overflow-hidden rounded-lg border-default bg-card padding-4 text-default shadow-modal-sm",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",

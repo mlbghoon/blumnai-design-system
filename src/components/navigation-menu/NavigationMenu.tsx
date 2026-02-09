@@ -97,7 +97,8 @@ const NavigationMenuTrigger = React.forwardRef<
       iconType={['arrows', 'arrow-down-s']}
       size={16}
       color="default-subtle"
-      className="relative top-[1px] ml-1 transition duration-300 group-data-[state=open]:rotate-180"
+      className="relative top-[1px] transition duration-300 group-data-[state=open]:rotate-180"
+      style={{ marginLeft: '4px' }}
       aria-hidden="true"
     />
   </NavigationMenuPrimitive.Trigger>

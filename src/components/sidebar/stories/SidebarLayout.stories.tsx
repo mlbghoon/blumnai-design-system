@@ -204,7 +204,7 @@ export const Default: Story = {
       <SidebarProvider
         open={open}
         onOpenChange={setOpen}
-        style={{ '--sidebar-width': '17.5rem' } as React.CSSProperties}
+        style={{ '--sidebar-width': '280px' } as React.CSSProperties}
       >
         {args.side === 'right' ? (
           <>
@@ -326,7 +326,7 @@ export const Inset: Story = {
     return (
       <SidebarProvider
         defaultOpen={true}
-        style={{ '--sidebar-width': '17.5rem' } as React.CSSProperties}
+        style={{ '--sidebar-width': '280px' } as React.CSSProperties}
       >
         <Sidebar>
           <SidebarContent>
@@ -375,7 +375,7 @@ export const Trigger: Story = {
     return (
       <SidebarProvider
         defaultOpen={true}
-        style={{ '--sidebar-width': '17.5rem' } as React.CSSProperties}
+        style={{ '--sidebar-width': '280px' } as React.CSSProperties}
       >
         <Sidebar collapsible="icon">
           <SidebarContent>
@@ -422,7 +422,7 @@ export const Rail: Story = {
     return (
       <SidebarProvider
         defaultOpen={true}
-        style={{ '--sidebar-width': '17.5rem' } as React.CSSProperties}
+        style={{ '--sidebar-width': '280px' } as React.CSSProperties}
       >
         <Sidebar collapsible="icon">
           <SidebarContent>
@@ -471,7 +471,7 @@ export const ToggleButton: Story = {
     return (
       <SidebarProvider
         defaultOpen={true}
-        style={{ '--sidebar-width': '17.5rem' } as React.CSSProperties}
+        style={{ '--sidebar-width': '280px' } as React.CSSProperties}
       >
         <Sidebar collapsible="icon" showToggleButton={true} toggleButtonPosition="center">
           <SidebarContent>
@@ -520,7 +520,7 @@ export const ToggleButtonCustomIcon: Story = {
     return (
       <SidebarProvider
         defaultOpen={true}
-        style={{ '--sidebar-width': '17.5rem' } as React.CSSProperties}
+        style={{ '--sidebar-width': '280px' } as React.CSSProperties}
       >
         <Sidebar
           collapsible="icon"

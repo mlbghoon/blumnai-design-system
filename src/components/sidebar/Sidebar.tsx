@@ -11,12 +11,12 @@
  * - SidebarUserbar: Custom userbar/header component
  *
  * Width constants (defined in SidebarPrimitives.tsx):
- * - Expanded: 16rem (256px) - customizable via CSS variable --sidebar-width
- * - Collapsed: 3rem (48px) - customizable via CSS variable --sidebar-width-icon
- * - Mobile: 18rem (288px)
+ * - Expanded: 256px - customizable via CSS variable --sidebar-width
+ * - Collapsed: 48px - customizable via CSS variable --sidebar-width-icon
+ * - Mobile: 288px
  *
  * For the SortUI design (280px expanded, 48px collapsed), set in SidebarProvider:
- * style={{ '--sidebar-width': '17.5rem' }}
+ * style={{ '--sidebar-width': '280px' }}
  */
 
 export {

@@ -37,7 +37,7 @@ export const InputLabel = ({
   ...props
 }: InputLabelProps) => {
   return (
-    <div className="flex items-center gap-4 mb-1">
+    <div className="flex items-center gap-4 margin-b-4">
       <label
         htmlFor={htmlFor}
         className={cn(LABEL_STYLE, 'select-none', className)}
