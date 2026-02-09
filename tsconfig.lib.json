@@ -8,6 +8,6 @@
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": ["src/index.ts", "src/components/**/*", "src/lib/**/*", "src/hooks/**/*"],
+  "include": ["src/index.ts", "src/components/**/*", "src/lib/**/*", "src/hooks/**/*", "src/constants/**/*", "src/utils/**/*"],
   "exclude": ["**/*.stories.tsx", "**/*.test.tsx", "**/*.spec.tsx", "src/App.tsx", "src/main.tsx"]
 }

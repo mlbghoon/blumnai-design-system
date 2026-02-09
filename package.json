@@ -29,7 +29,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:lib": "npm run prebuild:lib && vite build --mode lib && tsc --project tsconfig.lib.json",
+    "build:lib": "npm run prebuild:lib && vite build --mode lib && tsc --project tsconfig.lib.json && tsc-alias --project tsconfig.lib.json",
     "prebuild:lib": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
@@ -150,6 +150,7 @@
     "remixicon": "^4.6.0",
     "storybook": "^8.4.7",
     "tailwindcss": "^4.1.18",
+    "tsc-alias": "^1.8.16",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",

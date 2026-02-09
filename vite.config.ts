@@ -33,8 +33,10 @@ export default defineConfig(({ mode }) => {
           },
           rollupOptions: {
             external: (id) => {
-              // 상대/절대 경로가 아닌 모든 import를 external 처리 (node_modules)
               if (id.startsWith('.') || path.isAbsolute(id)) return false
+              // 내부 alias는 external 처리하지 않음 (Vite alias 플러그인이 해석)
+              const internalAliases = ['constants/', 'components/', 'icons/', 'utils/', 'styles/', 'tokens/', 'hooks/', '@/']
+              if (internalAliases.some(alias => id.startsWith(alias))) return false
               return true
             },
             output: [
