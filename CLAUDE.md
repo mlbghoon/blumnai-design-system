@@ -137,7 +137,7 @@ Use design system radius tokens:
 - `border-darker` = 15% opacity (#27272a26)
 - `border-strong` = 25% opacity (#27272a40)
 
-**Note:** Border classes set `border-width: 1px` and `border-color`, but NOT `border-style`. This allows them to work with style modifiers like `border-dashed`. For solid borders, use `border-default` alone (default style is solid). For dashed borders, use `border border-dashed border-default`.
+**Note:** Border classes set `border-width: 1px`, `border-style: solid`, and `border-color` — they are fully self-contained and work without Tailwind's preflight reset. For dashed borders, add `border-dashed` which overrides the style.
 
 ### Examples - Correct checkbox styling:
 ```tsx

@@ -395,8 +395,8 @@
 
 /* ============================================
    Border Utilities
-   Note: These only set border-color, allowing use with border-dashed, border-dotted, etc.
-   Use with `border` class: e.g., `border border-default` or `border border-dashed border-default`
+   Each class sets border-width, border-style: solid, and border-color.
+   To use dashed/dotted borders, add `border-dashed` or `border-dotted` which overrides the style.
    ============================================ */
 .border-default {
   border-width: 1px;
@@ -511,6 +511,7 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .border-inverted {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-inverted);
 }
 
@@ -520,31 +521,37 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .border-accent {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-accent);
 }
 
 .border-accent-inverted {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-accent-inverted);
 }
 
 .border-destructive {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-destructive);
 }
 
 .border-informative {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-informative);
 }
 
 .border-success {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-success);
 }
 
 .border-warning {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-warning);
 }
 
@@ -572,6 +579,8 @@ table[data-striped] tbody tr:nth-child(even) {
 
 /* Outline utilities for button groups */
 .outline-darker {
+  outline-width: 1px;
+  outline-style: solid;
   outline-color: var(--border-darker);
 }
 
@@ -602,96 +611,115 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .border-input-highlight {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-input-highlight);
 }
 
 .border-white {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-white);
 }
 
 .border-red {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-red);
 }
 
 .border-orange {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-orange);
 }
 
 .border-amber {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-amber);
 }
 
 .border-yellow {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-yellow);
 }
 
 .border-lime {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-lime);
 }
 
 .border-green {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-green);
 }
 
 .border-emerald {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-emerald);
 }
 
 .border-teal {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-teal);
 }
 
 .border-cyan {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-cyan);
 }
 
 .border-sky {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-sky);
 }
 
 .border-blue {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-blue);
 }
 
 .border-indigo {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-indigo);
 }
 
 .border-violet {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-violet);
 }
 
 .border-purple {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-purple);
 }
 
 .border-fuchsia {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-fuchsia);
 }
 
 .border-pink {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-pink);
 }
 
 .border-rose {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-rose);
 }
 
@@ -1223,11 +1251,6 @@ table[data-striped] tbody tr:nth-child(even) {
   background-color: var(--bg-subtle);
 }
 
-/* Hover and active variants for button states */
-.hover\:bg-basic-gray-alpha-4:hover {
-  background-color: var(--bg-basic-gray-alpha-4);
-}
-
 .active\:bg-basic-gray-alpha-10:active {
   background-color: var(--bg-basic-gray-alpha-10);
 }
@@ -1579,7 +1602,7 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .focus-within-ring:focus-within {
   outline: none;
-  box-shadow: 0 0 0 var(--default, 1px) var(--border-accent-inverted, #FFF), 0 0 0 var(--xl, 3px) var(--border-highlight, rgba(101, 160, 253, 0.40));
+  box-shadow: 0 0 0 1px var(--border-accent-inverted), 0 0 0 3px var(--border-highlight);
 }
 
 /* ============================================
