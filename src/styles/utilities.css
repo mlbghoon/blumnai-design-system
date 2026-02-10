@@ -5,6 +5,27 @@
  */
 
 /* ============================================
+   Tailwind v4 CSS Variable Initialization
+   Tailwind v4 registers these via @property in @layer properties.
+   Consuming projects without Tailwind v4 won't have these registered,
+   causing border/shadow/ring utilities to break.
+   ============================================ */
+:root,
+::backdrop {
+  --tw-border-style: solid;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-inset-shadow: 0 0 #0000;
+  --tw-inset-shadow-colored: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-inset-ring-shadow: 0 0 #0000;
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-color: currentColor;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+}
+
+/* ============================================
    Text Color Utilities
    ============================================ */
 .text-muted {
@@ -360,21 +381,25 @@
    ============================================ */
 .border-default {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-default);
 }
 
 .border-darker {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-darker);
 }
 
 .border-b-darker {
   border-bottom-width: 1px;
+  border-bottom-style: solid;
   border-bottom-color: var(--border-darker);
 }
 
 .border-r-darker {
   border-right-width: 1px;
+  border-right-style: solid;
   border-right-color: var(--border-darker);
 }
 
@@ -461,6 +486,7 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .border-strong {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-strong);
 }
 
@@ -505,16 +531,19 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .border-highlight {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-highlight);
 }
 
 .border-highlight-destructive {
   border-width: 1px;
+  border-style: solid;
   border-color: var(--border-highlight-destructive);
 }
 
 .border-highlight-accent {
   border-width: 2px;
+  border-style: solid;
   border-color: var(--border-highlight-accent);
 }
 

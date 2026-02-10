@@ -33,13 +33,13 @@ const buttonVariants = cva(
 );
 
 const BUTTON_COLOR_STYLE = {
-  primary: 'bg-state-primary text-white-default border border-transparent hover:bg-state-primary-hover active:bg-state-primary-press focus-visible:shadow-component-focus',
+  primary: 'bg-state-primary text-white-default border-solid border-[1px] border-transparent hover:bg-state-primary-hover active:bg-state-primary-press focus-visible:shadow-component-focus',
   secondary: 'bg-state-secondary text-default border-default hover:bg-state-secondary-hover active:bg-state-secondary-press focus-visible:shadow-component-focus',
-  destructive: 'bg-state-destructive text-white-default border border-transparent hover:bg-state-destructive-hover active:bg-state-destructive-press focus-visible:shadow-component-destructive-focus',
-  ghost: 'bg-state-ghost text-subtle border border-transparent hover:bg-state-ghost-hover active:bg-state-ghost-press focus-visible:shadow-component-misc-focus',
-  ghostMuted: 'bg-state-ghost text-muted border border-transparent hover:bg-state-ghost-hover active:bg-state-ghost-press focus-visible:shadow-component-misc-focus',
-  soft: 'bg-state-soft text-subtle border border-transparent hover:bg-state-soft-hover active:bg-state-soft-press focus-visible:shadow-component-misc-focus',
-  dashed: 'bg-state-secondary text-default border border-dashed border-default hover:bg-state-secondary-hover active:bg-state-secondary-press focus-visible:shadow-component-misc-focus',
+  destructive: 'bg-state-destructive text-white-default border-solid border-[1px] border-transparent hover:bg-state-destructive-hover active:bg-state-destructive-press focus-visible:shadow-component-destructive-focus',
+  ghost: 'bg-state-ghost text-subtle border-solid border-[1px] border-transparent hover:bg-state-ghost-hover active:bg-state-ghost-press focus-visible:shadow-component-misc-focus',
+  ghostMuted: 'bg-state-ghost text-muted border-solid border-[1px] border-transparent hover:bg-state-ghost-hover active:bg-state-ghost-press focus-visible:shadow-component-misc-focus',
+  soft: 'bg-state-soft text-subtle border-solid border-[1px] border-transparent hover:bg-state-soft-hover active:bg-state-soft-press focus-visible:shadow-component-misc-focus',
+  dashed: 'bg-state-secondary text-default border-dashed [border-width:1px] [border-color:var(--border-default)] hover:bg-state-secondary-hover active:bg-state-secondary-press focus-visible:shadow-component-misc-focus',
 } as const;
 
 const iconOnlySizeVariants = cva('', {
@@ -71,20 +71,20 @@ const SHORTCUT_SIZE = {
 } as const;
 
 const SHORTCUT_STYLE = {
-  light: 'bg-muted border border-default text-subtle',
-  inverted: 'bg-white/10 border border-white/20 text-white-default',
+  light: 'bg-muted border-default text-subtle',
+  inverted: 'bg-white/10 border-solid border-[1px] border-white/20 text-white-default',
 } as const;
 
-const DISABLED_STYLE = 'bg-state-disabled text-hint border border-transparent cursor-not-allowed';
+const DISABLED_STYLE = 'bg-state-disabled text-hint border-solid border-[1px] border-transparent cursor-not-allowed';
 
 const LOADING_STYLE = {
-  primary: 'bg-state-primary-loading text-white-default border border-transparent cursor-wait',
+  primary: 'bg-state-primary-loading text-white-default border-solid border-[1px] border-transparent cursor-wait',
   secondary: 'bg-state-secondary-loading text-default border-default cursor-wait',
-  destructive: 'bg-state-destructive-loading text-white-default border border-transparent cursor-wait',
-  ghost: 'bg-state-ghost-loading text-subtle border border-transparent cursor-wait',
-  ghostMuted: 'bg-state-ghost-loading text-subtle border border-transparent cursor-wait',
-  soft: 'bg-state-soft-loading text-subtle border border-transparent cursor-wait',
-  dashed: 'bg-state-secondary-loading text-default border border-dashed border-default cursor-wait',
+  destructive: 'bg-state-destructive-loading text-white-default border-solid border-[1px] border-transparent cursor-wait',
+  ghost: 'bg-state-ghost-loading text-subtle border-solid border-[1px] border-transparent cursor-wait',
+  ghostMuted: 'bg-state-ghost-loading text-subtle border-solid border-[1px] border-transparent cursor-wait',
+  soft: 'bg-state-soft-loading text-subtle border-solid border-[1px] border-transparent cursor-wait',
+  dashed: 'bg-state-secondary-loading text-default border-dashed [border-width:1px] [border-color:var(--border-default)] cursor-wait',
 } as const;
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({

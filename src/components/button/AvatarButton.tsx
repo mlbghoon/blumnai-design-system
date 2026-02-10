@@ -17,7 +17,7 @@ const avatarButtonVariants = cva(
     variants: {
       buttonStyle: {
         default: 'bg-state-secondary text-default border-darker hover:bg-state-secondary-hover active:bg-state-secondary-press focus-visible:shadow-component-focus',
-        dashed: 'bg-state-secondary text-default border border-dashed border-darker hover:bg-state-secondary-hover active:bg-state-secondary-press focus-visible:shadow-component-focus',
+        dashed: 'bg-state-secondary text-default border-dashed [border-width:1px] [border-color:var(--border-darker)] hover:bg-state-secondary-hover active:bg-state-secondary-press focus-visible:shadow-component-focus',
         soft: 'bg-state-soft text-default border-none hover:bg-state-soft-hover active:bg-state-soft-press focus-visible:shadow-component-misc-focus',
       },
       size: {
@@ -34,7 +34,7 @@ const avatarButtonVariants = cva(
 
 const DISABLED_STYLE = {
   default: 'bg-state-disabled text-hint border-default cursor-not-allowed',
-  dashed: 'bg-state-disabled text-hint border border-dashed border-default cursor-not-allowed',
+  dashed: 'bg-state-disabled text-hint border-dashed [border-width:1px] [border-color:var(--border-default)] cursor-not-allowed',
   soft: 'bg-muted text-hint border-none cursor-not-allowed',
 } as const;
 

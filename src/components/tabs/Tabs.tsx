@@ -118,7 +118,8 @@ const TabsTrigger = React.forwardRef<
         (variant === 'pill' || variant === 'segmented') && [
           PILL_SEGMENTED_TRIGGER_STYLES,
           shapeClass,
-          'border border-transparent',
+          'border-solid border-transparent',
+          'border-[1px]',
           'text-muted',
           'hover:text-subtle',
           // Focus state (inactive)

@@ -260,7 +260,7 @@ const Sidebar = React.forwardRef<
         >
           <div
             data-sidebar="sidebar"
-            className="flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
+            className="flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border-solid group-data-[variant=floating]:border-[1px] group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
           >
             {children}
           </div>
@@ -461,7 +461,7 @@ const SidebarInput = React.forwardRef<
       type={type}
       data-sidebar="input"
       className={cn(
-        "flex height-32 w-full rounded-md border border-input bg-background padding-x-12 padding-y-4 size-sm font-body line-height-leading-5 shadow-none transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring disabled:cursor-not-allowed disabled:opacity-50",
+        "flex height-32 w-full rounded-md border-solid border-[1px] border-input bg-background padding-x-12 padding-y-4 size-sm font-body line-height-leading-5 shadow-none transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}

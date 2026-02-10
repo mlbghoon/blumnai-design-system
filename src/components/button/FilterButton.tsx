@@ -32,13 +32,13 @@ const filterButtonVariants = cva(
 const STATE_CONFIG = {
   unselected: {
     bg: 'bg-input',
-    border: 'border border-dashed border-darker',
+    border: 'border-dashed [border-width:1px] [border-color:var(--border-darker)]',
     text: 'text-subtle',
     iconColor: 'var(--icon-default-muted)',
   },
   selected: {
     bg: 'bg-input',
-    border: 'border border-default',
+    border: 'border-default',
     text: 'text-subtle',
     iconColor: 'var(--icon-default-muted)',
   },
@@ -48,8 +48,8 @@ const STATE_CONFIG = {
 } as const;
 
 const DISABLED_STYLE = {
-  unselected: 'bg-state-disabled border border-dashed border-default text-hint cursor-not-allowed',
-  selected: 'bg-state-disabled border border-default text-hint cursor-not-allowed',
+  unselected: 'bg-state-disabled border-dashed [border-width:1px] [border-color:var(--border-default)] text-hint cursor-not-allowed',
+  selected: 'bg-state-disabled border-default text-hint cursor-not-allowed',
   iconColor: 'var(--icon-default-disabled)',
 } as const;
 
