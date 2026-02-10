@@ -1,67 +1,13 @@
-import { forwardRef, Suspense, lazy, createElement } from 'react';
+import { forwardRef, Suspense, createElement } from 'react';
 import type { ComponentType } from 'react';
 
-import type { IconColor, IconProps, IconCategory } from './Icon.types';
+import type { IconColor, IconProps } from './Icon.types';
 import type { Props as IconWrapperProps } from './IconWrapper.types';
+import { uiIconRegistry } from './ui-icon-registry';
 
-/** 카테고리 타입명을 실제 폴더명으로 매핑 */
-const categoryToFolder: Record<IconCategory, string> = {
-  arrows: 'arrows',
-  buildings: 'buildings',
-  business: 'business',
-  communication: 'communication',
-  design: 'design',
-  development: 'development',
-  device: 'device',
-  document: 'document',
-  editor: 'editor',
-  finance: 'finance',
-  food: 'food',
-  health: 'health & medical',
-  map: 'map',
-  media: 'media',
-  others: 'others',
-  system: 'system',
-  user: 'user & faces',
-  weather: 'weather',
-};
-
-/** kebab-case를 PascalCase로 변환: 'arrow-down' -> 'ArrowDown' */
-function kebabToPascal(str: string): string {
-  return str
-    .split('-')
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-    .join('');
-}
-
-/** 지연 로딩된 아이콘 컴포넌트 캐시. 리렌더링 시 새 컴포넌트 생성 방지 */
-const iconCache = new Map<string, ComponentType<IconWrapperProps>>();
-
-/** 아이콘 캐시 키 생성 */
-function getIconCacheKey(category: IconCategory, iconName: string, isFill: boolean): string | null {
-  const folder = categoryToFolder[category];
-  if (!folder) return null;
-  const pascalName = kebabToPascal(iconName);
-  const componentName = isFill ? `${pascalName}FillIcon` : `${pascalName}Icon`;
-  return `${folder}/${componentName}`;
-}
-
-/** 지연 로딩 아이콘 컴포넌트가 캐시에 존재하도록 보장 */
-function ensureIconInCache(category: IconCategory, iconName: string, isFill: boolean): void {
-  const cacheKey = getIconCacheKey(category, iconName, isFill);
-  if (!cacheKey || iconCache.has(cacheKey)) return;
-
-  const folder = categoryToFolder[category];
-  const pascalName = kebabToPascal(iconName);
-  const componentName = isFill ? `${pascalName}FillIcon` : `${pascalName}Icon`;
-
-  const LazyComponent = lazy(() =>
-    import(`./icons/${folder}/${componentName}.tsx`)
-      .then(m => ({ default: m[componentName] as ComponentType<IconWrapperProps> }))
-      .catch(() => ({ default: (() => null) as unknown as ComponentType<IconWrapperProps> }))
-  );
-
-  iconCache.set(cacheKey, LazyComponent);
+/** kebab-case를 소문자로 변환 (하이픈 제거): 'arrow-down' -> 'arrowdown' */
+function kebabToRegistryKey(str: string): string {
+  return str.replace(/-/g, '').toLowerCase();
 }
 
 /** CSS 변수로 변환할 색상 토큰 목록 */
@@ -86,29 +32,6 @@ const resolveColor = (color: IconColor | undefined): string | undefined => {
   return color;
 };
 
-/** 캐시된 지연 로딩 아이콘을 렌더링하는 내부 컴포넌트 */
-const LazyIconRenderer = forwardRef<SVGSVGElement, {
-  cacheKey: string;
-  size: number;
-  color: string | undefined;
-  className: string | undefined;
-  focusable: boolean | undefined;
-  restProps: Record<string, unknown>;
-}>(({ cacheKey, size, color, className, focusable, restProps }, ref) => {
-  const CachedIcon = iconCache.get(cacheKey);
-  if (!CachedIcon) return null;
-  return createElement(CachedIcon, {
-    ref,
-    size,
-    color,
-    className,
-    focusable,
-    ...restProps,
-  });
-});
-
-LazyIconRenderer.displayName = 'LazyIconRenderer';
-
 /**
  * 카테고리별 UI 아이콘 컴포넌트
  * [category, name] 튜플 형식으로 타입 안전한 아이콘 선택 지원
@@ -123,11 +46,10 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({
   focusable,
   ...restProps
 }, ref) => {
-  const [category, iconName] = iconType;
+  const [_category, iconName] = iconType;
 
-  ensureIconInCache(category, iconName, isFill);
-
-  const cacheKey = getIconCacheKey(category, iconName, isFill);
+  const registryKey = kebabToRegistryKey(iconName) + (isFill ? 'fill' : '');
+  const LazyIcon = uiIconRegistry[registryKey] as ComponentType<IconWrapperProps> | undefined;
 
   const fallback = (
     <div
@@ -139,7 +61,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({
     />
   );
 
-  if (!cacheKey || !iconCache.has(cacheKey)) {
+  if (!LazyIcon) {
     return fallback;
   }
 
@@ -148,15 +70,14 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({
 
   return (
     <Suspense fallback={fallback}>
-      <LazyIconRenderer
-        ref={ref}
-        cacheKey={cacheKey}
-        size={size}
-        color={resolvedColor}
-        className={className}
-        focusable={focusableBool}
-        restProps={restProps}
-      />
+      {createElement(LazyIcon, {
+        ref,
+        size,
+        color: resolvedColor,
+        className,
+        focusable: focusableBool,
+        ...restProps,
+      })}
     </Suspense>
   );
 });

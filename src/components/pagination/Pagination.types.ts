@@ -61,6 +61,18 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
    * @default (current, total) => `${current} of ${total} results`
    */
   resultTextFormatter?: (current: number, total: number) => string;
+
+  /**
+   * 이전 버튼 텍스트 (simple 변형에서 사용)
+   * @default 'Prev'
+   */
+  prevText?: string;
+
+  /**
+   * 다음 버튼 텍스트 (simple 변형에서 사용)
+   * @default 'Next'
+   */
+  nextText?: string;
 }
 
 export interface PaginationItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {

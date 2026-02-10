@@ -57,9 +57,4 @@ export interface BreadcrumbsProps extends Omit<HTMLAttributes<HTMLElement>, 'chi
    * If not provided, all items are shown.
    */
   maxItems?: number;
-  /**
-   * If true, applies dark mode styles.
-   * @default false
-   */
-  darkMode?: boolean;
 }

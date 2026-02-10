@@ -83,7 +83,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
   const iconClassName = useMemo(
     () =>
       cn(
-        'flex items-center justify-center w-6 h-6 shrink-0 text-muted',
+        'flex items-center justify-center w-6 h-6 shrink-0 icon-default-muted',
         'transition-all duration-200 ease-in-out',
         isOpen && 'rotate-180'
       ),
@@ -125,7 +125,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
         </span>
       </button>
       <div className={contentClassName}>
-        <div className="overflow-hidden pt-2 text-base font-normal leading-6 text-muted">{children}</div>
+        <div className="overflow-hidden"><div className="padding-y-8 size-md font-normal line-height-leading-6 text-subtle">{children}</div></div>
       </div>
     </div>
   );

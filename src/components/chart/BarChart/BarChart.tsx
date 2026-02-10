@@ -300,7 +300,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
               textAnchor="end"
               className={cn(
                 'size-xs',
-                'text-subtle'
+                'text-muted'
               )}
               fill="currentColor"
             >
@@ -440,7 +440,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
               textAnchor="middle"
               className={cn(
                 'size-xs',
-                'text-subtle'
+                'text-muted'
               )}
               fill="currentColor"
             >
@@ -478,7 +478,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
                     style={{ backgroundColor: legendColor }}
                     aria-hidden="true"
                   />
-                  <span className={cn('size-xs', 'text-subtle')}>
+                  <span className={cn('size-xs', 'text-muted')}>
                     {getLabel(key)}
                   </span>
                 </div>
@@ -491,7 +491,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
                   style={{ backgroundColor: config?.[dataKey]?.color || DEFAULT_CHART_COLORS[0] }}
                   aria-hidden="true"
                 />
-                <span className={cn('size-xs', 'text-subtle')}>
+                <span className={cn('size-xs', 'text-muted')}>
                   {getLabel(dataKey)}
                 </span>
               </div>

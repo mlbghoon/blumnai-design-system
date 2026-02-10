@@ -24,7 +24,6 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
   size = 'sm',
   separator = 'slash',
   maxItems,
-  darkMode = false,
   className,
   ...props
 }, ref) => {
@@ -81,7 +80,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
               iconType={iconType}
               isFill={isFill}
               size={iconSize}
-              color={darkMode ? '#ffffffb2' : '#4e4e55'}
+              color="default"
             />
           </span>
         );

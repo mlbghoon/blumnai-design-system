@@ -1,6 +1,6 @@
 {
   "name": "@mbisolution/blumnai-design-system",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "private": false,
   "type": "module",
   "main": "./dist/index.cjs",
@@ -12,11 +12,68 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
+    "./button": {
+      "types": "./dist/components/button/index.d.ts",
+      "import": "./dist/components/button/index.mjs"
+    },
+    "./input": {
+      "types": "./dist/components/input/index.d.ts",
+      "import": "./dist/components/input/index.mjs"
+    },
+    "./select": {
+      "types": "./dist/components/select/index.d.ts",
+      "import": "./dist/components/select/index.mjs"
+    },
+    "./checkbox": {
+      "types": "./dist/components/checkbox/index.d.ts",
+      "import": "./dist/components/checkbox/index.mjs"
+    },
+    "./radio": {
+      "types": "./dist/components/radio/index.d.ts",
+      "import": "./dist/components/radio/index.mjs"
+    },
+    "./switch": {
+      "types": "./dist/components/switch/index.d.ts",
+      "import": "./dist/components/switch/index.mjs"
+    },
+    "./dialog": {
+      "types": "./dist/components/dialog/index.d.ts",
+      "import": "./dist/components/dialog/index.mjs"
+    },
+    "./tabs": {
+      "types": "./dist/components/tabs/index.d.ts",
+      "import": "./dist/components/tabs/index.mjs"
+    },
+    "./table": {
+      "types": "./dist/components/table/index.d.ts",
+      "import": "./dist/components/table/index.mjs"
+    },
+    "./icons": {
+      "types": "./dist/components/icons/index.d.ts",
+      "import": "./dist/components/icons/index.mjs"
+    },
+    "./icons/icon": {
+      "types": "./dist/components/icons/Icon/index.d.ts",
+      "import": "./dist/components/icons/Icon/index.mjs"
+    },
+    "./icons/brand": {
+      "types": "./dist/components/icons/BrandIcon/index.d.ts",
+      "import": "./dist/components/icons/BrandIcon/index.mjs"
+    },
+    "./icons/flag": {
+      "types": "./dist/components/icons/FlagIcon/index.d.ts",
+      "import": "./dist/components/icons/FlagIcon/index.mjs"
+    },
+    "./icons/file": {
+      "types": "./dist/components/icons/FileIcon/index.d.ts",
+      "import": "./dist/components/icons/FileIcon/index.mjs"
+    },
+    "./styles": "./dist/blumnai-design-system.css",
     "./*": {
+      "types": "./dist/*.d.ts",
       "import": "./dist/*.mjs",
       "require": "./dist/*.cjs"
-    },
-    "./styles": "./dist/blumnai-design-system.css"
+    }
   },
   "files": [
     "dist",
@@ -29,7 +86,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:lib": "npm run prebuild:lib && vite build --mode lib && tsc --project tsconfig.lib.json && tsc-alias --project tsconfig.lib.json",
+    "build:lib": "npm run prebuild:lib && vite build --mode lib && tsc --project tsconfig.lib.json && tsc-alias --project tsconfig.lib.json && node scripts/clean-dist-icon-dts.mjs",
     "prebuild:lib": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",

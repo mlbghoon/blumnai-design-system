@@ -61,14 +61,14 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
 
   const containerClassName = useMemo(() => {
     const classes = [
-      'relative inline-flex items-center justify-center gap-1',
+      'relative inline-flex items-center justify-center',
       'font-["Spoqa_Han_Sans_Neo",sans-serif] font-medium select-none whitespace-nowrap',
     ];
 
     if (size === 'sm') {
-      classes.push('min-height-20 padding-y-4 padding-x-8 size-xs line-height-leading-4 letter-spacing-tracking-normal');
+      classes.push('min-height-20 padding-y-2 padding-x-2 size-xs line-height-leading-4 letter-spacing-tracking-normal');
     } else {
-      classes.push('min-height-24 padding-y-6 padding-x-10 size-sm line-height-leading-4 letter-spacing-tracking-normal');
+      classes.push('min-height-24 padding-y-4 padding-x-4 size-sm line-height-leading-4 letter-spacing-tracking-normal');
     }
 
     if (shape === 'pill') {
@@ -99,41 +99,40 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   return (
     <div ref={ref} className={containerClassName} style={combinedStyle} {...props}>
       {parsedIcon && (
-        <span className="inline-flex items-center shrink-0 leading-none" style={{ marginTop: '-1px' }}>
+        <span className={`inline-flex items-center shrink-0 leading-none margin-${size !== 'sm' ? '1' : '2'}`}>
           <Icon iconType={parsedIcon.iconType} size={iconSize} color={getIconColor(color)} isFill={parsedIcon.isFill} />
         </span>
       )}
 
       {variant === 'image' && (
         <span
-          className="inline-flex items-center shrink-0 overflow-hidden rounded-full leading-none"
+          className="inline-flex items-center shrink-0 overflow-hidden rounded-full leading-none border-darker"
           style={{
             width: `${iconSize}px`,
             height: `${iconSize}px`,
-            marginTop: '-1px',
+            marginLeft: '2px',
           }}
         >
           <img
             src={image || BADGE_PLACEHOLDER_IMAGE}
             alt=""
-            className="w-full h-full object-cover"
+            className="object-cover rounded-full"
           />
         </span>
       )}
 
       {variant === 'dot' && (
         <span
-          className="inline-flex items-center shrink-0 rounded-full leading-none"
+          className={`inline-flex items-center shrink-0 rounded-full leading-none margin-${size !== 'sm' ? '4' : '5'}`}
           style={{
-            width: `${iconSize}px`,
-            height: `${iconSize}px`,
+            width: `${iconSize - 6}px`,
+            height: `${iconSize - 6}px`,
             backgroundColor: getDotColor(color),
-            marginTop: '-1px',
           }}
         />
       )}
 
-      {(variant === 'default' || label) && <span className="shrink-0 leading-none">{label}</span>}
+      {(variant === 'default' || label) && <span className={`shrink-0 leading-none padding-l-${variant === 'dot' || variant === 'icon' ? '2' : '4'} padding-r-4`}>{label}</span>}
 
       {closeIcon && (
         <button

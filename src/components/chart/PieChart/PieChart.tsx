@@ -219,7 +219,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
                 style={{ backgroundColor: slice.color }}
                 aria-hidden="true"
               />
-              <span className={cn('size-xs', 'text-subtle')}>
+              <span className={cn('size-xs', 'text-muted')}>
                 {getLabel(slice.name)} ({(slice.percentage * 100).toFixed(1)}%)
               </span>
             </div>

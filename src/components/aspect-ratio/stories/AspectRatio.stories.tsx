@@ -2,6 +2,29 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { AspectRatio } from '../AspectRatio';
 
+/**
+ * ## AspectRatio
+ *
+ * 콘텐츠의 가로 세로 비율을 일정하게 유지하는 레이아웃 컴포넌트입니다.
+ *
+ * ### 사용 시점
+ * - 사용자 제공 이미지/미디어의 비율을 일정하게 유지할 때 (아바타, 썸네일, 카드 이미지 등)
+ * - 이미지 로딩 중 CLS(Cumulative Layout Shift)를 방지할 때
+ * - 반응형 미디어 컨테이너 (카드, 썸네일, 갤러리)를 만들 때
+ * - 비디오/iframe을 임베딩할 때
+ *
+ * ### 일반적인 비율
+ * - `1` — 정사각형 (아바타, 아이콘, 뱃지 이미지)
+ * - `16 / 9` — 비디오, 와이드 배너
+ * - `4 / 3` — 사진, 카드 썸네일
+ *
+ * ### 사용 예시
+ * ```tsx
+ * <AspectRatio ratio={1}>
+ *   <img src={src} alt="" className="object-cover w-full h-full" />
+ * </AspectRatio>
+ * ```
+ */
 const meta: Meta<typeof AspectRatio> = {
   title: 'Layout/AspectRatio',
   component: AspectRatio,
@@ -28,7 +51,8 @@ type Story = StoryObj<typeof AspectRatio>;
 /**
  * 기본 Aspect Ratio (16:9)
  *
- * 콘텐츠의 가로 세로 비율을 유지합니다.
+ * `ratio` prop으로 가로 세로 비율을 조절할 수 있습니다.
+ * 이미지에는 항상 `object-cover w-full h-full`을 함께 사용하세요.
  */
 export const Default: Story = {
   parameters: {

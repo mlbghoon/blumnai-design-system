@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, Suspense } from 'react';
 
 import { fileRegistry } from './file-registry';
 import type { FileIconProps, FileVariant, FileSize } from './FileIcon.types';
@@ -26,6 +26,17 @@ export const FileIcon = forwardRef<SVGSVGElement, FileIconProps>(({
 }, ref) => {
   const registryKey = toRegistryKey(fileType, size);
   const Component = fileRegistry[registryKey];
+  const pixelSize = sizeMap[size];
+
+  const fallback = (
+    <div
+      style={{
+        width: pixelSize,
+        height: pixelSize,
+        display: 'inline-block',
+      }}
+    />
+  );
 
   if (!Component) {
     console.warn(`FileIcon: Unknown file type "${fileType}" with size "${size}"`);
@@ -34,16 +45,17 @@ export const FileIcon = forwardRef<SVGSVGElement, FileIconProps>(({
 
   const isThumbnail = fileType.startsWith('thumbnail');
   const thumbnailProps = isThumbnail && src ? { imageSrc: src } : {};
-  const pixelSize = sizeMap[size];
 
   return (
-    <Component
-      ref={ref}
-      size={pixelSize}
-      className={className}
-      {...thumbnailProps}
-      {...props}
-    />
+    <Suspense fallback={fallback}>
+      <Component
+        ref={ref}
+        size={pixelSize}
+        className={className}
+        {...thumbnailProps}
+        {...props}
+      />
+    </Suspense>
   );
 });
 

@@ -1,43 +1,44 @@
 // This file is auto-generated. Do not edit manually.
 // Run: npm run generate:file-icons
 
-import type { ComponentType } from 'react';
+import { lazy } from 'react';
+import type { LazyExoticComponent, ComponentType } from 'react';
 
 import type { Props } from '../Icon/IconWrapper.types';
 
-import { FileArchiveLgIcon } from './icons/FileArchiveLgIcon';
-import { FileArchiveMdIcon } from './icons/FileArchiveMdIcon';
-import { FileArchiveSmIcon } from './icons/FileArchiveSmIcon';
-import { FileCodeLgIcon } from './icons/FileCodeLgIcon';
-import { FileCodeMdIcon } from './icons/FileCodeMdIcon';
-import { FileCodeSmIcon } from './icons/FileCodeSmIcon';
-import { FileDefaultLgIcon } from './icons/FileDefaultLgIcon';
-import { FileDefaultMdIcon } from './icons/FileDefaultMdIcon';
-import { FileDefaultSmIcon } from './icons/FileDefaultSmIcon';
-import { FileImageLgIcon } from './icons/FileImageLgIcon';
-import { FileImageMdIcon } from './icons/FileImageMdIcon';
-import { FileImageSmIcon } from './icons/FileImageSmIcon';
-import { FileMusicLgIcon } from './icons/FileMusicLgIcon';
-import { FileMusicMdIcon } from './icons/FileMusicMdIcon';
-import { FileMusicSmIcon } from './icons/FileMusicSmIcon';
-import { FilePDFLgIcon } from './icons/FilePDFLgIcon';
-import { FilePDFMdIcon } from './icons/FilePDFMdIcon';
-import { FilePDFSmIcon } from './icons/FilePDFSmIcon';
-import { FileThumbnail11LgIcon } from './icons/FileThumbnail11LgIcon';
-import { FileThumbnail11MdIcon } from './icons/FileThumbnail11MdIcon';
-import { FileThumbnail11SmIcon } from './icons/FileThumbnail11SmIcon';
-import { FileThumbnail43LgIcon } from './icons/FileThumbnail43LgIcon';
-import { FileThumbnail43MdIcon } from './icons/FileThumbnail43MdIcon';
-import { FileThumbnail43SmIcon } from './icons/FileThumbnail43SmIcon';
-import { FileVideoLgIcon } from './icons/FileVideoLgIcon';
-import { FileVideoMdIcon } from './icons/FileVideoMdIcon';
-import { FileVideoSmIcon } from './icons/FileVideoSmIcon';
+const FileArchiveLgIcon = lazy(() => import('./icons/FileArchiveLgIcon').then(m => ({ default: m.FileArchiveLgIcon })));
+const FileArchiveMdIcon = lazy(() => import('./icons/FileArchiveMdIcon').then(m => ({ default: m.FileArchiveMdIcon })));
+const FileArchiveSmIcon = lazy(() => import('./icons/FileArchiveSmIcon').then(m => ({ default: m.FileArchiveSmIcon })));
+const FileCodeLgIcon = lazy(() => import('./icons/FileCodeLgIcon').then(m => ({ default: m.FileCodeLgIcon })));
+const FileCodeMdIcon = lazy(() => import('./icons/FileCodeMdIcon').then(m => ({ default: m.FileCodeMdIcon })));
+const FileCodeSmIcon = lazy(() => import('./icons/FileCodeSmIcon').then(m => ({ default: m.FileCodeSmIcon })));
+const FileDefaultLgIcon = lazy(() => import('./icons/FileDefaultLgIcon').then(m => ({ default: m.FileDefaultLgIcon })));
+const FileDefaultMdIcon = lazy(() => import('./icons/FileDefaultMdIcon').then(m => ({ default: m.FileDefaultMdIcon })));
+const FileDefaultSmIcon = lazy(() => import('./icons/FileDefaultSmIcon').then(m => ({ default: m.FileDefaultSmIcon })));
+const FileImageLgIcon = lazy(() => import('./icons/FileImageLgIcon').then(m => ({ default: m.FileImageLgIcon })));
+const FileImageMdIcon = lazy(() => import('./icons/FileImageMdIcon').then(m => ({ default: m.FileImageMdIcon })));
+const FileImageSmIcon = lazy(() => import('./icons/FileImageSmIcon').then(m => ({ default: m.FileImageSmIcon })));
+const FileMusicLgIcon = lazy(() => import('./icons/FileMusicLgIcon').then(m => ({ default: m.FileMusicLgIcon })));
+const FileMusicMdIcon = lazy(() => import('./icons/FileMusicMdIcon').then(m => ({ default: m.FileMusicMdIcon })));
+const FileMusicSmIcon = lazy(() => import('./icons/FileMusicSmIcon').then(m => ({ default: m.FileMusicSmIcon })));
+const FilePDFLgIcon = lazy(() => import('./icons/FilePDFLgIcon').then(m => ({ default: m.FilePDFLgIcon })));
+const FilePDFMdIcon = lazy(() => import('./icons/FilePDFMdIcon').then(m => ({ default: m.FilePDFMdIcon })));
+const FilePDFSmIcon = lazy(() => import('./icons/FilePDFSmIcon').then(m => ({ default: m.FilePDFSmIcon })));
+const FileThumbnail11LgIcon = lazy(() => import('./icons/FileThumbnail11LgIcon').then(m => ({ default: m.FileThumbnail11LgIcon })));
+const FileThumbnail11MdIcon = lazy(() => import('./icons/FileThumbnail11MdIcon').then(m => ({ default: m.FileThumbnail11MdIcon })));
+const FileThumbnail11SmIcon = lazy(() => import('./icons/FileThumbnail11SmIcon').then(m => ({ default: m.FileThumbnail11SmIcon })));
+const FileThumbnail43LgIcon = lazy(() => import('./icons/FileThumbnail43LgIcon').then(m => ({ default: m.FileThumbnail43LgIcon })));
+const FileThumbnail43MdIcon = lazy(() => import('./icons/FileThumbnail43MdIcon').then(m => ({ default: m.FileThumbnail43MdIcon })));
+const FileThumbnail43SmIcon = lazy(() => import('./icons/FileThumbnail43SmIcon').then(m => ({ default: m.FileThumbnail43SmIcon })));
+const FileVideoLgIcon = lazy(() => import('./icons/FileVideoLgIcon').then(m => ({ default: m.FileVideoLgIcon })));
+const FileVideoMdIcon = lazy(() => import('./icons/FileVideoMdIcon').then(m => ({ default: m.FileVideoMdIcon })));
+const FileVideoSmIcon = lazy(() => import('./icons/FileVideoSmIcon').then(m => ({ default: m.FileVideoSmIcon })));
 
 interface ThumbnailProps extends Props {
   imageSrc?: string;
 }
 
-export const fileRegistry: Record<string, ComponentType<Props> | ComponentType<ThumbnailProps>> = {
+export const fileRegistry: Record<string, LazyExoticComponent<ComponentType<Props>> | LazyExoticComponent<ComponentType<ThumbnailProps>>> = {
   'archive__lg': FileArchiveLgIcon,
   'archive__md': FileArchiveMdIcon,
   'archive__sm': FileArchiveSmIcon,

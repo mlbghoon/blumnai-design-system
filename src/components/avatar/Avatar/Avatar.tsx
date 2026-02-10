@@ -1,6 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
+import { AspectRatio } from '../../aspect-ratio';
 import {
   CONTAINER_BASE_CLASSES,
   CONTAINER_SIZE_CLASSES,
@@ -166,14 +167,18 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         {/* Userpic variant: HAS Image wrapper */}
         {variant === 'userpic' && src && (
           <div className={IMAGE_WRAPPER_CLASSES}>
-            <img src={src} alt={alt || ''} className={IMAGE_CLASSES} />
+            <AspectRatio ratio={1}>
+              <img src={src} alt={alt || ''} className={IMAGE_CLASSES} />
+            </AspectRatio>
           </div>
         )}
 
         {/* Empty variant: HAS Image wrapper with placeholder icon */}
         {variant === 'empty' && (
           <div className={IMAGE_WRAPPER_CLASSES}>
-            <img src={EMPTY_VARIANT_PLACEHOLDER_ICON} alt="" className={IMAGE_CLASSES} />
+            <AspectRatio ratio={1}>
+              <img src={EMPTY_VARIANT_PLACEHOLDER_ICON} alt="" className={IMAGE_CLASSES} />
+            </AspectRatio>
           </div>
         )}
       </div>

@@ -3,11 +3,23 @@
   "compilerOptions": {
     "noEmit": false,
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "emitDeclarationOnly": true,
     "outDir": "./dist",
     "rootDir": "./src"
   },
   "include": ["src/index.ts", "src/components/**/*", "src/lib/**/*", "src/hooks/**/*", "src/constants/**/*", "src/utils/**/*"],
-  "exclude": ["**/*.stories.tsx", "**/*.test.tsx", "**/*.spec.tsx", "src/App.tsx", "src/main.tsx"]
+  "exclude": [
+    "**/*.stories.tsx",
+    "**/*.test.tsx",
+    "**/*.spec.tsx",
+    "src/App.tsx",
+    "src/main.tsx",
+    "src/components/icons/Icon/icons/**/*",
+    "src/components/icons/FlagIcon/icons/**/*",
+    "src/components/icons/BrandIcon/icons/**/*",
+    "src/components/icons/IsometricIcon/icons/**/*",
+    "src/components/icons/FileIcon/icons/**/*",
+    "src/components/icons/CursorIcon/icons/**/*"
+  ]
 }

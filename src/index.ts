@@ -4,7 +4,6 @@
  * @packageDocumentation
  */
 
-// Import CSS for library consumers
 import './index.css';
 
 // =============================================================================

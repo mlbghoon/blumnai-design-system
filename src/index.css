@@ -124,6 +124,64 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
 
+  /* Border Radius - Global */
+  --radius-radius-none: 0px;
+  --radius-radius-2xs: 2px;
+  --radius-radius-2xs-rounded: 4px;
+  --radius-radius-2xs-full: 9999px;
+  --radius-radius-2xs-none: 0px;
+  --radius-radius-xs: 4px;
+  --radius-radius-xs-rounded: 6px;
+  --radius-radius-xs-full: 9999px;
+  --radius-radius-xs-none: 0px;
+  --radius-radius-sm: 6px;
+  --radius-radius-sm-rounded: 8px;
+  --radius-radius-sm-full: 9999px;
+  --radius-radius-sm-none: 0px;
+  --radius-radius-md: 8px;
+  --radius-radius-md-rounded: 12px;
+  --radius-radius-md-full: 9999px;
+  --radius-radius-md-none: 0px;
+  --radius-radius-lg: 12px;
+  --radius-radius-lg-rounded: 16px;
+  --radius-radius-lg-full: 9999px;
+  --radius-radius-lg-none: 0px;
+  --radius-radius-xl: 16px;
+  --radius-radius-xl-rounded: 20px;
+  --radius-radius-xl-full: 9999px;
+  --radius-radius-xl-none: 0px;
+  --radius-radius-2xl: 24px;
+  --radius-radius-2xl-rounded: 28px;
+  --radius-radius-2xl-full: 9999px;
+  --radius-radius-2xl-none: 0px;
+  --radius-radius-3xl: 28px;
+  --radius-radius-3xl-rounded: 36px;
+  --radius-radius-3xl-full: 9999px;
+  --radius-radius-3xl-none: 0px;
+  --radius-radius-full: 9999px;
+  --radius-radius-full-rounded: 9999px;
+  --radius-radius-full-full: 9999px;
+  --radius-radius-full-none: 0px;
+
+  /* Border Radius - Card */
+  --radius-radius-card-none: 0px;
+  --radius-radius-card-xs: 4px;
+  --radius-radius-card-xs-rounded: 8px;
+  --radius-radius-card-xs-full: 10px;
+  --radius-radius-card-xs-none: 0px;
+  --radius-radius-card-sm: 8px;
+  --radius-radius-card-sm-rounded: 12px;
+  --radius-radius-card-sm-full: 16px;
+  --radius-radius-card-sm-none: 0px;
+  --radius-radius-card-md: 12px;
+  --radius-radius-card-md-rounded: 16px;
+  --radius-radius-card-md-full: 24px;
+  --radius-radius-card-md-none: 0px;
+  --radius-radius-card-lg: 16px;
+  --radius-radius-card-lg-rounded: 20px;
+  --radius-radius-card-lg-full: 32px;
+  --radius-radius-card-lg-none: 0px;
+
   /* Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;

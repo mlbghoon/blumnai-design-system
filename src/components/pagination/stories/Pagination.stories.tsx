@@ -95,6 +95,22 @@ const meta: Meta<typeof Pagination> = {
         type: { summary: '(current: number, total: number) => string' },
       },
     },
+    prevText: {
+      control: 'text',
+      description: '이전 버튼 텍스트 (simple 변형에서 사용)',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'Prev' },
+      },
+    },
+    nextText: {
+      control: 'text',
+      description: '다음 버튼 텍스트 (simple 변형에서 사용)',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'Next' },
+      },
+    },
     className: {
       control: 'text',
       description: '추가 CSS 클래스',
@@ -126,6 +142,8 @@ export const Default: Story = {
     hideNavButtons: false,
     pageChangeConfirmMessage: '',
     total: 100,
+    prevText: 'Prev',
+    nextText: 'Next',
   },
   render: function Render(args) {
     const [page, setPage] = useState(args.page || 1);
@@ -141,6 +159,8 @@ export const Default: Story = {
         hideNavButtons={args.hideNavButtons}
         pageChangeConfirmMessage={args.pageChangeConfirmMessage || undefined}
         total={args.total}
+        prevText={args.prevText}
+        nextText={args.nextText}
         className={args.className}
       />
     );

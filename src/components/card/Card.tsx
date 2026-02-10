@@ -12,7 +12,7 @@ import type {
 } from './Card.types';
 
 const cardVariants = cva(
-  'rounded-lg bg-card text-default',
+  'rounded-lg bg-state-secondary text-default',
   {
     variants: {
       variant: {

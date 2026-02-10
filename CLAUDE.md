@@ -162,6 +162,33 @@ disabled
 - Components should NOT have a `darkMode` prop
 - Dark mode is handled automatically via CSS variables and themes
 
+## AspectRatio Usage
+
+When rendering images or media in components, use the `<AspectRatio>` component instead of hardcoded `aspect-[...]` CSS classes or inline width/height styles.
+
+### Import
+```tsx
+import { AspectRatio } from '../../aspect-ratio';
+```
+
+### Common Ratios
+- `1` — Square (avatars, badge images, thumbnails)
+- `16 / 9` — Video, wide banners
+- `4 / 3` — Photos, card thumbnails
+
+### Pattern
+```tsx
+<AspectRatio ratio={1}>
+  <img src={src} alt="" className="object-cover w-full h-full" />
+</AspectRatio>
+```
+
+### Rules
+- Always pair with `object-cover w-full h-full` on the `<img>` element
+- Use `<AspectRatio>` instead of `aspect-[16/16]`, `aspect-[4/3]`, or similar Tailwind arbitrary aspect values
+- Only wrap `<img>` / `<video>` / `<iframe>` elements — not icon fallbacks
+- The parent container controls the width; AspectRatio enforces the height proportionally
+
 ## Code Comments (CRITICAL)
 
 ### Minimize Comments

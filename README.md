@@ -56,6 +56,75 @@ npm run build-storybook
 
 ---
 
+## 📥 프로젝트에서 사용하기 (소비자 가이드)
+
+### 설치
+
+```bash
+npm install @mbisolution/blumnai-design-system --legacy-peer-deps
+```
+
+### CSS 임포트
+
+CSS는 반드시 별도로 임포트해야 합니다:
+
+```tsx
+// app/layout.tsx 또는 _app.tsx
+import '@mbisolution/blumnai-design-system/styles';
+```
+
+### 컴포넌트 사용
+
+```tsx
+import { Button, Icon, Badge } from '@mbisolution/blumnai-design-system';
+
+export default function MyPage() {
+  return (
+    <Button buttonStyle="primary" size="md">
+      <Icon iconType={['system', 'add']} size={16} />
+      새로 만들기
+    </Button>
+  );
+}
+```
+
+### 최적화된 임포트 (권장)
+
+빠른 빌드 시간을 위해 서브패스 임포트를 사용할 수 있습니다:
+
+```tsx
+// 전체 임포트 (기존 방식 — 호환됨)
+import { Button } from '@mbisolution/blumnai-design-system';
+
+// 서브패스 임포트 (권장 — 더 빠른 빌드)
+import { Button } from '@mbisolution/blumnai-design-system/button';
+import { Icon } from '@mbisolution/blumnai-design-system/icons/icon';
+```
+
+서브패스 임포트를 사용하면 번들러가 필요한 컴포넌트만 처리하므로 개발 서버 시작 시간이 크게 단축됩니다.
+
+### 사용 가능한 서브패스
+
+| 서브패스 | 포함 컴포넌트 |
+|---------|-------------|
+| `/button` | Button, ControlButton, FilterButton, AvatarButton, LinkButton, ButtonGroup |
+| `/input` | Input |
+| `/select` | Select, Combobox |
+| `/checkbox` | Checkbox, CheckboxCard, CheckboxList |
+| `/radio` | Radio, RadioGroup, RadioCard, RadioList |
+| `/switch` | Switch, SwitchList |
+| `/dialog` | Dialog, AlertDialog |
+| `/tabs` | Tabs, TabsList, TabsTrigger, TabsContent |
+| `/table` | Table, DataGrid |
+| `/icons/icon` | Icon (UI 아이콘) |
+| `/icons/brand` | BrandIcon |
+| `/icons/flag` | FlagIcon |
+| `/icons/file` | FileIcon |
+| `/icons` | 모든 아이콘 컴포넌트 |
+| `/styles` | CSS 스타일시트 |
+
+---
+
 ## 🎯 프로젝트 목표
 
 - 단일 글로벌 테마 기반 디자인 시스템 구축

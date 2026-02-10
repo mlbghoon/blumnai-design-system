@@ -13,8 +13,8 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
             'font-body size-sm font-medium line-height-leading-5',
             'transition-colors',
             isActive
-              ? 'border-solid border-[1px] border-[color:var(--border-highlight-accent)] text-basic-blue-strong'
-              : 'text-hint hover:bg-state-soft hover:text-subtle',
+              ? 'border-solid border-[1px] border-[color:var(--bg-basic-blue-accent)] text-basic-blue-strong'
+              : 'text-hint hover:bg-state-ghost-hover hover:text-muted',
             disabled
               ? 'cursor-not-allowed opacity-40'
               : 'cursor-pointer',
@@ -24,7 +24,7 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
             'width-10 height-10 rounded-full',
             'transition-colors',
             isActive
-              ? 'bg-state-primary'
+              ? 'bg-basic-blue-accent'
               : 'bg-state-soft hover:bg-state-soft-hover',
             disabled
               ? 'cursor-not-allowed opacity-40'

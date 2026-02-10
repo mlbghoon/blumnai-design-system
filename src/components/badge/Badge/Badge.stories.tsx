@@ -146,7 +146,12 @@ export const Default: Story = {
     shape: 'rounded',
     border: false,
     closeIcon: false,
+    icon: ['business', 'at'],
+    image: 'https://placehold.co/12',
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const badgeRef = useRef<HTMLDivElement>(null);
@@ -160,7 +165,9 @@ export const Default: Story = {
         shape={args.shape}
         border={args.border}
         closeIcon={args.closeIcon}
-        className={args.className}
+        icon={args.icon}
+        image={args.image}
+        className={args.className || undefined}
         onClose={args.onClose}
       />
     );
@@ -183,7 +190,7 @@ export const WithImage: Story = {
   args: {
     variant: 'image',
     label: 'Badge',
-    image: 'https://via.placeholder.com/12',
+    image: 'https://placehold.co/12',
     size: 'sm',
     color: 'neutral',
     shape: 'rounded',

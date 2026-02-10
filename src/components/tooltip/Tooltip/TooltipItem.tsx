@@ -46,97 +46,97 @@ export const TooltipItem = forwardRef<HTMLDivElement, TooltipItemProps>(
     },
     ref
   ) => {
-  if (type === 'divider') {
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          'self-stretch',
-          'padding-y-2 padding-x-4',
-          'flex items-center justify-start gap-8',
-          'relative',
-          className
-        )}
-        {...props}
-      >
-        <div className="flex-1 h-px bg-basic-gray-alpha-10" />
-      </div>
-    );
-  }
+    if (type === 'divider') {
+      return (
+        <div
+          ref={ref}
+          className={cn(
+            'self-stretch',
+            'padding-y-2 padding-x-4',
+            'flex items-center justify-start gap-8',
+            'relative',
+            className
+          )}
+          {...props}
+        >
+          <div className="flex-1 h-px bg-basic-gray-alpha-10" />
+        </div>
+      );
+    }
 
-  if (type === 'text') {
-    return (
-      <div
-        ref={ref}
-        className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-start gap-8', className)}
-        {...props}
-      >
-        <span className="flex-1 font-body size-xs line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
-          {text}
-        </span>
-      </div>
-    );
-  }
-
-  if (type === 'label') {
-    return (
-      <div
-        ref={ref}
-        className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-between gap-8', className)}
-        {...props}
-      >
-        {label && (
-          <span className="flex-1 font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-default">
-            {label}
+    if (type === 'text') {
+      return (
+        <div
+          ref={ref}
+          className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-start gap-8', className)}
+          {...props}
+        >
+          <span className="flex-1 font-body size-xs line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
+            {text}
           </span>
-        )}
-        {caption && (
-          <span className="font-body size-xs line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
-            {caption}
-          </span>
-        )}
-      </div>
-    );
-  }
+        </div>
+      );
+    }
 
-  if (type === 'item') {
-    return (
-      <div
-        ref={ref}
-        className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-start gap-6', className)}
-        {...props}
-      >
-        {indicatorColor && (
-          <div className="width-16 height-16 flex flex-col items-center justify-center flex-shrink-0">
-            <div
-              className="width-8 height-8 rounded-2xs flex-shrink-0"
-              style={{ backgroundColor: indicatorColor }}
-            />
-          </div>
-        )}
-        {icon && !indicatorColor && (() => {
-          const { iconType, isFill } = parseIconTypeWithFill(icon);
-          return (
+    if (type === 'label') {
+      return (
+        <div
+          ref={ref}
+          className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-between gap-8', className)}
+          {...props}
+        >
+          {label && (
+            <span className="flex-1 font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-default">
+              {label}
+            </span>
+          )}
+          {caption && (
+            <span className="font-body size-xs line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
+              {caption}
+            </span>
+          )}
+        </div>
+      );
+    }
+
+    if (type === 'item') {
+      return (
+        <div
+          ref={ref}
+          className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-start gap-6', className)}
+          {...props}
+        >
+          {indicatorColor && (
             <div className="width-16 height-16 flex flex-col items-center justify-center flex-shrink-0">
-              <Icon iconType={iconType} isFill={isFill} size={14} />
+              <div
+                className="width-8 height-8 rounded-2xs flex-shrink-0"
+                style={{ backgroundColor: indicatorColor }}
+              />
             </div>
-          );
-        })()}
-        {label && (
-          <span className="flex-1 font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-subtle">
-            {label}
-          </span>
-        )}
-        {caption && (
-          <span className="size-xs font-body line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
-            {caption}
-          </span>
-        )}
-      </div>
-    );
-  }
+          )}
+          {icon && !indicatorColor && (() => {
+            const { iconType, isFill } = parseIconTypeWithFill(icon);
+            return (
+              <div className="width-16 height-16 flex flex-col items-center justify-center flex-shrink-0">
+                <Icon iconType={iconType} isFill={isFill} size={14} />
+              </div>
+            );
+          })()}
+          {label && (
+            <span className="flex-1 font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-subtle">
+              {label}
+            </span>
+          )}
+          {caption && (
+            <span className="size-xs font-body line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
+              {caption}
+            </span>
+          )}
+        </div>
+      );
+    }
 
-  return null;
+    return null;
   }
 );
 

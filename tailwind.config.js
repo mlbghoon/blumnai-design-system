@@ -7,8 +7,10 @@ import { spacing, stroke } from './src/tokens/spacing';
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{ts,tsx}",
+    "./src/hooks/**/*.{ts,tsx}",
+    "./src/lib/**/*.{ts,tsx}",
+    "./src/constants/**/*.{ts,tsx}",
   ],
   theme: {
     // Spacing scale - used for margin, padding, gap, width, height, etc.

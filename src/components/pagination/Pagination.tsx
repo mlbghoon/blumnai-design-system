@@ -78,6 +78,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
       getPageHref,
       total,
       resultTextFormatter,
+      prevText = 'Prev',
+      nextText = 'Next',
       ...props
     },
     ref
@@ -141,19 +143,19 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
         >
           {variant === 'simple' ? (
             <>
-              <span className="font-body size-sm line-height-leading-5 text-subtle">
+              <span className="font-body size-sm line-height-leading-5 text-muted">
                 {resultTextFormatter
                   ? resultTextFormatter(page, total ?? 0)
                   : `${page} of ${total ?? 0} results`}
               </span>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-8">
                 <Button
                   buttonStyle="soft"
                   size="sm"
                   disabled={!hasPreviousPage || disabled}
                   onClick={() => handlePageChange(page - 1)}
                 >
-                  Prev
+                  {prevText}
                 </Button>
                 <Button
                   buttonStyle="soft"
@@ -161,7 +163,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
                   disabled={!hasNextPage || disabled}
                   onClick={() => handlePageChange(page + 1)}
                 >
-                  Next
+                  {nextText}
                 </Button>
               </div>
             </>

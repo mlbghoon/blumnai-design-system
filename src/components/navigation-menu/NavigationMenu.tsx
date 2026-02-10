@@ -16,42 +16,22 @@ import type {
   NavigationMenuListItemProps,
 } from './NavigationMenu.types';
 
-interface NavigationMenuContextValue {
-  rootElement: HTMLDivElement | null;
-}
-
-const NavigationMenuContext = React.createContext<NavigationMenuContextValue>({
-  rootElement: null,
-});
-
 const NavigationMenu = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,
   NavigationMenuProps
->(({ className, children, ...props }, ref) => {
-  const [rootElement, setRootElement] = React.useState<HTMLDivElement | null>(null);
-
-  const callbackRef = React.useCallback((node: HTMLDivElement | null) => {
-    setRootElement(node);
-  }, []);
-
-  return (
-    <NavigationMenuContext.Provider value={{ rootElement }}>
-      <div ref={callbackRef} className="relative inline-flex">
-        <NavigationMenuPrimitive.Root
-          ref={ref}
-          className={cn(
-            'relative z-10 flex max-w-max flex-1 items-center justify-center',
-            className
-          )}
-          {...props}
-        >
-          {children}
-          <NavigationMenuViewport />
-        </NavigationMenuPrimitive.Root>
-      </div>
-    </NavigationMenuContext.Provider>
-  );
-});
+>(({ className, children, ...props }, ref) => (
+  <NavigationMenuPrimitive.Root
+    ref={ref}
+    className={cn(
+      'relative z-10 flex max-w-max flex-1 items-center justify-center',
+      className
+    )}
+    {...props}
+  >
+    {children}
+    <NavigationMenuViewport />
+  </NavigationMenuPrimitive.Root>
+));
 NavigationMenu.displayName = 'NavigationMenu';
 
 const NavigationMenuList = React.forwardRef<
@@ -97,8 +77,8 @@ const NavigationMenuTrigger = React.forwardRef<
       iconType={['arrows', 'arrow-down-s']}
       size={16}
       color="default-subtle"
-      className="relative top-[1px] transition duration-300 group-data-[state=open]:rotate-180"
-      style={{ marginLeft: '4px' }}
+      className="relative transition duration-300 group-data-[state=open]:rotate-180"
+      style={{ marginLeft: '4px', top: '1px' }}
       aria-hidden="true"
     />
   </NavigationMenuPrimitive.Trigger>
@@ -157,74 +137,22 @@ NavigationMenuLink.displayName = 'NavigationMenuLink';
 const NavigationMenuViewport = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Viewport>,
   NavigationMenuViewportProps
->(({ className, ...props }, ref) => {
-  const { rootElement } = React.useContext(NavigationMenuContext);
-  const viewportRef = React.useRef<HTMLDivElement>(null);
-  const [position, setPosition] = React.useState<{ top: number; left: number } | null>(null);
-
-  React.useLayoutEffect(() => {
-    if (!rootElement) return;
-
-    const updatePosition = () => {
-      const rect = rootElement.getBoundingClientRect();
-      const viewportWidth = document.documentElement.clientWidth;
-      const padding = 16;
-
-      let left = rect.left;
-
-      const viewportEl = viewportRef.current;
-      const dropdownWidth = viewportEl?.offsetWidth || 500;
-
-      if (left + dropdownWidth > viewportWidth - padding) {
-        left = Math.max(padding, viewportWidth - dropdownWidth - padding);
-      }
-
-      setPosition({
-        top: rect.bottom,
-        left: left,
-      });
-    };
-
-    updatePosition();
-
-    const viewportEl = viewportRef.current;
-    let resizeObserver: ResizeObserver | null = null;
-    if (viewportEl) {
-      resizeObserver = new ResizeObserver(updatePosition);
-      resizeObserver.observe(viewportEl);
-    }
-
-    window.addEventListener('scroll', updatePosition, true);
-    window.addEventListener('resize', updatePosition);
-
-    return () => {
-      window.removeEventListener('scroll', updatePosition, true);
-      window.removeEventListener('resize', updatePosition);
-      resizeObserver?.disconnect();
-    };
-  }, [rootElement]);
-
-  return (
-    <div
-      ref={viewportRef}
-      className="fixed z-50"
-      style={position ? { top: position.top, left: position.left } : { visibility: 'hidden' }}
-    >
-      <NavigationMenuPrimitive.Viewport
-        className={cn(
-          'origin-top-center relative mt-6 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden',
-          'rounded-lg border-default bg-card text-default shadow-modal-sm',
-          'data-[state=open]:animate-in data-[state=closed]:animate-out',
-          'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90',
-          'md:w-[var(--radix-navigation-menu-viewport-width)]',
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-    </div>
-  );
-});
+>(({ className, ...props }, ref) => (
+  <div className="absolute left-0 top-full flex justify-center" style={{ marginTop: '6px' }}>
+    <NavigationMenuPrimitive.Viewport
+      className={cn(
+        'origin-top-center relative h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden',
+        'rounded-lg border-default bg-card text-default shadow-modal-sm',
+        'data-[state=open]:animate-in data-[state=closed]:animate-out',
+        'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90',
+        'md:w-[var(--radix-navigation-menu-viewport-width)]',
+        className
+      )}
+      ref={ref}
+      {...props}
+    />
+  </div>
+));
 NavigationMenuViewport.displayName = 'NavigationMenuViewport';
 
 const NavigationMenuIndicator = React.forwardRef<
@@ -265,7 +193,7 @@ const NavigationMenuListItem = React.forwardRef<
           {children || (
             <div className="flex items-start gap-12">
               {icon && (
-                <div className="flex items-center justify-center width-24 height-24 flex-shrink-0 mt-1">
+                <div className="flex items-center justify-center width-24 height-24 flex-shrink-0" style={{ marginTop: '1px' }}>
                   <Icon
                     iconType={icon}
                     size={20}

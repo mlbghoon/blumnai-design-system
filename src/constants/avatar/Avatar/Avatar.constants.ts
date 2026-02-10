@@ -152,6 +152,6 @@ export const INITIALS_POSITION_CLASSES: Record<AvatarSize, string> = {
 };
 
 export const IMAGE_WRAPPER_CLASSES =
-  'absolute aspect-[16/16] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full';
+  'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full';
 
 export const IMAGE_CLASSES = 'max-w-none object-cover size-full';

@@ -389,9 +389,9 @@ const generateFileRegistry = () => {
   // Sort by file type
   registryEntries.sort((a, b) => a.fileType.localeCompare(b.fileType));
 
-  const imports = registryEntries
+  const lazyImports = registryEntries
     .map(({ componentName }) =>
-      `import { ${componentName} } from './icons/${componentName}';`
+      `const ${componentName} = lazy(() => import('./icons/${componentName}').then(m => ({ default: m.${componentName} })));`
     )
     .join('\n');
 
@@ -403,17 +403,18 @@ const generateFileRegistry = () => {
     '// This file is auto-generated. Do not edit manually.',
     '// Run: npm run generate:file-icons',
     '',
-    "import type { ComponentType } from 'react';",
+    "import { lazy } from 'react';",
+    "import type { LazyExoticComponent, ComponentType } from 'react';",
     '',
     "import type { Props } from '../Icon/IconWrapper.types';",
     '',
-    imports,
+    lazyImports,
     '',
     "interface ThumbnailProps extends Props {",
     "  imageSrc?: string;",
     "}",
     '',
-    'export const fileRegistry: Record<string, ComponentType<Props> | ComponentType<ThumbnailProps>> = {',
+    'export const fileRegistry: Record<string, LazyExoticComponent<ComponentType<Props>> | LazyExoticComponent<ComponentType<ThumbnailProps>>> = {',
     registryObject,
     '};',
     '',

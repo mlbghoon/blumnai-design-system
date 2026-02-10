@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, Suspense } from 'react';
 
 import { brandRegistry } from './brand-registry';
 import type { BrandIconProps } from './BrandIcon.types';
@@ -12,18 +12,30 @@ export const BrandIcon = forwardRef<SVGSVGElement, BrandIconProps>(({
 }, ref) => {
   const Component = brandRegistry[brandType];
 
+  const fallback = (
+    <div
+      style={{
+        width: size,
+        height: size,
+        display: 'inline-block',
+      }}
+    />
+  );
+
   if (!Component) {
     console.warn(`BrandIcon: Unknown brand "${brandType}"`);
     return null;
   }
 
   return (
-    <Component
-      ref={ref}
-      size={size}
-      className={className}
-      {...props}
-    />
+    <Suspense fallback={fallback}>
+      <Component
+        ref={ref}
+        size={size}
+        className={className}
+        {...props}
+      />
+    </Suspense>
   );
 });
 

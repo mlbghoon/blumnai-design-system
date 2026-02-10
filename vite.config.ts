@@ -59,7 +59,7 @@ export default defineConfig(({ mode }) => {
               },
             ],
           },
-          sourcemap: true,
+          sourcemap: false,
           cssCodeSplit: false,
           copyPublicDir: false,
           minify: 'esbuild',

@@ -183,9 +183,9 @@ const generateBrandRegistry = () => {
   // Sort by brand name
   registryEntries.sort((a, b) => a.brandName.localeCompare(b.brandName));
 
-  const imports = registryEntries
+  const lazyImports = registryEntries
     .map(({ componentName }) =>
-      `import { ${componentName} } from './icons/${componentName}';`
+      `const ${componentName} = lazy(() => import('./icons/${componentName}').then(m => ({ default: m.${componentName} })));`
     )
     .join('\n');
 
@@ -197,13 +197,14 @@ const generateBrandRegistry = () => {
     '// This file is auto-generated. Do not edit manually.',
     '// Run: npm run generate:brands',
     '',
-    "import type { ComponentType } from 'react';",
+    "import { lazy } from 'react';",
+    "import type { LazyExoticComponent, ComponentType } from 'react';",
     '',
     "import type { Props } from '../Icon/IconWrapper.types';",
     '',
-    imports,
+    lazyImports,
     '',
-    'export const brandRegistry: Record<string, ComponentType<Props>> = {',
+    'export const brandRegistry: Record<string, LazyExoticComponent<ComponentType<Props>>> = {',
     registryObject,
     '};',
     '',

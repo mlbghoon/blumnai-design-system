@@ -15,11 +15,11 @@
   --text-muted: #6f6f77;
   --text-hint: #27272a4d;
   --text-inverted-default: #ffffff;
-  --text-inverted-subtle: #ffffffb2;
-  --text-inverted-muted: #4e4e55;
+  --text-inverted-subtle: #ffffffb3;
+  --text-inverted-muted: #ffffff80;
   --text-inverted-hint: #ffffff4d;
   --text-white-default: #ffffff;
-  --text-white-subtle: #ffffffb2;
+  --text-white-subtle: #ffffffb3;
   --text-white-muted: #ffffff80;
   --text-white-hint: #ffffff4d;
   --text-dark-default: #111115;
@@ -299,39 +299,39 @@
   /* Text Colors */
   --text-default: #ffffff;
   --text-subtle: #ffffffb2;
-  --text-muted: #ffffffb2;
+  --text-muted: #ffffff80;
   --text-hint: #ffffff4d;
-  --text-inverted-default: #ffffff;
+  --text-inverted-default: #111115;
   --text-inverted-subtle: #4e4e55;
-  --text-inverted-muted: #4e4e55;
-  --text-inverted-hint: #27272a4d;
+  --text-inverted-muted: #6f6f77;
+  --text-inverted-hint: #27272a59;
   --text-white-default: #ffffff;
-  --text-white-subtle: #ffffffb2;
+  --text-white-subtle: #ffffffb3;
   --text-white-muted: #ffffff80;
   --text-white-hint: #ffffff4d;
   --text-dark-default: #111115;
   --text-dark-subtle: #4e4e55;
   --text-dark-muted: #6f6f77;
   --text-dark-hint: #27272a59;
-  --text-destructive: #d42422;
+  --text-destructive: #ed6664;
   --text-success: #66dc7e;
   --text-warning: #f38f36;
   --text-informative: #65a0fd;
 
   /* Background Colors */
   --bg-default: #18181b;
-  --bg-subtle: #222225;
-  --bg-muted: #222225;
+  --bg-subtle: #111115;
+  --bg-muted: #09090b;
   --bg-inverted: #ffffff;
   --bg-card: #222225;
-  --bg-card-subtle: #222225;
+  --bg-card-subtle: #36363a;
   --bg-card-inverted: #ffffff;
   --bg-sidebar: #18181b;
   --bg-sidebar-subtle: #18181b;
-  --bg-input: #222225;
-  --bg-input-soft: #ffffff0f;
-  --bg-input-disabled: #ffffff0f;
-  --bg-overlay: #ffffff0f;
+  --bg-input: #ffffff0f;
+  --bg-input-soft: #ffffff14;
+  --bg-input-disabled: #ffffff26;
+  --bg-overlay: #09090ba6;
 
   /* Background State Colors - ordered per Figma */
   --bg-state-primary: #2b5df3;
@@ -584,23 +584,23 @@
 [data-theme="theme-b-light"],
 .theme-b-light {
   /* Text Colors */
-  --text-default: #212121;
+  --text-default: #24211e;
   --text-subtle: #6f6f77;
-  --text-muted: #6f6f77;
+  --text-muted: #79716b;
   --text-hint: #2121214d;
   --text-inverted-default: #ffffff;
-  --text-inverted-subtle: #ffffffb2;
-  --text-inverted-muted: #6f6f77;
+  --text-inverted-subtle: #ffffffb3;
+  --text-inverted-muted: #ffffff80;
   --text-inverted-hint: #ffffff4d;
   --text-white-default: #ffffff;
-  --text-white-subtle: #ffffffb2;
+  --text-white-subtle: #ffffffb3;
   --text-white-muted: #ffffff80;
   --text-white-hint: #ffffff4d;
   --text-dark-default: #24211e;
   --text-dark-subtle: #57534d;
   --text-dark-muted: #79716b;
-  --text-dark-hint: #57534d4d;
-  --text-destructive: #eb3e5b;
+  --text-dark-hint: #27272a59;
+  --text-destructive: #d91a45;
   --text-success: #35966a;
   --text-warning: #c68b0b;
   --text-informative: #e35706;
@@ -616,9 +616,9 @@
   --bg-sidebar: #ffffff;
   --bg-sidebar-subtle: #fef8ee;
   --bg-input: #ffffff;
-  --bg-input-soft: #2121210f;
-  --bg-input-disabled: #2121210f;
-  --bg-overlay: #2121210f;
+  --bg-input-soft: #27272a0f;
+  --bg-input-disabled: #27272a0f;
+  --bg-overlay: #27272a0f;
 
   /* Background State Colors - ordered per Figma */
   --bg-state-primary: #f27313;
@@ -872,40 +872,40 @@
 .theme-b-dark {
   /* Text Colors */
   --text-default: #ffffff;
-  --text-subtle: #6f6f77;
-  --text-muted: #6f6f77;
+  --text-subtle: #ffffffb2;
+  --text-muted: #ffffff80;
   --text-hint: #ffffff4d;
-  --text-inverted-default: #ffffff;
-  --text-inverted-subtle: #6f6f77;
-  --text-inverted-muted: #6f6f77;
-  --text-inverted-hint: #2121214d;
+  --text-inverted-default: #24211e;
+  --text-inverted-subtle: #57534d;
+  --text-inverted-muted: #79716b;
+  --text-inverted-hint: #27272a59;
   --text-white-default: #ffffff;
-  --text-white-subtle: #ffffffb2;
+  --text-white-subtle: #ffffffb3;
   --text-white-muted: #ffffff80;
   --text-white-hint: #ffffff4d;
   --text-dark-default: #24211e;
   --text-dark-subtle: #57534d;
   --text-dark-muted: #79716b;
-  --text-dark-hint: #57534d4d;
-  --text-destructive: #eb3e5b;
+  --text-dark-hint: #27272a59;
+  --text-destructive: #f16e81;
   --text-success: #56d197;
   --text-warning: #f5ca0f;
   --text-informative: #f38f36;
 
   /* Background Colors */
-  --bg-default: #212121;
-  --bg-subtle: #14171f;
-  --bg-muted: #14171f;
+  --bg-default: #301108;
+  --bg-subtle: #14110f;
+  --bg-muted: #0c0a09;
   --bg-inverted: #ffffff;
   --bg-card: #301108;
   --bg-card-subtle: #301108;
   --bg-card-inverted: #ffffff;
   --bg-sidebar: #301108;
   --bg-sidebar-subtle: #441c0d;
-  --bg-input: #301108;
-  --bg-input-soft: #ffffff0f;
-  --bg-input-disabled: #ffffff0f;
-  --bg-overlay: #ffffff0f;
+  --bg-input: #ffffff0f;
+  --bg-input-soft: #ffffff14;
+  --bg-input-disabled: #ffffff26;
+  --bg-overlay: #09090ba6;
 
   /* Background State Colors - ordered per Figma */
   --bg-state-primary: #e35706;

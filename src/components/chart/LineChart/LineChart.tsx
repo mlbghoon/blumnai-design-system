@@ -356,7 +356,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
               textAnchor="end"
               className={cn(
                 'size-xs',
-                'text-subtle'
+                'text-muted'
               )}
               fill="currentColor"
             >
@@ -497,7 +497,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
               textAnchor="middle"
               className={cn(
                 'size-xs',
-                'text-subtle'
+                'text-muted'
               )}
               fill="currentColor"
             >
@@ -546,7 +546,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                   style={{ backgroundColor: lineColor }}
                   aria-hidden="true"
                 />
-                <span className={cn('size-xs', 'text-subtle')}>
+                <span className={cn('size-xs', 'text-muted')}>
                   {getLabel(key)}
                 </span>
               </div>

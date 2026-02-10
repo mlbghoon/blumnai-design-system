@@ -1,5 +1,6 @@
 import { forwardRef, useMemo } from 'react';
 
+import { AspectRatio } from '../aspect-ratio';
 import { Icon } from '../icons/Icon';
 import { ControlButton } from '../button/ControlButton';
 import { cn } from '../../lib/utils';
@@ -74,11 +75,13 @@ export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
     >
       <div className={cn(FILE_UPLOAD_THUMBNAIL, sizeConfig.thumbnail)}>
         {thumbnail ? (
-          <img
-            src={thumbnail}
-            alt={file.name}
-            className="w-full h-full object-cover"
-          />
+          <AspectRatio ratio={1}>
+            <img
+              src={thumbnail}
+              alt={file.name}
+              className="w-full h-full object-cover"
+            />
+          </AspectRatio>
         ) : (
           <Icon
             iconType={fileTypeIcon}

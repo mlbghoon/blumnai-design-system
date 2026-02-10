@@ -221,7 +221,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
               <div
                 className={cn(
                   'size-xs line-height-leading-4 font-medium text-center',
-                  'text-subtle'
+                  'text-muted'
                 )}
               >
                 {centerLabel}
@@ -265,7 +265,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
                 style={{ backgroundColor: slice.color }}
                 aria-hidden="true"
               />
-              <span className={cn('size-xs', 'text-subtle')}>
+              <span className={cn('size-xs', 'text-muted')}>
                 {getLabel(slice.name)} ({(slice.percentage * 100).toFixed(1)}%)
               </span>
             </div>
