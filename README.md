@@ -95,20 +95,51 @@ import { Button } from '@mbisolution/blumnai-design-system/button';
 
 | 서브패스 | 포함 컴포넌트 |
 |---------|-------------|
+| `/avatar` | Avatar, AvatarGroup |
+| `/badge` | Badge |
+| `/breadcrumbs` | Breadcrumbs |
 | `/button` | Button, ControlButton, FilterButton, AvatarButton, LinkButton, ButtonGroup |
-| `/input` | Input |
-| `/select` | Select, Combobox |
+| `/calendar` | Calendar, DatePicker, DateRangePicker |
+| `/card` | Card, CardHeader, CardTitle, CardContent |
+| `/carousel` | Carousel |
+| `/chart` | BarChart, LineChart, PieChart, DonutChart |
 | `/checkbox` | Checkbox, CheckboxCard, CheckboxList |
-| `/radio` | Radio, RadioGroup, RadioCard, RadioList |
-| `/switch` | Switch, SwitchList |
-| `/dialog` | Dialog, AlertDialog |
-| `/tabs` | Tabs, TabsList, TabsTrigger, TabsContent |
-| `/table` | Table, DataGrid |
+| `/chip` | Chip |
+| `/collapsible` | Collapsible |
+| `/context-menu` | ContextMenu |
+| `/dialog` | Dialog, AlertDialog, ConfirmDialog |
+| `/divider` | Divider |
+| `/drawer` | Drawer, Sheet |
+| `/dropdown` | DropdownMenu |
+| `/file-upload` | FileUpload |
+| `/form` | Form, FormField, FormControl |
+| `/hover-card` | HoverCard |
+| `/icons` | 모든 아이콘 컴포넌트 |
 | `/icons/icon` | Icon (UI 아이콘) |
 | `/icons/brand` | BrandIcon |
 | `/icons/flag` | FlagIcon |
 | `/icons/file` | FileIcon |
-| `/icons` | 모든 아이콘 컴포넌트 |
+| `/input` | Input |
+| `/input-otp` | InputOTP |
+| `/menubar` | Menubar |
+| `/navigation-menu` | NavigationMenu |
+| `/pagination` | Pagination |
+| `/popover` | Popover |
+| `/progress` | Progress, ProgressCircular |
+| `/radio` | Radio, RadioGroup, RadioCard, RadioList |
+| `/resizable` | ResizablePanelGroup |
+| `/scroll-area` | ScrollArea |
+| `/select` | Select, Combobox |
+| `/sidebar` | Sidebar |
+| `/skeleton` | Skeleton |
+| `/slider` | Slider, SliderRange, SliderInput |
+| `/switch` | Switch, SwitchList |
+| `/table` | Table, DataGrid |
+| `/tabs` | Tabs, TabsList, TabsTrigger, TabsContent |
+| `/textarea` | Textarea |
+| `/time-picker` | TimePicker, TimeRangePicker |
+| `/toast` | toast |
+| `/tooltip` | Tooltip |
 | `/styles` | CSS 스타일시트 |
 
 ---

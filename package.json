@@ -12,41 +12,81 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
+    "./avatar": {
+      "types": "./dist/components/avatar/index.d.ts",
+      "import": "./dist/components/avatar/index.mjs"
+    },
+    "./badge": {
+      "types": "./dist/components/badge/index.d.ts",
+      "import": "./dist/components/badge/index.mjs"
+    },
+    "./breadcrumbs": {
+      "types": "./dist/components/breadcrumbs/index.d.ts",
+      "import": "./dist/components/breadcrumbs/index.mjs"
+    },
     "./button": {
       "types": "./dist/components/button/index.d.ts",
       "import": "./dist/components/button/index.mjs"
     },
-    "./input": {
-      "types": "./dist/components/input/index.d.ts",
-      "import": "./dist/components/input/index.mjs"
+    "./calendar": {
+      "types": "./dist/components/calendar/index.d.ts",
+      "import": "./dist/components/calendar/index.mjs"
     },
-    "./select": {
-      "types": "./dist/components/select/index.d.ts",
-      "import": "./dist/components/select/index.mjs"
+    "./card": {
+      "types": "./dist/components/card/index.d.ts",
+      "import": "./dist/components/card/index.mjs"
+    },
+    "./carousel": {
+      "types": "./dist/components/carousel/index.d.ts",
+      "import": "./dist/components/carousel/index.mjs"
+    },
+    "./chart": {
+      "types": "./dist/components/chart/index.d.ts",
+      "import": "./dist/components/chart/index.mjs"
     },
     "./checkbox": {
       "types": "./dist/components/checkbox/index.d.ts",
       "import": "./dist/components/checkbox/index.mjs"
     },
-    "./radio": {
-      "types": "./dist/components/radio/index.d.ts",
-      "import": "./dist/components/radio/index.mjs"
+    "./chip": {
+      "types": "./dist/components/chip/index.d.ts",
+      "import": "./dist/components/chip/index.mjs"
     },
-    "./switch": {
-      "types": "./dist/components/switch/index.d.ts",
-      "import": "./dist/components/switch/index.mjs"
+    "./collapsible": {
+      "types": "./dist/components/collapsible/index.d.ts",
+      "import": "./dist/components/collapsible/index.mjs"
+    },
+    "./context-menu": {
+      "types": "./dist/components/context-menu/index.d.ts",
+      "import": "./dist/components/context-menu/index.mjs"
     },
     "./dialog": {
       "types": "./dist/components/dialog/index.d.ts",
       "import": "./dist/components/dialog/index.mjs"
     },
-    "./tabs": {
-      "types": "./dist/components/tabs/index.d.ts",
-      "import": "./dist/components/tabs/index.mjs"
+    "./divider": {
+      "types": "./dist/components/divider/index.d.ts",
+      "import": "./dist/components/divider/index.mjs"
     },
-    "./table": {
-      "types": "./dist/components/table/index.d.ts",
-      "import": "./dist/components/table/index.mjs"
+    "./drawer": {
+      "types": "./dist/components/drawer-sheet/index.d.ts",
+      "import": "./dist/components/drawer-sheet/index.mjs"
+    },
+    "./dropdown": {
+      "types": "./dist/components/dropdown/index.d.ts",
+      "import": "./dist/components/dropdown/index.mjs"
+    },
+    "./file-upload": {
+      "types": "./dist/components/file-upload/index.d.ts",
+      "import": "./dist/components/file-upload/index.mjs"
+    },
+    "./form": {
+      "types": "./dist/components/form/index.d.ts",
+      "import": "./dist/components/form/index.mjs"
+    },
+    "./hover-card": {
+      "types": "./dist/components/hover-card/index.d.ts",
+      "import": "./dist/components/hover-card/index.mjs"
     },
     "./icons": {
       "types": "./dist/components/icons/index.d.ts",
@@ -67,6 +107,90 @@
     "./icons/file": {
       "types": "./dist/components/icons/FileIcon/index.d.ts",
       "import": "./dist/components/icons/FileIcon/index.mjs"
+    },
+    "./input": {
+      "types": "./dist/components/input/index.d.ts",
+      "import": "./dist/components/input/index.mjs"
+    },
+    "./input-otp": {
+      "types": "./dist/components/input-otp/index.d.ts",
+      "import": "./dist/components/input-otp/index.mjs"
+    },
+    "./menubar": {
+      "types": "./dist/components/menubar/index.d.ts",
+      "import": "./dist/components/menubar/index.mjs"
+    },
+    "./navigation-menu": {
+      "types": "./dist/components/navigation-menu/index.d.ts",
+      "import": "./dist/components/navigation-menu/index.mjs"
+    },
+    "./pagination": {
+      "types": "./dist/components/pagination/index.d.ts",
+      "import": "./dist/components/pagination/index.mjs"
+    },
+    "./popover": {
+      "types": "./dist/components/popover/index.d.ts",
+      "import": "./dist/components/popover/index.mjs"
+    },
+    "./progress": {
+      "types": "./dist/components/progress/index.d.ts",
+      "import": "./dist/components/progress/index.mjs"
+    },
+    "./radio": {
+      "types": "./dist/components/radio/index.d.ts",
+      "import": "./dist/components/radio/index.mjs"
+    },
+    "./resizable": {
+      "types": "./dist/components/resizable/index.d.ts",
+      "import": "./dist/components/resizable/index.mjs"
+    },
+    "./scroll-area": {
+      "types": "./dist/components/scroll-area/index.d.ts",
+      "import": "./dist/components/scroll-area/index.mjs"
+    },
+    "./select": {
+      "types": "./dist/components/select/index.d.ts",
+      "import": "./dist/components/select/index.mjs"
+    },
+    "./sidebar": {
+      "types": "./dist/components/sidebar/index.d.ts",
+      "import": "./dist/components/sidebar/index.mjs"
+    },
+    "./skeleton": {
+      "types": "./dist/components/skeleton/index.d.ts",
+      "import": "./dist/components/skeleton/index.mjs"
+    },
+    "./slider": {
+      "types": "./dist/components/slider/index.d.ts",
+      "import": "./dist/components/slider/index.mjs"
+    },
+    "./switch": {
+      "types": "./dist/components/switch/index.d.ts",
+      "import": "./dist/components/switch/index.mjs"
+    },
+    "./table": {
+      "types": "./dist/components/table/index.d.ts",
+      "import": "./dist/components/table/index.mjs"
+    },
+    "./tabs": {
+      "types": "./dist/components/tabs/index.d.ts",
+      "import": "./dist/components/tabs/index.mjs"
+    },
+    "./textarea": {
+      "types": "./dist/components/textarea/index.d.ts",
+      "import": "./dist/components/textarea/index.mjs"
+    },
+    "./time-picker": {
+      "types": "./dist/components/time-picker/index.d.ts",
+      "import": "./dist/components/time-picker/index.mjs"
+    },
+    "./toast": {
+      "types": "./dist/components/toast/index.d.ts",
+      "import": "./dist/components/toast/index.mjs"
+    },
+    "./tooltip": {
+      "types": "./dist/components/tooltip/index.d.ts",
+      "import": "./dist/components/tooltip/index.mjs"
     },
     "./styles": "./dist/blumnai-design-system.css",
     "./*": {

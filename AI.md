@@ -975,21 +975,52 @@ import { Icon } from '@mbisolution/blumnai-design-system';
 
 | Subpath | Components |
 |---------|------------|
-| `@mbisolution/blumnai-design-system/button` | Button, ControlButton, FilterButton, AvatarButton, LinkButton, ButtonGroup |
-| `@mbisolution/blumnai-design-system/input` | Input |
-| `@mbisolution/blumnai-design-system/select` | Select, Combobox |
-| `@mbisolution/blumnai-design-system/checkbox` | Checkbox, CheckboxCard, CheckboxList |
-| `@mbisolution/blumnai-design-system/radio` | Radio, RadioGroup, RadioCard, RadioList |
-| `@mbisolution/blumnai-design-system/switch` | Switch, SwitchList |
-| `@mbisolution/blumnai-design-system/dialog` | Dialog, AlertDialog |
-| `@mbisolution/blumnai-design-system/tabs` | Tabs, TabsList, TabsTrigger, TabsContent |
-| `@mbisolution/blumnai-design-system/table` | Table, DataGrid |
-| `@mbisolution/blumnai-design-system/icons/icon` | Icon |
-| `@mbisolution/blumnai-design-system/icons/brand` | BrandIcon |
-| `@mbisolution/blumnai-design-system/icons/flag` | FlagIcon |
-| `@mbisolution/blumnai-design-system/icons/file` | FileIcon |
-| `@mbisolution/blumnai-design-system/icons` | All icons |
-| `@mbisolution/blumnai-design-system/styles` | CSS stylesheet |
+| `/avatar` | Avatar, AvatarGroup |
+| `/badge` | Badge |
+| `/breadcrumbs` | Breadcrumbs |
+| `/button` | Button, ControlButton, FilterButton, AvatarButton, LinkButton, ButtonGroup |
+| `/calendar` | Calendar, DatePicker, DateRangePicker |
+| `/card` | Card, CardHeader, CardTitle, CardContent, CardFooter |
+| `/carousel` | Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext |
+| `/chart` | Chart, BarChart, LineChart, PieChart, DonutChart |
+| `/checkbox` | Checkbox, CheckboxCard, CheckboxList |
+| `/chip` | Chip |
+| `/collapsible` | Collapsible, CollapsibleTrigger, CollapsibleContent |
+| `/context-menu` | ContextMenu |
+| `/dialog` | Dialog, AlertDialog, ConfirmDialog |
+| `/divider` | Divider |
+| `/drawer` | Drawer, Sheet |
+| `/dropdown` | DropdownMenu |
+| `/file-upload` | FileUpload, FileUploadArea, FileUploadCard |
+| `/form` | Form, FormField, FormControl, FormItem, FormError |
+| `/hover-card` | HoverCard, HoverCardTrigger, HoverCardContent |
+| `/icons` | All icons |
+| `/icons/icon` | Icon |
+| `/icons/brand` | BrandIcon |
+| `/icons/flag` | FlagIcon |
+| `/icons/file` | FileIcon |
+| `/input` | Input |
+| `/input-otp` | InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator |
+| `/menubar` | Menubar, MenubarMenu, MenubarTrigger, MenubarContent |
+| `/navigation-menu` | NavigationMenu, NavigationMenuList, NavigationMenuItem |
+| `/pagination` | Pagination |
+| `/popover` | Popover, PopoverTrigger, PopoverContent |
+| `/progress` | Progress, ProgressCircular |
+| `/radio` | Radio, RadioGroup, RadioCard, RadioList |
+| `/resizable` | ResizablePanelGroup, ResizablePanel, ResizableHandle |
+| `/scroll-area` | ScrollArea |
+| `/select` | Select, Combobox |
+| `/sidebar` | Sidebar, SidebarContent, SidebarMenu |
+| `/skeleton` | Skeleton |
+| `/slider` | Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider |
+| `/switch` | Switch, SwitchList |
+| `/table` | Table, DataGrid |
+| `/tabs` | Tabs, TabsList, TabsTrigger, TabsContent |
+| `/textarea` | Textarea |
+| `/time-picker` | TimePicker, TimeInput, TimeRangePicker, TimeRangeInput |
+| `/toast` | toast |
+| `/tooltip` | Tooltip |
+| `/styles` | CSS stylesheet |
 
 ---
 
