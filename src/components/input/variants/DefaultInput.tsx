@@ -1,5 +1,7 @@
-import { forwardRef } from 'react';
+import { forwardRef, useRef, useCallback } from 'react';
 import type { InputHTMLAttributes } from 'react';
+
+import { useKeyboardShortcut } from '../../../hooks/use-keyboard-shortcut';
 
 import { cn } from '../../../utils/cn';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
@@ -97,6 +99,26 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
   value,
   ...props
 }, ref) => {
+  const internalRef = useRef<HTMLInputElement>(null);
+  const mergeRefs = useCallback(
+    (node: HTMLInputElement | null) => {
+      internalRef.current = node;
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.MutableRefObject<HTMLInputElement | null>).current = node;
+    },
+    [ref],
+  );
+
+  useKeyboardShortcut(
+    shortcut,
+    () => {
+      if (document.activeElement !== internalRef.current) {
+        internalRef.current?.focus();
+      }
+    },
+    { enabled: !disabled, ignoreInputFields: false },
+  );
+
   const { inputId, hasError, state, sizeConfig, styleConfig, stateConfig, iconColor } = useInputState({
     inputStyle,
     size,
@@ -174,7 +196,7 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
 
         {/* Input Field */}
         <input
-          ref={ref}
+          ref={mergeRefs}
           id={inputId}
           disabled={disabled}
           className={inputClassName}

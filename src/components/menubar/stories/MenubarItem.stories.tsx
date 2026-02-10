@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import {
@@ -177,7 +178,7 @@ export const Default: Story = {
     iconColor: undefined,
     caption: '',
     description: '',
-    shortcut: '⌘N',
+    shortcut: '⌘J',
   },
   parameters: {
     controls: { disable: false },
@@ -205,7 +206,7 @@ export const Default: Story = {
               description={description}
               shortcut={args.shortcut}
             >
-              새 파일
+              새 항목
             </MenubarItem>
           </MenubarContent>
         </MenubarMenu>
@@ -290,14 +291,14 @@ export const WithShortcut: Story = {
         <MenubarMenu value="file">
           <MenubarTrigger>File</MenubarTrigger>
           <MenubarContent width={250}>
-            <MenubarItem leadIcon={['document', 'file-add']} shortcut="⌘N">
-              새 파일
+            <MenubarItem leadIcon={['document', 'file-add']} shortcut="⌘J">
+              새 항목
             </MenubarItem>
             <MenubarItem leadIcon={['document', 'folder-open']} shortcut="⌘O">
               열기
             </MenubarItem>
-            <MenubarItem leadIcon={['device', 'save']} shortcut="⌘S">
-              저장
+            <MenubarItem leadIcon={['device', 'save']} shortcut="⌘E">
+              내보내기
             </MenubarItem>
           </MenubarContent>
         </MenubarMenu>
@@ -489,6 +490,67 @@ export const IconColors: Story = {
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
+    );
+  },
+};
+
+/**
+ * 키보드 단축키 바인딩
+ *
+ * `shortcut` prop은 뱃지를 렌더링할 뿐만 아니라 전역 keydown 리스너도 바인딩합니다.
+ * 메뉴가 열려 있을 때 단축키를 누르면 해당 항목의 onClick이 실행됩니다.
+ */
+export const KeyboardShortcutBinding: Story = {
+  render: function Render() {
+    const [log, setLog] = useState<string[]>([]);
+
+    const addLog = (message: string) => {
+      setLog((prev) => [`${new Date().toLocaleTimeString()} — ${message}`, ...prev.slice(0, 4)]);
+    };
+
+    return (
+      <div className="flex flex-col gap-16">
+        <p className="m-0 size-sm text-subtle">
+          메뉴를 열고 단축키를 눌러 onClick이 실행되는 것을 확인하세요.
+        </p>
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent width={220}>
+              <MenubarItem
+                leadIcon={['document', 'file-add']}
+                shortcut="⌘J"
+                onClick={() => addLog('New Item (⌘J)')}
+              >
+                New Item
+              </MenubarItem>
+              <MenubarItem
+                leadIcon={['system', 'check']}
+                shortcut="⌘E"
+                onClick={() => addLog('Export (⌘E)')}
+              >
+                Export
+              </MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem
+                leadIcon={['system', 'close']}
+                shortcut="⌘B"
+                onClick={() => addLog('Toggle Sidebar (⌘B)')}
+              >
+                Toggle Sidebar
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+        {log.length > 0 && (
+          <div className="padding-12 bg-subtle rounded-md">
+            <p className="m-0 size-xs text-muted font-medium">Event Log</p>
+            {log.map((entry, i) => (
+              <p key={i} className="m-0 size-xs text-subtle">{entry}</p>
+            ))}
+          </div>
+        )}
+      </div>
     );
   },
 };

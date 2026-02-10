@@ -71,6 +71,7 @@
   --bg-state-destructive-hover: #ed6664;
   --bg-state-destructive-press: #e74341;
   --bg-state-destructive-loading: #f4a6a5;
+  --bg-state-destructive-soft: #e743411a;
   --bg-state-brand: #437dfc;
   --bg-state-brand-hover: #65a0fd;
   --bg-state-brand-press: #437dfc;
@@ -358,6 +359,7 @@
   --bg-state-destructive-hover: #ed6664;
   --bg-state-destructive-press: #e74341;
   --bg-state-destructive-loading: #f4a6a5;
+  --bg-state-destructive-soft: #e7434126;
   --bg-state-brand: #437dfc;
   --bg-state-brand-hover: #65a0fd;
   --bg-state-brand-press: #437dfc;
@@ -645,6 +647,7 @@
   --bg-state-destructive-hover: #f16e81;
   --bg-state-destructive-press: #eb3e5b;
   --bg-state-destructive-loading: #f49fa9;
+  --bg-state-destructive-soft: #eb3e5b1a;
   --bg-state-brand: #f27313;
   --bg-state-brand-hover: #f38f36;
   --bg-state-brand-press: #f27313;
@@ -932,6 +935,7 @@
   --bg-state-destructive-hover: #f16e81;
   --bg-state-destructive-press: #eb3e5b;
   --bg-state-destructive-loading: #f49fa9;
+  --bg-state-destructive-soft: #eb3e5b26;
   --bg-state-brand: #e35706;
   --bg-state-brand-hover: #f27313;
   --bg-state-brand-press: #e35706;

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import {
@@ -417,6 +418,73 @@ export const States: Story = {
           </SidebarMenu>
         </div>
       </SidebarProvider>
+    );
+  },
+};
+
+/**
+ * 키보드 단축키 바인딩
+ *
+ * `shortcut` prop은 뱃지를 렌더링할 뿐만 아니라 전역 keydown 리스너도 바인딩합니다.
+ * 단축키를 누르면 해당 항목의 onClick이 실행됩니다.
+ */
+export const KeyboardShortcutBinding: Story = {
+  render: function Render() {
+    const [log, setLog] = useState<string[]>([]);
+
+    const addLog = (message: string) => {
+      setLog((prev) => [`${new Date().toLocaleTimeString()} — ${message}`, ...prev.slice(0, 4)]);
+    };
+
+    return (
+      <div className="flex flex-col gap-16">
+        <p className="m-0 size-sm text-subtle">
+          단축키를 눌러 onClick이 실행되는 것을 확인하세요. 사이드바 항목은 항상 마운트되어 있으므로 전역 단축키가 작동합니다.
+        </p>
+        <SidebarProvider defaultOpen={true}>
+          <div className="w-[280px] border-default rounded-md padding-8">
+            <SidebarMenu>
+              <SidebarMenuItem
+                variant="default"
+                icon={['buildings', 'home']}
+                label="Home"
+                shortcut="⌘1"
+                onClick={() => addLog('Home clicked (⌘1)')}
+              />
+              <SidebarMenuItem
+                variant="default"
+                icon={['system', 'search']}
+                label="Search"
+                shortcut="⌘K"
+                onClick={() => addLog('Search clicked (⌘K)')}
+              />
+              <SidebarMenuItem
+                variant="default"
+                icon={['system', 'settings']}
+                label="Settings"
+                shortcut="⌘,"
+                onClick={() => addLog('Settings clicked (⌘,)')}
+              />
+              <SidebarMenuItem
+                variant="default"
+                icon={['system', 'close']}
+                label="Disabled"
+                shortcut="⌘D"
+                disabled
+                onClick={() => addLog('Should not fire')}
+              />
+            </SidebarMenu>
+          </div>
+        </SidebarProvider>
+        {log.length > 0 && (
+          <div className="padding-12 bg-subtle rounded-md">
+            <p className="m-0 size-xs text-muted font-medium">Event Log</p>
+            {log.map((entry, i) => (
+              <p key={i} className="m-0 size-xs text-subtle">{entry}</p>
+            ))}
+          </div>
+        )}
+      </div>
     );
   },
 };

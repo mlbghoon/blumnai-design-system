@@ -6,6 +6,7 @@ import { Icon } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { Button } from '../button';
+import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 import type {
   DropdownMenuContentProps,
   DropdownMenuItemProps,
@@ -103,6 +104,22 @@ const DropdownMenuItem = React.forwardRef<
   onClick,
   ...props
 }, ref) => {
+  const internalRef = React.useRef<HTMLDivElement>(null);
+  const mergeRefs = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      internalRef.current = node;
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    },
+    [ref],
+  );
+
+  useKeyboardShortcut(
+    shortcut,
+    () => { internalRef.current?.click(); },
+    { enabled: !props.disabled },
+  );
+
   const isLarge = size === 'large';
   const effectiveIconColor = props.disabled
     ? 'default-disabled'
@@ -112,7 +129,7 @@ const DropdownMenuItem = React.forwardRef<
 
   return (
     <DropdownMenuPrimitive.Item
-      ref={ref}
+      ref={mergeRefs}
       className={cn(
         "relative flex cursor-default select-none items-center gap-8 rounded-sm padding-x-8 size-sm font-body line-height-leading-5 outline-none transition-colors",
         isLarge ? "padding-y-8" : "padding-y-6",
@@ -290,6 +307,22 @@ const DropdownMenuAvatar = React.forwardRef<HTMLDivElement, DropdownMenuAvatarPr
     onClick,
     ...props
   }, ref) => {
+    const internalRef = React.useRef<HTMLDivElement>(null);
+    const mergeRefs = React.useCallback(
+      (node: HTMLDivElement | null) => {
+        internalRef.current = node;
+        if (typeof ref === 'function') ref(node);
+        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      },
+      [ref],
+    );
+
+    useKeyboardShortcut(
+      shortcut,
+      () => { internalRef.current?.click(); },
+      { enabled: !disabled },
+    );
+
     const handleClick = () => {
       if (!disabled && onClick) {
         onClick();
@@ -307,7 +340,7 @@ const DropdownMenuAvatar = React.forwardRef<HTMLDivElement, DropdownMenuAvatarPr
 
     return (
       <div
-        ref={ref}
+        ref={mergeRefs}
         role="menuitem"
         tabIndex={disabled ? -1 : 0}
         aria-disabled={disabled}

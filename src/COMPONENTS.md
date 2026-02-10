@@ -8,7 +8,7 @@
 
 | Need | Component | Quick Example |
 |------|-----------|---------------|
-| Clickable action | `Button` | `<Button buttonStyle="primary">Save</Button>` |
+| Clickable action | `Button` | `<Button buttonStyle="primary" shortcut="⌘K">Save</Button>` |
 | Navigation link styled as button | `LinkButton` | `<LinkButton href="/page">Go</LinkButton>` |
 | Text input | `Input` | `<Input variant="default" label="Name" />` |
 | Password input | `Input` | `<Input variant="password" showStrength />` |
@@ -302,6 +302,9 @@ import { Form, FormField, FormControl, FormError } from '@blumnai/design-system'
 
 // Icons
 import { Icon } from '@blumnai/design-system';
+
+// Hooks
+import { useKeyboardShortcut, parseShortcut } from '@blumnai/design-system';
 
 // Styles (required in app entry)
 import '@blumnai/design-system/styles';

@@ -4,6 +4,7 @@ import * as ContextMenuPrimitive from '@radix-ui/react-context-menu';
 import { cn } from '@/lib/utils';
 import { Icon } from '../icons/Icon';
 import { Badge } from '../badge/Badge';
+import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 import type {
   ContextMenuContentProps,
   ContextMenuItemProps,
@@ -85,6 +86,22 @@ const ContextMenuItem = React.forwardRef<
   onClick,
   ...props
 }, ref) => {
+  const internalRef = React.useRef<HTMLDivElement>(null);
+  const mergeRefs = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      internalRef.current = node;
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    },
+    [ref],
+  );
+
+  useKeyboardShortcut(
+    shortcut,
+    () => { internalRef.current?.click(); },
+    { enabled: !props.disabled },
+  );
+
   const isLarge = size === 'large';
   const effectiveIconColor = props.disabled
     ? 'default-disabled'
@@ -94,7 +111,7 @@ const ContextMenuItem = React.forwardRef<
 
   return (
     <ContextMenuPrimitive.Item
-      ref={ref}
+      ref={mergeRefs}
       className={cn(
         "relative flex cursor-default select-none items-center gap-8 rounded-sm padding-x-8 size-sm font-body line-height-leading-5 outline-none transition-colors",
         isLarge ? "padding-y-8" : "padding-y-6",

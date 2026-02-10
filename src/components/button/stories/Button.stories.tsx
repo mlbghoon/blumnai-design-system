@@ -111,7 +111,7 @@ const meta: Meta<typeof Button> = {
     },
     shortcut: {
       control: 'text',
-      description: '키보드 단축키 표시 (예: "/", "⌘K")',
+      description: '키보드 단축키 뱃지 표시 및 전역 keydown 바인딩 (예: "/", "⌘K", "Ctrl+S")',
       table: {
         type: { summary: 'string' },
       },
@@ -329,6 +329,95 @@ export const WithShortcut: Story = {
       </div>
     </div>
   ),
+};
+
+/**
+ * 키보드 단축키 바인딩
+ *
+ * `shortcut` prop은 뱃지를 렌더링할 뿐만 아니라 실제 키보드 이벤트도 바인딩합니다.
+ * 아래 버튼의 단축키를 눌러 `onClick`이 실행되는 것을 확인하세요.
+ */
+export const KeyboardShortcutBinding: Story = {
+  render: function Render() {
+    const [log, setLog] = useState<string[]>([]);
+
+    const addLog = (message: string) => {
+      setLog((prev) => [`${new Date().toLocaleTimeString()} — ${message}`, ...prev.slice(0, 4)]);
+    };
+
+    return (
+      <div className="flex flex-col gap-16">
+        <p className="m-0 size-sm text-subtle">
+          shortcut prop은 뱃지 표시 + 전역 keydown 리스너를 자동 바인딩합니다.
+        </p>
+        <div className="flex flex-wrap gap-12 items-center">
+          <Button
+            buttonStyle="secondary"
+            leadIcon={['system', 'search']}
+            shortcut="/"
+            onClick={() => addLog('Search clicked (shortcut: /)')}
+          >
+            Search
+          </Button>
+          <Button
+            buttonStyle="secondary"
+            leadIcon={['system', 'add']}
+            shortcut="⌘K"
+            onClick={() => addLog('Command palette clicked (shortcut: ⌘K)')}
+          >
+            Command
+          </Button>
+          <Button
+            buttonStyle="primary"
+            shortcut="⌘J"
+            onClick={() => addLog('Join clicked (shortcut: ⌘J)')}
+          >
+            Join
+          </Button>
+          <Button
+            buttonStyle="secondary"
+            shortcut="⌘⇧K"
+            onClick={() => addLog('New panel clicked (shortcut: ⌘⇧K)')}
+          >
+            New Panel
+          </Button>
+        </div>
+        <div className="flex flex-wrap gap-12 items-center">
+          <Button
+            buttonStyle="secondary"
+            shortcut="Escape"
+            onClick={() => addLog('Cancel clicked (shortcut: Escape)')}
+          >
+            Cancel
+          </Button>
+          <Button
+            buttonStyle="secondary"
+            shortcut="⌘K"
+            disabled
+            onClick={() => addLog('This should not fire')}
+          >
+            Disabled (⌘K)
+          </Button>
+          <Button
+            buttonStyle="secondary"
+            shortcut="⌘K"
+            loading
+            onClick={() => addLog('This should not fire')}
+          >
+            Loading (⌘K)
+          </Button>
+        </div>
+        {log.length > 0 && (
+          <div className="padding-12 bg-subtle rounded-md">
+            <p className="m-0 size-xs text-muted font-medium">Event Log</p>
+            {log.map((entry, i) => (
+              <p key={i} className="m-0 size-xs text-subtle">{entry}</p>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  },
 };
 
 /**

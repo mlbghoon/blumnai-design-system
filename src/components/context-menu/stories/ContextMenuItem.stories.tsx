@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import {
@@ -470,4 +471,64 @@ export const IconColors: Story = {
       </ContextMenuContent>
     </ContextMenu>
   ),
+};
+
+/**
+ * 키보드 단축키 바인딩
+ *
+ * `shortcut` prop은 뱃지를 렌더링할 뿐만 아니라 전역 keydown 리스너도 바인딩합니다.
+ * 메뉴가 열려 있을 때 단축키를 누르면 해당 항목의 onClick이 실행됩니다.
+ */
+export const KeyboardShortcutBinding: Story = {
+  render: function Render() {
+    const [log, setLog] = useState<string[]>([]);
+
+    const addLog = (message: string) => {
+      setLog((prev) => [`${new Date().toLocaleTimeString()} — ${message}`, ...prev.slice(0, 4)]);
+    };
+
+    return (
+      <div className="flex flex-col gap-16">
+        <p className="m-0 size-sm text-subtle">
+          우클릭으로 메뉴를 열고 단축키를 눌러 onClick이 실행되는 것을 확인하세요.
+        </p>
+        <ContextMenu>
+          <ContextMenuTrigger className="flex height-[150px] width-[300px] items-center justify-center rounded-lg border border-dashed border-default bg-subtle size-sm font-body text-muted select-none">
+            우클릭하세요
+          </ContextMenuTrigger>
+          <ContextMenuContent width={220}>
+            <ContextMenuItem
+              leadIcon={['design', 'scissors']}
+              shortcut="⌘X"
+              onClick={() => addLog('Cut (⌘X)')}
+            >
+              Cut
+            </ContextMenuItem>
+            <ContextMenuItem
+              leadIcon={['document', 'file-copy']}
+              shortcut="⌘C"
+              onClick={() => addLog('Copy (⌘C)')}
+            >
+              Copy
+            </ContextMenuItem>
+            <ContextMenuItem
+              leadIcon={['document', 'clipboard']}
+              shortcut="⌘V"
+              onClick={() => addLog('Paste (⌘V)')}
+            >
+              Paste
+            </ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
+        {log.length > 0 && (
+          <div className="padding-12 bg-subtle rounded-md">
+            <p className="m-0 size-xs text-muted font-medium">Event Log</p>
+            {log.map((entry, i) => (
+              <p key={i} className="m-0 size-xs text-subtle">{entry}</p>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  },
 };

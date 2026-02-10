@@ -20,6 +20,7 @@ import { Button } from '@blumnai/design-system';
 | `disabled` | `boolean` | `false` | Disabled state |
 | `leadIcon` | `IconType` | - | Icon before text |
 | `tailIcon` | `IconType` | - | Icon after text |
+| `shortcut` | `string` | - | Keyboard shortcut badge + global keydown binding (e.g. `"/"`, `"⌘K"`, `"Ctrl+S"`) |
 
 ---
 
@@ -645,3 +646,61 @@ import { AvatarButton } from '@blumnai/design-system';
 | `name` | `string` | - | User name (fallback initials) |
 | `size` | `'sm'` `'md'` `'lg'` | `'md'` | Button size |
 | `showDropdown` | `boolean` | `false` | Show dropdown indicator |
+
+---
+
+## Hooks
+
+### useKeyboardShortcut
+
+```tsx
+import { useKeyboardShortcut } from '@blumnai/design-system';
+```
+
+Binds a global `keydown` listener for a keyboard shortcut string. Automatically integrated into `Button` via the `shortcut` prop — use this hook directly when you need shortcut binding without a Button.
+
+```ts
+useKeyboardShortcut(
+  shortcut: string | undefined | null,
+  handler: () => void,
+  options?: UseKeyboardShortcutOptions
+): void
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | `boolean` | `true` | Enable/disable the listener |
+| `ignoreInputFields` | `boolean` | `true` | Skip when focus is in input/textarea/select (only for non-modifier shortcuts) |
+| `preventDefault` | `boolean` | `true` | Call `preventDefault()` on matching keydown |
+
+**Supported shortcut formats:**
+
+| Format | Examples |
+|--------|----------|
+| Mac symbols | `⌘K`, `⌘⇧N`, `⌥A`, `⌃⇧P` |
+| Text notation | `Ctrl+S`, `Cmd+K`, `Alt+Shift+N` |
+| Single keys | `/`, `Escape`, `Enter` |
+
+**Symbol map:** `⌘` → meta, `⇧` → shift, `⌥` → alt, `⌃` → ctrl
+
+> **주의:** 브라우저가 예약한 단축키(`⌘W`, `⌘N`, `⌘T`, `⌘Q`, `⌘L`, `⌘⇧N`)는
+> `preventDefault()`로 차단할 수 없습니다. 이 단축키들은 사용을 피하세요.
+
+### parseShortcut
+
+```tsx
+import { parseShortcut } from '@blumnai/design-system';
+```
+
+Pure function that parses a shortcut string into a structured `ParsedShortcut` object.
+
+```ts
+interface ParsedShortcut {
+  key: string;        // lowercase, e.g. 'k', '/', 'escape'
+  meta: boolean;
+  ctrl: boolean;
+  shift: boolean;
+  alt: boolean;
+  hasModifier: boolean;
+}
+```

@@ -1,11 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
-import { forwardRef, isValidElement } from 'react';
+import { forwardRef, isValidElement, useRef, useCallback } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 
 import { Icon } from '../icons/Icon';
 import type { IconType } from '../icons/Icon/Icon.types';
 import { cn } from '../../lib/utils';
+import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 
 import type { ButtonProps, ButtonIconType, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape } from './Button.types';
 
@@ -114,6 +115,22 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   style,
   ...props
 }, ref) => {
+  const internalRef = useRef<HTMLButtonElement>(null);
+  const mergeRefs = useCallback(
+    (node: HTMLButtonElement | null) => {
+      internalRef.current = node;
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+    },
+    [ref],
+  );
+
+  useKeyboardShortcut(
+    shortcut,
+    () => { internalRef.current?.click(); },
+    { enabled: !disabled && !loading },
+  );
+
   const Comp = asChild ? Slot : 'button';
   const isIconOnly = variant === 'iconOnly';
   const isInvertedStyle = buttonStyle === 'primary' || buttonStyle === 'destructive';
@@ -210,7 +227,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 
   return (
     <Comp
-      ref={ref}
+      ref={mergeRefs}
       type={asChild ? undefined : type}
       disabled={asChild ? undefined : (disabled || loading)}
       aria-disabled={disabled || loading || undefined}

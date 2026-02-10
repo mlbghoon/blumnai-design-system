@@ -353,6 +353,10 @@
   background-color: var(--bg-state-destructive-loading);
 }
 
+.bg-state-destructive-soft {
+  background-color: var(--bg-state-destructive-soft);
+}
+
 .bg-state-brand {
   background-color: var(--bg-state-brand);
 }
@@ -1618,6 +1622,10 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .hover\:bg-state-destructive-hover:hover {
   background-color: var(--bg-state-destructive-hover);
+}
+
+.focus\:bg-state-destructive-soft:focus {
+  background-color: var(--bg-state-destructive-soft);
 }
 
 .hover\:bg-state-soft-hover:hover {

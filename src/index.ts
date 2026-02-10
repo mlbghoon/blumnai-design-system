@@ -582,6 +582,15 @@ export type {
 } from './components/dnd';
 
 // =============================================================================
+// HOOKS
+// =============================================================================
+export { useKeyboardShortcut } from './hooks/use-keyboard-shortcut';
+export type { UseKeyboardShortcutOptions } from './hooks/use-keyboard-shortcut';
+
+export { parseShortcut } from './hooks/keyboard-shortcut-parser';
+export type { ParsedShortcut } from './hooks/keyboard-shortcut-parser';
+
+// =============================================================================
 // UTILITIES
 // =============================================================================
 export { cn } from './lib/utils';

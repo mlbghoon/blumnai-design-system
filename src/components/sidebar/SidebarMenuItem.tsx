@@ -1,7 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import type * as React from 'react';
-import { forwardRef, isValidElement } from 'react';
+import { forwardRef, isValidElement, useRef, useCallback } from 'react';
 import { cva } from 'class-variance-authority';
+
+import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 
 import { Icon } from '../icons/Icon';
 import type { IconType } from '../icons/Icon/Icon.types';
@@ -93,13 +95,29 @@ const renderIcon = (icon: SidebarMenuItemIconType | React.ReactNode, size: numbe
 // Default variant component
 const DefaultMenuItem = forwardRef<HTMLButtonElement, SidebarMenuItemDefaultProps>(
   ({ icon, label, badge, shortcut, isActive, disabled, collapsed, tooltip, className, ...props }, ref) => {
+    const internalRef = useRef<HTMLButtonElement>(null);
+    const mergeRefs = useCallback(
+      (node: HTMLButtonElement | null) => {
+        internalRef.current = node;
+        if (typeof ref === 'function') ref(node);
+        else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
+      },
+      [ref],
+    );
+
+    useKeyboardShortcut(
+      shortcut,
+      () => { internalRef.current?.click(); },
+      { enabled: !disabled },
+    );
+
     const { state } = useSidebar();
     const isCollapsed = collapsed ?? state === 'collapsed';
 
     return (
       <ShadcnSidebarMenuItem>
         <SidebarMenuButton
-          ref={ref}
+          ref={mergeRefs}
           isActive={isActive}
           disabled={disabled}
           tooltip={tooltip || label}

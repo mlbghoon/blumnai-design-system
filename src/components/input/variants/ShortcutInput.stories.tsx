@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Input } from '../Input';
@@ -315,5 +316,33 @@ export const StateSuccess: Story = {
     placeholder: 'Search...',
     shortcut: '⌘K',
     success: 'Search indexed',
+  },
+};
+
+/**
+ * 키보드 단축키 바인딩
+ *
+ * `shortcut` prop은 뱃지를 렌더링할 뿐만 아니라 전역 keydown 리스너도 바인딩합니다.
+ * 단축키를 누르면 입력 필드가 포커스됩니다.
+ */
+export const KeyboardShortcutBinding: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('');
+
+    return (
+      <div className="flex flex-col gap-16 max-w-sm">
+        <p className="m-0 size-sm text-subtle">
+          ⌘K를 누르면 입력 필드가 포커스됩니다.
+        </p>
+        <Input
+          variant="shortcut"
+          label="Command Palette"
+          placeholder="Type a command..."
+          shortcut="⌘K"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+      </div>
+    );
   },
 };

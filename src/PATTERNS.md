@@ -629,6 +629,62 @@ function UploadExample() {
 
 ---
 
+## Keyboard Shortcuts
+
+### Button with Keyboard Binding
+
+The `shortcut` prop on Button both renders a visual badge and automatically binds a global `keydown` listener. When the user presses the key combo, `onClick` fires.
+
+```tsx
+import { Button } from '@blumnai/design-system';
+
+// Single key — ignored when focus is in an input field
+<Button shortcut="/" onClick={() => openSearch()}>Search</Button>
+
+// Modifier shortcut — always fires regardless of focus
+<Button shortcut="⌘K" onClick={() => openCommandPalette()}>Command</Button>
+<Button shortcut="⌘E" onClick={() => exportData()}>Export</Button>
+<Button shortcut="⌘⇧K" onClick={() => newPanel()}>New Panel</Button>
+
+// Disabled/loading buttons ignore shortcuts
+<Button shortcut="⌘K" disabled onClick={handler}>Won't fire</Button>
+<Button shortcut="⌘K" loading onClick={handler}>Won't fire</Button>
+```
+
+### Standalone Hook (without Button)
+
+```tsx
+import { useKeyboardShortcut } from '@blumnai/design-system';
+
+function CommandPalette() {
+  const [open, setOpen] = useState(false);
+
+  useKeyboardShortcut('⌘K', () => setOpen(true));
+
+  return open ? <Dialog>...</Dialog> : null;
+}
+```
+
+### Browser-Reserved Shortcuts
+
+브라우저가 예약한 단축키는 `preventDefault()`로 차단할 수 없습니다.
+이러한 단축키는 브라우저가 JavaScript에 이벤트를 전달하기 전에 처리합니다.
+
+**사용을 피해야 하는 단축키:**
+
+| Shortcut | Browser action |
+|----------|---------------|
+| `⌘W` / `Ctrl+W` | 탭 닫기 |
+| `⌘N` / `Ctrl+N` | 새 창 |
+| `⌘⇧N` / `Ctrl+Shift+N` | 시크릿 창 |
+| `⌘T` / `Ctrl+T` | 새 탭 |
+| `⌘Q` / `Ctrl+Q` | 브라우저 종료 |
+| `⌘L` / `Ctrl+L` | 주소창 포커스 |
+
+**안전한 단축키 예시:** `/`, `⌘K`, `⌘J`, `⌘E`, `⌘B`, `⌘⇧K`, `Escape`
+
+---
+
 ## Button Variants
 
 ```tsx
