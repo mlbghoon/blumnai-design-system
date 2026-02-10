@@ -8,6 +8,17 @@ import type {
   CollapsibleContentProps,
 } from './Collapsible.types';
 
+/**
+ * Collapsible 컴포넌트
+ *
+ * 접기/펼치기가 가능한 콘텐츠 영역입니다.
+ *
+ * @example
+ * <Collapsible>
+ *   <CollapsibleTrigger>열기</CollapsibleTrigger>
+ *   <CollapsibleContent>숨겨진 콘텐츠</CollapsibleContent>
+ * </Collapsible>
+ */
 const Collapsible = React.forwardRef<
   React.ElementRef<typeof CollapsiblePrimitive.Root>,
   CollapsibleProps

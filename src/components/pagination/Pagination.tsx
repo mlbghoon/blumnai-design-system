@@ -69,7 +69,7 @@ function getPageNumbers(
  * 페이지 번호, 점, 간단 모드를 지원하는 페이지네이션입니다.
  *
  * @example
- * <Pagination currentPage={1} totalPages={10} onPageChange={setPage} />
+ * <Pagination page={1} totalPages={10} onPageChange={setPage} />
  */
 export const Pagination = forwardRef<HTMLElement, PaginationProps>(
   (

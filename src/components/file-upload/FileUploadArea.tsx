@@ -31,7 +31,7 @@ const DEFAULT_DESCRIPTION = 'Up to 10 files, 100MB total limit';
  *
  * @example
  * <FileUploadArea
- *   accept={{ 'image/*': ['.png', '.jpg'] }}
+ *   accept="image/*,.pdf"
  *   maxFiles={5}
  *   onFilesSelected={handleFiles}
  * />

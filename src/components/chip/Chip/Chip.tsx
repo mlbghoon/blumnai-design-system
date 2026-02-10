@@ -9,7 +9,9 @@ import type { ChipProps, ChipShape, ChipStyle } from './Chip.types';
  * Chip 컴포넌트
  *
  * 작은 정보나 태그를 표시하는 컴포넌트입니다.
- * Figma 디자인을 기반으로 구현되었습니다.
+ *
+ * @example
+ * <Chip label="Tag" size="md" style="default" />
  */
 export const Chip = forwardRef<HTMLDivElement, ChipProps>(
   (
