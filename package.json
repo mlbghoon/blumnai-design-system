@@ -1,6 +1,6 @@
 {
   "name": "@mbisolution/blumnai-design-system",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "private": false,
   "type": "module",
   "main": "./dist/index.cjs",
@@ -202,8 +202,17 @@
   "files": [
     "dist",
     "AI.md",
-    "README.md"
+    "README.md",
+    "skills"
   ],
+  "agents": {
+    "skills": [
+      {
+        "name": "blumnai-design-system",
+        "path": "./skills/blumnai-design-system"
+      }
+    ]
+  },
   "sideEffects": [
     "*.css",
     "dist/*.css"
@@ -211,7 +220,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:lib": "npm run prebuild:lib && vite build --mode lib && tsc --project tsconfig.lib.json && tsc-alias --project tsconfig.lib.json && node scripts/clean-dist-icon-dts.mjs",
+    "build:lib": "npm run prebuild:lib && vite build --mode lib && tsc --project tsconfig.lib.json && tsc-alias --project tsconfig.lib.json && node scripts/clean-dist-icon-dts.mjs && node scripts/strip-css-layers.mjs",
     "prebuild:lib": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",

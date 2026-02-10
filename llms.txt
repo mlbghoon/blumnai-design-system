@@ -1,0 +1,18 @@
+# Blumnai Design System
+
+> React component library with 40+ components, 4 themes, and accessibility support. Package: @mbisolution/blumnai-design-system
+
+## Documentation
+
+- [AI Reference](AI.md): Complete component catalog, props, and patterns for AI agents
+- [README](README.md): Installation, setup, and usage guide
+- [Contributing](CONTRIBUTING.md): Development setup, coding standards, and project structure
+
+## Key Files
+
+- [CLAUDE.md](CLAUDE.md): AI agent development instructions (typography, spacing, color rules)
+- [Package Config](package.json): Exports, dependencies, and subpath configuration
+
+## Optional
+
+- [Workflow Report](AI-WORKFLOW-REPORT.md): AI-assisted development methodology documentation

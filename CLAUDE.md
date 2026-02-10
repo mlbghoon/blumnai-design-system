@@ -892,6 +892,20 @@ export const AllSizes: Story = {
 };
 ```
 
+## CSS Layers — Intentionally Unlayered (CRITICAL)
+
+The design system's built CSS (`dist/blumnai-design-system.css`) is **intentionally unlayered**. A post-build script (`scripts/strip-css-layers.mjs`) removes all `@layer` wrappers emitted by Tailwind v4.
+
+### Why
+
+Per the CSS spec, **unlayered CSS always beats layered CSS** regardless of specificity or source order. If the design system shipped its utilities inside `@layer`, any consuming project with broad unlayered rules (e.g., `button { cursor: pointer }`) would override design system classes like `.cursor-wait`.
+
+### For consuming projects
+
+- Avoid broad element selectors (`button {}`, `svg {}`, `a {}`) that compete with utility classes. Scope them with a class or use `@layer` in your own CSS.
+- If your project uses `@layer`, the design system's unlayered CSS will automatically have higher priority — no extra configuration needed.
+- If you must use element selectors globally, place them inside a `@layer base { ... }` block so the design system utilities take precedence.
+
 ## CSS/Styling Guidelines
 
 When fixing CSS or styling issues, always analyze the existing styles and their interactions before proposing changes. Never remove styles (like `border-bottom`) unless explicitly requested — existing styles may be intentional and removing them can break dependent visual behavior.

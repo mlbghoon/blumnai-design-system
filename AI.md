@@ -254,8 +254,14 @@ import { Button } from '@mbisolution/blumnai-design-system';
 | `fullWidth` | `boolean` | `false` | Full container width |
 | `loading` | `boolean` | `false` | Show loading spinner |
 | `disabled` | `boolean` | `false` | Disabled state |
+| `width` | `string \| number` | - | Custom width (e.g., `120`, `'200px'`) |
 | `leadIcon` | `IconType` | - | Icon before text |
 | `tailIcon` | `IconType` | - | Icon after text |
+
+> **Tip:** When using `loading`, always set `width` to prevent the button from shrinking when the label is replaced by a spinner.
+> ```tsx
+> <Button loading={isSaving} width={120}>Save</Button>
+> ```
 
 ### Input
 
@@ -858,7 +864,7 @@ import { Button } from '@mbisolution/blumnai-design-system';
 <Button size="lg">Large</Button>
 
 <Button leadIcon={['system', 'add']}>추가</Button>
-<Button loading>저장 중...</Button>
+<Button loading width={120}>저장 중...</Button>
 <Button fullWidth>전체 너비</Button>
 ```
 

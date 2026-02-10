@@ -73,7 +73,11 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   shortcut?: string;
   /**
    * If true, the button shows a loading state.
+   * When using `loading`, also set the `width` prop to prevent the button
+   * from shrinking when the label is replaced by a spinner.
    * @default false
+   * @example
+   * <Button loading width={120}>Save</Button>
    */
   loading?: boolean;
   /**

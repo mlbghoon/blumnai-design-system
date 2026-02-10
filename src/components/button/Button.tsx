@@ -138,6 +138,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     ? { width: getWidthValue(width) }
     : undefined;
 
+  const isTextOnlyLoading = loading && !isIconOnly && !leadIcon && !tailIcon;
+
   const containerClassName = cn(
     buttonVariants({ size, shape }),
     !disabled && !loading && BUTTON_COLOR_STYLE[buttonStyle],
@@ -145,6 +147,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     loading && LOADING_STYLE[buttonStyle],
     isIconOnly && iconOnlySizeVariants({ size }),
     isIconOnly && 'aspect-square padding-0',
+    isTextOnlyLoading && 'relative',
     fullWidth && !isIconOnly && 'w-full',
     className
   );
@@ -235,12 +238,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
             {renderLoadingSpinner()}
           </>
         ) : (
-          <span className="relative inline-flex items-center">
+          <>
             <span className="invisible">{children}</span>
             <span className="absolute inset-0 flex items-center justify-center">
               {renderLoadingSpinner()}
             </span>
-          </span>
+          </>
         )
       ) : (
         <>

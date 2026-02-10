@@ -171,6 +171,32 @@ export const Default: Story = {
   parameters: {
     controls: { disable: false },
   },
+  render: function Render(args) {
+    const isValidIcon = (icon: unknown): icon is [string, string] | [string, string, boolean] =>
+      Array.isArray(icon) && icon.length >= 2 && typeof icon[0] === 'string' && icon[0] !== '' && typeof icon[1] === 'string' && icon[1] !== '';
+    const leadIcon = isValidIcon(args.leadIcon) ? args.leadIcon : undefined;
+    const tailIcon = isValidIcon(args.tailIcon) ? args.tailIcon : undefined;
+
+    return (
+      <Button
+        buttonStyle={args.buttonStyle}
+        variant={args.variant}
+        size={args.size}
+        shape={args.shape}
+        leadIcon={leadIcon}
+        tailIcon={tailIcon}
+        shortcut={args.shortcut || undefined}
+        loading={args.loading}
+        disabled={args.disabled}
+        fullWidth={args.fullWidth}
+        width={args.width || undefined}
+        asChild={args.asChild}
+        onClick={args.onClick}
+      >
+        {args.children}
+      </Button>
+    );
+  },
 };
 
 /**
@@ -349,7 +375,7 @@ export const LoadingState: Story = {
             loading={loadingStates['textOnly']}
             onClick={() => handleClick('textOnly')}
           >
-            Text Only
+            Text OnlyText OnlyText Only
           </Button>
           <Button
             leadIcon={['system', 'add']}
