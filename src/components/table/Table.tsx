@@ -18,6 +18,17 @@ import type {
 
 const defaultLimitOptionLabel = (limit: number) => `${limit}개씩 보기`;
 
+/**
+ * Table 컴포넌트
+ *
+ * HTML 테이블 기반의 컴포넌트입니다. 페이지네이션, 스크롤/고정 헤더, 로딩 상태를 지원합니다.
+ *
+ * @example
+ * <Table>
+ *   <TableHeader><TableRow><TableHead>이름</TableHead></TableRow></TableHeader>
+ *   <TableBody><TableRow><TableCell>홍길동</TableCell></TableRow></TableBody>
+ * </Table>
+ */
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
   (
     {

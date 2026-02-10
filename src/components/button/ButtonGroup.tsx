@@ -23,6 +23,14 @@ const BUTTON_PADDING = {
   lg: { iconOnly: 'min-w-10 min-h-10', default: 'min-h-10 padding-x-14 padding-y-10' },
 } as const;
 
+/**
+ * ButtonGroup 컴포넌트
+ *
+ * 관련 버튼들을 그룹으로 묶어 표시하는 컴포넌트입니다.
+ *
+ * @example
+ * <ButtonGroup items={[{ label: "A" }, { label: "B" }]} size="md" />
+ */
 export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
   ({ items, size = 'md', className }, ref) => {
     const currentSize = SIZE_STYLES[size];

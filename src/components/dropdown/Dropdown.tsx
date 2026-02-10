@@ -23,6 +23,19 @@ import type {
   DropdownMenuSearchProps,
 } from './Dropdown.types';
 
+/**
+ * DropdownMenu 컴포넌트
+ *
+ * 드롭다운 메뉴입니다. DropdownMenuTrigger, DropdownMenuContent와 함께 사용합니다.
+ *
+ * @example
+ * <DropdownMenu>
+ *   <DropdownMenuTrigger asChild><Button>메뉴</Button></DropdownMenuTrigger>
+ *   <DropdownMenuContent>
+ *     <DropdownMenuItem>항목 1</DropdownMenuItem>
+ *   </DropdownMenuContent>
+ * </DropdownMenu>
+ */
 const DropdownMenu = DropdownMenuPrimitive.Root;
 
 const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;

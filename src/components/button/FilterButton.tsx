@@ -53,6 +53,14 @@ const DISABLED_STYLE = {
   iconColor: 'var(--icon-default-disabled)',
 } as const;
 
+/**
+ * FilterButton 컴포넌트
+ *
+ * 필터 토글 버튼입니다. 선택 상태와 활성 필터 수를 배지로 표시합니다.
+ *
+ * @example
+ * <FilterButton selected={hasFilters} count={3}>필터</FilterButton>
+ */
 export const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(({
   size = 'md',
   shape = 'rounded',

@@ -62,6 +62,14 @@ const findMatchingPresetIndex = (
 /**
  * 단일 날짜 선택 컴포넌트
  */
+/**
+ * DatePicker 컴포넌트
+ *
+ * 캘린더 기반 날짜 선택 컴포넌트입니다. 빠른 선택 프리셋을 지원합니다.
+ *
+ * @example
+ * <DatePicker value={date} onChange={setDate} label="날짜 선택" />
+ */
 export const DatePicker = ({
   datePickerStyle = 'default',
   size = 'sm',
@@ -194,6 +202,14 @@ export const DatePicker = ({
 
 /**
  * 날짜 범위 선택 컴포넌트
+ */
+/**
+ * DateRangePicker 컴포넌트
+ *
+ * 시작일~종료일 범위를 선택하는 날짜 범위 선택 컴포넌트입니다.
+ *
+ * @example
+ * <DateRangePicker value={range} onChange={setRange} label="기간 선택" />
  */
 export const DateRangePicker = ({
   datePickerStyle = 'default',

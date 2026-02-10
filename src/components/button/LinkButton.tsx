@@ -42,6 +42,14 @@ const DISABLED_STYLE = {
   iconColor: 'var(--icon-default-disabled)',
 } as const;
 
+/**
+ * LinkButton 컴포넌트
+ *
+ * 텍스트 링크 스타일의 네비게이션 버튼입니다.
+ *
+ * @example
+ * <LinkButton href="/page" label="페이지 이동" />
+ */
 export const LinkButton = forwardRef<HTMLElement, LinkButtonProps>(({
   linkType = 'default',
   size = 'md',

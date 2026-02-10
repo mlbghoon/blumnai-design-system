@@ -12,6 +12,14 @@ const DEFAULT_QUICK_OPTIONS: QuickSelectOption[] = [
   { label: '5:00 PM', value: { hour: 17, minute: 0 } },
 ];
 
+/**
+ * TimePicker 컴포넌트
+ *
+ * 12시간/24시간 형식을 지원하는 시간 선택 컴포넌트입니다.
+ *
+ * @example
+ * <TimePicker value={time} onChange={setTime} timeFormat="24h" label="시간 선택" />
+ */
 export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
   value,
   onChange,

@@ -38,6 +38,14 @@ const DISABLED_STYLE = {
   soft: 'bg-muted text-hint border-none cursor-not-allowed',
 } as const;
 
+/**
+ * AvatarButton 컴포넌트
+ *
+ * 아바타가 포함된 사용자 프로필 버튼입니다. 드롭다운 표시를 지원합니다.
+ *
+ * @example
+ * <AvatarButton avatar="/avatar.jpg" alt="홍길동" showDropdown />
+ */
 export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
   buttonStyle = 'default',
   size = 'lg',

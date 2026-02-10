@@ -31,6 +31,17 @@ const TabsContext = React.createContext<TabsContextValue>({
 
 const useTabsContext = () => React.useContext(TabsContext);
 
+/**
+ * Tabs 컴포넌트
+ *
+ * 탭 기반 콘텐츠 전환 컴포넌트입니다. TabsList, TabsTrigger, TabsContent와 함께 사용합니다.
+ *
+ * @example
+ * <Tabs defaultValue="tab1">
+ *   <TabsList><TabsTrigger value="tab1">탭 1</TabsTrigger></TabsList>
+ *   <TabsContent value="tab1">내용</TabsContent>
+ * </Tabs>
+ */
 const Tabs = TabsPrimitive.Root;
 
 const UNDERLINE_LIST_SIZE_STYLES = {

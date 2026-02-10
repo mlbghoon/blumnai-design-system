@@ -14,6 +14,14 @@ import { ScrollArea } from '../scroll-area';
 import { calculateStickyPositions } from './utils/stickyColumnUtils';
 import type { DataGridProps } from './DataGrid.types';
 
+/**
+ * DataGrid 컴포넌트
+ *
+ * TanStack Table 기반의 데이터 그리드입니다. 정렬, 필터, 페이지네이션, 행 선택을 지원합니다.
+ *
+ * @example
+ * <DataGrid columns={columns} data={data} enableSorting enableRowSelection />
+ */
 function DataGridInner<T>(
   {
     data,

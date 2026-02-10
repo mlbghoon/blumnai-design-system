@@ -53,6 +53,14 @@ const STYLE_CONFIG = {
 
 const DISABLED_STYLE = 'bg-transparent cursor-not-allowed';
 
+/**
+ * ControlButton 컴포넌트
+ *
+ * 아이콘만 표시되는 컴팩트 액션 버튼입니다.
+ *
+ * @example
+ * <ControlButton icon={['system', 'edit']} size="md" />
+ */
 export const ControlButton = forwardRef<HTMLButtonElement, ControlButtonProps>(({
   buttonStyle = 'default',
   size = 'md',

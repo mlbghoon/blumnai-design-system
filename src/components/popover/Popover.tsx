@@ -9,6 +9,17 @@ import type {
   PopoverArrowProps,
 } from './Popover.types';
 
+/**
+ * Popover 컴포넌트
+ *
+ * 클릭으로 열리는 플로팅 콘텐츠 컨테이너입니다. PopoverTrigger, PopoverContent와 함께 사용합니다.
+ *
+ * @example
+ * <Popover>
+ *   <PopoverTrigger asChild><span><Button>열기</Button></span></PopoverTrigger>
+ *   <PopoverContent>내용</PopoverContent>
+ * </Popover>
+ */
 const Popover = PopoverPrimitive.Root;
 
 const PopoverTrigger = PopoverPrimitive.Trigger;

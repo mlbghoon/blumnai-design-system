@@ -29,6 +29,14 @@ const IndeterminateIcon = ({ color = 'currentColor' }: { color?: string }) => (
   />
 );
 
+/**
+ * Checkbox 컴포넌트
+ *
+ * 라벨, 설명, 비확정(indeterminate) 상태를 지원하는 체크박스입니다.
+ *
+ * @example
+ * <Checkbox label="이용약관 동의" checked={checked} onCheckedChange={setChecked} />
+ */
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   CheckboxProps

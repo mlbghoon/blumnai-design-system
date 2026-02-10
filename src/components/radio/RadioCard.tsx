@@ -17,6 +17,16 @@ const RadioIndicator = ({ color = 'currentColor' }: { color?: string }) => (
   </svg>
 );
 
+/**
+ * RadioCard 컴포넌트
+ *
+ * 카드 형태의 라디오 버튼입니다. RadioGroup 안에서 사용합니다.
+ *
+ * @example
+ * <RadioGroup value={value} onValueChange={setValue}>
+ *   <RadioCard value="a" title="옵션 A" description="설명" />
+ * </RadioGroup>
+ */
 const RadioCard = React.forwardRef<HTMLLabelElement, RadioCardProps>(
   (
     {

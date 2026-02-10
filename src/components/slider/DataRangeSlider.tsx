@@ -5,6 +5,14 @@ import { cn } from '@/lib/utils';
 import type { DataRangeSliderProps } from './Slider.types';
 import { SliderThumb, SliderTrack, SliderRangeFilled, SliderChart, SliderTicks } from './shared';
 
+/**
+ * DataRangeSlider 컴포넌트
+ *
+ * 데이터 분포 차트가 포함된 범위 슬라이더입니다.
+ *
+ * @example
+ * <DataRangeSlider data={data} value={[20, 80]} onChange={setRange} />
+ */
 const DataRangeSlider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   DataRangeSliderProps

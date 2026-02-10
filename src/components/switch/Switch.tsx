@@ -21,6 +21,14 @@ const getActiveHoverStyle = (color: SwitchColor): React.CSSProperties | undefine
   return { backgroundColor: `var(--bg-basic-${color}-strong)` };
 };
 
+/**
+ * Switch 컴포넌트
+ *
+ * 켜기/끄기 토글 스위치입니다. 라벨, 설명, 다양한 색상을 지원합니다.
+ *
+ * @example
+ * <Switch label="알림 활성화" checked={enabled} onCheckedChange={setEnabled} />
+ */
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Root>,
   SwitchProps

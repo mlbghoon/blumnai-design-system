@@ -24,6 +24,14 @@ const DEFAULT_QUICK_OPTIONS: QuickRangeSelectOption[] = [
   },
 ];
 
+/**
+ * TimeRangePicker 컴포넌트
+ *
+ * 시작~종료 시간 범위를 선택하는 컴포넌트입니다. 빠른 선택 옵션을 지원합니다.
+ *
+ * @example
+ * <TimeRangePicker value={range} onChange={setRange} showQuickSelect />
+ */
 export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(({
   value,
   onChange,

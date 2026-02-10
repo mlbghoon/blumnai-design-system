@@ -33,6 +33,18 @@ const useDialogContext = () => {
   return context;
 };
 
+/**
+ * Dialog 컴포넌트
+ *
+ * 모달 다이얼로그입니다. DialogContent, DialogHeader, DialogFooter와 함께 사용합니다.
+ *
+ * @example
+ * <Dialog open={open} onOpenChange={setOpen}>
+ *   <DialogContent>
+ *     <DialogHeader><DialogTitle>제목</DialogTitle></DialogHeader>
+ *   </DialogContent>
+ * </Dialog>
+ */
 const Dialog = ({ children, open, onOpenChange, defaultOpen, ...props }: DialogProps) => {
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen ?? false);
   const [isPending, setIsPending] = React.useState(false);

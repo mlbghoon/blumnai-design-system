@@ -24,6 +24,18 @@ const DEFAULT_TITLE = 'Drop your files here, or';
 const DEFAULT_CLICK_TEXT = 'click to browse';
 const DEFAULT_DESCRIPTION = 'Up to 10 files, 100MB total limit';
 
+/**
+ * FileUploadArea 컴포넌트
+ *
+ * 드래그 앤 드롭 파일 업로드 영역입니다. 파일 타입/크기 제한을 지원합니다.
+ *
+ * @example
+ * <FileUploadArea
+ *   accept={{ 'image/*': ['.png', '.jpg'] }}
+ *   maxFiles={5}
+ *   onFilesSelected={handleFiles}
+ * />
+ */
 export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
   onFilesSelected,
   onDragEnter,
