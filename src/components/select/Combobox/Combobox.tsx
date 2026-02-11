@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { Command as CommandPrimitive } from 'cmdk';
-import { Plus, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../../input/shared/InputWrapper';
@@ -684,7 +683,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                           onClick={handleScrollUp}
                           className="sticky top-0 z-10 flex w-full cursor-default items-center justify-center padding-y-4 bg-card"
                         >
-                          <ChevronUp className="height-16 width-16 text-muted" />
+                          <Icon iconType={['arrows', 'arrow-drop-up']} size={16} color="default-muted" />
                         </button>
                       )}
                       <div className="padding-4">
@@ -706,7 +705,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                           onClick={handleScrollDown}
                           className="sticky bottom-0 z-10 flex w-full cursor-default items-center justify-center padding-y-4 bg-card"
                         >
-                          <ChevronDown className="height-16 width-16 text-muted" />
+                          <Icon iconType={['arrows', 'arrow-drop-down']} size={16} color="default-muted" />
                         </button>
                       )}
                     </div>
@@ -723,11 +722,11 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                           'outline-none focus:bg-state-ghost-hover'
                         )}
                       >
-                        <Plus className="width-16 height-16 text-muted" />
+                        <Icon iconType={['system', 'add']} size={16} color="default-muted" />
                         <span className="flex-1 text-left size-sm font-body text-default">
                           {getCreateText()}
                         </span>
-                        <ChevronRight className="width-16 height-16 text-muted" />
+                        <Icon iconType={['arrows', 'arrow-drop-right']} size={16} color="default-muted" />
                       </button>
                     </div>
                   )}

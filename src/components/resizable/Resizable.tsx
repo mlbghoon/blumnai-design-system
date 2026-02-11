@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
-import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { Icon } from '@/components/icons/Icon';
 import type {
   ResizablePanelGroupProps,
   ResizablePanelProps,
@@ -42,14 +42,14 @@ const CollapseButton = ({
   const getIcon = () => {
     if (orientation === 'horizontal') {
       if (direction === 'before') {
-        return isCollapsed ? <ChevronRight className="width-12 height-12" /> : <ChevronLeft className="width-12 height-12" />;
+        return isCollapsed ? <Icon iconType={['arrows', 'arrow-drop-right']} size={12} /> : <Icon iconType={['arrows', 'arrow-drop-left']} size={12} />;
       }
-      return isCollapsed ? <ChevronLeft className="width-12 height-12" /> : <ChevronRight className="width-12 height-12" />;
+      return isCollapsed ? <Icon iconType={['arrows', 'arrow-drop-left']} size={12} /> : <Icon iconType={['arrows', 'arrow-drop-right']} size={12} />;
     }
     if (direction === 'before') {
-      return isCollapsed ? <ChevronDown className="width-12 height-12" /> : <ChevronUp className="width-12 height-12" />;
+      return isCollapsed ? <Icon iconType={['arrows', 'arrow-drop-down']} size={12} /> : <Icon iconType={['arrows', 'arrow-drop-up']} size={12} />;
     }
-    return isCollapsed ? <ChevronUp className="width-12 height-12" /> : <ChevronDown className="width-12 height-12" />;
+    return isCollapsed ? <Icon iconType={['arrows', 'arrow-drop-up']} size={12} /> : <Icon iconType={['arrows', 'arrow-drop-down']} size={12} />;
   };
 
   const getPositionStyles = (): React.CSSProperties | undefined => {

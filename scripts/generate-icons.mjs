@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 
 /**
- * Generate TSX icon component files from SVG source files.
- * 
+ * Generate consolidated TSX icon component files from SVG source files.
+ *
  * This script:
  * 1. Scans src/icons/svg-source/ for SVG files
  * 2. Converts kebab-case filenames to PascalCase component names
- * 3. Generates TSX component files following the current pattern
- * 4. Generates index.ts files for each category
- * 5. Updates main src/icons/index.ts
+ * 3. Generates ONE consolidated TSX file per category (e.g., arrows.tsx)
+ * 4. Updates main src/icons/index.ts
  */
 
 import fs from 'node:fs';
@@ -29,16 +28,16 @@ const SVG_SOURCE_DIR = path.join(ROOT, 'src', 'icons', 'svg-source');
 function kebabCaseToComponentName(kebabName) {
   // Remove .svg extension if present
   let baseName = kebabName.replace(/\.svg$/, '');
-  
+
   // First, split by hyphens
   const parts = baseName.split('-');
-  
+
   // Process each part, handling cases where numbers/letters are concatenated
   const processedParts = parts.map(part => {
     // Handle parts that contain numbers followed by letters (e.g., "diagonal2fill" -> ["diagonal", "2fill"])
     // Split on boundary between letter and number, or number and letter
     const subParts = part.split(/(?<=[a-z])(?=\d)|(?<=\d)(?=[a-z])/i);
-    
+
     return subParts.map(subPart => {
       // Handle numbers at the start (e.g., "2" -> "2", "2fill" -> "2Fill")
       if (/^\d/.test(subPart)) {
@@ -57,7 +56,7 @@ function kebabCaseToComponentName(kebabName) {
       return subPart.charAt(0).toUpperCase() + subPart.slice(1);
     }).join('');
   });
-  
+
   // Capitalize first letter of each part and join
   const pascalCase = processedParts
     .map(part => {
@@ -68,7 +67,7 @@ function kebabCaseToComponentName(kebabName) {
       return part.charAt(0).toUpperCase() + part.slice(1);
     })
     .join('');
-  
+
   // Add "Icon" suffix
   return pascalCase + 'Icon';
 }
@@ -101,20 +100,20 @@ function convertSVGAttributesToReact(svgContent) {
     'text-transform': 'textTransform',
     'xml:space': 'xmlSpace',
   };
-  
+
   let converted = svgContent;
-  
+
   // Replace kebab-case attributes with camelCase
   for (const [kebab, camel] of Object.entries(attributeMap)) {
     // Match attribute="value" or attribute='value'
     const regex = new RegExp(`\\s${kebab}="([^"]*)"`, 'gi');
     converted = converted.replace(regex, ` ${camel}="$1"`);
-    
+
     // Also handle single quotes
     const regexSingle = new RegExp(`\\s${kebab}='([^']*)'`, 'gi');
     converted = converted.replace(regexSingle, ` ${camel}='$1'`);
   }
-  
+
   return converted;
 }
 
@@ -125,44 +124,31 @@ function convertSVGAttributesToReact(svgContent) {
  * @returns {string} - SVG content with normalized IDs
  */
 function normalizeSVGIds(svgContent, componentName) {
-  // Find all IDs in the SVG (e.g., id="FlagADIcon__clip0_..." or url(#FlagADIcon__clip0_...))
-  // These IDs might have different casing than the component name
-  // We need to replace them with the component name to ensure they match
-  
-  // Pattern to match IDs: FlagADIcon__clip0_3811_32411 or similar
-  // Match any pattern that looks like a component name (starts with capital, contains Icon) followed by __
-  // This pattern matches: ComponentName__suffix
   const idPattern = /([A-Z][a-zA-Z0-9]*Icon)__([a-zA-Z0-9_]+)/g;
-  
+
   let normalized = svgContent;
-  
-  // Find all unique old IDs that need to be replaced
-  const oldIds = new Map(); // Map oldId -> suffix
+
+  const oldIds = new Map();
   let match;
-  
-  // Reset regex lastIndex to ensure we search from the beginning
+
   idPattern.lastIndex = 0;
   while ((match = idPattern.exec(svgContent)) !== null) {
-    const fullMatch = match[0]; // e.g., "FlagADIcon__clip0_3811_32411"
-    const suffix = match[2]; // e.g., "clip0_3811_32411"
+    const fullMatch = match[0];
+    const suffix = match[2];
     if (!oldIds.has(fullMatch)) {
       oldIds.set(fullMatch, suffix);
     }
   }
-  
-  // Replace all occurrences of old ID patterns with component name
+
   for (const [oldId, suffix] of oldIds) {
-    const newId = `${componentName}__${suffix}`; // e.g., "FlagAdIcon__clip0_3811_32411"
-    
-    // Escape special regex characters in oldId for use in regex
+    const newId = `${componentName}__${suffix}`;
+
     const escapedOldId = oldId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    
-    // Replace in id="..." attributes
+
     normalized = normalized.replace(new RegExp(`id="${escapedOldId}"`, 'g'), `id="${newId}"`);
-    // Replace in url(#...) references (handle both clip-path and clipPath)
     normalized = normalized.replace(new RegExp(`url\\(#${escapedOldId}\\)`, 'g'), `url(#${newId})`);
   }
-  
+
   return normalized;
 }
 
@@ -175,121 +161,50 @@ function normalizeSVGIds(svgContent, componentName) {
 function normalizeSVG(svgContent, componentName) {
   let normalized = svgContent.trim();
 
-  // Ensure viewBox is present
   if (!normalized.includes('viewBox=')) {
     console.warn('Warning: SVG missing viewBox attribute');
   }
-  
-  // Ensure xmlns is present
-  if (!normalized.includes('xmlns=')) {
-    normalized = normalized.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
-  }
-  
-  // Fix clipPath rect elements that are missing width/height BEFORE removing width/height
-  // Extract viewBox dimensions if available
+
+  normalized = normalized.replace(/\s*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/, '');
+
   const viewBoxMatch = normalized.match(/viewBox="([^"]+)"/);
   if (viewBoxMatch) {
     const viewBox = viewBoxMatch[1].split(/\s+/);
     if (viewBox.length >= 4) {
       const width = viewBox[2];
       const height = viewBox[3];
-      // Replace <rect fill="white"/> with proper dimensions in clipPath
-      // Match rect elements that only have fill="white" attribute (self-closing or not)
-      // This needs to happen before we remove width/height from root SVG
       normalized = normalized.replace(
         /<rect\s+fill="white"\s*\/?>/g,
         `<rect width="${width}" height="${height}" fill="white"/>`
       );
     }
   }
-  
-  // Remove width/height attributes from root SVG (handled by Icon component)
-  // But preserve width/height in clipPath rects (they were just added above)
+
   normalized = normalized.replace(/<svg([^>]*)\s+width="[^"]*"/gi, '<svg$1');
   normalized = normalized.replace(/<svg([^>]*)\s+height="[^"]*"/gi, '<svg$1');
-  
-  // Convert SVG kebab-case attributes to React camelCase
+
   normalized = convertSVGAttributesToReact(normalized);
-  
-  // Normalize IDs to match component name (fixes casing mismatches)
+
   normalized = normalizeSVGIds(normalized, componentName);
-  
-  // Note: We preserve fill attributes on child elements (paths, circles, etc.)
-  // as they may be needed for outline icons (fill="none"), brand icons (fill="black"),
-  // or file icons (which have their original colors from Figma - red, blue, green, purple, etc.)
-  // The Icon component will handle fill on the root SVG element
-  
+
   return normalized;
 }
 
 /**
- * Generate TSX component file content
- * @param {string} componentName - Component name (e.g., "ArrowDownIcon")
- * @param {string} svgContent - Normalized SVG content
- * @returns {string} - TSX file content
- */
-function generateComponentContent(componentName, svgContent) {
-  return `// This file is auto-generated. Do not edit manually.
-import type { Props } from '../../IconWrapper.types';
-
-import { Icon } from '../../IconWrapper';
-
-export const ${componentName} = (props: Props) => {
-  return (
-    <Icon {...props}>
-      ${svgContent}
-    </Icon>
-  );
-};
-`;
-}
-
-/**
- * Generate index.ts file content for a category
- * @param {string[]} componentNames - Array of component names
- * @returns {string} - Index file content
- */
-function generateIndexContent(componentNames) {
-  const exports = componentNames
-    .sort()
-    .map(name => `export { ${name} } from './${name}';`)
-    .join('\n');
-  
-  return `${exports}
-`;
-}
-
-/**
- * Process a single SVG file
+ * Process a single SVG file and return its data (without writing to disk)
  * @param {string} svgFilePath - Path to SVG file
- * @param {string} category - Category name
- * @returns {string|null} - Component name, or null on error
+ * @returns {{componentName: string, svgContent: string}|null}
  */
-function processSVGFile(svgFilePath, category) {
+function processSVGFile(svgFilePath) {
   try {
     const svgContent = fs.readFileSync(svgFilePath, 'utf-8');
-    
-    // Get filename without extension and convert to component name
+
     const fileName = path.basename(svgFilePath, '.svg');
     const componentName = kebabCaseToComponentName(fileName);
-    
-    // Normalize SVG (pass componentName for ID normalization)
+
     const normalizedSVG = normalizeSVG(svgContent, componentName);
-    
-    // Generate TSX file
-    const componentContent = generateComponentContent(componentName, normalizedSVG);
-    const outputDir = path.join(ICONS_OUTPUT_DIR, category);
-    const outputPath = path.join(outputDir, `${componentName}.tsx`);
-    
-    // Ensure output directory exists
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-    
-    // Write TSX file
-    fs.writeFileSync(outputPath, componentContent, 'utf-8');
-    
-    return componentName;
+
+    return { componentName, svgContent: normalizedSVG };
   } catch (error) {
     console.error(`❌ Error processing ${svgFilePath}:`, error.message);
     return null;
@@ -325,72 +240,99 @@ function getCategoryDirectories() {
 }
 
 /**
- * Clean old TSX files from a category directory (except index.ts)
+ * Clean old category directory (remove subdirectory entirely) and old .tsx file
  * @param {string} category - Category name
  */
-function cleanCategoryDirectory(category) {
+function cleanCategory(category) {
+  // Remove old subdirectory (individual files pattern)
   const categoryDir = path.join(ICONS_OUTPUT_DIR, category);
-  
-  if (!fs.existsSync(categoryDir)) {
-    return;
+  if (fs.existsSync(categoryDir) && fs.statSync(categoryDir).isDirectory()) {
+    fs.rmSync(categoryDir, { recursive: true, force: true });
   }
-  
-  const entries = fs.readdirSync(categoryDir, { withFileTypes: true });
-  const tsxFiles = entries.filter(
-    entry => entry.isFile() && entry.name.endsWith('.tsx')
+
+  // Remove old consolidated .tsx file if it exists
+  const consolidatedFile = path.join(ICONS_OUTPUT_DIR, `${category}.tsx`);
+  if (fs.existsSync(consolidatedFile)) {
+    fs.unlinkSync(consolidatedFile);
+  }
+}
+
+/**
+ * Generate a consolidated category file with all icon components
+ * @param {string} category - Category name
+ * @param {{componentName: string, svgContent: string}[]} icons - Array of icon data
+ * @returns {string} - File content
+ */
+function generateConsolidatedCategoryFile(icons) {
+  const sortedIcons = [...icons].sort((a, b) => a.componentName.localeCompare(b.componentName));
+
+  const components = sortedIcons.map(({ componentName, svgContent }) => {
+    return `export const ${componentName} = (props: Props) => {
+  return (
+    <Icon {...props}>
+      ${svgContent}
+    </Icon>
   );
-  
-  for (const entry of tsxFiles) {
-    const filePath = path.join(categoryDir, entry.name);
-    fs.unlinkSync(filePath);
-  }
+};`;
+  }).join('\n\n');
+
+  const hasUnderscoreExports = sortedIcons.some(i => i.componentName.startsWith('_'));
+  const eslintDirective = hasUnderscoreExports
+    ? '/* eslint-disable react-refresh/only-export-components */\n'
+    : '';
+
+  return `${eslintDirective}// This file is auto-generated. Do not edit manually.
+import type { Props } from '../IconWrapper.types';
+
+import { Icon } from '../IconWrapper';
+
+${components}
+`;
 }
 
 /**
  * Process all SVGs in a category
  * @param {string} category - Category name
- * @returns {{success: number, failed: number, componentNames: string[]}} - Statistics
+ * @returns {{success: number, failed: number, componentNames: string[]}}
  */
 function processCategory(category) {
   const categoryDir = path.join(SVG_SOURCE_DIR, category);
-  
+
   if (!fs.existsSync(categoryDir)) {
     console.warn(`⚠️  Category directory not found: ${categoryDir}`);
     return { success: 0, failed: 0, componentNames: [] };
   }
-  
-  // Clean old TSX files first
-  cleanCategoryDirectory(category);
-  
+
+  cleanCategory(category);
+
   const entries = fs.readdirSync(categoryDir, { withFileTypes: true });
   const svgFiles = entries.filter(
     entry => entry.isFile() && entry.name.endsWith('.svg')
   );
-  
+
   let success = 0;
   let failed = 0;
-  const componentNames = [];
-  
+  const icons = [];
+
   for (const entry of svgFiles) {
     const svgFilePath = path.join(categoryDir, entry.name);
-    const componentName = processSVGFile(svgFilePath, category);
-    
-    if (componentName) {
-      componentNames.push(componentName);
+    const result = processSVGFile(svgFilePath);
+
+    if (result) {
+      icons.push(result);
       success++;
     } else {
       failed++;
     }
   }
-  
-  // Generate index.ts for category
-  if (componentNames.length > 0) {
-    const indexContent = generateIndexContent(componentNames);
-    const indexPath = path.join(ICONS_OUTPUT_DIR, category, 'index.ts');
-    fs.writeFileSync(indexPath, indexContent, 'utf-8');
+
+  if (icons.length > 0) {
+    const content = generateConsolidatedCategoryFile(icons);
+    const outputPath = path.join(ICONS_OUTPUT_DIR, `${category}.tsx`);
+    fs.writeFileSync(outputPath, content, 'utf-8');
   }
-  
-  return { success, failed, componentNames };
+
+  return { success, failed, componentNames: icons.map(i => i.componentName) };
 }
 
 /**
@@ -400,12 +342,9 @@ function processCategory(category) {
 function updateMainIndex(categories) {
   const indexPath = path.join(ICONS_OUTPUT_DIR, 'index.ts');
 
-  // Generate category exports only
-  // Note: Icon and IconProps are exported from the parent Icon/index.ts, not from icons/index.ts
   const categoryExports = categories
     .sort()
     .map(category => {
-      // Use quotes for category names with spaces or special characters
       const categoryPath = `'./${category}'`;
       return `export * from ${categoryPath};`;
     })
@@ -422,20 +361,20 @@ function updateMainIndex(categories) {
  */
 function main() {
   console.log('🚀 Starting icon generation...\n');
-  
+
   if (!fs.existsSync(SVG_SOURCE_DIR)) {
     console.error(`❌ SVG source directory not found: ${SVG_SOURCE_DIR}`);
     console.error('   Please run the extraction script first: npm run extract:icons');
     process.exit(1);
   }
-  
+
   const categories = getCategoryDirectories();
   console.log(`📁 Found ${categories.length} categories\n`);
-  
+
   let totalSuccess = 0;
   let totalFailed = 0;
   const allCategories = [];
-  
+
   for (const category of categories) {
     console.log(`📦 Processing category: ${category}`);
     const stats = processCategory(category);
@@ -444,12 +383,12 @@ function main() {
     allCategories.push(category);
     console.log(`   ✅ ${stats.success} generated, ❌ ${stats.failed} failed\n`);
   }
-  
+
   // Update main index.ts
   console.log('📝 Updating main index.ts...');
   updateMainIndex(allCategories);
   console.log('   ✅ Main index.ts updated\n');
-  
+
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log(`✨ Generation complete!`);
   console.log(`   Total: ${totalSuccess + totalFailed} icons`);
@@ -457,7 +396,7 @@ function main() {
   console.log(`   ❌ Failed: ${totalFailed}`);
   console.log(`   📁 Categories: ${allCategories.length}`);
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
-  
+
   if (totalFailed > 0) {
     process.exit(1);
   }

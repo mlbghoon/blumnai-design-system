@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
-import { Search, X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
@@ -566,7 +565,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   <div style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.10)' }}>
                     <div className="flex items-center gap-2 padding-x-8 height-36">
                       <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
-                        <Search className="width-16 height-16 text-muted" />
+                        <Icon iconType={['system', 'search']} size={16} color="default-muted" />
                       </div>
                       <input
                         ref={searchInputRef}
@@ -589,7 +588,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                           }}
                           className="flex items-center justify-center width-20 height-20 flex-shrink-0 text-muted hover:text-default"
                         >
-                          <X className="width-14 height-14" />
+                          <Icon iconType={['system', 'close']} size={14} />
                         </button>
                       )}
                     </div>

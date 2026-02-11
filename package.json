@@ -1,16 +1,14 @@
 {
   "name": "@mbisolution/blumnai-design-system",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "private": false,
   "type": "module",
-  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.mjs"
     },
     "./avatar": {
       "types": "./dist/components/avatar/index.d.ts",
@@ -108,6 +106,102 @@
       "types": "./dist/components/icons/FileIcon/index.d.ts",
       "import": "./dist/components/icons/FileIcon/index.mjs"
     },
+    "./icons/arrows": {
+      "types": "./dist/components/icons/Icon/icons/arrows.d.ts",
+      "import": "./dist/components/icons/Icon/icons/arrows.mjs"
+    },
+    "./icons/buildings": {
+      "types": "./dist/components/icons/Icon/icons/buildings.d.ts",
+      "import": "./dist/components/icons/Icon/icons/buildings.mjs"
+    },
+    "./icons/business": {
+      "types": "./dist/components/icons/Icon/icons/business.d.ts",
+      "import": "./dist/components/icons/Icon/icons/business.mjs"
+    },
+    "./icons/communication": {
+      "types": "./dist/components/icons/Icon/icons/communication.d.ts",
+      "import": "./dist/components/icons/Icon/icons/communication.mjs"
+    },
+    "./icons/design": {
+      "types": "./dist/components/icons/Icon/icons/design.d.ts",
+      "import": "./dist/components/icons/Icon/icons/design.mjs"
+    },
+    "./icons/development": {
+      "types": "./dist/components/icons/Icon/icons/development.d.ts",
+      "import": "./dist/components/icons/Icon/icons/development.mjs"
+    },
+    "./icons/device": {
+      "types": "./dist/components/icons/Icon/icons/device.d.ts",
+      "import": "./dist/components/icons/Icon/icons/device.mjs"
+    },
+    "./icons/document": {
+      "types": "./dist/components/icons/Icon/icons/document.d.ts",
+      "import": "./dist/components/icons/Icon/icons/document.mjs"
+    },
+    "./icons/editor": {
+      "types": "./dist/components/icons/Icon/icons/editor.d.ts",
+      "import": "./dist/components/icons/Icon/icons/editor.mjs"
+    },
+    "./icons/finance": {
+      "types": "./dist/components/icons/Icon/icons/finance.d.ts",
+      "import": "./dist/components/icons/Icon/icons/finance.mjs"
+    },
+    "./icons/food": {
+      "types": "./dist/components/icons/Icon/icons/food.d.ts",
+      "import": "./dist/components/icons/Icon/icons/food.mjs"
+    },
+    "./icons/health": {
+      "types": "./dist/components/icons/Icon/icons/health & medical.d.ts",
+      "import": "./dist/components/icons/Icon/icons/health & medical.mjs"
+    },
+    "./icons/logos": {
+      "types": "./dist/components/icons/Icon/icons/logos.d.ts",
+      "import": "./dist/components/icons/Icon/icons/logos.mjs"
+    },
+    "./icons/map": {
+      "types": "./dist/components/icons/Icon/icons/map.d.ts",
+      "import": "./dist/components/icons/Icon/icons/map.mjs"
+    },
+    "./icons/media": {
+      "types": "./dist/components/icons/Icon/icons/media.d.ts",
+      "import": "./dist/components/icons/Icon/icons/media.mjs"
+    },
+    "./icons/others": {
+      "types": "./dist/components/icons/Icon/icons/others.d.ts",
+      "import": "./dist/components/icons/Icon/icons/others.mjs"
+    },
+    "./icons/system": {
+      "types": "./dist/components/icons/Icon/icons/system.d.ts",
+      "import": "./dist/components/icons/Icon/icons/system.mjs"
+    },
+    "./icons/user": {
+      "types": "./dist/components/icons/Icon/icons/user & faces.d.ts",
+      "import": "./dist/components/icons/Icon/icons/user & faces.mjs"
+    },
+    "./icons/weather": {
+      "types": "./dist/components/icons/Icon/icons/weather.d.ts",
+      "import": "./dist/components/icons/Icon/icons/weather.mjs"
+    },
+    "./icons/flags": {
+      "types": "./dist/components/icons/FlagIcon/icons/all.d.ts",
+      "import": "./dist/components/icons/FlagIcon/icons/all.mjs"
+    },
+    "./icons/brands": {
+      "types": "./dist/components/icons/BrandIcon/icons/all.d.ts",
+      "import": "./dist/components/icons/BrandIcon/icons/all.mjs"
+    },
+    "./icons/isometric": {
+      "types": "./dist/components/icons/IsometricIcon/icons/all.d.ts",
+      "import": "./dist/components/icons/IsometricIcon/icons/all.mjs"
+    },
+    "./icons/file-icons": {
+      "types": "./dist/components/icons/FileIcon/icons/all.d.ts",
+      "import": "./dist/components/icons/FileIcon/icons/all.mjs"
+    },
+    "./icons/cursors": {
+      "types": "./dist/components/icons/CursorIcon/icons/all.d.ts",
+      "import": "./dist/components/icons/CursorIcon/icons/all.mjs"
+    },
     "./input": {
       "types": "./dist/components/input/index.d.ts",
       "import": "./dist/components/input/index.mjs"
@@ -195,13 +289,13 @@
     "./styles": "./dist/blumnai-design-system.css",
     "./*": {
       "types": "./dist/*.d.ts",
-      "import": "./dist/*.mjs",
-      "require": "./dist/*.cjs"
+      "import": "./dist/*.mjs"
     }
   },
   "files": [
     "dist",
     "AI.md",
+    "ICONS.md",
     "README.md",
     "skills"
   ],
@@ -220,8 +314,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:lib": "npm run prebuild:lib && vite build --mode lib && tsc --project tsconfig.lib.json && tsc-alias --project tsconfig.lib.json && node scripts/clean-dist-icon-dts.mjs && node scripts/strip-css-layers.mjs",
-    "prebuild:lib": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons",
+    "build:lib": "npm run prebuild:lib && vite build --mode lib && tsc --project tsconfig.lib.json && tsc-alias --project tsconfig.lib.json && node scripts/strip-css-layers.mjs",
+    "prebuild:lib": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons && npm run generate:icon-catalog",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -233,6 +327,7 @@
     "generate:flag-registry": "node scripts/generate-flags-icons.mjs",
     "generate:ui-icon-registry": "node scripts/generate-ui-icon-registry.mjs",
     "generate:isometric-icons": "node scripts/generate-isometric-icons.mjs",
+    "generate:icon-catalog": "node scripts/generate-icon-catalog.mjs",
     "clean:thumbnail-sources": "node scripts/clean-svg-source-thumbnails.mjs && node scripts/clean-thumbnail-base64.mjs",
     "prebuild": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons",
     "prestorybook": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons",
@@ -297,11 +392,9 @@
     "embla-carousel-react": "^8.6.0",
     "embla-carousel-wheel-gestures": "^8.1.0",
     "input-otp": "^1.4.2",
-    "lucide-react": "^0.563.0",
     "next-themes": "^0.4.6",
     "react-day-picker": "^9.13.0",
     "react-resizable-panels": "^4.5.5",
-    "recharts": "^2.15.4",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
     "tw-animate-css": "^1.4.0",

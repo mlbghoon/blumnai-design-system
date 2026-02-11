@@ -3,8 +3,6 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import * as SeparatorPrimitive from "@radix-ui/react-separator"
 import { cva, type VariantProps } from "class-variance-authority"
-import { PanelLeft } from "lucide-react"
-
 import { Icon } from "@/components/icons/Icon"
 
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -343,7 +341,7 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <PanelLeft />
+      <Icon iconType={['system', 'side-bar']} size={16} />
       <span className="sr-only">Toggle Sidebar</span>
     </button>
   )

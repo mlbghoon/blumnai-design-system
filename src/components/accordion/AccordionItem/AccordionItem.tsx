@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useMemo, useState } from 'react';
 
-import { ArrowDownIcon } from '../../icons/Icon/icons/arrows/ArrowDownIcon';
+import { ArrowDownIcon } from '../../icons/Icon/icons/arrows';
 import { cn } from '../../../utils/cn';
 import {
   BOX_SHADOW,

@@ -3,7 +3,7 @@ import type { ComponentType } from 'react';
 
 import type { IconColor, IconProps } from './Icon.types';
 import type { Props as IconWrapperProps } from './IconWrapper.types';
-import { uiIconRegistry } from './ui-icon-registry';
+import { getIconSync, getIconLazy, hasIcon } from './ui-icon-registry';
 
 /** kebab-case를 소문자로 변환 (하이픈 제거): 'arrow-down' -> 'arrowdown' */
 function kebabToRegistryKey(str: string): string {
@@ -35,7 +35,7 @@ const resolveColor = (color: IconColor | undefined): string | undefined => {
 /**
  * 카테고리별 UI 아이콘 컴포넌트
  * [category, name] 튜플 형식으로 타입 안전한 아이콘 선택 지원
- * 번들 최적화를 위해 모든 아이콘 지연 로딩
+ * 번들 최적화를 위해 카테고리 단위 지연 로딩
  */
 export const Icon = forwardRef<SVGSVGElement, IconProps>(({
   iconType,
@@ -49,7 +49,6 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({
   const [_category, iconName] = iconType;
 
   const registryKey = kebabToRegistryKey(iconName) + (isFill ? 'fill' : '');
-  const LazyIcon = uiIconRegistry[registryKey] as ComponentType<IconWrapperProps> | undefined;
 
   const fallback = (
     <div
@@ -61,16 +60,23 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({
     />
   );
 
-  if (!LazyIcon) {
+  if (!hasIcon(registryKey)) {
     return fallback;
   }
 
   const resolvedColor = resolveColor(color);
   const focusableBool = focusable === true || focusable === 'true' ? true : focusable === false || focusable === 'false' ? false : undefined;
 
+  // 동기 경로 우선: 카테고리가 이미 로드된 경우 즉시 렌더링 (suspend 없음)
+  // 비동기 경로: 카테고리 미로드 시 lazy 컴포넌트 사용
+  const IconComponent = (getIconSync(registryKey) || getIconLazy(registryKey)) as ComponentType<IconWrapperProps> | null;
+  if (!IconComponent) {
+    return fallback;
+  }
+
   return (
     <Suspense fallback={fallback}>
-      {createElement(LazyIcon, {
+      {createElement(IconComponent, {
         ref,
         size,
         color: resolvedColor,

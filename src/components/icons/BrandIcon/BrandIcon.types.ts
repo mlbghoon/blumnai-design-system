@@ -1,6 +1,9 @@
 import type { SVGProps } from 'react';
 
-/** 사용 가능한 브랜드/로고 타입. Figma 레이어명과 동일 */
+/**
+ * Available brand/logo types
+ * Names match Figma layer names exactly
+ */
 export type BrandType =
   | 'adobe'
   | 'affinity designer'
@@ -63,7 +66,7 @@ export type BrandType =
   | 'lightroom'
   | 'linear'
   | 'link'
-  | 'link'
+  | 'link _4146131087'
   | 'litecoin'
   | 'mastercard'
   | 'mastodon'
@@ -123,10 +126,17 @@ export type BrandType =
   | 'youtube';
 
 export interface BrandIconProps extends Omit<SVGProps<SVGSVGElement>, 'children' | 'cursor' | 'focusable'> {
-  /** 브랜드 타입 (Figma 일치) */
+  /**
+   * Brand type (matches Figma)
+   */
   brandType: BrandType;
-  /** 아이콘 크기 (픽셀) @default 24 */
+  /**
+   * Icon size in pixels
+   * @default 24
+   */
   size?: number;
-  /** 추가 CSS 클래스명 */
+  /**
+   * Additional CSS class name
+   */
   className?: string;
 }

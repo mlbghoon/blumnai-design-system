@@ -1,6 +1,6 @@
-export { CursorArrowIcon } from './CursorArrowIcon';
-export { CursorHandClosedIcon } from './CursorHandClosedIcon';
-export { CursorHandOpenIcon } from './CursorHandOpenIcon';
-export { CursorNotAllowedIcon } from './CursorNotAllowedIcon';
-export { CursorPointerIcon } from './CursorPointerIcon';
-export { CursorTextIcon } from './CursorTextIcon';
+export { CursorArrowIcon } from './all';
+export { CursorHandClosedIcon } from './all';
+export { CursorHandOpenIcon } from './all';
+export { CursorNotAllowedIcon } from './all';
+export { CursorPointerIcon } from './all';
+export { CursorTextIcon } from './all';

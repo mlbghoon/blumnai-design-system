@@ -1,11 +1,13 @@
 import { forwardRef } from 'react';
 
-import { CursorArrowIcon } from './icons/CursorArrowIcon';
-import { CursorHandClosedIcon } from './icons/CursorHandClosedIcon';
-import { CursorHandOpenIcon } from './icons/CursorHandOpenIcon';
-import { CursorNotAllowedIcon } from './icons/CursorNotAllowedIcon';
-import { CursorPointerIcon } from './icons/CursorPointerIcon';
-import { CursorTextIcon } from './icons/CursorTextIcon';
+import {
+  CursorArrowIcon,
+  CursorHandClosedIcon,
+  CursorHandOpenIcon,
+  CursorNotAllowedIcon,
+  CursorPointerIcon,
+  CursorTextIcon,
+} from './icons/all';
 
 import type { CursorIconProps } from './CursorIcon.types';
 

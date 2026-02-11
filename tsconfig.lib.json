@@ -14,12 +14,6 @@
     "**/*.test.tsx",
     "**/*.spec.tsx",
     "src/App.tsx",
-    "src/main.tsx",
-    "src/components/icons/Icon/icons/**/*",
-    "src/components/icons/FlagIcon/icons/**/*",
-    "src/components/icons/BrandIcon/icons/**/*",
-    "src/components/icons/IsometricIcon/icons/**/*",
-    "src/components/icons/FileIcon/icons/**/*",
-    "src/components/icons/CursorIcon/icons/**/*"
+    "src/main.tsx"
   ]
 }

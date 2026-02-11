@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as SelectPrimitive from '@radix-ui/react-select';
-import { ChevronDown, ChevronUp, Search, X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
@@ -161,7 +160,7 @@ const SelectScrollUpButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronUp className="height-16 width-16 text-muted" />
+    <Icon iconType={['arrows', 'arrow-drop-up']} size={16} color="default-muted" />
   </SelectPrimitive.ScrollUpButton>
 ));
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
@@ -182,7 +181,7 @@ const SelectScrollDownButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronDown className="height-16 width-16 text-muted" />
+    <Icon iconType={['arrows', 'arrow-drop-down']} size={16} color="default-muted" />
   </SelectPrimitive.ScrollDownButton>
 ));
 SelectScrollDownButton.displayName =
@@ -641,7 +640,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                   <div style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.10)' }}>
                     <div className="flex items-center gap-2 padding-x-8 height-36">
                       <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
-                        <Search className="width-16 height-16 text-muted" />
+                        <Icon iconType={['system', 'search']} size={16} color="default-muted" />
                       </div>
                       <input
                         ref={searchInputRef}
@@ -672,7 +671,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                           }}
                           className="flex items-center justify-center width-20 height-20 flex-shrink-0 text-muted hover:text-default"
                         >
-                          <X className="width-14 height-14" />
+                          <Icon iconType={['system', 'close']} size={14} />
                         </button>
                       )}
                     </div>

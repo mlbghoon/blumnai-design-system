@@ -2,17 +2,19 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 /**
- * Generate ui-icon-registry.tsx with lazy imports for code splitting.
+ * Generate ui-icon-registry.tsx with per-CATEGORY lazy loading.
  *
- * This script scans all icon files in the icons directory and creates
- * a registry with React.lazy() imports for each icon.
+ * Instead of creating a React.lazy() wrapper per icon (~2500),
+ * this generates a lookup table + per-category importers (~18).
+ * Once any icon from a category loads, all icons in that category
+ * render synchronously.
  */
 
 const ROOT = process.cwd();
 const ICONS_DIR = path.join(ROOT, 'src', 'components', 'icons', 'Icon', 'icons');
 const OUTPUT_PATH = path.join(ROOT, 'src', 'components', 'icons', 'Icon', 'ui-icon-registry.tsx');
 
-// Categories to include (excluding flags, cursors, fileIcons which have their own components)
+// Categories to exclude (they have their own components)
 const EXCLUDED_CATEGORIES = ['flags', 'cursors', 'fileIcons', 'isometricIcon', 'brands', 'logos'];
 
 /**
@@ -26,26 +28,32 @@ function componentNameToRegistryKey(componentName) {
 }
 
 /**
- * Scan icons directory and collect all icon files
+ * Scan consolidated category .tsx files and collect all icon exports
  */
 function collectIcons() {
   const icons = [];
   const seenRegistryKeys = new Map();
   const seenComponentNames = new Map();
 
-  const categories = fs.readdirSync(ICONS_DIR, { withFileTypes: true })
-    .filter(d => d.isDirectory() && !EXCLUDED_CATEGORIES.includes(d.name))
-    .map(d => d.name);
+  const categoryFiles = fs.readdirSync(ICONS_DIR)
+    .filter(f => f.endsWith('.tsx'))
+    .filter(f => {
+      const category = f.replace('.tsx', '');
+      return !EXCLUDED_CATEGORIES.includes(category);
+    });
 
   const duplicates = [];
 
-  for (const category of categories) {
-    const categoryPath = path.join(ICONS_DIR, category);
-    const files = fs.readdirSync(categoryPath)
-      .filter(f => f.endsWith('.tsx') && f !== 'index.ts');
+  for (const file of categoryFiles) {
+    const category = file.replace('.tsx', '');
+    const filePath = path.join(ICONS_DIR, file);
+    const content = fs.readFileSync(filePath, 'utf-8');
 
-    for (const file of files) {
-      const componentName = file.replace('.tsx', '');
+    // Parse exported component names from the consolidated file
+    const exportRegex = /export const (\w+Icon)\b/g;
+    let match;
+    while ((match = exportRegex.exec(content)) !== null) {
+      const componentName = match[1];
       const registryKey = componentNameToRegistryKey(componentName);
 
       if (seenRegistryKeys.has(registryKey)) {
@@ -80,7 +88,7 @@ function collectIcons() {
         componentName,
         registryKey,
         category,
-        importPath: `./icons/${category}/${componentName}`,
+        importPath: `./icons/${category}`,
       });
     }
   }
@@ -106,17 +114,21 @@ function collectIcons() {
 }
 
 /**
- * Generate the registry file content
+ * Generate the registry file content with per-category lazy loading
  */
 function generateRegistry(icons) {
-  const lazyImports = icons
-    .map(({ componentName, importPath }) =>
-      `const ${componentName} = lazy(() => import('${importPath}').then(m => ({ default: m.${componentName} })));`
-    )
+  // Collect unique categories
+  const categories = [...new Set(icons.map(i => i.category))].sort();
+
+  // Build category importers
+  const categoryImporterEntries = categories
+    .map(cat => `  '${cat}': () => import('./icons/${cat}'),`)
     .join('\n');
 
-  const registryEntries = icons
-    .map(({ registryKey, componentName }) => `  "${registryKey}": ${componentName},`)
+  // Build lookup table: registryKey -> [category, componentName]
+  const lookupEntries = icons
+    .map(({ registryKey, category, componentName }) =>
+      `  '${registryKey}': ['${category}', '${componentName}'],`)
     .join('\n');
 
   return `// This file is auto-generated. Do not edit manually.
@@ -127,11 +139,70 @@ import type { LazyExoticComponent, ComponentType } from 'react';
 
 import type { Props as IconProps } from './IconWrapper.types';
 
-${lazyImports}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type CategoryModule = Record<string, ComponentType<any>>;
 
-export const uiIconRegistry: Record<string, LazyExoticComponent<ComponentType<IconProps>>> = {
-${registryEntries}
+/** 카테고리 모듈 캐시: 로드된 카테고리 모듈 저장 */
+const categoryModuleCache: Record<string, CategoryModule> = {};
+const categoryLoadPromises: Record<string, Promise<CategoryModule>> = {};
+
+/** 카테고리별 동적 import 함수 (${categories.length}개) */
+const categoryImporters: Record<string, () => Promise<CategoryModule>> = {
+${categoryImporterEntries}
 };
+
+/** 아이콘 조회 테이블: registryKey -> [category, componentName] */
+const iconLookup: Record<string, [string, string]> = {
+${lookupEntries}
+};
+
+/** 카테고리 모듈을 로드하고 캐시 */
+function loadCategory(category: string): Promise<CategoryModule> {
+  if (categoryModuleCache[category]) return Promise.resolve(categoryModuleCache[category]);
+  if (!categoryLoadPromises[category]) {
+    const importer = categoryImporters[category];
+    if (!importer) return Promise.reject(new Error(\`Unknown category: \${category}\`));
+    categoryLoadPromises[category] = importer().then(mod => {
+      categoryModuleCache[category] = mod as CategoryModule;
+      return categoryModuleCache[category];
+    });
+  }
+  return categoryLoadPromises[category];
+}
+
+/** 동기 조회: 카테고리가 이미 로드된 경우 아이콘 반환 */
+export function getIconSync(registryKey: string): ComponentType<IconProps> | null {
+  const info = iconLookup[registryKey];
+  if (!info) return null;
+  const [category, componentName] = info;
+  const mod = categoryModuleCache[category];
+  if (!mod) return null;
+  return (mod[componentName] as ComponentType<IconProps>) || null;
+}
+
+/** lazy 컴포넌트 캐시: 동일 아이콘에 대해 stable reference 유지 */
+const lazyCache: Record<string, LazyExoticComponent<ComponentType<IconProps>>> = {};
+
+/** lazy 조회: 카테고리가 아직 로드되지 않은 경우 lazy 컴포넌트 반환 */
+export function getIconLazy(registryKey: string): LazyExoticComponent<ComponentType<IconProps>> | null {
+  const info = iconLookup[registryKey];
+  if (!info) return null;
+
+  if (!lazyCache[registryKey]) {
+    const [category, componentName] = info;
+    lazyCache[registryKey] = lazy(() =>
+      loadCategory(category).then(mod => ({
+        default: mod[componentName] as ComponentType<IconProps>,
+      }))
+    );
+  }
+  return lazyCache[registryKey];
+}
+
+/** 아이콘 존재 여부 확인 */
+export function hasIcon(registryKey: string): boolean {
+  return registryKey in iconLookup;
+}
 `;
 }
 
@@ -141,4 +212,5 @@ const content = generateRegistry(icons);
 
 fs.writeFileSync(OUTPUT_PATH, content);
 
-console.log(`Generated ui-icon-registry.tsx with ${icons.length} lazy-loaded icons.`);
+const categories = [...new Set(icons.map(i => i.category))];
+console.log(`Generated ui-icon-registry.tsx: ${icons.length} icons across ${categories.length} categories (per-category lazy loading).`);

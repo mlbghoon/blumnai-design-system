@@ -28,16 +28,18 @@ export default defineConfig(({ mode }) => {
           lib: {
             entry: path.resolve(__dirname, 'src/index.ts'),
             name: 'BlumnaiDesignSystem',
-            formats: ['es', 'cjs'],
-            fileName: (format) => `index.${format === 'es' ? 'mjs' : 'cjs'}`,
+            formats: ['es'],
+            fileName: () => `index.mjs`,
           },
           rollupOptions: {
             external: (id) => {
               if (id.startsWith('.') || path.isAbsolute(id)) return false
-              // 내부 alias는 external 처리하지 않음 (Vite alias 플러그인이 해석)
               const internalAliases = ['constants/', 'components/', 'icons/', 'utils/', 'styles/', 'tokens/', 'hooks/', '@/']
               if (internalAliases.some(alias => id.startsWith(alias))) return false
               return true
+            },
+            treeshake: {
+              moduleSideEffects: false,
             },
             output: [
               {
@@ -45,15 +47,6 @@ export default defineConfig(({ mode }) => {
                 dir: 'dist',
                 entryFileNames: '[name].mjs',
                 assetFileNames: '[name][extname]',
-                preserveModules: true,
-                preserveModulesRoot: 'src',
-              },
-              {
-                format: 'cjs',
-                dir: 'dist',
-                entryFileNames: '[name].cjs',
-                assetFileNames: '[name][extname]',
-                exports: 'named',
                 preserveModules: true,
                 preserveModulesRoot: 'src',
               },

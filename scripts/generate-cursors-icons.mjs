@@ -51,12 +51,10 @@ const toJsxSafeSvgMarkup = (svg) => {
   });
 
   // Convert fill="white" to style={{ fill: 'white' }} to prevent IconWrapper override
-  // This is needed because IconWrapper sets fill: currentColor which would override the attribute
   out = out.replace(/(<path[^>]*)\s+fill="white"([^>]*>)/g, '$1 style={{ fill: \'white\' }}$2');
 
   // For stroke-only paths, ensure fill doesn't get inherited
   out = out.replace(/(<path[^>]*)\s+stroke="([^"]+)"([^>]*)(\/?>)/g, (match, before, strokeVal, after, closing) => {
-    // If already has fill or style, leave it alone
     if (before.includes('fill=') || before.includes('style=') || after.includes('fill=') || after.includes('style=')) {
       return match;
     }
@@ -88,6 +86,8 @@ const toJsxSafeSvgMarkup = (svg) => {
     out = out.replaceAll(from, to);
   }
 
+  out = out.replace(/\s*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/, '');
+
   return out;
 };
 
@@ -111,23 +111,6 @@ const prefixSvgIds = (svg, prefix) => {
   return out;
 };
 
-const makeCategoryComponentTsx = (componentName, svgMarkup) => {
-  return [
-    "import type { Props } from '../../Icon/IconWrapper.types';",
-    '',
-    "import { Icon } from '../../Icon/IconWrapper';",
-    '',
-    `export const ${componentName} = (props: Props) => {`,
-    '  return (',
-    '    <Icon {...props}>',
-    `      ${svgMarkup}`,
-    '    </Icon>',
-    '  );',
-    '};',
-    '',
-  ].join('\n');
-};
-
 if (!fs.existsSync(SNAPSHOT_PATH)) {
   console.error(`Snapshot not found: ${SNAPSHOT_PATH}`);
   process.exit(1);
@@ -139,18 +122,45 @@ const entries = Object.entries(snapshot).sort(([a], [b]) => a.localeCompare(b));
 cleanOutDir();
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
+// Collect all components in memory for consolidated output
+const componentDefs = [];
+
 for (const [rawKey, rawSvg] of entries) {
-  // snapshot keys are like "cursor-pointer", "cursor-hand-open"
   const key = String(rawKey).trim().replace(/^cursor-?/i, 'cursor-');
   const name = key.replace(/^cursor-/, '');
   const componentName = `Cursor${toValidIdentifier(name)}Icon`;
   const prefixedSvg = prefixSvgIds(toJsxSafeSvgMarkup(String(rawSvg).trim()), componentName);
 
-  fs.writeFileSync(
-    path.join(OUT_DIR, `${componentName}.tsx`),
-    makeCategoryComponentTsx(componentName, prefixedSvg),
-  );
+  componentDefs.push({ componentName, svgMarkup: prefixedSvg });
 }
 
-console.log(`Generated ${entries.length} cursor icons into src/components/icons/CursorIcon/icons.`);
+// Write consolidated all.tsx
+const sortedDefs = [...componentDefs].sort((a, b) => a.componentName.localeCompare(b.componentName));
+const allComponents = sortedDefs.map(({ componentName, svgMarkup }) => {
+  return `export const ${componentName} = (props: Props) => {
+  return (
+    <Icon {...props}>
+      ${svgMarkup}
+    </Icon>
+  );
+};`;
+}).join('\n\n');
 
+const allTsx = `// This file is auto-generated. Do not edit manually.
+import type { Props } from '../../Icon/IconWrapper.types';
+
+import { Icon } from '../../Icon/IconWrapper';
+
+${allComponents}
+`;
+
+fs.writeFileSync(path.join(OUT_DIR, 'all.tsx'), allTsx);
+
+// Update index.ts to re-export from all.tsx
+const indexContent = sortedDefs
+  .map(({ componentName }) => `export { ${componentName} } from './all';`)
+  .join('\n') + '\n';
+
+fs.writeFileSync(path.join(OUT_DIR, 'index.ts'), indexContent);
+
+console.log(`Generated ${entries.length} cursor icons into src/components/icons/CursorIcon/icons/all.tsx.`);

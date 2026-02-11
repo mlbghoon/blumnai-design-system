@@ -63,15 +63,12 @@ const toJsxSafeSvgMarkup = (svg) => {
   });
 
   // Convert fill="white" to style={{ fill: 'white' }} to prevent IconWrapper override
-  // This is needed because IconWrapper sets fill: currentColor which would override the attribute
   out = out.replace(/(<(?:path|rect|circle|ellipse|polygon|polyline)[^>]*)\s+fill="white"([^>]*>)/g,
     '$1 style={{ fill: \'white\' }}$2');
 
   // Convert other fill colors (like #6F6F77) to inline styles to prevent override
-  // Match fill="#{hex}" pattern on shape elements
   out = out.replace(/(<(?:path|rect|circle|ellipse|polygon|polyline)[^>]*)\s+fill="(#[0-9A-Fa-f]{3,8})"([^>]*>)/g,
     (match, before, color, after) => {
-      // Skip if already has style attribute
       if (before.includes('style=') || after.includes('style=')) {
         return match;
       }
@@ -80,7 +77,6 @@ const toJsxSafeSvgMarkup = (svg) => {
 
   // For stroke-only paths, ensure fill doesn't get inherited
   out = out.replace(/(<path[^>]*)\s+stroke="([^"]+)"([^>]*)(\/?>)/g, (match, before, strokeVal, after, closing) => {
-    // If already has fill or style, leave it alone
     if (before.includes('fill=') || before.includes('style=') || after.includes('fill=') || after.includes('style=')) {
       return match;
     }
@@ -112,6 +108,8 @@ const toJsxSafeSvgMarkup = (svg) => {
     out = out.replaceAll(from, to);
   }
 
+  out = out.replace(/\s*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/, '');
+
   return out;
 };
 
@@ -136,9 +134,6 @@ const prefixSvgIds = (svg, prefix) => {
 };
 
 const parseSnapshotKey = (key) => {
-  // Keys are produced by fetch script:
-  // - "<Variant>__<size>" (e.g. "Archive__sm", "Thumbnail 4:3__lg")
-  // - or "<Variant>__<size>__<nodeId>" for duplicates (rare)
   const parts = String(key).split('__');
   const variant = parts[0] ?? 'Unknown';
   const size = parts[1] ?? 'md';
@@ -148,7 +143,6 @@ const parseSnapshotKey = (key) => {
 };
 
 const normalizeVariantForName = (variant) => {
-  // "Thumbnail 4:3" => "Thumbnail43"
   const v = String(variant).trim();
   return v.replaceAll('4:3', '43').replaceAll('1:1', '11');
 };
@@ -162,45 +156,32 @@ const normalizeSizeForName = (size) => {
 };
 
 const removeBase64Image = (svg) => {
-  // Remove base64 encoded images and related patterns
   let cleaned = String(svg);
 
-  // Strategy: Remove <image> tags that contain base64 data
-  // These can be extremely long (16MB+) so we need a robust approach
   let imageStart = cleaned.indexOf('<image');
   while (imageStart !== -1) {
-    // Find the end of the opening tag (could be self-closing or have attributes)
     let tagEnd = cleaned.indexOf('>', imageStart);
     if (tagEnd === -1) break;
 
-    // Check the tag content for base64 data
     const tagContent = cleaned.slice(imageStart, tagEnd + 1);
     const hasBase64 = tagContent.includes('data:image') ||
                       tagContent.includes('xlink:href="data:') ||
                       tagContent.includes('href="data:');
 
     if (hasBase64) {
-      // Find the closing </image> tag (could be many lines away due to base64 data)
       let imageEnd = cleaned.indexOf('</image>', imageStart);
       if (imageEnd !== -1) {
-        // Remove from <image to </image> inclusive
         cleaned = cleaned.slice(0, imageStart) + cleaned.slice(imageEnd + 8);
       } else {
-        // Self-closing tag, remove just the tag
         cleaned = cleaned.slice(0, imageStart) + cleaned.slice(tagEnd + 1);
       }
-      // Continue searching from the same position (new content might have shifted)
       imageStart = cleaned.indexOf('<image', imageStart);
     } else {
-      // Move past this tag
       imageStart = cleaned.indexOf('<image', tagEnd + 1);
     }
   }
 
-  // Remove pattern definitions that reference images
-  // These patterns use <use> tags to reference the image
   cleaned = cleaned.replace(/<pattern[^>]*>[\s\S]*?<\/pattern>/gi, (match) => {
-    // Remove patterns that contain image references
     if (match.includes('image0') ||
         match.includes('xlink:href="#image') ||
         match.includes('href="#image') ||
@@ -212,19 +193,13 @@ const removeBase64Image = (svg) => {
     return match;
   });
 
-  // Remove <use> tags that reference image patterns
   cleaned = cleaned.replace(/<use[^>]*xlink:href="#image[^>]*>/gi, '');
   cleaned = cleaned.replace(/<use[^>]*href="#image[^>]*>/gi, '');
-
-  // Also remove any remaining references to image patterns in fill attributes
   cleaned = cleaned.replace(/fill="url\(#pattern[^)]+\)"/gi, 'fill="transparent"');
 
   return cleaned;
 };
 
-/**
- * Check if SVG contains base64 images (quick check without full processing)
- */
 const hasBase64Image = (svg) => {
   const svgStr = String(svg);
   return svgStr.includes('data:image') ||
@@ -233,10 +208,8 @@ const hasBase64Image = (svg) => {
 };
 
 const addThumbnailImageSupport = (svg, componentName) => {
-  // Only remove base64 images if they exist (optimization: skip if already clean)
   let cleaned = hasBase64Image(svg) ? removeBase64Image(svg) : String(svg);
 
-  // Find the viewBox to determine dimensions
   const viewBoxMatch = cleaned.match(/viewBox="([^"]+)"/);
   if (!viewBoxMatch) return cleaned;
 
@@ -244,8 +217,6 @@ const addThumbnailImageSupport = (svg, componentName) => {
   const width = viewBox[2] || '40';
   const height = viewBox[3] || '40';
 
-  // Find clipPath ID from the SVG (will be prefixed by prefixSvgIds later)
-  // Look for clipPath id in defs or clip-path reference
   const clipPathRefMatch = cleaned.match(/clipPath="url\(#([^)]+)\)"/) || cleaned.match(/clip-path="url\(#([^)]+)\)"/);
   const clipPathId = clipPathRefMatch
     ? `${componentName}__${clipPathRefMatch[1]}`
@@ -254,10 +225,6 @@ const addThumbnailImageSupport = (svg, componentName) => {
     console.warn(`  ⚠️ ${componentName}: no clipPath found in SVG, image will render without clipping`);
   }
 
-  // Find the main rectangle path (the one that should contain the image)
-  // Look for path with d starting with "M0 4" or "M0 4C0" which is the main rectangle
-  // This path should have fill="transparent" (already cleaned from JSON or after removeBase64Image)
-  // Match pattern: <path ... d="M0 4..." ... fill="transparent" ... />
   const mainPathRegex = /<path([^>]*)\s+d="([^"]+)"([^>]*)\s+fill="transparent"([^>]*)\/>/;
   const mainPathMatch = cleaned.match(mainPathRegex);
 
@@ -267,7 +234,6 @@ const addThumbnailImageSupport = (svg, componentName) => {
     const middleAttrs = mainPathMatch[3] || '';
     const afterAttrs = mainPathMatch[4] || '';
 
-    // Only process if this looks like the main rectangle (starts with M0 4)
     if (pathData.startsWith('M0 4') || pathData.startsWith('M0 4C0')) {
       const allAttrs = beforeAttrs + middleAttrs + afterAttrs;
       const shapeRenderingMatch = allAttrs.match(/shape-rendering="([^"]+)"/);
@@ -295,49 +261,9 @@ const addThumbnailImageSupport = (svg, componentName) => {
     }
   }
 
-  // Clean up any remaining invalid attributes on <g> tags (like d="...")
   cleaned = cleaned.replace(/<g([^>]*)\s+d="[^"]*"([^>]*)>/g, '<g$1$2>');
 
   return cleaned;
-};
-
-const makeCategoryComponentTsx = (componentName, svgMarkup, isThumbnail = false) => {
-  if (isThumbnail) {
-    return [
-      "import type { Props } from '../../Icon/IconWrapper.types';",
-      '',
-      "import { Icon } from '../../Icon/IconWrapper';",
-      '',
-      "interface ThumbnailProps extends Props {",
-      "  /** 외부 이미지 URL 또는 경로. 제공되지 않으면 프레임만 표시됩니다. */",
-      "  imageSrc?: string;",
-      "}",
-      '',
-      `export const ${componentName} = ({ imageSrc, ...props }: ThumbnailProps) => {`,
-      '  return (',
-      '    <Icon {...props}>',
-      `      ${svgMarkup}`,
-      '    </Icon>',
-      '  );',
-      '};',
-      '',
-    ].join('\n');
-  }
-
-  return [
-    "import type { Props } from '../../Icon/IconWrapper.types';",
-    '',
-    "import { Icon } from '../../Icon/IconWrapper';",
-    '',
-    `export const ${componentName} = (props: Props) => {`,
-    '  return (',
-    '    <Icon {...props}>',
-    `      ${svgMarkup}`,
-    '    </Icon>',
-    '  );',
-    '};',
-    '',
-  ].join('\n');
 };
 
 if (!fs.existsSync(SNAPSHOT_PATH)) {
@@ -353,6 +279,8 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 
 // Track file types to component names for registry generation
 const registryEntries = [];
+const componentDefs = [];
+let hasThumbnail = false;
 
 for (const [rawKey, rawSvg] of entries) {
   const { variant, size, discriminator } = parseSnapshotKey(rawKey);
@@ -360,7 +288,6 @@ for (const [rawKey, rawSvg] of entries) {
   const sizeName = normalizeSizeForName(size);
   const disc = discriminator ? `_${toValidIdentifier(discriminator)}` : '';
 
-  // Use Figma name directly for registry key (lowercase)
   const registryKey = toRegistryKey(rawKey);
 
   const componentName = `File${variantName}${sizeName}${disc}Icon`;
@@ -368,35 +295,66 @@ for (const [rawKey, rawSvg] of entries) {
 
   let processedSvg = String(rawSvg).trim();
 
-  // For Thumbnail icons, remove base64 images and add support for external images
   if (isThumbnail) {
     processedSvg = addThumbnailImageSupport(processedSvg, componentName);
+    hasThumbnail = true;
   }
 
   const prefixedSvg = prefixSvgIds(toJsxSafeSvgMarkup(processedSvg), componentName);
 
-  fs.writeFileSync(
-    path.join(OUT_DIR, `${componentName}.tsx`),
-    makeCategoryComponentTsx(componentName, prefixedSvg, isThumbnail),
-  );
-
-  // Add to registry (Figma name as key -> component name)
+  componentDefs.push({ componentName, svgMarkup: prefixedSvg, isThumbnail });
   registryEntries.push({ fileType: registryKey, componentName, isThumbnail });
 }
 
+// Write consolidated all.tsx
+const sortedDefs = [...componentDefs].sort((a, b) => a.componentName.localeCompare(b.componentName));
+
+const regularComponents = sortedDefs.filter(d => !d.isThumbnail);
+const thumbnailComponents = sortedDefs.filter(d => d.isThumbnail);
+
+const regularDefs = regularComponents.map(({ componentName, svgMarkup }) => {
+  return `export const ${componentName} = (props: Props) => {
+  return (
+    <Icon {...props}>
+      ${svgMarkup}
+    </Icon>
+  );
+};`;
+}).join('\n\n');
+
+const thumbnailDefs = thumbnailComponents.map(({ componentName, svgMarkup }) => {
+  return `export const ${componentName} = ({ imageSrc, ...props }: ThumbnailProps) => {
+  return (
+    <Icon {...props}>
+      ${svgMarkup}
+    </Icon>
+  );
+};`;
+}).join('\n\n');
+
+const thumbnailInterface = hasThumbnail ? `
+interface ThumbnailProps extends Props {
+  /** 외부 이미지 URL 또는 경로. 제공되지 않으면 프레임만 표시됩니다. */
+  imageSrc?: string;
+}
+` : '';
+
+const allTsx = `// This file is auto-generated. Do not edit manually.
+import type { Props } from '../../Icon/IconWrapper.types';
+
+import { Icon } from '../../Icon/IconWrapper';
+${thumbnailInterface}
+${regularDefs}${thumbnailDefs ? '\n\n' + thumbnailDefs : ''}
+`;
+
+fs.writeFileSync(path.join(OUT_DIR, 'all.tsx'), allTsx);
+
 // Generate file-registry.tsx
 const generateFileRegistry = () => {
-  // Sort by file type
   registryEntries.sort((a, b) => a.fileType.localeCompare(b.fileType));
 
-  const lazyImports = registryEntries
-    .map(({ componentName }) =>
-      `const ${componentName} = lazy(() => import('./icons/${componentName}').then(m => ({ default: m.${componentName} })));`
-    )
-    .join('\n');
-
-  const registryObject = registryEntries
-    .map(({ fileType, componentName }) => `  '${fileType}': ${componentName},`)
+  const lookupEntries = registryEntries
+    .map(({ fileType, componentName }) => `  '${fileType}': '${componentName}',`)
     .join('\n');
 
   return [
@@ -408,27 +366,66 @@ const generateFileRegistry = () => {
     '',
     "import type { Props } from '../Icon/IconWrapper.types';",
     '',
-    lazyImports,
-    '',
     "interface ThumbnailProps extends Props {",
     "  imageSrc?: string;",
     "}",
     '',
-    'export const fileRegistry: Record<string, LazyExoticComponent<ComponentType<Props>> | LazyExoticComponent<ComponentType<ThumbnailProps>>> = {',
-    registryObject,
+    'type FileComponent = ComponentType<Props> | ComponentType<ThumbnailProps>;',
+    '',
+    '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
+    'type AllModule = Record<string, ComponentType<any>>;',
+    '',
+    'let moduleCache: AllModule | null = null;',
+    'let loadPromise: Promise<AllModule> | null = null;',
+    '',
+    'function loadModule(): Promise<AllModule> {',
+    "  if (moduleCache) return Promise.resolve(moduleCache);",
+    '  if (!loadPromise) {',
+    "    loadPromise = import('./icons/all').then(m => {",
+    '      moduleCache = m as AllModule;',
+    '      return moduleCache;',
+    '    });',
+    '  }',
+    '  return loadPromise;',
+    '}',
+    '',
+    'const lookup: Record<string, string> = {',
+    lookupEntries,
     '};',
+    '',
+    'const lazyCache: Record<string, LazyExoticComponent<FileComponent>> = {};',
+    '',
+    'export function getFileSync(key: string): FileComponent | null {',
+    '  const componentName = lookup[key];',
+    '  if (!componentName || !moduleCache) return null;',
+    '  return (moduleCache[componentName] as FileComponent) || null;',
+    '}',
+    '',
+    'export function getFileLazy(key: string): LazyExoticComponent<FileComponent> | null {',
+    '  const componentName = lookup[key];',
+    '  if (!componentName) return null;',
+    '  if (!lazyCache[key]) {',
+    '    lazyCache[key] = lazy(() =>',
+    '      loadModule().then(mod => ({',
+    '        default: mod[componentName] as FileComponent,',
+    '      }))',
+    '    );',
+    '  }',
+    '  return lazyCache[key];',
+    '}',
+    '',
+    'export function hasFile(key: string): boolean {',
+    '  return key in lookup;',
+    '}',
     '',
   ].join('\n');
 };
 
 // Generate FileIcon.types.ts
 const generateFileTypes = () => {
-  // Extract unique variants from registry entries
   const variants = new Set();
   for (const { fileType } of registryEntries) {
-    // fileType is like 'archive__lg', 'thumbnail 1:1__md'
     const variant = fileType.split('__')[0];
-    // Convert 'thumbnail 1:1' to 'thumbnail-1:1' for cleaner API
     const normalizedVariant = variant.replace('thumbnail ', 'thumbnail-');
     variants.add(normalizedVariant);
   }
@@ -479,6 +476,6 @@ const generateFileTypes = () => {
 fs.writeFileSync(REGISTRY_PATH, generateFileRegistry());
 fs.writeFileSync(TYPES_PATH, generateFileTypes());
 
-console.log(`Generated ${entries.length} file icons into src/components/icons/FileIcon/icons.`);
+console.log(`Generated ${entries.length} file icons into src/components/icons/FileIcon/icons/all.tsx.`);
 console.log(`Generated file-registry.tsx in src/components/icons/FileIcon/.`);
 console.log(`Generated FileIcon.types.ts in src/components/icons/FileIcon/.`);
