@@ -1,6 +1,7 @@
 # Component Catalog & Props
 
-> Full component reference for `@mbisolution/blumnai-design-system`
+> Component reference for `@mbisolution/blumnai-design-system`
+> For the full authoritative reference, see [AI.md](../../AI.md).
 
 ## Quick Reference
 
@@ -123,19 +124,24 @@ interface SelectOption {
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `label` | `string` | — | Label text |
+| `description` | `string` | — | Description below label |
 | `checked` | `boolean` | `false` | Checked state |
 | `onCheckedChange` | `(checked: boolean) => void` | — | Change callback |
 | `indeterminate` | `boolean` | `false` | Indeterminate state |
 | `disabled` | `boolean` | `false` | Disabled state |
+| `checkboxStyle` | `'default'` `'soft'` | `'default'` | Visual style |
+| `position` | `'left'` `'right'` | `'left'` | Checkbox position |
 
 ### Switch
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `label` | `string` | — | Label text |
+| `description` | `string` | — | Description text |
 | `checked` | `boolean` | `false` | Checked state |
 | `onCheckedChange` | `(checked: boolean) => void` | — | Change callback |
 | `disabled` | `boolean` | `false` | Disabled state |
+| `position` | `'left'` `'right'` | `'left'` | Switch position |
 | `color` | `'default'` `'success'` | `'default'` | Active color |
 
 ### Dialog
@@ -210,6 +216,9 @@ Methods: `toast.default()`, `toast.success()`, `toast.error()`, `toast.warning()
 | `color` | `'red'` `'orange'` `'lime'` `'green'` `'cyan'` `'blue'` `'violet'` `'fuchsia'` `'pink'` `'neutral'` | `'neutral'` | Badge color |
 | `size` | `'sm'` `'lg'` | `'sm'` | Badge size |
 | `shape` | `'rounded'` `'pill'` | `'rounded'` | Badge shape |
+| `border` | `boolean` | `false` | Show border |
+| `icon` | `IconType` | — | Icon (for `variant="icon"`) |
+| `image` | `string` | — | Image URL (for `variant="image"`) |
 | `closeIcon` | `boolean` | `false` | Show close button |
 | `onClose` | `() => void` | - | Close callback |
 
@@ -225,6 +234,46 @@ import { Icon } from '@mbisolution/blumnai-design-system';
 Categories: `system`, `arrows`, `business`, `communication`, `design`, `development`, `device`, `document`, `editor`, `finance`, `map`, `media`, `weather`, `user`
 
 Common icons: `add`, `close`, `check`, `search`, `settings`, `user`, `menu`, `edit`, `delete`, `copy`, `download`, `upload`, `eye`, `arrow-left`, `arrow-right`, `chevron-down`, `info`, `warning`, `heart`, `star`, `filter`, `calendar`, `clock`, `mail`, `link`
+
+### BrandIcon
+
+```tsx
+import { BrandIcon } from '@mbisolution/blumnai-design-system/icons/brand';
+
+<BrandIcon brandType="github" size={24} />
+```
+
+`brandType` (required), `size`, `className`. 119+ brands.
+
+### FlagIcon
+
+```tsx
+import { FlagIcon } from '@mbisolution/blumnai-design-system/icons/flag';
+
+<FlagIcon country="kr" size="md" />
+```
+
+`country` (ISO 3166-1 alpha-2, required), `size` (`'sm'`|`'md'`|`'lg'`). 260+ flags.
+
+### FileIcon
+
+```tsx
+import { FileIcon } from '@mbisolution/blumnai-design-system/icons/file';
+
+<FileIcon fileType="pdf" size="md" />
+```
+
+`fileType` (`'archive'`|`'code'`|`'default'`|`'image'`|`'music'`|`'pdf'`|`'video'`|`'thumbnail11'`|`'thumbnail43'`), `size` (`'sm'`|`'md'`|`'lg'`).
+
+### IsometricIcon
+
+```tsx
+import { IsometricIcon } from '@mbisolution/blumnai-design-system';
+
+<IsometricIcon iconType="check" view="top" size={64} />
+```
+
+`iconType` (required), `view` (`'top'`|`'left'`), `size`, `fillColor`, `strokeColor`. 156 icon types with top/left views.
 
 ## Subpath Imports
 

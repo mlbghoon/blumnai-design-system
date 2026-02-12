@@ -263,6 +263,56 @@ import { Button } from '@mbisolution/blumnai-design-system';
 > <Button loading={isSaving} width={120}>Save</Button>
 > ```
 
+### LinkButton
+
+```tsx
+import { LinkButton } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `linkType` | `'default'` `'muted'` `'informative'` | `'default'` | Link style |
+| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Button size |
+| `label` | `string` | required | Button label text |
+| `href` | `string` | - | URL (renders as `<a>` when provided) |
+| `openInNewTab` | `boolean` | `false` | Open in new tab (`target="_blank"`) |
+| `leadIcon` | `IconType \| ReactNode` | - | Icon before label |
+| `tailIcon` | `IconType \| ReactNode` | `['system', 'external-link']` | Icon after label |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `width` | `string \| number` | - | Custom width |
+
+### ControlButton
+
+```tsx
+import { ControlButton } from '@mbisolution/blumnai-design-system';
+```
+
+Icon-only button. `aria-label` is required.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `buttonStyle` | `'default'` `'inverted'` | `'default'` | Visual style |
+| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Button size (icon: sm=14px, md/lg=16px) |
+| `shape` | `'rounded'` `'circle'` | `'rounded'` | Button shape |
+| `icon` | `IconType` | required | Icon to display |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `aria-label` | `string` | required | Accessibility label |
+
+### ButtonGroup
+
+```tsx
+import { ButtonGroup } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `ButtonGroupItem[]` | required | Array of button items |
+| `size` | `'2xs'` `'xs'` `'sm'` `'md'` `'lg'` | `'md'` | Group size |
+
+**ButtonGroupItem** (discriminated union):
+- **Icon-only**: `{ icon, ariaLabel }` — `label` not allowed
+- **Regular**: `{ label?, icon?, tailIcon?, badge?, disabled?, onClick? }`
+
 ### Input
 
 ```tsx
@@ -387,6 +437,40 @@ import { Checkbox } from '@mbisolution/blumnai-design-system';
 | `checkboxStyle` | `'default'` `'soft'` | `'default'` | Visual style |
 | `position` | `'left'` `'right'` | `'left'` | Checkbox position |
 
+### CheckboxList
+
+```tsx
+import { CheckboxList } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `CheckboxListItem[]` | required | Checkbox items |
+| `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
+| `checkboxStyle` | `'default'` `'with-shadow'` | `'with-shadow'` | Checkbox style |
+| `onItemChange` | `(id: string, checked: boolean) => void` | - | Change handler |
+
+**CheckboxListItem**: `{ id, title, description?, checked?, disabled? }`
+
+### CheckboxCard
+
+```tsx
+import { CheckboxCard } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | required | Card title |
+| `description` | `string` | required | Card description |
+| `sections` | `{ title, description }[]` | - | Additional sections |
+| `layout` | `'vertical'` `'horizontal'` | `'vertical'` | Layout direction |
+| `checked` | `boolean` | - | Checked state |
+| `disabled` | `boolean` | - | Disabled state |
+| `background` | `'default'` `'soft'` | `'default'` | Background style |
+| `checkboxPosition` | `'left'` `'right'` `'off'` | `'right'` | Checkbox position |
+| `checkboxStyle` | `'default'` `'with-shadow'` | `'with-shadow'` | Checkbox style |
+| `onCheckedChange` | `(checked: boolean) => void` | - | Change handler |
+
 ### Switch
 
 ```tsx
@@ -403,6 +487,21 @@ import { Switch } from '@mbisolution/blumnai-design-system';
 | `position` | `'left'` `'right'` | `'left'` | Switch position |
 | `color` | `'default'` `'success'` | `'default'` | Active color |
 
+### SwitchList
+
+```tsx
+import { SwitchList } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `SwitchListItem[]` | required | Switch items |
+| `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
+| `color` | `'green'` `'blue'` `'red'` `'orange'` `'violet'` `'cyan'` `'pink'` | `'green'` | Switch color |
+| `onItemChange` | `(id: string, checked: boolean) => void` | - | Change handler |
+
+**SwitchListItem**: `{ id, title, description?, checked?, disabled? }`
+
 ### RadioGroup / Radio
 
 ```tsx
@@ -413,15 +512,57 @@ import { RadioGroup, Radio } from '@mbisolution/blumnai-design-system';
 
 **Radio**: `value` (required), `label`, `description`, `disabled`
 
+### RadioList
+
+```tsx
+import { RadioList } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `RadioListItem[]` | required | Radio items |
+| `value` | `string` | - | Selected value |
+| `onValueChange` | `(value: string) => void` | - | Value change handler |
+| `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
+| `radioStyle` | `'default'` `'with-shadow'` | `'with-shadow'` | Radio style |
+
+**RadioListItem**: `{ value, title, description?, disabled? }`
+
+### RadioCard
+
+```tsx
+import { RadioCard } from '@mbisolution/blumnai-design-system';
+```
+
+Used inside a `RadioGroup`. Each card is one radio option.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | required | Radio value |
+| `title` | `string` | required | Card title |
+| `description` | `string` | - | Card description |
+| `sections` | `{ title, description }[]` | - | Additional sections |
+| `layout` | `'vertical'` `'horizontal'` | `'vertical'` | Layout direction |
+| `disabled` | `boolean` | - | Disabled state |
+| `background` | `'default'` `'soft'` | `'default'` | Background style |
+| `radioPosition` | `'left'` `'right'` `'off'` | `'right'` | Radio position |
+| `radioStyle` | `'default'` `'with-shadow'` | `'with-shadow'` | Radio style |
+
 ### Dialog
 
 ```tsx
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@mbisolution/blumnai-design-system';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogScrollArea } from '@mbisolution/blumnai-design-system';
 ```
 
 **Dialog**: `open`, `onOpenChange`, `modal`
 
-**DialogContent**: `hideCloseButton`, `size` (`'sm'`|`'md'`|`'lg'`|`'xl'`|`'full'`)
+**DialogContent**: `hideCloseButton`, `disableEscapeClose`, `disableOutsideClose`, `width` (string|number)
+
+**DialogHeader**, **DialogFooter**: Layout wrappers (`HTMLAttributes<HTMLDivElement>`)
+
+**DialogTitle**, **DialogDescription**: Radix Dialog primitives for accessibility
+
+**DialogScrollArea**: `maxHeight` (string|number) — Scrollable content area
 
 ### ConfirmDialog
 
@@ -495,6 +636,36 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@mbisolution/blumnai-d
 **Tabs**: `value`, `defaultValue`, `onValueChange`, `orientation`
 
 **TabsList**: `variant` (`'default'`|`'pills'`|`'underline'`), `size` (`'sm'`|`'md'`|`'lg'`)
+
+### Table
+
+```tsx
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFooter, TableCaption } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `striped` | `boolean` | - | Striped row style |
+| `bordered` | `boolean` | - | Show border |
+| `stickyHeader` | `boolean` | - | Sticky header on scroll |
+| `maxHeight` | `string` | - | Container max height (enables scroll) |
+| `isLoading` | `boolean` | - | Loading state |
+| `pagination` | `boolean` | - | Show pagination UI |
+| `page` | `number` | - | Current page (1-indexed) |
+| `totalPages` | `number` | - | Total pages |
+| `onPageChange` | `(page: number) => void` | - | Page change callback |
+
+**TableHead**: `sortable?` (boolean), `sortDirection?` (`'asc'`|`'desc'`|`false`)
+
+**TableRow**: `selected?` (boolean)
+
+#### Cell Components (for DataGrid columns)
+
+| Component | Key Props | Description |
+|-----------|-----------|-------------|
+| `CellText` | `value` (string\|number), `tooltip?`, `copyable?` | Text cell with optional copy |
+| `CellBadge` | `label`, `color?` (BadgeColor) | Badge in a cell |
+| `CellAvatar` | `src?`, `name?`, `initials?`, `size?`, `showName?` | Avatar in a cell |
 
 ### DataGrid
 
@@ -623,13 +794,19 @@ import { TimePicker, TimeRangePicker } from '@mbisolution/blumnai-design-system'
 ### Sheet / Drawer
 
 ```tsx
-import { Sheet, SheetContent } from '@mbisolution/blumnai-design-system';
-import { Drawer, DrawerContent } from '@mbisolution/blumnai-design-system';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@mbisolution/blumnai-design-system';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter } from '@mbisolution/blumnai-design-system';
 ```
 
 **Sheet**: `open`, `onOpenChange`. **SheetContent**: `side` (`'top'`|`'right'`|`'bottom'`|`'left'`)
 
-**Drawer**: `open`, `onOpenChange`. **DrawerContent**: `position` (`'top'`|`'right'`|`'bottom'`|`'left'`)
+**SheetHeader**, **SheetFooter**: Layout wrappers (`HTMLAttributes<HTMLDivElement>`)
+**SheetTitle**, **SheetDescription**: Radix Dialog primitives for accessibility
+
+**Drawer**: `open`, `onOpenChange`, `direction` (`'top'`|`'right'`|`'bottom'`|`'left'`, default `'bottom'`), `shouldScaleBackground` (default `true`)
+
+**DrawerHeader**, **DrawerFooter**: Layout wrappers (`HTMLAttributes<HTMLDivElement>`)
+**DrawerTitle**, **DrawerDescription**: Vaul primitives for accessibility
 
 ### FilterButton
 
@@ -689,10 +866,16 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@mbisolution/blum
 ### NavigationMenu
 
 ```tsx
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from '@mbisolution/blumnai-design-system';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuListItem } from '@mbisolution/blumnai-design-system';
 ```
 
-`value`, `onValueChange`, `orientation` (`'horizontal'`|`'vertical'`)
+**NavigationMenu**: `value`, `onValueChange`, `orientation` (`'horizontal'`|`'vertical'`)
+
+**NavigationMenuContent**: `width?` (string|number)
+
+**NavigationMenuLink**: `active?` (boolean)
+
+**NavigationMenuListItem**: `title` (required), `description?`, `href` (required), `icon?` (IconType), `iconFill?`
 
 ### AspectRatio
 
@@ -726,7 +909,20 @@ import { TooltipTrigger } from '@mbisolution/blumnai-design-system';
 </TooltipTrigger>
 ```
 
-For rich content, use `AdvancedTooltip` with `items` array of `{ type: 'divider' | 'label' | 'item' | 'text', ... }`.
+**AdvancedTooltip** — Rich content tooltip with structured items:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `TooltipItemData[]` | required | Array of tooltip items |
+| `minWidth` | `number` | - | Minimum width in px |
+
+**TooltipItemData** — Each item has a `type` field:
+- `{ type: 'divider' }` — Horizontal separator
+- `{ type: 'label', label, caption? }` — Section label with optional caption
+- `{ type: 'item', label, caption?, indicatorColor?, icon? }` — Data row with optional color dot and icon
+- `{ type: 'text', text }` — Plain text block
+
+`icon` format: `['system', 'info']` or `['system', 'star', true]` for filled.
 
 ### DatePicker / DateRangePicker
 
@@ -1047,7 +1243,13 @@ Same compound pattern as ContextMenu. Triggered by click instead of right-click.
 
 **DropdownMenuItem**: Same props as ContextMenuItem — `destructive`, `leadIcon`, `tailIcon`, `shortcut`, `caption`, `description`, `size`
 
-Additional specialized items: `DropdownMenuAvatar`, `DropdownMenuUserbar`, `DropdownMenuButton`, `DropdownMenuSearch`
+**DropdownMenuAvatar**: `label` (required), `avatarSrc?`, `avatarAlt?`, `tailIcon?`, `caption?`, `shortcut?`, `disabled?`, `iconColor?`, `onClick?`
+
+**DropdownMenuUserbar**: `name` (required), `description?`, `avatarSrc?`, `avatarAlt?`, `badge?`, `badgeColor?`
+
+**DropdownMenuButton**: `label` (required), `buttonStyle?` (`'secondary'`), `leadIcon?`, `tailIcon?`, `disabled?`, `onClick?`
+
+**DropdownMenuSearch**: `value?`, `onChange?`, `placeholder?` (`'Search...'`), `autoFocus?` (`true`)
 
 ### ScrollArea
 
@@ -1063,19 +1265,116 @@ import { ScrollArea } from '@mbisolution/blumnai-design-system';
 
 ### Collapsible
 
-Wraps Radix UI Collapsible: `Collapsible` (root), `CollapsibleTrigger`, `CollapsibleContent`.
+```tsx
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Open change callback |
+| `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
+| `disabled` | `boolean` | `false` | Disable collapsible |
+
+### Divider
+
+```tsx
+import { Divider } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `'default'` `'text-left'` `'text-center'` `'text-right'` `'icon-left'` `'icon-center'` `'icon-right'` `'button-left'` `'button-center'` `'button-right'` | `'default'` | Divider type |
+| `lineStyle` | `'default'` `'dashed'` | `'default'` | Line style |
+| `label` | `string` | - | Text label (for text-* types) |
+| `icon` | `IconTypeWithFill` | - | Icon (for icon-* types) |
+| `buttonLabel` | `string` | - | Button label (for button-* types) |
+| `onButtonClick` | `() => void` | - | Button click handler |
+| `children` | `ReactNode` | - | Custom content (overrides label/icon/button) |
 
 ### ResizablePanelGroup
 
 Wraps react-resizable-panels: `ResizablePanelGroup`, `ResizablePanel`, `ResizableHandle`.
 
-**ResizableHandle**: `withHandle` (boolean), `variant` (`'line'`|`'pill'`|`'dots'`|`'hidden'`), `collapseButton` (`'before'`|`'after'`)
+**ResizablePanel**: `defaultSize?` (number %), `minSize?` (number %), `maxSize?` (number %), `collapsible?` (boolean). Extends react-resizable-panels Panel props.
+
+**ResizableHandle**: `withHandle` (boolean), `variant` (`'line'`|`'pill'`|`'dots'`|`'hidden'`), `collapseButton` (`'before'`|`'after'`), `collapseButtonPosition` (`'start'`|`'center'`|`'end'`|number), `panelRef`, `isCollapsed?`, `onCollapseChange?`
 
 ### AlertDialog vs ConfirmDialog
 
 > **AlertDialog** — Low-level compound component (like Dialog). Build custom layouts with `AlertDialogContent`, `AlertDialogHeader`, `AlertDialogFooter`, `onConfirm`. Supports `loading` and `confirmDisabled` props. Use for simple yes/no confirmations.
 >
 > **ConfirmDialog** — Higher-level wrapper. Pass `title`, `description`, `confirmLabel`, `cancelLabel`, `variant`, `onConfirm`. Use for standard confirmation patterns.
+
+### Sidebar
+
+```tsx
+import { Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarGroup, SidebarHeader, SidebarFooter, SidebarUserbar } from '@mbisolution/blumnai-design-system';
+```
+
+**SidebarContent**, **SidebarMenu**, **SidebarGroup**, **SidebarHeader**, **SidebarFooter**: Layout wrappers (div/ul elements with `className`)
+
+**SidebarMenuItem** (discriminated union via `variant`):
+
+| Variant | Key Props |
+|---------|-----------|
+| `'default'` (default) | `label` (required), `icon?`, `badge?`, `shortcut?`, `isActive?`, `disabled?`, `collapsed?`, `tooltip?` |
+| `'label'` | `label` (required), `icon?`, `action?` (ReactNode) |
+| `'caption'` | `label` (required), `caption` (required) |
+| `'buttons'` | `label` (required), `icon?`, `actions?` (ReactNode) |
+| `'divider'` | No props |
+| `'avatar'` | `label` (required), `avatarSrc?`, `avatarAlt?`, `avatarInitials?`, `badge?` |
+| `'children'` | `label` (required), `nested?` (default true) |
+
+**SidebarUserbar**:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'variant1'` `'variant2'` `'variant3'` | `'variant3'` | Userbar style |
+| `collapsed` | `boolean` | `false` | Sidebar collapsed state |
+| `avatarSrc` | `string` | - | Avatar image URL |
+| `avatarAlt` | `string` | - | Avatar alt text |
+| `avatarInitials` | `string` | - | Avatar initials |
+| `name` | `string` | - | User name |
+| `email` | `string` | - | User email (variant2 only) |
+| `isOpen` | `boolean` | `false` | Dropdown open state |
+| `onClick` | `() => void` | - | Click handler |
+
+### Menubar
+
+```tsx
+import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator } from '@mbisolution/blumnai-design-system';
+```
+
+**MenubarContent**: `width?` (string|number), `container?` (HTMLElement)
+
+**MenubarItem**:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `destructive` | `boolean` | - | Destructive action styling |
+| `leadIcon` | `IconType` | - | Icon before label |
+| `tailIcon` | `IconType` | - | Icon after label |
+| `caption` | `string` | - | Caption text |
+| `description` | `string` | - | Description (large size only) |
+| `shortcut` | `string` | - | Keyboard shortcut |
+| `size` | `'default'` `'large'` | `'default'` | Item size |
+| `inset` | `boolean` | - | Left indent |
+
+### PopoverContent
+
+```tsx
+import { Popover, PopoverTrigger, PopoverContent, PopoverScrollArea, PopoverArrow } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | `string \| number` | - | Content width |
+| `align` | `'start'` `'center'` `'end'` | `'center'` | Horizontal alignment |
+| `side` | `'top'` `'right'` `'bottom'` `'left'` | `'bottom'` | Which side to render |
+| `sideOffset` | `number` | `4` | Distance from trigger (px) |
+
+**PopoverScrollArea**: `maxHeight` (string|number)
 
 ---
 

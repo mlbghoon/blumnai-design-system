@@ -15,7 +15,7 @@ Package: `@mbisolution/blumnai-design-system`
 ## Install
 
 ```bash
-npm install @mbisolution/blumnai-design-system --lagacy-peers-deps
+npm install @mbisolution/blumnai-design-system --legacy-peer-deps
 ```
 
 ## Setup
