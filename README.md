@@ -164,6 +164,49 @@ import { Button } from '@mbisolution/blumnai-design-system/button';
 
 ---
 
+## 호환성
+
+### 지원 환경
+
+| 환경 | 상태 | 비고 |
+|------|------|------|
+| Next.js 13+ / Vite / webpack 5 | 그대로 사용 가능 | `exports` 필드 지원 |
+| Next.js 12 (webpack 5) | 그대로 사용 가능 | 프록시 디렉터리 자동 폴백 |
+| TypeScript `moduleResolution: "node"` | 그대로 사용 가능 | `typesVersions` 자동 폴백 |
+| TypeScript `moduleResolution: "bundler"` / `"node16"` | 그대로 사용 가능 | `exports` 필드 지원 |
+
+### 동작 원리
+
+서브패스 임포트(`@mbisolution/blumnai-design-system/button`)는 3가지 해상도 메커니즘으로 지원됩니다:
+
+1. **`exports` 필드** — 최신 번들러/Node.js에서 사용 (최우선)
+2. **프록시 디렉터리** — `button/package.json` → `../dist/components/button/index.mjs` (레거시 webpack 폴백)
+3. **`typesVersions`** — TypeScript `moduleResolution: "node"` 환경에서 타입 해상도
+
+대부분의 프로젝트에서 **추가 설정 없이** 작동합니다.
+
+### Next.js 12 + legacy 플러그인 (next-images 등)
+
+`next-images` 같은 레거시 webpack 플러그인이 모듈 해상도를 방해하는 경우, `next.config.js`에 다음을 추가하세요:
+
+```js
+module.exports = {
+  webpack(config) {
+    // exports 필드 해상도 지원
+    if (!config.resolve.conditionNames) {
+      config.resolve.conditionNames = ['import', 'module', 'require', 'node', 'default'];
+    }
+
+    // ... 기존 webpack 설정 ...
+    return config;
+  },
+};
+```
+
+> **참고**: `next-images`는 Next.js 10부터 내장 이미지 처리로 대체되었습니다. 가능하면 제거를 권장합니다.
+
+---
+
 ## 문제 해결
 
 | 에러 | 원인 | 해결 |
@@ -171,6 +214,8 @@ import { Button } from '@mbisolution/blumnai-design-system/button';
 | `401 Unauthorized` | 토큰이 없거나 잘못됨 | `~/.npmrc` 파일에 토큰 확인 |
 | `404 Not Found` | 프로젝트 `.npmrc`가 없음 | 프로젝트 루트에 `.npmrc` 파일 추가 |
 | `EPERM` / 권한 에러 | 토큰에 `read:packages` 권한 없음 | GitHub에서 토큰 권한 확인 |
+| `Module not found: Can't resolve '...button'` | 번들러가 `exports` 필드 미지원 | 위 "호환성" 섹션 참조 |
+| `Cannot find module ... type declarations` | TypeScript가 `exports` 필드 미지원 | `typesVersions`로 자동 해결됨. 패키지 업데이트 확인 |
 
 ---
 
