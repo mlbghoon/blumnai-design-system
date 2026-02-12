@@ -77,4 +77,4 @@ Set `data-theme` on `<html>` or any container:
 
 ## References
 
-- `AI.md` (project root) — Single source of truth for all component props, patterns, and documentation. Read the Section Index at the top first, then jump to the line you need.
+- `AI.md` (package root) — Single source of truth for all component props, patterns, and documentation. Read the Section Index at the top, then search `### ComponentName` to jump to any section.

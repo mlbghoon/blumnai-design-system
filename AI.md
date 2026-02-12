@@ -609,7 +609,6 @@ import { Combobox } from '@mbisolution/blumnai-design-system';
 | `error` | `boolean \| string` | - | Error state/message |
 | `success` | `boolean \| string` | - | Success state/message |
 | `width` | `string \| number` | - | Custom width |
-| `noResultsText` | `string` | - | ~~Deprecated~~ — use `emptyStateTitle` instead |
 | `emptyStateTitle` | `string` | `'No search results'` | Empty state heading when search matches nothing |
 | `emptyStateDescription` | `string` | `'Your search did not match any results.'` | Empty state body text |
 | `creatable` | `boolean` | `false` | Allow creating new options |
@@ -866,10 +865,10 @@ toast.dismissAll();
 | `duration` | `number` | Display duration in ms |
 | `label` | `string` | Action label text (display-only — no click callback; for interactive undo flows, manage state externally before dismissing) |
 
-> **Setup:** `sonner` is bundled as a dependency — you do NOT need to install it separately. However, the `Toaster` provider is not re-exported. Import it directly from `sonner`:
+> **Setup (required):** Toasts won't render without a `<Toaster />` provider. `sonner` is bundled — no separate install needed. Add this once in your root layout:
 > ```tsx
-> import { Toaster } from 'sonner';
-> // In your app root layout:
+> import { Toaster } from 'sonner'; // not from the design system
+> // In your root layout (e.g., App.tsx or layout.tsx):
 > <Toaster position="top-right" />
 > ```
 
@@ -967,6 +966,21 @@ import type { ColumnDef } from '@mbisolution/blumnai-design-system';
 | `width` | `string` | CSS Grid width (e.g., `'1fr'`, `'minmax(100px, 1fr)'`) |
 | `align` | `'left'` `'center'` `'right'` | Cell text alignment |
 | `sticky` | `boolean \| 'left'` | Sticky column |
+
+```tsx
+const columns: ColumnDef<User>[] = [
+  {
+    accessorKey: 'name',
+    header: '이름',
+    meta: { width: '2fr', sticky: 'left' },
+  },
+  {
+    accessorKey: 'status',
+    header: '상태',
+    meta: { width: 'minmax(100px, 1fr)', align: 'center' },
+  },
+];
+```
 
 ### Avatar
 
@@ -1646,6 +1660,8 @@ import {
 
 Same compound pattern as ContextMenu. Triggered by click instead of right-click.
 
+**DropdownMenuLabel**: `caption?` (string — secondary text on right), `inset?` (boolean — left indent)
+
 **DropdownMenuContent**: `width` (string|number)
 
 **DropdownMenuItem**: Same props as ContextMenuItem — `destructive`, `leadIcon`, `tailIcon`, `shortcut`, `caption`, `description`, `size`
@@ -1736,8 +1752,18 @@ Wraps react-resizable-panels: `ResizablePanelGroup`, `ResizablePanel`, `Resizabl
 ### Sidebar
 
 ```tsx
-import { Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarGroup, SidebarHeader, SidebarFooter, SidebarUserbar } from '@mbisolution/blumnai-design-system';
+import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarGroup, SidebarHeader, SidebarFooter, SidebarUserbar, SidebarInset } from '@mbisolution/blumnai-design-system';
 ```
+
+**SidebarProvider** (wrap your layout — required for sidebar context):
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultOpen` | `boolean` | `true` | Initial open state (uncontrolled) |
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
+
+**SidebarInset**: Main content area (`<main>`) — adapts layout to sidebar state. No custom props, standard HTML main element props.
 
 **SidebarContent**, **SidebarMenu**, **SidebarGroup**, **SidebarHeader**, **SidebarFooter**: Layout wrappers (div/ul elements with `className`)
 
@@ -1795,6 +1821,10 @@ import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, Menu
 ```tsx
 import { Popover, PopoverTrigger, PopoverContent, PopoverScrollArea, PopoverArrow } from '@mbisolution/blumnai-design-system';
 ```
+
+**Popover** (root): `open?` (boolean), `onOpenChange?` ((open: boolean) => void), `defaultOpen?` (boolean), `modal?` (boolean)
+
+**PopoverContent:**
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -2408,6 +2438,8 @@ import { IsometricIcon } from '@mbisolution/blumnai-design-system';
 
 > **Note:** `IsometricIcon` is a separate component, not part of the `Icon` tuple system.
 
+**All 160 IsometricIconType values:** `'123'`, `'abc'`, `'actionkey'`, `'acute'`, `'addbox'`, `'addcircle'`, `'addreaction'`, `'addtask'`, `'allmatch'`, `'arrowandedge'`, `'arrowcircledown'`, `'arrowcircleleft'`, `'arrowcircleright'`, `'arrowcircleup'`, `'backspace'`, `'block'`, `'bolt'`, `'boy'`, `'bringyourownip'`, `'cached'`, `'cancel'`, `'cancelcircle'`, `'captiveportal'`, `'changecircle'`, `'check'`, `'checkbox'`, `'checkcircle'`, `'checksmall'`, `'chipextraction'`, `'chips'`, `'chronic'`, `'clearall'`, `'clockleader'`, `'clockloader'`, `'couples'`, `'createnewfolder'`, `'css'`, `'cycle'`, `'dataalert'`, `'datacheckdouble'`, `'datainfoalert'`, `'dataset'`, `'datasetlinked'`, `'delete'`, `'deletesweep'`, `'deployedcode'`, `'deployedcodeaccount'`, `'deployedcodealert'`, `'deployedcodehistory'`, `'desktoplandscape'`, `'desktoplandscapeadd'`, `'desktopportrait'`, `'dialog'`, `'diamond'`, `'directorysync'`, `'diversity'`, `'doneall'`, `'donotdisturboff'`, `'donotdisturbon'`, `'download'`, `'downloaddone'`, `'emojievent'`, `'emojiobjects'`, `'emojipeople'`, `'extensionoff'`, `'favorite'`, `'favoriteminus'`, `'favoriteplus'`, `'filter'`, `'fitscreen'`, `'fronthand'`, `'fullscreen'`, `'fullscreenexit'`, `'gardencart'`, `'groupwork'`, `'happy'`, `'heartbroken'`, `'heartcheck'`, `'highlightkeyboardfocus'`, `'highlightmousecursor'`, `'highlighttextcursor'`, `'hive'`, `'hls'`, `'house'`, `'html'`, `'inputcircle'`, `'installdesktop'`, `'installmobile'`, `'iosshare'`, `'javascript'`, `'key'`, `'keyboardcommandkey'`, `'keyvertical'`, `'leftclick'`, `'linkedservices'`, `'loginblank'`, `'logout'`, `'man'`, `'managesearch'`, `'mood'`, `'moodbad'`, `'moveitem'`, `'multimodalhandeye'`, `'neutral'`, `'newwindow'`, `'openinnew'`, `'outputcircle'`, `'personadd'`, `'psychologyalt'`, `'rocketlaunch'`, `'rotateauto'`, `'rulesettings'`, `'searchcheck'`, `'searchoff'`, `'selectcheckbox'`, `'sendtimeextension'`, `'settings'`, `'settingsaccessibility'`, `'settingsheart'`, `'shelfautohide'`, `'shield'`, `'shoppingcart'`, `'signlanguage'`, `'skull'`, `'sort'`, `'sortbyalpha'`, `'stacks'`, `'star'`, `'starhalf'`, `'start'`, `'statdouble'`, `'stepover'`, `'swaphorizontalcircle'`, `'swapvertical'`, `'swipedown'`, `'swipeleft'`, `'swipeup'`, `'switchaccess'`, `'switchaccessshortcutadd'`, `'sync'`, `'toggleoff'`, `'toggleon'`, `'token'`, `'transcribe'`, `'unable'`, `'undo'`, `'unhappy'`, `'upload'`, `'veryhappy'`, `'veryunhappy'`, `'viewcomfyalt'`, `'viewcozy'`, `'viewkanbab'`, `'viewtimeline'`, `'weight'`, `'workspacepremium'`
+
 ---
 
 ## Type Definitions
@@ -2843,7 +2875,7 @@ function ResponsivePanel({ children }) {
 | `/skeleton` | Skeleton |
 | `/slider` | Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, DataRangeSliderInput |
 | `/switch` | Switch, SwitchList |
-| `/table` | Table, DataGrid, CellText, CellBadge, CellAvatar, CellProgress, CellLink, CellIcon, CellDate, CellDateRange |
+| `/table` | Table, DataGrid, CellText, CellBadge, CellAvatar, CellProgress, CellLink, CellIcon, CellDate, CellDateRange + types: ColumnDef, SortingState, ColumnFiltersState, RowSelectionState, OnChangeFn, Row |
 | `/tabs` | Tabs, TabsList, TabsTrigger, TabsContent |
 | `/textarea` | Textarea |
 | `/time-picker` | TimePicker, TimeInput, TimeRangePicker, TimeRangeInput |
