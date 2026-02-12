@@ -1,10 +1,224 @@
 {
   "name": "@mbisolution/blumnai-design-system",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "private": false,
   "type": "module",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "avatar": [
+        "dist/components/avatar/index.d.ts"
+      ],
+      "badge": [
+        "dist/components/badge/index.d.ts"
+      ],
+      "breadcrumbs": [
+        "dist/components/breadcrumbs/index.d.ts"
+      ],
+      "button": [
+        "dist/components/button/index.d.ts"
+      ],
+      "calendar": [
+        "dist/components/calendar/index.d.ts"
+      ],
+      "card": [
+        "dist/components/card/index.d.ts"
+      ],
+      "carousel": [
+        "dist/components/carousel/index.d.ts"
+      ],
+      "chart": [
+        "dist/components/chart/index.d.ts"
+      ],
+      "checkbox": [
+        "dist/components/checkbox/index.d.ts"
+      ],
+      "chip": [
+        "dist/components/chip/index.d.ts"
+      ],
+      "collapsible": [
+        "dist/components/collapsible/index.d.ts"
+      ],
+      "context-menu": [
+        "dist/components/context-menu/index.d.ts"
+      ],
+      "dialog": [
+        "dist/components/dialog/index.d.ts"
+      ],
+      "divider": [
+        "dist/components/divider/index.d.ts"
+      ],
+      "drawer": [
+        "dist/components/drawer-sheet/index.d.ts"
+      ],
+      "dropdown": [
+        "dist/components/dropdown/index.d.ts"
+      ],
+      "file-upload": [
+        "dist/components/file-upload/index.d.ts"
+      ],
+      "form": [
+        "dist/components/form/index.d.ts"
+      ],
+      "hover-card": [
+        "dist/components/hover-card/index.d.ts"
+      ],
+      "icons": [
+        "dist/components/icons/index.d.ts"
+      ],
+      "icons/icon": [
+        "dist/components/icons/Icon/index.d.ts"
+      ],
+      "icons/brand": [
+        "dist/components/icons/BrandIcon/index.d.ts"
+      ],
+      "icons/flag": [
+        "dist/components/icons/FlagIcon/index.d.ts"
+      ],
+      "icons/file": [
+        "dist/components/icons/FileIcon/index.d.ts"
+      ],
+      "icons/arrows": [
+        "dist/components/icons/Icon/icons/arrows.d.ts"
+      ],
+      "icons/buildings": [
+        "dist/components/icons/Icon/icons/buildings.d.ts"
+      ],
+      "icons/business": [
+        "dist/components/icons/Icon/icons/business.d.ts"
+      ],
+      "icons/communication": [
+        "dist/components/icons/Icon/icons/communication.d.ts"
+      ],
+      "icons/design": [
+        "dist/components/icons/Icon/icons/design.d.ts"
+      ],
+      "icons/development": [
+        "dist/components/icons/Icon/icons/development.d.ts"
+      ],
+      "icons/device": [
+        "dist/components/icons/Icon/icons/device.d.ts"
+      ],
+      "icons/document": [
+        "dist/components/icons/Icon/icons/document.d.ts"
+      ],
+      "icons/editor": [
+        "dist/components/icons/Icon/icons/editor.d.ts"
+      ],
+      "icons/finance": [
+        "dist/components/icons/Icon/icons/finance.d.ts"
+      ],
+      "icons/food": [
+        "dist/components/icons/Icon/icons/food.d.ts"
+      ],
+      "icons/health": [
+        "dist/components/icons/Icon/icons/health & medical.d.ts"
+      ],
+      "icons/logos": [
+        "dist/components/icons/Icon/icons/logos.d.ts"
+      ],
+      "icons/map": [
+        "dist/components/icons/Icon/icons/map.d.ts"
+      ],
+      "icons/media": [
+        "dist/components/icons/Icon/icons/media.d.ts"
+      ],
+      "icons/others": [
+        "dist/components/icons/Icon/icons/others.d.ts"
+      ],
+      "icons/system": [
+        "dist/components/icons/Icon/icons/system.d.ts"
+      ],
+      "icons/user": [
+        "dist/components/icons/Icon/icons/user & faces.d.ts"
+      ],
+      "icons/weather": [
+        "dist/components/icons/Icon/icons/weather.d.ts"
+      ],
+      "icons/flags": [
+        "dist/components/icons/FlagIcon/icons/all.d.ts"
+      ],
+      "icons/brands": [
+        "dist/components/icons/BrandIcon/icons/all.d.ts"
+      ],
+      "icons/isometric": [
+        "dist/components/icons/IsometricIcon/icons/all.d.ts"
+      ],
+      "icons/file-icons": [
+        "dist/components/icons/FileIcon/icons/all.d.ts"
+      ],
+      "icons/cursors": [
+        "dist/components/icons/CursorIcon/icons/all.d.ts"
+      ],
+      "input": [
+        "dist/components/input/index.d.ts"
+      ],
+      "input-otp": [
+        "dist/components/input-otp/index.d.ts"
+      ],
+      "menubar": [
+        "dist/components/menubar/index.d.ts"
+      ],
+      "navigation-menu": [
+        "dist/components/navigation-menu/index.d.ts"
+      ],
+      "pagination": [
+        "dist/components/pagination/index.d.ts"
+      ],
+      "popover": [
+        "dist/components/popover/index.d.ts"
+      ],
+      "progress": [
+        "dist/components/progress/index.d.ts"
+      ],
+      "radio": [
+        "dist/components/radio/index.d.ts"
+      ],
+      "resizable": [
+        "dist/components/resizable/index.d.ts"
+      ],
+      "scroll-area": [
+        "dist/components/scroll-area/index.d.ts"
+      ],
+      "select": [
+        "dist/components/select/index.d.ts"
+      ],
+      "sidebar": [
+        "dist/components/sidebar/index.d.ts"
+      ],
+      "skeleton": [
+        "dist/components/skeleton/index.d.ts"
+      ],
+      "slider": [
+        "dist/components/slider/index.d.ts"
+      ],
+      "switch": [
+        "dist/components/switch/index.d.ts"
+      ],
+      "table": [
+        "dist/components/table/index.d.ts"
+      ],
+      "tabs": [
+        "dist/components/tabs/index.d.ts"
+      ],
+      "textarea": [
+        "dist/components/textarea/index.d.ts"
+      ],
+      "time-picker": [
+        "dist/components/time-picker/index.d.ts"
+      ],
+      "toast": [
+        "dist/components/toast/index.d.ts"
+      ],
+      "tooltip": [
+        "dist/components/tooltip/index.d.ts"
+      ],
+      "*": [
+        "dist/*.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
