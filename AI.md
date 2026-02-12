@@ -2,6 +2,54 @@
 
 > Complete component reference for AI agents and developers.
 > Package: `@mbisolution/blumnai-design-system`
+>
+> **READ THIS INDEX FIRST — then jump to the line you need. Do NOT read the entire file.**
+
+### Section Index
+
+| Section | Lines | What's there |
+|---------|-------|-------------|
+| Setup & Imports | 56–75 | Install, CSS import, peer deps |
+| Quick Reference Table | 79–140 | "I need X" → component + one-liner |
+| Component Categories | 141–238 | Grouped lists (forms, buttons, feedback, nav, data, layout, charts) |
+| Decision Guide | 239–293 | Flowcharts: which component for text input / selection / button / feedback |
+| **Props Reference** | **294–1778** | Every component's full props table |
+| Common Patterns | 1780–2105 | Copy-paste code: forms, dialogs, toasts, DataGrid, file upload, etc. |
+| Icons | 2107–2198 | Icon, BrandIcon, FlagIcon, FileIcon, IsometricIcon usage |
+| Type Definitions | 2200–2300 | Shared types (IconType, ChartConfig, TimeValue, etc.) |
+| Hooks | 2302–2352 | useKeyboardShortcut, useIsMobile |
+| CSS Utilities | 2353–2383 | Spacing, font-size, line-height, letter-spacing px values |
+| Accessibility & SSR | 2384–2468 | A11y notes, SSR, z-index, responsive |
+| Keywords → Component | 2469–2538 | Search by keyword to find the right component |
+| Subpath Imports | 2539–2590 | Tree-shakeable import paths |
+| Theme System | 2592–end | 4 themes via `data-theme` attribute |
+
+### Props Quick Jump
+
+| Component | Line | | Component | Line |
+|-----------|------|-|-----------|------|
+| Button | ~296 | | Slider (all) | ~1073 |
+| LinkButton | ~323 | | TimePicker | ~1105 |
+| ControlButton | ~342 | | Sheet / Drawer | ~1140 |
+| ButtonGroup | ~360 | | FilterButton | ~1157 |
+| Input (13 variants) | ~375 | | AvatarButton | ~1174 |
+| Textarea | ~496 | | Carousel | ~1192 |
+| Select (4 variants) | ~529 | | InputOTP | ~1202 |
+| Combobox | ~606 | | HoverCard | ~1214 |
+| Checkbox / List / Card | ~653 | | NavigationMenu | ~1222 |
+| Switch / SwitchList | ~704 | | Tooltip / Advanced | ~1244 |
+| RadioGroup / List / Card | ~735 | | DatePicker | ~1296 |
+| Dialog | ~781 | | Charts | ~1331 |
+| ConfirmDialog | ~797 | | AccordionGroup | ~1378 |
+| AlertDialog | ~818 | | ContextMenu | ~1413 |
+| Toast | ~848 | | FileUpload | ~1456 |
+| Tabs | ~893 | | Breadcrumbs | ~1493 |
+| Table | ~905 | | Pagination | ~1517 |
+| DataGrid | ~940 | | Card | ~1539 |
+| Avatar | ~988 | | Chip | ~1558 |
+| Badge | ~1020 | | Skeleton | ~1574 |
+| Progress | ~1048 | | Form | ~1591 |
+| Icon | ~1058 | | Sidebar | ~1706 |
 
 ---
 
