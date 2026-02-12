@@ -77,5 +77,4 @@ Set `data-theme` on `<html>` or any container:
 
 ## References
 
-- `references/components.md` — Full component catalog with props
-- `references/patterns.md` — Common copy-paste patterns (forms, dialogs, tables)
+- `AI.md` (project root) — Single source of truth for all component props, patterns, and documentation. Read the Section Index at the top first, then jump to the line you need.

@@ -3,57 +3,34 @@
 > Complete component reference for AI agents and developers.
 > Package: `@mbisolution/blumnai-design-system`
 >
-> **READ THIS INDEX FIRST — then jump to the line you need. Do NOT read the entire file.**
+> **This is the single source of truth.** Search for `### ComponentName` to jump to any component's props.
 
 ### Section Index
 
-| Section | Lines | What's there |
-|---------|-------|-------------|
-| Setup & Imports | 56–75 | Install, CSS import, peer deps |
-| Quick Reference Table | 79–140 | "I need X" → component + one-liner |
-| Component Categories | 141–238 | Grouped lists (forms, buttons, feedback, nav, data, layout, charts) |
-| Decision Guide | 239–293 | Flowcharts: which component for text input / selection / button / feedback |
-| **Props Reference** | **294–1778** | Every component's full props table |
-| Common Patterns | 1780–2105 | Copy-paste code: forms, dialogs, toasts, DataGrid, file upload, etc. |
-| Icons | 2107–2198 | Icon, BrandIcon, FlagIcon, FileIcon, IsometricIcon usage |
-| Type Definitions | 2200–2300 | Shared types (IconType, ChartConfig, TimeValue, etc.) |
-| Hooks | 2302–2352 | useKeyboardShortcut, useIsMobile |
-| CSS Utilities | 2353–2383 | Spacing, font-size, line-height, letter-spacing px values |
-| Accessibility & SSR | 2384–2468 | A11y notes, SSR, z-index, responsive |
-| Keywords → Component | 2469–2538 | Search by keyword to find the right component |
-| Subpath Imports | 2539–2590 | Tree-shakeable import paths |
-| Theme System | 2592–end | 4 themes via `data-theme` attribute |
-
-### Props Quick Jump
-
-| Component | Line | | Component | Line |
-|-----------|------|-|-----------|------|
-| Button | ~296 | | Slider (all) | ~1073 |
-| LinkButton | ~323 | | TimePicker | ~1105 |
-| ControlButton | ~342 | | Sheet / Drawer | ~1140 |
-| ButtonGroup | ~360 | | FilterButton | ~1157 |
-| Input (13 variants) | ~375 | | AvatarButton | ~1174 |
-| Textarea | ~496 | | Carousel | ~1192 |
-| Select (4 variants) | ~529 | | InputOTP | ~1202 |
-| Combobox | ~606 | | HoverCard | ~1214 |
-| Checkbox / List / Card | ~653 | | NavigationMenu | ~1222 |
-| Switch / SwitchList | ~704 | | Tooltip / Advanced | ~1244 |
-| RadioGroup / List / Card | ~735 | | DatePicker | ~1296 |
-| Dialog | ~781 | | Charts | ~1331 |
-| ConfirmDialog | ~797 | | AccordionGroup | ~1378 |
-| AlertDialog | ~818 | | ContextMenu | ~1413 |
-| Toast | ~848 | | FileUpload | ~1456 |
-| Tabs | ~893 | | Breadcrumbs | ~1493 |
-| Table | ~905 | | Pagination | ~1517 |
-| DataGrid | ~940 | | Card | ~1539 |
-| Avatar | ~988 | | Chip | ~1558 |
-| Badge | ~1020 | | Skeleton | ~1574 |
-| Progress | ~1048 | | Form | ~1591 |
-| Icon | ~1058 | | Sidebar | ~1706 |
+| Section | What's there |
+|---------|-------------|
+| **Setup & Imports** | Install, CSS import, peer deps, ref forwarding |
+| **Quick Reference Table** | "I need X" → component + one-liner |
+| **Component Categories** | Grouped lists (forms, buttons, feedback, nav, data, layout, charts) |
+| **Decision Guide** | Flowcharts: which component for text input / selection / button / feedback |
+| **Props Reference** | Every component's full props table (search `### ComponentName`) |
+| **Common Patterns** | Copy-paste code: forms, dialogs, toasts, DataGrid, sidebar layout, async patterns |
+| **Icons** | Icon, BrandIcon, FlagIcon, FileIcon, IsometricIcon usage |
+| **Type Definitions** | Shared types (IconType, IsometricIcon types, ChartConfig, TimeValue, etc.) |
+| **Hooks** | useKeyboardShortcut, useIsMobile, useSidebar |
+| **CSS Utilities** | Spacing, font-size, line-height, letter-spacing px values |
+| **Accessibility & SSR** | A11y notes, SSR, z-index, responsive |
+| **Keywords → Component** | Search by keyword to find the right component |
+| **Subpath Imports** | Tree-shakeable import paths |
+| **Theme System** | 4 themes via `data-theme` attribute + runtime switching |
 
 ---
 
 ## Setup
+
+```bash
+npm install @mbisolution/blumnai-design-system --legacy-peer-deps
+```
 
 ```tsx
 // 1. Import CSS once in app entry
@@ -71,6 +48,8 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 - **Required:** `react` ^18/^19, `react-dom` ^18/^19
 - **Optional** (for Form components): `react-hook-form`, `@hookform/resolvers`, `zod`
 - **Bundled** (no action needed): `date-fns`, `sonner`
+
+**Ref forwarding:** All interactive components (Button, Input, Select, Checkbox, Switch, etc.) forward refs via `React.forwardRef`. Safe to use with `react-hook-form`, `framer-motion`, and other ref-based libraries.
 
 ---
 
@@ -121,6 +100,10 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | Popover | `Popover` | `<Popover><PopoverTrigger>...</PopoverTrigger></Popover>` |
 | Context menu | `ContextMenu` | `<ContextMenu><ContextMenuTrigger>...</ContextMenuTrigger><ContextMenuContent>...</ContextMenuContent></ContextMenu>` |
 | Dropdown menu | `DropdownMenu` | `<DropdownMenu><DropdownMenuTrigger>...</DropdownMenuTrigger><DropdownMenuContent>...</DropdownMenuContent></DropdownMenu>` |
+| Dropdown search | `DropdownMenuSearch` | `<DropdownMenuSearch placeholder="검색..." />` |
+| Dropdown user bar | `DropdownMenuUserbar` | `<DropdownMenuUserbar name="홍길동" avatarSrc="/img.jpg" />` |
+| Dropdown avatar item | `DropdownMenuAvatar` | `<DropdownMenuAvatar label="프로필" avatarSrc="/img.jpg" />` |
+| Dropdown button | `DropdownMenuButton` | `<DropdownMenuButton label="로그아웃" onClick={...} />` |
 | Slider | `Slider` | `<Slider value={50} onChange={...} />` |
 | Slider with input | `SliderInput` | `<SliderInput value={50} onChange={...} />` |
 | Range slider | `SliderRange` | `<SliderRange value={[20, 80]} />` |
@@ -626,9 +609,9 @@ import { Combobox } from '@mbisolution/blumnai-design-system';
 | `error` | `boolean \| string` | - | Error state/message |
 | `success` | `boolean \| string` | - | Success state/message |
 | `width` | `string \| number` | - | Custom width |
-| `noResultsText` | `string` | - | Text when no results |
-| `emptyStateTitle` | `string` | - | Empty state title |
-| `emptyStateDescription` | `string` | - | Empty state description |
+| `noResultsText` | `string` | - | ~~Deprecated~~ — use `emptyStateTitle` instead |
+| `emptyStateTitle` | `string` | `'No search results'` | Empty state heading when search matches nothing |
+| `emptyStateDescription` | `string` | `'Your search did not match any results.'` | Empty state body text |
 | `creatable` | `boolean` | `false` | Allow creating new options |
 | `createText` | `string \| ((value: string) => string)` | - | Create option text |
 | `onCreate` | `(value: string) => void` | - | Callback when new option is created |
@@ -881,12 +864,12 @@ toast.dismissAll();
 | Option | Type | Description |
 |--------|------|-------------|
 | `duration` | `number` | Display duration in ms |
-| `label` | `string` | Action label text |
+| `label` | `string` | Action label text (display-only — no click callback; for interactive undo flows, manage state externally before dismissing) |
 
-> **Setup:** Add `<Toaster />` from `sonner` in your app root:
+> **Setup:** `sonner` is bundled as a dependency — you do NOT need to install it separately. However, the `Toaster` provider is not re-exported. Import it directly from `sonner`:
 > ```tsx
 > import { Toaster } from 'sonner';
-> // In your layout:
+> // In your app root layout:
 > <Toaster position="top-right" />
 > ```
 
@@ -1055,6 +1038,8 @@ import { Progress, ProgressCircular } from '@mbisolution/blumnai-design-system';
 
 **ProgressCircular**: `value`, `max` (100), `variant` (`'default'`|`'success'`|`'failed'`), `color` (ProgressColor, default `'gray'`), `shape` (`'full'`|`'half'`), `size` (px, default 96), `strokeWidth` (default 8), `showLabel`, `formatValue`, `caption`, `error`, `success`
 
+> **ProgressColor** (same as SliderColor): `'gray'` `'brand'` `'red'` `'orange'` `'amber'` `'yellow'` `'lime'` `'green'` `'emerald'` `'teal'` `'cyan'` `'sky'` `'blue'` `'indigo'` `'violet'` `'purple'` `'fuchsia'` `'pink'` `'rose'`
+
 ### Icon
 
 ```tsx
@@ -1080,7 +1065,7 @@ import { Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, Da
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `color` | `SliderColor` | `'gray'` | Slider track color (19 colors) |
+| `color` | `SliderColor` | `'gray'` | Track color: `'gray'` `'brand'` `'red'` `'orange'` `'amber'` `'yellow'` `'lime'` `'green'` `'emerald'` `'teal'` `'cyan'` `'sky'` `'blue'` `'indigo'` `'violet'` `'purple'` `'fuchsia'` `'pink'` `'rose'` |
 | `label` | `string` | - | Label text |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `min` | `number` | `0` | Minimum value |
@@ -1198,6 +1183,19 @@ import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext
 **Carousel**: `orientation` (`'horizontal'`|`'vertical'`), `opts` (EmblaOptionsType), `plugins` (EmblaPluginType[]), `gap` (number, default `16`), `setApi` ((api) => void)
 
 **CarouselIndicators**: `variant` (`'dot'`|`'line'`|`'number'`)
+
+**Autoplay example** (install `embla-carousel-autoplay`):
+
+```tsx
+import Autoplay from 'embla-carousel-autoplay';
+
+<Carousel plugins={[Autoplay({ delay: 3000, stopOnInteraction: false })]} opts={{ loop: true }}>
+  <CarouselContent>
+    <CarouselItem>Slide 1</CarouselItem>
+    <CarouselItem>Slide 2</CarouselItem>
+  </CarouselContent>
+</Carousel>
+```
 
 ### InputOTP
 
@@ -1327,6 +1325,36 @@ import { DatePicker, DateRangePicker } from '@mbisolution/blumnai-design-system'
 <DatePicker label="Start Date" value={date} onChange={setDate} />
 <DateRangePicker label="Period" value={range} onChange={setRange} showQuickPresets />
 ```
+
+**Custom presets** (`QuickPreset[]` — works for both DatePicker and DateRangePicker):
+
+```tsx
+import { addDays, subDays } from 'date-fns';
+
+const presets = [
+  { label: '오늘', getValue: () => new Date() },
+  { label: '어제', getValue: () => subDays(new Date(), 1) },
+  { label: '일주일 후', getValue: () => addDays(new Date(), 7) },
+];
+
+<DatePicker showQuickPresets presets={presets} value={date} onChange={setDate} />
+```
+
+### Calendar
+
+```tsx
+import { Calendar } from '@mbisolution/blumnai-design-system';
+```
+
+The underlying calendar used by DatePicker/DateRangePicker. Extends `react-day-picker` props.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `calendarStyle` | `'default'` `'bordered'` | `'bordered'` | Visual style |
+| `captionLayout` | `'month-centered'` `'month-left'` `'label'` `'dropdown'` `'dropdown-months'` `'dropdown-years'` | `'month-centered'` | Header layout |
+| `mode` | `'single'` `'multiple'` `'range'` | - | Selection mode (from react-day-picker) |
+
+> All other props are inherited from `react-day-picker` (`selected`, `onSelect`, `disabled`, `fromDate`, `toDate`, `numberOfMonths`, `locale`, etc.).
 
 ### Charts
 
@@ -1630,6 +1658,8 @@ Same compound pattern as ContextMenu. Triggered by click instead of right-click.
 
 **DropdownMenuSearch**: `value?`, `onChange?`, `placeholder?` (`'Search...'`), `autoFocus?` (`true`)
 
+> **Note:** Unlike ContextMenu, DropdownMenu does **not** have CheckboxItem or RadioItem sub-components. Use regular `DropdownMenuItem` with custom checkbox/radio rendering if needed.
+
 ```tsx
 <DropdownMenu>
   <DropdownMenuTrigger asChild>
@@ -1695,7 +1725,7 @@ Wraps react-resizable-panels: `ResizablePanelGroup`, `ResizablePanel`, `Resizabl
 
 **ResizablePanel**: `defaultSize?` (number %), `minSize?` (number %), `maxSize?` (number %), `collapsible?` (boolean). Extends react-resizable-panels Panel props.
 
-**ResizableHandle**: `withHandle` (boolean), `variant` (`'line'`|`'pill'`|`'dots'`|`'hidden'`), `collapseButton` (`'before'`|`'after'`), `collapseButtonPosition` (`'start'`|`'center'`|`'end'`|number), `panelRef`, `isCollapsed?`, `onCollapseChange?`
+**ResizableHandle**: `withHandle` (boolean), `variant` (`'line'`|`'pill'`|`'dots'`|`'hidden'`), `collapseButton` (`'before'`|`'after'`), `collapseButtonPosition` (`'start'`|`'center'`|`'end'`|number), `panelRef` (RefObject\<PanelImperativeHandle\> — required when using `collapseButton`, controls which panel collapses/expands), `isCollapsed?`, `onCollapseChange?`
 
 ### AlertDialog vs ConfirmDialog
 
@@ -1774,6 +1804,8 @@ import { Popover, PopoverTrigger, PopoverContent, PopoverScrollArea, PopoverArro
 | `sideOffset` | `number` | `4` | Distance from trigger (px) |
 
 **PopoverScrollArea**: `maxHeight` (string|number)
+
+**PopoverArrow**: Renders an arrow pointing to the trigger. Wraps Radix `PopoverPrimitive.Arrow` — props: `width?` (number), `height?` (number), `className?`
 
 ---
 
@@ -1929,6 +1961,7 @@ function StatusFilter() {
   ];
 
   return (
+    {/* Wrap in <span> because PopoverTrigger asChild merges props — the span prevents conflicts */}
     <Popover>
       <PopoverTrigger asChild>
         <span><FilterButton label="상태" selected={selected.length > 0} /></span>
@@ -2102,6 +2135,186 @@ function CreatableCombobox() {
 
 > **Note:** `creatable` is synchronous — there is no built-in async/loading support. Use `onCreate` to add the new option to your local state.
 
+### Combobox with Async Options
+
+No built-in async support — manage loading state externally:
+
+```tsx
+import { Combobox } from '@mbisolution/blumnai-design-system';
+import { useState, useEffect } from 'react';
+
+function AsyncCombobox() {
+  const [options, setOptions] = useState<{ id: string; label: string }[]>([]);
+  const [value, setValue] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchUsers().then((users) => {
+      setOptions(users.map((u) => ({ id: u.id, label: u.name })));
+      setIsLoading(false);
+    });
+  }, []);
+
+  return (
+    <Combobox
+      variant="default"
+      label="사용자"
+      options={options}
+      value={value}
+      onChange={setValue}
+      placeholder={isLoading ? '로딩 중...' : '선택하세요'}
+      disabled={isLoading}
+    />
+  );
+}
+```
+
+### Sidebar Page Layout
+
+```tsx
+import {
+  SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu,
+  SidebarMenuItem, SidebarFooter, SidebarUserbar, SidebarInset,
+} from '@mbisolution/blumnai-design-system';
+
+function AppLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <SidebarProvider>
+      <Sidebar>
+        <SidebarHeader>
+          <img src="/logo.svg" alt="Logo" />
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarMenu>
+            <SidebarMenuItem label="대시보드" icon={['system', 'home-2']} isActive />
+            <SidebarMenuItem label="프로젝트" icon={['system', 'folder']} badge="3" />
+            <SidebarMenuItem variant="divider" />
+            <SidebarMenuItem label="설정" icon={['system', 'settings']} />
+            <SidebarMenuItem variant="children" label="도구">
+              <SidebarMenuItem label="분석" icon={['system', 'chart']} />
+              <SidebarMenuItem label="리포트" icon={['system', 'document']} />
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarContent>
+        <SidebarFooter>
+          <SidebarUserbar
+            variant="variant2"
+            name="홍길동"
+            email="hong@email.com"
+            avatarInitials="홍"
+          />
+        </SidebarFooter>
+      </Sidebar>
+      <SidebarInset>{children}</SidebarInset>
+    </SidebarProvider>
+  );
+}
+```
+
+### DataGrid with Server-Side Sorting
+
+`ColumnDef`, `SortingState`, `ColumnFiltersState`, `RowSelectionState`, and `OnChangeFn` are all re-exported from the design system (originally from `@tanstack/react-table`).
+
+```tsx
+import { useState } from 'react';
+import { DataGrid } from '@mbisolution/blumnai-design-system';
+import type { ColumnDef, SortingState, OnChangeFn } from '@mbisolution/blumnai-design-system';
+
+const columns: ColumnDef<User>[] = [
+  { accessorKey: 'name', header: '이름' },
+  { accessorKey: 'email', header: '이메일' },
+];
+
+function ServerTable() {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [data, setData] = useState<User[]>([]);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    const sort = sorting[0];
+    fetchUsers({ page, sortBy: sort?.id, sortDir: sort?.desc ? 'desc' : 'asc' })
+      .then(({ items, total }) => { setData(items); setTotal(total); });
+  }, [sorting, page]);
+
+  return (
+    <DataGrid
+      columns={columns}
+      data={data}
+      sorting={sorting}
+      onSortingChange={setSorting}
+      page={page}
+      total={total}
+      limit={10}
+      onPageChange={setPage}
+    />
+  );
+}
+```
+
+### DataGrid with Column Filtering
+
+```tsx
+import { useState } from 'react';
+import { DataGrid } from '@mbisolution/blumnai-design-system';
+import type { ColumnDef, ColumnFiltersState } from '@mbisolution/blumnai-design-system';
+
+function FilterableTable() {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  return (
+    <DataGrid
+      columns={columns}
+      data={data}
+      columnFilters={columnFilters}
+      onColumnFiltersChange={setColumnFilters}
+    />
+  );
+}
+```
+
+### Form with Async Submit
+
+```tsx
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Form, FormField, FormControl, Input, Button, toast } from '@mbisolution/blumnai-design-system';
+import { useState } from 'react';
+
+const schema = z.object({ name: z.string().min(1, '필수 항목입니다') });
+
+function AsyncForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+    defaultValues: { name: '' },
+  });
+
+  const onSubmit = async (values: z.infer<typeof schema>) => {
+    setIsSubmitting(true);
+    try {
+      await saveData(values);
+      toast.success('저장되었습니다');
+    } catch {
+      toast.error('저장에 실패했습니다');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <Form form={form} onSubmit={onSubmit} className="flex flex-col gap-16">
+      <FormField control={form.control} name="name" render={({ field }) => (
+        <FormControl><Input variant="default" label="이름" {...field} /></FormControl>
+      )} />
+      <Button buttonStyle="primary" type="submit" loading={isSubmitting}>저장</Button>
+    </Form>
+  );
+}
+```
+
 ---
 
 ## Icons
@@ -2211,6 +2424,32 @@ type IconType = [category: string, name: string];
 ```ts
 type IconTypeWithFill = IconType | [...IconType, boolean];
 // e.g., ['system', 'heart', true] for filled variant
+```
+
+### IsometricIconType
+
+```ts
+type IsometricIconType = string; // 200+ isometric icon identifiers
+// e.g., 'analysis', 'calendar', 'chart', 'cloud', 'database', 'email', 'file', etc.
+```
+
+### IsometricFillColor
+
+```ts
+type IsometricFillColor =
+  | 'default' | 'subtle' | 'muted' | 'inverted' | 'accent'
+  | 'card-default' | 'card-subtle' | 'card-inverted'
+  | 'sidebar-default' | 'sidebar-subtle'
+  // + 100+ semantic color tokens (state, checkbox, switch, basic colors, etc.)
+```
+
+### IsometricStrokeColor
+
+```ts
+type IsometricStrokeColor =
+  | 'default' | 'darker' | 'strong' | 'inverted' | 'accent'
+  | 'accent-inverted' | 'destructive' | 'informative' | 'success'
+  | 'warning' | 'highlight' | 'highlight-destructive' | 'input-highlight';
 ```
 
 ### ChartDataPoint
@@ -2348,11 +2587,36 @@ if (isMobile) {
 return <Sheet>...</Sheet>;
 ```
 
+### useSidebar
+
+```tsx
+import { useSidebar } from '@mbisolution/blumnai-design-system';
+```
+
+Returns the sidebar context. Must be used inside a `SidebarProvider`.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `state` | `'expanded'` \| `'collapsed'` | Current sidebar state |
+| `open` | `boolean` | Whether sidebar is open |
+| `setOpen` | `(open: boolean) => void` | Set open state |
+| `openMobile` | `boolean` | Mobile sidebar open state |
+| `setOpenMobile` | `(open: boolean) => void` | Set mobile open state |
+| `isMobile` | `boolean` | Whether viewport is mobile |
+| `toggleSidebar` | `() => void` | Toggle sidebar open/closed |
+| `collapsible` | `'offcanvas'` \| `'icon'` \| `'none'` | Collapse behavior |
+| `setCollapsible` | `(value) => void` | Set collapse behavior |
+
+```tsx
+const { state, toggleSidebar } = useSidebar();
+// state === 'collapsed' → icon-only mode
+```
+
 ---
 
 ## CSS Utility Classes Reference
 
-The design system provides custom utility classes. **Do not use default Tailwind classes** for typography or spacing.
+The design system provides custom utility classes. **Do not use default Tailwind classes** for typography or spacing. Standard Tailwind layout classes (`flex`, `flex-col`, `grid`, `items-center`, `justify-between`, `max-w-sm`, `w-full`, `h-full`, `relative`, `absolute`, `hidden`, etc.) are fine — only typography (`text-sm`, `leading-5`, `tracking-tight`) and spacing (`p-4`, `gap-2`, `w-16`, `h-8`) have custom replacements.
 
 | Category | Classes | Examples |
 |----------|---------|---------|
@@ -2601,5 +2865,43 @@ function ResponsivePanel({ children }) {
 | Theme-B Dark | `data-theme="theme-b-dark"` | Alternative dark theme |
 
 ```tsx
+// Static (SSR-safe)
 <html data-theme="dark">{/* Dark theme */}</html>
+
+// Scoped to a section
+<div data-theme="theme-b-light">{/* Only this area uses Theme-B Light */}</div>
+```
+
+**Runtime switching (JavaScript):**
+
+```tsx
+// Switch theme
+document.documentElement.setAttribute('data-theme', 'dark');
+
+// Reset to default (Theme-A Light)
+document.documentElement.removeAttribute('data-theme');
+
+// React example
+function ThemeSwitcher() {
+  const [theme, setTheme] = useState<string>('');
+  const changeTheme = (t: string) => {
+    if (t) document.documentElement.setAttribute('data-theme', t);
+    else document.documentElement.removeAttribute('data-theme');
+    setTheme(t);
+  };
+  return (
+    <Select
+      variant="default"
+      label="Theme"
+      options={[
+        { id: '', label: 'Light (default)' },
+        { id: 'dark', label: 'Dark' },
+        { id: 'theme-b-light', label: 'Theme-B Light' },
+        { id: 'theme-b-dark', label: 'Theme-B Dark' },
+      ]}
+      value={theme}
+      onChange={changeTheme}
+    />
+  );
+}
 ```
