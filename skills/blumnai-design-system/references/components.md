@@ -231,9 +231,9 @@ import { Icon } from '@mbisolution/blumnai-design-system';
 <Icon iconType={['system', 'close']} size={24} />
 ```
 
-Categories: `system`, `arrows`, `business`, `communication`, `design`, `development`, `device`, `document`, `editor`, `finance`, `map`, `media`, `weather`, `user`
+Categories: `arrows`, `buildings`, `business`, `communication`, `design`, `development`, `device`, `document`, `editor`, `finance`, `food`, `health`, `map`, `media`, `others`, `system`, `user`, `weather`
 
-Common icons: `add`, `close`, `check`, `search`, `settings`, `user`, `menu`, `edit`, `delete`, `copy`, `download`, `upload`, `eye`, `arrow-left`, `arrow-right`, `chevron-down`, `info`, `warning`, `heart`, `star`, `filter`, `calendar`, `clock`, `mail`, `link`
+Common system icons: `add`, `check`, `close`, `search`, `settings`, `menu`, `more`, `more-2`, `delete-bin`, `download`, `upload`, `eye`, `eye-off`, `filter`, `star`, `share`, `lock`, `information`, `error-warning`, `time`, `refresh`, `external-link`, `zoom-in`, `zoom-out`, `toggle`, `loader`, `question`
 
 ### BrandIcon
 
@@ -250,10 +250,10 @@ import { BrandIcon } from '@mbisolution/blumnai-design-system/icons/brand';
 ```tsx
 import { FlagIcon } from '@mbisolution/blumnai-design-system/icons/flag';
 
-<FlagIcon country="kr" size="md" />
+<FlagIcon country="south korea" size={24} />
 ```
 
-`country` (ISO 3166-1 alpha-2, required), `size` (`'sm'`|`'md'`|`'lg'`). 260+ flags.
+`country` (`CountryCode` — full country name like `'south korea'`, `'united states'`, required), `size` (`number`, default 24). 260+ flags.
 
 ### FileIcon
 
@@ -263,7 +263,7 @@ import { FileIcon } from '@mbisolution/blumnai-design-system/icons/file';
 <FileIcon fileType="pdf" size="md" />
 ```
 
-`fileType` (`'archive'`|`'code'`|`'default'`|`'image'`|`'music'`|`'pdf'`|`'video'`|`'thumbnail11'`|`'thumbnail43'`), `size` (`'sm'`|`'md'`|`'lg'`).
+`fileType` (`'archive'`|`'code'`|`'default'`|`'image'`|`'music'`|`'pdf'`|`'video'`|`'thumbnail-1:1'`|`'thumbnail-4:3'`), `size` (`'sm'`|`'md'`|`'lg'`).
 
 ### IsometricIcon
 

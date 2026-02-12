@@ -220,6 +220,35 @@ module.exports = {
 
 ---
 
+## 업데이트 알림 설정
+
+새 버전이 출시되면 빠르게 반영할 수 있도록 Dependabot을 설정하는 것을 권장합니다.
+
+프로젝트에 `.github/dependabot.yml` 파일을 추가하세요:
+
+```yaml
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-name: "@mbisolution/blumnai-design-system"
+    registries:
+      - github-packages
+
+registries:
+  github-packages:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+> Dependabot이 매주 새 버전을 확인하고, 업데이트가 있으면 자동으로 PR을 생성합니다.
+
+---
+
 ## 참고 자료
 
 - **[AI.md](./AI.md)** — 전체 컴포넌트 레퍼런스 (AI 에이전트 & 개발자용)

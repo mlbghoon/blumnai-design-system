@@ -420,6 +420,52 @@ interface SelectOption {
 }
 ```
 
+### Combobox
+
+```tsx
+import { Combobox } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default'` `'avatar'` `'tags'` | `'default'` | Combobox type |
+| `options` | `ComboboxOption[]` | `[]` | Available options |
+| `value` | `string \| string[]` | - | Selected value(s) — `string[]` for tags variant |
+| `onChange` | `(value) => void` | - | Change callback — `string` for default/avatar, `string[]` for tags |
+| `selectStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
+| `size` | `'sm'` `'lg'` | `'lg'` | Size |
+| `label` | `string` | - | Label text |
+| `placeholder` | `string` | - | Placeholder text |
+| `required` | `boolean` | `false` | Required state |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `supportText` | `string` | - | Support text below |
+| `caption` | `string` | - | Caption text |
+| `error` | `boolean \| string` | - | Error state/message |
+| `success` | `boolean \| string` | - | Success state/message |
+| `width` | `string \| number` | - | Custom width |
+| `noResultsText` | `string` | - | Text when no results |
+| `emptyStateTitle` | `string` | - | Empty state title |
+| `emptyStateDescription` | `string` | - | Empty state description |
+| `creatable` | `boolean` | `false` | Allow creating new options |
+| `createText` | `string \| ((value: string) => string)` | - | Create option text |
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
+| `maxHeight` | `number \| string` | - | Dropdown max height |
+
+Tags variant adds: `maxSelections` (number), `maxVisibleTags` (number), `overflowText` (string)
+
+```ts
+interface ComboboxOption {
+  id: string;
+  label: string;
+  description?: string;
+  leadIcon?: IconType;
+  badge?: string;
+  avatarSrc?: string;
+  disabled?: boolean;
+}
+```
+
 ### Checkbox
 
 ```tsx
@@ -581,6 +627,36 @@ import { ConfirmDialog } from '@mbisolution/blumnai-design-system';
 | `cancelLabel` | `string` | `'취소'` | Cancel button text |
 | `onConfirm` | `() => void \| Promise<void>` | - | Confirm callback |
 | `loading` | `boolean` | `false` | Loading state |
+
+### AlertDialog
+
+```tsx
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel, AlertDialogScrollArea } from '@mbisolution/blumnai-design-system';
+```
+
+**Simple usage (SimpleAlertDialog):**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | - | Open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Open change callback |
+| `title` | `string` | required | Title text |
+| `description` | `string` | - | Description text |
+| `confirmLabel` | `string` | - | Confirm button text |
+| `onConfirm` | `() => void` | - | Confirm callback |
+| `width` | `string \| number` | - | Custom width |
+
+**Compound parts:**
+
+**AlertDialogContent**: extends Radix AlertDialog.Content + `width` (string|number)
+
+**AlertDialogScrollArea**: `maxHeight` (string|number) — Scrollable content area
+
+**AlertDialogHeader**, **AlertDialogFooter**: Layout wrappers (`HTMLAttributes<HTMLDivElement>`)
+
+**AlertDialogTitle**, **AlertDialogDescription**: Radix AlertDialog primitives for accessibility
+
+**AlertDialogAction**, **AlertDialogCancel**: Radix AlertDialog primitives + `asChild`
 
 ### Toast
 
@@ -790,6 +866,31 @@ import { TimePicker, TimeRangePicker } from '@mbisolution/blumnai-design-system'
 **TimePicker**: `value` (`TimeValue`), `onChange`, `timeFormat` (`'12h'`|`'24h'`), `showSeconds`, `label`, `error`, `showQuickSelect`
 
 **TimeRangePicker**: `value` (`TimeRange`), `onChange`, `timeFormat`, `showSeconds`, `showQuickSelect`
+
+### TimeInput / TimeRangeInput
+
+```tsx
+import { TimeInput, TimeRangeInput } from '@mbisolution/blumnai-design-system';
+```
+
+**TimeInput** (lower-level, no label/popup):
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `TimeValue` | - | Time value `{ hour, minute, second? }` |
+| `onChange` | `(value: TimeValue \| undefined) => void` | - | Change callback |
+| `timeFormat` | `'12h'` `'24h'` | `'12h'` | Time format |
+| `showSeconds` | `boolean` | `false` | Show seconds segment |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `hasError` | `boolean` | `false` | Error style |
+| `hasSuccess` | `boolean` | `false` | Success style |
+| `isOpen` | `boolean` | - | Open state indicator |
+| `size` | `'sm'` `'lg'` | `'lg'` | Size |
+| `timePickerStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
+| `placeholder` | `TimeSegmentPlaceholder` | - | Placeholder `{ hour?, minute?, second? }` |
+| `hideClockIcon` | `boolean` | `false` | Hide clock icon |
+
+**TimeRangeInput**: `value` (`TimeRange` — `{ start?: TimeValue, end?: TimeValue }`), `onChange`, `timeFormat`, `showSeconds`, `disabled`, `hasError`, `hasSuccess`, `isOpen`, `size`, `timePickerStyle`, `placeholder`
 
 ### Sheet / Drawer
 
@@ -1643,13 +1744,13 @@ import { Icon } from '@mbisolution/blumnai-design-system';
 
 ### Categories
 
-`system`, `arrows`, `business`, `communication`, `design`, `development`, `device`, `document`, `editor`, `finance`, `food`, `health`, `logos`, `map`, `media`, `weather`, `user`
+`arrows`, `buildings`, `business`, `communication`, `design`, `development`, `device`, `document`, `editor`, `finance`, `food`, `health`, `map`, `media`, `others`, `system`, `user`, `weather`
 
 ### Common System Icons
 
-`add`, `close`, `check`, `search`, `settings`, `user`, `menu`, `more-horizontal`, `more-vertical`, `edit`, `delete`, `copy`, `download`, `upload`, `eye`, `eye-off`, `arrow-left`, `arrow-right`, `arrow-up`, `arrow-down`, `chevron-left`, `chevron-right`, `chevron-up`, `chevron-down`, `info`, `warning`, `error`, `success`, `heart`, `star`, `filter`, `sort`, `calendar`, `clock`, `mail`, `phone`, `link`, `external-link`
+`add`, `check`, `close`, `search`, `settings`, `menu`, `more`, `more-2`, `delete-bin`, `download`, `upload`, `eye`, `eye-off`, `filter`, `star`, `share`, `lock`, `lock-unlock`, `information`, `error-warning`, `alarm-warning`, `time`, `refresh`, `external-link`, `login-box`, `logout-box`, `zoom-in`, `zoom-out`, `toggle`, `loader`, `shield`, `question`
 
-> **Naming convention:** Icon names in the `Icon` component tuple use kebab-case (e.g., `['system', 'more-horizontal']`). Named icon components use PascalCase (e.g., `MoreIcon`, `More2Icon`).
+> Icons like `user`, `edit`, `arrow-*`, `heart`, `calendar`, `mail`, `phone`, `link` exist in their respective categories (`user`, `design`, `arrows`, `health`, `business`, `communication`, `device`, `editor`).
 
 ### BrandIcon
 
@@ -2061,7 +2162,7 @@ function ResponsivePanel({ children }) {
 | `/button` | Button, ControlButton, FilterButton, AvatarButton, LinkButton, ButtonGroup |
 | `/calendar` | Calendar, DatePicker, DateRangePicker |
 | `/card` | Card, CardHeader, CardTitle, CardContent, CardFooter |
-| `/carousel` | Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext |
+| `/carousel` | Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselIndicators |
 | `/chart` | Chart, BarChart, LineChart, PieChart, DonutChart |
 | `/checkbox` | Checkbox, CheckboxCard, CheckboxList |
 | `/chip` | Chip |
