@@ -150,15 +150,13 @@ const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'name',
     header: 'Name',
-    cell: ({ row }) => <CellAvatar name={row.original.name} description={row.original.email} />,
+    cell: ({ row }) => <CellAvatar name={row.original.name} showName />,
   },
   {
     accessorKey: 'status',
     header: 'Status',
     cell: ({ getValue }) => (
-      <CellBadge variant={getValue() === 'active' ? 'success' : 'secondary'}>
-        {getValue() === 'active' ? 'Active' : 'Inactive'}
-      </CellBadge>
+      <CellBadge label={getValue() === 'active' ? 'Active' : 'Inactive'} color={getValue() === 'active' ? 'green' : 'neutral'} />
     ),
   },
 ];
@@ -168,7 +166,7 @@ function UserTable() {
     { id: '1', name: 'John Doe', email: 'john@email.com', status: 'active' },
   ]);
 
-  return <DataGrid columns={columns} data={data} enableSorting enableRowSelection />;
+  return <DataGrid columns={columns} data={data} enableRowSelection />;
 }
 ```
 
@@ -196,17 +194,17 @@ function SearchInput() {
 ## File Upload
 
 ```tsx
-import { FileUpload } from '@mbisolution/blumnai-design-system';
+import { FileUploadArea } from '@mbisolution/blumnai-design-system';
 import { useState } from 'react';
 
 function UploadExample() {
   const [files, setFiles] = useState<File[]>([]);
   return (
-    <FileUpload
+    <FileUploadArea
       accept="image/*,.png,.jpg,.jpeg"
       maxFiles={5}
       maxSize={5 * 1024 * 1024}
-      onFilesChange={setFiles}
+      onFilesSelected={setFiles}
     />
   );
 }
@@ -449,7 +447,7 @@ function DashboardPage() {
       <Card>
         <CardHeader><CardTitle>Recent Activity</CardTitle></CardHeader>
         <CardContent>
-          <DataGrid columns={columns} data={data} enableSorting enablePagination pageSize={5} />
+          <DataGrid columns={columns} data={data} pagination limit={5} />
         </CardContent>
       </Card>
     </div>
@@ -486,7 +484,7 @@ function FilteredTable<T extends Record<string, unknown>>({
         <Input variant="default" placeholder="Search..." leadIcon={['system', 'search']} value={search} onChange={(e) => setSearch(e.target.value)} onClear={() => setSearch('')} />
         <Select variant="default" placeholder="Status" options={[{ id: 'active', label: 'Active' }, { id: 'inactive', label: 'Inactive' }]} value={statusFilter} onChange={setStatusFilter} />
       </div>
-      <DataGrid columns={columns} data={filtered} enableSorting enableRowSelection enablePagination />
+      <DataGrid columns={columns} data={filtered} enableRowSelection />
     </div>
   );
 }

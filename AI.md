@@ -19,6 +19,11 @@ import { Button } from '@mbisolution/blumnai-design-system/button';
 import { Input } from '@mbisolution/blumnai-design-system/input';
 ```
 
+**Peer Dependencies:**
+- **Required:** `react` ^18/^19, `react-dom` ^18/^19
+- **Optional** (for Form components): `react-hook-form`, `@hookform/resolvers`, `zod`
+- **Bundled** (no action needed): `date-fns`, `sonner`
+
 ---
 
 ## Component Catalog
@@ -35,7 +40,7 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | Tags/chips input | `Input` | `<Input variant="tags" />` |
 | Multi-line text | `Textarea` | `<Textarea label="Bio" />` |
 | Select one option | `Select` | `<Select variant="default" options={[...]} />` |
-| Select multiple | `Select` | `<Select variant="multi" options={[...]} />` |
+| Select multiple | `Select` | `<Select variant="multi-select" options={[...]} />` |
 | Searchable select | `Combobox` | `<Combobox options={[...]} />` |
 | Yes/No toggle | `Switch` | `<Switch label="Enabled" />` |
 | Checkbox | `Checkbox` | `<Checkbox label="Agree" />` |
@@ -56,7 +61,7 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | Date range picker | `DateRangePicker` | `<DateRangePicker value={range} onChange={...} />` |
 | Time picker | `TimePicker` | `<TimePicker value={time} onChange={...} />` |
 | Time range picker | `TimeRangePicker` | `<TimeRangePicker value={range} onChange={...} />` |
-| File upload | `FileUpload` | `<FileUpload onFilesChange={...} />` |
+| File upload | `FileUploadArea` | `<FileUploadArea onFilesSelected={...} />` |
 | Avatar | `Avatar` | `<Avatar variant="userpic" src="url" alt="John" />` |
 | Avatar group | `AvatarGroup` | `<AvatarGroup avatars={[...]} />` |
 | Badge/Tag | `Badge` | `<Badge label="Active" color="green" />` |
@@ -99,7 +104,7 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | `Input variant="shortcut"` | Input with keyboard shortcut badge |
 | `Textarea` | Multi-line text with optional character count |
 | `Select variant="default"` | Single selection dropdown |
-| `Select variant="multi"` | Multiple selection |
+| `Select variant="multi-select"` | Multiple selection |
 | `Select variant="avatar"` | Selection with user avatars |
 | `Select variant="tags"` | Selection displayed as tags |
 | `Combobox` | Searchable/filterable select |
@@ -110,7 +115,7 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | `DataRangeSlider` / `DataRangeSliderInput` | Range slider with data distribution chart |
 | `DatePicker` / `DateRangePicker` | Date selection |
 | `TimePicker` / `TimeInput` / `TimeRangePicker` / `TimeRangeInput` | Time selection |
-| `FileUpload` | File drag & drop upload |
+| `FileUploadArea` / `FileUploadCard` | File drag & drop upload |
 | `InputOTP` | One-time password input |
 
 #### Buttons
@@ -120,7 +125,7 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | `Button` | Primary actions (submit, save, etc.) |
 | `LinkButton` | Navigation styled as text link |
 | `ControlButton` | Icon-only actions (edit, delete) |
-| `FilterButton` | Filter toggles with selection state and count badge |
+| `FilterButton` | Filter toggles with selection state |
 | `AvatarButton` | User profile button with avatar |
 | `ButtonGroup` | Group of related buttons |
 
@@ -207,7 +212,7 @@ Need to select from options?
 │   └── With search? → Combobox
 ├── Multiple selection?
 │   ├── Few options? → CheckboxList
-│   └── Many options? → Select variant="multi"
+│   └── Many options? → Select variant="multi-select"
 └── On/Off toggle? → Switch
 ```
 
@@ -248,15 +253,19 @@ import { Button } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `buttonStyle` | `'primary'` `'secondary'` `'destructive'` `'ghost'` `'ghostMuted'` `'soft'` `'dashed'` | `'secondary'` | Visual style |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Button size |
-| `shape` | `'rectangle'` `'pill'` `'square'` `'circle'` | `'rectangle'` | Button shape |
+| `buttonStyle` | `'primary'` `'secondary'` `'destructive'` `'ghost'` `'ghostMuted'` `'soft'` `'dashed'` | `'primary'` | Visual style |
+| `variant` | `'default'` `'iconOnly'` | `'default'` | Button variant (`'iconOnly'` hides text, shows only icon) |
+| `size` | `'2xs'` `'xs'` `'sm'` `'md'` `'lg'` | `'md'` | Button size |
+| `shape` | `'rounded'` `'pill'` | `'rounded'` | Button shape |
+| `type` | `'button'` `'submit'` `'reset'` | `'button'` | HTML button type |
 | `fullWidth` | `boolean` | `false` | Full container width |
 | `loading` | `boolean` | `false` | Show loading spinner |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `width` | `string \| number` | - | Custom width (e.g., `120`, `'200px'`) |
-| `leadIcon` | `IconType` | - | Icon before text |
-| `tailIcon` | `IconType` | - | Icon after text |
+| `leadIcon` | `IconTypeWithFill \| ReactNode` | - | Icon before text |
+| `tailIcon` | `IconTypeWithFill \| ReactNode` | - | Icon after text |
+| `shortcut` | `string` | - | Keyboard shortcut badge (e.g., `'⌘K'`) |
+| `asChild` | `boolean` | `false` | Render as child element (Radix Slot) |
 
 > **Tip:** When using `loading`, always set `width` to prevent the button from shrinking when the label is replaced by a spinner.
 > ```tsx
@@ -279,6 +288,7 @@ import { LinkButton } from '@mbisolution/blumnai-design-system';
 | `leadIcon` | `IconType \| ReactNode` | - | Icon before label |
 | `tailIcon` | `IconType \| ReactNode` | `['system', 'external-link']` | Icon after label |
 | `disabled` | `boolean` | `false` | Disabled state |
+| `asChild` | `boolean` | `false` | Render as child element (Radix Slot) |
 | `width` | `string \| number` | - | Custom width |
 
 ### ControlButton
@@ -296,6 +306,7 @@ Icon-only button. `aria-label` is required.
 | `shape` | `'rounded'` `'circle'` | `'rounded'` | Button shape |
 | `icon` | `IconType` | required | Icon to display |
 | `disabled` | `boolean` | `false` | Disabled state |
+| `asChild` | `boolean` | `false` | Render as child element (Radix Slot) |
 | `aria-label` | `string` | required | Accessibility label |
 
 ### ButtonGroup
@@ -323,7 +334,7 @@ import { Input } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'password'` `'quantity'` `'tags'` `'addon'` `'shortcut'` | `'default'` | Input type |
+| `variant` | `'default'` `'password'` `'quantity'` `'quantity-2'` `'tags'` `'inline-tags'` `'addon'` `'inline-addon'` `'shortcut'` `'lead-button'` `'tail-button'` `'lead-dropdown'` `'tail-dropdown'` | `'default'` | Input type |
 | `inputStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `size` | `'sm'` `'lg'` | `'sm'` | Input size |
 | `label` | `string` | - | Label text |
@@ -334,46 +345,105 @@ import { Input } from '@mbisolution/blumnai-design-system';
 | `success` | `boolean \| string` | - | Success state/message |
 | `supportText` | `string` | - | Helper text next to label |
 | `caption` | `string` | - | Description below input |
+| `width` | `string \| number` | - | Container width |
 
 #### variant="default"
 
 | Prop | Type | Description |
 |------|------|-------------|
-| `leadIcon` | `IconType` | Icon at start |
-| `tailIcon` | `IconType` | Icon at end |
+| `leadIcon` | `IconTypeWithFill` | Icon at start |
+| `tailIcon` | `IconTypeWithFill` | Icon at end |
+| `shortcut` | `string` | Keyboard shortcut badge |
 | `onClear` | `() => void` | Clear button callback |
+
+#### variant="shortcut"
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `leadIcon` | `IconTypeWithFill` | Icon at start |
+| `shortcut` | `string` | Keyboard shortcut (required) |
 
 #### variant="password"
 
 | Prop | Type | Description |
 |------|------|-------------|
-| `showToggle` | `boolean` | Show visibility toggle |
+| `leadIcon` | `IconTypeWithFill` | Icon at start |
+| `showToggle` | `boolean` | Show visibility toggle (default `true`) |
 | `showStrength` | `boolean` | Show strength indicator |
 | `autoCalculateStrength` | `boolean` | Auto-calculate strength |
 | `strength` | `'none'` `'low'` `'medium'` `'high'` | Controlled strength |
+| `onStrengthChange` | `(strength: PasswordStrength) => void` | Strength change callback |
 
-#### variant="quantity"
+#### variant="quantity" / variant="quantity-2"
+
+`quantity` has +/- buttons on right side. `quantity-2` has - on left, + on right.
 
 | Prop | Type | Description |
 |------|------|-------------|
-| `value` | `number` | Current value |
+| `value` | `number` | Current value (default `0`) |
 | `onChange` | `(value: number) => void` | Value change callback |
-| `min` / `max` / `step` | `number` | Constraints |
+| `min` | `number` | Minimum value (default `0`) |
+| `max` | `number` | Maximum value |
+| `step` | `number` | Step increment (default `1`) |
 
-#### variant="tags"
+#### variant="tags" / variant="inline-tags"
+
+`tags` renders tags above input. `inline-tags` renders tags inline with input.
 
 | Prop | Type | Description |
 |------|------|-------------|
+| `leadIcon` | `IconTypeWithFill` | Icon at start |
 | `tags` | `string[]` | Current tags |
 | `onTagsChange` | `(tags: string[]) => void` | Tags change callback |
+| `onTagAdd` | `(tag: string) => void` | Single tag add callback |
+| `onTagRemove` | `(tag: string) => void` | Single tag remove callback |
 | `maxTags` | `number` | Maximum tags allowed |
+| `value` | `string` | Current input text value |
+| `onInputChange` | `(value: string) => void` | Input text change callback |
+| `delimiters` | `string[]` | Tag creation delimiters (default `[',', 'Enter']`) |
+| `allowDuplicates` | `boolean` | Allow duplicate tags (default `false`) |
+| `removable` | `boolean` | Tags can be removed (default `true`) |
 
-#### variant="addon"
+#### variant="addon" / variant="inline-addon"
+
+`addon` shows prefix/suffix as separate sections. `inline-addon` shows them inline.
 
 | Prop | Type | Description |
 |------|------|-------------|
+| `leadIcon` | `IconTypeWithFill` | Icon at start |
+| `tailIcon` | `IconTypeWithFill` | Icon at end |
 | `prefix` | `string \| ReactNode` | Content before input |
 | `suffix` | `string \| ReactNode` | Content after input |
+| `onClear` | `() => void` | Clear button callback |
+
+#### variant="lead-button" / variant="tail-button"
+
+Input with an attached button on the leading or trailing side.
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `leadIcon` | `IconTypeWithFill` | Icon at start (tail-button only) |
+| `tailIcon` | `IconTypeWithFill` | Icon at end (lead-button only) |
+| `onClear` | `() => void` | Clear button callback |
+| `buttonLabel` | `string` | Button text |
+| `buttonLeadIcon` | `IconTypeWithFill` | Button leading icon |
+| `buttonTailIcon` | `IconTypeWithFill` | Button trailing icon |
+| `onButtonClick` | `() => void` | Button click callback |
+| `buttonDisabled` | `boolean` | Button disabled state |
+
+#### variant="lead-dropdown" / variant="tail-dropdown"
+
+Input with an attached dropdown select on the leading or trailing side.
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `leadIcon` | `IconTypeWithFill` | Icon at start (tail-dropdown only) |
+| `tailIcon` | `IconTypeWithFill` | Icon at end (lead-dropdown only) |
+| `onClear` | `() => void` | Clear button callback |
+| `dropdownOptions` | `DropdownOption[]` | Dropdown options (required) |
+| `dropdownValue` | `string` | Selected dropdown value |
+| `onDropdownChange` | `(value: string) => void` | Dropdown change callback |
+| `dropdownPlaceholder` | `string` | Dropdown placeholder (default `'Select'`) |
 
 ### Textarea
 
@@ -386,11 +456,27 @@ import { Textarea } from '@mbisolution/blumnai-design-system';
 | `textareaStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `size` | `'sm'` `'lg'` | `'sm'` | Textarea size |
 | `label` | `string` | - | Label text |
-| `rows` | `number` | `3` | Visible text rows |
+| `required` | `boolean` | `false` | Show required indicator |
+| `supportText` | `string` | - | Helper text next to label |
+| `caption` | `string` | - | Description below textarea |
+| `error` | `boolean \| string` | - | Error state/message |
+| `success` | `boolean \| string` | - | Success state/message |
+| `width` | `string \| number` | - | Container width |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `minRows` | `number` | `3` | Minimum visible text rows |
+| `maxRows` | `number` | - | Maximum visible text rows |
 | `resize` | `'none'` `'vertical'` `'horizontal'` `'both'` | `'vertical'` | Resize behavior |
 | `showCount` | `boolean` | `false` | Show character count |
 | `maxLength` | `number` | - | Maximum characters |
-| `error` | `boolean \| string` | - | Error state/message |
+| `showToolbar` | `boolean` | `false` | Show toolbar below textarea |
+| `toolbarActions` | `TextareaToolbarAction[]` | - | Custom toolbar actions (left side) |
+| `onAttach` | `() => void` | - | Attach button callback (shows paperclip icon) |
+| `onSubmit` | `() => void` | - | Submit button callback (shows send icon) |
+| `submitDisabled` | `boolean` | `false` | Disable submit button |
+| `onVoiceInput` | `() => void` | - | Voice input callback (shows mic icon) |
+| `toolbarTrailing` | `ReactNode` | - | Custom content in toolbar right side |
+
+**TextareaToolbarAction**: `{ key, icon?, label?, onClick?, disabled? }`
 
 ### Select
 
@@ -398,24 +484,73 @@ import { Textarea } from '@mbisolution/blumnai-design-system';
 import { Select } from '@mbisolution/blumnai-design-system';
 ```
 
+#### Common Props (all variants)
+
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'multi'` `'avatar'` `'tags'` | `'default'` | Select type |
-| `options` | `SelectOption[]` | `[]` | Available options |
-| `value` | `string \| string[]` | - | Selected value(s) |
-| `onChange` | `(value) => void` | - | Change callback |
-| `placeholder` | `string` | - | Placeholder text |
+| `variant` | `'default'` `'multi-select'` `'avatar'` `'tags'` | `'default'` | Select type |
+| `selectStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
+| `size` | `'sm'` `'lg'` | `'sm'` | Select size |
+| `options` | `SelectOption[]` | required | Available options |
 | `label` | `string` | - | Label text |
+| `placeholder` | `string` | - | Placeholder text |
+| `required` | `boolean` | `false` | Show required indicator |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `error` | `boolean \| string` | - | Error state/message |
-| `searchable` | `boolean` | `false` | Enable search |
+| `success` | `boolean \| string` | - | Success state/message |
+| `supportText` | `string` | - | Helper text next to label |
+| `caption` | `string` | - | Description below select |
+| `width` | `string \| number` | - | Container width |
+| `leadIcon` | `IconTypeWithFill` | - | Icon before text |
+| `searchable` | `boolean` | `false` | Enable search filtering |
+| `searchPlaceholder` | `string` | `'Search...'` | Search input placeholder |
+| `noResultsText` | `string` | `'No results found'` | Text when no search results |
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
+| `maxHeight` | `number \| string` | `300` | Dropdown max height |
+
+#### variant="default"
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `value` | `string` | Selected option ID |
+| `onChange` | `(value: string) => void` | Change callback |
+| `selectType` | `'default'` `'checkbox'` `'radio'` | Selection indicator style (default `'default'`) |
+
+#### variant="avatar"
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `value` | `string` | Selected option ID |
+| `onChange` | `(value: string) => void` | Change callback |
+
+#### variant="multi-select"
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `value` | `string[]` | Selected option IDs |
+| `onChange` | `(value: string[]) => void` | Change callback |
+| `maxSelections` | `number` | Maximum selections allowed |
+| `selectedText` | `string \| ((count: number) => string)` | Display text for selected count |
+
+#### variant="tags"
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `value` | `string[]` | Selected option IDs |
+| `onChange` | `(value: string[]) => void` | Change callback |
+| `maxSelections` | `number` | Maximum selections allowed |
+| `maxVisibleTags` | `number` | Max visible tags before overflow |
+| `overflowText` | `string \| ((hiddenCount, totalCount) => string)` | Overflow indicator text |
 
 ```ts
 interface SelectOption {
   id: string;
   label: string;
   description?: string;
-  avatar?: string;
+  leadIcon?: IconTypeWithFill;
+  badge?: string;
+  avatarSrc?: string;
   disabled?: boolean;
 }
 ```
@@ -433,7 +568,7 @@ import { Combobox } from '@mbisolution/blumnai-design-system';
 | `value` | `string \| string[]` | - | Selected value(s) — `string[]` for tags variant |
 | `onChange` | `(value) => void` | - | Change callback — `string` for default/avatar, `string[]` for tags |
 | `selectStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
-| `size` | `'sm'` `'lg'` | `'lg'` | Size |
+| `size` | `'sm'` `'lg'` | `'sm'` | Size |
 | `label` | `string` | - | Label text |
 | `placeholder` | `string` | - | Placeholder text |
 | `required` | `boolean` | `false` | Required state |
@@ -448,6 +583,7 @@ import { Combobox } from '@mbisolution/blumnai-design-system';
 | `emptyStateDescription` | `string` | - | Empty state description |
 | `creatable` | `boolean` | `false` | Allow creating new options |
 | `createText` | `string \| ((value: string) => string)` | - | Create option text |
+| `onCreate` | `(value: string) => void` | - | Callback when new option is created |
 | `open` | `boolean` | - | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
 | `maxHeight` | `number \| string` | - | Dropdown max height |
@@ -480,8 +616,8 @@ import { Checkbox } from '@mbisolution/blumnai-design-system';
 | `onCheckedChange` | `(checked: boolean) => void` | - | Change callback |
 | `indeterminate` | `boolean` | `false` | Indeterminate state |
 | `disabled` | `boolean` | `false` | Disabled state |
-| `checkboxStyle` | `'default'` `'soft'` | `'default'` | Visual style |
-| `position` | `'left'` `'right'` | `'left'` | Checkbox position |
+| `checkboxStyle` | `'default'` `'with-shadow'` | `'default'` | Visual style |
+| `checkboxPosition` | `'left'` `'right'` `'off'` | `'left'` | Checkbox position |
 
 ### CheckboxList
 
@@ -530,8 +666,8 @@ import { Switch } from '@mbisolution/blumnai-design-system';
 | `checked` | `boolean` | `false` | Checked state |
 | `onCheckedChange` | `(checked: boolean) => void` | - | Change callback |
 | `disabled` | `boolean` | `false` | Disabled state |
-| `position` | `'left'` `'right'` | `'left'` | Switch position |
-| `color` | `'default'` `'success'` | `'default'` | Active color |
+| `switchPosition` | `'left'` `'right'` | `'left'` | Switch position |
+| `color` | `'green'` `'blue'` `'red'` `'orange'` `'violet'` `'cyan'` `'pink'` | `'green'` | Active color |
 
 ### SwitchList
 
@@ -626,7 +762,10 @@ import { ConfirmDialog } from '@mbisolution/blumnai-design-system';
 | `confirmLabel` | `string` | `'확인'` | Confirm button text |
 | `cancelLabel` | `string` | `'취소'` | Cancel button text |
 | `onConfirm` | `() => void \| Promise<void>` | - | Confirm callback |
+| `onCancel` | `() => void` | - | Cancel callback |
 | `loading` | `boolean` | `false` | Loading state |
+| `confirmDisabled` | `boolean` | `false` | Disable confirm button |
+| `width` | `string \| number` | - | Custom width |
 
 ### AlertDialog
 
@@ -711,7 +850,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@mbisolution/blumnai-d
 
 **Tabs**: `value`, `defaultValue`, `onValueChange`, `orientation`
 
-**TabsList**: `variant` (`'default'`|`'pills'`|`'underline'`), `size` (`'sm'`|`'md'`|`'lg'`)
+**TabsList**: `variant` (`'pill'`|`'segmented'`|`'underline'`), `shape` (`'pill'`|`'rounded'`), `size` (`'sm'`|`'lg'`), `type` (`'default'`|`'fixed'`)
+
+**TabsTrigger**: `leadIcon` (`IconTypeWithFill | ReactNode`), `tailIcon` (`IconTypeWithFill | ReactNode`), `badge` (`string | number`)
 
 ### Table
 
@@ -741,7 +882,12 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFoo
 |-----------|-----------|-------------|
 | `CellText` | `value` (string\|number), `tooltip?`, `copyable?` | Text cell with optional copy |
 | `CellBadge` | `label`, `color?` (BadgeColor) | Badge in a cell |
-| `CellAvatar` | `src?`, `name?`, `initials?`, `size?`, `showName?` | Avatar in a cell |
+| `CellAvatar` | `src?`, `name?`, `initials?`, `size?` (`'2xs'`\|`'xs'`\|`'sm'`\|`'md'`), `showName?` | Avatar in a cell |
+| `CellProgress` | `value`, `max?` (100), `showLabel?`, `color?` (`'default'`\|`'success'`\|`'warning'`\|`'destructive'`) | Progress bar in a cell |
+| `CellLink` | `href`, `label?`, `tooltip?`, `external?` | Link in a cell |
+| `CellIcon` | `iconType` (IconTypeWithFill), `size?` (16), `color?`, `label?` | Icon in a cell |
+| `CellDate` | `value` (Date\|string\|number), `format?` (`'date'`\|`'datetime'`\|`'time'`), `locale?` (`'ko'`\|`'en'`\|`'ja'`\|`'zh'`) | Formatted date in a cell |
+| `CellDateRange` | `startDate`, `endDate`, `format?`, `locale?`, `separator?` (`'~'`) | Date range in a cell |
 
 ### DataGrid
 
@@ -752,15 +898,44 @@ import type { ColumnDef } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `columns` | `ColumnDef<T>[]` | required | Column definitions |
+| `columns` | `ColumnDef<T>[]` | required | Column definitions (TanStack Table) |
 | `data` | `T[]` | required | Data array |
-| `enableSorting` | `boolean` | `false` | Enable column sorting |
-| `enableFiltering` | `boolean` | `false` | Enable column filtering |
-| `enableRowSelection` | `boolean` | `false` | Enable row selection |
-| `enablePagination` | `boolean` | `false` | Enable pagination |
-| `pageSize` | `number` | `10` | Rows per page |
-| `onRowSelectionChange` | `(selection) => void` | - | Selection callback |
-| `onRowClick` | `(row) => void` | - | Row click callback |
+| `getRowId` | `(row: T) => string` | `row.id` | Row identifier function |
+| `sorting` | `SortingState` | - | Controlled sorting state |
+| `onSortingChange` | `OnChangeFn<SortingState>` | - | Sorting change callback |
+| `columnFilters` | `ColumnFiltersState` | - | Controlled filter state |
+| `onColumnFiltersChange` | `OnChangeFn<ColumnFiltersState>` | - | Filter change callback |
+| `enableRowSelection` | `boolean \| ((row) => boolean)` | - | Enable row selection |
+| `rowSelection` | `RowSelectionState` | - | Controlled selection state |
+| `onRowSelectionChange` | `OnChangeFn<RowSelectionState>` | - | Selection change callback |
+| `onRowClick` | `(row: T) => void` | - | Row click callback |
+| `pagination` | `boolean` | `true` | Enable pagination |
+| `page` | `number` | - | Current page (1-indexed) |
+| `total` | `number` | - | Total items (server-side) |
+| `limit` | `number` | `10` | Items per page |
+| `limitOptions` | `number[]` | - | Page size options |
+| `onPageChange` | `(page: number) => void` | - | Page change callback |
+| `onLimitChange` | `(limit: number) => void` | - | Limit change callback |
+| `isLoading` | `boolean` | - | Loading state |
+| `preserveDataWhileLoading` | `boolean` | - | Keep data visible while loading |
+| `emptyText` | `string` | `'검색된 내용이 없습니다.'` | Empty state text |
+| `emptyContent` | `ReactNode` | - | Custom empty state |
+| `error` | `string \| ReactNode` | - | Error message/content |
+| `onRetry` | `() => void` | - | Retry callback |
+| `minHeight` / `maxHeight` | `string` | - | Container height constraints |
+| `headerHeight` / `rowHeight` | `string` | `'32px'` | Row sizing |
+| `getRowHeight` | `(row: T) => string \| undefined` | - | Per-row height |
+| `showSelectedRowBackground` | `boolean` | - | Highlight selected rows |
+
+> **Additional pagination props:** `limitOptionLabel`, `pageChangeConfirmMessage`, `paginationAlign` (`'left'`|`'center'`|`'right'`), `paginationVariant`, `maxVisiblePages` (7), `paginationDisabled`, `hideNavButtons`, `resultTextFormatter`, `showItemCount`
+
+**ColumnMeta** (via `meta` in column defs):
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `width` | `string` | CSS Grid width (e.g., `'1fr'`, `'minmax(100px, 1fr)'`) |
+| `align` | `'left'` `'center'` `'right'` | Cell text alignment |
+| `sticky` | `boolean \| 'left'` | Sticky column |
 
 ### Avatar
 
@@ -781,6 +956,8 @@ import { Avatar, AvatarGroup } from '@mbisolution/blumnai-design-system';
 | `color` | `string` | - | Background color for initials |
 | `ring` | `boolean` | `false` | White ring around avatar |
 | `status` | `'online'` `'offline'` `'checkmark'` `'logo'` `'icon'` `'notification'` | - | Status badge |
+| `logoImage` | `string` | - | Logo image URL (for `status="logo"`) |
+| `icon` | `IconType` | - | Icon (for `status="icon"`) |
 | `badgeLocation` | `'top'` `'bottom'` | `'top'` | Status badge position |
 
 ```tsx
@@ -826,9 +1003,9 @@ import { Badge } from '@mbisolution/blumnai-design-system';
 import { Progress, ProgressCircular } from '@mbisolution/blumnai-design-system';
 ```
 
-**Progress**: `value`, `max` (100), `showValue`, `size` (`'sm'`|`'md'`|`'lg'`)
+**Progress**: `value`, `max` (100), `variant` (`'linear'`|`'dashed'`), `color` (ProgressColor, default `'gray'`), `label`, `showValue`, `formatValue`, `caption`, `error`, `success`
 
-**ProgressCircular**: `value`, `size` (px), `strokeWidth`, `showValue`
+**ProgressCircular**: `value`, `max` (100), `variant` (`'default'`|`'success'`|`'failed'`), `color` (ProgressColor, default `'gray'`), `shape` (`'full'`|`'half'`), `size` (px, default 96), `strokeWidth` (default 8), `showLabel`, `formatValue`, `caption`, `error`, `success`
 
 ### Icon
 
@@ -839,23 +1016,43 @@ import { Icon } from '@mbisolution/blumnai-design-system';
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `iconType` | `[category, name]` | required | Icon identifier |
-| `size` | `number` | `20` | Icon size in px |
-| `color` | `string` | `'currentColor'` | Icon color |
+| `size` | `number` | `24` | Icon size in px |
+| `color` | `IconColor` | - | Icon color token or CSS color string (defaults to `currentColor` via CSS) |
 | `isFill` | `boolean` | `false` | Use fill variant |
+
+> **IconColor tokens:** `'default'`, `'default-subtle'`, `'default-muted'`, `'default-disabled'`, `'inverted-default'`, `'inverted-subtle'`, `'inverted-muted'`, `'inverted-disabled'`, `'white-default'`, `'black-default'`, `'destructive'`, `'informative'`, `'success'`, `'warning'`, or any CSS color string.
 
 ### Slider
 
 ```tsx
-import { Slider, SliderRange, SliderInput, SliderRangeInput } from '@mbisolution/blumnai-design-system';
+import { Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, DataRangeSliderInput } from '@mbisolution/blumnai-design-system';
 ```
 
-**Slider**: `value`, `onChange`, `min`, `max`, `step`, `disabled`, `color`, `showTicks`
+**Common base props** (all slider components):
 
-**SliderRange**: `value` (`[number, number]`), `onChange`, `min`, `max`
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `color` | `SliderColor` | `'gray'` | Slider track color (19 colors) |
+| `label` | `string` | - | Label text |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `min` | `number` | `0` | Minimum value |
+| `max` | `number` | `100` | Maximum value |
+| `step` | `number` | `1` | Step increment |
+| `showTicks` | `boolean` | `false` | Show tick marks |
+| `tickCount` | `number` | `11` | Number of ticks |
+| `formatTick` | `(value: number) => string` | - | Tick label formatter |
 
-**SliderInput / SliderRangeInput**: All slider props + `label`, `showInput`
+**Slider**: + `value` (number), `defaultValue`, `onChange`, `showValue`, `formatValue`
 
-**DataRangeSlider / DataRangeSliderInput**: `data` (number[]), `value`, `onChange`, `showChart`
+**SliderRange**: + `value` ([number, number]), `defaultValue`, `onChange`, `showValue`, `formatValue`
+
+**SliderInput**: + `value` (number), `defaultValue`, `onChange`, `formatValue`, `suffix`
+
+**SliderRangeInput**: + `value` ([number, number]), `defaultValue`, `onChange`, `formatValue`, `suffix`
+
+**DataRangeSlider**: + `value` ([number, number]), `defaultValue`, `onChange`, `formatValue`, `separator` (`'~'`), `chartData` (number[])
+
+**DataRangeSliderInput**: + `value` ([number, number]), `defaultValue`, `onChange`, `formatValue`, `suffix` (`'%'`), `chartData` (number[])
 
 ### TimePicker
 
@@ -917,9 +1114,14 @@ import { FilterButton } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
+| `label` | `string` | required | Button label text |
 | `selected` | `boolean` | `false` | Selection state |
-| `count` | `number` | - | Active filter count badge |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Button size |
+| `size` | `'xs'` `'md'` `'lg'` | `'md'` | Button size |
+| `shape` | `'rounded'` `'pill'` | `'rounded'` | Button shape |
+| `icon` | `IconType` | `['system', 'filter']` | Filter icon |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `asChild` | `boolean` | `false` | Render as child element (Radix Slot) |
+| `width` | `string \| number` | - | Custom width |
 
 ### AvatarButton
 
@@ -929,10 +1131,15 @@ import { AvatarButton } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `src` | `string` | - | Avatar image URL |
-| `name` | `string` | - | User name (fallback initials) |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Button size |
-| `showDropdown` | `boolean` | `false` | Show dropdown indicator |
+| `avatar` | `string` | required | Avatar image URL |
+| `label` | `string` | required | Label text displayed next to avatar |
+| `alt` | `string` | - | Avatar alt text |
+| `size` | `'sm'` `'lg'` | `'lg'` | Button size |
+| `buttonStyle` | `'default'` `'dashed'` `'soft'` | `'default'` | Visual style |
+| `tailIcon` | `IconType \| ReactNode` | - | Trailing icon (e.g., dropdown indicator) |
+| `width` | `string \| number` | - | Custom width |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `asChild` | `boolean` | `false` | Render as child element (Radix Slot) |
 
 ### Carousel
 
@@ -940,7 +1147,7 @@ import { AvatarButton } from '@mbisolution/blumnai-design-system';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselIndicators } from '@mbisolution/blumnai-design-system';
 ```
 
-**Carousel**: `orientation` (`'horizontal'`|`'vertical'`), `opts` (EmblaOptionsType)
+**Carousel**: `orientation` (`'horizontal'`|`'vertical'`), `opts` (EmblaOptionsType), `plugins` (EmblaPluginType[]), `gap` (number, default `16`), `setApi` ((api) => void)
 
 **CarouselIndicators**: `variant` (`'dot'`|`'line'`|`'number'`)
 
@@ -962,7 +1169,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@mbiso
 import { HoverCard, HoverCardTrigger, HoverCardContent } from '@mbisolution/blumnai-design-system';
 ```
 
-`openDelay` (700ms), `closeDelay` (300ms)
+`openDelay` (700ms), `closeDelay` (300ms). **HoverCardContent**: `container?` (HTMLElement)
 
 ### NavigationMenu
 
@@ -1008,6 +1215,19 @@ import { TooltipTrigger } from '@mbisolution/blumnai-design-system';
 <TooltipTrigger content="Help text" placement="top">
   <Button>Hover me</Button>
 </TooltipTrigger>
+```
+
+**AdvancedTooltip**: `items` (TooltipItemData[], required), `minWidth?` (number)
+
+```ts
+interface TooltipItemData {
+  type: 'divider' | 'label' | 'item' | 'text';
+  label?: string;
+  caption?: string;
+  indicatorColor?: string;
+  icon?: IconTypeWithFill;
+  text?: string;
+}
 ```
 
 **AdvancedTooltip** — Rich content tooltip with structured items:
@@ -1188,7 +1408,7 @@ import {
 ### FileUpload
 
 ```tsx
-import { FileUpload, FileUploadArea, FileUploadCard } from '@mbisolution/blumnai-design-system';
+import { FileUploadArea, FileUploadCard } from '@mbisolution/blumnai-design-system';
 ```
 
 **FileUploadArea:**
@@ -1206,6 +1426,8 @@ import { FileUpload, FileUploadArea, FileUploadCard } from '@mbisolution/blumnai
 | `icon` | `IconTypeWithFill` | - | Custom icon |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `error` | `boolean \| string` | - | Error state/message |
+| `caption` | `string` | - | Description below upload area |
+| `width` | `string \| number` | - | Container width |
 
 **FileUploadCard:**
 
@@ -1215,6 +1437,8 @@ import { FileUpload, FileUploadArea, FileUploadCard } from '@mbisolution/blumnai
 | `status` | `'uploading'` `'uploaded'` `'error'` | Upload state |
 | `progress` | `number` | Progress 0-100 |
 | `thumbnail` | `string` | Preview image URL |
+| `errorMessage` | `string` | Error message text |
+| `size` | `'sm'` `'lg'` | Card size |
 | `onRemove` | `() => void` | Remove callback |
 | `onRetry` | `() => void` | Retry callback |
 
@@ -1236,6 +1460,7 @@ interface BreadcrumbItem {
   label: string;
   href?: string;
   icon?: IconTypeWithFill | ReactNode;
+  image?: string;
   disabled?: boolean;
   onClick?: () => void;
 }
@@ -1257,6 +1482,11 @@ import { Pagination } from '@mbisolution/blumnai-design-system';
 | `disabled` | `boolean` | `false` | Disabled state |
 | `hideNavButtons` | `boolean` | `false` | Hide prev/next buttons |
 | `getPageHref` | `(page: number) => string` | - | For router integration |
+| `pageChangeConfirmMessage` | `string` | - | Show confirmation dialog before page change |
+| `total` | `number` | - | Total items (for `'simple'` variant display) |
+| `resultTextFormatter` | `(current, total) => string` | - | Custom result text (simple variant) |
+| `prevText` | `string` | `'Prev'` | Previous button text (simple variant) |
+| `nextText` | `string` | `'Next'` | Next button text (simple variant) |
 
 ### Card
 
@@ -1352,6 +1582,24 @@ Same compound pattern as ContextMenu. Triggered by click instead of right-click.
 
 **DropdownMenuSearch**: `value?`, `onChange?`, `placeholder?` (`'Search...'`), `autoFocus?` (`true`)
 
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button buttonStyle="secondary">메뉴</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent width={240}>
+    <DropdownMenuSearch placeholder="검색..." />
+    <DropdownMenuSeparator />
+    <DropdownMenuUserbar name="홍길동" description="admin@email.com" avatarSrc="/avatar.jpg" />
+    <DropdownMenuSeparator />
+    <DropdownMenuAvatar label="프로필" avatarSrc="/avatar.jpg" />
+    <DropdownMenuItem leadIcon={['system', 'settings']}>설정</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuButton label="로그아웃" leadIcon={['system', 'logout-box']} onClick={handleLogout} />
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
 ### ScrollArea
 
 ```tsx
@@ -1441,6 +1689,8 @@ import { Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarGroup, Si
 | `isOpen` | `boolean` | `false` | Dropdown open state |
 | `onClick` | `() => void` | - | Click handler |
 
+> **Collapse behavior:** The `collapsed` prop on `SidebarMenuItem` switches to icon-only mode. State auto-propagates from `useSidebar()` hook, or override with the prop directly. `variant="children"` renders nested items (hidden when collapsed). The `tooltip` prop shows a label on hover when collapsed.
+
 ### Menubar
 
 ```tsx
@@ -1528,6 +1778,24 @@ function LoginForm() {
 }
 ```
 
+### Form with Select & Checkbox
+
+`FormControl` auto-injects the `error` prop into `Input`, `Textarea`, and `Select`. Other components (like `Checkbox`) still get `aria-invalid` and `aria-describedby` attributes.
+
+```tsx
+<FormField control={form.control} name="role" render={({ field }) => (
+  <FormControl>
+    <Select label="역할" options={roleOptions} value={field.value} onChange={field.onChange} />
+  </FormControl>
+)} />
+
+<FormField control={form.control} name="agree" render={({ field }) => (
+  <FormControl>
+    <Checkbox label="약관 동의" checked={field.value} onCheckedChange={field.onChange} />
+  </FormControl>
+)} />
+```
+
 ### Confirmation Dialog
 
 ```tsx
@@ -1599,7 +1867,35 @@ toast.info('새로운 메시지가 있습니다');
 toast.info('삭제됨', { label: '실행취소' });
 ```
 
-### DataGrid with Sorting and Selection
+### FilterButton with Popover
+
+```tsx
+import { Popover, PopoverTrigger, PopoverContent, FilterButton, CheckboxList } from '@mbisolution/blumnai-design-system';
+import { useState } from 'react';
+
+function StatusFilter() {
+  const [selected, setSelected] = useState<string[]>([]);
+  const statusOptions = [
+    { id: 'active', title: '활성', checked: selected.includes('active') },
+    { id: 'inactive', title: '비활성', checked: selected.includes('inactive') },
+  ];
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <span><FilterButton label="상태" selected={selected.length > 0} /></span>
+      </PopoverTrigger>
+      <PopoverContent>
+        <CheckboxList items={statusOptions} onItemChange={(id, checked) => {
+          setSelected(checked ? [...selected, id] : selected.filter(s => s !== id));
+        }} />
+      </PopoverContent>
+    </Popover>
+  );
+}
+```
+
+### DataGrid with Selection
 
 ```tsx
 import { useState } from 'react';
@@ -1617,15 +1913,13 @@ const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'name',
     header: '이름',
-    cell: ({ row }) => <CellAvatar name={row.original.name} description={row.original.email} />,
+    cell: ({ row }) => <CellAvatar name={row.original.name} showName />,
   },
   {
     accessorKey: 'status',
     header: '상태',
     cell: ({ getValue }) => (
-      <CellBadge variant={getValue() === 'active' ? 'success' : 'secondary'}>
-        {getValue() === 'active' ? '활성' : '비활성'}
-      </CellBadge>
+      <CellBadge label={getValue() === 'active' ? '활성' : '비활성'} color={getValue() === 'active' ? 'green' : 'neutral'} />
     ),
   },
 ];
@@ -1635,7 +1929,7 @@ function UserTable() {
     { id: '1', name: '홍길동', email: 'hong@email.com', status: 'active' },
   ]);
 
-  return <DataGrid columns={columns} data={data} enableSorting enableRowSelection />;
+  return <DataGrid columns={columns} data={data} enableRowSelection />;
 }
 ```
 
@@ -1678,17 +1972,17 @@ function SearchInput() {
 ### File Upload
 
 ```tsx
-import { FileUpload } from '@mbisolution/blumnai-design-system';
+import { FileUploadArea } from '@mbisolution/blumnai-design-system';
 import { useState } from 'react';
 
 function UploadExample() {
   const [files, setFiles] = useState<File[]>([]);
   return (
-    <FileUpload
+    <FileUploadArea
       accept="image/*,.png,.jpg,.jpeg"
       maxFiles={5}
       maxSize={5 * 1024 * 1024}
-      onFilesChange={setFiles}
+      onFilesSelected={setFiles}
     />
   );
 }
@@ -1728,6 +2022,38 @@ import { Popover, PopoverTrigger, PopoverContent, Button } from '@mbisolution/bl
 </Popover>
 ```
 
+### Combobox with Creatable
+
+```tsx
+import { Combobox } from '@mbisolution/blumnai-design-system';
+import { useState } from 'react';
+
+function CreatableCombobox() {
+  const [options, setOptions] = useState([
+    { id: 'react', label: 'React' },
+    { id: 'vue', label: 'Vue' },
+  ]);
+  const [value, setValue] = useState<string>();
+
+  return (
+    <Combobox
+      variant="default"
+      label="프레임워크"
+      options={options}
+      value={value}
+      onChange={setValue}
+      creatable
+      createText={(v) => `"${v}" 추가`}
+      onCreate={(newValue) => {
+        setOptions([...options, { id: newValue, label: newValue }]);
+      }}
+    />
+  );
+}
+```
+
+> **Note:** `creatable` is synchronous — there is no built-in async/loading support. Use `onCreate` to add the new option to your local state.
+
 ---
 
 ## Icons
@@ -1761,7 +2087,7 @@ import { BrandIcon } from '@mbisolution/blumnai-design-system';
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `brandType` | `BrandType` | required | Brand identifier (126+ brands: `'github'`, `'figma'`, `'slack'`, `'notion'`, etc.) |
-| `size` | `number` | `20` | Icon size in px |
+| `size` | `number` | `24` | Icon size in px |
 | `className` | `string` | - | Custom class |
 
 ```tsx
@@ -1778,7 +2104,7 @@ import { FlagIcon } from '@mbisolution/blumnai-design-system';
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `country` | `CountryCode` | required | Country code (250+ countries: `'united states'`, `'south korea'`, `'japan'`, etc.) |
-| `size` | `number` | `20` | Icon size in px |
+| `size` | `number` | `24` | Icon size in px |
 | `className` | `string` | - | Custom class |
 
 ```tsx
@@ -1995,6 +2321,16 @@ The design system provides custom utility classes. **Do not use default Tailwind
 | Background | `bg-default`, `bg-subtle`, `bg-muted`, `bg-card` | `bg-subtle` |
 | Border | `border-default`, `border-darker`, `border-strong` | `border-default` |
 
+### Pixel Value Reference
+
+**Spacing** (class number = px value): `padding-0`=0px, `padding-1`=1px, `padding-2`=2px, `padding-4`=4px, `padding-6`=6px, `padding-8`=8px, `padding-10`=10px, `padding-12`=12px, `padding-16`=16px, `padding-20`=20px, `padding-24`=24px. Same pattern for `gap-*`, `width-*`, `height-*`.
+
+**Font size**: `size-xs`=12px, `size-sm`=14px, `size-md`=16px, `size-lg`=18px, `size-xl`=20px, `size-2xl`=24px, `size-3xl`=30px, `size-4xl`=36px, `size-5xl`=48px, `size-6xl`=60px, `size-7xl`=72px, `size-8xl`=96px, `size-9xl`=128px
+
+**Line height**: `line-height-leading-3`=12px, `-4`=16px, `-5`=20px, `-6`=24px, `-7`=28px, `-8`=32px, `-9`=36px, `-10`=40px
+
+**Letter spacing**: `letter-spacing-tracking-tighter`=-1.2px, `tracking-tight`=-0.8px, `tracking-normal`=-0.6px, `tracking-wide`=0.4px
+
 ---
 
 ## Accessibility
@@ -2134,12 +2470,12 @@ function ResponsivePanel({ children }) {
 | date range, period | `DateRangePicker` |
 | time, clock, hour, minute | `TimePicker` |
 | time range, duration | `TimeRangePicker` |
-| file, upload, drag drop, attach | `FileUpload` |
+| file, upload, drag drop, attach | `FileUploadArea` |
 | otp, verification code, pin, 2fa | `InputOTP` |
 | carousel, slideshow, gallery, swipe | `Carousel` |
 | hover card, preview card, profile preview | `HoverCard` |
 | context menu, right click | `ContextMenu` |
-| dropdown menu, actions | `Dropdown` |
+| dropdown menu, actions | `DropdownMenu` |
 | menubar, app menu | `Menubar` |
 | navigation menu, mega menu | `NavigationMenu` |
 | resizable, split panels | `ResizablePanelGroup` |
@@ -2172,7 +2508,7 @@ function ResponsivePanel({ children }) {
 | `/divider` | Divider |
 | `/drawer` | Drawer, Sheet |
 | `/dropdown` | DropdownMenu |
-| `/file-upload` | FileUpload, FileUploadArea, FileUploadCard |
+| `/file-upload` | FileUploadArea, FileUploadCard |
 | `/form` | Form, FormField, FormControl, FormItem, FormError |
 | `/hover-card` | HoverCard, HoverCardTrigger, HoverCardContent |
 | `/icons` | All icons |
@@ -2193,9 +2529,9 @@ function ResponsivePanel({ children }) {
 | `/select` | Select, Combobox |
 | `/sidebar` | Sidebar, SidebarContent, SidebarMenu |
 | `/skeleton` | Skeleton |
-| `/slider` | Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider |
+| `/slider` | Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, DataRangeSliderInput |
 | `/switch` | Switch, SwitchList |
-| `/table` | Table, DataGrid |
+| `/table` | Table, DataGrid, CellText, CellBadge, CellAvatar, CellProgress, CellLink, CellIcon, CellDate, CellDateRange |
 | `/tabs` | Tabs, TabsList, TabsTrigger, TabsContent |
 | `/textarea` | Textarea |
 | `/time-picker` | TimePicker, TimeInput, TimeRangePicker, TimeRangeInput |

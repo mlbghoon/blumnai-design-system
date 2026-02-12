@@ -329,22 +329,20 @@ const columns: ColumnDef<User>[] = [
       <CellAvatar
         name={row.original.name}
         src={row.original.avatar}
-        description={row.original.email}
+        showName
       />
     ),
   },
   {
     accessorKey: 'email',
     header: '이메일',
-    cell: ({ getValue }) => <CellText>{getValue() as string}</CellText>,
+    cell: ({ getValue }) => <CellText value={getValue() as string} />,
   },
   {
     accessorKey: 'status',
     header: '상태',
     cell: ({ getValue }) => (
-      <CellBadge variant={getValue() === 'active' ? 'success' : 'secondary'}>
-        {getValue() === 'active' ? '활성' : '비활성'}
-      </CellBadge>
+      <CellBadge label={getValue() === 'active' ? '활성' : '비활성'} color={getValue() === 'active' ? 'green' : 'neutral'} />
     ),
   },
 ];
@@ -359,7 +357,6 @@ function UserTable() {
     <DataGrid
       columns={columns}
       data={data}
-      enableSorting
       enableRowSelection
       onRowSelectionChange={(selection) => console.log(selection)}
     />
@@ -575,11 +572,11 @@ function TagsEditor() {
 ### Tooltip
 
 ```tsx
-import { Tooltip, Button } from '@blumnai/design-system';
+import { TooltipTrigger, Button } from '@blumnai/design-system';
 
-<Tooltip content="도움말 텍스트입니다">
+<TooltipTrigger content="도움말 텍스트입니다">
   <Button buttonStyle="secondary">?</Button>
-</Tooltip>
+</TooltipTrigger>
 ```
 
 ### Popover
@@ -610,17 +607,17 @@ function PopoverExample() {
 ## File Upload
 
 ```tsx
-import { FileUpload } from '@blumnai/design-system';
+import { FileUploadArea } from '@blumnai/design-system';
 
 function UploadExample() {
   const [files, setFiles] = useState<File[]>([]);
 
   return (
-    <FileUpload
+    <FileUploadArea
       accept="image/*,.png,.jpg,.jpeg"
       maxFiles={5}
       maxSize={5 * 1024 * 1024} // 5MB
-      onFilesChange={setFiles}
+      onFilesSelected={setFiles}
     />
   );
 }
@@ -711,12 +708,10 @@ import { Button, Icon } from '@blumnai/design-system';
 <Button fullWidth>전체 너비</Button>
 
 // FilterButton
-<FilterButton selected={hasFilters} count={filterCount}>
-  필터
-</FilterButton>
+<FilterButton selected={hasFilters} label="필터" />
 
 // AvatarButton
-<AvatarButton src="/avatar.jpg" name="홍길동" showDropdown />
+<AvatarButton avatar="/avatar.jpg" label="홍길동" />
 ```
 
 ---
@@ -1291,10 +1286,8 @@ function ProductTable() {
     <DataGrid
       columns={columns}
       data={data}
-      enableSorting
-      enableFiltering
-      enablePagination
-      pageSize={10}
+      pagination
+      limit={10}
     />
   );
 }

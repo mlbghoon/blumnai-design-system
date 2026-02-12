@@ -12,15 +12,19 @@ import { Button } from '@blumnai/design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `buttonStyle` | `'primary'` `'secondary'` `'destructive'` `'ghost'` `'ghostMuted'` `'soft'` `'dashed'` | `'secondary'` | Visual style |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Button size |
-| `shape` | `'rectangle'` `'pill'` `'square'` `'circle'` | `'rectangle'` | Button shape |
+| `buttonStyle` | `'primary'` `'secondary'` `'destructive'` `'ghost'` `'ghostMuted'` `'soft'` `'dashed'` | `'primary'` | Visual style |
+| `variant` | `'default'` `'iconOnly'` | `'default'` | Button variant |
+| `size` | `'2xs'` `'xs'` `'sm'` `'md'` `'lg'` | `'md'` | Button size |
+| `shape` | `'rounded'` `'pill'` | `'rounded'` | Button shape |
+| `type` | `'button'` `'submit'` `'reset'` | `'button'` | HTML button type |
 | `fullWidth` | `boolean` | `false` | Full container width |
 | `loading` | `boolean` | `false` | Show loading spinner |
 | `disabled` | `boolean` | `false` | Disabled state |
-| `leadIcon` | `IconType` | - | Icon before text |
-| `tailIcon` | `IconType` | - | Icon after text |
-| `shortcut` | `string` | - | Keyboard shortcut badge + global keydown binding (e.g. `"/"`, `"⌘K"`, `"Ctrl+S"`) |
+| `width` | `string \| number` | - | Custom width |
+| `leadIcon` | `IconTypeWithFill \| ReactNode` | - | Icon before text |
+| `tailIcon` | `IconTypeWithFill \| ReactNode` | - | Icon after text |
+| `shortcut` | `string` | - | Keyboard shortcut badge (e.g. `"⌘K"`) |
+| `asChild` | `boolean` | `false` | Render as child element (Radix Slot) |
 
 ---
 
@@ -34,7 +38,7 @@ import { Input } from '@blumnai/design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'password'` `'quantity'` `'tags'` `'addon'` `'shortcut'` | `'default'` | Input type |
+| `variant` | `'default'` `'password'` `'quantity'` `'quantity-2'` `'tags'` `'inline-tags'` `'addon'` `'inline-addon'` `'shortcut'` `'lead-button'` `'tail-button'` `'lead-dropdown'` `'tail-dropdown'` | `'default'` | Input type |
 | `inputStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `size` | `'sm'` `'lg'` | `'sm'` | Input size |
 | `label` | `string` | - | Label text |
@@ -107,12 +111,25 @@ import { Textarea } from '@blumnai/design-system';
 | `size` | `'sm'` `'lg'` | `'sm'` | Textarea size |
 | `label` | `string` | - | Label text |
 | `placeholder` | `string` | - | Placeholder text |
-| `rows` | `number` | `3` | Visible text rows |
+| `required` | `boolean` | `false` | Show required indicator |
+| `supportText` | `string` | - | Helper text next to label |
+| `caption` | `string` | - | Description below textarea |
+| `error` | `boolean \| string` | - | Error state/message |
+| `success` | `boolean \| string` | - | Success state/message |
+| `width` | `string \| number` | - | Container width |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `minRows` | `number` | `3` | Minimum visible text rows |
+| `maxRows` | `number` | - | Maximum visible text rows |
 | `resize` | `'none'` `'vertical'` `'horizontal'` `'both'` | `'vertical'` | Resize behavior |
 | `showCount` | `boolean` | `false` | Show character count |
 | `maxLength` | `number` | - | Maximum characters |
-| `error` | `boolean \| string` | - | Error state/message |
-| `success` | `boolean \| string` | - | Success state/message |
+| `showToolbar` | `boolean` | `false` | Show toolbar below textarea |
+| `toolbarActions` | `TextareaToolbarAction[]` | - | Custom toolbar actions |
+| `onAttach` | `() => void` | - | Attach button callback |
+| `onSubmit` | `() => void` | - | Submit button callback |
+| `submitDisabled` | `boolean` | `false` | Disable submit button |
+| `onVoiceInput` | `() => void` | - | Voice input callback |
+| `toolbarTrailing` | `ReactNode` | - | Custom toolbar trailing content |
 
 ---
 
@@ -124,24 +141,47 @@ import { Select } from '@blumnai/design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'multi'` `'avatar'` `'tags'` | `'default'` | Select type |
-| `options` | `SelectOption[]` | `[]` | Available options |
-| `value` | `string \| string[]` | - | Selected value(s) |
-| `onChange` | `(value) => void` | - | Change callback |
-| `placeholder` | `string` | - | Placeholder text |
+### Common Props (all variants)
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default'` `'multi-select'` `'avatar'` `'tags'` | `'default'` | Select type |
+| `selectStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
+| `size` | `'sm'` `'lg'` | `'sm'` | Select size |
+| `options` | `SelectOption[]` | required | Available options |
 | `label` | `string` | - | Label text |
+| `placeholder` | `string` | - | Placeholder text |
+| `required` | `boolean` | `false` | Show required indicator |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `error` | `boolean \| string` | - | Error state/message |
-| `searchable` | `boolean` | `false` | Enable search |
+| `success` | `boolean \| string` | - | Success state/message |
+| `supportText` | `string` | - | Helper text next to label |
+| `caption` | `string` | - | Description below select |
+| `width` | `string \| number` | - | Container width |
+| `leadIcon` | `IconTypeWithFill` | - | Icon before text |
+| `searchable` | `boolean` | `false` | Enable search filtering |
+| `searchPlaceholder` | `string` | `'Search...'` | Search input placeholder |
+| `noResultsText` | `string` | `'No results found'` | Text when no results |
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
+| `maxHeight` | `number \| string` | `300` | Dropdown max height |
 
-### SelectOption
+**variant="default"**: `value` (string), `onChange` ((value: string) => void), `selectType` (`'default'`|`'checkbox'`|`'radio'`)
+
+**variant="avatar"**: `value` (string), `onChange` ((value: string) => void)
+
+**variant="multi-select"**: `value` (string[]), `onChange` ((value: string[]) => void), `maxSelections`, `selectedText`
+
+**variant="tags"**: `value` (string[]), `onChange` ((value: string[]) => void), `maxSelections`, `maxVisibleTags`, `overflowText`
 
 ```ts
 interface SelectOption {
   id: string;
   label: string;
   description?: string;
-  avatar?: string;      // For variant="avatar"
+  leadIcon?: IconTypeWithFill;
+  badge?: string;
+  avatarSrc?: string;
   disabled?: boolean;
 }
 ```
@@ -162,8 +202,8 @@ import { Checkbox } from '@blumnai/design-system';
 | `onCheckedChange` | `(checked: boolean) => void` | - | Change callback |
 | `indeterminate` | `boolean` | `false` | Indeterminate state |
 | `disabled` | `boolean` | `false` | Disabled state |
-| `checkboxStyle` | `'default'` `'soft'` | `'default'` | Visual style |
-| `position` | `'left'` `'right'` | `'left'` | Checkbox position |
+| `checkboxStyle` | `'default'` `'with-shadow'` | `'default'` | Visual style |
+| `checkboxPosition` | `'left'` `'right'` `'off'` | `'left'` | Checkbox position |
 
 ---
 
@@ -180,8 +220,8 @@ import { Switch } from '@blumnai/design-system';
 | `checked` | `boolean` | `false` | Checked state |
 | `onCheckedChange` | `(checked: boolean) => void` | - | Change callback |
 | `disabled` | `boolean` | `false` | Disabled state |
-| `position` | `'left'` `'right'` | `'left'` | Switch position |
-| `color` | `'default'` `'success'` | `'default'` | Active color |
+| `switchPosition` | `'left'` `'right'` | `'left'` | Switch position |
+| `color` | `'green'` `'blue'` `'red'` `'orange'` `'violet'` `'cyan'` `'pink'` | `'green'` | Active color |
 
 ---
 
@@ -334,8 +374,18 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@blumnai/design-system
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'pills'` `'underline'` | `'default'` | Visual style |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Tab size |
+| `variant` | `'pill'` `'segmented'` `'underline'` | `'pill'` | Visual style |
+| `shape` | `'pill'` `'rounded'` | - | Tab shape |
+| `size` | `'sm'` `'lg'` | `'sm'` | Tab size |
+| `type` | `'default'` `'fixed'` | `'default'` | Layout type |
+
+### TabsTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `leadIcon` | `IconTypeWithFill \| ReactNode` | - | Icon before text |
+| `tailIcon` | `IconTypeWithFill \| ReactNode` | - | Icon after text |
+| `badge` | `string \| number` | - | Badge text/number |
 
 ---
 
@@ -350,13 +400,20 @@ import type { ColumnDef } from '@blumnai/design-system';
 |------|------|---------|-------------|
 | `columns` | `ColumnDef<T>[]` | required | Column definitions |
 | `data` | `T[]` | required | Data array |
-| `enableSorting` | `boolean` | `false` | Enable column sorting |
-| `enableFiltering` | `boolean` | `false` | Enable column filtering |
-| `enableRowSelection` | `boolean` | `false` | Enable row selection |
-| `enablePagination` | `boolean` | `false` | Enable pagination |
-| `pageSize` | `number` | `10` | Rows per page |
-| `onRowSelectionChange` | `(selection) => void` | - | Selection callback |
-| `onRowClick` | `(row) => void` | - | Row click callback |
+| `sorting` | `SortingState` | - | Controlled sorting state |
+| `onSortingChange` | `OnChangeFn<SortingState>` | - | Sorting change callback |
+| `enableRowSelection` | `boolean \| ((row) => boolean)` | - | Enable row selection |
+| `rowSelection` | `RowSelectionState` | - | Controlled selection state |
+| `onRowSelectionChange` | `OnChangeFn<RowSelectionState>` | - | Selection change callback |
+| `onRowClick` | `(row: T) => void` | - | Row click callback |
+| `pagination` | `boolean` | `true` | Enable pagination |
+| `page` | `number` | - | Current page (1-indexed) |
+| `total` | `number` | - | Total items (server-side) |
+| `limit` | `number` | `10` | Items per page |
+| `onPageChange` | `(page: number) => void` | - | Page change callback |
+| `isLoading` | `boolean` | - | Loading state |
+| `emptyText` | `string` | - | Empty state text |
+| `error` | `string \| ReactNode` | - | Error message |
 
 ---
 
@@ -370,18 +427,27 @@ import { Avatar, AvatarGroup } from '@blumnai/design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `src` | `string` | - | Image URL |
-| `name` | `string` | - | Fallback name (initials) |
-| `size` | `'xs'` `'sm'` `'md'` `'lg'` `'xl'` | `'md'` | Avatar size |
-| `shape` | `'circle'` `'square'` | `'circle'` | Avatar shape |
+| `variant` | `'initials'` `'userpic'` `'empty'` | `'initials'` | Avatar type |
+| `size` | `'2xs'` `'xs'` `'sm'` `'md'` `'lg'` `'xl'` `'2xl'` `'3xl'` | `'md'` | Avatar size |
+| `shape` | `'circular'` `'rounded'` | `'circular'` | Avatar shape |
+| `initials` | `string` | - | 1-2 characters (for `variant="initials"`) |
+| `src` | `string` | - | Image URL (for `variant="userpic"`) |
+| `alt` | `string` | - | Image alt text |
+| `color` | `string` | - | Background color for initials |
+| `ring` | `boolean` | `false` | White ring around avatar |
+| `status` | `'online'` `'offline'` `'checkmark'` `'logo'` `'icon'` `'notification'` | - | Status badge |
+| `logoImage` | `string` | - | Logo image URL (for `status="logo"`) |
+| `icon` | `IconType` | - | Icon (for `status="icon"`) |
+| `badgeLocation` | `'top'` `'bottom'` | `'top'` | Status badge position |
 
 ### AvatarGroup
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `avatars` | `AvatarProps[]` | `[]` | Avatar items |
-| `max` | `number` | `5` | Max visible avatars |
-| `size` | `'xs'` `'sm'` `'md'` `'lg'` `'xl'` | `'md'` | Group size |
+| `max` | `number` | - | Max visible avatars (shows "+N" overflow) |
+| `size` | `AvatarSize` | `'md'` | Group size |
+| `stacking` | `'last-on-top'` `'first-on-top'` | - | Stacking order |
 
 ---
 
@@ -393,8 +459,16 @@ import { Badge } from '@blumnai/design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'secondary'` `'success'` `'warning'` `'destructive'` `'outline'` | `'default'` | Visual style |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Badge size |
+| `label` | `string` | - | Badge text |
+| `variant` | `'default'` `'icon'` `'image'` `'dot'` | `'default'` | Badge type |
+| `color` | `'red'` `'orange'` `'lime'` `'green'` `'cyan'` `'blue'` `'violet'` `'fuchsia'` `'pink'` `'neutral'` | `'neutral'` | Badge color |
+| `size` | `'sm'` `'lg'` | `'sm'` | Badge size |
+| `shape` | `'rounded'` `'pill'` | `'rounded'` | Badge shape |
+| `border` | `boolean` | `false` | Show border |
+| `icon` | `IconTypeWithFill` | - | Icon (for `variant="icon"`) |
+| `image` | `string` | - | Image URL (for `variant="image"`) |
+| `closeIcon` | `boolean` | `false` | Show close button |
+| `onClose` | `() => void` | - | Close callback |
 
 ---
 
@@ -410,17 +484,23 @@ import { Progress, ProgressCircular } from '@blumnai/design-system';
 |------|------|---------|-------------|
 | `value` | `number` | `0` | Progress value (0-100) |
 | `max` | `number` | `100` | Maximum value |
+| `variant` | `'linear'` `'dashed'` | `'linear'` | Bar variant |
+| `color` | `ProgressColor` | `'gray'` | Bar color |
+| `label` | `string` | - | Header label text |
 | `showValue` | `boolean` | `false` | Show percentage text |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Bar height |
 
 ### ProgressCircular
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `value` | `number` | `0` | Progress value (0-100) |
-| `size` | `number` | `40` | Circle size in px |
-| `strokeWidth` | `number` | `4` | Stroke width |
-| `showValue` | `boolean` | `false` | Show percentage text |
+| `max` | `number` | `100` | Maximum value |
+| `variant` | `'default'` `'success'` `'failed'` | `'default'` | Visual variant |
+| `color` | `ProgressColor` | `'gray'` | Circle color |
+| `shape` | `'full'` `'half'` | `'full'` | Circle shape |
+| `size` | `number` | `96` | Circle size in px |
+| `strokeWidth` | `number` | `8` | Stroke width |
+| `showLabel` | `boolean` | `true` | Show percentage text |
 
 ---
 
@@ -433,7 +513,7 @@ import { Icon } from '@blumnai/design-system';
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `iconType` | `[category, name]` | required | Icon identifier |
-| `size` | `number` | `20` | Icon size in px |
+| `size` | `number` | `24` | Icon size in px |
 | `color` | `string` | `'currentColor'` | Icon color |
 | `isFill` | `boolean` | `false` | Use fill variant |
 
@@ -453,36 +533,31 @@ import { Icon } from '@blumnai/design-system';
 import { Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, DataRangeSliderInput } from '@blumnai/design-system';
 ```
 
-### Slider (Single Value)
+### Common Slider Base Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `value` | `number` | `0` | Current value |
-| `onChange` | `(value: number) => void` | - | Change callback |
+| `color` | `SliderColor` | `'gray'` | Slider color (19 colors) |
+| `label` | `string` | - | Label text |
+| `disabled` | `boolean` | `false` | Disabled state |
 | `min` | `number` | `0` | Minimum value |
 | `max` | `number` | `100` | Maximum value |
 | `step` | `number` | `1` | Step increment |
-| `disabled` | `boolean` | `false` | Disabled state |
-| `color` | `'default'` `'primary'` `'success'` | `'default'` | Track color |
 | `showTicks` | `boolean` | `false` | Show tick marks |
+| `tickCount` | `number` | `11` | Number of ticks |
+| `formatTick` | `(value: number) => string` | - | Tick label formatter |
 
-### SliderRange
+**Slider**: + `value` (number), `defaultValue`, `onChange`, `showValue`, `formatValue`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `[number, number]` | `[0, 100]` | Min/max values |
-| `onChange` | `(value: [number, number]) => void` | - | Change callback |
-| `min` | `number` | `0` | Minimum bound |
-| `max` | `number` | `100` | Maximum bound |
+**SliderRange**: + `value` ([number, number]), `defaultValue`, `onChange`, `showValue`, `formatValue`
 
-### SliderInput / SliderRangeInput
+**SliderInput**: + `value` (number), `defaultValue`, `onChange`, `formatValue`, `suffix`
 
-Includes all Slider/SliderRange props plus:
+**SliderRangeInput**: + `value` ([number, number]), `defaultValue`, `onChange`, `formatValue`, `suffix`
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | - | Label text |
-| `showInput` | `boolean` | `true` | Show numeric input |
+**DataRangeSlider**: + `value` ([number, number]), `defaultValue`, `onChange`, `formatValue`, `separator`, `chartData` (number[])
+
+**DataRangeSliderInput**: + `value` ([number, number]), `defaultValue`, `onChange`, `formatValue`, `suffix`, `chartData` (number[])
 
 ### DataRangeSlider / DataRangeSliderInput
 
@@ -645,8 +720,10 @@ import { FilterButton } from '@blumnai/design-system';
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `selected` | `boolean` | `false` | Selection state |
-| `count` | `number` | - | Active filter count badge |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Button size |
+| `label` | `string` | - | Button label text |
+| `size` | `'xs'` `'md'` `'lg'` | `'md'` | Button size |
+| `shape` | `'rounded'` `'pill'` | `'rounded'` | Button shape |
+| `icon` | `IconType` | `['system', 'filter']` | Filter icon |
 | `disabled` | `boolean` | `false` | Disabled state |
 
 ---
@@ -659,10 +736,13 @@ import { AvatarButton } from '@blumnai/design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `src` | `string` | - | Avatar image URL |
-| `name` | `string` | - | User name (fallback initials) |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Button size |
-| `showDropdown` | `boolean` | `false` | Show dropdown indicator |
+| `avatar` | `string` | required | Avatar image URL |
+| `label` | `string` | required | Label text displayed next to avatar |
+| `alt` | `string` | - | Avatar alt text |
+| `size` | `'sm'` `'lg'` | `'lg'` | Button size |
+| `buttonStyle` | `'default'` `'dashed'` `'soft'` | `'default'` | Visual style |
+| `tailIcon` | `IconType \| ReactNode` | - | Trailing icon (e.g., dropdown indicator) |
+| `disabled` | `boolean` | `false` | Disabled state |
 
 ---
 
@@ -810,7 +890,7 @@ import { CheckboxList } from '@blumnai/design-system';
 |------|------|---------|-------------|
 | `items` | `CheckboxListItem[]` | required | Checkbox items |
 | `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
-| `checkboxStyle` | `'default'` `'soft'` | `'default'` | Checkbox visual style |
+| `checkboxStyle` | `'default'` `'with-shadow'` | `'default'` | Checkbox visual style |
 | `onItemChange` | `(id: string, checked: boolean) => void` | - | Change callback |
 
 ```ts
@@ -841,7 +921,7 @@ import { CheckboxCard } from '@blumnai/design-system';
 | `disabled` | `boolean` | `false` | Disabled state |
 | `background` | `'default'` `'soft'` | `'default'` | Background style |
 | `checkboxPosition` | `'left'` `'right'` | `'left'` | Checkbox position |
-| `checkboxStyle` | `'default'` `'soft'` | `'default'` | Checkbox visual style |
+| `checkboxStyle` | `'default'` `'with-shadow'` | `'default'` | Checkbox visual style |
 | `onCheckedChange` | `(checked: boolean) => void` | - | Change callback |
 
 ---
@@ -901,7 +981,7 @@ import { SwitchList } from '@blumnai/design-system';
 |------|------|---------|-------------|
 | `items` | `SwitchListItem[]` | required | Switch items |
 | `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
-| `color` | `'default'` `'success'` | `'default'` | Active color |
+| `color` | `'green'` `'blue'` `'red'` `'orange'` `'violet'` `'cyan'` `'pink'` | `'green'` | Active color |
 | `onItemChange` | `(id: string, checked: boolean) => void` | - | Change callback |
 
 ```ts

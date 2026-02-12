@@ -14,7 +14,7 @@
 | Tags input | `Input` | `<Input variant="tags" />` |
 | Multi-line text | `Textarea` | `<Textarea label="Bio" />` |
 | Select one | `Select` | `<Select variant="default" options={[...]} />` |
-| Select multiple | `Select` | `<Select variant="multi" options={[...]} />` |
+| Select multiple | `Select` | `<Select variant="multi-select" options={[...]} />` |
 | Searchable select | `Combobox` | `<Combobox options={[...]} />` |
 | Toggle on/off | `Switch` | `<Switch label="Enabled" />` |
 | Checkbox | `Checkbox` | `<Checkbox label="Agree" />` |
@@ -27,7 +27,7 @@
 | Data table | `DataGrid` | `<DataGrid columns={[...]} data={[...]} />` |
 | Progress bar | `Progress` | `<Progress value={50} />` |
 | Date picker | `DatePicker` | `<DatePicker value={date} onChange={...} />` |
-| File upload | `FileUpload` | `<FileUpload onFilesChange={...} />` |
+| File upload | `FileUploadArea` | `<FileUploadArea onFilesSelected={...} />` |
 | Avatar | `Avatar` | `<Avatar variant="userpic" src="url" alt="John" />` |
 | Badge | `Badge` | `<Badge label="Active" color="green" />` |
 | Navigation link | `LinkButton` | `<LinkButton href="/page">Go</LinkButton>` |
@@ -47,15 +47,19 @@ import { Button } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `buttonStyle` | `'primary'` `'secondary'` `'destructive'` `'ghost'` `'ghostMuted'` `'soft'` `'dashed'` | `'secondary'` | Visual style |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Button size |
-| `shape` | `'rectangle'` `'pill'` `'square'` `'circle'` | `'rectangle'` | Button shape |
+| `buttonStyle` | `'primary'` `'secondary'` `'destructive'` `'ghost'` `'ghostMuted'` `'soft'` `'dashed'` | `'primary'` | Visual style |
+| `variant` | `'default'` `'iconOnly'` | `'default'` | Button variant |
+| `size` | `'2xs'` `'xs'` `'sm'` `'md'` `'lg'` | `'md'` | Button size |
+| `shape` | `'rounded'` `'pill'` | `'rounded'` | Button shape |
+| `type` | `'button'` `'submit'` `'reset'` | `'button'` | HTML button type |
 | `fullWidth` | `boolean` | `false` | Full container width |
 | `loading` | `boolean` | `false` | Show loading spinner |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `width` | `string \| number` | — | Custom width (e.g., `120`, `'200px'`) |
-| `leadIcon` | `IconType` | — | Icon before text |
-| `tailIcon` | `IconType` | — | Icon after text |
+| `leadIcon` | `IconTypeWithFill \| ReactNode` | — | Icon before text |
+| `tailIcon` | `IconTypeWithFill \| ReactNode` | — | Icon after text |
+| `shortcut` | `string` | — | Keyboard shortcut badge (e.g., `'⌘K'`) |
+| `asChild` | `boolean` | `false` | Render as child element (Radix Slot) |
 
 > **Tip:** When using `loading`, set `width` to prevent the button from shrinking (e.g., `<Button loading width={120}>Save</Button>`).
 
@@ -69,7 +73,7 @@ import { Input } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'password'` `'quantity'` `'tags'` `'addon'` `'shortcut'` | `'default'` | Input type |
+| `variant` | `'default'` `'password'` `'quantity'` `'quantity-2'` `'tags'` `'inline-tags'` `'addon'` `'inline-addon'` `'shortcut'` `'lead-button'` `'tail-button'` `'lead-dropdown'` `'tail-dropdown'` | `'default'` | Input type |
 | `inputStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `size` | `'sm'` `'lg'` | `'sm'` | Input size |
 | `label` | `string` | — | Label text |
@@ -99,22 +103,31 @@ import { Select } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'multi'` `'avatar'` `'tags'` | `'default'` | Select type |
-| `options` | `SelectOption[]` | `[]` | Available options |
-| `value` | `string \| string[]` | — | Selected value(s) |
-| `onChange` | `(value) => void` | — | Change callback |
-| `placeholder` | `string` | — | Placeholder |
+| `variant` | `'default'` `'multi-select'` `'avatar'` `'tags'` | `'default'` | Select type |
+| `selectStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
+| `size` | `'sm'` `'lg'` | `'sm'` | Select size |
+| `options` | `SelectOption[]` | required | Available options |
 | `label` | `string` | — | Label text |
+| `placeholder` | `string` | — | Placeholder |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `error` | `boolean \| string` | — | Error state |
 | `searchable` | `boolean` | `false` | Enable search |
+| `leadIcon` | `IconTypeWithFill` | — | Icon before text |
+
+**variant="default"**: `value` (string), `onChange`, `selectType` (`'default'`\|`'checkbox'`\|`'radio'`)
+
+**variant="multi-select"**: `value` (string[]), `onChange`, `maxSelections`, `selectedText`
+
+**variant="tags"**: `value` (string[]), `onChange`, `maxSelections`, `maxVisibleTags`, `overflowText`
 
 ```ts
 interface SelectOption {
   id: string;
   label: string;
   description?: string;
-  avatar?: string;
+  leadIcon?: IconTypeWithFill;
+  badge?: string;
+  avatarSrc?: string;
   disabled?: boolean;
 }
 ```
@@ -129,8 +142,8 @@ interface SelectOption {
 | `onCheckedChange` | `(checked: boolean) => void` | — | Change callback |
 | `indeterminate` | `boolean` | `false` | Indeterminate state |
 | `disabled` | `boolean` | `false` | Disabled state |
-| `checkboxStyle` | `'default'` `'soft'` | `'default'` | Visual style |
-| `position` | `'left'` `'right'` | `'left'` | Checkbox position |
+| `checkboxStyle` | `'default'` `'with-shadow'` | `'default'` | Visual style |
+| `checkboxPosition` | `'left'` `'right'` `'off'` | `'left'` | Checkbox position |
 
 ### Switch
 
@@ -141,8 +154,8 @@ interface SelectOption {
 | `checked` | `boolean` | `false` | Checked state |
 | `onCheckedChange` | `(checked: boolean) => void` | — | Change callback |
 | `disabled` | `boolean` | `false` | Disabled state |
-| `position` | `'left'` `'right'` | `'left'` | Switch position |
-| `color` | `'default'` `'success'` | `'default'` | Active color |
+| `switchPosition` | `'left'` `'right'` | `'left'` | Switch position |
+| `color` | `'green'` `'blue'` `'red'` `'orange'` `'violet'` `'cyan'` `'pink'` | `'green'` | Active color |
 
 ### Dialog
 
@@ -163,7 +176,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 | `title` | `string` | required | Title |
 | `description` | `string` | — | Description |
 | `variant` | `'default'` `'destructive'` | `'default'` | Confirm style |
+| `confirmLabel` | `string` | `'확인'` | Confirm button text |
+| `cancelLabel` | `string` | `'취소'` | Cancel button text |
 | `onConfirm` | `() => void \| Promise<void>` | — | Confirm callback |
+| `onCancel` | `() => void` | — | Cancel callback |
+| `loading` | `boolean` | `false` | Loading state |
+| `confirmDisabled` | `boolean` | `false` | Disable confirm button |
+| `width` | `string \| number` | — | Dialog width |
 
 ### Toast
 
@@ -187,23 +206,34 @@ Methods: `toast.default()`, `toast.success()`, `toast.error()`, `toast.warning()
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `columns` | `ColumnDef<T>[]` | required | Column definitions |
+| `columns` | `ColumnDef<T>[]` | required | Column definitions (TanStack Table) |
 | `data` | `T[]` | required | Data array |
-| `enableSorting` | `boolean` | `false` | Column sorting |
-| `enableFiltering` | `boolean` | `false` | Column filtering |
-| `enableRowSelection` | `boolean` | `false` | Row selection |
-| `enablePagination` | `boolean` | `false` | Pagination |
-| `pageSize` | `number` | `10` | Rows per page |
+| `sorting` | `SortingState` | - | Controlled sorting state |
+| `onSortingChange` | `OnChangeFn<SortingState>` | - | Sorting change callback |
+| `enableRowSelection` | `boolean \| ((row) => boolean)` | - | Enable row selection |
+| `rowSelection` | `RowSelectionState` | - | Controlled selection state |
+| `onRowSelectionChange` | `OnChangeFn<RowSelectionState>` | - | Selection change callback |
+| `onRowClick` | `(row: T) => void` | - | Row click callback |
+| `pagination` | `boolean` | `true` | Enable pagination |
+| `page` | `number` | - | Current page (1-indexed) |
+| `total` | `number` | - | Total items (server-side) |
+| `limit` | `number` | `10` | Items per page |
+| `onPageChange` | `(page: number) => void` | - | Page change callback |
+| `isLoading` | `boolean` | - | Loading state |
+| `emptyText` | `string` | `'검색된 내용이 없습니다.'` | Empty state text |
+| `error` | `string \| ReactNode` | - | Error message |
 
 ### Tabs
 
-**Tabs**: `value`, `defaultValue`, `onValueChange`
+**Tabs**: `value`, `defaultValue`, `onValueChange`, `orientation`
 
-**TabsList**: `variant` (`'default'` | `'pills'` | `'underline'`), `size` (`'sm'` | `'md'` | `'lg'`)
+**TabsList**: `variant` (`'pill'`|`'segmented'`|`'underline'`), `shape` (`'pill'`|`'rounded'`), `size` (`'sm'`|`'lg'`), `type` (`'default'`|`'fixed'`)
+
+**TabsTrigger**: `leadIcon` (`IconTypeWithFill | ReactNode`), `tailIcon` (`IconTypeWithFill | ReactNode`), `badge` (`string | number`)
 
 ### Avatar
 
-**Avatar**: `variant` (`'initials'`|`'userpic'`|`'empty'`), `size` (`'2xs'`–`'3xl'`), `shape` (`'circular'`|`'rounded'`), `initials`, `src`, `alt`, `color`, `ring`, `status` (`'online'`|`'offline'`|`'checkmark'`|`'logo'`|`'icon'`|`'notification'`), `badgeLocation`
+**Avatar**: `variant` (`'initials'`|`'userpic'`|`'empty'`), `size` (`'2xs'`–`'3xl'`), `shape` (`'circular'`|`'rounded'`), `initials`, `src`, `alt`, `color`, `ring`, `status` (`'online'`|`'offline'`|`'checkmark'`|`'logo'`|`'icon'`|`'notification'`), `logoImage` (for `status="logo"`), `icon` (for `status="icon"`), `badgeLocation`
 
 **AvatarGroup**: `avatars` (AvatarProps[]), `max`, `size`, `stacking` (`'last-on-top'`|`'first-on-top'`)
 
@@ -289,7 +319,7 @@ import { IsometricIcon } from '@mbisolution/blumnai-design-system';
 | `/toast` | toast |
 | `/tooltip` | TooltipTrigger, AdvancedTooltip |
 | `/tabs` | Tabs, TabsList, TabsTrigger, TabsContent |
-| `/table` | Table, DataGrid |
+| `/table` | Table, DataGrid, CellText, CellBadge, CellAvatar, CellProgress, CellLink, CellIcon, CellDate, CellDateRange |
 | `/avatar` | Avatar, AvatarGroup |
 | `/badge` | Badge |
 | `/icons` | All icons |
@@ -302,6 +332,6 @@ import { IsometricIcon } from '@mbisolution/blumnai-design-system';
 | `/carousel` | Carousel, CarouselContent, CarouselItem |
 | `/progress` | Progress, ProgressCircular |
 | `/form` | Form, FormField, FormControl |
-| `/file-upload` | FileUpload |
+| `/file-upload` | FileUploadArea, FileUploadCard |
 | `/input-otp` | InputOTP |
 | `/styles` | CSS stylesheet |

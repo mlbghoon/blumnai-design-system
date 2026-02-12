@@ -17,7 +17,7 @@
 | Tags/chips input | `Input` | `<Input variant="tags" />` |
 | Multi-line text | `Textarea` | `<Textarea label="Bio" />` |
 | Select one option | `Select` | `<Select variant="default" options={[...]} />` |
-| Select multiple | `Select` | `<Select variant="multi" options={[...]} />` |
+| Select multiple | `Select` | `<Select variant="multi-select" options={[...]} />` |
 | Searchable select | `Combobox` | `<Combobox options={[...]} />` |
 | Yes/No toggle | `Switch` | `<Switch label="Enabled" />` |
 | Checkbox | `Checkbox` | `<Checkbox label="Agree" />` |
@@ -27,7 +27,7 @@
 | Confirmation popup | `AlertDialog` | `<AlertDialog title="Sure?" onConfirm={...} />` |
 | Simple confirm/cancel | `ConfirmDialog` | `<ConfirmDialog title="Delete?" onConfirm={...} />` |
 | Toast notification | `toast()` | `toast.success("Saved!")` |
-| Tooltip | `Tooltip` | `<Tooltip content="Help text"><Button>?</Button></Tooltip>` |
+| Tooltip | `TooltipTrigger` | `<TooltipTrigger content="Help text"><Button>?</Button></TooltipTrigger>` |
 | Tabs | `Tabs` | `<Tabs><TabsList>...</TabsList></Tabs>` |
 | Data table | `DataGrid` | `<DataGrid columns={[...]} data={[...]} />` |
 | Simple table | `Table` | `<Table><TableHeader>...</TableHeader></Table>` |
@@ -38,7 +38,7 @@
 | Date range picker | `DateRangePicker` | `<DateRangePicker value={range} onChange={...} />` |
 | Time picker | `TimePicker` | `<TimePicker value={time} onChange={...} />` |
 | Time range picker | `TimeRangePicker` | `<TimeRangePicker value={range} onChange={...} />` |
-| File upload | `FileUpload` | `<FileUpload onFilesChange={...} />` |
+| File upload | `FileUploadArea` | `<FileUploadArea onFilesSelected={...} />` |
 | Avatar | `Avatar` | `<Avatar src="url" name="John" />` |
 | Avatar group | `AvatarGroup` | `<AvatarGroup avatars={[...]} />` |
 | Badge/Tag | `Badge` | `<Badge variant="success">Active</Badge>` |
@@ -85,7 +85,7 @@
 | `Input variant="shortcut"` | Input with keyboard shortcut badge |
 | `Textarea` | Multi-line text with optional character count |
 | `Select variant="default"` | Single selection dropdown |
-| `Select variant="multi"` | Multiple selection |
+| `Select variant="multi-select"` | Multiple selection |
 | `Select variant="avatar"` | Selection with user avatars |
 | `Select variant="tags"` | Selection displayed as tags |
 | `Combobox` | Searchable/filterable select |
@@ -105,7 +105,7 @@
 | `TimeInput` | Segmented time input |
 | `TimeRangePicker` | Time range selection (start-end) |
 | `TimeRangeInput` | Segmented time range input |
-| `FileUpload` | File drag & drop upload |
+| `FileUploadArea` / `FileUploadCard` | File drag & drop upload |
 | `InputOTP` | One-time password input |
 
 ### Buttons
@@ -127,7 +127,7 @@
 | `AlertDialog` | Confirmation with icon and actions |
 | `ConfirmDialog` | Simple yes/no confirmation |
 | `toast()` | Temporary notifications |
-| `Tooltip` | Hover help text |
+| `TooltipTrigger` | Hover help text |
 | `Popover` | Click-triggered floating content |
 | `HoverCard` | Rich content on hover |
 | `Sheet` | Slide-in side panel |
@@ -207,7 +207,7 @@ Need to select from options?
 │   └── With search? → Combobox
 ├── Multiple selection?
 │   ├── Few options? → CheckboxList
-│   └── Many options? → Select variant="multi"
+│   └── Many options? → Select variant="multi-select"
 └── On/Off toggle? → Switch
 ```
 
@@ -290,7 +290,7 @@ import { Input, Textarea, Select, Combobox } from '@blumnai/design-system';
 import { Checkbox, CheckboxList, Radio, RadioGroup, Switch } from '@blumnai/design-system';
 
 // Feedback
-import { Dialog, AlertDialog, toast, Tooltip } from '@blumnai/design-system';
+import { Dialog, AlertDialog, toast, TooltipTrigger } from '@blumnai/design-system';
 
 // Navigation
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@blumnai/design-system';

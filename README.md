@@ -100,46 +100,46 @@ import { Button } from '@mbisolution/blumnai-design-system/button';
 | `/breadcrumbs` | Breadcrumbs |
 | `/button` | Button, ControlButton, FilterButton, AvatarButton, LinkButton, ButtonGroup |
 | `/calendar` | Calendar, DatePicker, DateRangePicker |
-| `/card` | Card, CardHeader, CardTitle, CardContent |
-| `/carousel` | Carousel |
-| `/chart` | BarChart, LineChart, PieChart, DonutChart |
+| `/card` | Card, CardHeader, CardTitle, CardContent, CardFooter |
+| `/carousel` | Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselIndicators |
+| `/chart` | Chart, BarChart, LineChart, PieChart, DonutChart |
 | `/checkbox` | Checkbox, CheckboxCard, CheckboxList |
 | `/chip` | Chip |
-| `/collapsible` | Collapsible |
+| `/collapsible` | Collapsible, CollapsibleTrigger, CollapsibleContent |
 | `/context-menu` | ContextMenu |
 | `/dialog` | Dialog, AlertDialog, ConfirmDialog |
 | `/divider` | Divider |
 | `/drawer` | Drawer, Sheet |
 | `/dropdown` | DropdownMenu |
-| `/file-upload` | FileUpload |
-| `/form` | Form, FormField, FormControl |
-| `/hover-card` | HoverCard |
+| `/file-upload` | FileUploadArea, FileUploadCard |
+| `/form` | Form, FormField, FormControl, FormItem, FormError |
+| `/hover-card` | HoverCard, HoverCardTrigger, HoverCardContent |
 | `/icons` | 모든 아이콘 컴포넌트 |
 | `/icons/icon` | Icon (UI 아이콘) |
 | `/icons/brand` | BrandIcon |
 | `/icons/flag` | FlagIcon |
 | `/icons/file` | FileIcon |
 | `/input` | Input |
-| `/input-otp` | InputOTP |
-| `/menubar` | Menubar |
-| `/navigation-menu` | NavigationMenu |
+| `/input-otp` | InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator |
+| `/menubar` | Menubar, MenubarMenu, MenubarTrigger, MenubarContent |
+| `/navigation-menu` | NavigationMenu, NavigationMenuList, NavigationMenuItem |
 | `/pagination` | Pagination |
-| `/popover` | Popover |
+| `/popover` | Popover, PopoverTrigger, PopoverContent |
 | `/progress` | Progress, ProgressCircular |
 | `/radio` | Radio, RadioGroup, RadioCard, RadioList |
-| `/resizable` | ResizablePanelGroup |
+| `/resizable` | ResizablePanelGroup, ResizablePanel, ResizableHandle |
 | `/scroll-area` | ScrollArea |
 | `/select` | Select, Combobox |
-| `/sidebar` | Sidebar |
+| `/sidebar` | Sidebar, SidebarContent, SidebarMenu |
 | `/skeleton` | Skeleton |
-| `/slider` | Slider, SliderRange, SliderInput |
+| `/slider` | Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, DataRangeSliderInput |
 | `/switch` | Switch, SwitchList |
-| `/table` | Table, DataGrid |
+| `/table` | Table, DataGrid, CellText, CellBadge, CellAvatar, CellProgress, CellLink, CellIcon, CellDate, CellDateRange |
 | `/tabs` | Tabs, TabsList, TabsTrigger, TabsContent |
 | `/textarea` | Textarea |
-| `/time-picker` | TimePicker, TimeRangePicker |
+| `/time-picker` | TimePicker, TimeRangePicker, TimeInput, TimeRangeInput |
 | `/toast` | toast |
-| `/tooltip` | Tooltip |
+| `/tooltip` | TooltipTrigger, AdvancedTooltip |
 | `/styles` | CSS 스타일시트 |
 
 ---
