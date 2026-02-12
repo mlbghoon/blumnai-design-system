@@ -170,6 +170,7 @@ import { Button } from '@mbisolution/blumnai-design-system/button';
 
 | 환경 | 상태 | 비고 |
 |------|------|------|
+| Next.js 13+ App Router (RSC) | 그대로 사용 가능 | `"use client"` 자동 포함 |
 | Next.js 13+ / Vite / webpack 5 | 그대로 사용 가능 | `exports` 필드 지원 |
 | Next.js 12 (webpack 5) | 그대로 사용 가능 | 프록시 디렉터리 자동 폴백 |
 | TypeScript `moduleResolution: "node"` | 그대로 사용 가능 | `typesVersions` 자동 폴백 |

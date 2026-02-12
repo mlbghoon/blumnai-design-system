@@ -44,8 +44,8 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | Modal dialog | `Dialog` | `<Dialog><DialogContent>...</DialogContent></Dialog>` |
 | Confirmation popup | `AlertDialog` | `<AlertDialog title="Sure?" onConfirm={...} />` |
 | Simple confirm/cancel | `ConfirmDialog` | `<ConfirmDialog title="Delete?" onConfirm={...} />` |
-| Toast notification | `toast()` | `toast({ title: "Saved!", variant: "success" })` |
-| Tooltip | `Tooltip` | `<Tooltip content="Help text"><Button>?</Button></Tooltip>` |
+| Toast notification | `toast()` | `toast.success("Saved!")` |
+| Tooltip | `TooltipTrigger` | `<TooltipTrigger content="Help text"><Button>?</Button></TooltipTrigger>` |
 | Tabs | `Tabs` | `<Tabs><TabsList>...</TabsList></Tabs>` |
 | Data table | `DataGrid` | `<DataGrid columns={[...]} data={[...]} />` |
 | Simple table | `Table` | `<Table><TableHeader>...</TableHeader></Table>` |
@@ -57,17 +57,17 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | Time picker | `TimePicker` | `<TimePicker value={time} onChange={...} />` |
 | Time range picker | `TimeRangePicker` | `<TimeRangePicker value={range} onChange={...} />` |
 | File upload | `FileUpload` | `<FileUpload onFilesChange={...} />` |
-| Avatar | `Avatar` | `<Avatar src="url" name="John" />` |
+| Avatar | `Avatar` | `<Avatar variant="userpic" src="url" alt="John" />` |
 | Avatar group | `AvatarGroup` | `<AvatarGroup avatars={[...]} />` |
-| Badge/Tag | `Badge` | `<Badge variant="success">Active</Badge>` |
-| Chip | `Chip` | `<Chip label="Tag" onRemove={...} />` |
+| Badge/Tag | `Badge` | `<Badge label="Active" color="green" />` |
+| Chip | `Chip` | `<Chip label="Tag" />` |
 | Breadcrumbs | `Breadcrumbs` | `<Breadcrumbs items={[...]} />` |
 | Divider | `Divider` | `<Divider />` |
 | Scroll area | `ScrollArea` | `<ScrollArea><Content /></ScrollArea>` |
-| Skeleton loader | `Skeleton` | `<Skeleton className="h-4 w-full" />` |
+| Skeleton loader | `Skeleton` | `<Skeleton width="100%" height={16} />` |
 | Popover | `Popover` | `<Popover><PopoverTrigger>...</PopoverTrigger></Popover>` |
-| Context menu | `ContextMenu` | `<ContextMenu items={[...]}><Child /></ContextMenu>` |
-| Dropdown menu | `Dropdown` | `<Dropdown items={[...]} />` |
+| Context menu | `ContextMenu` | `<ContextMenu><ContextMenuTrigger>...</ContextMenuTrigger><ContextMenuContent>...</ContextMenuContent></ContextMenu>` |
+| Dropdown menu | `DropdownMenu` | `<DropdownMenu><DropdownMenuTrigger>...</DropdownMenuTrigger><DropdownMenuContent>...</DropdownMenuContent></DropdownMenu>` |
 | Slider | `Slider` | `<Slider value={50} onChange={...} />` |
 | Slider with input | `SliderInput` | `<SliderInput value={50} onChange={...} />` |
 | Range slider | `SliderRange` | `<SliderRange value={[20, 80]} />` |
@@ -132,7 +132,7 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | `AlertDialog` | Confirmation with icon and actions |
 | `ConfirmDialog` | Simple yes/no confirmation |
 | `toast()` | Temporary notifications |
-| `Tooltip` | Hover help text |
+| `TooltipTrigger` | Hover help text |
 | `Popover` | Click-triggered floating content |
 | `HoverCard` | Rich content on hover |
 | `Sheet` | Slide-in side panel |
@@ -156,8 +156,8 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | `DataGrid` | Full-featured data table (sorting, filtering, selection) |
 | `Table` | Simple HTML table |
 | `Avatar` / `AvatarGroup` | User image / stacked avatars |
-| `Badge` | Status indicator |
-| `Chip` | Removable tag |
+| `Badge` | Status indicator / tag |
+| `Chip` | Selectable tag / filter |
 | `Progress` / `ProgressCircular` | Progress indicators |
 | `Skeleton` | Loading placeholder |
 | `Card` | Content container |
@@ -446,12 +446,45 @@ import { ConfirmDialog } from '@mbisolution/blumnai-design-system';
 ```tsx
 import { toast } from '@mbisolution/blumnai-design-system';
 
-toast({ title: 'Saved', variant: 'success' });
-toast({ title: 'Error', description: 'Something failed', variant: 'error' });
-toast({ title: 'Deleted', action: { label: 'Undo', onClick: () => {} } });
+// Shorthand methods (recommended)
+toast.success('Saved successfully');
+toast.error('Something went wrong');
+toast.warning('Attention needed');
+toast.info('New update available');
+toast.default('Default notification');
+
+// With options
+toast.success('Saved', { duration: 5000 });
+toast.info('Deleted', { label: 'Undo' });
+
+// Dismiss
+toast.dismiss(toastId);
+toast.dismissAll();
 ```
 
-Variants: `'default'` | `'success'` | `'error'` | `'warning'` | `'info'`
+| Method | Description |
+|--------|-------------|
+| `toast.default(message, options?)` | Default notification |
+| `toast.success(message, options?)` | Success notification |
+| `toast.error(message, options?)` | Error notification |
+| `toast.warning(message, options?)` | Warning notification |
+| `toast.info(message, options?)` | Info notification |
+| `toast.dismiss(id?)` | Dismiss specific toast |
+| `toast.dismissAll()` | Dismiss all toasts |
+
+**ToastOptions:**
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `duration` | `number` | Display duration in ms |
+| `label` | `string` | Action label text |
+
+> **Setup:** Add `<Toaster />` from `sonner` in your app root:
+> ```tsx
+> import { Toaster } from 'sonner';
+> // In your layout:
+> <Toaster position="top-right" />
+> ```
 
 ### Tabs
 
@@ -488,9 +521,29 @@ import type { ColumnDef } from '@mbisolution/blumnai-design-system';
 import { Avatar, AvatarGroup } from '@mbisolution/blumnai-design-system';
 ```
 
-**Avatar**: `src`, `name`, `size` (`'xs'`-`'xl'`), `shape` (`'circle'`|`'square'`)
+**Avatar:**
 
-**AvatarGroup**: `avatars`, `max` (default 5), `size`
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'initials'` `'userpic'` `'empty'` | `'initials'` | Avatar type |
+| `size` | `'2xs'` `'xs'` `'sm'` `'md'` `'lg'` `'xl'` `'2xl'` `'3xl'` | `'md'` | Size |
+| `shape` | `'circular'` `'rounded'` | `'circular'` | Shape |
+| `initials` | `string` | - | 1-2 characters (for `variant="initials"`) |
+| `src` | `string` | - | Image URL (for `variant="userpic"`) |
+| `alt` | `string` | - | Image alt text |
+| `color` | `string` | - | Background color for initials |
+| `ring` | `boolean` | `false` | White ring around avatar |
+| `status` | `'online'` `'offline'` `'checkmark'` `'logo'` `'icon'` `'notification'` | - | Status badge |
+| `badgeLocation` | `'top'` `'bottom'` | `'top'` | Status badge position |
+
+```tsx
+<Avatar variant="initials" initials="JD" size="md" />
+<Avatar variant="userpic" src="/photo.jpg" size="lg" />
+<Avatar variant="empty" size="sm" />
+<Avatar variant="initials" initials="OK" status="online" />
+```
+
+**AvatarGroup:** `avatars` (AvatarProps[]), `max` (default shows "+N" overflow), `size`, `stacking` (`'last-on-top'`|`'first-on-top'`)
 
 ### Badge
 
@@ -500,8 +553,25 @@ import { Badge } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'secondary'` `'success'` `'warning'` `'destructive'` `'outline'` | `'default'` | Visual style |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Badge size |
+| `label` | `string` | - | Badge text |
+| `variant` | `'default'` `'icon'` `'image'` `'dot'` | `'default'` | Badge type |
+| `color` | `'red'` `'orange'` `'lime'` `'green'` `'cyan'` `'blue'` `'violet'` `'fuchsia'` `'pink'` `'neutral'` | `'neutral'` | Badge color |
+| `size` | `'sm'` `'lg'` | `'sm'` | Badge size |
+| `shape` | `'rounded'` `'pill'` | `'rounded'` | Badge shape |
+| `border` | `boolean` | `false` | Show border |
+| `closeIcon` | `boolean` | `false` | Show close button |
+| `onClose` | `() => void` | - | Close callback |
+| `icon` | `IconTypeWithFill` | - | Icon (for `variant="icon"`) |
+| `image` | `string` | - | Image URL (for `variant="image"`) |
+
+```tsx
+<Badge label="Active" color="green" />
+<Badge label="Warning" color="orange" />
+<Badge label="Error" color="red" />
+<Badge label="Info" color="blue" />
+<Badge label="Tag" color="neutral" closeIcon onClose={() => {}} />
+<Badge variant="dot" color="green" label="Online" />
+```
 
 ### Progress
 
@@ -632,6 +702,415 @@ import { AspectRatio } from '@mbisolution/blumnai-design-system';
 
 `ratio` (number, e.g. `16/9`, default `1`)
 
+### Tooltip
+
+```tsx
+import { TooltipTrigger } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `content` | `ReactNode` | required | Tooltip content |
+| `children` | `ReactElement` | required | Trigger element |
+| `placement` | `Placement` | `'top'` | Tooltip position |
+| `delay` | `number` | `200` | Hover delay in ms |
+| `disabled` | `boolean` | `false` | Disable tooltip |
+| `maxWidth` | `number` | `240` | Max width in px |
+| `badge` | `string` | - | Badge text inside tooltip |
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Open change callback |
+
+```tsx
+<TooltipTrigger content="Help text" placement="top">
+  <Button>Hover me</Button>
+</TooltipTrigger>
+```
+
+For rich content, use `AdvancedTooltip` with `items` array of `{ type: 'divider' | 'label' | 'item' | 'text', ... }`.
+
+### DatePicker / DateRangePicker
+
+```tsx
+import { DatePicker, DateRangePicker } from '@mbisolution/blumnai-design-system';
+```
+
+**Common Props (both components):**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `datePickerStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
+| `size` | `'sm'` `'lg'` | `'sm'` | Input size |
+| `label` | `string` | - | Label text |
+| `required` | `boolean` | `false` | Required indicator |
+| `caption` | `string` | - | Description below input |
+| `error` | `boolean \| string` | - | Error state/message |
+| `success` | `boolean \| string` | - | Success state/message |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `width` | `string \| number` | - | Custom width |
+| `minDate` | `Date` | - | Earliest selectable date |
+| `maxDate` | `Date` | - | Latest selectable date |
+| `disabledDates` | `Date[]` | - | Specific disabled dates |
+| `dateFormat` | `'yyyy.MM.dd'` `'yyyy-MM-dd'` `'yyyy/MM/dd'` `'MM/dd/yyyy'` `'dd/MM/yyyy'` | `'yyyy.MM.dd'` | Display format |
+| `showQuickPresets` | `boolean` | `false` | Show quick date presets |
+| `locale` | `Locale` | - | date-fns locale |
+
+**DatePicker-specific:** `value` (Date), `onChange` ((date: Date | undefined) => void), `presets` (QuickPreset[])
+
+**DateRangePicker-specific:** `value` (DateRange: { from: Date, to: Date }), `onChange`, `numberOfMonths` (default 2), `presets`
+
+```tsx
+<DatePicker label="Start Date" value={date} onChange={setDate} />
+<DateRangePicker label="Period" value={range} onChange={setRange} showQuickPresets />
+```
+
+### Charts
+
+```tsx
+import { BarChart, LineChart, PieChart, DonutChart } from '@mbisolution/blumnai-design-system';
+```
+
+**Common Props (all charts):**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `data` | `ChartDataPoint[]` | required | Data array (objects with string/number values) |
+| `config` | `ChartConfig` | - | Color and label config per data key |
+| `width` | `number` | - | Chart width |
+| `height` | `number` | - | Chart height |
+| `showXGrid` | `boolean` | - | Show X-axis grid lines |
+| `showYGrid` | `boolean` | - | Show Y-axis grid lines |
+| `showLegend` | `boolean` | - | Show legend |
+
+**BarChart:** `xAxis` (ChartAxisConfig), `yAxis` (ChartAxisConfig), `barSize` (number), `stacked` (boolean), `stackedKeys` (string[])
+
+**LineChart:** `xAxis`, `yAxis`, `dataKeys` (string[]), `showArea` (boolean), `showPoints` (boolean), `strokeWidth` (number)
+
+**PieChart:** `dataKey` (string), `nameKey` (string), `outerRadius` (number), `isHalf` (boolean)
+
+**DonutChart** extends PieChart: `innerRadius` (number), `centerLabel` (string), `centerValue` (string)
+
+```tsx
+const data = [
+  { month: 'Jan', revenue: 4000, expenses: 2400 },
+  { month: 'Feb', revenue: 3000, expenses: 1398 },
+];
+
+const config = {
+  revenue: { label: 'Revenue', color: 'var(--chart-1)' },
+  expenses: { label: 'Expenses', color: 'var(--chart-2)' },
+};
+
+<BarChart
+  data={data}
+  config={config}
+  xAxis={{ dataKey: 'month' }}
+  yAxis={{ dataKey: 'revenue' }}
+  height={300}
+  showLegend
+/>
+```
+
+### AccordionGroup
+
+```tsx
+import { AccordionGroup } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `AccordionGroupItem[]` | required | Accordion items |
+| `spacing` | `number` | - | Gap between items (px) |
+| `style` | `AccordionItemStyle` | - | Default style for all items |
+| `allowMultipleOpen` | `boolean` | - | Allow multiple items open simultaneously |
+
+```ts
+interface AccordionGroupItem {
+  id?: string;
+  header: ReactNode;
+  children: ReactNode;
+  style?: AccordionItemStyle;
+  isOpen?: boolean;
+  disabled?: boolean;
+  onToggle?: () => void;
+}
+```
+
+```tsx
+<AccordionGroup
+  items={[
+    { id: '1', header: 'Question?', children: 'Answer here.' },
+    { id: '2', header: 'Another?', children: 'More content.', isOpen: true },
+  ]}
+  allowMultipleOpen
+/>
+```
+
+### ContextMenu
+
+```tsx
+import {
+  ContextMenu, ContextMenuTrigger, ContextMenuContent,
+  ContextMenuItem, ContextMenuSeparator, ContextMenuLabel,
+  ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem,
+  ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent,
+} from '@mbisolution/blumnai-design-system';
+```
+
+**ContextMenuContent**: `width` (string|number)
+
+**ContextMenuItem:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `destructive` | `boolean` | `false` | Danger/delete styling |
+| `leadIcon` | `IconType` | - | Icon before label |
+| `tailIcon` | `IconType` | - | Icon after label |
+| `shortcut` | `string` | - | Keyboard shortcut display |
+| `caption` | `string` | - | Secondary text |
+| `description` | `string` | - | Description (large size only) |
+| `size` | `'default'` `'large'` | `'default'` | Item size |
+
+**ContextMenuLabel**: `caption` (string)
+
+```tsx
+<ContextMenu>
+  <ContextMenuTrigger>
+    <div>Right-click this area</div>
+  </ContextMenuTrigger>
+  <ContextMenuContent width={220}>
+    <ContextMenuLabel>Actions</ContextMenuLabel>
+    <ContextMenuSeparator />
+    <ContextMenuItem shortcut="⌘C">Copy</ContextMenuItem>
+    <ContextMenuItem shortcut="⌘V">Paste</ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuItem destructive shortcut="⌫">Delete</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>
+```
+
+### FileUpload
+
+```tsx
+import { FileUpload, FileUploadArea, FileUploadCard } from '@mbisolution/blumnai-design-system';
+```
+
+**FileUploadArea:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `onFilesSelected` | `(files: File[]) => void` | - | File selection callback |
+| `accept` | `string` | - | Accepted file types (e.g., `"image/*,.pdf"`) |
+| `maxFiles` | `number` | - | Maximum file count |
+| `maxSize` | `number` | - | Max total size in bytes |
+| `multiple` | `boolean` | - | Allow multiple files |
+| `title` | `string` | - | Title text |
+| `clickText` | `string` | - | Highlighted click text |
+| `description` | `string` | - | Description text |
+| `icon` | `IconTypeWithFill` | - | Custom icon |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `error` | `boolean \| string` | - | Error state/message |
+
+**FileUploadCard:**
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `file` | `File \| FileInfo` | File object |
+| `status` | `'uploading'` `'uploaded'` `'error'` | Upload state |
+| `progress` | `number` | Progress 0-100 |
+| `thumbnail` | `string` | Preview image URL |
+| `onRemove` | `() => void` | Remove callback |
+| `onRetry` | `() => void` | Retry callback |
+
+### Breadcrumbs
+
+```tsx
+import { Breadcrumbs } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `BreadcrumbItem[]` | required | Breadcrumb items |
+| `size` | `'sm'` `'lg'` | `'sm'` | Size |
+| `separator` | `'slash'` `'chevron'` `'dot'` `'arrow'` | `'slash'` | Separator style |
+| `maxItems` | `number` | - | Max visible items (collapses to "...") |
+
+```ts
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+  icon?: IconTypeWithFill | ReactNode;
+  disabled?: boolean;
+  onClick?: () => void;
+}
+```
+
+### Pagination
+
+```tsx
+import { Pagination } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `page` | `number` | required | Current page (1-indexed) |
+| `totalPages` | `number` | required | Total pages |
+| `onPageChange` | `(page: number) => void` | required | Page change callback |
+| `variant` | `'numbered'` `'dot'` `'simple'` | `'numbered'` | Pagination style |
+| `maxVisiblePages` | `number` | `7` | Max visible page buttons |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `hideNavButtons` | `boolean` | `false` | Hide prev/next buttons |
+| `getPageHref` | `(page: number) => string` | - | For router integration |
+
+### Card
+
+```tsx
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@mbisolution/blumnai-design-system';
+```
+
+**Card**: `variant` (`'default'`|`'outline'`|`'ghost'`)
+
+```tsx
+<Card variant="outline">
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Description</CardDescription>
+  </CardHeader>
+  <CardContent>Content here</CardContent>
+  <CardFooter>Footer</CardFooter>
+</Card>
+```
+
+### Chip
+
+```tsx
+import { Chip } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | - | Chip text |
+| `icon` | `IconTypeWithFill` | - | Icon |
+| `variant` | `'default'` `'iconOnly'` | `'default'` | Display type |
+| `style` | `'default'` `'soft'` `'ghost'` `'ghostMuted'` | `'default'` | Visual style |
+| `shape` | `'rounded'` `'pill'` | `'rounded'` | Shape |
+| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Size |
+| `selected` | `boolean` | `false` | Selected state |
+
+### Skeleton
+
+```tsx
+import { Skeleton } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default'` `'circular'` `'text'` | - | Shape variant |
+| `width` | `string \| number` | - | Width |
+| `height` | `string \| number` | - | Height |
+
+```tsx
+<Skeleton width={200} height={20} />
+<Skeleton variant="circular" width={40} height={40} />
+```
+
+### Form
+
+```tsx
+import { Form, FormField, FormControl, FormItem, FormError } from '@mbisolution/blumnai-design-system';
+```
+
+Integrates with `react-hook-form` and `zod`. `FormControl` automatically injects error messages into children that support the `error` prop.
+
+| Component | Key Props |
+|-----------|-----------|
+| `Form` | `form` (UseFormReturn), `onSubmit` |
+| `FormField` | `control`, `name`, `render` |
+| `FormControl` | `children` (auto-injects error + aria attributes) |
+| `FormItem` | Container div |
+| `FormError` | Custom error message override |
+
+See Login Form pattern for complete example.
+
+### Dropdown
+
+```tsx
+import {
+  DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
+  DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel,
+  DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent,
+} from '@mbisolution/blumnai-design-system';
+```
+
+Same compound pattern as ContextMenu. Triggered by click instead of right-click.
+
+**DropdownMenuContent**: `width` (string|number)
+
+**DropdownMenuItem**: Same props as ContextMenuItem — `destructive`, `leadIcon`, `tailIcon`, `shortcut`, `caption`, `description`, `size`
+
+Additional specialized items: `DropdownMenuAvatar`, `DropdownMenuUserbar`, `DropdownMenuButton`, `DropdownMenuSearch`
+
+### ScrollArea
+
+```tsx
+import { ScrollArea } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `orientation` | `'vertical'` `'horizontal'` `'both'` | `'vertical'` | Scroll direction |
+| `maxHeight` | `string \| number` | - | Max height (e.g., `300`, `"50vh"`) |
+| `maxWidth` | `string \| number` | - | Max width |
+
+### Collapsible
+
+Wraps Radix UI Collapsible: `Collapsible` (root), `CollapsibleTrigger`, `CollapsibleContent`.
+
+### ResizablePanelGroup
+
+Wraps react-resizable-panels: `ResizablePanelGroup`, `ResizablePanel`, `ResizableHandle`.
+
+**ResizableHandle**: `withHandle` (boolean), `variant` (`'line'`|`'pill'`|`'dots'`|`'hidden'`), `collapseButton` (`'before'`|`'after'`)
+
+### AlertDialog vs ConfirmDialog
+
+> **AlertDialog** — Low-level compound component (like Dialog). Build custom layouts with `AlertDialogContent`, `AlertDialogHeader`, `AlertDialogFooter`, `onConfirm`. Supports `loading` and `confirmDisabled` props. Use for simple yes/no confirmations.
+>
+> **ConfirmDialog** — Higher-level wrapper. Pass `title`, `description`, `confirmLabel`, `cancelLabel`, `variant`, `onConfirm`. Use for standard confirmation patterns.
+
+---
+
+## Hooks
+
+### useKeyboardShortcut
+
+```tsx
+import { useKeyboardShortcut } from '@mbisolution/blumnai-design-system';
+```
+
+Binds a global keydown listener for keyboard shortcuts.
+
+```tsx
+useKeyboardShortcut('⌘+K', () => {
+  console.log('Triggered!');
+}, { enabled: true, preventDefault: true });
+```
+
+| Param | Type | Description |
+|-------|------|-------------|
+| `shortcut` | `string \| null \| undefined` | Shortcut string (e.g., `'⌘+K'`, `'⌘+Shift+S'`, `'Ctrl+Enter'`) |
+| `handler` | `() => void` | Callback when shortcut is pressed |
+| `options` | `UseKeyboardShortcutOptions` | Optional configuration |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | `boolean` | `true` | Enable/disable the listener |
+| `ignoreInputFields` | `boolean` | - | Skip when focus is in input/textarea |
+| `preventDefault` | `boolean` | `false` | Call `e.preventDefault()` |
+
+> **Note:** Browser-reserved shortcuts (⌘W, ⌘N, ⌘T, ⌘Q, ⌘L) cannot be overridden by JavaScript.
+
 ---
 
 ## Common Patterns
@@ -747,11 +1226,11 @@ function EditDialog() {
 ```tsx
 import { toast } from '@mbisolution/blumnai-design-system';
 
-toast({ title: '저장되었습니다', variant: 'success' });
-toast({ title: '오류가 발생했습니다', variant: 'error' });
-toast({ title: '주의가 필요합니다', variant: 'warning' });
-toast({ title: '알림', description: '새로운 메시지가 있습니다', variant: 'info' });
-toast({ title: '삭제됨', action: { label: '실행취소', onClick: () => console.log('Undo') } });
+toast.success('저장되었습니다');
+toast.error('오류가 발생했습니다');
+toast.warning('주의가 필요합니다');
+toast.info('새로운 메시지가 있습니다');
+toast.info('삭제됨', { label: '실행취소' });
 ```
 
 ### DataGrid with Sorting and Selection
@@ -934,7 +1413,7 @@ import { Icon } from '@mbisolution/blumnai-design-system';
 | dialog, modal, popup, overlay | `Dialog` |
 | alert, confirm, yes no, delete confirmation | `ConfirmDialog` / `AlertDialog` |
 | toast, notification, snackbar, message | `toast()` |
-| tooltip, hint, help, hover | `Tooltip` |
+| tooltip, hint, help, hover | `TooltipTrigger` |
 | popover, floating, click popup | `Popover` |
 | sheet, side panel, slide out | `Sheet` |
 | drawer, bottom sheet, mobile drawer | `Drawer` |
@@ -1025,7 +1504,7 @@ import { Icon } from '@mbisolution/blumnai-design-system';
 | `/textarea` | Textarea |
 | `/time-picker` | TimePicker, TimeInput, TimeRangePicker, TimeRangeInput |
 | `/toast` | toast |
-| `/tooltip` | Tooltip |
+| `/tooltip` | TooltipTrigger, AdvancedTooltip |
 | `/styles` | CSS stylesheet |
 
 ---

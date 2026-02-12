@@ -20,15 +20,15 @@
 | Radio buttons | `RadioGroup` | `<RadioGroup><Radio value="a" label="A" /></RadioGroup>` |
 | Modal dialog | `Dialog` | `<Dialog><DialogContent>...</DialogContent></Dialog>` |
 | Confirmation | `ConfirmDialog` | `<ConfirmDialog title="Delete?" onConfirm={...} />` |
-| Toast | `toast()` | `toast({ title: "Saved!", variant: "success" })` |
-| Tooltip | `Tooltip` | `<Tooltip content="Help"><Button>?</Button></Tooltip>` |
+| Toast | `toast()` | `toast.success("Saved!")` |
+| Tooltip | `TooltipTrigger` | `<TooltipTrigger content="Help"><Button>?</Button></TooltipTrigger>` |
 | Tabs | `Tabs` | `<Tabs><TabsList>...</TabsList></Tabs>` |
 | Data table | `DataGrid` | `<DataGrid columns={[...]} data={[...]} />` |
 | Progress bar | `Progress` | `<Progress value={50} />` |
 | Date picker | `DatePicker` | `<DatePicker value={date} onChange={...} />` |
 | File upload | `FileUpload` | `<FileUpload onFilesChange={...} />` |
-| Avatar | `Avatar` | `<Avatar src="url" name="John" />` |
-| Badge | `Badge` | `<Badge variant="success">Active</Badge>` |
+| Avatar | `Avatar` | `<Avatar variant="userpic" src="url" alt="John" />` |
+| Badge | `Badge` | `<Badge label="Active" color="green" />` |
 | Navigation link | `LinkButton` | `<LinkButton href="/page">Go</LinkButton>` |
 | Icon-only button | `ControlButton` | `<ControlButton icon={['system','edit']} />` |
 | Side panel | `Sheet` | `<Sheet><SheetContent>...</SheetContent></Sheet>` |
@@ -164,11 +164,18 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 ```tsx
 import { toast } from '@mbisolution/blumnai-design-system';
 
-toast({ title: 'Saved', variant: 'success' });
-toast({ title: 'Error', description: 'Details', variant: 'error' });
+toast.success('Saved successfully');
+toast.error('Something went wrong');
+toast.warning('Attention needed');
+toast.info('New update available');
+toast.default('Default notification');
+
+// With options
+toast.success('Saved', { duration: 5000 });
+toast.info('Deleted', { label: 'Undo' });
 ```
 
-Variants: `'default'` | `'success'` | `'error'` | `'warning'` | `'info'`
+Methods: `toast.default()`, `toast.success()`, `toast.error()`, `toast.warning()`, `toast.info()`, `toast.dismiss()`, `toast.dismissAll()`
 
 ### DataGrid
 
@@ -190,16 +197,21 @@ Variants: `'default'` | `'success'` | `'error'` | `'warning'` | `'info'`
 
 ### Avatar
 
-**Avatar**: `src`, `name`, `size` (`'xs'`–`'xl'`), `shape` (`'circle'` | `'square'`)
+**Avatar**: `variant` (`'initials'`|`'userpic'`|`'empty'`), `size` (`'2xs'`–`'3xl'`), `shape` (`'circular'`|`'rounded'`), `initials`, `src`, `alt`, `color`, `ring`, `status` (`'online'`|`'offline'`|`'checkmark'`|`'logo'`|`'icon'`|`'notification'`), `badgeLocation`
 
-**AvatarGroup**: `avatars`, `max` (default 5), `size`
+**AvatarGroup**: `avatars` (AvatarProps[]), `max`, `size`, `stacking` (`'last-on-top'`|`'first-on-top'`)
 
 ### Badge
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'secondary'` `'success'` `'warning'` `'destructive'` `'outline'` | `'default'` | Visual style |
-| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Badge size |
+| `label` | `string` | - | Badge text |
+| `variant` | `'default'` `'icon'` `'image'` `'dot'` | `'default'` | Badge type |
+| `color` | `'red'` `'orange'` `'lime'` `'green'` `'cyan'` `'blue'` `'violet'` `'fuchsia'` `'pink'` `'neutral'` | `'neutral'` | Badge color |
+| `size` | `'sm'` `'lg'` | `'sm'` | Badge size |
+| `shape` | `'rounded'` `'pill'` | `'rounded'` | Badge shape |
+| `closeIcon` | `boolean` | `false` | Show close button |
+| `onClose` | `() => void` | - | Close callback |
 
 ### Icon
 
@@ -226,7 +238,7 @@ Common icons: `add`, `close`, `check`, `search`, `settings`, `user`, `menu`, `ed
 | `/switch` | Switch, SwitchList |
 | `/dialog` | Dialog, AlertDialog, ConfirmDialog |
 | `/toast` | toast |
-| `/tooltip` | Tooltip |
+| `/tooltip` | TooltipTrigger, AdvancedTooltip |
 | `/tabs` | Tabs, TabsList, TabsTrigger, TabsContent |
 | `/table` | Table, DataGrid |
 | `/avatar` | Avatar, AvatarGroup |

@@ -114,19 +114,22 @@ function EditDialog() {
 import { toast } from '@mbisolution/blumnai-design-system';
 
 // Success
-toast({ title: 'Saved successfully', variant: 'success' });
+toast.success('Saved successfully');
 
 // Error
-toast({ title: 'Something went wrong', description: 'Please try again', variant: 'error' });
+toast.error('Something went wrong');
 
 // Warning
-toast({ title: 'Attention needed', variant: 'warning' });
+toast.warning('Attention needed');
 
 // Info
-toast({ title: 'New message', description: 'You have a new notification', variant: 'info' });
+toast.info('You have a new notification');
 
-// With action
-toast({ title: 'Deleted', action: { label: 'Undo', onClick: () => console.log('Undo') } });
+// With options
+toast.success('Saved', { duration: 5000 });
+
+// With action label
+toast.info('Deleted', { label: 'Undo' });
 ```
 
 ## Data Table with Sorting & Selection

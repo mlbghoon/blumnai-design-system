@@ -6,6 +6,32 @@
 
 ## How to Use
 
+### Icon Usage Approaches
+
+#### Approach 1: Icon component with tuple (general use)
+
+```tsx
+import { Icon } from '@mbisolution/blumnai-design-system';
+
+<Icon iconType={['system', 'add']} size={20} />
+<Icon iconType={['system', 'heart']} isFill />
+```
+
+Best for: dynamic icon selection, most UI components, when using `leadIcon`/`tailIcon` props.
+
+#### Approach 2: Named icon components (tree-shaking)
+
+```tsx
+import { AddIcon, SearchIcon } from '@mbisolution/blumnai-design-system/icons/system';
+
+<AddIcon size={24} />
+<SearchIcon size={20} />
+```
+
+Best for: static icons where you want minimal bundle size via tree-shaking. Each named component only includes that specific icon's SVG data.
+
+---
+
 ### 1. Create a centralized icon file in your project
 
 ```tsx
@@ -151,18 +177,6 @@ BlazeFillIcon, BlazeIcon, CelsiusFillIcon, CelsiusIcon, CloudWindyFillIcon, Clou
 `import from '@mbisolution/blumnai-design-system/icons/flags'`
 
 FlagAbkhaziaIcon, FlagAdIcon, FlagAeIcon, FlagAfIcon, FlagAgIcon, FlagAiIcon, FlagAlIcon, FlagAmIcon, FlagAoIcon, FlagArIcon, FlagAsIcon, FlagAtIcon, FlagAuIcon, FlagAwIcon, FlagAxIcon, FlagAzIcon, FlagAzoresislandsIcon, FlagBaIcon, FlagBalearicislandsIcon, FlagBasquecountryIcon, FlagBbIcon, FlagBdIcon, FlagBeIcon, FlagBfIcon, FlagBgIcon, FlagBhIcon, FlagBiIcon, FlagBjIcon, FlagBmIcon, FlagBoIcon, FlagBonaireIcon, FlagBrIcon, FlagBritishcolumbiaIcon, FlagBruneiIcon, FlagBsIcon, FlagBtIcon, FlagBwIcon, FlagByIcon, FlagBzIcon, FlagCaIcon, FlagCanaryislandsIcon, FlagCdIcon, FlagCeutaIcon, FlagCfIcon, FlagCgIcon, FlagChIcon, FlagChinaIcon, FlagCkIcon, FlagClIcon, FlagCmIcon, FlagCoIcon, FlagCocosislandIcon, FlagCorsicaIcon, FlagCrIcon, FlagCuIcon, FlagCvIcon, FlagCwIcon, FlagCyIcon, FlagCzIcon, FlagDeIcon, FlagDjIcon, FlagDkIcon, FlagDmIcon, FlagDoIcon, FlagDzIcon, FlagEasttimorIcon, FlagEcIcon, FlagEeIcon, FlagEgIcon, FlagErIcon, FlagEsIcon, FlagEtIcon, FlagEuropeanunionIcon, FlagFalklandislandsIcon, FlagFiIcon, FlagFjIcon, FlagFoIcon, FlagFrIcon, FlagGaIcon, FlagGalapagosislandsIcon, FlagGambiaIcon, FlagGbIcon, FlagGbengIcon, FlagGbsctIcon, FlagGbwlsIcon, FlagGdIcon, FlagGeIcon, FlagGgIcon, FlagGhIcon, FlagGiIcon, FlagGlIcon, FlagGnIcon, FlagGqIcon, FlagGrIcon, FlagGtIcon, FlagGuIcon, FlagGwIcon, FlagGyIcon, FlagHawaiiIcon, FlagHkIcon, FlagHnIcon, FlagHrIcon, FlagHtIcon, FlagHuIcon, FlagIdIcon, FlagIeIcon, FlagIlIcon, FlagImIcon, FlagInIcon, FlagIoIcon, FlagIqIcon, FlagIranIcon, FlagIsIcon, FlagItIcon, FlagIvorycoastIcon, FlagJeIcon, FlagJmIcon, FlagJoIcon, FlagJpIcon, FlagKeIcon, FlagKgIcon, FlagKhIcon, FlagKiIcon, FlagKmIcon, FlagKpIcon, FlagKrIcon, FlagKwIcon, FlagKyIcon, FlagKzIcon, FlagLaosIcon, FlagLbIcon, FlagLiIcon, FlagLkIcon, FlagLrIcon, FlagLsIcon, FlagLtIcon, FlagLuIcon, FlagLvIcon, FlagLyIcon, FlagMaIcon, FlagMadeiraIcon, FlagMarshallislandIcon, FlagMcIcon, FlagMeIcon, FlagMelillaIcon, FlagMgIcon, FlagMicronesiaIcon, FlagMlIcon, FlagMmIcon, FlagMnIcon, FlagMoIcon, FlagMoldovaIcon, FlagMqIcon, FlagMrIcon, FlagMsIcon, FlagMtIcon, FlagMuIcon, FlagMvIcon, FlagMwIcon, FlagMxIcon, FlagMyIcon, FlagMzIcon, FlagNaIcon, FlagNatoIcon, FlagNeIcon, FlagNfIcon, FlagNgIcon, FlagNiIcon, FlagNlIcon, FlagNoIcon, FlagNortherncyprusIcon, FlagNorthernmarianasislandsIcon, FlagNpIcon, FlagNrIcon, FlagNuIcon, FlagNzIcon, FlagOmIcon, FlagOrkneyislandsIcon, FlagOssetiaIcon, FlagPaIcon, FlagPalestineIcon, FlagPeIcon, FlagPfIcon, FlagPgIcon, FlagPhIcon, FlagPitcairnislandsIcon, FlagPkIcon, FlagPlIcon, FlagPrIcon, FlagPtIcon, FlagPwIcon, FlagPyIcon, FlagQaIcon, FlagRapanuiIcon, FlagRepublicofmacedoniaIcon, FlagRoIcon, FlagRsIcon, FlagRussiaIcon, FlagRwIcon, FlagSaIcon, FlagSabaislandIcon, FlagSahrawiarabdemocraticrepublicIcon, FlagSaotomeandprinceIcon, FlagSardiniaIcon, FlagSbIcon, FlagScIcon, FlagSdIcon, FlagSeIcon, FlagSgIcon, FlagSiIcon, FlagSinteustatiusIcon, FlagSintmaartenIcon, FlagSkIcon, FlagSlIcon, FlagSmIcon, FlagSnIcon, FlagSoIcon, FlagSomalilandIcon, FlagSrIcon, FlagSsIcon, FlagStbartsIcon, FlagStluciaIcon, FlagStvincentandthegrenadinesIcon, FlagSvIcon, FlagSwazilandIcon, FlagSyriaIcon, FlagTaiwanIcon, FlagTanzaniaIcon, FlagTdIcon, FlagTgIcon, FlagThIcon, FlagTibetIcon, FlagTjIcon, FlagTkIcon, FlagTmIcon, FlagTnIcon, FlagToIcon, FlagTransnistriaIcon, FlagTtIcon, FlagTurkeyIcon, FlagTurksandcaicosIcon, FlagTvIcon, FlagUaIcon, FlagUgIcon, FlagUnitednationsIcon, FlagUnitedstatesIcon, FlagUyIcon, FlagUzIcon, FlagVaIcon, FlagVeIcon, FlagVgIcon, FlagViIcon, FlagVnIcon, FlagVuIcon, FlagWsIcon, FlagXkIcon, FlagYeIcon, FlagZaIcon, FlagZmIcon, FlagZwIcon
-
-### brands (0 icons)
-
-`import from '@mbisolution/blumnai-design-system/icons/brands'`
-
-
-
-### isometric (0 icons)
-
-`import from '@mbisolution/blumnai-design-system/icons/isometric'`
-
-
 
 ### file-icons (27 icons)
 

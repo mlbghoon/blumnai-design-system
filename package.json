@@ -1,8 +1,9 @@
 {
   "name": "@mbisolution/blumnai-design-system",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "private": false,
   "type": "module",
+  "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "typesVersions": {
@@ -569,7 +570,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:lib": "npm run prebuild:lib && vite build --mode lib && tsc --project tsconfig.lib.json && tsc-alias --project tsconfig.lib.json && node scripts/strip-css-layers.mjs && node scripts/generate-subpath-proxies.mjs",
+    "build:lib": "npm run prebuild:lib && vite build --mode lib && tsc --project tsconfig.lib.json && tsc-alias --project tsconfig.lib.json && node scripts/strip-css-layers.mjs && node scripts/inject-use-client.mjs && node scripts/generate-subpath-proxies.mjs",
     "prebuild:lib": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons && npm run generate:icon-catalog",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
