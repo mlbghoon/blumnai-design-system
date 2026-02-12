@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { DataGridLoading } from '../components/DataGridLoading';
 import { DataGridEmpty } from '../components/DataGridEmpty';

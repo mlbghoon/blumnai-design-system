@@ -15,7 +15,7 @@ Package: `@mbisolution/blumnai-design-system`
 ## Install
 
 ```bash
-npm install @mbisolution/blumnai-design-system
+npm install @mbisolution/blumnai-design-system --lagacy-peers-deps
 ```
 
 ## Setup
@@ -61,7 +61,7 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 </Dialog>
 
 // Toast
-toast({ title: 'Saved!', variant: 'success' });
+toast.success('Saved!');
 ```
 
 ## Themes

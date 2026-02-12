@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { SimpleAlertDialog } from '../AlertDialog';
 import type { SimpleAlertDialogProps } from '../AlertDialog.types';

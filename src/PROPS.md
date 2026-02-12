@@ -279,22 +279,39 @@ import { ConfirmDialog } from '@blumnai/design-system';
 
 ```tsx
 import { toast } from '@blumnai/design-system';
+
+// Shorthand methods (recommended)
+toast.success('Saved successfully');
+toast.error('Something went wrong');
+toast.warning('Attention needed');
+toast.info('New update available');
+toast.default('Default notification');
+
+// With options
+toast.success('Saved', { duration: 5000 });
+toast.info('Deleted', { label: 'Undo' });
+
+// Dismiss
+toast.dismiss(toastId);
+toast.dismissAll();
 ```
 
-```ts
-toast(options: ToastOptions);
+| Method | Description |
+|--------|-------------|
+| `toast.default(message, options?)` | Default notification |
+| `toast.success(message, options?)` | Success notification |
+| `toast.error(message, options?)` | Error notification |
+| `toast.warning(message, options?)` | Warning notification |
+| `toast.info(message, options?)` | Info notification |
+| `toast.dismiss(id?)` | Dismiss specific toast |
+| `toast.dismissAll()` | Dismiss all toasts |
 
-interface ToastOptions {
-  title: string;
-  description?: string;
-  variant?: 'default' | 'success' | 'error' | 'warning' | 'info';
-  duration?: number;
-  action?: {
-    label: string;
-    onClick: () => void;
-  };
-}
-```
+**ToastOptions:**
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `duration` | `number` | Display duration in ms |
+| `label` | `string` | Action label text |
 
 ---
 
@@ -702,5 +719,528 @@ interface ParsedShortcut {
   shift: boolean;
   alt: boolean;
   hasModifier: boolean;
+}
+```
+
+### useIsMobile
+
+```tsx
+import { useIsMobile } from '@blumnai/design-system';
+```
+
+Returns `true` when the viewport width is less than 768px.
+
+```tsx
+const isMobile = useIsMobile();
+```
+
+---
+
+## LinkButton
+
+```tsx
+import { LinkButton } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `linkType` | `'default'` `'muted'` `'informative'` | `'default'` | Visual style |
+| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Size |
+| `label` | `string` | required | Link text |
+| `href` | `string` | - | URL (renders as `<a>`) |
+| `openInNewTab` | `boolean` | `false` | Open in new tab |
+| `leadIcon` | `IconType \| ReactNode` | - | Icon before text |
+| `tailIcon` | `IconType \| ReactNode` | - | Icon after text |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `width` | `string \| number` | - | Custom width |
+
+---
+
+## ControlButton
+
+```tsx
+import { ControlButton } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `buttonStyle` | `'default'` `'inverted'` | `'default'` | Visual style |
+| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Size |
+| `shape` | `'rounded'` `'circle'` | `'rounded'` | Shape |
+| `icon` | `IconType` | required | Icon to display |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `aria-label` | `string` | required | Accessibility label |
+
+---
+
+## ButtonGroup
+
+```tsx
+import { ButtonGroup } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `ButtonGroupItem[]` | required | Button items |
+| `size` | `'2xs'` `'xs'` `'sm'` `'md'` `'lg'` | `'md'` | Group size |
+| `className` | `string` | - | Custom class |
+
+```ts
+interface ButtonGroupItem {
+  id?: string;
+  label?: ReactNode;
+  icon?: IconType | ReactNode;
+  tailIcon?: IconType | ReactNode;
+  badge?: string;
+  ariaLabel?: string;
+  disabled?: boolean;
+  onClick?: () => void;
+}
+```
+
+---
+
+## CheckboxList
+
+```tsx
+import { CheckboxList } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `CheckboxListItem[]` | required | Checkbox items |
+| `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
+| `checkboxStyle` | `'default'` `'soft'` | `'default'` | Checkbox visual style |
+| `onItemChange` | `(id: string, checked: boolean) => void` | - | Change callback |
+
+```ts
+interface CheckboxListItem {
+  id: string;
+  title: string;
+  description?: string;
+  checked?: boolean;
+  disabled?: boolean;
+}
+```
+
+---
+
+## CheckboxCard
+
+```tsx
+import { CheckboxCard } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | required | Card title |
+| `description` | `string` | required | Card description |
+| `sections` | `CheckboxCardSection[]` | - | Additional sections |
+| `layout` | `'vertical'` `'horizontal'` | `'vertical'` | Card layout |
+| `checked` | `boolean` | `false` | Checked state |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `background` | `'default'` `'soft'` | `'default'` | Background style |
+| `checkboxPosition` | `'left'` `'right'` | `'left'` | Checkbox position |
+| `checkboxStyle` | `'default'` `'soft'` | `'default'` | Checkbox visual style |
+| `onCheckedChange` | `(checked: boolean) => void` | - | Change callback |
+
+---
+
+## RadioList
+
+```tsx
+import { RadioList } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `RadioListItem[]` | required | Radio items |
+| `value` | `string` | - | Selected value |
+| `onValueChange` | `(value: string) => void` | - | Change callback |
+| `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
+| `radioStyle` | `RadioStyle` | `'default'` | Radio visual style |
+
+```ts
+interface RadioListItem {
+  value: string;
+  title: string;
+  description?: string;
+  disabled?: boolean;
+}
+```
+
+---
+
+## RadioCard
+
+```tsx
+import { RadioCard } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | required | Radio value |
+| `title` | `string` | required | Card title |
+| `description` | `string` | - | Card description |
+| `sections` | `RadioCardSection[]` | - | Additional sections |
+| `layout` | `'vertical'` `'horizontal'` | `'vertical'` | Card layout |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `background` | `'default'` `'soft'` | `'default'` | Background style |
+| `radioPosition` | `'left'` `'right'` | `'left'` | Radio position |
+| `radioStyle` | `RadioStyle` | `'default'` | Radio visual style |
+
+---
+
+## SwitchList
+
+```tsx
+import { SwitchList } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `SwitchListItem[]` | required | Switch items |
+| `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
+| `color` | `'default'` `'success'` | `'default'` | Active color |
+| `onItemChange` | `(id: string, checked: boolean) => void` | - | Change callback |
+
+```ts
+interface SwitchListItem {
+  id: string;
+  title: string;
+  description?: string;
+  checked?: boolean;
+  disabled?: boolean;
+}
+```
+
+---
+
+## AdvancedTooltip
+
+```tsx
+import { AdvancedTooltip } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `TooltipItemData[]` | required | Tooltip content items |
+| `minWidth` | `number` | - | Minimum width in px |
+
+```ts
+type TooltipItemType = 'divider' | 'label' | 'item' | 'text';
+
+interface TooltipItemData {
+  type: TooltipItemType;
+  label?: string;
+  caption?: string;
+  indicatorColor?: string;
+  icon?: IconTypeWithFill;
+  text?: string;
+}
+```
+
+---
+
+## DropdownMenu Sub-components
+
+### DropdownMenuAvatar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | required | Item label |
+| `avatarSrc` | `string` | - | Avatar image URL |
+| `avatarAlt` | `string` | - | Avatar alt text |
+| `tailIcon` | `IconType` | - | Trailing icon |
+| `caption` | `string` | - | Secondary text |
+| `shortcut` | `string` | - | Keyboard shortcut |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `onClick` | `() => void` | - | Click callback |
+
+### DropdownMenuUserbar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | required | User name |
+| `description` | `string` | - | User description |
+| `avatarSrc` | `string` | - | Avatar image URL |
+| `avatarAlt` | `string` | - | Avatar alt text |
+| `badge` | `string` | - | Badge text |
+| `badgeColor` | `BadgeColor` | - | Badge color |
+
+### DropdownMenuButton
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | required | Button label |
+| `buttonStyle` | `ButtonStyle` | - | Button visual style |
+| `leadIcon` | `IconType` | - | Leading icon |
+| `tailIcon` | `IconType` | - | Trailing icon |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `onClick` | `() => void` | - | Click callback |
+
+### DropdownMenuSearch
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | - | Search value |
+| `onChange` | `(value: string) => void` | - | Change callback |
+| `placeholder` | `string` | - | Placeholder text |
+| `autoFocus` | `boolean` | `false` | Auto-focus on mount |
+
+---
+
+## Table
+
+```tsx
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `striped` | `boolean` | `false` | Striped rows |
+| `bordered` | `boolean` | `false` | Show borders |
+| `stickyHeader` | `boolean` | `false` | Sticky header row |
+| `isLoading` | `boolean` | `false` | Show loading state |
+| `minHeight` | `string` | - | Minimum table height |
+| `maxHeight` | `string` | - | Maximum table height |
+| `pagination` | `boolean` | `false` | Show pagination |
+| `page` | `number` | - | Current page |
+| `totalPages` | `number` | - | Total pages |
+| `onPageChange` | `(page: number) => void` | - | Page change callback |
+| `limit` | `number` | - | Rows per page |
+| `onLimitChange` | `(limit: number) => void` | - | Limit change callback |
+| `showItemCount` | `boolean` | `false` | Show item count |
+
+**TableHead** additional props: `sortable` (boolean), `sortDirection` (`'asc'` | `'desc'` | `false`)
+
+**TableRow** additional props: `selected` (boolean)
+
+---
+
+## Sidebar Sub-components
+
+### SidebarMenuItem
+
+Discriminated union based on `variant`:
+
+| Variant | Key Props |
+|---------|-----------|
+| `'default'` (or omit) | `icon`, `label`, `badge`, `shortcut`, `isActive`, `disabled` |
+| `'label'` | `label`, `icon`, `action` |
+| `'caption'` | `label`, `caption` |
+| `'buttons'` | `icon`, `label`, `actions` |
+| `'divider'` | _(no props)_ |
+| `'avatar'` | `avatarSrc`, `avatarInitials`, `label`, `badge` |
+| `'children'` | `label`, `nested` |
+
+All interactive variants support: `isActive`, `disabled`, `collapsed`, `tooltip`.
+
+---
+
+## Menubar Sub-components
+
+Wraps Radix Menubar. Custom menu items share the same props as `ContextMenuItem`:
+
+`leadIcon`, `tailIcon`, `shortcut`, `caption`, `description`, `destructive`, `size`
+
+---
+
+## NavigationMenuListItem
+
+```tsx
+import { NavigationMenuListItem } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | required | Item title |
+| `description` | `string` | - | Item description |
+| `href` | `string` | required | Link URL |
+| `icon` | `IconType` | - | Item icon |
+| `iconFill` | `boolean` | `false` | Use filled icon |
+
+---
+
+## DataGrid Cell Components
+
+### CellText
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string \| number \| null` | - | Display value |
+| `tooltip` | `boolean \| ReactNode` | - | Tooltip on hover |
+| `copyable` | `boolean` | `false` | Copy-to-clipboard on click |
+
+### CellBadge
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | required | Badge text |
+| `color` | `BadgeColor` | `'neutral'` | Badge color |
+
+### CellAvatar
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `src` | `string` | - | Avatar image URL |
+| `name` | `string` | - | User name |
+| `initials` | `string` | - | Custom initials |
+| `size` | `'2xs'` `'xs'` `'sm'` `'md'` | `'2xs'` | Avatar size |
+| `showName` | `boolean` | `true` | Show name text |
+
+---
+
+## PopoverContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `width` | `string \| number` | - | Content width |
+| `align` | `'start'` `'center'` `'end'` | `'center'` | Alignment relative to trigger |
+| `side` | `'top'` `'right'` `'bottom'` `'left'` | `'bottom'` | Side relative to trigger |
+| `sideOffset` | `number` | `4` | Offset from trigger in px |
+
+---
+
+## DialogDescription
+
+Standard Radix `DialogDescription` component. Use inside `DialogHeader` for accessible dialog descriptions:
+
+```tsx
+<DialogHeader>
+  <DialogTitle>Title</DialogTitle>
+  <DialogDescription>Description text</DialogDescription>
+</DialogHeader>
+```
+
+---
+
+## Sheet Sub-components
+
+`SheetHeader`, `SheetTitle`, `SheetDescription`, `SheetFooter` — standard wrapper components for structuring Sheet content. Same pattern as Dialog sub-components.
+
+---
+
+## Drawer Sub-components
+
+`DrawerHeader`, `DrawerTitle`, `DrawerDescription`, `DrawerFooter` — standard wrapper components for structuring Drawer content. Same pattern as Dialog sub-components.
+
+---
+
+## Collapsible
+
+```tsx
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@blumnai/design-system';
+```
+
+Wraps Radix UI Collapsible.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Open change callback |
+| `defaultOpen` | `boolean` | `false` | Default open state |
+| `disabled` | `boolean` | `false` | Disabled state |
+
+---
+
+## ResizablePanel
+
+```tsx
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@blumnai/design-system';
+```
+
+**ResizablePanel:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `defaultSize` | `number` | - | Default size (percentage) |
+| `minSize` | `number` | - | Minimum size (percentage) |
+| `maxSize` | `number` | - | Maximum size (percentage) |
+| `collapsible` | `boolean` | `false` | Allow collapsing |
+| `collapsedSize` | `number` | - | Size when collapsed |
+| `onCollapse` | `() => void` | - | Collapse callback |
+| `onExpand` | `() => void` | - | Expand callback |
+
+---
+
+## AccordionItemStyle
+
+```ts
+type AccordionItemStyle = 'default' | 'soft' | 'ghost' | 'line';
+```
+
+Used in `AccordionGroup` `style` prop and individual `AccordionGroupItem.style`.
+
+---
+
+## Divider
+
+```tsx
+import { Divider } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `DividerType` | `'default'` | Divider variant |
+| `lineStyle` | `'default'` `'dashed'` | `'default'` | Line style |
+| `label` | `string` | - | Text label (for text variants) |
+| `icon` | `IconTypeWithFill` | - | Icon (for icon variants) |
+| `buttonLabel` | `string` | - | Button text (for button variants) |
+| `onButtonClick` | `() => void` | - | Button click callback |
+
+```ts
+type DividerType =
+  | 'default'
+  | 'text-left' | 'text-center' | 'text-right'
+  | 'icon-left' | 'icon-center' | 'icon-right'
+  | 'button-left' | 'button-center' | 'button-right';
+```
+
+---
+
+## ScrollArea
+
+```tsx
+import { ScrollArea } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `orientation` | `'vertical'` `'horizontal'` `'both'` | `'vertical'` | Scroll direction |
+| `maxHeight` | `string \| number` | - | Max height |
+| `maxWidth` | `string \| number` | - | Max width |
+
+> Scrollbars auto-hide when not scrolling and appear on hover/scroll.
+
+---
+
+## Combobox
+
+```tsx
+import { Combobox } from '@blumnai/design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default'` `'avatar'` `'tags'` | `'default'` | Combobox type |
+| `options` | `ComboboxOption[]` | `[]` | Available options |
+| `value` | `string \| string[]` | - | Selected value(s) |
+| `onChange` | `(value) => void` | - | Change callback |
+| `onCreate` | `(value: string) => void` | - | Create new option callback |
+| `placeholder` | `string` | - | Placeholder text |
+| `label` | `string` | - | Label text |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `error` | `boolean \| string` | - | Error state/message |
+
+```ts
+interface ComboboxOption {
+  id: string;
+  label: string;
+  description?: string;
+  leadIcon?: IconTypeWithFill;
+  badge?: string;
+  avatarSrc?: string;
+  disabled?: boolean;
 }
 ```

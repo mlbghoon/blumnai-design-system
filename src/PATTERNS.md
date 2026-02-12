@@ -284,23 +284,22 @@ function EditDialog() {
 import { toast } from '@blumnai/design-system';
 
 // Success
-toast({ title: '저장되었습니다', variant: 'success' });
+toast.success('저장되었습니다');
 
 // Error
-toast({ title: '오류가 발생했습니다', variant: 'error' });
+toast.error('오류가 발생했습니다');
 
 // Warning
-toast({ title: '주의가 필요합니다', variant: 'warning' });
+toast.warning('주의가 필요합니다');
 
 // Info
-toast({ title: '알림', description: '새로운 메시지가 있습니다', variant: 'info' });
+toast.info('새로운 메시지가 있습니다');
 
 // With action
-toast({
-  title: '삭제됨',
-  description: '항목이 삭제되었습니다',
-  action: { label: '실행취소', onClick: () => console.log('Undo') },
-});
+toast.info('삭제됨', { label: '실행취소' });
+
+// With duration
+toast.success('저장됨', { duration: 5000 });
 ```
 
 ---
@@ -618,7 +617,7 @@ function UploadExample() {
 
   return (
     <FileUpload
-      accept={{ 'image/*': ['.png', '.jpg', '.jpeg'] }}
+      accept="image/*,.png,.jpg,.jpeg"
       maxFiles={5}
       maxSize={5 * 1024 * 1024} // 5MB
       onFilesChange={setFiles}
@@ -1061,6 +1060,444 @@ function AspectRatioExample() {
         />
       </AspectRatio>
     </div>
+  );
+}
+```
+
+---
+
+## Sidebar Navigation
+
+```tsx
+import { Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem } from '@blumnai/design-system';
+
+function AppSidebar() {
+  return (
+    <Sidebar>
+      <SidebarContent>
+        <SidebarMenu>
+          <SidebarMenuItem variant="label" label="메뉴" />
+          <SidebarMenuItem
+            icon={['system', 'dashboard-horizontal']}
+            label="대시보드"
+            isActive
+          />
+          <SidebarMenuItem
+            icon={['user', 'group']}
+            label="사용자"
+            badge="12"
+          />
+          <SidebarMenuItem
+            icon={['system', 'settings']}
+            label="설정"
+          />
+          <SidebarMenuItem variant="divider" />
+          <SidebarMenuItem
+            icon={['system', 'logout-box']}
+            label="로그아웃"
+          />
+        </SidebarMenu>
+      </SidebarContent>
+    </Sidebar>
+  );
+}
+```
+
+---
+
+## Dashboard Layout
+
+```tsx
+import { Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem } from '@blumnai/design-system';
+
+function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex h-screen">
+      <Sidebar>
+        <SidebarContent>
+          <SidebarMenu>
+            <SidebarMenuItem icon={['system', 'dashboard-horizontal']} label="대시보드" isActive />
+            <SidebarMenuItem icon={['business', 'bar-chart-box']} label="분석" />
+            <SidebarMenuItem icon={['system', 'settings']} label="설정" />
+          </SidebarMenu>
+        </SidebarContent>
+      </Sidebar>
+      <main className="flex-1 overflow-auto padding-24">
+        {children}
+      </main>
+    </div>
+  );
+}
+```
+
+---
+
+## Settings Page
+
+```tsx
+import { useState } from 'react';
+import { Input, Switch, SwitchList, Button, Divider } from '@blumnai/design-system';
+
+function SettingsPage() {
+  const [name, setName] = useState('홍길동');
+  const [settings, setSettings] = useState([
+    { id: 'email', title: '이메일 알림', description: '중요한 업데이트 수신', checked: true },
+    { id: 'push', title: '푸시 알림', description: '실시간 알림 수신', checked: false },
+  ]);
+
+  return (
+    <div className="max-w-lg flex flex-col gap-24">
+      <section>
+        <h2 className="font-headline size-lg font-bold text-default">프로필</h2>
+        <div className="flex flex-col gap-16 padding-y-16">
+          <Input variant="default" label="이름" value={name} onChange={(e) => setName(e.target.value)} />
+        </div>
+      </section>
+
+      <Divider />
+
+      <section>
+        <h2 className="font-headline size-lg font-bold text-default">알림 설정</h2>
+        <div className="padding-y-16">
+          <SwitchList
+            items={settings}
+            onItemChange={(id, checked) => {
+              setSettings(prev => prev.map(s => s.id === id ? { ...s, checked } : s));
+            }}
+          />
+        </div>
+      </section>
+
+      <Button buttonStyle="primary">저장</Button>
+    </div>
+  );
+}
+```
+
+---
+
+## Error & Empty States
+
+```tsx
+import { Skeleton } from '@blumnai/design-system';
+import { Icon } from '@blumnai/design-system';
+
+function EmptyState() {
+  return (
+    <div className="flex flex-col items-center justify-center gap-12 padding-24">
+      <Icon iconType={['system', 'inbox']} size={48} color="var(--text-muted)" />
+      <p className="font-body size-md text-muted">데이터가 없습니다</p>
+    </div>
+  );
+}
+
+function LoadingState() {
+  return (
+    <div className="flex flex-col gap-12 padding-16">
+      <Skeleton width="60%" height={20} />
+      <Skeleton width="100%" height={16} />
+      <Skeleton width="80%" height={16} />
+    </div>
+  );
+}
+```
+
+---
+
+## Responsive Layout
+
+```tsx
+import { useIsMobile } from '@blumnai/design-system';
+import { Sheet, SheetContent, Drawer, DrawerContent } from '@blumnai/design-system';
+
+function ResponsivePanel({ open, onOpenChange, children }: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  children: React.ReactNode;
+}) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <Drawer open={open} onOpenChange={onOpenChange}>
+        <DrawerContent>{children}</DrawerContent>
+      </Drawer>
+    );
+  }
+
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="right">{children}</SheetContent>
+    </Sheet>
+  );
+}
+```
+
+---
+
+## Loading States
+
+```tsx
+import { Skeleton, Card, CardHeader, CardContent } from '@blumnai/design-system';
+
+function CardSkeleton() {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton width={200} height={24} />
+        <Skeleton width={300} height={16} />
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col gap-8">
+          <Skeleton width="100%" height={16} />
+          <Skeleton width="100%" height={16} />
+          <Skeleton width="60%" height={16} />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+---
+
+## DataGrid with Filtering
+
+```tsx
+import { useState } from 'react';
+import { DataGrid, FilterButton } from '@blumnai/design-system';
+import type { ColumnDef } from '@blumnai/design-system';
+
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  price: number;
+}
+
+const columns: ColumnDef<Product>[] = [
+  { accessorKey: 'name', header: '이름' },
+  { accessorKey: 'category', header: '카테고리' },
+  { accessorKey: 'price', header: '가격' },
+];
+
+function ProductTable() {
+  const [data] = useState<Product[]>([
+    { id: '1', name: '제품 A', category: '전자', price: 10000 },
+    { id: '2', name: '제품 B', category: '의류', price: 25000 },
+  ]);
+
+  return (
+    <DataGrid
+      columns={columns}
+      data={data}
+      enableSorting
+      enableFiltering
+      enablePagination
+      pageSize={10}
+    />
+  );
+}
+```
+
+---
+
+## DatePicker with Presets
+
+```tsx
+import { useState } from 'react';
+import { DatePicker, DateRangePicker } from '@blumnai/design-system';
+
+function DatePickerWithPresets() {
+  const [date, setDate] = useState<Date | undefined>();
+
+  return (
+    <DatePicker
+      label="날짜 선택"
+      value={date}
+      onChange={setDate}
+      showQuickPresets
+      presets={[
+        { label: '오늘', getValue: () => new Date() },
+        { label: '어제', getValue: () => { const d = new Date(); d.setDate(d.getDate() - 1); return d; } },
+        { label: '일주일 전', getValue: () => { const d = new Date(); d.setDate(d.getDate() - 7); return d; } },
+      ]}
+    />
+  );
+}
+```
+
+---
+
+## Sheet with Form
+
+```tsx
+import { useState } from 'react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter, Button, Input } from '@blumnai/design-system';
+
+function EditSheet() {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState('');
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>편집</Button>
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetContent side="right">
+          <SheetHeader>
+            <SheetTitle>프로필 편집</SheetTitle>
+          </SheetHeader>
+          <div className="padding-16 flex flex-col gap-16">
+            <Input variant="default" label="이름" value={name} onChange={(e) => setName(e.target.value)} />
+          </div>
+          <SheetFooter>
+            <Button buttonStyle="secondary" onClick={() => setOpen(false)}>취소</Button>
+            <Button buttonStyle="primary" onClick={() => setOpen(false)}>저장</Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+    </>
+  );
+}
+```
+
+---
+
+## Searchable Select (Combobox)
+
+```tsx
+import { useState } from 'react';
+import { Combobox } from '@blumnai/design-system';
+
+const options = [
+  { id: 'react', label: 'React' },
+  { id: 'vue', label: 'Vue' },
+  { id: 'angular', label: 'Angular' },
+  { id: 'svelte', label: 'Svelte' },
+];
+
+function SearchableSelect() {
+  const [value, setValue] = useState('');
+
+  return (
+    <Combobox
+      label="프레임워크"
+      placeholder="검색..."
+      options={options}
+      value={value}
+      onChange={setValue}
+    />
+  );
+}
+```
+
+---
+
+## RadioCard / CheckboxCard
+
+```tsx
+import { useState } from 'react';
+import { RadioGroup, RadioCard, CheckboxCard } from '@blumnai/design-system';
+
+function PlanSelector() {
+  const [plan, setPlan] = useState('basic');
+
+  return (
+    <RadioGroup value={plan} onValueChange={setPlan} className="flex flex-col gap-12">
+      <RadioCard
+        value="basic"
+        title="Basic"
+        description="개인 사용에 적합"
+      />
+      <RadioCard
+        value="pro"
+        title="Pro"
+        description="팀 협업에 적합"
+      />
+      <RadioCard
+        value="enterprise"
+        title="Enterprise"
+        description="대규모 조직에 적합"
+      />
+    </RadioGroup>
+  );
+}
+
+function FeatureSelector() {
+  const [features, setFeatures] = useState<string[]>([]);
+
+  return (
+    <div className="flex flex-col gap-12">
+      <CheckboxCard
+        title="알림"
+        description="이메일 및 푸시 알림 수신"
+        checked={features.includes('notifications')}
+        onCheckedChange={(checked) => {
+          setFeatures(prev => checked
+            ? [...prev, 'notifications']
+            : prev.filter(f => f !== 'notifications')
+          );
+        }}
+      />
+      <CheckboxCard
+        title="분석"
+        description="사용 통계 및 리포트"
+        checked={features.includes('analytics')}
+        onCheckedChange={(checked) => {
+          setFeatures(prev => checked
+            ? [...prev, 'analytics']
+            : prev.filter(f => f !== 'analytics')
+          );
+        }}
+      />
+    </div>
+  );
+}
+```
+
+---
+
+## Charts
+
+```tsx
+import { BarChart, LineChart } from '@blumnai/design-system';
+
+const data = [
+  { month: '1월', revenue: 4000, expenses: 2400 },
+  { month: '2월', revenue: 3000, expenses: 1398 },
+  { month: '3월', revenue: 5000, expenses: 3200 },
+];
+
+const config = {
+  revenue: { label: '매출', color: 'var(--chart-1)' },
+  expenses: { label: '비용', color: 'var(--chart-2)' },
+};
+
+function BarChartExample() {
+  return (
+    <BarChart
+      data={data}
+      config={config}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'revenue' }}
+      height={300}
+      showLegend
+    />
+  );
+}
+
+function LineChartExample() {
+  return (
+    <LineChart
+      data={data}
+      config={config}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'revenue' }}
+      dataKeys={['revenue', 'expenses']}
+      height={300}
+      showArea
+      showLegend
+    />
   );
 }
 ```

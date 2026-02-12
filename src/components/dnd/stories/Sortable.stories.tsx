@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Sortable, SortableItem, DragHandle } from '../index';
 import type { DndItem } from '../dnd.types';

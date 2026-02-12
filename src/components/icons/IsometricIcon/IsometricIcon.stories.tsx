@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { IsometricIcon } from './IsometricIcon';
 import type { IsometricIconType, IsometricFillColor, IsometricStrokeColor } from './IsometricIcon.types';

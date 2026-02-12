@@ -224,4 +224,4 @@ module.exports = {
 
 - **[AI.md](./AI.md)** — 전체 컴포넌트 레퍼런스 (AI 에이전트 & 개발자용)
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** — 개발 참여 가이드
-- **[Storybook](https://github.com/mbisolution/blumnai-design-system)** — 인터랙티브 컴포넌트 문서 (`npm run storybook`)
+- **Storybook** — 인터랙티브 컴포넌트 문서 (로컬에서 `npm run storybook`으로 실행)

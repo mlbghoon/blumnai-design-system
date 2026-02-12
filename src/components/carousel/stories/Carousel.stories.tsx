@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import Autoplay from 'embla-carousel-autoplay';
 import Fade from 'embla-carousel-fade';
 import WheelGestures from 'embla-carousel-wheel-gestures';

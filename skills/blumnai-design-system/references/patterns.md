@@ -203,7 +203,7 @@ function UploadExample() {
   const [files, setFiles] = useState<File[]>([]);
   return (
     <FileUpload
-      accept={{ 'image/*': ['.png', '.jpg', '.jpeg'] }}
+      accept="image/*,.png,.jpg,.jpeg"
       maxFiles={5}
       maxSize={5 * 1024 * 1024}
       onFilesChange={setFiles}

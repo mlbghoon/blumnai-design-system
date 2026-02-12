@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { DndContext, Draggable, Droppable } from '../index';
 import type { DroppableProps, DragEndEvent } from '../dnd.types';

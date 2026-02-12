@@ -4,10 +4,7 @@ import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 const config: StorybookConfig = {
   framework: "@storybook/react-vite",
   stories: ["../src/**/*.stories.@(ts|tsx)", "../src/**/*.mdx"],
-  addons: [
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
-  ],
+  addons: ['@storybook/addon-docs'],
   viteFinal: async (config, { configType }) => {
     // Add Tailwind CSS Vite plugin
     const { default: tailwindcss } = await import('@tailwindcss/vite');
@@ -216,14 +213,6 @@ const config: StorybookConfig = {
     };
 
     return config;
-  },
-  core: {
-    builder: {
-      name: '@storybook/builder-vite',
-      options: {
-        viteConfigPath: undefined,
-      },
-    },
   },
 };
 

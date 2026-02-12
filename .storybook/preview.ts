@@ -1,11 +1,10 @@
-import type { Preview } from '@storybook/react';
+import type { Preview } from '@storybook/react-vite';
 import * as React from 'react';
 
 import '../src/index.css';
 
 const preview: Preview = {
   parameters: {
-    actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -38,10 +37,13 @@ const preview: Preview = {
       },
     },
   },
+  initialGlobals: {
+    locale: 'ko',
+    theme: 'theme-a-light',
+  },
   globalTypes: {
     locale: {
       description: '국제화 언어 설정',
-      defaultValue: 'ko',
       toolbar: {
         icon: 'globe',
         items: [
@@ -54,7 +56,6 @@ const preview: Preview = {
     },
     theme: {
       description: '테마 설정',
-      defaultValue: 'theme-a-light',
       toolbar: {
         icon: 'circlehollow',
         items: [

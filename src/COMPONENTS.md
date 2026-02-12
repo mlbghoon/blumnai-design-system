@@ -1,6 +1,7 @@
 # Blumnai Component Catalog
 
 > AI-friendly component reference. Use this to find the right component for your needs.
+> For full props reference, see [AI.md](../AI.md) and [PROPS.md](./PROPS.md).
 
 ---
 
@@ -25,7 +26,7 @@
 | Modal dialog | `Dialog` | `<Dialog><DialogContent>...</DialogContent></Dialog>` |
 | Confirmation popup | `AlertDialog` | `<AlertDialog title="Sure?" onConfirm={...} />` |
 | Simple confirm/cancel | `ConfirmDialog` | `<ConfirmDialog title="Delete?" onConfirm={...} />` |
-| Toast notification | `toast()` | `toast({ title: "Saved!", variant: "success" })` |
+| Toast notification | `toast()` | `toast.success("Saved!")` |
 | Tooltip | `Tooltip` | `<Tooltip content="Help text"><Button>?</Button></Tooltip>` |
 | Tabs | `Tabs` | `<Tabs><TabsList>...</TabsList></Tabs>` |
 | Data table | `DataGrid` | `<DataGrid columns={[...]} data={[...]} />` |

@@ -1079,40 +1079,6 @@ Wraps react-resizable-panels: `ResizablePanelGroup`, `ResizablePanel`, `Resizabl
 
 ---
 
-## Hooks
-
-### useKeyboardShortcut
-
-```tsx
-import { useKeyboardShortcut } from '@mbisolution/blumnai-design-system';
-```
-
-Binds a global keydown listener for keyboard shortcuts.
-
-```tsx
-useKeyboardShortcut('⌘+K', () => {
-  console.log('Triggered!');
-}, { enabled: true, preventDefault: true });
-```
-
-| Param | Type | Description |
-|-------|------|-------------|
-| `shortcut` | `string \| null \| undefined` | Shortcut string (e.g., `'⌘+K'`, `'⌘+Shift+S'`, `'Ctrl+Enter'`) |
-| `handler` | `() => void` | Callback when shortcut is pressed |
-| `options` | `UseKeyboardShortcutOptions` | Optional configuration |
-
-**Options:**
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `enabled` | `boolean` | `true` | Enable/disable the listener |
-| `ignoreInputFields` | `boolean` | - | Skip when focus is in input/textarea |
-| `preventDefault` | `boolean` | `false` | Call `e.preventDefault()` |
-
-> **Note:** Browser-reserved shortcuts (⌘W, ⌘N, ⌘T, ⌘Q, ⌘L) cannot be overridden by JavaScript.
-
----
-
 ## Common Patterns
 
 ### Login Form
@@ -1319,7 +1285,7 @@ function UploadExample() {
   const [files, setFiles] = useState<File[]>([]);
   return (
     <FileUpload
-      accept={{ 'image/*': ['.png', '.jpg', '.jpeg'] }}
+      accept="image/*,.png,.jpg,.jpeg"
       maxFiles={5}
       maxSize={5 * 1024 * 1024}
       onFilesChange={setFiles}
@@ -1383,6 +1349,336 @@ import { Icon } from '@mbisolution/blumnai-design-system';
 ### Common System Icons
 
 `add`, `close`, `check`, `search`, `settings`, `user`, `menu`, `more-horizontal`, `more-vertical`, `edit`, `delete`, `copy`, `download`, `upload`, `eye`, `eye-off`, `arrow-left`, `arrow-right`, `arrow-up`, `arrow-down`, `chevron-left`, `chevron-right`, `chevron-up`, `chevron-down`, `info`, `warning`, `error`, `success`, `heart`, `star`, `filter`, `sort`, `calendar`, `clock`, `mail`, `phone`, `link`, `external-link`
+
+> **Naming convention:** Icon names in the `Icon` component tuple use kebab-case (e.g., `['system', 'more-horizontal']`). Named icon components use PascalCase (e.g., `MoreIcon`, `More2Icon`).
+
+### BrandIcon
+
+```tsx
+import { BrandIcon } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `brandType` | `BrandType` | required | Brand identifier (126+ brands: `'github'`, `'figma'`, `'slack'`, `'notion'`, etc.) |
+| `size` | `number` | `20` | Icon size in px |
+| `className` | `string` | - | Custom class |
+
+```tsx
+<BrandIcon brandType="github" size={24} />
+<BrandIcon brandType="figma" />
+```
+
+### FlagIcon
+
+```tsx
+import { FlagIcon } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `country` | `CountryCode` | required | Country code (250+ countries: `'united states'`, `'south korea'`, `'japan'`, etc.) |
+| `size` | `number` | `20` | Icon size in px |
+| `className` | `string` | - | Custom class |
+
+```tsx
+<FlagIcon country="south korea" size={24} />
+<FlagIcon country="united states" />
+```
+
+### FileIcon
+
+```tsx
+import { FileIcon } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `fileType` | `'archive'` `'code'` `'default'` `'image'` `'music'` `'pdf'` `'thumbnail-1:1'` `'thumbnail-4:3'` `'video'` | required | File type |
+| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Icon size |
+| `src` | `string` | - | Image URL (for thumbnail variants) |
+| `className` | `string` | - | Custom class |
+
+```tsx
+<FileIcon fileType="pdf" size="lg" />
+<FileIcon fileType="thumbnail-1:1" src="/preview.jpg" />
+```
+
+### IsometricIcon
+
+```tsx
+import { IsometricIcon } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `iconType` | `IsometricIconType` | required | Icon identifier |
+| `view` | `'top'` `'left'` | `'top'` | Viewing angle |
+| `size` | `number` | - | Icon size in px |
+| `fillColor` | `IsometricFillColor` | - | Fill color |
+| `strokeColor` | `IsometricStrokeColor` | - | Stroke color |
+| `className` | `string` | - | Custom class |
+
+> **Note:** `IsometricIcon` is a separate component, not part of the `Icon` tuple system.
+
+---
+
+## Type Definitions
+
+### IconType
+
+```ts
+type IconType = [category: string, name: string];
+// e.g., ['system', 'check'], ['arrows', 'arrow-down']
+```
+
+### IconTypeWithFill
+
+```ts
+type IconTypeWithFill = IconType | [...IconType, boolean];
+// e.g., ['system', 'heart', true] for filled variant
+```
+
+### ChartDataPoint
+
+```ts
+type ChartDataPoint = { [key: string]: string | number };
+```
+
+### ChartConfig
+
+```ts
+type ChartConfig = Record<string, { label: string; color: string }>;
+```
+
+### ChartAxisConfig
+
+```ts
+interface ChartAxisConfig {
+  dataKey: string;
+  label?: string;
+  domain?: [number, number];
+  tickFormatter?: (value: any) => string;
+}
+```
+
+### TimeValue
+
+```ts
+interface TimeValue {
+  hour: number;
+  minute: number;
+  second?: number;
+}
+```
+
+### TimeRange
+
+```ts
+interface TimeRange {
+  start?: TimeValue;
+  end?: TimeValue;
+}
+```
+
+### DateRange
+
+```ts
+type DateRange = { from: Date; to: Date };
+// from react-day-picker
+```
+
+### QuickPreset
+
+```ts
+interface QuickPreset {
+  label: string;
+  getValue: () => Date | DateRange;
+}
+```
+
+### Placement
+
+```ts
+type Placement = 'top' | 'right' | 'bottom' | 'left' | 'top-start' | 'top-end' | 'right-start' | 'right-end' | 'bottom-start' | 'bottom-end' | 'left-start' | 'left-end';
+// from @floating-ui/react
+```
+
+### EmblaOptionsType
+
+```ts
+// Embla Carousel options
+interface EmblaOptionsType {
+  loop?: boolean;
+  align?: 'start' | 'center' | 'end';
+  slidesToScroll?: number;
+  dragFree?: boolean;
+  // ... and more
+}
+```
+
+### AccordionItemStyle
+
+```ts
+type AccordionItemStyle = 'default' | 'soft' | 'ghost' | 'line';
+```
+
+---
+
+## Hooks
+
+### useKeyboardShortcut
+
+```tsx
+import { useKeyboardShortcut } from '@mbisolution/blumnai-design-system';
+```
+
+Binds a global keydown listener for keyboard shortcuts.
+
+```tsx
+useKeyboardShortcut('⌘+K', () => {
+  console.log('Triggered!');
+}, { enabled: true, preventDefault: true });
+```
+
+| Param | Type | Description |
+|-------|------|-------------|
+| `shortcut` | `string \| null \| undefined` | Shortcut string (e.g., `'⌘+K'`, `'⌘+Shift+S'`, `'Ctrl+Enter'`) |
+| `handler` | `() => void` | Callback when shortcut is pressed |
+| `options` | `UseKeyboardShortcutOptions` | Optional configuration |
+
+**Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | `boolean` | `true` | Enable/disable the listener |
+| `ignoreInputFields` | `boolean` | - | Skip when focus is in input/textarea |
+| `preventDefault` | `boolean` | `false` | Call `e.preventDefault()` |
+
+> **Note:** Browser-reserved shortcuts (⌘W, ⌘N, ⌘T, ⌘Q, ⌘L) cannot be overridden by JavaScript.
+
+### useIsMobile
+
+```tsx
+import { useIsMobile } from '@mbisolution/blumnai-design-system';
+```
+
+Returns `true` when the viewport width is less than 768px. Listens to media query changes and updates reactively.
+
+```tsx
+const isMobile = useIsMobile();
+
+if (isMobile) {
+  return <Drawer>...</Drawer>;
+}
+return <Sheet>...</Sheet>;
+```
+
+---
+
+## CSS Utility Classes Reference
+
+The design system provides custom utility classes. **Do not use default Tailwind classes** for typography or spacing.
+
+| Category | Classes | Examples |
+|----------|---------|---------|
+| Font size | `size-xs`, `size-sm`, `size-md`, `size-lg`, `size-xl`, `size-2xl` | `size-sm` |
+| Line height | `line-height-leading-3` through `line-height-leading-10` | `line-height-leading-5` |
+| Letter spacing | `letter-spacing-tracking-tighter`, `...tight`, `...normal`, `...wide` | `letter-spacing-tracking-normal` |
+| Font family | `font-body`, `font-headline`, `font-quote`, `font-code` | `font-body` |
+| Padding | `padding-0` through `padding-24`, `padding-x-*`, `padding-y-*` | `padding-x-12 padding-y-8` |
+| Width | `width-2`, `width-8`, `width-10`, `width-14`, ..., `width-40` | `width-16` |
+| Height | `height-2`, `height-8`, `height-14`, ..., `height-40` | `height-16` |
+| Gap | `gap-0` through `gap-24` | `gap-8` |
+| Border radius | `rounded-none`, `rounded-2xs`, `rounded-xs`, ..., `rounded-full` | `rounded-md` |
+| Text color | `text-default`, `text-subtle`, `text-muted`, `text-hint` | `text-default` |
+| Background | `bg-default`, `bg-subtle`, `bg-muted`, `bg-card` | `bg-subtle` |
+| Border | `border-default`, `border-darker`, `border-strong` | `border-default` |
+
+---
+
+## Accessibility
+
+- All interactive components built on Radix UI primitives include proper ARIA attributes automatically
+- Keyboard navigation is supported: `Tab` to focus, `Enter`/`Space` to activate, `Escape` to close overlays
+- Focus is automatically trapped and managed in `Dialog`, `AlertDialog`, `Sheet`, `Drawer`, and `Popover`
+- `ContextMenu` and `DropdownMenu` support full arrow-key navigation
+- Screen reader support via semantic HTML and `aria-label`/`aria-describedby` where needed
+
+---
+
+## Style Customization
+
+- All components accept a `className` prop for custom styling
+- Theme switching via `data-theme` attribute on `<html>` or any parent element
+- CSS variable overrides for colors, spacing, and typography:
+
+```css
+:root {
+  --bg-default: #ffffff;
+  --text-default: #27272a;
+  --border-default: rgba(39, 39, 42, 0.10);
+  /* ... */
+}
+```
+
+---
+
+## CSS Variables for Charts
+
+```css
+:root {
+  --chart-1: #437DFC;
+  --chart-2: #34D399;
+  --chart-3: #FBBF24;
+  --chart-4: #F87171;
+  --chart-5: #A78BFA;
+  --chart-6: #FB923C;
+  --chart-7: #38BDF8;
+  --chart-8: #E879F9;
+}
+```
+
+Use in chart config: `color: 'var(--chart-1)'`
+
+---
+
+## SSR / React Server Components
+
+- All components include `"use client"` directives automatically
+- Components that use browser APIs (tooltips, popovers, dialogs) require a client boundary
+- CSS can be imported in server components: `import '@mbisolution/blumnai-design-system/styles'`
+
+---
+
+## z-index Stacking
+
+| Layer | z-index | Components |
+|-------|---------|------------|
+| Tooltips | 50 | `TooltipTrigger`, `AdvancedTooltip` |
+| Popovers/Dropdowns | 50 | `Popover`, `DropdownMenu`, `ContextMenu`, `HoverCard` |
+| Sheets/Drawers | 50 | `Sheet`, `Drawer` |
+| Dialogs | 50 | `Dialog`, `AlertDialog`, `ConfirmDialog` |
+| Toasts | 100 | `toast()` notifications |
+
+---
+
+## Responsive Behavior
+
+Use the `useIsMobile` hook (768px breakpoint) to adapt layouts:
+
+```tsx
+import { useIsMobile } from '@mbisolution/blumnai-design-system';
+
+function ResponsivePanel({ children }) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <Drawer>{children}</Drawer>;
+  }
+  return <Sheet>{children}</Sheet>;
+}
+```
 
 ---
 

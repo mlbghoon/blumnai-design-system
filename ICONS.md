@@ -32,28 +32,31 @@ Best for: static icons where you want minimal bundle size via tree-shaking. Each
 
 ---
 
-### 1. Create a centralized icon file in your project
+### Direct Import Usage
+
+Import named icon components directly where needed:
 
 ```tsx
-// hooks/useDesignSystemIcons.ts
+import { AddIcon, SearchIcon } from '@mbisolution/blumnai-design-system/icons/system';
+import { ArrowDownIcon } from '@mbisolution/blumnai-design-system/icons/arrows';
+
+function MyComponent() {
+  return (
+    <div>
+      <AddIcon size={24} />
+      <SearchIcon size={20} />
+      <ArrowDownIcon size={16} />
+    </div>
+  );
+}
+```
+
+Or create a centralized re-export file for frequently used icons:
+
+```tsx
+// icons.ts
 export { AddIcon, SearchIcon } from '@mbisolution/blumnai-design-system/icons/system';
 export { ArrowDownIcon } from '@mbisolution/blumnai-design-system/icons/arrows';
-export { FlagUsIcon } from '@mbisolution/blumnai-design-system/icons/flags';
-export { BrandGitHubIcon } from '@mbisolution/blumnai-design-system/icons/brands';
-```
-
-### 2. Import your file in App.tsx
-
-```tsx
-import './hooks/useDesignSystemIcons';
-```
-
-### 3. Use icons in your components
-
-```tsx
-import { AddIcon } from '../hooks/useDesignSystemIcons';
-
-<AddIcon size={24} />
 ```
 
 ## Available Icons
@@ -134,6 +137,8 @@ AedElectrodesFillIcon, AedElectrodesIcon, AedFillIcon, AedIcon, Brain2FillIcon, 
 
 `import from '@mbisolution/blumnai-design-system/icons/logos'`
 
+> **Note:** These are named icon components for the `Icon` tuple system (e.g., `['logos', 'github']`). For the standalone `BrandIcon` component (which uses brand names like `brandType="github"`), import from `@mbisolution/blumnai-design-system/icons/brand`.
+
 AlibabaCloudFillIcon, AlibabaCloudIcon, AlipayFillIcon, AlipayIcon, AmazonFillIcon, AmazonIcon, AndroidFillIcon, AndroidIcon, AngularjsFillIcon, AngularjsIcon, AnthropicFillIcon, AnthropicIcon, AppStoreFillIcon, AppStoreIcon, AppleFillIcon, AppleIcon, BaiduFillIcon, BaiduIcon, BardFillIcon, BardIcon, BehanceFillIcon, BehanceIcon, BilibiliFillIcon, BilibiliIcon, BlenderFillIcon, BlenderIcon, BloggerFillIcon, BloggerIcon, BlueskyFillIcon, BlueskyIcon, BootstrapFillIcon, BootstrapIcon, CentosFillIcon, CentosIcon, ChromeFillIcon, ChromeIcon, ClaudeFillIcon, ClaudeIcon, CodepenFillIcon, CodepenIcon, CopilotFillIcon, CopilotIcon, CoreosFillIcon, CoreosIcon, DingdingFillIcon, DingdingIcon, DiscordFillIcon, DiscordIcon, DisqusFillIcon, DisqusIcon, DoubanFillIcon, DoubanIcon, DribbbleFillIcon, DribbbleIcon, DriveFillIcon, DriveIcon, DropboxFillIcon, DropboxIcon, EdgeFillIcon, EdgeIcon, EdgeNewFillIcon, EdgeNewIcon, EvernoteFillIcon, EvernoteIcon, FacebookBoxFillIcon, FacebookBoxIcon, FacebookCircleFillIcon, FacebookCircleIcon, FacebookFillIcon, FacebookIcon, FediverseFillIcon, FediverseIcon, FigmaFillIcon, FigmaIcon, FinderFillIcon, FinderIcon, FirebaseFillIcon, FirebaseIcon, FirefoxBrowserFillIcon, FirefoxBrowserIcon, FirefoxFillIcon, FirefoxIcon, FlickrFillIcon, FlickrIcon, FlutterFillIcon, FlutterIcon, FriendicaFillIcon, FriendicaIcon, GatsbyFillIcon, GatsbyIcon, GeminiFillIcon, GeminiIcon, GithubFillIcon, GithubIcon, GitlabFillIcon, GitlabIcon, GoogleFillIcon, GoogleIcon, GooglePlayFillIcon, GooglePlayIcon, HonorOfKingsFillIcon, HonorOfKingsIcon, IeFillIcon, IeIcon, InstagramFillIcon, InstagramIcon, InvisionFillIcon, InvisionIcon, JavaFillIcon, JavaIcon, KakaoTalkFillIcon, KakaoTalkIcon, KickFillIcon, KickIcon, LineFillIcon, LineIcon, LinkedinBoxFillIcon, LinkedinBoxIcon, LinkedinFillIcon, LinkedinIcon, MastercardFillIcon, MastercardIcon, MastodonFillIcon, MastodonIcon, MediumFillIcon, MediumIcon, MessengerFillIcon, MessengerIcon, MetaFillIcon, MetaIcon, MicrosoftFillIcon, MicrosoftIcon, MicrosoftLoopFillIcon, MicrosoftLoopIcon, MiniProgramFillIcon, MiniProgramIcon, MixtralFillIcon, MixtralIcon, NeteaseCloudMusicFillIcon, NeteaseCloudMusicIcon, NetflixFillIcon, NetflixIcon, NextjsFillIcon, NextjsIcon, NodejsFillIcon, NodejsIcon, NotionFillIcon, NotionIcon, NpmjsFillIcon, NpmjsIcon, OpenSourceFillIcon, OpenSourceIcon, OpenaiFillIcon, OpenaiIcon, OpenbaseFillIcon, OpenbaseIcon, OperaFillIcon, OperaIcon, PatreonFillIcon, PatreonIcon, PaypalFillIcon, PaypalIcon, PerplexityFillIcon, PerplexityIcon, PinterestFillIcon, PinterestIcon, PixFillIcon, PixIcon, PixelfedFillIcon, PixelfedIcon, PlaystationFillIcon, PlaystationIcon, ProductHuntFillIcon, ProductHuntIcon, QqFillIcon, QqIcon, ReactjsFillIcon, ReactjsIcon, RedditFillIcon, RedditIcon, RemixRunFillIcon, RemixRunIcon, RemixiconFillIcon, RemixiconIcon, SafariFillIcon, SafariIcon, SkypeFillIcon, SkypeIcon, SlackFillIcon, SlackIcon, SnapchatFillIcon, SnapchatIcon, SoundcloudFillIcon, SoundcloudIcon, SpectrumFillIcon, SpectrumIcon, SpotifyFillIcon, SpotifyIcon, StackOverflowFillIcon, StackOverflowIcon, StackshareFillIcon, StackshareIcon, SteamFillIcon, SteamIcon, SupabaseFillIcon, SupabaseIcon, SvelteFillIcon, SvelteIcon, SwitchFillIcon, SwitchIcon, TailwindCssFillIcon, TailwindCssIcon, TaobaoFillIcon, TaobaoIcon, Telegram2FillIcon, Telegram2Icon, TelegramFillIcon, TelegramIcon, ThreadsFillIcon, ThreadsIcon, TiktokFillIcon, TiktokIcon, TrelloFillIcon, TrelloIcon, TumblrFillIcon, TumblrIcon, TwitchFillIcon, TwitchIcon, TwitterFillIcon, TwitterIcon, TwitterXFillIcon, TwitterXIcon, UbuntuFillIcon, UbuntuIcon, UnsplashFillIcon, UnsplashIcon, VercelFillIcon, VercelIcon, VimeoFillIcon, VimeoIcon, VisaFillIcon, VisaIcon, VkFillIcon, VkIcon, VuejsFillIcon, VuejsIcon, WebhookFillIcon, WebhookIcon, Wechat2FillIcon, Wechat2Icon, WechatChannelsFillIcon, WechatChannelsIcon, WechatFillIcon, WechatIcon, WechatPayFillIcon, WechatPayIcon, WeiboFillIcon, WeiboIcon, WhatsappFillIcon, WhatsappIcon, WindowsFillIcon, WindowsIcon, WordpressFillIcon, WordpressIcon, XboxFillIcon, XboxIcon, XingFillIcon, XingIcon, YoutubeFillIcon, YoutubeIcon, YuqueFillIcon, YuqueIcon, ZcoolFillIcon, ZcoolIcon, ZhihuFillIcon, ZhihuIcon
 
 ### map (170 icons)
@@ -189,3 +194,18 @@ FileArchiveLgIcon, FileArchiveMdIcon, FileArchiveSmIcon, FileCodeLgIcon, FileCod
 `import from '@mbisolution/blumnai-design-system/icons/cursors'`
 
 CursorArrowIcon, CursorHandClosedIcon, CursorHandOpenIcon, CursorNotAllowedIcon, CursorPointerIcon, CursorTextIcon
+
+---
+
+## Separate Icon Components
+
+The following icon components are **not** part of the `Icon` tuple system above. They are standalone components with their own props:
+
+| Component | Import | Description |
+|-----------|--------|-------------|
+| `BrandIcon` | `@mbisolution/blumnai-design-system/icons/brand` | Brand/company logos (126+ brands). Uses `brandType` prop. |
+| `FlagIcon` | `@mbisolution/blumnai-design-system/icons/flag` | Country flags (250+ countries). Uses `country` prop. |
+| `FileIcon` | `@mbisolution/blumnai-design-system/icons/file` | File type icons (archive, code, pdf, etc.). Uses `fileType` prop. |
+| `IsometricIcon` | `@mbisolution/blumnai-design-system` | Isometric-style icons. Uses `iconType`, `view` (`'top'` / `'left'`), `fillColor`, `strokeColor` props. **Not** part of the tuple system. |
+
+See [AI.md](./AI.md) for full props reference.

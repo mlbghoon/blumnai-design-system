@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Radio, RadioGroup } from '../Radio';
 import type { RadioProps } from '../Radio.types';

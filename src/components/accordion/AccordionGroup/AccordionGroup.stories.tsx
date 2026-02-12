@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { AccordionGroup } from './AccordionGroup';
 import type { AccordionGroupItem } from './AccordionGroup.types';

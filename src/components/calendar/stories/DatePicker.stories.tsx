@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { addDays } from 'date-fns';
 import { ko, enUS, ja, zhCN } from 'date-fns/locale';
 import type { Locale } from 'date-fns';
