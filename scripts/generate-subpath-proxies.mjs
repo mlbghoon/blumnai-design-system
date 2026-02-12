@@ -20,18 +20,29 @@ const exports = pkg.exports || {};
 
 const SKIP = new Set(['.', './*']);
 
+// baseUrl 설정 시 node_modules 패키지와 이름이 충돌하는 프록시 제외
+const allDeps = new Set([
+  ...Object.keys(pkg.dependencies || {}),
+  ...Object.keys(pkg.peerDependencies || {}),
+  ...Object.keys(pkg.optionalDependencies || {}),
+]);
+
 const proxyDirs = [];
 
 for (const [subpath, target] of Object.entries(exports)) {
   if (SKIP.has(subpath)) continue;
+
+  const dirPath = subpath.replace(/^\.\//, '');
+  if (allDeps.has(dirPath)) {
+    console.log(`  Skipping '${dirPath}' (collides with npm dependency)`);
+    continue;
+  }
 
   const importPath = typeof target === 'string' ? target : target?.import;
   const typesPath = typeof target === 'object' ? target?.types : undefined;
 
   if (!importPath) continue;
 
-  // ./button → button, ./icons/brand → icons/brand
-  const dirPath = subpath.replace(/^\.\//, '');
   const fullDir = path.join(ROOT, dirPath);
 
   fs.mkdirSync(fullDir, { recursive: true });

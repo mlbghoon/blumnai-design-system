@@ -1,6 +1,6 @@
 {
   "name": "@mbisolution/blumnai-design-system",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "private": false,
   "type": "module",
   "module": "./dist/index.mjs",
@@ -529,7 +529,6 @@
     "hover-card",
     "icons",
     "input",
-    "input-otp",
     "menubar",
     "navigation-menu",
     "pagination",

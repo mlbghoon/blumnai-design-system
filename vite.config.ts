@@ -1,9 +1,25 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import fs from 'fs'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+function getLibEntries() {
+  const entries: Record<string, string> = { index: path.resolve(__dirname, 'src/index.ts') }
+
+  const componentsDir = path.resolve(__dirname, 'src/components')
+  for (const dir of fs.readdirSync(componentsDir, { withFileTypes: true })) {
+    if (!dir.isDirectory()) continue
+    const indexFile = path.join(componentsDir, dir.name, 'index.ts')
+    if (fs.existsSync(indexFile)) {
+      entries[`components/${dir.name}/index`] = indexFile
+    }
+  }
+
+  return entries
+}
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -26,7 +42,7 @@ export default defineConfig(({ mode }) => {
     build: isLibraryBuild
       ? {
           lib: {
-            entry: path.resolve(__dirname, 'src/index.ts'),
+            entry: getLibEntries(),
             name: 'BlumnaiDesignSystem',
             formats: ['es'],
             fileName: () => `index.mjs`,
