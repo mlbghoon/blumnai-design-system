@@ -686,6 +686,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                     value={option.id}
                     selectType={selectType}
                     leadIcon={option.leadIcon}
+                    iconColor={option.iconColor}
                     description={option.description}
                     badge={option.badge}
                     avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}

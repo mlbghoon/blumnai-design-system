@@ -27,9 +27,8 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
       ? MENU_ITEM_SIZE_CONFIG.large
       : MENU_ITEM_SIZE_CONFIG.default;
 
-    const iconColor = disabled
-      ? 'var(--icon-default-disabled)'
-      : 'var(--icon-default)';
+    const iconColor = option.iconColor
+      ?? (disabled ? 'var(--icon-default-disabled)' : 'var(--icon-default)');
 
     const handleClick = () => {
       if (!disabled) {

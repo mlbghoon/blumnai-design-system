@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.24] - 2026-02-17
+
+### Fixed
+
+- Select: `ExtendedSelect`가 `option.iconColor`를 `ExtendedSelectItem`에 전달하지 않던 문제 수정
+- MultiSelect: `RadixMultiSelect`가 `option.iconColor`를 사용하지 않던 문제 수정
+
+### Added
+
+- `SelectOption` 인터페이스에 `iconColor` prop 추가
+
 ## [0.2.23] - 2026-02-17
 
 ### Fixed

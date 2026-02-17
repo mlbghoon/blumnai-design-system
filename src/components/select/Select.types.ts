@@ -44,6 +44,10 @@ export interface SelectOption {
    */
   leadIcon?: IconTypeWithFill;
   /**
+   * 아이콘 색상
+   */
+  iconColor?: IconColor;
+  /**
    * 뱃지 텍스트
    */
   badge?: string;
