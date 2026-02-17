@@ -59,3 +59,7 @@ export type {
   AlertDialogActionProps,
   AlertDialogCancelProps,
 } from './AlertDialog.types';
+
+export { ConfirmDialog } from './ConfirmDialog';
+
+export type { ConfirmDialogProps, ConfirmDialogVariant } from './ConfirmDialog.types';

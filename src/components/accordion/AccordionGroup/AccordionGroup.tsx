@@ -16,10 +16,13 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
   spacing = 8,
   style = 'default',
   allowMultipleOpen = true,
+  onToggle: groupOnToggle,
   className,
   ...restProps
 }, ref) => {
   const getItemId = useCallback((item: (typeof items)[number], index: number) => item.id ?? `__idx_${index}`, []);
+
+  const isGroupControlled = groupOnToggle !== undefined;
 
   const [openItems, setOpenItems] = useState<Set<string>>(() => {
     const ids = new Set<string>();
@@ -30,9 +33,14 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
   });
 
   const handleToggle = useCallback(
-    (id: string, itemOnToggle?: () => void) => {
+    (id: string, currentIsOpen: boolean, itemOnToggle?: () => void) => {
       if (itemOnToggle) {
         itemOnToggle();
+        return;
+      }
+
+      if (isGroupControlled) {
+        groupOnToggle(id, !currentIsOpen);
         return;
       }
 
@@ -58,7 +66,7 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
         return newSet;
       });
     },
-    [allowMultipleOpen]
+    [allowMultipleOpen, isGroupControlled, groupOnToggle]
   );
 
   const containerClassName = useMemo(() => {
@@ -74,8 +82,10 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
     >
       {items.map((item, index) => {
         const id = getItemId(item, index);
-        const isControlled = item.onToggle !== undefined;
-        const isOpen = isControlled ? (item.isOpen ?? false) : openItems.has(id);
+        const isItemControlled = item.onToggle !== undefined;
+        const isOpen = isItemControlled || isGroupControlled
+          ? (item.isOpen ?? false)
+          : openItems.has(id);
         const itemStyle = item.style ?? style;
 
         return (
@@ -84,7 +94,7 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
             header={item.header}
             style={itemStyle}
             isOpen={isOpen}
-            onToggle={() => handleToggle(id, item.onToggle)}
+            onToggle={() => handleToggle(id, isOpen, item.onToggle)}
             disabled={item.disabled}
             className={item.className}
           >

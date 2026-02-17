@@ -10,6 +10,7 @@ import {
   STATE_CONFIG,
   INPUT_WRAPPER_BASE,
   INPUT_FIELD_BASE,
+  INPUT_COUNT_STYLE,
 } from 'constants/input/Input/Input.constants';
 import {
   DROPDOWN_TRIGGER_BASE,
@@ -115,6 +116,11 @@ export interface DropdownInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    * @default 'Select'
    */
   dropdownPlaceholder?: string;
+  /**
+   * 글자 수 카운터 표시 여부 (maxLength와 함께 사용)
+   * @default false
+   */
+  showCount?: boolean;
 }
 
 /**
@@ -142,6 +148,8 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
   disabled = false,
   className,
   onClear,
+  showCount = false,
+  maxLength,
   value,
   ...props
 }, ref) => {
@@ -158,6 +166,8 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
     error,
     success,
   });
+
+  const currentLength = typeof value === 'string' ? value.length : 0;
 
   const dropdownSizeConfig = DROPDOWN_SIZE_CONFIG[size];
 
@@ -402,6 +412,10 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
               />
             );
           })()}
+
+          {showCount && maxLength !== undefined && (
+            <span className={cn(INPUT_COUNT_STYLE, 'flex-shrink-0')}>{currentLength}/{maxLength}</span>
+          )}
         </div>
 
         {/* Tail Dropdown */}

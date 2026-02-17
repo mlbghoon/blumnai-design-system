@@ -8,6 +8,7 @@ import {
   STATE_CONFIG,
   INPUT_WRAPPER_BASE,
   INPUT_FIELD_BASE,
+  INPUT_COUNT_STYLE,
 } from 'constants/input/Input/Input.constants';
 import {
   ADDON_SECTION_BASE,
@@ -85,6 +86,11 @@ export interface AddOnInputProps extends Omit<InputHTMLAttributes<HTMLInputEleme
    * @default false
    */
   inline?: boolean;
+  /**
+   * 글자 수 카운터 표시 여부 (maxLength와 함께 사용)
+   * @default false
+   */
+  showCount?: boolean;
 }
 
 /**
@@ -111,6 +117,8 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
   disabled = false,
   className,
   onClear,
+  showCount = false,
+  maxLength,
   value,
   ...props
 }, ref) => {
@@ -121,6 +129,8 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
     error,
     success,
   });
+
+  const currentLength = typeof value === 'string' ? value.length : 0;
 
   const addOnSizeConfig = ADDON_SIZE_CONFIG[size];
 
@@ -266,6 +276,10 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
                 />
               );
             })()}
+
+            {showCount && maxLength !== undefined && (
+              <span className={cn(INPUT_COUNT_STYLE, 'flex-shrink-0')}>{currentLength}/{maxLength}</span>
+            )}
           </div>
 
           {/* Suffix Section */}
@@ -375,6 +389,10 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
             />
           );
         })()}
+
+        {showCount && maxLength !== undefined && (
+          <span className={cn(INPUT_COUNT_STYLE, 'flex-shrink-0')}>{currentLength}/{maxLength}</span>
+        )}
 
         {/* Suffix (inline) */}
         {hasSuffix && renderAddOnContent(suffix, true)}

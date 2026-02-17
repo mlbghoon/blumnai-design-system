@@ -42,7 +42,7 @@ Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "//npm.pkg.github.com/:_authT
 ### 4. 패키지 설치
 
 ```bash
-npm install @mbisolution/blumnai-design-system
+npm install @mbisolution/blumnai-design-system --legacy-peer-deps
 ```
 
 ---

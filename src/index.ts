@@ -54,10 +54,38 @@ export type {
 // FORM INPUTS
 // =============================================================================
 export { Input } from './components/input';
-export type { InputProps } from './components/input';
+export type {
+  InputProps,
+  InputStyle,
+  InputSize,
+  InputVariant,
+  InputBaseProps,
+  DefaultVariantProps,
+  ShortcutVariantProps,
+  TagsVariantProps,
+  InlineTagsVariantProps,
+  TailDropdownVariantProps,
+  LeadDropdownVariantProps,
+  QuantityVariantProps,
+  Quantity2VariantProps,
+  TailButtonVariantProps,
+  LeadButtonVariantProps,
+  AddOnVariantProps,
+  InlineAddOnVariantProps,
+  PasswordVariantProps,
+  PasswordStrength,
+  DropdownOption,
+  IconTypeWithFill,
+} from './components/input';
 
 export { Textarea } from './components/textarea';
-export type { TextareaProps } from './components/textarea';
+export type {
+  TextareaProps,
+  TextareaStyle,
+  TextareaSize,
+  TextareaResize,
+  TextareaToolbarAction,
+} from './components/textarea';
 
 export {
   Select,
@@ -71,10 +99,39 @@ export {
   SelectTrigger,
   SelectValue,
 } from './components/select';
-export type { SelectProps } from './components/select';
+export type {
+  SelectProps,
+  SelectStyle,
+  SelectSize,
+  SelectVariant,
+  SelectType,
+  SelectOption,
+  SelectBaseProps,
+  DefaultSelectProps,
+  AvatarSelectProps,
+  MultiSelectProps,
+  TagsSelectProps,
+  RadixMultiSelectProps,
+  RadixMultiSelectVariant,
+  SelectTriggerProps,
+  SelectContentProps,
+  ExtendedSelectItemProps,
+  ExtendedSelectProps,
+  MultiSelectItemProps,
+} from './components/select';
 
 export { Combobox } from './components/select/Combobox';
-export type { ComboboxProps } from './components/select/Combobox';
+export type {
+  ComboboxProps,
+  ComboboxOption,
+  ComboboxStyle,
+  ComboboxSize,
+  ComboboxVariant,
+  ComboboxBaseProps,
+  DefaultComboboxProps,
+  AvatarComboboxProps,
+  TagsComboboxProps,
+} from './components/select/Combobox';
 
 // =============================================================================
 // SELECTION CONTROLS
@@ -87,8 +144,15 @@ export {
 
 export type {
   CheckboxProps,
+  CheckboxStyle,
+  CheckboxPosition,
   CheckboxCardProps,
+  CheckboxCardBackground,
+  CheckboxCardLayout,
+  CheckboxCardSection,
   CheckboxListProps,
+  CheckboxListStyle,
+  CheckboxListItem,
 } from './components/checkbox';
 
 export {
@@ -101,12 +165,26 @@ export {
 export type {
   RadioProps,
   RadioGroupProps,
+  RadioStyle,
+  RadioPosition,
   RadioCardProps,
+  RadioCardBackground,
+  RadioCardLayout,
+  RadioCardSection,
   RadioListProps,
+  RadioListStyle,
+  RadioListItem,
 } from './components/radio';
 
 export { Switch, SwitchList } from './components/switch';
-export type { SwitchProps, SwitchListProps } from './components/switch';
+export type {
+  SwitchProps,
+  SwitchPosition,
+  SwitchColor,
+  SwitchListProps,
+  SwitchListStyle,
+  SwitchListItem,
+} from './components/switch';
 
 // =============================================================================
 // FORM COMPONENTS
@@ -125,6 +203,10 @@ export type {
   FormProps,
   FormFieldContextValue,
   FormItemContextValue,
+  FormItemProps,
+  FormControlProps,
+  FormDescriptionProps,
+  FormErrorProps,
 } from './components/form';
 
 // =============================================================================
@@ -155,6 +237,8 @@ export {
   AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
+  SimpleAlertDialog,
+  ConfirmDialog,
 } from './components/dialog';
 
 export type {
@@ -182,6 +266,9 @@ export type {
   AlertDialogDescriptionProps,
   AlertDialogActionProps,
   AlertDialogCancelProps,
+  SimpleAlertDialogProps,
+  ConfirmDialogProps,
+  ConfirmDialogVariant,
 } from './components/dialog';
 
 export {
@@ -212,6 +299,10 @@ export {
   PopoverTrigger,
   PopoverContent,
   PopoverAnchor,
+  PopoverPortal,
+  PopoverClose,
+  PopoverScrollArea,
+  PopoverArrow,
 } from './components/popover';
 
 export type {
@@ -219,12 +310,22 @@ export type {
   PopoverTriggerProps,
   PopoverContentProps,
   PopoverAnchorProps,
+  PopoverPortalProps,
+  PopoverCloseProps,
+  PopoverScrollAreaProps,
+  PopoverArrowProps,
 } from './components/popover';
 
 export {
   HoverCard,
   HoverCardTrigger,
   HoverCardContent,
+} from './components/hover-card';
+
+export type {
+  HoverCardProps,
+  HoverCardTriggerProps,
+  HoverCardContentProps,
 } from './components/hover-card';
 
 // =============================================================================
@@ -243,6 +344,9 @@ export type {
   TooltipProps,
   TooltipTriggerProps,
   AdvancedTooltipProps,
+  TooltipItemData,
+  TooltipItemType,
+  TooltipItemProps,
 } from './components/tooltip';
 
 // =============================================================================
@@ -254,13 +358,28 @@ export type {
   TabsListProps,
   TabsTriggerProps,
   TabsContentProps,
+  TabsVariant,
+  TabsShape,
+  TabsSize,
+  TabsType,
 } from './components/tabs';
 
 export { Breadcrumbs } from './components/breadcrumbs';
-export type { BreadcrumbsProps, BreadcrumbItem } from './components/breadcrumbs';
+export type {
+  BreadcrumbsProps,
+  BreadcrumbsSize,
+  BreadcrumbsSeparator,
+  BreadcrumbItem,
+} from './components/breadcrumbs';
 
 export { Pagination } from './components/pagination';
-export type { PaginationProps } from './components/pagination';
+export type {
+  PaginationProps,
+  PaginationItemProps,
+  PaginationNavProps,
+  PaginationEllipsisProps,
+  PaginationVariant,
+} from './components/pagination';
 
 export {
   Sidebar,
@@ -293,7 +412,12 @@ export {
 
 export type {
   SidebarMenuItemProps,
+  SidebarMenuItemVariant,
+  SidebarMenuItemIconType,
+  SidebarMenuItemBadge,
   SidebarUserbarProps,
+  SidebarUserbarVariant,
+  SidebarUserbarState,
 } from './components/sidebar';
 
 export {
@@ -306,6 +430,18 @@ export {
   NavigationMenuIndicator,
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
+} from './components/navigation-menu';
+
+export type {
+  NavigationMenuProps,
+  NavigationMenuListProps,
+  NavigationMenuItemProps,
+  NavigationMenuContentProps,
+  NavigationMenuTriggerProps,
+  NavigationMenuLinkProps,
+  NavigationMenuViewportProps,
+  NavigationMenuIndicatorProps,
+  NavigationMenuListItemProps,
 } from './components/navigation-menu';
 
 // =============================================================================
@@ -335,6 +471,19 @@ export type {
   ContextMenuTriggerProps,
   ContextMenuContentProps,
   ContextMenuItemProps,
+  ContextMenuItemSize,
+  ContextMenuCheckboxItemProps,
+  ContextMenuRadioItemProps,
+  ContextMenuLabelProps,
+  ContextMenuSeparatorProps,
+  ContextMenuShortcutProps,
+  ContextMenuSubTriggerProps,
+  ContextMenuSubContentProps,
+  ContextMenuGroupProps,
+  ContextMenuPortalProps,
+  ContextMenuSubProps,
+  ContextMenuRadioGroupProps,
+  ContextMenuCaptionProps,
 } from './components/context-menu';
 
 export {
@@ -358,6 +507,22 @@ export type {
   DropdownMenuTriggerProps,
   DropdownMenuContentProps,
   DropdownMenuItemProps,
+  DropdownMenuItemSize,
+  DropdownMenuLabelProps,
+  DropdownMenuSeparatorProps,
+  DropdownMenuShortcutProps,
+  DropdownMenuSubTriggerProps,
+  DropdownMenuSubContentProps,
+  DropdownMenuGroupProps,
+  DropdownMenuPortalProps,
+  DropdownMenuSubProps,
+  DropdownMenuCaptionProps,
+  DropdownMenuAvatarProps,
+  DropdownMenuUserbarProps,
+  DropdownMenuButtonProps,
+  DropdownMenuButtonGroupProps,
+  MenuButtonProps,
+  DropdownMenuSearchProps,
 } from './components/dropdown';
 
 export {
@@ -383,13 +548,40 @@ export type {
   MenubarTriggerProps,
   MenubarContentProps,
   MenubarItemProps,
+  MenubarItemSize,
+  MenubarCheckboxItemProps,
+  MenubarRadioItemProps,
+  MenubarLabelProps,
+  MenubarSeparatorProps,
+  MenubarShortcutProps,
+  MenubarSubTriggerProps,
+  MenubarSubContentProps,
+  MenubarSubProps,
+  MenubarRadioGroupProps,
+  MenubarCaptionProps,
 } from './components/menubar';
 
 // =============================================================================
 // DATA DISPLAY
 // =============================================================================
 export { DataGrid } from './components/table';
-export type { DataGridProps, ColumnDef } from './components/table';
+export type {
+  DataGridProps,
+  ColumnDef,
+  TableProps,
+  TableHeaderProps,
+  TableBodyProps,
+  TableFooterProps,
+  TableHeadProps,
+  TableRowProps,
+  TableCellProps,
+  TableCaptionProps,
+  SortingState,
+  ColumnFiltersState,
+  RowSelectionState,
+  OnChangeFn,
+  Row,
+} from './components/table';
 
 export {
   Table,
@@ -402,22 +594,35 @@ export {
   TableCaption,
 } from './components/table';
 
-export { Avatar } from './components/avatar';
-export type { AvatarProps, AvatarSize } from './components/avatar';
-
-export { AvatarGroup } from './components/avatar';
-export type { AvatarGroupProps } from './components/avatar';
+export { Avatar, AvatarGroup } from './components/avatar';
+export type {
+  AvatarProps,
+  AvatarSize,
+  AvatarShape,
+  AvatarVariant,
+  AvatarStatus,
+  AvatarGroupProps,
+  AvatarGroupStacking,
+} from './components/avatar';
 
 export { Badge } from './components/badge';
-export type { BadgeProps, BadgeVariant } from './components/badge';
+export type { BadgeProps, BadgeVariant, BadgeColor, BadgeSize, BadgeShape } from './components/badge';
 
 export { Chip } from './components/chip';
-export type { ChipProps } from './components/chip';
+export type { ChipProps, ChipSize, ChipVariant, ChipShape } from './components/chip';
 
 export { Progress, ProgressCircular } from './components/progress';
-export type { ProgressProps, ProgressCircularProps } from './components/progress';
+export type {
+  ProgressProps,
+  ProgressColor,
+  ProgressVariant,
+  ProgressCircularProps,
+  ProgressCircularVariant,
+  ProgressCircularShape,
+} from './components/progress';
 
 export { Skeleton } from './components/skeleton';
+export type { SkeletonProps } from './components/skeleton';
 
 // =============================================================================
 // LAYOUT
@@ -431,10 +636,20 @@ export {
   CardContent,
 } from './components/card';
 
+export type {
+  CardProps,
+  CardHeaderProps,
+  CardTitleProps,
+  CardDescriptionProps,
+  CardContentProps,
+  CardFooterProps,
+} from './components/card';
+
 export { Divider } from './components/divider';
-export type { DividerProps } from './components/divider';
+export type { DividerProps, DividerType, DividerStyle } from './components/divider';
 
 export { ScrollArea, ScrollBar } from './components/scroll-area';
+export type { ScrollAreaProps, ScrollBarProps, ScrollAreaOrientation } from './components/scroll-area';
 
 export { AccordionGroup } from './components/accordion/AccordionGroup';
 export type { AccordionGroupProps } from './components/accordion/AccordionGroup';
@@ -445,12 +660,26 @@ export {
   CollapsibleContent,
 } from './components/collapsible';
 
+export type {
+  CollapsibleProps,
+  CollapsibleTriggerProps,
+  CollapsibleContentProps,
+} from './components/collapsible';
+
 export { AspectRatio } from './components/aspect-ratio';
+export type { AspectRatioProps } from './components/aspect-ratio';
 
 export {
   ResizablePanelGroup,
   ResizablePanel,
   ResizableHandle,
+} from './components/resizable';
+
+export type {
+  ResizablePanelGroupProps,
+  ResizablePanelProps,
+  ResizableHandleProps,
+  ResizableHandleVariant,
 } from './components/resizable';
 
 // =============================================================================
@@ -467,6 +696,8 @@ export {
 
 export type {
   SliderProps,
+  SliderColor,
+  SliderBaseProps,
   SliderRangeProps,
   SliderInputProps,
   SliderRangeInputProps,
@@ -480,8 +711,22 @@ export type {
 export { Calendar, DatePicker, DateRangePicker } from './components/calendar';
 export type {
   CalendarProps,
+  CalendarStyle,
+  CaptionLayout,
   DatePickerProps,
   DateRangePickerProps,
+  DatePickerBaseProps,
+  DatePickerStyle,
+  DatePickerSize,
+  DateFormat,
+  QuickPreset,
+  DateRange,
+  DatePickerInputProps,
+  DateInputProps,
+  DateRangeInputProps,
+  DateSegment,
+  DateSegmentOrder,
+  DateSegmentPlaceholder,
 } from './components/calendar';
 
 export {
@@ -495,13 +740,29 @@ export type {
   TimePickerProps,
   TimeInputProps,
   TimeRangePickerProps,
+  TimeValue,
+  TimeRange,
+  TimeFormat,
+  TimeSegment,
+  TimeSegmentOrder,
+  TimeSegmentPlaceholder,
+  TimePickerStyle,
+  TimePickerSize,
+  QuickSelectOption,
+  QuickRangeSelectOption,
 } from './components/time-picker';
 
 // =============================================================================
 // FILE & MEDIA
 // =============================================================================
 export { FileUploadArea, FileUploadCard } from './components/file-upload';
-export type { FileUploadAreaProps, FileUploadCardProps } from './components/file-upload';
+export type {
+  FileUploadAreaProps,
+  FileUploadCardProps,
+  FileUploadStatus,
+  FileUploadCardSize,
+  FileInfo,
+} from './components/file-upload';
 
 export {
   Carousel,
@@ -513,7 +774,17 @@ export {
   useCarousel,
 } from './components/carousel';
 
-export type { CarouselProps, CarouselApi } from './components/carousel';
+export type {
+  CarouselProps,
+  CarouselApi,
+  CarouselContentProps,
+  CarouselItemProps,
+  CarouselNavProps,
+  CarouselIndicatorsProps,
+  CarouselIndicatorVariant,
+  CarouselOrientation,
+  CarouselContextProps,
+} from './components/carousel';
 
 // =============================================================================
 // INPUT OTP
@@ -525,11 +796,30 @@ export {
   InputOTPSeparator,
 } from './components/input-otp';
 
+export type {
+  InputOTPProps,
+  InputOTPGroupProps,
+  InputOTPSlotProps,
+  InputOTPSeparatorProps,
+} from './components/input-otp';
+
 // =============================================================================
 // ICONS
 // =============================================================================
 export { Icon } from './components/icons';
-export type { IconProps, IconType, IconCategory } from './components/icons';
+export type {
+  IconProps,
+  IconType,
+  IconCategory,
+  IconTypeWithFill as IconTypeWithFillFromIcon,
+  BrandType,
+  CursorType,
+  FileVariant,
+  FileSize,
+  CountryCode,
+  IsometricIconType,
+  IsometricView,
+} from './components/icons';
 
 export { FileIcon } from './components/icons/FileIcon';
 export type { FileIconProps } from './components/icons/FileIcon';
@@ -556,6 +846,11 @@ export type {
   LineChartProps,
   PieChartProps,
   DonutChartProps,
+  ChartDataPoint,
+  ChartAxisConfig,
+  ChartVariant,
+  ChartConfig,
+  ChartConfigItem,
 } from './components/chart';
 
 // =============================================================================
@@ -572,13 +867,23 @@ export {
 } from './components/dnd';
 
 export type {
+  DndId,
+  DndItem,
   DndContextProps,
   DraggableProps,
+  DraggableRenderProps,
   DroppableProps,
+  DroppableRenderProps,
   DragHandleProps,
   DragOverlayProps,
   SortableProps,
   SortableItemProps,
+  SortableItemRenderProps,
+  SortableStrategy,
+  DragData,
+  DragEndEvent,
+  DragStartEvent,
+  DragOverEvent,
 } from './components/dnd';
 
 // =============================================================================

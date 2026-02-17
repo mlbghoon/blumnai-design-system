@@ -8,6 +8,7 @@ import {
   STATE_CONFIG,
   INPUT_WRAPPER_BASE,
   INPUT_FIELD_BASE,
+  INPUT_COUNT_STYLE,
 } from 'constants/input/Input/Input.constants';
 import {
   STRENGTH_INDICATOR_CONTAINER,
@@ -96,6 +97,11 @@ export interface PasswordInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    * @default false
    */
   autoCalculateStrength?: boolean;
+  /**
+   * 글자 수 카운터 표시 여부 (maxLength와 함께 사용)
+   * @default false
+   */
+  showCount?: boolean;
 }
 
 /**
@@ -145,6 +151,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
   width,
   disabled = false,
   className,
+  showCount = false,
+  maxLength,
   value,
   onChange,
   ...props
@@ -158,6 +166,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
     error,
     success,
   });
+
+  const currentLength = typeof value === 'string' ? value.length : 0;
 
   // Calculate strength directly from value (no state needed)
   const calculatedStrength = autoCalculateStrength && typeof value === 'string'
@@ -275,6 +285,10 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
               color={iconColor}
             />
           </button>
+        )}
+
+        {showCount && maxLength !== undefined && (
+          <span className={cn(INPUT_COUNT_STYLE, 'flex-shrink-0')}>{currentLength}/{maxLength}</span>
         )}
       </div>
 

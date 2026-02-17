@@ -11,6 +11,7 @@ import {
   SHORTCUT_STYLE,
   INPUT_WRAPPER_BASE,
   INPUT_FIELD_BASE,
+  INPUT_COUNT_STYLE,
 } from 'constants/input/Input/Input.constants';
 import { InputWrapper } from '../shared/InputWrapper';
 import { useInputState } from '../shared/useInputState';
@@ -65,6 +66,11 @@ export interface ShortcutInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    * 끝에 표시되는 단축키 뱃지 텍스트 (이 변형에서 필수)
    */
   shortcut: string;
+  /**
+   * 글자 수 카운터 표시 여부 (maxLength와 함께 사용)
+   * @default false
+   */
+  showCount?: boolean;
 }
 
 /**
@@ -87,6 +93,8 @@ export const ShortcutInput = forwardRef<HTMLInputElement, ShortcutInputProps>(({
   width,
   disabled = false,
   className,
+  showCount = false,
+  maxLength,
   ...props
 }, ref) => {
   const internalRef = useRef<HTMLInputElement>(null);
@@ -116,6 +124,8 @@ export const ShortcutInput = forwardRef<HTMLInputElement, ShortcutInputProps>(({
     error,
     success,
   });
+
+  const currentLength = typeof props.value === 'string' ? props.value.length : 0;
 
   // Determine padding based on icons
   const hasLeadIcon = leadIcon !== undefined;
@@ -192,6 +202,10 @@ export const ShortcutInput = forwardRef<HTMLInputElement, ShortcutInputProps>(({
         <div className={SHORTCUT_STYLE.container}>
           <span className={SHORTCUT_STYLE.text}>{shortcut}</span>
         </div>
+
+        {showCount && maxLength !== undefined && (
+          <span className={cn(INPUT_COUNT_STYLE, 'flex-shrink-0')}>{currentLength}/{maxLength}</span>
+        )}
       </div>
     </InputWrapper>
   );

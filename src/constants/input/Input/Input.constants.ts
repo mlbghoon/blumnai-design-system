@@ -100,5 +100,8 @@ export const INPUT_CONTAINER_BASE = 'flex flex-col' as const;
 // Input wrapper base styles (the actual input container with border)
 export const INPUT_WRAPPER_BASE = 'flex items-center w-full transition-colors duration-150' as const;
 
+// Character count style (matches Textarea COUNT_STYLE)
+export const INPUT_COUNT_STYLE = 'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-muted' as const;
+
 // Input field base styles
 export const INPUT_FIELD_BASE = 'flex-1 min-w-0 bg-transparent outline-none font-body' as const;

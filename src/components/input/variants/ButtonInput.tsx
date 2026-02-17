@@ -8,6 +8,7 @@ import {
   STYLE_CONFIG,
   STATE_CONFIG,
   INPUT_FIELD_BASE,
+  INPUT_COUNT_STYLE,
 } from 'constants/input/Input/Input.constants';
 import {
   BUTTON_SIZE_CONFIG,
@@ -104,6 +105,11 @@ export interface ButtonInputProps extends Omit<InputHTMLAttributes<HTMLInputElem
    * @default false
    */
   buttonDisabled?: boolean;
+  /**
+   * 글자 수 카운터 표시 여부 (maxLength와 함께 사용)
+   * @default false
+   */
+  showCount?: boolean;
 }
 
 /**
@@ -132,6 +138,8 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
   disabled = false,
   className,
   onClear,
+  showCount = false,
+  maxLength,
   value,
   ...props
 }, ref) => {
@@ -142,6 +150,8 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
     error,
     success,
   });
+
+  const currentLength = typeof value === 'string' ? value.length : 0;
 
   // Get size configuration
   const sizeConfig = BUTTON_SIZE_CONFIG[size];
@@ -317,6 +327,10 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
               />
             );
           })()}
+
+          {showCount && maxLength !== undefined && (
+            <span className={cn(INPUT_COUNT_STYLE, 'flex-shrink-0')}>{currentLength}/{maxLength}</span>
+          )}
         </div>
 
         {/* Tail Button */}

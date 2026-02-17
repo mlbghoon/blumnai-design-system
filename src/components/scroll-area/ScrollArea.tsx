@@ -31,12 +31,12 @@ const ScrollArea = React.forwardRef<
   return (
     <ScrollAreaPrimitive.Root
       ref={ref}
-      className={cn('relative overflow-hidden', className)}
+      className={cn('relative overflow-hidden min-h-0', className)}
       style={Object.keys(rootStyle).length > 0 ? rootStyle : undefined}
       {...props}
     >
       <ScrollAreaPrimitive.Viewport
-        className="w-full rounded-[inherit]"
+        className="h-full w-full rounded-[inherit]"
         style={Object.keys(viewportStyle).length > 0 ? viewportStyle : undefined}
       >
         {children}

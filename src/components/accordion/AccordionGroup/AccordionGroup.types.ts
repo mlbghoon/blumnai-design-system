@@ -27,19 +27,27 @@ export interface AccordionGroupItem {
 /**
  * AccordionGroup props
  */
-export interface AccordionGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'style'> {
+export interface AccordionGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'style' | 'onToggle'> {
   /** AccordionItem 데이터 배열 */
   items: AccordionGroupItem[];
   /** 아이템 간 간격 (px) */
   spacing?: number;
   /** 모든 아이템에 적용할 스타일 variant (개별 아이템에 style이 없을 때 사용) */
   style?: AccordionItemStyle;
-  /** 
+  /**
    * 여러 아이템을 동시에 열 수 있는지 여부
    * - true: 여러 아이템을 독립적으로 동시에 열 수 있음 (각 아이템을 개별적으로 열고 닫을 수 있음)
    * - false: 한 번에 하나의 아이템만 열 수 있음 (새 아이템을 열면 이전 아이템이 닫힘)
    */
   allowMultipleOpen?: boolean;
+  /**
+   * 그룹 레벨 토글 콜백 (controlled mode)
+   *
+   * 이 콜백이 제공되면 그룹은 controlled 모드로 동작하며,
+   * 각 아이템의 isOpen 값을 열림 상태의 source of truth로 사용합니다.
+   * 개별 아이템의 onToggle이 있으면 해당 아이템은 개별 콜백이 우선합니다.
+   */
+  onToggle?: (id: string, isOpen: boolean) => void;
   /** 추가 CSS 클래스 이름 */
   className?: string;
 }

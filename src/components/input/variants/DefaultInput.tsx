@@ -11,6 +11,7 @@ import {
   SHORTCUT_STYLE,
   INPUT_WRAPPER_BASE,
   INPUT_FIELD_BASE,
+  INPUT_COUNT_STYLE,
 } from 'constants/input/Input/Input.constants';
 import { InputWrapper } from '../shared/InputWrapper';
 import { useInputState } from '../shared/useInputState';
@@ -73,6 +74,11 @@ export interface DefaultInputProps extends Omit<InputHTMLAttributes<HTMLInputEle
    * 지우기 버튼 클릭 시 호출되는 콜백 (제공 시 지우기 버튼 표시)
    */
   onClear?: () => void;
+  /**
+   * 글자 수 카운터 표시 여부 (maxLength와 함께 사용)
+   * @default false
+   */
+  showCount?: boolean;
 }
 
 /**
@@ -96,6 +102,8 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
   disabled = false,
   className,
   onClear,
+  showCount = false,
+  maxLength,
   value,
   ...props
 }, ref) => {
@@ -126,6 +134,8 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
     error,
     success,
   });
+
+  const currentLength = typeof value === 'string' ? value.length : 0;
 
   // Determine if we have tail content
   const hasClearButton = onClear !== undefined && value !== '' && value !== undefined;
@@ -243,6 +253,10 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
             />
           );
         })()}
+
+        {showCount && maxLength !== undefined && (
+          <span className={cn(INPUT_COUNT_STYLE, 'flex-shrink-0')}>{currentLength}/{maxLength}</span>
+        )}
       </div>
     </InputWrapper>
   );

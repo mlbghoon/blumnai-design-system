@@ -82,6 +82,11 @@ export interface InputBaseProps {
    */
   disabled?: boolean;
   /**
+   * 글자 수 카운터 표시 여부 (maxLength와 함께 사용)
+   * @default false
+   */
+  showCount?: boolean;
+  /**
    * 외부 컨테이너에 적용할 추가 className
    */
   className?: string;
