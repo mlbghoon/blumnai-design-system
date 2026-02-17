@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'react';
-import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
+import type { IconColor, IconTypeWithFill } from '../../icons/Icon/Icon.types';
 
 /**
  * Combobox 스타일 변형
@@ -36,6 +36,10 @@ export interface ComboboxOption {
    * 앞에 표시되는 아이콘
    */
   leadIcon?: IconTypeWithFill;
+  /**
+   * 아이콘 색상
+   */
+  iconColor?: IconColor;
   /**
    * 뱃지 텍스트
    */

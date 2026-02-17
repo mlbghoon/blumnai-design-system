@@ -314,6 +314,7 @@ const ExtendedSelectItem = React.forwardRef<
       children,
       selectType = 'default',
       leadIcon,
+      iconColor: iconColorProp,
       description,
       badge,
       avatarSrc,
@@ -327,9 +328,8 @@ const ExtendedSelectItem = React.forwardRef<
       ? MENU_ITEM_SIZE_CONFIG.large
       : MENU_ITEM_SIZE_CONFIG.default;
 
-    const iconColor = disabled
-      ? 'var(--icon-default-disabled)'
-      : 'var(--icon-default)';
+    const iconColor = iconColorProp
+      ?? (disabled ? 'var(--icon-default-disabled)' : 'var(--icon-default)');
 
     const renderIndicator = () => {
       const checkIconColor = disabled ? 'var(--icon-default-disabled)' : 'var(--icon-white-default, #FFF)';

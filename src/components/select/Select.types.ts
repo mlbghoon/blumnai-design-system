@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode, HTMLAttributes } from 'react';
 import type * as SelectPrimitive from '@radix-ui/react-select';
 
-import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { IconColor, IconTypeWithFill } from '../icons/Icon/Icon.types';
 
 /**
  * Select 스타일 변형
@@ -301,6 +301,10 @@ export interface ExtendedSelectItemProps
   extends ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {
   selectType?: SelectType;
   leadIcon?: IconTypeWithFill;
+  /**
+   * 아이콘 색상
+   */
+  iconColor?: IconColor;
   description?: string;
   badge?: string;
   avatarSrc?: string;

@@ -45,7 +45,7 @@ const renderBadge = (badge: SidebarMenuItemBadge) => {
 };
 
 const menuItemVariants = cva(
-  'flex w-full items-center rounded-sm font-body size-sm line-height-leading-5 text-default transition-colors',
+  'flex w-full items-center rounded-sm font-body size-sm line-height-leading-5 text-default transition-colors cursor-pointer',
   {
     variants: {
       variant: {

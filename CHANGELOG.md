@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.23] - 2026-02-17
+
+### Fixed
+
+- ScrollArea: viewport에 `max-w-full` 추가 — 콘텐츠가 컨테이너 밖으로 넘치지 않도록 제한
+- Sidebar: `SidebarMenuButton` 및 `menuItemVariants`에 `cursor-pointer` 추가
+
+### Added
+
+- Select: `ExtendedSelectItemProps`에 `iconColor` prop 추가 (DropdownMenuItem과 동일)
+- Combobox: `ComboboxOption`에 `iconColor` prop 추가
+
 ## [0.2.22] - 2026-02-17
 
 ### Fixed

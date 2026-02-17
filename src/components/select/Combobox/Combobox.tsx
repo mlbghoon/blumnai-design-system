@@ -38,9 +38,8 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
       ? MENU_ITEM_SIZE_CONFIG.large
       : MENU_ITEM_SIZE_CONFIG.default;
 
-    const iconColor = option.disabled
-      ? 'var(--icon-default-disabled)'
-      : 'var(--icon-default)';
+    const iconColor = option.iconColor
+      ?? (option.disabled ? 'var(--icon-default-disabled)' : 'var(--icon-default)');
 
     const renderCheckbox = () => {
       if (variant !== 'tags') return null;
