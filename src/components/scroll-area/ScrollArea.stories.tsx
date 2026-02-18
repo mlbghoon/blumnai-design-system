@@ -79,7 +79,7 @@ const VerticalContent = () => (
 const boxStyle = { width: 80, height: 80 };
 
 const HorizontalContent = () => (
-  <div className="flex padding-16 gap-16">
+  <div className="flex padding-16 ds-gap-16">
     <div className="shrink-0 rounded-md bg-subtle flex items-center justify-center size-sm font-body" style={boxStyle}>1</div>
     <div className="shrink-0 rounded-md bg-subtle flex items-center justify-center size-sm font-body" style={boxStyle}>2</div>
     <div className="shrink-0 rounded-md bg-subtle flex items-center justify-center size-sm font-body" style={boxStyle}>3</div>

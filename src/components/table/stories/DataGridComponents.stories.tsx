@@ -49,8 +49,8 @@ export const Loading: StoryObj = {
     const emptyStickyPositions = new Map();
 
     return (
-      <div className="flex flex-col gap-24">
-        <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">스켈레톤 모드 (기본)</span>
           <span className="font-body size-xs text-subtle">데이터가 없을 때 표시되는 스켈레톤 로딩</span>
           <div className="border-default rounded-md overflow-hidden">
@@ -63,7 +63,7 @@ export const Loading: StoryObj = {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">오버레이 모드</span>
           <span className="font-body size-xs text-subtle">데이터 위에 표시되는 로딩 오버레이 (preserveDataWhileLoading)</span>
           <div className="relative border-default rounded-md overflow-hidden height-200">
@@ -76,7 +76,7 @@ export const Loading: StoryObj = {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">행 수 조정</span>
           <span className="font-body size-xs text-subtle">rowCount로 스켈레톤 행 수를 조절할 수 있습니다</span>
           <div className="border-default rounded-md overflow-hidden">
@@ -111,27 +111,27 @@ export const Loading: StoryObj = {
 export const Empty: StoryObj = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24">
-        <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">기본</span>
           <div className="border-default rounded-md overflow-hidden">
             <DataGridEmpty />
           </div>
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">커스텀 텍스트</span>
           <div className="border-default rounded-md overflow-hidden">
             <DataGridEmpty text="사용자가 없습니다." />
           </div>
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">커스텀 컨텐츠</span>
           <div className="border-default rounded-md overflow-hidden">
             <DataGridEmpty
               content={
-                <div className="flex flex-col items-center gap-8">
+                <div className="flex flex-col items-center ds-gap-8">
                   <span className="font-body size-sm text-subtle">검색 결과가 없습니다.</span>
                   <span className="font-body size-xs text-muted">다른 검색어를 입력해 보세요.</span>
                 </div>
@@ -162,15 +162,15 @@ export const Empty: StoryObj = {
 export const Error: StoryObj = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24">
-        <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">기본</span>
           <div className="border-default rounded-md overflow-hidden">
             <DataGridError error="데이터를 불러오는데 실패했습니다." />
           </div>
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">재시도 버튼</span>
           <div className="border-default rounded-md overflow-hidden">
             <DataGridError
@@ -180,12 +180,12 @@ export const Error: StoryObj = {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">커스텀 에러 컨텐츠</span>
           <div className="border-default rounded-md overflow-hidden">
             <DataGridError
               error={
-                <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-col items-center ds-gap-4">
                   <span className="font-body size-sm font-medium text-destructive">서버 오류</span>
                   <span className="font-body size-xs text-subtle">잠시 후 다시 시도해 주세요.</span>
                 </div>
@@ -220,8 +220,8 @@ export const AllStates: StoryObj = {
     const emptyStickyPositions = new Map();
 
     return (
-      <div className="grid grid-cols-1 gap-16">
-        <div className="flex flex-col gap-8">
+      <div className="grid grid-cols-1 ds-gap-16">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">로딩 (스켈레톤)</span>
           <div className="border-default rounded-md overflow-hidden">
             <DataGridLoading
@@ -233,14 +233,14 @@ export const AllStates: StoryObj = {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">빈 상태</span>
           <div className="border-default rounded-md overflow-hidden">
             <DataGridEmpty text="데이터가 없습니다." />
           </div>
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium">에러 상태</span>
           <div className="border-default rounded-md overflow-hidden">
             <DataGridError

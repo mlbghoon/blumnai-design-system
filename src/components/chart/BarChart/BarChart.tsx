@@ -467,14 +467,14 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       )}
 
       {showLegend && (
-        <div className="mt-4 px-4 pb-4 flex flex-wrap justify-center gap-4" role="list" aria-label="Chart legend">
+        <div className="margin-t-16 padding-x-16 padding-b-16 flex flex-wrap justify-center ds-gap-4" role="list" aria-label="Chart legend">
           {stacked && stackedKeys && stackedKeys.length > 0
             ? stackedKeys.map((key, index) => {
               const legendColor = getColor(key, index);
               return (
-                <div key={`legend-${key}`} className="flex items-center gap-2" role="listitem">
+                <div key={`legend-${key}`} className="flex items-center ds-gap-2" role="listitem">
                   <div
-                    className="h-3 w-3 rounded-sm"
+                    className="[width:12px] [height:12px] rounded-sm"
                     style={{ backgroundColor: legendColor }}
                     aria-hidden="true"
                   />
@@ -485,9 +485,9 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
               );
             })
             : dataKey && (
-              <div className="flex items-center gap-2" role="listitem">
+              <div className="flex items-center ds-gap-2" role="listitem">
                 <div
-                  className="h-3 w-3 rounded-sm"
+                  className="[width:12px] [height:12px] rounded-sm"
                   style={{ backgroundColor: config?.[dataKey]?.color || DEFAULT_CHART_COLORS[0] }}
                   aria-hidden="true"
                 />

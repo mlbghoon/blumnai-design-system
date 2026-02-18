@@ -5,7 +5,7 @@
  */
 
 // Password strength indicator container
-export const STRENGTH_INDICATOR_CONTAINER = 'flex items-center gap-4 mt-2' as const;
+export const STRENGTH_INDICATOR_CONTAINER = 'flex items-center ds-gap-4 margin-t-8' as const;
 
 // Password strength bar base styles
 export const STRENGTH_BAR_BASE = 'height-2 rounded-full flex-1 transition-colors' as const;

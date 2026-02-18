@@ -84,7 +84,7 @@ export function CellText({
         type="button"
         onClick={handleCopy}
         className={cn(
-          'inline-flex items-center gap-4 truncate max-w-full',
+          'inline-flex items-center ds-gap-4 truncate max-w-full',
           'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default',
           'hover:text-state-primary cursor-pointer',
           className

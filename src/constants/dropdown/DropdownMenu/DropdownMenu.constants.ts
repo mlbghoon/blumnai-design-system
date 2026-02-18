@@ -25,7 +25,7 @@ export const ITEM_SIZE_CONFIG = {
   default: {
     height: 'height-32',
     padding: 'padding-6',
-    gap: 'gap-4',
+    gap: 'ds-gap-4',
     iconSize: 16 as const,
     iconFrame: 'width-20 height-20',
     iconFrameBg: '',
@@ -34,7 +34,7 @@ export const ITEM_SIZE_CONFIG = {
   large: {
     height: 'min-height-50',
     padding: 'padding-x-8 padding-y-6',
-    gap: 'gap-4',
+    gap: 'ds-gap-4',
     iconSize: 20 as const,
     iconFrame: 'width-36 height-36',
     iconFrameBg: 'bg-muted rounded-full',
@@ -97,7 +97,7 @@ export const BUTTON_CONTAINER_CONFIG = {
 
 // 버튼 그룹 컨테이너 스타일
 export const BUTTON_GROUP_CONFIG = {
-  container: 'flex w-full items-center justify-between padding-x-12 padding-y-8 gap-8',
+  container: 'flex w-full items-center justify-between padding-x-12 padding-y-8 ds-gap-8',
 } as const;
 
 // 메뉴 내 버튼 스타일
@@ -105,7 +105,7 @@ export const MENU_BUTTON_CONFIG = {
   base: 'inline-flex items-center justify-center rounded-xs border-darker bg-card transition-colors duration-150',
   hover: 'hover:bg-muted',
   padding: 'padding-x-10 padding-y-4',
-  gap: 'gap-4',
+  gap: 'ds-gap-4',
   text: 'font-body size-sm line-height-leading-5 letter-spacing-tracking-tight text-default',
   disabled: {
     bg: 'bg-muted',
@@ -124,7 +124,7 @@ export const MENU_CAPTION_CONFIG = {
 // 아바타 아이템 스타일
 export const AVATAR_ITEM_CONFIG = {
   container: 'flex w-full padding-x-4',
-  inner: 'flex items-center w-full rounded-xs transition-colors duration-150 padding-6 gap-4',
+  inner: 'flex items-center w-full rounded-xs transition-colors duration-150 padding-6 ds-gap-4',
   avatarSize: 20,
   avatarFrame: 'width-20 height-20 rounded-full overflow-hidden flex-shrink-0',
   text: 'size-sm line-height-leading-5 letter-spacing-tracking-tight',
@@ -132,7 +132,7 @@ export const AVATAR_ITEM_CONFIG = {
 
 // 유저바 스타일
 export const USERBAR_CONFIG = {
-  container: 'flex w-full items-center padding-x-12 padding-y-4 gap-8',
+  container: 'flex w-full items-center padding-x-12 padding-y-4 ds-gap-8',
   avatarSize: 32,
   avatarFrame: 'width-32 height-32 rounded-full overflow-hidden flex-shrink-0',
   labelContainer: 'flex flex-col flex-1 min-w-0',

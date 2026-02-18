@@ -41,7 +41,7 @@ const NavigationMenuList = React.forwardRef<
   <NavigationMenuPrimitive.List
     ref={ref}
     className={cn(
-      'group flex flex-1 list-none items-center justify-center gap-4',
+      'group flex flex-1 list-none items-center justify-center ds-gap-4',
       className
     )}
     {...props}
@@ -191,7 +191,7 @@ const NavigationMenuListItem = React.forwardRef<
           )}
         >
           {children || (
-            <div className="flex items-start gap-12">
+            <div className="flex items-start ds-gap-12">
               {icon && (
                 <div className="flex items-center justify-center width-24 height-24 flex-shrink-0" style={{ marginTop: '1px' }}>
                   <Icon
@@ -202,7 +202,7 @@ const NavigationMenuListItem = React.forwardRef<
                   />
                 </div>
               )}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col ds-gap-2">
                 <div className="size-sm font-body font-medium line-height-leading-5 text-default">
                   {title}
                 </div>

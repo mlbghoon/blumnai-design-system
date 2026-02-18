@@ -209,7 +209,7 @@ export const Default: Story = {
         defaultValue="tab1"
         orientation={orientation}
         activationMode={activationMode}
-        className={orientation === 'vertical' ? 'flex gap-16' : undefined}
+        className={orientation === 'vertical' ? 'flex ds-gap-16' : undefined}
       >
         <TabsList variant={variant} shape={shape} size={size} type={type}>
           <TabsTrigger value="tab1">Account</TabsTrigger>
@@ -237,7 +237,7 @@ export const Default: Story = {
  */
 export const AllVariants: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col ds-gap-24">
       <div>
         <p className="font-body size-sm text-muted margin-b-8">Pill tabs</p>
         <Tabs defaultValue="tab1">
@@ -362,7 +362,7 @@ export const UnderlineVariant: Story = {
  */
 export const UnderlineSizes: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col ds-gap-24">
       <div>
         <p className="font-body size-sm text-muted margin-b-8">Underline - Small (40px)</p>
         <Tabs defaultValue="tab1">
@@ -395,7 +395,7 @@ export const UnderlineSizes: Story = {
  */
 export const WithIcons: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col ds-gap-24">
       <div>
         <p className="font-body size-sm text-muted margin-b-8">Segmented with Icons</p>
         <Tabs defaultValue="tab1">
@@ -439,7 +439,7 @@ export const WithIcons: Story = {
  */
 export const WithBadges: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col ds-gap-24">
       <div>
         <p className="font-body size-sm text-muted margin-b-8">Segmented with Badges</p>
         <Tabs defaultValue="tab1">
@@ -494,7 +494,7 @@ export const WithBadges: Story = {
  */
 export const Disabled: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col ds-gap-24">
       <div>
         <p className="font-body size-sm text-muted margin-b-8">Segmented with Disabled Tab</p>
         <Tabs defaultValue="tab1">
@@ -538,10 +538,10 @@ export const Disabled: Story = {
  */
 export const Vertical: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col ds-gap-24">
       <div>
         <p className="font-body size-sm text-muted margin-b-8">Segmented Vertical</p>
-        <Tabs defaultValue="tab1" orientation="vertical" className="flex gap-16">
+        <Tabs defaultValue="tab1" orientation="vertical" className="flex ds-gap-16">
           <TabsList variant="segmented">
             <TabsTrigger value="tab1">General</TabsTrigger>
             <TabsTrigger value="tab2">Security</TabsTrigger>
@@ -561,7 +561,7 @@ export const Vertical: Story = {
 
       <div>
         <p className="font-body size-sm text-muted margin-b-8">Underline Vertical</p>
-        <Tabs defaultValue="tab1" orientation="vertical" className="flex gap-16">
+        <Tabs defaultValue="tab1" orientation="vertical" className="flex ds-gap-16">
           <TabsList variant="underline">
             <TabsTrigger value="tab1">General</TabsTrigger>
             <TabsTrigger value="tab2">Security</TabsTrigger>
@@ -592,11 +592,11 @@ export const Controlled: Story = {
     const [activeTab, setActiveTab] = useState('tab1');
 
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <p className="font-body size-sm text-muted">
           현재 탭: <span className="font-semibold text-default">{activeTab}</span>
         </p>
-        <div className="flex gap-8">
+        <div className="flex ds-gap-8">
           <button
             onClick={() => setActiveTab('tab1')}
             className="padding-x-12 padding-y-6 rounded-md bg-muted font-body size-sm text-default hover:bg-subtle"
@@ -644,7 +644,7 @@ export const Controlled: Story = {
  */
 export const FixedType: Story = {
   render: () => (
-    <div className="flex flex-col gap-24 w-full">
+    <div className="flex flex-col ds-gap-24 w-full">
       <div>
         <p className="font-body size-sm text-muted margin-b-8">Segmented - Fixed</p>
         <Tabs defaultValue="tab1" className="w-full">
@@ -690,7 +690,7 @@ export const FixedType: Story = {
  */
 export const ShapeComparison: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col ds-gap-24">
       <div>
         <p className="font-body size-sm text-muted margin-b-8">Pill variant + shape=pill (default)</p>
         <Tabs defaultValue="tab1">
@@ -746,7 +746,7 @@ export const ShapeComparison: Story = {
  */
 export const WithFilledIcons: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col ds-gap-24">
       <div>
         <p className="font-body size-sm text-muted margin-b-8">기본 아이콘 vs Filled 아이콘</p>
         <Tabs defaultValue="tab1">
@@ -789,7 +789,7 @@ export const WithFilledIcons: Story = {
  */
 export const WithTailIcon: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col ds-gap-24">
       <div>
         <p className="font-body size-sm text-muted margin-b-8">Segmented with Tail Icons</p>
         <Tabs defaultValue="tab1">

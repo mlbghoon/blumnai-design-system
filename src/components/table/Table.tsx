@@ -131,7 +131,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
 
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-default/80 z-20">
-            <div className="flex items-center gap-8">
+            <div className="flex items-center ds-gap-8">
               <div className="width-20 height-20 border-2 border-state-primary border-t-transparent rounded-full animate-spin" />
               <span className="font-body size-sm text-subtle">로딩 중...</span>
             </div>
@@ -149,7 +149,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
             )}
           >
             {paginationAlign === 'right' && showLeftSection && (
-              <div className="flex items-center gap-8">
+              <div className="flex items-center ds-gap-8">
                 {showItemCount && (
                   <span className="font-body size-sm text-subtle">
                     {formatItemCount()}
@@ -165,7 +165,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
               <>
                 {paginationElement}
                 {showLeftSection && (
-                  <div className="flex items-center gap-8 ml-auto">
+                  <div className="flex items-center ds-gap-8 ml-auto">
                     {showItemCount && (
                       <span className="font-body size-sm text-subtle">
                         {formatItemCount()}
@@ -251,7 +251,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         className={cn(
           'height-32 padding-x-10 text-left align-middle bg-default',
           'font-body size-xs line-height-leading-4 font-medium text-subtle',
-          '[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+          '[&:has([role=checkbox])]:[padding-right:0] [&>[role=checkbox]]:translate-y-[2px]',
           sortable && 'cursor-pointer select-none',
           className
         )}
@@ -266,7 +266,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         {...props}
       >
         {sortable ? (
-          <div className="flex items-center gap-4">
+          <div className="flex items-center ds-gap-4">
             <span>{children}</span>
             <Icon
               iconType={['arrows', getSortIcon()]}
@@ -290,7 +290,7 @@ const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
       className={cn(
         'height-32 padding-x-10 align-middle',
         'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default',
-        '[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+        '[&:has([role=checkbox])]:[padding-right:0] [&>[role=checkbox]]:translate-y-[2px]',
         className
       )}
       {...props}
@@ -303,7 +303,7 @@ const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps
   ({ className, ...props }, ref) => (
     <caption
       ref={ref}
-      className={cn('mt-4 size-sm font-body text-subtle', className)}
+      className={cn('margin-t-16 size-sm font-body text-subtle', className)}
       {...props}
     />
   )

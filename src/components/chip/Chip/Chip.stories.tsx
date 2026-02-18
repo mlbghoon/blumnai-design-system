@@ -143,7 +143,7 @@ export const IconOnly: Story = {
  */
 export const Sizes: Story = {
   render: () => (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center ds-gap-4">
       <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" size="sm" />
       <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" size="md" />
       <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" size="lg" />
@@ -156,14 +156,14 @@ export const Sizes: Story = {
  */
 export const Styles: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-4">
+    <div className="flex flex-col ds-gap-4">
+      <div className="flex items-center ds-gap-4">
         <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" />
         <Chip label="Chip" icon={['business', 'at']} variant="default" style="soft" />
         <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghost" />
         <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghostMuted" />
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center ds-gap-4">
         <Chip icon={['business', 'at']} variant="iconOnly" style="default" />
         <Chip icon={['business', 'at']} variant="iconOnly" style="soft" />
         <Chip icon={['business', 'at']} variant="iconOnly" style="ghost" />
@@ -178,7 +178,7 @@ export const Styles: Story = {
  */
 export const Shapes: Story = {
   render: () => (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center ds-gap-4">
       <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" shape="rounded" />
       <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" shape="pill" />
     </div>
@@ -190,14 +190,14 @@ export const Shapes: Story = {
  */
 export const Selected: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-4">
+    <div className="flex flex-col ds-gap-4">
+      <div className="flex items-center ds-gap-4">
         <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" selected />
         <Chip label="Chip" icon={['business', 'at']} variant="default" style="soft" selected />
         <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghost" selected />
         <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghostMuted" selected />
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center ds-gap-4">
         <Chip icon={['business', 'at']} variant="iconOnly" style="default" selected />
         <Chip icon={['business', 'at']} variant="iconOnly" style="soft" selected />
         <Chip icon={['business', 'at']} variant="iconOnly" style="ghost" selected />

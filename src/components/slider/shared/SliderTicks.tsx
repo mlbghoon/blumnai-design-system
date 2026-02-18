@@ -43,7 +43,7 @@ const SliderTicks = React.forwardRef<HTMLDivElement, SliderTicksProps>(
           return (
             <div
               key={index}
-              className="absolute flex flex-col items-center gap-4 -translate-x-1/2"
+              className="absolute flex flex-col items-center ds-gap-4 -translate-x-1/2"
               style={{ left: `calc(8px + (100% - 16px) * ${percent / 100})` }}
             >
               <div className="w-[1px] h-[4px] bg-basic-gray-alpha-10" />

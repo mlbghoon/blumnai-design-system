@@ -70,6 +70,8 @@
 
 /* shadcn theme inline config - defines colors for Tailwind v4 utilities */
 @theme inline {
+  --spacing: initial;
+
   /* Core shadcn colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);

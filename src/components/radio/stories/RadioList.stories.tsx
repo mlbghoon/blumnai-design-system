@@ -241,7 +241,7 @@ export const WithSelectionDisplay: Story = {
     const [value, setValue] = useState('option1');
 
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <RadioList
           items={[
             { value: 'option1', title: '옵션 1' },

@@ -276,7 +276,7 @@ const SelectItem = React.forwardRef<
     ref={ref}
     className={cn(
       'flex w-full cursor-pointer select-none items-center rounded-sm',
-      'padding-6 gap-6',
+      'padding-6 ds-gap-6',
       'size-sm font-body line-height-leading-5',
       'outline-none',
       'hover:bg-[var(--bg-state-ghost-hover)]',
@@ -454,7 +454,7 @@ const ExtendedSelectItem = React.forwardRef<
         {renderLeadContent()}
         <SelectPrimitive.ItemText className="flex-1 min-w-0">
           {description ? (
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col ds-gap-1">
               <span className="truncate">{children}</span>
               <span
                 className={cn(
@@ -576,7 +576,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
 
       if (variant === 'avatar' && selectedOption.avatarSrc) {
         return (
-          <div className="flex items-center gap-6">
+          <div className="flex items-center ds-gap-6">
             <Avatar
               variant="userpic"
               size="2xs"
@@ -638,7 +638,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
               header={
                 searchable ? (
                   <div style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.10)' }}>
-                    <div className="flex items-center gap-2 padding-x-8 height-36">
+                    <div className="flex items-center ds-gap-2 padding-x-8 height-36">
                       <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
                         <Icon iconType={['system', 'search']} size={16} color="default-muted" />
                       </div>

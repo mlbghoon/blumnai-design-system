@@ -526,7 +526,7 @@ export const WithSorting: Story = {
     ];
 
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <DataGrid
           data={sampleUsers}
           columns={columns}
@@ -590,7 +590,7 @@ export const WithRowSelection: Story = {
     );
 
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <DataGrid
           data={sampleUsers}
           columns={columns}
@@ -1234,7 +1234,7 @@ export const ColumnWidthGuide: Story = {
     ];
 
     return (
-      <div className="flex flex-col gap-24">
+      <div className="flex flex-col ds-gap-24">
         <div>
           <h3 className="font-body size-md font-bold text-default padding-y-8">
             1. 픽셀 고정 너비
@@ -1339,7 +1339,7 @@ export const DynamicRowHeight: Story = {
 export const PaginationVariants: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24">
+      <div className="flex flex-col ds-gap-24">
         <div>
           <h3 className="font-body size-md font-bold text-default padding-y-8">
             1. Numbered (기본값)
@@ -1401,7 +1401,7 @@ export const PaginationVariants: Story = {
 export const PaginationAlignment: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24">
+      <div className="flex flex-col ds-gap-24">
         <div>
           <h3 className="font-body size-md font-bold text-default padding-y-8">
             Left
@@ -1481,7 +1481,7 @@ export const ServerSidePagination: Story = {
     }));
 
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <div className="font-body size-sm text-subtle bg-muted padding-12 rounded-md">
           서버사이드 모드: 전체 {total}개 중 페이지 {page} 표시 중
           (항목 {startIndex + 1} - {Math.min(startIndex + limit, total)})
@@ -1517,7 +1517,7 @@ export const CustomEmptyContent: Story = {
         getRowId={(row) => row.id}
         limit={5}
         emptyContent={
-          <div className="flex flex-col items-center gap-12 padding-y-24">
+          <div className="flex flex-col items-center ds-gap-12 padding-y-24">
             <div className="font-body size-2xl">📭</div>
             <div className="font-body size-md font-medium text-default">
               데이터가 없습니다
@@ -1642,7 +1642,7 @@ export const MultipleStickyColumns: Story = {
     ];
 
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <div className="font-body size-sm text-subtle bg-muted padding-12 rounded-md">
           ID와 이름 컬럼이 고정되어 있습니다. 가로 스크롤 시 확인하세요.
         </div>

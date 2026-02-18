@@ -26,9 +26,9 @@ const userbarVariants = cva(
   {
     variants: {
       variant: {
-        variant1: 'height-32 padding-6 gap-6',
-        variant2: 'height-64 padding-12 gap-12',
-        variant3: 'height-48 padding-12 gap-12',
+        variant1: 'height-32 padding-6 ds-gap-6',
+        variant2: 'height-64 padding-12 ds-gap-12',
+        variant3: 'height-48 padding-12 ds-gap-12',
       },
       state: {
         default: 'hover:bg-state-ghost-hover',
@@ -164,7 +164,7 @@ export const SidebarUserbar = forwardRef<HTMLButtonElement, SidebarUserbarProps>
           {...props}
         >
           {renderAvatar()}
-          <div className="flex flex-1 flex-col min-w-0 gap-1">
+          <div className="flex flex-1 flex-col min-w-0 ds-gap-1">
             {name && (
               <span className="truncate size-sm font-medium line-height-leading-5">{name}</span>
             )}

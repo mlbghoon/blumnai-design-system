@@ -401,7 +401,7 @@ export const LoginForm: Story = {
     };
 
     return (
-      <Form form={form} onSubmit={onSubmit} className="flex flex-col gap-16 max-w-sm">
+      <Form form={form} onSubmit={onSubmit} className="flex flex-col ds-gap-16 max-w-sm">
         <FormField
           control={form.control}
           name="email"
@@ -494,7 +494,7 @@ export const RegistrationForm: Story = {
     };
 
     return (
-      <Form form={form} onSubmit={onSubmit} className="flex flex-col gap-16 max-w-md">
+      <Form form={form} onSubmit={onSubmit} className="flex flex-col ds-gap-16 max-w-md">
         <FormField
           control={form.control}
           name="name"
@@ -656,7 +656,7 @@ export const WithDescription: Story = {
     };
 
     return (
-      <Form form={form} onSubmit={onSubmit} className="flex flex-col gap-16 max-w-md">
+      <Form form={form} onSubmit={onSubmit} className="flex flex-col ds-gap-16 max-w-md">
         <FormField
           control={form.control}
           name="username"
@@ -742,7 +742,7 @@ export const AsyncValidation: Story = {
     };
 
     return (
-      <Form form={form} onSubmit={onSubmit} className="flex flex-col gap-16 max-w-sm">
+      <Form form={form} onSubmit={onSubmit} className="flex flex-col ds-gap-16 max-w-sm">
         <FormField
           control={form.control}
           name="email"
@@ -821,7 +821,7 @@ export const PasswordStrength: Story = {
     };
 
     return (
-      <Form form={form} onSubmit={onSubmit} className="flex flex-col gap-16 max-w-sm">
+      <Form form={form} onSubmit={onSubmit} className="flex flex-col ds-gap-16 max-w-sm">
         <FormField
           control={form.control}
           name="password"
@@ -889,7 +889,7 @@ export const AllFieldTypes: Story = {
     };
 
     return (
-      <Form form={form} onSubmit={onSubmit} className="flex flex-col gap-16 max-w-md">
+      <Form form={form} onSubmit={onSubmit} className="flex flex-col ds-gap-16 max-w-md">
         <FormField
           control={form.control}
           name="text"
@@ -953,7 +953,7 @@ export const AllFieldTypes: Story = {
           )}
         />
 
-        <div className="flex gap-8">
+        <div className="flex ds-gap-8">
           <Button type="button" buttonStyle="secondary" size="lg" onClick={() => form.reset()}>
             초기화
           </Button>

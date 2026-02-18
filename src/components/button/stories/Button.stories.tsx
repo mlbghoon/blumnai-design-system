@@ -204,7 +204,7 @@ export const Default: Story = {
  */
 export const AllStyles: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center">
       <Button buttonStyle="primary">Primary</Button>
       <Button buttonStyle="secondary">Secondary</Button>
       <Button buttonStyle="destructive">Destructive</Button>
@@ -221,7 +221,7 @@ export const AllStyles: Story = {
  */
 export const AllSizes: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center">
       <Button size="2xs">2XS</Button>
       <Button size="xs">XS</Button>
       <Button size="sm">Small</Button>
@@ -236,12 +236,12 @@ export const AllSizes: Story = {
  */
 export const AllShapes: Story = {
   render: () => (
-    <div className="flex flex-col gap-12">
-      <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-col ds-gap-12">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <Button shape="rounded">Rounded</Button>
         <Button shape="pill">Pill</Button>
       </div>
-      <div className="flex flex-wrap gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <Button shape="rounded" buttonStyle="secondary">Rounded</Button>
         <Button shape="pill" buttonStyle="secondary">Pill</Button>
       </div>
@@ -254,14 +254,14 @@ export const AllShapes: Story = {
  */
 export const WithIcons: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
-      <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-col ds-gap-16">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <Button leadIcon={['system', 'delete-bin']}>Delete</Button>
         <Button tailIcon={['system', 'external-link']}>Preview</Button>
         <Button leadIcon={['system', 'add']}>Add New</Button>
         <Button leadIcon={['media', 'volume-mute']}>Mute</Button>
       </div>
-      <div className="flex flex-wrap gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <Button leadIcon={['system', 'check']} tailIcon={['arrows', 'arrow-down']}>Confirm</Button>
       </div>
     </div>
@@ -274,15 +274,15 @@ export const WithIcons: Story = {
  */
 export const WithFilledIcons: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
-      <p className="m-0 size-sm text-subtle">Regular icons vs Filled icons (isFill=true)</p>
-      <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-col ds-gap-16">
+      <p className="margin-0size-sm text-subtle">Regular icons vs Filled icons (isFill=true)</p>
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <Button leadIcon={['system', 'star']}>Regular</Button>
         <Button leadIcon={['system', 'star', true]}>Filled</Button>
         <Button leadIcon={['health', 'heart']}>Regular</Button>
         <Button leadIcon={['health', 'heart', true]}>Filled</Button>
       </div>
-      <div className="flex flex-wrap gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <Button buttonStyle="secondary" leadIcon={['system', 'settings']}>Regular</Button>
         <Button buttonStyle="secondary" leadIcon={['system', 'settings', true]}>Filled</Button>
         <Button buttonStyle="secondary" leadIcon={['business', 'bookmark']}>Regular</Button>
@@ -297,7 +297,7 @@ export const WithFilledIcons: Story = {
  */
 export const IconOnlyVariant: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center">
       <Button variant="iconOnly" leadIcon={['system', 'settings']} size="2xs" />
       <Button variant="iconOnly" leadIcon={['system', 'settings']} size="xs" />
       <Button variant="iconOnly" leadIcon={['system', 'settings']} size="sm" />
@@ -312,15 +312,15 @@ export const IconOnlyVariant: Story = {
  */
 export const WithShortcut: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
-      <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-col ds-gap-16">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <Button size="2xs" shortcut="/">2XS</Button>
         <Button size="xs" shortcut="/">XS</Button>
         <Button size="sm" shortcut="/">Small</Button>
         <Button size="md" shortcut="/">Medium</Button>
         <Button size="lg" shortcut="/">Large</Button>
       </div>
-      <div className="flex flex-wrap gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <Button buttonStyle="secondary" size="2xs" shortcut="/">2XS</Button>
         <Button buttonStyle="secondary" size="xs" shortcut="/">XS</Button>
         <Button buttonStyle="secondary" size="sm" shortcut="/">Small</Button>
@@ -346,11 +346,11 @@ export const KeyboardShortcutBinding: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-16">
-        <p className="m-0 size-sm text-subtle">
+      <div className="flex flex-col ds-gap-16">
+        <p className="margin-0size-sm text-subtle">
           shortcut prop은 뱃지 표시 + 전역 keydown 리스너를 자동 바인딩합니다.
         </p>
-        <div className="flex flex-wrap gap-12 items-center">
+        <div className="flex flex-wrap ds-gap-12 items-center">
           <Button
             buttonStyle="secondary"
             leadIcon={['system', 'search']}
@@ -382,7 +382,7 @@ export const KeyboardShortcutBinding: Story = {
             New Panel
           </Button>
         </div>
-        <div className="flex flex-wrap gap-12 items-center">
+        <div className="flex flex-wrap ds-gap-12 items-center">
           <Button
             buttonStyle="secondary"
             shortcut="Escape"
@@ -409,9 +409,9 @@ export const KeyboardShortcutBinding: Story = {
         </div>
         {log.length > 0 && (
           <div className="padding-12 bg-subtle rounded-md">
-            <p className="m-0 size-xs text-muted font-medium">Event Log</p>
+            <p className="margin-0size-xs text-muted font-medium">Event Log</p>
             {log.map((entry, i) => (
-              <p key={i} className="m-0 size-xs text-subtle">{entry}</p>
+              <p key={i} className="margin-0size-xs text-subtle">{entry}</p>
             ))}
           </div>
         )}
@@ -425,13 +425,13 @@ export const KeyboardShortcutBinding: Story = {
  */
 export const States: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
-      <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-col ds-gap-16">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <Button>Default</Button>
         <Button disabled>Disabled</Button>
         <Button loading>Loading</Button>
       </div>
-      <div className="flex flex-wrap gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <Button buttonStyle="secondary">Default</Button>
         <Button buttonStyle="secondary" disabled>Disabled</Button>
         <Button buttonStyle="secondary" loading>Loading</Button>
@@ -457,9 +457,9 @@ export const LoadingState: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-16">
-        <p className="m-0 size-sm text-subtle">Click each button to test loading state</p>
-        <div className="flex flex-wrap gap-12 items-center">
+      <div className="flex flex-col ds-gap-16">
+        <p className="margin-0size-sm text-subtle">Click each button to test loading state</p>
+        <div className="flex flex-wrap ds-gap-12 items-center">
           <Button
             loading={loadingStates['textOnly']}
             onClick={() => handleClick('textOnly')}
@@ -489,7 +489,7 @@ export const LoadingState: Story = {
             Both Icons
           </Button>
         </div>
-        <div className="flex flex-wrap gap-12 items-center">
+        <div className="flex flex-wrap ds-gap-12 items-center">
           <Button
             buttonStyle="secondary"
             shortcut="/"
@@ -508,7 +508,7 @@ export const LoadingState: Story = {
             Icon + Shortcut
           </Button>
         </div>
-        <div className="flex flex-wrap gap-12 items-center">
+        <div className="flex flex-wrap ds-gap-12 items-center">
           <Button
             variant="iconOnly"
             leadIcon={['system', 'settings']}
@@ -533,7 +533,7 @@ export const LoadingState: Story = {
  */
 export const CustomWidth: Story = {
   render: () => (
-    <div className="flex flex-col gap-12">
+    <div className="flex flex-col ds-gap-12">
       <Button width={200}>Fixed 200px</Button>
       <Button width="100%">Full Width (100%)</Button>
       <Button fullWidth>Full Width (prop)</Button>
@@ -548,9 +548,9 @@ export const CustomWidth: Story = {
  */
 export const AsChild: Story = {
   render: () => (
-    <div className="flex flex-col gap-12">
-      <p className="m-0 size-sm text-subtle">asChild prop으로 a 태그로 렌더링</p>
-      <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-col ds-gap-12">
+      <p className="margin-0size-sm text-subtle">asChild prop으로 a 태그로 렌더링</p>
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <Button asChild buttonStyle="primary">
           <a href="https://example.com" target="_blank" rel="noopener noreferrer">
             Link as Primary

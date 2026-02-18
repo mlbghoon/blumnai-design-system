@@ -123,7 +123,7 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
             sideOffset={4}
             className="w-auto padding-8"
           >
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap ds-gap-6">
               {options.map((option, index) => (
                 <button
                   key={index}

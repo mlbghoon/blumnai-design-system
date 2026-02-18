@@ -175,7 +175,7 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
       INPUT_WRAPPER_BASE,
       sizeConfig.container,
       'padding-4',
-      'gap-4',
+      'ds-gap-4',
       styleConfig.base,
       !disabled && styleConfig.focus,
       state === 'disabled' && STATE_CONFIG.disabled.bg,

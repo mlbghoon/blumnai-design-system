@@ -8,7 +8,7 @@ export const SIZE_CONFIG = {
   // 아이콘 크기
   icon: 16,
   // 갭
-  gap: 'gap-4',                               // 4px
+  gap: 'ds-gap-4',                               // 4px
   // 패딩
   padding: 'padding-x-10 padding-y-6',        // 10px / 6px
   // 레터 스페이싱

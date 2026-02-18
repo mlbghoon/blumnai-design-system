@@ -15,7 +15,7 @@ export const FormItem = forwardRef<HTMLDivElement, FormItemProps>(
 
     return (
       <FormItemContext.Provider value={{ id }}>
-        <div ref={ref} className={cn('flex flex-col gap-6', className)} {...props}>
+        <div ref={ref} className={cn('flex flex-col ds-gap-6', className)} {...props}>
           {children}
         </div>
       </FormItemContext.Provider>

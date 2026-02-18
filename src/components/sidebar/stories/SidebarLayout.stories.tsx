@@ -188,7 +188,7 @@ export const Default: Story = {
 
     const insetContent = (
       <SidebarInset>
-        <header className="flex items-center gap-8 padding-16 border-b-default">
+        <header className="flex items-center ds-gap-8 padding-16 border-b-default">
           <SidebarTrigger />
           <span className="font-body size-sm font-medium">Sidebar Demo</span>
         </header>
@@ -348,7 +348,7 @@ export const Inset: Story = {
           </SidebarContent>
         </Sidebar>
         <SidebarInset>
-          <header className="flex items-center gap-8 padding-16 border-b-default">
+          <header className="flex items-center ds-gap-8 padding-16 border-b-default">
             <SidebarTrigger />
             <span className="font-body size-sm font-medium">SidebarInset Demo</span>
           </header>
@@ -397,7 +397,7 @@ export const Trigger: Story = {
           </SidebarContent>
         </Sidebar>
         <SidebarInset>
-          <header className="flex items-center gap-8 padding-16 border-b-default">
+          <header className="flex items-center ds-gap-8 padding-16 border-b-default">
             <SidebarTrigger />
             <span className="font-body size-sm font-medium">Click the trigger!</span>
           </header>
@@ -445,7 +445,7 @@ export const Rail: Story = {
           <SidebarRail />
         </Sidebar>
         <SidebarInset>
-          <header className="flex items-center gap-8 padding-16 border-b-default">
+          <header className="flex items-center ds-gap-8 padding-16 border-b-default">
             <SidebarTrigger />
             <span className="font-body size-sm font-medium">Hover the edge!</span>
           </header>
@@ -493,7 +493,7 @@ export const ToggleButton: Story = {
           </SidebarContent>
         </Sidebar>
         <SidebarInset>
-          <header className="flex items-center gap-8 padding-16 border-b-default">
+          <header className="flex items-center ds-gap-8 padding-16 border-b-default">
             <SidebarTrigger />
             <span className="font-body size-sm font-medium">Toggle Button Demo</span>
           </header>
@@ -551,7 +551,7 @@ export const ToggleButtonCustomIcon: Story = {
           </SidebarContent>
         </Sidebar>
         <SidebarInset>
-          <header className="flex items-center gap-8 padding-16 border-b-default">
+          <header className="flex items-center ds-gap-8 padding-16 border-b-default">
             <SidebarTrigger />
             <span className="font-body size-sm font-medium">Custom Toggle Icon</span>
           </header>

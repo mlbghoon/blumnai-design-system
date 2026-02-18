@@ -66,7 +66,7 @@ export const Default: Story = {
           strategy={args.strategy}
           disabled={args.disabled}
         >
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col ds-gap-8">
             {items.map((item) => (
               <SortableItem key={item.id} id={item.id}>
                 <div className="padding-16 bg-card border-default rounded-lg shadow-sm cursor-grab">
@@ -97,10 +97,10 @@ export const WithHandle: Story = {
     return (
       <div className="w-[350px]">
         <Sortable items={items} onReorder={setItems}>
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col ds-gap-8">
             {items.map((item) => (
               <SortableItem key={item.id} id={item.id} handle>
-                <div className="flex items-center gap-12 padding-12 bg-card border-default rounded-lg shadow-sm">
+                <div className="flex items-center ds-gap-12 padding-12 bg-card border-default rounded-lg shadow-sm">
                   <DragHandle />
                   <span className="flex-1 size-sm font-body">{item.title}</span>
                 </div>
@@ -130,7 +130,7 @@ export const Horizontal: Story = {
 
     return (
       <Sortable items={items} onReorder={setItems} strategy="horizontal">
-        <div className="flex gap-12">
+        <div className="flex ds-gap-12">
           {items.map((item) => (
             <SortableItem key={item.id} id={item.id}>
               <div className="width-60 height-60 flex items-center justify-center bg-card border-default rounded-lg shadow-sm cursor-grab font-medium">
@@ -161,7 +161,7 @@ export const Grid: Story = {
     return (
       <div className="w-[240px]">
         <Sortable items={items} onReorder={setItems} strategy="grid">
-          <div className="grid grid-cols-3 gap-12">
+          <div className="grid grid-cols-3 ds-gap-12">
             {items.map((item) => (
               <SortableItem key={item.id} id={item.id}>
                 <div className="width-60 height-60 flex items-center justify-center bg-card border-default rounded-lg shadow-sm cursor-grab font-medium">
@@ -211,14 +211,14 @@ export const TaskList: Story = {
 
     return (
       <div className="w-[400px]">
-        <h3 className="size-lg font-medium font-body mb-16">태스크 목록</h3>
+        <h3 className="size-lg font-medium font-body [margin-bottom:64px]">태스크 목록</h3>
         <Sortable items={tasks} onReorder={setTasks}>
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col ds-gap-8">
             {tasks.map((task, index) => (
               <SortableItem key={task.id} id={task.id} handle>
-                <div className="flex items-center gap-12 padding-12 bg-card border-default rounded-lg shadow-sm">
+                <div className="flex items-center ds-gap-12 padding-12 bg-card border-default rounded-lg shadow-sm">
                   <DragHandle />
-                  <span className="text-muted size-sm font-body w-6">{index + 1}</span>
+                  <span className="text-muted size-sm font-body width-24">{index + 1}</span>
                   <span className="flex-1 size-sm font-body">{task.title}</span>
                   <span
                     className={`padding-x-8 padding-y-2 rounded-full size-xs font-medium font-body ${priorityColors[task.priority]}`}
@@ -260,7 +260,7 @@ export const ImageGallery: Story = {
     return (
       <div className="w-[420px]">
         <Sortable items={images} onReorder={setImages} strategy="grid">
-          <div className="grid grid-cols-3 gap-16">
+          <div className="grid grid-cols-3 ds-gap-16">
             {images.map((image) => (
               <SortableItem key={image.id} id={image.id}>
                 <div className="relative group cursor-grab overflow-hidden rounded-lg shadow-sm">
@@ -302,7 +302,7 @@ export const RenderProps: Story = {
     return (
       <div className="w-[300px]">
         <Sortable items={items} onReorder={setItems}>
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col ds-gap-8">
             {items.map((item) => (
               <SortableItem key={item.id} id={item.id}>
                 {({ isDragging, isSorting }) => (

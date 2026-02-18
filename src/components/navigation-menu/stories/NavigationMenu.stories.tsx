@@ -50,7 +50,7 @@ export const Default: Story = {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid gap-8 padding-16 w-[280px]">
+              <ul className="grid ds-gap-8 padding-16 w-[280px]">
                 <NavigationMenuListItem
                   href="/docs"
                   title="Introduction"
@@ -72,7 +72,7 @@ export const Default: Story = {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Components</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-[280px] gap-8 padding-16">
+              <ul className="grid w-[280px] ds-gap-8 padding-16">
                 <NavigationMenuListItem
                   href="/docs/components/button"
                   title="Button"
@@ -120,7 +120,7 @@ export const MegaMenuWithIcons: Story = {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Products</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-[280px] gap-8 padding-16">
+              <ul className="grid w-[280px] ds-gap-8 padding-16">
                 <NavigationMenuListItem
                   href="/products/analytics"
                   title="Analytics"
@@ -151,7 +151,7 @@ export const MegaMenuWithIcons: Story = {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-[280px] gap-8 padding-16">
+              <ul className="grid w-[280px] ds-gap-8 padding-16">
                 <NavigationMenuListItem
                   href="/solutions/startup"
                   title="For Startups"
@@ -281,7 +281,7 @@ export const WithIndicator: Story = {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Features</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-[300px] gap-8 padding-16">
+              <ul className="grid w-[300px] ds-gap-8 padding-16">
                 <NavigationMenuListItem
                   href="/features/speed"
                   title="Fast Performance"
@@ -298,7 +298,7 @@ export const WithIndicator: Story = {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-[300px] gap-8 padding-16">
+              <ul className="grid w-[300px] ds-gap-8 padding-16">
                 <NavigationMenuListItem
                   href="/resources/docs"
                   title="Documentation"
@@ -332,8 +332,8 @@ export const CustomContent: Story = {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Company</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <div className="grid gap-12 padding-16 md:w-[400px]">
-                <div className="flex items-center gap-12 padding-12 rounded-md bg-muted/30">
+              <div className="grid ds-gap-12 padding-16 md:w-[400px]">
+                <div className="flex items-center ds-gap-12 padding-12 rounded-md bg-muted/30">
                   <div className="width-40 height-40 rounded-full bg-accent flex items-center justify-center">
                     <span className="size-lg font-body font-bold text-default">B</span>
                   </div>
@@ -346,7 +346,7 @@ export const CustomContent: Story = {
                     </div>
                   </div>
                 </div>
-                <ul className="grid gap-8">
+                <ul className="grid ds-gap-8">
                   <NavigationMenuListItem
                     href="/about"
                     title="About Us"

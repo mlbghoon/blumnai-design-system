@@ -124,7 +124,7 @@ export const Default: Story = {
  */
 export const AllSides: Story = {
   render: () => (
-    <div className="flex gap-12 flex-wrap">
+    <div className="flex ds-gap-12 flex-wrap">
       {(['top', 'right', 'bottom', 'left'] as const).map((side) => (
         <Sheet key={side}>
           <SheetTrigger asChild>
@@ -171,7 +171,7 @@ export const WithForm: Story = {
               프로필 정보를 수정합니다. 완료 후 저장 버튼을 클릭하세요.
             </SheetDescription>
           </SheetHeader>
-          <div className="flex flex-col gap-16 padding-y-16">
+          <div className="flex flex-col ds-gap-16 padding-y-16">
             <Input variant="default" label="이름" placeholder="이름 입력..." />
             <Input variant="default" label="사용자명" placeholder="@username" />
             <Input variant="default" label="이메일" placeholder="email@example.com" />
@@ -213,7 +213,7 @@ export const Navigation: Story = {
           <SheetHeader>
             <SheetTitle>Navigation</SheetTitle>
           </SheetHeader>
-          <nav className="flex flex-col gap-8 padding-y-16">
+          <nav className="flex flex-col ds-gap-8 padding-y-16">
             {menuItems.map((item) => (
               <SheetClose asChild key={item.label}>
                 <a
@@ -256,11 +256,11 @@ export const Notifications: Story = {
               최근 알림 목록입니다.
             </SheetDescription>
           </SheetHeader>
-          <div className="flex flex-col gap-12 padding-y-16">
+          <div className="flex flex-col ds-gap-12 padding-y-16">
             {notifications.map((notification) => (
               <div
                 key={notification.id}
-                className="flex flex-col gap-4 padding-12 rounded-md bg-subtle"
+                className="flex flex-col ds-gap-4 padding-12 rounded-md bg-subtle"
               >
                 <div className="flex justify-between items-start">
                   <span className="font-body size-sm font-medium text-default">
@@ -297,11 +297,11 @@ export const Programmatic: Story = {
     const [open, setOpen] = useState(false);
 
     return (
-      <div className="flex flex-col gap-16 items-start">
+      <div className="flex flex-col ds-gap-16 items-start">
         <p className="font-body size-sm text-muted">
           Sheet는 외부 상태로 제어할 수 있습니다.
         </p>
-        <div className="flex gap-8">
+        <div className="flex ds-gap-8">
           <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
             Open Sheet
           </Button>
@@ -351,11 +351,11 @@ export const BottomSheet: Story = {
           <SheetHeader>
             <SheetTitle>작업 선택</SheetTitle>
           </SheetHeader>
-          <div className="flex flex-col gap-8 padding-y-16">
+          <div className="flex flex-col ds-gap-8 padding-y-16">
             {actions.map((action) => (
               <SheetClose asChild key={action.label}>
                 <button
-                  className="flex items-center gap-12 padding-12 rounded-md hover:bg-state-soft transition-colors text-left font-body size-sm text-default cursor-pointer"
+                  className="flex items-center ds-gap-12 padding-12 rounded-md hover:bg-state-soft transition-colors text-left font-body size-sm text-default cursor-pointer"
                 >
                   <span className="size-lg">{action.icon}</span>
                   {action.label}

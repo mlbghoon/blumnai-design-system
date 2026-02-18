@@ -144,7 +144,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
           aria-label="페이지네이션"
           className={cn(
             'flex items-center',
-            variant === 'simple' ? 'justify-between' : 'gap-12',
+            variant === 'simple' ? 'justify-between' : 'ds-gap-12',
             className
           )}
           {...props}
@@ -156,7 +156,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
                   ? resultTextFormatter(page, total ?? 0)
                   : `${page} of ${total ?? 0} results`}
               </span>
-              <div className="flex items-center gap-8">
+              <div className="flex items-center ds-gap-8">
                 <Button
                   buttonStyle="soft"
                   size="sm"
@@ -189,7 +189,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
               <div
                 className={cn(
                   'flex items-center',
-                  variant === 'numbered' ? 'gap-4' : 'gap-8'
+                  variant === 'numbered' ? 'ds-gap-4' : 'ds-gap-8'
                 )}
               >
                 {variant === 'numbered'

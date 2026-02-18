@@ -116,8 +116,8 @@ export const WithBadge: Story = {
  */
 export const Placements: Story = {
   render: () => (
-    <div className="flex flex-col gap-24 items-center">
-      <div className="flex gap-16">
+    <div className="flex flex-col ds-gap-24 items-center">
+      <div className="flex ds-gap-16">
         <TooltipTrigger content="Top placement" placement="top">
           <Button buttonStyle="secondary">Top</Button>
         </TooltipTrigger>
@@ -125,7 +125,7 @@ export const Placements: Story = {
           <Button buttonStyle="secondary">Bottom</Button>
         </TooltipTrigger>
       </div>
-      <div className="flex gap-16">
+      <div className="flex ds-gap-16">
         <TooltipTrigger content="Left placement" placement="left">
           <Button buttonStyle="secondary">Left</Button>
         </TooltipTrigger>
@@ -144,7 +144,7 @@ export const Placements: Story = {
  */
 export const WideTooltip: Story = {
   render: () => (
-    <div className="flex gap-16">
+    <div className="flex ds-gap-16">
       <TooltipTrigger content="Default width tooltip (240px)" maxWidth={240}>
         <Button buttonStyle="secondary">Default (240px)</Button>
       </TooltipTrigger>
@@ -196,7 +196,7 @@ export const Disabled: Story = {
  */
 export const CustomDelay: Story = {
   render: () => (
-    <div className="flex gap-16">
+    <div className="flex ds-gap-16">
       <TooltipTrigger content="Instant (0ms)" delay={0}>
         <Button buttonStyle="secondary">No delay</Button>
       </TooltipTrigger>

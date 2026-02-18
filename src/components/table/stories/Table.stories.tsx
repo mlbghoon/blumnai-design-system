@@ -687,7 +687,7 @@ export const PaginationAlignment: Story = {
     const totalPages = Math.ceil(sampleData.length / limit);
 
     return (
-      <div className="flex flex-col gap-24">
+      <div className="flex flex-col ds-gap-24">
         <div>
           <p className="font-body size-sm text-subtle padding-y-4">paginationAlign=&quot;left&quot;</p>
           <Table
@@ -1075,7 +1075,7 @@ export const FullFeatured: Story = {
 export const ColumnWidthGuide: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24">
+      <div className="flex flex-col ds-gap-24">
         <div>
           <h3 className="font-body size-md font-bold text-default padding-y-8">
             Table - 픽셀 고정 너비만 지원
@@ -1319,7 +1319,7 @@ const columns = [
 export const ComparisonGuide: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24">
+      <div className="flex flex-col ds-gap-24">
         <div>
           <h3 className="font-body size-lg font-bold text-default padding-y-8">
             Table - rowSpan/colSpan 예시

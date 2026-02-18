@@ -13,9 +13,9 @@ const filterButtonVariants = cva(
   {
     variants: {
       size: {
-        xs: 'size-xs line-height-leading-4 gap-4 padding-x-6 padding-y-4 letter-spacing-tracking-tight',
-        md: 'size-sm line-height-leading-5 gap-4 padding-x-8 padding-y-4 letter-spacing-tracking-tight',
-        lg: 'size-sm line-height-leading-5 gap-4 padding-x-10 padding-y-6 letter-spacing-tracking-tight',
+        xs: 'size-xs line-height-leading-4 ds-gap-4 padding-x-6 padding-y-4 letter-spacing-tracking-tight',
+        md: 'size-sm line-height-leading-5 ds-gap-4 padding-x-8 padding-y-4 letter-spacing-tracking-tight',
+        lg: 'size-sm line-height-leading-5 ds-gap-4 padding-x-10 padding-y-6 letter-spacing-tracking-tight',
       },
       shape: {
         rounded: 'rounded-sm',

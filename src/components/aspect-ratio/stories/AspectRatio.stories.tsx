@@ -144,7 +144,7 @@ export const VideoPlaceholder: Story = {
       <div className="w-[400px]">
         <AspectRatio ratio={16 / 9}>
           <div className="flex items-center justify-center w-full h-full rounded-md bg-muted">
-            <div className="flex flex-col items-center gap-8">
+            <div className="flex flex-col items-center ds-gap-8">
               <div className="width-40 height-40 rounded-full bg-default/10 flex items-center justify-center">
                 <svg
                   className="width-20 height-20 text-muted"
@@ -176,9 +176,9 @@ export const RatioComparison: Story = {
     ];
 
     return (
-      <div className="grid grid-cols-2 gap-16 w-[500px]">
+      <div className="grid grid-cols-2 ds-gap-16 w-[500px]">
         {ratios.map(({ label, ratio }) => (
-          <div key={label} className="flex flex-col gap-8">
+          <div key={label} className="flex flex-col ds-gap-8">
             <span className="size-sm font-body font-medium">{label}</span>
             <AspectRatio ratio={ratio}>
               <div className="flex items-center justify-center w-full h-full rounded-md bg-muted border-default">

@@ -194,9 +194,9 @@ export const AllVariants: Story = {
     const success = args.success || undefined;
 
     return (
-      <div className="flex flex-col gap-24 max-w-md">
+      <div className="flex flex-col ds-gap-24 max-w-md">
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Default</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Default</h3>
           <Select
             variant="default"
             label="Select option"
@@ -218,7 +218,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Avatar</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Avatar</h3>
           <Select
             variant="avatar"
             label="Assign to"
@@ -240,7 +240,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Multi-Select</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Multi-Select</h3>
           <Select
             variant="multi-select"
             label="Technologies"
@@ -262,7 +262,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Tags</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Tags</h3>
           <Select
             variant="tags"
             label="Frameworks"

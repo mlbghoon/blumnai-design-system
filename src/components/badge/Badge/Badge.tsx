@@ -140,7 +140,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
       {closeIcon && (
         <button
           type="button"
-          className="flex items-center justify-center shrink-0 cursor-pointer p-0 border-0 bg-transparent hover:opacity-80"
+          className="flex items-center justify-center shrink-0 cursor-pointer padding-0 border-0 bg-transparent hover:opacity-80"
           onClick={onClose}
           aria-label="Close badge"
         >

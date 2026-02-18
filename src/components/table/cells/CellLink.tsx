@@ -56,7 +56,7 @@ export function CellLink({
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}
       className={cn(
-        'inline-flex items-center gap-4 truncate group',
+        'inline-flex items-center ds-gap-4 truncate group',
         'text-state-primary',
         'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight',
         className

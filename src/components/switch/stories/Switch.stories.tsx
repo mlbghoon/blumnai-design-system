@@ -124,9 +124,9 @@ export const Colors: Story = {
     );
 
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         {colors.map((color) => (
-          <div key={color} className="flex items-center gap-16">
+          <div key={color} className="flex items-center ds-gap-16">
             <Switch
               checked={states[color]}
               onCheckedChange={(checked) => setStates((prev) => ({ ...prev, [color]: checked }))}
@@ -183,7 +183,7 @@ export const PositionVariants: Story = {
     const [checked1, setChecked1] = useState(false);
     const [checked2, setChecked2] = useState(true);
     return (
-      <div className="flex flex-col gap-24">
+      <div className="flex flex-col ds-gap-24">
         <Switch
           checked={checked1}
           onCheckedChange={setChecked1}
@@ -208,7 +208,7 @@ export const PositionVariants: Story = {
  */
 export const Disabled: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col ds-gap-24">
       <Switch
         checked={false}
         disabled
@@ -240,10 +240,10 @@ export const AllStates: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-24">
+      <div className="flex flex-col ds-gap-24">
         <div>
-          <h3 className="size-sm font-medium text-default mb-12">Default States</h3>
-          <div className="flex gap-24">
+          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">Default States</h3>
+          <div className="flex ds-gap-24">
             <Switch
               checked={states.defaultOff}
               onCheckedChange={handleChange('defaultOff')}
@@ -256,16 +256,16 @@ export const AllStates: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-12">Disabled States</h3>
-          <div className="flex gap-24">
+          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">Disabled States</h3>
+          <div className="flex ds-gap-24">
             <Switch checked={false} disabled />
             <Switch checked={true} disabled />
           </div>
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-12">With Labels</h3>
-          <div className="flex flex-col gap-16">
+          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">With Labels</h3>
+          <div className="flex flex-col ds-gap-16">
             <Switch
               checked={states.defaultOff}
               onCheckedChange={handleChange('defaultOff')}

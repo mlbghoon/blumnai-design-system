@@ -156,7 +156,7 @@ export const Default: Story = {
  */
 export const AllDirections: Story = {
   render: () => (
-    <div className="flex gap-12 flex-wrap">
+    <div className="flex ds-gap-12 flex-wrap">
       {(['bottom', 'top', 'left', 'right'] as const).map((direction) => (
         <Drawer key={direction} direction={direction}>
           <DrawerTrigger asChild>
@@ -214,7 +214,7 @@ export const ActionSheet: Story = {
             {actions.map((action) => (
               <DrawerClose asChild key={action.label}>
                 <button
-                  className={`flex flex-col gap-2 padding-12 rounded-md hover:bg-state-soft transition-colors text-left cursor-pointer ${
+                  className={`flex flex-col ds-gap-2 padding-12 rounded-md hover:bg-state-soft transition-colors text-left cursor-pointer ${
                     action.destructive ? 'text-state-destructive' : 'text-default'
                   }`}
                 >
@@ -279,13 +279,13 @@ export const QuickSettings: Story = {
               자주 사용하는 설정을 빠르게 변경하세요.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="flex flex-col gap-12 padding-x-16 padding-y-8">
+          <div className="flex flex-col ds-gap-12 padding-x-16 padding-y-8">
             {settingsList.map((setting) => (
               <div
                 key={setting.key}
                 className="flex items-center justify-between padding-y-8"
               >
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col ds-gap-2">
                   <span className="font-body size-sm font-medium text-default">
                     {setting.label}
                   </span>
@@ -341,13 +341,13 @@ export const CartPreview: Story = {
               {cartItems.length}개 상품
             </DrawerDescription>
           </DrawerHeader>
-          <div className="flex flex-col gap-12 padding-x-16 padding-y-8 max-h-[300px] overflow-y-auto">
+          <div className="flex flex-col ds-gap-12 padding-x-16 padding-y-8 max-h-[300px] overflow-y-auto">
             {cartItems.map((item) => (
               <div
                 key={item.id}
                 className="flex justify-between items-center padding-y-8 border-b border-default"
               >
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col ds-gap-2">
                   <span className="font-body size-sm font-medium text-default">
                     {item.name}
                   </span>
@@ -420,12 +420,12 @@ export const FilterDrawer: Story = {
               원하는 조건으로 상품을 필터링하세요.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="flex flex-col gap-20 padding-x-16 padding-y-8">
-            <div className="flex flex-col gap-8">
+          <div className="flex flex-col ds-gap-20 padding-x-16 padding-y-8">
+            <div className="flex flex-col ds-gap-8">
               <span className="font-body size-sm font-medium text-default">
                 가격대
               </span>
-              <div className="flex flex-wrap gap-8">
+              <div className="flex flex-wrap ds-gap-8">
                 {priceOptions.map((option) => (
                   <button
                     key={option.value}
@@ -441,11 +441,11 @@ export const FilterDrawer: Story = {
                 ))}
               </div>
             </div>
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col ds-gap-8">
               <span className="font-body size-sm font-medium text-default">
                 정렬
               </span>
-              <div className="flex flex-wrap gap-8">
+              <div className="flex flex-wrap ds-gap-8">
                 {sortOptions.map((option) => (
                   <button
                     key={option.value}
@@ -517,7 +517,7 @@ export const MapLocationDetail: Story = {
                   {location.category} · {location.distance}
                 </DrawerDescription>
               </div>
-              <div className="flex items-center gap-4 padding-y-4">
+              <div className="flex items-center ds-gap-4 padding-y-4">
                 <span className="font-body size-sm font-medium text-default">
                   ⭐ {location.rating}
                 </span>
@@ -527,16 +527,16 @@ export const MapLocationDetail: Story = {
               </div>
             </div>
           </DrawerHeader>
-          <div className="flex flex-col gap-12 padding-x-16 padding-y-8">
-            <div className="flex flex-col gap-4">
+          <div className="flex flex-col ds-gap-12 padding-x-16 padding-y-8">
+            <div className="flex flex-col ds-gap-4">
               <span className="font-body size-xs text-muted">주소</span>
               <span className="font-body size-sm text-default">{location.address}</span>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col ds-gap-4">
               <span className="font-body size-xs text-muted">영업시간</span>
               <span className="font-body size-sm text-default">{location.hours}</span>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col ds-gap-4">
               <span className="font-body size-xs text-muted">전화번호</span>
               <span className="font-body size-sm text-default">{location.phone}</span>
             </div>
@@ -574,7 +574,7 @@ export const MusicPlayer: Story = {
     return (
       <Drawer>
         <DrawerTrigger asChild>
-          <div className="flex items-center gap-12 padding-12 bg-subtle rounded-lg cursor-pointer hover:bg-muted transition-colors">
+          <div className="flex items-center ds-gap-12 padding-12 bg-subtle rounded-lg cursor-pointer hover:bg-muted transition-colors">
             <div className="width-40 height-40 bg-muted rounded-md flex items-center justify-center">
               <span className="size-lg">🎵</span>
             </div>
@@ -599,14 +599,14 @@ export const MusicPlayer: Story = {
             <div className="width-200 height-200 bg-muted rounded-lg flex items-center justify-center mx-auto">
               <span className="text-6xl">🎵</span>
             </div>
-            <DrawerTitle className="text-center mt-4">{track.title}</DrawerTitle>
+            <DrawerTitle className="text-center margin-t-16">{track.title}</DrawerTitle>
             <DrawerDescription className="text-center">
               {track.artist} · {track.album}
             </DrawerDescription>
           </DrawerHeader>
-          <div className="flex flex-col gap-16 padding-x-16 padding-y-8">
-            <div className="flex flex-col gap-8">
-              <div className="h-1 bg-muted rounded-full overflow-hidden">
+          <div className="flex flex-col ds-gap-16 padding-x-16 padding-y-8">
+            <div className="flex flex-col ds-gap-8">
+              <div className="height-4 bg-muted rounded-full overflow-hidden">
                 <div className="h-full w-1/2 bg-state-primary rounded-full" />
               </div>
               <div className="flex justify-between">
@@ -614,7 +614,7 @@ export const MusicPlayer: Story = {
                 <span className="font-body size-xs text-muted">{track.duration}</span>
               </div>
             </div>
-            <div className="flex items-center justify-center gap-24">
+            <div className="flex items-center justify-center ds-gap-24">
               <Button buttonStyle="ghost" size="lg">⏮</Button>
               <Button
                 size="lg"
@@ -648,11 +648,11 @@ export const Controlled: Story = {
     const [open, setOpen] = useState(false);
 
     return (
-      <div className="flex flex-col gap-16 items-start">
+      <div className="flex flex-col ds-gap-16 items-start">
         <p className="font-body size-sm text-muted">
           Drawer는 외부 상태로 제어할 수 있습니다. 트리거 없이 프로그래밍 방식으로 열 수 있습니다.
         </p>
-        <div className="flex gap-8">
+        <div className="flex ds-gap-8">
           <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
             Open Drawer
           </Button>
@@ -710,16 +710,16 @@ export const ScrollableContent: Story = {
               스크롤하여 모든 항목을 확인하세요.
             </DrawerDescription>
           </DrawerHeader>
-          <div className="flex flex-col gap-8 padding-x-16 padding-y-8 max-h-[400px] overflow-y-auto">
+          <div className="flex flex-col ds-gap-8 padding-x-16 padding-y-8 max-h-[400px] overflow-y-auto">
             {items.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center gap-12 padding-12 bg-subtle rounded-md"
+                className="flex items-center ds-gap-12 padding-12 bg-subtle rounded-md"
               >
                 <div className="width-40 height-40 bg-muted rounded-full flex items-center justify-center font-body size-sm font-medium text-default">
                   {item.id}
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col ds-gap-2">
                   <span className="font-body size-sm font-medium text-default">
                     {item.title}
                   </span>

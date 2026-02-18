@@ -131,7 +131,7 @@ const DropdownMenuItem = React.forwardRef<
     <DropdownMenuPrimitive.Item
       ref={mergeRefs}
       className={cn(
-        "relative flex cursor-default select-none items-center gap-8 rounded-sm padding-x-8 size-sm font-body line-height-leading-5 outline-none transition-colors",
+        "relative flex cursor-default select-none items-center ds-gap-8 rounded-sm padding-x-8 size-sm font-body line-height-leading-5 outline-none transition-colors",
         isLarge ? "padding-y-8" : "padding-y-6",
         destructive
           ? "text-destructive focus:bg-state-destructive-soft focus:text-destructive"
@@ -158,7 +158,7 @@ const DropdownMenuItem = React.forwardRef<
       )}
 
       {isLarge && description ? (
-        <div className="flex flex-col flex-1 min-w-0 gap-1">
+        <div className="flex flex-col flex-1 min-w-0 ds-gap-1">
           <span className="truncate">{children}</span>
           <span className="font-body size-xs line-height-leading-4 text-muted truncate">
             {description}
@@ -242,7 +242,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "flex cursor-default select-none items-center gap-8 rounded-sm padding-x-8 padding-y-6 size-sm font-body line-height-leading-5 text-default outline-none",
+      "flex cursor-default select-none items-center ds-gap-8 rounded-sm padding-x-8 padding-y-6 size-sm font-body line-height-leading-5 text-default outline-none",
       "focus:bg-accent data-[state=open]:bg-accent",
       "[&_svg]:pointer-events-none [&_svg]:width-16 [&_svg]:height-16 [&_svg]:shrink-0",
       className
@@ -347,7 +347,7 @@ const DropdownMenuAvatar = React.forwardRef<HTMLDivElement, DropdownMenuAvatarPr
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         className={cn(
-          "flex items-center gap-8 rounded-sm padding-x-8 padding-y-6 outline-none transition-colors",
+          "flex items-center ds-gap-8 rounded-sm padding-x-8 padding-y-6 outline-none transition-colors",
           disabled
             ? "opacity-50 cursor-not-allowed"
             : "cursor-pointer hover:bg-accent focus:bg-accent",
@@ -414,7 +414,7 @@ const DropdownMenuUserbar = React.forwardRef<HTMLDivElement, DropdownMenuUserbar
       ref={ref}
       role="presentation"
       className={cn(
-        "flex items-center gap-12 padding-x-8 padding-y-8",
+        "flex items-center ds-gap-12 padding-x-8 padding-y-8",
         className
       )}
       {...props}
@@ -428,7 +428,7 @@ const DropdownMenuUserbar = React.forwardRef<HTMLDivElement, DropdownMenuUserbar
         initials={avatarAlt || name}
       />
 
-      <div className="flex flex-col flex-1 min-w-0 gap-1">
+      <div className="flex flex-col flex-1 min-w-0 ds-gap-1">
         <span className="font-body size-sm font-medium line-height-leading-5 text-default truncate">
           {name}
         </span>
@@ -484,7 +484,7 @@ const DropdownMenuButtonGroup = React.forwardRef<HTMLDivElement, DropdownMenuBut
     <div
       ref={ref}
       className={cn(
-        "flex items-center gap-4 padding-x-4 padding-y-4",
+        "flex items-center ds-gap-4 padding-x-4 padding-y-4",
         className
       )}
       {...props}

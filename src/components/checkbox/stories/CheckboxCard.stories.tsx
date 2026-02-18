@@ -177,7 +177,7 @@ export const LayoutHorizontal: Story = {
  */
 export const Backgrounds: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col ds-gap-16">
       <CheckboxCard
         title="Default Background (Unchecked)"
         description="Standard card background with border."
@@ -217,7 +217,7 @@ export const CheckboxPositions: Story = {
   render: function Render() {
     const [checked, setChecked] = useState([false, true, true]);
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <CheckboxCard
           title="Checkbox on Left"
           description="Checkbox positioned on the left side."
@@ -286,7 +286,7 @@ export const WithSectionsHorizontal: Story = {
  */
 export const Disabled: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col ds-gap-16">
       <CheckboxCard
         title="Disabled Unchecked"
         description="This card is disabled and unchecked."
@@ -329,7 +329,7 @@ export const MultipleCards: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col ds-gap-12">
         {plans.map((plan) => (
           <CheckboxCard
             key={plan.id}
@@ -341,7 +341,7 @@ export const MultipleCards: Story = {
             onCheckedChange={handleChange(plan.id)}
           />
         ))}
-        <p className="size-xs text-muted mt-8">
+        <p className="size-xs text-muted margin-t-32">
           선택됨: {selected.length > 0 ? selected.join(', ') : '없음'}
         </p>
       </div>

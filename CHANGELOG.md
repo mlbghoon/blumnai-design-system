@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.2.26] - 2026-02-18
+
+### Changed
+
+- `gap-*` 유틸리티 클래스를 `ds-gap-*`로 전체 리네이밍 — 소비 프로젝트의 Tailwind `gap-*`와 충돌 방지
+- `@theme`에 `--spacing: initial` 설정 — Tailwind v4의 multiplicative spacing 유틸리티 생성 비활성화
+- 빌드된 CSS 크기 ~1.3MB → 148KB (~90% 감소)
+
+### Fixed
+
+- 소비 프로젝트에서 Tailwind spacing 클래스(`gap-8`, `mt-4`, `px-4` 등)와 DS 유틸리티가 충돌하던 문제 수정
+- 30+ 컴포넌트의 표준 Tailwind spacing 클래스를 DS 유틸리티로 변환 (`mt-4` → `margin-t-16`, `px-4` → `padding-x-16`, `w-6` → `width-24` 등)
+- `SidebarPrimitives`의 position 클래스를 spacing 독립적 값으로 변환 (`top-4` → `[top:16px]`)
+
+### Added
+
+- `ds-gap-*` 유틸리티: `ds-gap-0` ~ `ds-gap-96` (responsive variant 지원)
+- Margin 유틸리티: `margin-x-*`, `margin-y-*`, `margin-t-*`, `margin-r-*`, `margin-l-*`
+- Padding 유틸리티: `padding-t-*`, `padding-b-*`
+- Position 유틸리티: `inset-0`, `inset-y-0`, `top-0`, `right-0`, `bottom-0`, `left-0`
+- `min-w-0`, `min-h-0`, `min-width-36`, `min-width-40` 유틸리티
+
+## [0.2.25] - 2026-02-18
+
+### Added
+
+- Button: `colorOverride` prop 추가
+
 ## [0.2.24] - 2026-02-17
 
 ### Fixed

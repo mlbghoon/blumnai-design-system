@@ -5,7 +5,7 @@
  */
 
 // Dropdown trigger base styles
-export const DROPDOWN_TRIGGER_BASE = 'flex items-center gap-4 cursor-pointer select-none' as const;
+export const DROPDOWN_TRIGGER_BASE = 'flex items-center ds-gap-4 cursor-pointer select-none' as const;
 
 // Dropdown trigger text styles
 export const DROPDOWN_TRIGGER_TEXT = 'font-body size-sm line-height-leading-5 letter-spacing-tracking-tight text-default whitespace-nowrap' as const;
@@ -17,7 +17,7 @@ export const DROPDOWN_TRIGGER_PLACEHOLDER = 'font-body size-sm line-height-leadi
 export const DROPDOWN_MENU_BASE = 'z-50 bg-card border-default rounded-md shadow-modal-sm' as const;
 
 // Dropdown option styles
-export const DROPDOWN_OPTION_BASE = 'flex items-center gap-6 padding-x-8 padding-y-6 cursor-pointer hover:bg-state-ghost-hover transition-colors' as const;
+export const DROPDOWN_OPTION_BASE = 'flex items-center ds-gap-6 padding-x-8 padding-y-6 cursor-pointer hover:bg-state-ghost-hover transition-colors' as const;
 
 export const DROPDOWN_OPTION_TEXT = 'font-body size-sm line-height-leading-5 letter-spacing-tracking-tight text-default' as const;
 

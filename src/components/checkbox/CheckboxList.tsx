@@ -8,7 +8,7 @@ const CheckboxList = React.forwardRef<HTMLDivElement, CheckboxListProps>(
   ({ items, listStyle = 'default', checkboxStyle = 'with-shadow', onItemChange, className }, ref) => {
     const containerClassName = cn(
       'flex flex-col',
-      listStyle === 'default' && 'gap-24',
+      listStyle === 'default' && 'ds-gap-24',
       className
     );
 

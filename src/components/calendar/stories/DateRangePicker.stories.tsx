@@ -421,7 +421,7 @@ export const Controlled: Story = {
       to: addDays(new Date(), 7),
     });
     return (
-      <div className="flex flex-col gap-16" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <DateRangePicker
           label="Controlled Date Range"
           value={range}

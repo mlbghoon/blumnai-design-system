@@ -207,7 +207,7 @@ export const Default: Story = {
 export const HalfCircle: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24 items-end">
+      <div className="flex ds-gap-24 items-end">
         <ProgressCircular shape="half" value={25} />
         <ProgressCircular shape="half" value={50} />
         <ProgressCircular shape="half" value={75} />
@@ -225,16 +225,16 @@ export const HalfCircle: Story = {
 export const Variants: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24 items-center">
-        <div className="flex flex-col items-center gap-8">
+      <div className="flex ds-gap-24 items-center">
+        <div className="flex flex-col items-center ds-gap-8">
           <ProgressCircular variant="default" value={60} />
           <span className="font-body size-sm text-muted">Default</span>
         </div>
-        <div className="flex flex-col items-center gap-8">
+        <div className="flex flex-col items-center ds-gap-8">
           <ProgressCircular variant="success" value={100} />
           <span className="font-body size-sm text-muted">Success</span>
         </div>
-        <div className="flex flex-col items-center gap-8">
+        <div className="flex flex-col items-center ds-gap-8">
           <ProgressCircular variant="failed" value={35} />
           <span className="font-body size-sm text-muted">Failed</span>
         </div>
@@ -251,7 +251,7 @@ export const Variants: Story = {
 export const WithCaption: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24">
+      <div className="flex ds-gap-24">
         <ProgressCircular value={20} color="red" caption="JavaScript" />
         <ProgressCircular value={45} color="blue" caption="TypeScript" />
         <ProgressCircular value={80} color="green" caption="Python" />
@@ -267,7 +267,7 @@ export const WithCaption: Story = {
 export const Colors: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-wrap gap-24">
+      <div className="flex flex-wrap ds-gap-24">
         <ProgressCircular color="gray" value={60} />
         <ProgressCircular color="brand" value={60} />
         <ProgressCircular color="blue" value={60} />
@@ -285,7 +285,7 @@ export const Colors: Story = {
 export const Sizes: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24 items-center">
+      <div className="flex ds-gap-24 items-center">
         <ProgressCircular size={48} strokeWidth={4} value={60} />
         <ProgressCircular size={64} strokeWidth={6} value={60} />
         <ProgressCircular size={96} strokeWidth={8} value={60} />
@@ -301,7 +301,7 @@ export const Sizes: Story = {
 export const WithoutLabel: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24 items-center">
+      <div className="flex ds-gap-24 items-center">
         <ProgressCircular showLabel={false} value={25} />
         <ProgressCircular showLabel={false} value={50} />
         <ProgressCircular showLabel={false} value={75} />
@@ -317,7 +317,7 @@ export const WithoutLabel: Story = {
 export const AllProgress: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-wrap gap-16">
+      <div className="flex flex-wrap ds-gap-16">
         {[0, 25, 50, 75, 100].map((v) => (
           <ProgressCircular key={v} value={v} />
         ))}
@@ -343,7 +343,7 @@ export const Animated: Story = {
     }, []);
 
     return (
-      <div className="flex gap-24 items-center">
+      <div className="flex ds-gap-24 items-center">
         <ProgressCircular value={value} color="brand" />
         <ProgressCircular value={value} shape="half" color="brand" />
       </div>
@@ -357,7 +357,7 @@ export const Animated: Story = {
 export const CustomFormat: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24 items-center">
+      <div className="flex ds-gap-24 items-center">
         <ProgressCircular
           value={75}
           size={120}
@@ -381,16 +381,16 @@ export const CustomFormat: Story = {
 export const HalfVariants: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24 items-end">
-        <div className="flex flex-col items-center gap-8">
+      <div className="flex ds-gap-24 items-end">
+        <div className="flex flex-col items-center ds-gap-8">
           <ProgressCircular shape="half" variant="default" value={60} />
           <span className="font-body size-sm text-muted">Default</span>
         </div>
-        <div className="flex flex-col items-center gap-8">
+        <div className="flex flex-col items-center ds-gap-8">
           <ProgressCircular shape="half" variant="success" value={100} />
           <span className="font-body size-sm text-muted">Success</span>
         </div>
-        <div className="flex flex-col items-center gap-8">
+        <div className="flex flex-col items-center ds-gap-8">
           <ProgressCircular shape="half" variant="failed" value={35} />
           <span className="font-body size-sm text-muted">Failed</span>
         </div>
@@ -407,7 +407,7 @@ export const HalfVariants: Story = {
 export const Indeterminate: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24 items-center">
+      <div className="flex ds-gap-24 items-center">
         <ProgressCircular color="gray" />
         <ProgressCircular color="brand" />
         <ProgressCircular shape="half" color="blue" />
@@ -425,7 +425,7 @@ export const Indeterminate: Story = {
 export const ErrorState: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24">
+      <div className="flex ds-gap-24">
         <ProgressCircular
           value={35}
           variant="failed"
@@ -456,7 +456,7 @@ export const ErrorState: Story = {
 export const SuccessState: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24">
+      <div className="flex ds-gap-24">
         <ProgressCircular
           value={100}
           variant="success"
@@ -486,7 +486,7 @@ export const SuccessState: Story = {
 export const ErrorAndSuccessStates: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24">
+      <div className="flex ds-gap-24">
         <ProgressCircular value={50} caption="Normal caption" />
         <ProgressCircular value={100} variant="success" success="Success message" />
         <ProgressCircular value={35} variant="failed" error="Error message" />

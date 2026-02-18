@@ -270,7 +270,7 @@ export const NoLabel: Story = {
 export const Colors: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Slider color="gray" label="Gray (Default)" showValue defaultValue={50} />
         <Slider color="brand" label="Brand" showValue defaultValue={50} />
         <Slider color="blue" label="Blue" showValue defaultValue={50} />

@@ -256,7 +256,7 @@ export const CarouselIndicators = React.forwardRef<
     return (
       <div
         ref={ref}
-        className={cn('flex items-center justify-center gap-8', className)}
+        className={cn('flex items-center justify-center ds-gap-8', className)}
         {...props}
       >
         {scrollSnaps.map((_, index) => (
@@ -282,7 +282,7 @@ export const CarouselIndicators = React.forwardRef<
     return (
       <div
         ref={ref}
-        className={cn('flex items-center justify-center gap-4', className)}
+        className={cn('flex items-center justify-center ds-gap-4', className)}
         {...props}
       >
         {scrollSnaps.map((_, index) => (
@@ -308,7 +308,7 @@ export const CarouselIndicators = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        'flex items-center justify-center gap-4 font-body size-sm',
+        'flex items-center justify-center ds-gap-4 font-body size-sm',
         className
       )}
       {...props}

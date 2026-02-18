@@ -15,11 +15,11 @@ const buttonVariants = cva(
   {
     variants: {
       size: {
-        '2xs': 'height-24 size-xs line-height-leading-4 padding-x-6 padding-y-4 gap-4',
-        'xs': 'height-28 size-sm line-height-leading-5 padding-x-8 padding-y-4 gap-4',
-        'sm': 'height-32 size-sm line-height-leading-5 padding-x-10 padding-y-6 gap-4',
-        'md': 'height-36 size-sm line-height-leading-5 padding-x-12 padding-y-8 gap-6',
-        'lg': 'height-40 size-sm line-height-leading-5 padding-x-14 padding-y-10 gap-6',
+        '2xs': 'height-24 size-xs line-height-leading-4 padding-x-6 padding-y-4 ds-gap-4',
+        'xs': 'height-28 size-sm line-height-leading-5 padding-x-8 padding-y-4 ds-gap-4',
+        'sm': 'height-32 size-sm line-height-leading-5 padding-x-10 padding-y-6 ds-gap-4',
+        'md': 'height-36 size-sm line-height-leading-5 padding-x-12 padding-y-8 ds-gap-6',
+        'lg': 'height-40 size-sm line-height-leading-5 padding-x-14 padding-y-10 ds-gap-6',
       },
       shape: {
         rounded: 'rounded-md',

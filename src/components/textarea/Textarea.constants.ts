@@ -67,15 +67,15 @@ export const TEXTAREA_CONTAINER_BASE = 'flex flex-col' as const;
 
 export const COUNT_STYLE = 'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-muted' as const;
 
-export const TOOLBAR_CONTAINER = 'flex items-center justify-between gap-8 mt-8' as const;
+export const TOOLBAR_CONTAINER = 'flex items-center justify-between ds-gap-8 margin-t-32' as const;
 
-export const TOOLBAR_ACTIONS_CONTAINER = 'flex items-center gap-4' as const;
+export const TOOLBAR_ACTIONS_CONTAINER = 'flex items-center ds-gap-4' as const;
 
 export const TOOLBAR_BUTTON_BASE = 'flex items-center justify-center rounded-sm transition-colors duration-150 cursor-pointer' as const;
 
 export const TOOLBAR_BUTTON_ICON_ONLY = 'width-28 height-28 bg-state-soft hover:bg-state-soft-hover active:bg-state-soft-press' as const;
 
-export const TOOLBAR_CHIP_BASE = 'flex items-center gap-4 padding-x-8 padding-y-4 height-28 rounded-sm bg-state-soft hover:bg-state-soft-hover active:bg-state-soft-press font-body size-sm line-height-leading-5 text-muted cursor-pointer transition-colors duration-150' as const;
+export const TOOLBAR_CHIP_BASE = 'flex items-center ds-gap-4 padding-x-8 padding-y-4 height-28 rounded-sm bg-state-soft hover:bg-state-soft-hover active:bg-state-soft-press font-body size-sm line-height-leading-5 text-muted cursor-pointer transition-colors duration-150' as const;
 
 export const TOOLBAR_SUBMIT_BUTTON = 'width-28 height-28 rounded-sm bg-state-primary hover:bg-state-primary-hover active:bg-state-primary-press flex items-center justify-center transition-colors duration-150' as const;
 

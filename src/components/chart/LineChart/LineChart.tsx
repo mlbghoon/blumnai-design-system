@@ -536,13 +536,13 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       )}
 
       {showLegend && activeKeys.length > 0 && (
-        <div className="mt-4 px-4 pb-4 flex flex-wrap justify-center gap-4" role="list" aria-label="Chart legend">
+        <div className="margin-t-16 padding-x-16 padding-b-16 flex flex-wrap justify-center ds-gap-4" role="list" aria-label="Chart legend">
           {activeKeys.map((key, index) => {
             const lineColor = getColor(key, index);
             return (
-              <div key={`legend-${key}`} className="flex items-center gap-2" role="listitem">
+              <div key={`legend-${key}`} className="flex items-center ds-gap-2" role="listitem">
                 <div
-                  className="h-3 w-3 rounded-sm"
+                  className="[width:12px] [height:12px] rounded-sm"
                   style={{ backgroundColor: lineColor }}
                   aria-hidden="true"
                 />

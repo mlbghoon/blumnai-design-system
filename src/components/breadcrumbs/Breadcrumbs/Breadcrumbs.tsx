@@ -101,7 +101,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
       className={cn('flex items-center', className)}
       {...props}
     >
-      <ol className="flex items-center gap-2 list-none">
+      <ol className="flex items-center ds-gap-2 list-none">
         {visibleItems.map((item, index) => {
           const isLast = index === visibleItems.length - 1;
           const isClickable = (!!item.href || !!item.onClick) && !item.disabled && !isLast;
@@ -116,14 +116,14 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
           return (
             <li
               key={item.href ?? `${item.label}-${index}`}
-              className={cn('flex items-center gap-2', sizeClasses)}
+              className={cn('flex items-center ds-gap-2', sizeClasses)}
             >
               {isClickable ? (
                 <a
                   href={item.href || '#'}
                   onClick={handleClick}
                   className={cn(
-                    'flex items-center gap-1 hover:underline',
+                    'flex items-center ds-gap-1 hover:underline',
                     'text-default',
                     !item.href && item.onClick && 'cursor-pointer'
                   )}
@@ -134,7 +134,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
               ) : (
                 <span
                   className={cn(
-                    'flex items-center gap-1',
+                    'flex items-center ds-gap-1',
                     isLast ? 'text-subtle' : 'text-default',
                     item.disabled && 'cursor-default opacity-60'
                   )}

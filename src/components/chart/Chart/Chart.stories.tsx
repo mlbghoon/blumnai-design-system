@@ -226,9 +226,9 @@ export const HalfDonutChart: Story = {
 
 export const AllCharts: Story = {
   render: () => (
-    <div className="space-y-8">
+    <div className="flex flex-col ds-gap-32">
       <div>
-        <h3 className="mb-4 text-lg font-semibold">Bar Chart</h3>
+        <h3 className="margin-b-16 size-lg font-semibold">Bar Chart</h3>
         <BarChart
           data={barChartData}
           xAxis={{ dataKey: 'month' }}
@@ -240,7 +240,7 @@ export const AllCharts: Story = {
         />
       </div>
       <div>
-        <h3 className="mb-4 text-lg font-semibold">Line Chart</h3>
+        <h3 className="margin-b-16 size-lg font-semibold">Line Chart</h3>
         <LineChart
           data={lineChartData}
           xAxis={{ dataKey: 'month' }}
@@ -252,7 +252,7 @@ export const AllCharts: Story = {
         />
       </div>
       <div>
-        <h3 className="mb-4 text-lg font-semibold">Pie Chart</h3>
+        <h3 className="margin-b-16 size-lg font-semibold">Pie Chart</h3>
         <PieChart
           data={pieChartData}
           dataKey="value"
@@ -263,7 +263,7 @@ export const AllCharts: Story = {
         />
       </div>
       <div>
-        <h3 className="mb-4 text-lg font-semibold">Donut Chart</h3>
+        <h3 className="margin-b-16 size-lg font-semibold">Donut Chart</h3>
         <DonutChart
           data={pieChartData}
           dataKey="value"

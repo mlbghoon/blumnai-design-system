@@ -205,7 +205,7 @@ export const Sizes: Story = {
     const [dateSm, setDateSm] = useState<Date | undefined>();
     const [dateLg, setDateLg] = useState<Date | undefined>();
     return (
-      <div className="flex flex-col gap-16" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <DatePicker
           label="Small (sm)"
           size="sm"
@@ -232,7 +232,7 @@ export const Styles: Story = {
     const [date2, setDate2] = useState<Date | undefined>();
     const [date3, setDate3] = useState<Date | undefined>();
     return (
-      <div className="flex flex-col gap-16" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <DatePicker
           label="Default"
           datePickerStyle="default"
@@ -396,7 +396,7 @@ export const Controlled: Story = {
   render: function Render() {
     const [date, setDate] = useState<Date | undefined>(new Date());
     return (
-      <div className="flex flex-col gap-16" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <DatePicker
           label="Controlled Date"
           value={date}

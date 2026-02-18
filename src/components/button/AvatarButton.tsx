@@ -21,8 +21,8 @@ const avatarButtonVariants = cva(
         soft: 'bg-state-soft text-default border-none hover:bg-state-soft-hover active:bg-state-soft-press focus-visible:shadow-component-misc-focus',
       },
       size: {
-        sm: 'height-28 padding-y-4 padding-l-4 padding-r-8 gap-4',
-        lg: 'height-32 padding-y-6 padding-l-6 padding-r-12 gap-6',
+        sm: 'height-28 padding-y-4 padding-l-4 padding-r-8 ds-gap-4',
+        lg: 'height-32 padding-y-6 padding-l-6 padding-r-12 ds-gap-6',
       },
     },
     defaultVariants: {

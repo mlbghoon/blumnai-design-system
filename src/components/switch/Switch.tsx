@@ -87,7 +87,7 @@ const Switch = React.forwardRef<
   return (
     <label
       className={cn(
-        'inline-flex items-start gap-10',
+        'inline-flex items-start ds-gap-10',
         switchPosition === 'right' && 'flex-row-reverse',
         disabled ? 'cursor-not-allowed' : 'cursor-pointer'
       )}
@@ -95,7 +95,7 @@ const Switch = React.forwardRef<
       <div className="height-20 flex items-center shrink-0">
         {switchElement}
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col ds-gap-4">
         {label && (
           <span
             className={cn(

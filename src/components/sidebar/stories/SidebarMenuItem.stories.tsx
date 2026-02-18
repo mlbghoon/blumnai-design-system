@@ -196,7 +196,7 @@ export const AllVariants: Story = {
   render: function Render() {
     return (
       <SidebarProvider defaultOpen={true}>
-        <div className="w-[280px] border-default rounded-md padding-8 flex flex-col gap-8">
+        <div className="w-[280px] border-default rounded-md padding-8 flex flex-col ds-gap-8">
           <div>
             <p className="font-body size-xs text-muted padding-x-8 padding-y-4">Default</p>
             <SidebarMenu>
@@ -437,8 +437,8 @@ export const KeyboardShortcutBinding: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-16">
-        <p className="m-0 size-sm text-subtle">
+      <div className="flex flex-col ds-gap-16">
+        <p className="margin-0size-sm text-subtle">
           단축키를 눌러 onClick이 실행되는 것을 확인하세요. 사이드바 항목은 항상 마운트되어 있으므로 전역 단축키가 작동합니다.
         </p>
         <SidebarProvider defaultOpen={true}>
@@ -478,9 +478,9 @@ export const KeyboardShortcutBinding: Story = {
         </SidebarProvider>
         {log.length > 0 && (
           <div className="padding-12 bg-subtle rounded-md">
-            <p className="m-0 size-xs text-muted font-medium">Event Log</p>
+            <p className="margin-0size-xs text-muted font-medium">Event Log</p>
             {log.map((entry, i) => (
-              <p key={i} className="m-0 size-xs text-subtle">{entry}</p>
+              <p key={i} className="margin-0size-xs text-subtle">{entry}</p>
             ))}
           </div>
         )}

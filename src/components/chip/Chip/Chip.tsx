@@ -172,7 +172,7 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
           : 'height-32';
 
     const containerClassName = cn(
-      'inline-flex items-center justify-center gap-4',
+      'inline-flex items-center justify-center ds-gap-4',
       'box-border',
       'cursor-pointer select-none group',
       'transition-colors duration-150',

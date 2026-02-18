@@ -63,7 +63,7 @@ const RadioCard = React.forwardRef<HTMLLabelElement, RadioCardProps>(
 
     const cardClassName = cn(
       'group w-full padding-16 rounded-md overflow-hidden',
-      layout === 'vertical' ? 'flex flex-col gap-24' : 'flex',
+      layout === 'vertical' ? 'flex flex-col ds-gap-24' : 'flex',
       backgroundStyles,
       getBorderStyles(),
       disabled ? 'cursor-not-allowed' : 'cursor-pointer',
@@ -71,19 +71,19 @@ const RadioCard = React.forwardRef<HTMLLabelElement, RadioCardProps>(
     );
 
     const contentRowClassName = cn(
-      'flex items-start gap-10',
+      'flex items-start ds-gap-10',
       layout === 'horizontal' && 'w-full'
     );
 
     const textContainerClassName =
       layout === 'vertical'
-        ? 'flex-1 flex flex-col gap-24'
+        ? 'flex-1 flex flex-col ds-gap-24'
         : 'flex-1 flex items-start';
 
-    const sectionClassName = 'flex flex-col gap-4';
+    const sectionClassName = 'flex flex-col ds-gap-4';
 
     const horizontalRightSectionClassName = cn(
-      'flex flex-col items-end gap-4',
+      'flex flex-col items-end ds-gap-4',
       'text-right'
     );
 
@@ -155,7 +155,7 @@ const RadioCard = React.forwardRef<HTMLLabelElement, RadioCardProps>(
         if (radioPosition === 'off') {
           return (
             <div className={textContainerClassName}>
-              <div className="flex-1 flex flex-col gap-4">
+              <div className="flex-1 flex flex-col ds-gap-4">
                 <div className={getTitleClassName()}>{title}</div>
                 {description && <div className={getDescriptionClassName()}>{description}</div>}
               </div>
@@ -173,7 +173,7 @@ const RadioCard = React.forwardRef<HTMLLabelElement, RadioCardProps>(
           <div className={contentRowClassName}>
             {radioPosition === 'left' && radioVisual}
             <div className={textContainerClassName}>
-              <div className="flex-1 flex flex-col gap-4">
+              <div className="flex-1 flex flex-col ds-gap-4">
                 <div className={getTitleClassName()}>{title}</div>
                 {description && <div className={getDescriptionClassName()}>{description}</div>}
               </div>

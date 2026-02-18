@@ -268,7 +268,7 @@ export const AreaDragging: Story = {
     const [isDragging, setIsDragging] = useState(false);
 
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <div className="font-body size-sm text-muted">
           {isDragging ? '파일을 놓으세요' : '파일을 드래그해서 확인하세요'}
         </div>
@@ -288,7 +288,7 @@ export const AreaDragging: Story = {
  */
 export const CardUploaded: Story = {
   render: () => (
-    <div className="flex flex-col gap-12 max-width-320">
+    <div className="flex flex-col ds-gap-12 max-width-320">
       <FileUploadCard file={mockFile} status="uploaded" onRemove={() => {}} />
       <FileUploadCard file={mockImageFile} status="uploaded" onRemove={() => {}} />
     </div>
@@ -300,7 +300,7 @@ export const CardUploaded: Story = {
  */
 export const CardUploading: Story = {
   render: () => (
-    <div className="flex flex-col gap-12 max-width-320">
+    <div className="flex flex-col ds-gap-12 max-width-320">
       <FileUploadCard file={mockFile} status="uploading" progress={45} onRemove={() => {}} />
       <FileUploadCard file={mockImageFile} status="uploading" progress={78} onRemove={() => {}} />
     </div>
@@ -312,7 +312,7 @@ export const CardUploading: Story = {
  */
 export const CardError: Story = {
   render: () => (
-    <div className="flex flex-col gap-12 max-width-320">
+    <div className="flex flex-col ds-gap-12 max-width-320">
       <FileUploadCard file={mockFile} status="error" errorMessage="Upload failed" onRemove={() => {}} onRetry={() => {}} />
     </div>
   ),
@@ -323,12 +323,12 @@ export const CardError: Story = {
  */
 export const CardSizes: Story = {
   render: () => (
-    <div className="flex flex-col gap-16 max-width-320">
-      <div className="flex flex-col gap-4">
+    <div className="flex flex-col ds-gap-16 max-width-320">
+      <div className="flex flex-col ds-gap-4">
         <span className="font-body size-xs text-muted">Large (lg):</span>
         <FileUploadCard file={mockFile} status="uploaded" size="lg" onRemove={() => {}} />
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col ds-gap-4">
         <span className="font-body size-xs text-muted">Small (sm):</span>
         <FileUploadCard file={mockFile} status="uploaded" size="sm" onRemove={() => {}} />
       </div>
@@ -341,7 +341,7 @@ export const CardSizes: Story = {
  */
 export const CardWithThumbnail: Story = {
   render: () => (
-    <div className="flex flex-col gap-12 max-width-320">
+    <div className="flex flex-col ds-gap-12 max-width-320">
       <FileUploadCard
         file={mockImageFile}
         thumbnail="https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=100&h=100&fit=crop"
@@ -378,7 +378,7 @@ export const FullIntegration: Story = {
     }, []);
 
     return (
-      <div className="flex flex-col gap-16 max-width-320">
+      <div className="flex flex-col ds-gap-16 max-width-320">
         <FileUploadArea
           onFilesSelected={handleFilesSelected}
           accept="image/*,.pdf"
@@ -386,7 +386,7 @@ export const FullIntegration: Story = {
           maxSize={104857600}
         />
         {files.length > 0 && (
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col ds-gap-8">
             {files.map((item, index) => (
               <FileUploadCard
                 key={`${item.file.name}-${index}`}
@@ -408,40 +408,40 @@ export const FullIntegration: Story = {
  */
 export const AllStates: Story = {
   render: () => (
-    <div className="flex flex-col gap-24 max-width-320">
-      <div className="flex flex-col gap-8">
+    <div className="flex flex-col ds-gap-24 max-width-320">
+      <div className="flex flex-col ds-gap-8">
         <span className="font-body size-sm font-medium text-default">FileUploadArea States</span>
-        <div className="flex flex-col gap-12">
-          <div className="flex flex-col gap-4">
+        <div className="flex flex-col ds-gap-12">
+          <div className="flex flex-col ds-gap-4">
             <span className="font-body size-xs text-muted">Default:</span>
             <FileUploadArea width={320} />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col ds-gap-4">
             <span className="font-body size-xs text-muted">Disabled:</span>
             <FileUploadArea disabled width={320} />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col ds-gap-4">
             <span className="font-body size-xs text-muted">Error:</span>
             <FileUploadArea error="File type not supported" width={320} />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col ds-gap-4">
             <span className="font-body size-xs text-muted">With Caption:</span>
             <FileUploadArea caption="Supported formats: JPG, PNG, PDF" width={320} />
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-8">
         <span className="font-body size-sm font-medium text-default">FileUploadCard States</span>
-        <div className="flex flex-col gap-12">
-          <div className="flex flex-col gap-4">
+        <div className="flex flex-col ds-gap-12">
+          <div className="flex flex-col ds-gap-4">
             <span className="font-body size-xs text-muted">Uploading:</span>
             <FileUploadCard file={mockFile} status="uploading" progress={45} onRemove={() => {}} />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col ds-gap-4">
             <span className="font-body size-xs text-muted">Uploaded:</span>
             <FileUploadCard file={mockFile} status="uploaded" onRemove={() => {}} />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col ds-gap-4">
             <span className="font-body size-xs text-muted">Error:</span>
             <FileUploadCard file={mockFile} status="error" errorMessage="Upload failed" onRemove={() => {}} onRetry={() => {}} />
           </div>

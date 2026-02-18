@@ -463,7 +463,7 @@ export const LoginForm: Story = {
   render: function Render() {
     const [password, setPassword] = useState('');
     return (
-      <div className="flex flex-col gap-16 max-w-sm">
+      <div className="flex flex-col ds-gap-16 max-w-sm">
         <Input
           variant="password"
           label="Password"
@@ -488,7 +488,7 @@ export const RegistrationForm: Story = {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     return (
-      <div className="flex flex-col gap-16 max-w-sm">
+      <div className="flex flex-col ds-gap-16 max-w-sm">
         <Input
           variant="password"
           label="Create Password"
@@ -527,7 +527,7 @@ export const StrengthCallback: Story = {
     const [password, setPassword] = useState('');
     const [strength, setStrength] = useState<PasswordStrength>('none');
     return (
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-8">
         <Input
           variant="password"
           label="Password"

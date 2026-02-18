@@ -10,7 +10,7 @@ export const SIZE_CONFIG = {
     paddingWithLeadIcon: 'padding-x-8 padding-y-6',
     text: 'size-sm line-height-leading-5',
     iconSize: 16,
-    gap: 'gap-6',
+    gap: 'ds-gap-6',
   },
   lg: {
     container: 'height-36',
@@ -19,7 +19,7 @@ export const SIZE_CONFIG = {
     paddingWithLeadIcon: 'padding-x-8 padding-y-8',
     text: 'size-sm line-height-leading-5',
     iconSize: 16,
-    gap: 'gap-6',
+    gap: 'ds-gap-6',
   },
 } as const;
 
@@ -66,7 +66,7 @@ export const MENU_ITEM_SIZE_CONFIG = {
   default: {
     height: 'height-32',
     padding: 'padding-6',
-    gap: 'gap-6',
+    gap: 'ds-gap-6',
     iconSize: 16 as const,
     iconFrame: 'width-20 height-20',
     text: 'size-sm line-height-leading-5 letter-spacing-tracking-tight',
@@ -74,7 +74,7 @@ export const MENU_ITEM_SIZE_CONFIG = {
   large: {
     height: 'min-h-[54px]',
     padding: 'padding-x-8 padding-y-6',
-    gap: 'gap-6',
+    gap: 'ds-gap-6',
     iconSize: 20 as const,
     iconFrame: 'width-36 height-36',
     text: 'size-sm line-height-leading-5 letter-spacing-tracking-tight',

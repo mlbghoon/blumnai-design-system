@@ -28,7 +28,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(({
         'padding-y-2 padding-x-4',
         'bg-card',
         'shadow-modal-sm',
-        'inline-flex items-center justify-center gap-2',
+        'inline-flex items-center justify-center ds-gap-2',
         className
       )}
       style={{ maxWidth, ...style }}

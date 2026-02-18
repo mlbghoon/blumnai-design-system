@@ -88,7 +88,7 @@ export function DataGridPagination({
       )}
     >
       {align === 'right' && showLeftSection && (
-        <div className="flex items-center gap-8">
+        <div className="flex items-center ds-gap-8">
           {showItemCount && (
             <span className="font-body size-sm text-subtle">
               {startIndex}-{endIndex} / {total}
@@ -104,7 +104,7 @@ export function DataGridPagination({
         <>
           {paginationElement}
           {showLeftSection && (
-            <div className="flex items-center gap-8 ml-auto">
+            <div className="flex items-center ds-gap-8 ml-auto">
               {showItemCount && (
                 <span className="font-body size-sm text-subtle">
                   {startIndex}-{endIndex} / {total}

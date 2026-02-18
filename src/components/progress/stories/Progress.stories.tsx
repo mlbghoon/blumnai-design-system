@@ -184,7 +184,7 @@ export const Default: Story = {
 export const Dashed: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress variant="dashed" label="Step 3 of 10" showValue value={30} />
         <Progress variant="dashed" label="Step 7 of 10" showValue value={70} />
         <Progress variant="dashed" label="Complete" showValue value={100} color="green" />
@@ -199,7 +199,7 @@ export const Dashed: Story = {
 export const WithLabelAndValue: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress label="Uploading..." showValue value={45} />
         <Progress label="Processing" showValue value={80} />
         <Progress label="Complete" showValue value={100} color="green" />
@@ -216,7 +216,7 @@ export const WithLabelAndValue: Story = {
 export const WithCaption: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
           label="Uploading files"
           showValue
@@ -248,7 +248,7 @@ export const WithCaption: Story = {
 export const Colors: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress color="gray" label="Gray (Default)" showValue value={60} />
         <Progress color="brand" label="Brand" showValue value={60} />
         <Progress color="blue" label="Blue" showValue value={60} />
@@ -266,7 +266,7 @@ export const Colors: Story = {
 export const AllProgress: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-16" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((v) => (
           <Progress key={v} showValue value={v} />
         ))}
@@ -320,7 +320,7 @@ export const Animated: Story = {
 export const CustomFormat: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
           label="Storage Used"
           showValue
@@ -361,7 +361,7 @@ export const DashedEmpty: Story = {
 export const ErrorState: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
           label="Uploading..."
           showValue
@@ -389,7 +389,7 @@ export const ErrorState: Story = {
 export const SuccessState: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
           label="Upload complete"
           showValue
@@ -419,7 +419,7 @@ export const SuccessState: Story = {
 export const ErrorAndSuccessStates: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
           label="Normal caption"
           showValue

@@ -231,7 +231,7 @@ export const SelectAll: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <Checkbox
           checked={parentState}
           onCheckedChange={handleSelectAll}

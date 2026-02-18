@@ -161,7 +161,7 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
           {renderLeadContent()}
 
           {option.description ? (
-            <div className="flex flex-col flex-1 min-w-0 padding-x-4 gap-1">
+            <div className="flex flex-col flex-1 min-w-0 padding-x-4 ds-gap-1">
               <span
                 className={cn(
                   'font-body',
@@ -439,7 +439,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
         };
 
         return (
-          <div className="flex flex-wrap gap-4 items-center">
+          <div className="flex flex-wrap ds-gap-4 items-center">
             {visibleOptions.map((option) => (
               <Badge
                 key={option.id}
@@ -501,13 +501,13 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       }
 
       return (
-        <div className="flex flex-col items-center padding-24 gap-12">
+        <div className="flex flex-col items-center padding-24 ds-gap-12">
           <Icon
             iconType={['system', 'search']}
             size={40}
             color="default-muted"
           />
-          <div className="flex flex-col items-center gap-4 text-center">
+          <div className="flex flex-col items-center ds-gap-4 text-center">
             <span className="font-body size-sm line-height-leading-5 font-medium text-subtle">
               {emptyStateTitle}
             </span>
@@ -562,7 +562,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                   onClick={handleTriggerClick}
                 >
                   {!isTagsVariant && selectedOptions.length === 0 && (
-                    <div className="flex items-center gap-6 flex-shrink-0">
+                    <div className="flex items-center ds-gap-6 flex-shrink-0">
                       <Icon
                         iconType={['system', 'search']}
                         size={16}
@@ -574,7 +574,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                   {renderSelectedValue()}
 
                   {!isTagsVariant && selectedOptions.length === 1 && !isEditing && (
-                    <div className="flex items-center gap-6 flex-1 min-w-0">
+                    <div className="flex items-center ds-gap-6 flex-1 min-w-0">
                       {variant === 'avatar' && selectedOptions[0].avatarSrc && (
                         <Avatar
                           variant="userpic"
@@ -614,7 +614,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                       'font-body text-default placeholder:text-hint',
                       disabled && 'cursor-not-allowed',
                       !isTagsVariant && selectedOptions.length === 1 && !isEditing
-                        ? 'absolute opacity-0 w-0 h-0'
+                        ? 'absolute opacity-0 [width:0] [height:0]'
                         : 'flex-1 min-w-[60px]'
                     )}
                     id={comboboxId}
@@ -716,7 +716,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                         type="button"
                         onClick={handleCreate}
                         className={cn(
-                          'flex items-center w-full height-36 padding-x-8 gap-6',
+                          'flex items-center w-full height-36 padding-x-8 ds-gap-6',
                           'bg-transparent hover:bg-state-ghost-hover transition-colors cursor-pointer',
                           'outline-none focus:bg-state-ghost-hover'
                         )}

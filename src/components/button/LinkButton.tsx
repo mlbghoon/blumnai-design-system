@@ -19,9 +19,9 @@ const linkButtonVariants = cva(
         informative: 'text-informative hover:text-informative',
       },
       size: {
-        sm: 'size-xs line-height-leading-4 gap-4 letter-spacing-tracking-tight',
-        md: 'size-sm line-height-leading-5 gap-4 letter-spacing-tracking-tight',
-        lg: 'size-md line-height-leading-6 gap-4 letter-spacing-tracking-normal',
+        sm: 'size-xs line-height-leading-4 ds-gap-4 letter-spacing-tracking-tight',
+        md: 'size-sm line-height-leading-5 ds-gap-4 letter-spacing-tracking-tight',
+        lg: 'size-md line-height-leading-6 ds-gap-4 letter-spacing-tracking-normal',
       },
     },
     defaultVariants: {

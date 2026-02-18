@@ -77,7 +77,7 @@ export const Default: Story = {
 export const Variants: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-16">
+      <div className="flex ds-gap-16">
         <Card className="w-[200px]" variant="default">
           <CardHeader>
             <CardTitle>Default</CardTitle>
@@ -112,7 +112,7 @@ export const LoginForm: Story = {
           <CardTitle>로그인</CardTitle>
           <CardDescription>계정에 로그인하세요.</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-16">
+        <CardContent className="flex flex-col ds-gap-16">
           <Input variant="default" label="이메일" placeholder="name@example.com" />
           <Input variant="password" label="비밀번호" placeholder="비밀번호 입력" />
         </CardContent>
@@ -140,14 +140,14 @@ export const NotificationCard: Story = {
           <CardTitle>알림</CardTitle>
           <CardDescription>읽지 않은 알림 3개가 있습니다.</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-12">
+        <CardContent className="flex flex-col ds-gap-12">
           {[
             { title: '새 메시지', desc: '홍길동님이 메시지를 보냈습니다.', time: '5분 전' },
             { title: '시스템 알림', desc: '시스템이 업데이트되었습니다.', time: '1시간 전' },
             { title: '팔로우', desc: '김철수님이 팔로우했습니다.', time: '2시간 전' },
           ].map((item, i) => (
-            <div key={i} className="flex items-start gap-12 padding-12 rounded-md bg-muted/30">
-              <div className="width-8 height-8 rounded-full bg-state-primary mt-1" />
+            <div key={i} className="flex items-start ds-gap-12 padding-12 rounded-md bg-muted/30">
+              <div className="width-8 height-8 rounded-full bg-state-primary margin-t-4" />
               <div className="flex-1">
                 <p className="size-sm font-body font-medium line-height-leading-5">
                   {item.title}
@@ -176,13 +176,13 @@ export const NotificationCard: Story = {
 export const StatsCard: Story = {
   render: function Render() {
     return (
-      <div className="grid grid-cols-3 gap-16">
+      <div className="grid grid-cols-3 ds-gap-16">
         <Card>
           <CardHeader className="padding-16">
             <CardDescription>총 사용자</CardDescription>
             <CardTitle className="size-2xl">12,345</CardTitle>
           </CardHeader>
-          <CardContent className="padding-16 pt-0">
+          <CardContent className="padding-16 [padding-top:0]">
             <p className="size-xs font-body text-state-success">
               +12% 지난 달 대비
             </p>
@@ -193,7 +193,7 @@ export const StatsCard: Story = {
             <CardDescription>활성 세션</CardDescription>
             <CardTitle className="size-2xl">1,234</CardTitle>
           </CardHeader>
-          <CardContent className="padding-16 pt-0">
+          <CardContent className="padding-16 [padding-top:0]">
             <p className="size-xs font-body text-state-success">
               +5% 지난 주 대비
             </p>
@@ -204,7 +204,7 @@ export const StatsCard: Story = {
             <CardDescription>전환율</CardDescription>
             <CardTitle className="size-2xl">3.2%</CardTitle>
           </CardHeader>
-          <CardContent className="padding-16 pt-0">
+          <CardContent className="padding-16 [padding-top:0]">
             <p className="size-xs font-body text-state-destructive">
               -0.5% 지난 달 대비
             </p>
@@ -225,7 +225,7 @@ export const ImageCard: Story = {
         <img
           src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=300&fit=crop"
           alt="Code"
-          className="w-full h-40 object-cover"
+          className="w-full [height:160px] object-cover"
         />
         <CardHeader>
           <CardTitle>프로젝트 템플릿</CardTitle>
@@ -233,7 +233,7 @@ export const ImageCard: Story = {
             React와 TypeScript로 구성된 스타터 템플릿입니다.
           </CardDescription>
         </CardHeader>
-        <CardFooter className="gap-8">
+        <CardFooter className="ds-gap-8">
           <Button buttonStyle="primary" size="sm">
             사용하기
           </Button>

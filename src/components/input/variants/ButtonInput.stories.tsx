@@ -404,7 +404,7 @@ export const WithClickHandler: Story = {
     const [value, setValue] = useState('');
     const [submitted, setSubmitted] = useState('');
     return (
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-8">
         <Input
           variant="tail-button"
           label="Submit Value"

@@ -53,7 +53,7 @@ export const TooltipItem = forwardRef<HTMLDivElement, TooltipItemProps>(
           className={cn(
             'self-stretch',
             'padding-y-2 padding-x-4',
-            'flex items-center justify-start gap-8',
+            'flex items-center justify-start ds-gap-8',
             'relative',
             className
           )}
@@ -68,7 +68,7 @@ export const TooltipItem = forwardRef<HTMLDivElement, TooltipItemProps>(
       return (
         <div
           ref={ref}
-          className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-start gap-8', className)}
+          className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-start ds-gap-8', className)}
           {...props}
         >
           <span className="flex-1 font-body size-xs line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
@@ -82,7 +82,7 @@ export const TooltipItem = forwardRef<HTMLDivElement, TooltipItemProps>(
       return (
         <div
           ref={ref}
-          className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-between gap-8', className)}
+          className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-between ds-gap-8', className)}
           {...props}
         >
           {label && (
@@ -103,7 +103,7 @@ export const TooltipItem = forwardRef<HTMLDivElement, TooltipItemProps>(
       return (
         <div
           ref={ref}
-          className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-start gap-6', className)}
+          className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-start ds-gap-6', className)}
           {...props}
         >
           {indicatorColor && (

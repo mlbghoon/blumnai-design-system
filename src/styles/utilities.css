@@ -2018,50 +2018,63 @@ table[data-striped] tbody tr:nth-child(even) {
 }
 
 /* ============================================
-   Spacing Utilities - Gap
+   Spacing Utilities - Gap (ds-gap-* to avoid TW collision)
+   Using @utility for responsive/hover variant support
    ============================================ */
-.gap-0 {
+@utility ds-gap-0 {
   gap: var(--spacing-none);
 }
 
-.gap-1 {
+@utility ds-gap-1 {
   gap: var(--spacing-1);
 }
 
-.gap-2 {
+@utility ds-gap-2 {
   gap: var(--spacing-2);
 }
 
-.gap-4 {
+@utility ds-gap-4 {
   gap: var(--spacing-4);
 }
 
-.gap-6 {
+@utility ds-gap-6 {
   gap: var(--spacing-6);
 }
 
-.gap-8 {
+@utility ds-gap-8 {
   gap: var(--spacing-8);
 }
 
-.gap-10 {
+@utility ds-gap-10 {
   gap: var(--spacing-10);
 }
 
-.gap-12 {
+@utility ds-gap-12 {
   gap: var(--spacing-12);
 }
 
-.gap-16 {
+@utility ds-gap-16 {
   gap: var(--spacing-16);
 }
 
-.gap-20 {
+@utility ds-gap-20 {
   gap: var(--spacing-20);
 }
 
-.gap-24 {
+@utility ds-gap-24 {
   gap: var(--spacing-24);
+}
+
+@utility ds-gap-32 {
+  gap: var(--spacing-32);
+}
+
+@utility ds-gap-48 {
+  gap: var(--spacing-48);
+}
+
+@utility ds-gap-96 {
+  gap: var(--spacing-96);
 }
 
 /* ============================================
@@ -2155,6 +2168,14 @@ table[data-striped] tbody tr:nth-child(even) {
   margin-top: var(--spacing-16);
 }
 
+.margin-t-24 {
+  margin-top: var(--spacing-24);
+}
+
+.margin-t-32 {
+  margin-top: var(--spacing-32);
+}
+
 .margin-b-2 {
   margin-bottom: var(--spacing-2);
 }
@@ -2181,6 +2202,63 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .margin-b-16 {
   margin-bottom: var(--spacing-16);
+}
+
+.margin-x-2 {
+  margin-left: var(--spacing-2);
+  margin-right: var(--spacing-2);
+}
+
+.margin-x-8 {
+  margin-left: var(--spacing-8);
+  margin-right: var(--spacing-8);
+}
+
+.margin-x-14 {
+  margin-left: var(--spacing-14);
+  margin-right: var(--spacing-14);
+}
+
+.margin-y-4 {
+  margin-top: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+}
+
+.margin-y-16 {
+  margin-top: var(--spacing-16);
+  margin-bottom: var(--spacing-16);
+}
+
+.margin-r-4 {
+  margin-right: var(--spacing-4);
+}
+
+.margin-r-16 {
+  margin-right: var(--spacing-16);
+}
+
+.margin-r-24 {
+  margin-right: var(--spacing-24);
+}
+
+.margin-l-2 {
+  margin-left: var(--spacing-2);
+}
+
+.padding-t-4 {
+  padding-top: var(--spacing-4);
+}
+
+.padding-t-16 {
+  padding-top: var(--spacing-16);
+}
+
+.padding-b-4 {
+  padding-bottom: var(--spacing-4);
+}
+
+.padding-b-16 {
+  padding-bottom: var(--spacing-16);
 }
 
 /* ============================================
@@ -2458,6 +2536,9 @@ table[data-striped] tbody tr:nth-child(even) {
 .left-8 {
   left: var(--spacing-8);
 }
+.right-8 {
+  right: var(--spacing-8);
+}
 
 /* ============================================
    Separator Utilities
@@ -2497,6 +2578,14 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .min-width-32 {
   min-width: var(--spacing-32);
+}
+
+.min-width-36 {
+  min-width: var(--spacing-36);
+}
+
+.min-width-40 {
+  min-width: var(--spacing-40);
 }
 
 .min-width-200 {
@@ -2599,3 +2688,18 @@ table[data-striped] tbody tr:nth-child(even) {
 .dark .group:hover .group-hover\:bg-hover-solid {
   background-color: #2a2a2d;
 }
+
+/* ============================================
+   Position Utilities
+   With --spacing: initial, TW v4 won't generate
+   spacing-based position utilities. Define the
+   ones the DS needs.
+   ============================================ */
+@utility inset-0 { inset: 0; }
+@utility inset-y-0 { top: 0; bottom: 0; }
+@utility top-0 { top: 0; }
+@utility right-0 { right: 0; }
+@utility bottom-0 { bottom: 0; }
+@utility left-0 { left: 0; }
+@utility min-w-0 { min-width: 0px; }
+@utility min-h-0 { min-height: 0px; }

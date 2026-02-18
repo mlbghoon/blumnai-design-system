@@ -21,10 +21,10 @@ export const BUTTON_SIZE_CONFIG = {
     container: 'height-32',
     // Input area: 8px padding all around, 6px gap
     inputPadding: 'padding-8',
-    inputGap: 'gap-6',
+    inputGap: 'ds-gap-6',
     // Inline button: 10px horizontal, 6px vertical, 4px gap
     buttonPadding: 'padding-x-10 padding-y-6',
-    buttonGap: 'gap-4',
+    buttonGap: 'ds-gap-4',
     // Icon size
     iconSize: 16,
   },
@@ -33,10 +33,10 @@ export const BUTTON_SIZE_CONFIG = {
     container: 'height-36',
     // Input area: 8px padding all around, 6px gap
     inputPadding: 'padding-8',
-    inputGap: 'gap-6',
+    inputGap: 'ds-gap-6',
     // Inline button: 10px horizontal, 8px vertical, 4px gap
     buttonPadding: 'padding-x-10 padding-y-8',
-    buttonGap: 'gap-4',
+    buttonGap: 'ds-gap-4',
     // Icon size
     iconSize: 16,
   },

@@ -1,4 +1,4 @@
-export const TOAST_BASE = 'flex items-center gap-12 rounded-card-sm border-default shadow-card padding-x-12 padding-y-10';
+export const TOAST_BASE = 'flex items-center ds-gap-12 rounded-card-sm border-default shadow-card padding-x-12 padding-y-10';
 
 export const TOAST_VARIANT = {
   default: 'bg-basic-gray-subtle',

@@ -16,11 +16,11 @@ const SIZE_STYLES = {
 } as const;
 
 const BUTTON_PADDING = {
-  '2xs': { iconOnly: 'min-w-6 min-h-6', default: 'min-h-6 padding-x-6 padding-y-4' },
-  xs: { iconOnly: 'min-w-7 min-h-7', default: 'min-h-7 padding-x-8 padding-y-4' },
-  sm: { iconOnly: 'min-w-8 min-h-8', default: 'min-h-8 padding-x-10 padding-y-6' },
-  md: { iconOnly: 'min-w-9 min-h-9', default: 'min-h-9 padding-x-12 padding-y-8' },
-  lg: { iconOnly: 'min-w-10 min-h-10', default: 'min-h-10 padding-x-14 padding-y-10' },
+  '2xs': { iconOnly: 'min-width-24 min-height-24', default: 'min-height-24 padding-x-6 padding-y-4' },
+  xs: { iconOnly: 'min-width-28 min-height-28', default: 'min-height-28 padding-x-8 padding-y-4' },
+  sm: { iconOnly: 'min-width-32 min-height-32', default: 'min-height-32 padding-x-10 padding-y-6' },
+  md: { iconOnly: 'min-width-36 min-height-36', default: 'min-height-36 padding-x-12 padding-y-8' },
+  lg: { iconOnly: 'min-width-40 min-height-40', default: 'min-height-40 padding-x-14 padding-y-10' },
 } as const;
 
 /**
@@ -35,7 +35,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
   ({ items, size = 'md', className }, ref) => {
     const currentSize = SIZE_STYLES[size];
     const iconSize = 16;
-    const buttonGap = size === 'lg' || size === 'md' ? 'gap-6' : 'gap-4';
+    const buttonGap = size === 'lg' || size === 'md' ? 'ds-gap-6' : 'ds-gap-4';
 
     const containerClassName = cn(
       'inline-flex items-center justify-start',

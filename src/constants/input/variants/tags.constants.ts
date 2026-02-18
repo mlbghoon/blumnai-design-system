@@ -11,13 +11,13 @@ export const TAG_BASE = 'inline-flex items-center rounded-xs transition-colors b
 // 태그 크기는 입력 필드 크기와 관계없이 동일 (Figma 기준: height 20px, fontSize 12px)
 export const TAG_SIZE_CONFIG = {
   sm: {
-    container: 'height-20 padding-x-2 gap-0',
+    container: 'height-20 padding-x-2 ds-gap-0',
     text: 'size-xs line-height-leading-4 padding-x-4',
     closeButton: 'width-16 height-16',
     iconSize: 14,
   },
   lg: {
-    container: 'height-20 padding-x-2 gap-0',
+    container: 'height-20 padding-x-2 ds-gap-0',
     text: 'size-xs line-height-leading-4 padding-x-4',
     closeButton: 'width-16 height-16',
     iconSize: 14,
@@ -31,10 +31,10 @@ export const TAG_TEXT_STYLE = 'font-body letter-spacing-tracking-tight text-subt
 export const TAG_CLOSE_BUTTON = 'flex items-center justify-center rounded-2xs hover:bg-state-ghost-hover transition-colors cursor-pointer' as const;
 
 // Tags container (for non-inline display - tags below input)
-export const TAGS_CONTAINER = 'flex flex-wrap gap-4 margin-t-8' as const;
+export const TAGS_CONTAINER = 'flex flex-wrap ds-gap-4 margin-t-8' as const;
 
 // Inline tags container (inside the input wrapper)
-export const INLINE_TAGS_CONTAINER = 'flex flex-wrap gap-4 items-center' as const;
+export const INLINE_TAGS_CONTAINER = 'flex flex-wrap ds-gap-4 items-center' as const;
 
 // Tag variant styles (inline = inside input, non-inline = below input)
 export const TAG_VARIANT_STYLES = {

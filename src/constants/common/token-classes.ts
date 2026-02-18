@@ -81,10 +81,10 @@ export const LAYOUT = {
 
 // 공통 Spacing 클래스
 export const SPACING = {
-  p6: 'p-6',
-  py6: 'py-6',
-  px0: 'px-0',
-  pt2: 'pt-2',
+  p6: 'padding-24',
+  py6: '[padding-block:24px]',
+  px0: 'padding-x-0',
+  pt2: '[padding-top:8px]',
 } as const;
 
 // Border Radius 토큰 클래스

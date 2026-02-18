@@ -151,7 +151,7 @@ export const KanbanBoard: Story = {
         onDragEnd={handleDragEnd}
         collisionDetection={closestCorners}
       >
-        <div className="flex gap-16 overflow-x-auto pb-16">
+        <div className="flex ds-gap-16 overflow-x-auto [padding-bottom:64px]">
           {columns.map((column) => (
             <Droppable
               key={column.id}
@@ -159,21 +159,21 @@ export const KanbanBoard: Story = {
               className="w-[280px] flex-shrink-0 bg-muted rounded-lg padding-12"
               overClassName="bg-state-soft"
             >
-              <div className="flex items-center justify-between mb-12">
+              <div className="flex items-center justify-between [margin-bottom:48px]">
                 <h3 className="font-medium size-sm font-body">{column.title}</h3>
                 <span className="padding-x-8 padding-y-2 bg-card rounded-full size-xs font-body">
                   {column.cards.length}
                 </span>
               </div>
 
-              <div className="flex flex-col gap-8 min-h-[200px]">
+              <div className="flex flex-col ds-gap-8 min-h-[200px]">
                 {column.cards.map((card) => (
                   <Draggable key={card.id} id={card.id} data={{ ...card }}>
                     <div className="padding-12 bg-card border-default rounded-lg shadow-sm cursor-grab">
-                      <div className="flex items-start gap-8">
+                      <div className="flex items-start ds-gap-8">
                         {card.priority && (
                           <div
-                            className={`width-8 height-8 rounded-full mt-4 ${priorityColors[card.priority]}`}
+                            className={`width-8 height-8 rounded-full margin-t-16 ${priorityColors[card.priority]}`}
                           />
                         )}
                         <span className="size-sm font-body">{card.title}</span>
@@ -189,10 +189,10 @@ export const KanbanBoard: Story = {
         <DragOverlay>
           {activeCard && (
             <div className="padding-12 bg-card border-highlight rounded-lg shadow-lg cursor-grabbing">
-              <div className="flex items-start gap-8">
+              <div className="flex items-start ds-gap-8">
                 {activeCard.priority && (
                   <div
-                    className={`width-8 height-8 rounded-full mt-4 ${priorityColors[activeCard.priority]}`}
+                    className={`width-8 height-8 rounded-full margin-t-16 ${priorityColors[activeCard.priority]}`}
                   />
                 )}
                 <span className="size-sm font-body">{activeCard.title}</span>
@@ -319,12 +319,12 @@ export const FormBuilder: Story = {
 
     return (
       <DndContext onDragEnd={handleDragEnd}>
-        <div className="flex gap-24">
-          <div className="w-[160px] space-y-8">
-            <h3 className="font-medium size-sm font-body mb-12">컴포넌트</h3>
+        <div className="flex ds-gap-24">
+          <div className="w-[160px] flex flex-col ds-gap-32">
+            <h3 className="font-medium size-sm font-body [margin-bottom:48px]">컴포넌트</h3>
             {palette.map((item) => (
               <Draggable key={item.id} id={item.id} data={{ type: item.type }}>
-                <div className="flex items-center gap-8 padding-12 bg-card border-default rounded-lg shadow-sm cursor-grab hover:border-highlight transition-colors">
+                <div className="flex items-center ds-gap-8 padding-12 bg-card border-default rounded-lg shadow-sm cursor-grab hover:border-highlight transition-colors">
                   <Icon iconType={iconMap[item.type]} size={16} className="text-muted" />
                   <span className="size-sm font-body">{item.label}</span>
                 </div>
@@ -344,10 +344,10 @@ export const FormBuilder: Story = {
               </div>
             ) : (
               <Sortable items={canvasComponents} onReorder={setCanvasComponents}>
-                <div className="flex flex-col gap-12">
+                <div className="flex flex-col ds-gap-12">
                   {canvasComponents.map((component) => (
                     <SortableItem key={component.id} id={component.id} handle>
-                      <div className="group flex items-start gap-12 padding-12 bg-card border-default rounded-lg">
+                      <div className="group flex items-start ds-gap-12 padding-12 bg-card border-default rounded-lg">
                         <DragHandle />
                         <div className="flex-1">{renderFormComponent(component)}</div>
                         <button
@@ -426,16 +426,16 @@ export const FileUploadZone: Story = {
 
     return (
       <DndContext onDragEnd={handleDragEnd}>
-        <div className="space-y-24">
+        <div className="flex flex-col ds-gap-96">
           <div>
-            <h3 className="font-medium size-sm font-body mb-12">파일 목록</h3>
-            <div className="flex flex-wrap gap-12">
+            <h3 className="font-medium size-sm font-body [margin-bottom:48px]">파일 목록</h3>
+            <div className="flex flex-wrap ds-gap-12">
               {availableFiles
                 .filter((f) => !uploadQueue.some((q) => q.id === f.id))
                 .filter((f) => !uploadedFiles.some((u) => u.id === f.id))
                 .map((file) => (
                   <Draggable key={file.id} id={file.id} data={{ ...file }}>
-                    <div className="flex items-center gap-8 padding-12 bg-card border-default rounded-lg shadow-sm cursor-grab">
+                    <div className="flex items-center ds-gap-8 padding-12 bg-card border-default rounded-lg shadow-sm cursor-grab">
                       <Icon iconType={fileIcons[file.type]} size={20} className="text-muted" />
                       <div>
                         <p className="size-sm font-body">{file.name}</p>
@@ -447,14 +447,14 @@ export const FileUploadZone: Story = {
             </div>
           </div>
 
-          <div className="flex gap-16">
+          <div className="flex ds-gap-16">
             <Droppable
               id="upload-zone"
               className="flex-1 min-h-[200px] padding-24 border-2 border-dashed border-default rounded-xl flex flex-col items-center justify-center"
               activeClassName="border-highlight"
               overClassName="bg-state-soft border-highlight"
             >
-              <Icon iconType={['document', 'file-upload']} size={32} className="text-muted mb-12" />
+              <Icon iconType={['document', 'file-upload']} size={32} className="text-muted [margin-bottom:48px]" />
               <p className="size-sm text-muted font-body text-center">
                 파일을 여기로 드래그하여
                 <br />
@@ -462,16 +462,16 @@ export const FileUploadZone: Story = {
               </p>
             </Droppable>
 
-            <div className="w-[280px] space-y-12">
+            <div className="w-[280px] flex flex-col ds-gap-48">
               <h3 className="font-medium size-sm font-body">업로드 대기열</h3>
               {uploadQueue.length === 0 ? (
                 <p className="size-sm text-muted font-body">대기 중인 파일 없음</p>
               ) : (
-                <div className="space-y-8">
+                <div className="flex flex-col ds-gap-32">
                   {uploadQueue.map((file) => (
                     <div
                       key={file.id}
-                      className="flex items-center gap-8 padding-12 bg-card border-default rounded-lg"
+                      className="flex items-center ds-gap-8 padding-12 bg-card border-default rounded-lg"
                     >
                       <Icon iconType={fileIcons[file.type]} size={16} className="text-muted" />
                       <div className="flex-1 min-w-0">
@@ -497,12 +497,12 @@ export const FileUploadZone: Story = {
 
               {uploadedFiles.length > 0 && (
                 <>
-                  <h3 className="font-medium size-sm font-body mt-16">업로드 완료</h3>
-                  <div className="space-y-8">
+                  <h3 className="font-medium size-sm font-body [margin-top:64px]">업로드 완료</h3>
+                  <div className="flex flex-col ds-gap-32">
                     {uploadedFiles.map((file) => (
                       <div
                         key={file.id}
-                        className="flex items-center gap-8 padding-12 bg-green-50 border border-green-200 rounded-lg"
+                        className="flex items-center ds-gap-8 padding-12 bg-green-50 border border-green-200 rounded-lg"
                       >
                         <Icon iconType={['system', 'check']} size={16} className="text-green-600" />
                         <span className="size-sm font-body">{file.name}</span>
@@ -586,7 +586,7 @@ export const TreeView: Story = {
         <div key={node.id}>
           <SortableItem id={node.id} handle>
             <div
-              className="flex items-center gap-8 padding-8 hover:bg-muted rounded-md group"
+              className="flex items-center ds-gap-8 padding-8 hover:bg-muted rounded-md group"
               style={{ paddingLeft: `${depth * 24 + 8}px` }}
             >
               <DragHandle className="opacity-0 group-hover:opacity-100" />
@@ -661,14 +661,14 @@ export const Playlist: Story = {
       <div className="w-[500px] bg-card border-default rounded-xl overflow-hidden">
         <div className="padding-16 border-b border-default">
           <h2 className="font-medium size-lg font-body">내 플레이리스트</h2>
-          <p className="size-sm text-muted font-body mt-4">{songs.length}곡</p>
+          <p className="size-sm text-muted font-body margin-t-16">{songs.length}곡</p>
         </div>
 
         <Sortable items={songs} onReorder={setSongs}>
           <div>
             {songs.map((song, index) => (
               <SortableItem key={song.id} id={song.id} handle>
-                <div className="flex items-center gap-12 padding-12 hover:bg-muted border-b border-default last:border-none group">
+                <div className="flex items-center ds-gap-12 padding-12 hover:bg-muted border-b border-default last:border-none group">
                   <DragHandle className="opacity-0 group-hover:opacity-100" />
                   <span className="width-24 text-center text-muted size-sm font-body">
                     {index + 1}

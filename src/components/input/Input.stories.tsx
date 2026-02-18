@@ -214,9 +214,9 @@ export const AllVariants: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-24 max-w-md">
+      <div className="flex flex-col ds-gap-24 max-w-md">
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Default</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Default</h3>
           <Input
             label="Email"
             placeholder="Enter email"
@@ -227,7 +227,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Shortcut</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Shortcut</h3>
           <Input
             variant="shortcut"
             label="Quick Search"
@@ -238,7 +238,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Tags</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Tags</h3>
           <Input
             variant="tags"
             label="Skills"
@@ -249,7 +249,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Inline Tags</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Inline Tags</h3>
           <Input
             variant="inline-tags"
             label="Technologies"
@@ -260,7 +260,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Tail Dropdown</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Tail Dropdown</h3>
           <Input
             variant="tail-dropdown"
             label="Amount"
@@ -274,7 +274,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Lead Dropdown</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Lead Dropdown</h3>
           <Input
             variant="lead-dropdown"
             label="Phone"
@@ -286,7 +286,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Quantity</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Quantity</h3>
           <Input
             variant="quantity"
             label="Quantity"
@@ -298,7 +298,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Quantity 2 (Compact)</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Quantity 2 (Compact)</h3>
           <Input
             variant="quantity-2"
             label="Quantity"
@@ -310,7 +310,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Tail Button</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Tail Button</h3>
           <Input
             variant="tail-button"
             label="Newsletter"
@@ -320,7 +320,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Lead Button</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Lead Button</h3>
           <Input
             variant="lead-button"
             label="Search"
@@ -330,7 +330,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Add-on</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Add-on</h3>
           <Input
             variant="addon"
             label="Website"
@@ -341,7 +341,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Inline Add-on</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Inline Add-on</h3>
           <Input
             variant="inline-addon"
             label="Price"
@@ -352,7 +352,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Password</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Password</h3>
           <Input
             variant="password"
             label="Password"
@@ -382,7 +382,7 @@ export const WithCount: Story = {
     const [value, setValue] = useState('');
 
     return (
-      <div className="flex flex-col gap-24 max-w-md">
+      <div className="flex flex-col ds-gap-24 max-w-md">
         <Input
           label="Username"
           placeholder="Enter username..."

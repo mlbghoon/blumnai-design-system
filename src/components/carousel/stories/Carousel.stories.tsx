@@ -429,7 +429,7 @@ export const WithApi: Story = {
             Slide {current} of {count}
           </span>
         </div>
-        <div className="flex gap-8 justify-center">
+        <div className="flex ds-gap-8 justify-center">
           <button
             type="button"
             onClick={() => api?.scrollTo(0)}
@@ -527,7 +527,7 @@ export const IndicatorsOnly: Story = {
 export const AllIndicatorVariants: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-32">
+      <div className="flex flex-col ds-gap-32">
         <div>
           <span className="font-body size-sm text-subtle block padding-y-8">Dot</span>
           <div style={{ width: 400 }} className="padding-x-40">
@@ -650,7 +650,7 @@ export const AutoPlayWithControls: Story = {
           </CarouselContent>
           <CarouselPrevious />
           <CarouselNext />
-          <div className="padding-y-16 flex items-center justify-center gap-16">
+          <div className="padding-y-16 flex items-center justify-center ds-gap-16">
             <CarouselIndicators variant="dot" />
             <button
               type="button"
@@ -815,7 +815,7 @@ export const KeyboardNavigation: Story = {
 export const CustomGap: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-32">
+      <div className="flex flex-col ds-gap-32">
         <div>
           <span className="font-body size-sm text-subtle block padding-y-8">gap: 0px</span>
           <div style={{ width: 500 }} className="padding-x-40">

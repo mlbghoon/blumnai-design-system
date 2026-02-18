@@ -116,7 +116,7 @@ export const Default: Story = {
  */
 export const AllSizes: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center">
       <FilterButton label="Filter" size="xs" />
       <FilterButton label="Filter" size="md" />
       <FilterButton label="Filter" size="lg" />
@@ -129,7 +129,7 @@ export const AllSizes: Story = {
  */
 export const AllShapes: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center">
       <FilterButton label="Rounded" shape="rounded" />
       <FilterButton label="Pill" shape="pill" />
     </div>
@@ -141,7 +141,7 @@ export const AllShapes: Story = {
  */
 export const Selected: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center">
       <FilterButton label="Unselected" selected={false} />
       <FilterButton label="Selected" selected={true} />
     </div>
@@ -153,14 +153,14 @@ export const Selected: Story = {
  */
 export const States: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
-      <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-col ds-gap-16">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <span className="text-muted size-sm width-80">Default:</span>
         <FilterButton label="Normal" />
         <FilterButton label="Selected" selected />
         <FilterButton label="Disabled" disabled />
       </div>
-      <div className="flex flex-wrap gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <span className="text-muted size-sm width-80">Pill:</span>
         <FilterButton label="Normal" shape="pill" />
         <FilterButton label="Selected" shape="pill" selected />
@@ -175,7 +175,7 @@ export const States: Story = {
  */
 export const WithCustomIcon: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center">
       <FilterButton label="Filter" icon={['system', 'filter']} />
       <FilterButton label="Settings" icon={['system', 'settings']} />
       <FilterButton label="Search" icon={['system', 'search']} />

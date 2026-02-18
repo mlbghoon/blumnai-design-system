@@ -212,7 +212,7 @@ export const Default: Story = {
           className={args.className}
           width={args.width}
         >
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col ds-gap-8">
             <p className="font-body size-sm font-medium text-default">Popover Content</p>
             <PopoverScrollArea maxHeight={args.maxHeight}>
               <p className="font-body size-sm text-muted">
@@ -239,15 +239,15 @@ export const WithForm: Story = {
         <PopoverTrigger asChild>
           <Button buttonStyle="secondary" onClick={() => setOpen(true)}>Edit Dimensions</Button>
         </PopoverTrigger>
-        <PopoverContent className="w-80">
-          <div className="flex flex-col gap-16">
-            <div className="flex flex-col gap-4">
+        <PopoverContent className="[width:320px]">
+          <div className="flex flex-col ds-gap-16">
+            <div className="flex flex-col ds-gap-4">
               <p className="font-body size-sm font-medium text-default">Dimensions</p>
               <p className="font-body size-xs text-muted">
                 Set the dimensions for the layer.
               </p>
             </div>
-            <div className="flex flex-col gap-12">
+            <div className="flex flex-col ds-gap-12">
               <Input variant="default" label="Width" placeholder="100%" />
               <Input variant="default" label="Height" placeholder="25px" />
             </div>
@@ -271,12 +271,12 @@ export const Positions: Story = {
     const [openLeft, setOpenLeft] = useState(false);
 
     return (
-      <div className="flex gap-16 items-center">
+      <div className="flex ds-gap-16 items-center">
         <Popover open={openTop} onOpenChange={setOpenTop}>
           <PopoverTrigger asChild>
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenTop(true)}>Top</Button>
           </PopoverTrigger>
-          <PopoverContent side="top" className="w-48">
+          <PopoverContent side="top" className="[width:192px]">
             <p className="font-body size-sm text-default">Top position</p>
           </PopoverContent>
         </Popover>
@@ -285,7 +285,7 @@ export const Positions: Story = {
           <PopoverTrigger asChild>
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenRight(true)}>Right</Button>
           </PopoverTrigger>
-          <PopoverContent side="right" className="w-48">
+          <PopoverContent side="right" className="[width:192px]">
             <p className="font-body size-sm text-default">Right position</p>
           </PopoverContent>
         </Popover>
@@ -294,7 +294,7 @@ export const Positions: Story = {
           <PopoverTrigger asChild>
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenBottom(true)}>Bottom</Button>
           </PopoverTrigger>
-          <PopoverContent side="bottom" className="w-48">
+          <PopoverContent side="bottom" className="[width:192px]">
             <p className="font-body size-sm text-default">Bottom position</p>
           </PopoverContent>
         </Popover>
@@ -303,7 +303,7 @@ export const Positions: Story = {
           <PopoverTrigger asChild>
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenLeft(true)}>Left</Button>
           </PopoverTrigger>
-          <PopoverContent side="left" className="w-48">
+          <PopoverContent side="left" className="[width:192px]">
             <p className="font-body size-sm text-default">Left position</p>
           </PopoverContent>
         </Popover>
@@ -324,12 +324,12 @@ export const Alignment: Story = {
     const [openEnd, setOpenEnd] = useState(false);
 
     return (
-      <div className="flex gap-16 items-center">
+      <div className="flex ds-gap-16 items-center">
         <Popover open={openStart} onOpenChange={setOpenStart}>
           <PopoverTrigger asChild>
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenStart(true)}>Start</Button>
           </PopoverTrigger>
-          <PopoverContent align="start" className="w-48">
+          <PopoverContent align="start" className="[width:192px]">
             <p className="font-body size-sm text-default">Aligned to start</p>
           </PopoverContent>
         </Popover>
@@ -338,7 +338,7 @@ export const Alignment: Story = {
           <PopoverTrigger asChild>
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenCenter(true)}>Center</Button>
           </PopoverTrigger>
-          <PopoverContent align="center" className="w-48">
+          <PopoverContent align="center" className="[width:192px]">
             <p className="font-body size-sm text-default">Aligned to center</p>
           </PopoverContent>
         </Popover>
@@ -347,7 +347,7 @@ export const Alignment: Story = {
           <PopoverTrigger asChild>
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenEnd(true)}>End</Button>
           </PopoverTrigger>
-          <PopoverContent align="end" className="w-48">
+          <PopoverContent align="end" className="[width:192px]">
             <p className="font-body size-sm text-default">Aligned to end</p>
           </PopoverContent>
         </Popover>
@@ -369,8 +369,8 @@ export const WithCloseButton: Story = {
         <PopoverTrigger asChild>
           <Button buttonStyle="secondary" onClick={() => setOpen(true)}>Open</Button>
         </PopoverTrigger>
-        <PopoverContent className="w-64">
-          <div className="flex flex-col gap-12">
+        <PopoverContent className="[width:256px]">
+          <div className="flex flex-col ds-gap-12">
             <p className="font-body size-sm text-default">
               This popover has a close button.
             </p>
@@ -392,11 +392,11 @@ export const Programmatic: Story = {
     const [open, setOpen] = useState(false);
 
     return (
-      <div className="flex flex-col gap-16 items-start">
+      <div className="flex flex-col ds-gap-16 items-start">
         <p className="font-body size-sm text-muted">
           Popover는 외부 상태로 제어할 수 있습니다.
         </p>
-        <div className="flex gap-8">
+        <div className="flex ds-gap-8">
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button buttonStyle="secondary" onClick={() => setOpen(true)}>Toggle Popover</Button>
@@ -427,12 +427,12 @@ export const CustomWidth: Story = {
     const [openWide, setOpenWide] = useState(false);
 
     return (
-      <div className="flex gap-16">
+      <div className="flex ds-gap-16">
         <Popover open={openNarrow} onOpenChange={setOpenNarrow}>
           <PopoverTrigger asChild>
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenNarrow(true)}>Narrow</Button>
           </PopoverTrigger>
-          <PopoverContent className="w-48">
+          <PopoverContent className="[width:192px]">
             <p className="font-body size-sm text-default">Narrow popover (192px)</p>
           </PopoverContent>
         </Popover>
@@ -441,7 +441,7 @@ export const CustomWidth: Story = {
           <PopoverTrigger asChild>
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenWide(true)}>Wide</Button>
           </PopoverTrigger>
-          <PopoverContent className="w-96">
+          <PopoverContent className="[width:384px]">
             <p className="font-body size-sm text-default">Wide popover (384px)</p>
           </PopoverContent>
         </Popover>

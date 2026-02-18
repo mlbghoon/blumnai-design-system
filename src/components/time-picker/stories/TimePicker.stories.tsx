@@ -188,7 +188,7 @@ export const TimeFormats: Story = {
     const [time24, setTime24] = useState<TimeValue | undefined>({ hour: 14, minute: 30 });
     const [time12, setTime12] = useState<TimeValue | undefined>({ hour: 14, minute: 30 });
     return (
-      <div className="flex flex-col gap-16" style={{ width: 200 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 200 }}>
         <TimePicker
           label="24-hour format"
           timeFormat="24h"
@@ -233,7 +233,7 @@ export const Sizes: Story = {
     const [timeSm, setTimeSm] = useState<TimeValue | undefined>();
     const [timeLg, setTimeLg] = useState<TimeValue | undefined>();
     return (
-      <div className="flex flex-col gap-16" style={{ width: 200 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 200 }}>
         <TimePicker
           label="Small (sm)"
           size="sm"
@@ -260,7 +260,7 @@ export const Styles: Story = {
     const [time2, setTime2] = useState<TimeValue | undefined>();
     const [time3, setTime3] = useState<TimeValue | undefined>();
     return (
-      <div className="flex flex-col gap-16" style={{ width: 200 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 200 }}>
         <TimePicker
           label="Default"
           timePickerStyle="default"
@@ -439,7 +439,7 @@ export const Controlled: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-16" style={{ width: 200 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 200 }}>
         <TimePicker
           label="Controlled Time"
           value={time}

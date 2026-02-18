@@ -94,7 +94,7 @@ export const statusBadgePositions = {
   '3xl': { circular: { x: 0, y: 0 }, rounded: { x: 0, y: 0 } },
 } as const;
 
-export const CONTAINER_BASE_CLASSES = 'relative inline-flex shrink-0 p-0.5';
+export const CONTAINER_BASE_CLASSES = 'relative inline-flex shrink-0 padding-2';
 
 // 링 래퍼 - 컨테이너 중앙에 배치
 export const RING_BASE_CLASSES = 'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 shrink-0';

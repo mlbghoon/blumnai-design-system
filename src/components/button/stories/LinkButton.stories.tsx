@@ -143,7 +143,7 @@ export const Default: Story = {
  */
 export const AllTypes: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-16 items-center">
+    <div className="flex flex-wrap ds-gap-16 items-center">
       <LinkButton label="Default" linkType="default" />
       <LinkButton label="Muted" linkType="muted" />
       <LinkButton label="Informative" linkType="informative" />
@@ -156,7 +156,7 @@ export const AllTypes: Story = {
  */
 export const AllSizes: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center">
       <LinkButton label="Small" size="sm" />
       <LinkButton label="Medium" size="md" />
       <LinkButton label="Large" size="lg" />
@@ -169,7 +169,7 @@ export const AllSizes: Story = {
  */
 export const IconPositions: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center">
       <LinkButton label="Lead Icon" leadIcon={['system', 'link']} tailIcon={undefined} />
       <LinkButton label="Tail Icon" tailIcon={['system', 'external-link']} />
       <LinkButton label="Both Icons" leadIcon={['system', 'link']} tailIcon={['system', 'external-link']} />
@@ -182,18 +182,18 @@ export const IconPositions: Story = {
  */
 export const States: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
-      <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-col ds-gap-16">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <span className="text-muted size-sm width-80">Default:</span>
         <LinkButton label="Normal" linkType="default" />
         <LinkButton label="Disabled" linkType="default" disabled />
       </div>
-      <div className="flex flex-wrap gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <span className="text-muted size-sm width-80">Muted:</span>
         <LinkButton label="Normal" linkType="muted" />
         <LinkButton label="Disabled" linkType="muted" disabled />
       </div>
-      <div className="flex flex-wrap gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center">
         <span className="text-muted size-sm width-80">Informative:</span>
         <LinkButton label="Normal" linkType="informative" />
         <LinkButton label="Disabled" linkType="informative" disabled />
@@ -207,7 +207,7 @@ export const States: Story = {
  */
 export const WithHref: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center">
       <LinkButton label="Open Link" href="https://example.com" />
       <LinkButton label="Open in New Tab" href="https://example.com" openInNewTab />
     </div>

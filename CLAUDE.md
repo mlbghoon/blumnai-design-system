@@ -66,7 +66,7 @@ const labelClassName = cn(
 ## Spacing & Sizing (CRITICAL)
 
 **NEVER use arbitrary values like `w-[14px]`, `h-[10px]`, `left-[1px]`, etc.**
-**NEVER use Tailwind default spacing classes like `w-16`, `h-8`, `p-4`, `px-2`, `gap-4`, etc.**
+**NEVER use Tailwind default spacing classes like `w-16`, `h-8`, `p-4`, `px-2`, `gap-4`, `mt-4`, `mx-2`, etc.**
 
 ### Padding
 Use design system padding utility classes:
@@ -77,6 +77,18 @@ Use design system padding utility classes:
 
 Available padding-x: `padding-x-0`, `padding-x-1`, `padding-x-2`, `padding-x-4`, `padding-x-6`, `padding-x-8`, `padding-x-10`, `padding-x-12`, `padding-x-14`, `padding-x-16`
 Available padding-y: `padding-y-0`, `padding-y-1`, `padding-y-2`, `padding-y-4`, `padding-y-6`, `padding-y-8`, `padding-y-10`, `padding-y-12`, `padding-y-16`
+Available padding-t: `padding-t-4`, `padding-t-16`
+Available padding-b: `padding-b-4`, `padding-b-16`
+
+### Margin
+Use design system margin utility classes:
+- `margin-0` for all sides
+- `margin-x-*` for horizontal margin (left + right): `margin-x-2`, `margin-x-8`, `margin-x-14`
+- `margin-y-*` for vertical margin (top + bottom): `margin-y-4`, `margin-y-16`
+- `margin-t-*` for top margin: `margin-t-24`, `margin-t-32`
+- `margin-r-*` for right margin: `margin-r-4`, `margin-r-16`, `margin-r-24`
+- `margin-l-*` for left margin: `margin-l-2`
+- NOT `mt-4`, `mx-2`, `my-4` (Tailwind defaults)
 
 ### Width & Height
 Use design system utility classes from `utilities.css`:
@@ -85,9 +97,11 @@ Use design system utility classes from `utilities.css`:
 - NOT `w-16`, `h-16` (Tailwind defaults)
 
 ### Gap
-Use `gap-*` classes:
-- `gap-0`, `gap-1`, `gap-2`, `gap-4`, `gap-6`, `gap-8`, `gap-10`, `gap-12`, `gap-16`, `gap-20`, `gap-24`
+Use `ds-gap-*` classes (prefixed to avoid Tailwind collision):
+- `ds-gap-0`, `ds-gap-1`, `ds-gap-2`, `ds-gap-4`, `ds-gap-6`, `ds-gap-8`, `ds-gap-10`, `ds-gap-12`, `ds-gap-16`, `ds-gap-20`, `ds-gap-24`, `ds-gap-32`
+- NOT `gap-4`, `gap-8` (Tailwind defaults — these conflict with consuming projects)
 - NOT `gap-[6px]` or other arbitrary values
+- Responsive variants work: `md:ds-gap-0`, `sm:ds-gap-8`, etc.
 
 ### Examples:
 ```tsx
@@ -96,13 +110,15 @@ Use `gap-*` classes:
 'width-10 height-2'            // 10px × 2px
 'padding-x-12 padding-y-8'     // 12px horizontal, 8px vertical padding
 'padding-6'                    // 6px padding all sides
-'gap-8'                        // 8px gap
+'ds-gap-8'                     // 8px gap
 
 // WRONG - Never use these
 'w-16 h-16'            // WRONG! Use width-16 height-16
 'w-[14px] h-[14px]'    // WRONG! Use width-14 height-14
 'p-4 px-2 py-1'        // WRONG! Use padding-4, padding-x-2, padding-y-1
-'gap-[6px]'            // WRONG! Use gap-6
+'gap-8'                // WRONG! Use ds-gap-8
+'gap-[6px]'            // WRONG! Use ds-gap-6
+'mt-4 mx-2'            // WRONG! Use margin-t-16, margin-x-8
 ```
 
 ### Border Radius
@@ -330,8 +346,8 @@ After adding a shadcn component, you MUST customize it to use design system clas
 | `p-4` | `padding-16` |
 | `px-4` | `padding-x-16` |
 | `py-2` | `padding-y-8` |
-| `gap-2` | `gap-8` |
-| `gap-4` | `gap-16` |
+| `gap-2` | `ds-gap-8` |
+| `gap-4` | `ds-gap-16` |
 | `h-9` | `height-36` |
 | `h-10` | `height-40` |
 
@@ -840,7 +856,7 @@ export const WithClearButton: Story = {
 // CORRECT - Shows clean, realistic code
 export const WithIcons: Story = {
   render: () => (
-    <div className="flex gap-12">
+    <div className="flex ds-gap-12">
       <Button leadIcon={['system', 'add']}>Add</Button>
       <Button tailIcon={['system', 'check']}>Confirm</Button>
     </div>
@@ -883,7 +899,7 @@ export const Example: Story = {
 // CORRECT - Shows multiple variants together
 export const AllSizes: Story = {
   render: () => (
-    <div className="flex gap-12 items-center">
+    <div className="flex ds-gap-12 items-center">
       <Button size="sm">Small</Button>
       <Button size="md">Medium</Button>
       <Button size="lg">Large</Button>
@@ -891,6 +907,14 @@ export const AllSizes: Story = {
   ),
 };
 ```
+
+## Tailwind `--spacing` Override (CRITICAL)
+
+The design system sets `--spacing: initial` in its `@theme` block (`src/index.css`). This prevents Tailwind v4 from generating multiplicative spacing utilities (`gap-*`, `p-*`, `m-*`, `w-*`, `h-*`, `space-*`) in the built CSS.
+
+**Why:** Tailwind's default `--spacing: 0.25rem` means `gap-8 = 32px`, but the DS uses `gap-8 = 8px` (1px-per-unit). Setting `--spacing: initial` removes all TW-generated spacing classes from the output. The DS provides its own utilities (`ds-gap-*`, `padding-*`, `margin-*`, `width-*`, `height-*`) that map directly to pixel-based spacing tokens.
+
+**For consuming projects:** Your project's Tailwind keeps its own `--spacing` value. The DS's `--spacing: initial` only affects the DS build output. Standard TW classes like `p-4`, `mt-2`, `gap-8` work normally in consuming projects — they just won't collide with DS utilities anymore.
 
 ## CSS Layers — Intentionally Unlayered (CRITICAL)
 

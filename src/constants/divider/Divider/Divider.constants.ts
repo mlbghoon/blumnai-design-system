@@ -6,4 +6,4 @@ export const ICON_CONTAINER = 'flex items-center shrink-0';
 export const ICON_SIZE = 20;
 export const ICON_COLOR = 'var(--icon-muted)';
 export const CONTAINER_BASE = 'flex items-center w-full';
-export const CONTAINER_WITH_CONTENT = 'flex items-center w-full gap-8';
+export const CONTAINER_WITH_CONTENT = 'flex items-center w-full ds-gap-8';

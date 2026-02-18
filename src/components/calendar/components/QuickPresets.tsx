@@ -22,7 +22,7 @@ export const QuickPresets = ({
   return (
     <div
       className={cn(
-        'flex flex-col gap-4 padding-8',
+        'flex flex-col ds-gap-4 padding-8',
         'w-[160px] self-stretch',
         'border-r-default',
         className

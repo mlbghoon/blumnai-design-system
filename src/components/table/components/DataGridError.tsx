@@ -13,7 +13,7 @@ export function DataGridError({ error, onRetry }: DataGridErrorProps) {
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center padding-24 gap-12',
+        'flex flex-col items-center justify-center padding-24 ds-gap-12',
         'min-height-200'
       )}
     >

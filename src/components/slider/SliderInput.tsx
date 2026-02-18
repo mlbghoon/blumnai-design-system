@@ -81,7 +81,7 @@ const SliderInput = React.forwardRef<
           {label}
         </label>
       )}
-      <div className="flex items-center gap-16">
+      <div className="flex items-center ds-gap-16">
         <div className="flex-1 flex flex-col">
           <SliderPrimitive.Root
             ref={ref}

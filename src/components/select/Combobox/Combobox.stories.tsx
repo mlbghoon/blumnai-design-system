@@ -502,7 +502,7 @@ export const AllSizes: Story = {
     const [lgValue, setLgValue] = useState<string>();
 
     return (
-      <div className="flex flex-col gap-16 max-w-sm">
+      <div className="flex flex-col ds-gap-16 max-w-sm">
         <Combobox
           variant="default"
           label="Small (sm)"
@@ -536,7 +536,7 @@ export const AllStyles: Story = {
     const [softValue, setSoftValue] = useState<string>();
 
     return (
-      <div className="flex flex-col gap-16 max-w-sm">
+      <div className="flex flex-col ds-gap-16 max-w-sm">
         <Combobox
           variant="default"
           label="Default style"
@@ -579,9 +579,9 @@ export const AllVariants: Story = {
     const [tagsValue, setTagsValue] = useState<string[]>(['react', 'next']);
 
     return (
-      <div className="flex flex-col gap-24 max-w-md">
+      <div className="flex flex-col ds-gap-24 max-w-md">
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Default</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Default</h3>
           <Combobox
             variant="default"
             label="Select fruit"
@@ -593,7 +593,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Avatar</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Avatar</h3>
           <Combobox
             variant="avatar"
             label="Assign to"
@@ -605,7 +605,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-8">Tags</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Tags</h3>
           <Combobox
             variant="tags"
             label="Technologies"

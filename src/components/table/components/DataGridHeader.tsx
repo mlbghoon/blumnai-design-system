@@ -35,7 +35,7 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight }: DataGridHea
     <div
       role="columnheader"
       className={cn(
-        'padding-x-10 flex items-center gap-4',
+        'padding-x-10 flex items-center ds-gap-4',
         'font-body size-xs line-height-leading-4 font-medium text-subtle',
         'border-r-default last:border-r-0',
         align === 'center' && 'justify-center',
@@ -63,7 +63,7 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight }: DataGridHea
           : render(header.column.columnDef.header, header.getContext())}
       </span>
       {canSort && (
-        <div className="flex items-center gap-1 shrink-0">
+        <div className="flex items-center ds-gap-1 shrink-0">
           <Icon
             iconType={['arrows', getSortIcon()]}
             size={12}

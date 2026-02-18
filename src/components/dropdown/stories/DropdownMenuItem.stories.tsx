@@ -509,8 +509,8 @@ export const KeyboardShortcutBinding: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-16">
-        <p className="m-0 size-sm text-subtle">
+      <div className="flex flex-col ds-gap-16">
+        <p className="margin-0size-sm text-subtle">
           메뉴를 열고 단축키를 눌러 onClick이 실행되는 것을 확인하세요.
         </p>
         <DropdownMenu>
@@ -545,9 +545,9 @@ export const KeyboardShortcutBinding: Story = {
         </DropdownMenu>
         {log.length > 0 && (
           <div className="padding-12 bg-subtle rounded-md">
-            <p className="m-0 size-xs text-muted font-medium">Event Log</p>
+            <p className="margin-0size-xs text-muted font-medium">Event Log</p>
             {log.map((entry, i) => (
-              <p key={i} className="m-0 size-xs text-subtle">{entry}</p>
+              <p key={i} className="margin-0size-xs text-subtle">{entry}</p>
             ))}
           </div>
         )}

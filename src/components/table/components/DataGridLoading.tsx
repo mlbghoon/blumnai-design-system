@@ -22,7 +22,7 @@ export function DataGridLoading<T>({
   if (overlay) {
     return (
       <div className="absolute inset-0 flex items-center justify-center bg-default/80 z-20">
-        <div className="flex items-center gap-8">
+        <div className="flex items-center ds-gap-8">
           <div className="width-20 height-20 border-2 border-state-primary border-t-transparent rounded-full animate-spin" />
           <span className="font-body size-sm text-subtle">로딩 중...</span>
         </div>
@@ -62,7 +62,7 @@ export function DataGridLoading<T>({
                 }}
               >
                 <div
-                  className="h-4 bg-basic-gray-alpha-10 rounded"
+                  className="height-16 bg-basic-gray-alpha-10 rounded"
                   style={{
                     width: `${Math.random() * 40 + 40}%`,
                   }}

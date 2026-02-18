@@ -57,10 +57,10 @@ const DrawerContent = React.forwardRef<
         ref={ref}
         className={cn(
           "fixed z-50 flex bg-background border",
-          direction === "bottom" && "inset-x-0 bottom-0 mt-24 h-auto flex-col rounded-t-lg",
-          direction === "top" && "inset-x-0 top-0 mb-24 h-auto flex-col rounded-b-lg",
-          direction === "left" && "inset-y-0 left-0 mr-24 w-auto h-full flex-col rounded-r-lg",
-          direction === "right" && "inset-y-0 right-0 ml-24 w-auto h-full flex-col rounded-l-lg",
+          direction === "bottom" && "inset-x-0 bottom-0 [margin-top:96px] h-auto flex-col rounded-t-lg",
+          direction === "top" && "inset-x-0 top-0 [margin-bottom:96px] h-auto flex-col rounded-b-lg",
+          direction === "left" && "inset-y-0 left-0 [margin-right:96px] w-auto h-full flex-col rounded-r-lg",
+          direction === "right" && "inset-y-0 right-0 [margin-left:96px] w-auto h-full flex-col rounded-l-lg",
           className
         )}
         {...props}
@@ -69,8 +69,8 @@ const DrawerContent = React.forwardRef<
           <div
             className={cn(
               "mx-auto height-8 w-[100px] rounded-full bg-muted",
-              direction === "bottom" && "mt-4",
-              direction === "top" && "mb-4 mt-auto order-last"
+              direction === "bottom" && "margin-t-16",
+              direction === "top" && "margin-b-16 mt-auto order-last"
             )}
           />
         )}
@@ -78,8 +78,8 @@ const DrawerContent = React.forwardRef<
           <div
             className={cn(
               "my-auto width-8 h-[100px] rounded-full bg-muted",
-              direction === "left" && "ml-auto mr-4",
-              direction === "right" && "mr-auto ml-4"
+              direction === "left" && "ml-auto margin-r-16",
+              direction === "right" && "mr-auto [margin-left:16px]"
             )}
           />
         )}
@@ -95,7 +95,7 @@ const DrawerHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("grid gap-6 padding-16 text-center sm:text-left", className)}
+    className={cn("grid ds-gap-6 padding-16 text-center sm:text-left", className)}
     {...props}
   />
 )
@@ -106,7 +106,7 @@ const DrawerFooter = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("mt-auto flex flex-col gap-8 padding-16", className)}
+    className={cn("mt-auto flex flex-col ds-gap-8 padding-16", className)}
     {...props}
   />
 )

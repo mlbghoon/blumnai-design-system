@@ -194,7 +194,7 @@ export const TimeFormats: Story = {
       end: { hour: 17, minute: 0 },
     });
     return (
-      <div className="flex flex-col gap-16" style={{ width: 380 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 380 }}>
         <TimeRangePicker
           label="24-hour format"
           timeFormat="24h"
@@ -242,7 +242,7 @@ export const Sizes: Story = {
     const [rangeSm, setRangeSm] = useState<TimeRange | undefined>();
     const [rangeLg, setRangeLg] = useState<TimeRange | undefined>();
     return (
-      <div className="flex flex-col gap-16" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <TimeRangePicker
           label="Small (sm)"
           size="sm"
@@ -269,7 +269,7 @@ export const Styles: Story = {
     const [range2, setRange2] = useState<TimeRange | undefined>();
     const [range3, setRange3] = useState<TimeRange | undefined>();
     return (
-      <div className="flex flex-col gap-16" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <TimeRangePicker
           label="Default"
           timePickerStyle="default"
@@ -476,7 +476,7 @@ export const Controlled: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-16" style={{ width: 320 }}>
+      <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <TimeRangePicker
           label="Controlled Time Range"
           value={range}

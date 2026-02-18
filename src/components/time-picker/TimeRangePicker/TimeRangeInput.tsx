@@ -461,7 +461,7 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
     const period = part === 'start' ? startPeriod : endPeriod;
 
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center ds-gap-2">
         {renderSegment(part, 'hour')}
         <span className="text-hint size-sm">:</span>
         {renderSegment(part, 'minute')}
@@ -499,7 +499,7 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
       className={wrapperClassName}
     >
       <div
-        className="flex items-center gap-8 flex-1 min-w-0"
+        className="flex items-center ds-gap-8 flex-1 min-w-0"
         onClick={handleInputAreaClick}
       >
         {renderTimePart('start')}

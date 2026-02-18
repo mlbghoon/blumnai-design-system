@@ -99,7 +99,7 @@ const SliderRangeInput = React.forwardRef<
           {label}
         </label>
       )}
-      <div className="flex items-end gap-12">
+      <div className="flex items-end ds-gap-12">
         <div className="relative flex items-center">
           <input
             type="text"

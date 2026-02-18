@@ -122,7 +122,7 @@ export const Default: Story = {
   render: function Render(args) {
     const [value, setValue] = useState('card1');
     return (
-      <RadioGroup value={value} onValueChange={setValue} className="flex flex-col gap-12">
+      <RadioGroup value={value} onValueChange={setValue} className="flex flex-col ds-gap-12">
         <RadioCard
           value="card1"
           title={args.title}
@@ -205,7 +205,7 @@ export const Backgrounds: Story = {
     const [value4, setValue4] = useState('checked');
 
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <RadioGroup value={value1} onValueChange={setValue1}>
           <RadioCard
             value="unchecked"
@@ -254,7 +254,7 @@ export const RadioPositions: Story = {
   render: function Render() {
     const [value, setValue] = useState('right');
     return (
-      <RadioGroup value={value} onValueChange={setValue} className="flex flex-col gap-16">
+      <RadioGroup value={value} onValueChange={setValue} className="flex flex-col ds-gap-16">
         <RadioCard
           value="left"
           title="Radio on Left"
@@ -338,7 +338,7 @@ export const Disabled: Story = {
     const [value2, setValue2] = useState('checked');
 
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <RadioGroup value={value1} onValueChange={setValue1}>
           <RadioCard
             value="unchecked"
@@ -380,8 +380,8 @@ export const MultipleCards: Story = {
     ];
 
     return (
-      <div className="flex flex-col gap-12">
-        <RadioGroup value={value} onValueChange={setValue} className="flex flex-col gap-12">
+      <div className="flex flex-col ds-gap-12">
+        <RadioGroup value={value} onValueChange={setValue} className="flex flex-col ds-gap-12">
           {plans.map((plan) => (
             <RadioCard
               key={plan.id}
@@ -393,7 +393,7 @@ export const MultipleCards: Story = {
             />
           ))}
         </RadioGroup>
-        <p className="size-xs text-muted mt-8">
+        <p className="size-xs text-muted margin-t-32">
           선택됨: {value || '없음'}
         </p>
       </div>

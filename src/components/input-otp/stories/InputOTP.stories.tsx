@@ -137,7 +137,7 @@ export const Controlled: Story = {
     const [value, setValue] = React.useState('');
 
     return (
-      <div className="flex flex-col gap-16 items-center">
+      <div className="flex flex-col ds-gap-16 items-center">
         <InputOTP maxLength={6} value={value} onChange={setValue}>
           <InputOTPGroup>
             <InputOTPSlot index={0} />
@@ -173,8 +173,8 @@ export const FormExample: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-16 w-[300px]">
-        <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-16 w-[300px]">
+        <div className="flex flex-col ds-gap-8">
           <h3 className="size-md font-body font-semibold line-height-leading-5">
             인증 코드 입력
           </h3>

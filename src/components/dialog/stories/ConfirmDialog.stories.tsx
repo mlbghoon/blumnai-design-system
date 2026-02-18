@@ -264,7 +264,7 @@ export const AllVariants: Story = {
     const [openDestructive, setOpenDestructive] = useState(false);
 
     return (
-      <div className="flex gap-12">
+      <div className="flex ds-gap-12">
         <Button buttonStyle="primary" onClick={() => setOpenDefault(true)}>
           Default
         </Button>

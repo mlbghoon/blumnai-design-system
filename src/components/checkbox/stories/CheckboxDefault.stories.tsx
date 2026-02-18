@@ -169,13 +169,13 @@ export const WithDescription: Story = {
  */
 export const AllStatesWithDescription: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
-      <div className="flex gap-24">
+    <div className="flex flex-col ds-gap-24">
+      <div className="flex ds-gap-24">
         <Checkbox checked={false} label="Title" description="Description" />
         <Checkbox checked={true} label="Title" description="Description" />
         <Checkbox checked="indeterminate" label="Title" description="Description" />
       </div>
-      <div className="flex gap-24">
+      <div className="flex ds-gap-24">
         <Checkbox disabled checked={false} label="Title" description="Description" />
         <Checkbox disabled checked={true} label="Title" description="Description" />
         <Checkbox disabled checked="indeterminate" label="Title" description="Description" />
@@ -193,7 +193,7 @@ export const AllStatesWithDescription: Story = {
  */
 export const CheckedStates: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col ds-gap-16">
       <Checkbox checked={false} label="Unchecked" />
       <Checkbox checked={true} label="Checked" />
       <Checkbox checked="indeterminate" label="Indeterminate" />
@@ -206,7 +206,7 @@ export const CheckedStates: Story = {
  */
 export const DisabledStates: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col ds-gap-16">
       <Checkbox disabled checked={false} label="Disabled Unchecked" />
       <Checkbox disabled checked={true} label="Disabled Checked" />
       <Checkbox disabled checked="indeterminate" label="Disabled Indeterminate" />
@@ -223,7 +223,7 @@ export const DisabledStates: Story = {
  */
 export const StyleDefault: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col ds-gap-16">
       <Checkbox checked={false} checkboxStyle="default" label="Default Style (Unchecked)" />
       <Checkbox checked={true} checkboxStyle="default" label="Default Style (Checked)" />
     </div>
@@ -235,7 +235,7 @@ export const StyleDefault: Story = {
  */
 export const StyleWithShadow: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col ds-gap-16">
       <Checkbox checked={false} checkboxStyle="with-shadow" label="With Shadow Style (Unchecked)" />
       <Checkbox checked={true} checkboxStyle="with-shadow" label="With Shadow Style (Checked)" />
     </div>
@@ -251,7 +251,7 @@ export const StyleWithShadow: Story = {
  */
 export const CheckboxPositions: Story = {
   render: () => (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col ds-gap-16">
       <Checkbox checked={false} checkboxPosition="left" label="Checkbox on Left" description="Default position" />
       <Checkbox checked={true} checkboxPosition="right" label="Checkbox on Right" description="Alternative position" />
     </div>
@@ -278,7 +278,7 @@ export const MultipleSelection: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col ds-gap-12">
         <Checkbox
           checked={selected.includes('option1')}
           onCheckedChange={handleChange('option1')}
@@ -294,7 +294,7 @@ export const MultipleSelection: Story = {
           onCheckedChange={handleChange('option3')}
           label="옵션 3"
         />
-        <p className="size-xs text-muted mt-8">선택됨: {selected.join(', ') || '없음'}</p>
+        <p className="size-xs text-muted margin-t-32">선택됨: {selected.join(', ') || '없음'}</p>
       </div>
     );
   },
@@ -333,13 +333,13 @@ export const SelectAll: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col ds-gap-12">
         <Checkbox
           checked={parentState}
           onCheckedChange={handleParentChange}
           label="전체 선택"
         />
-        <div className="flex flex-col gap-8" style={{ marginLeft: '24px' }}>
+        <div className="flex flex-col ds-gap-8" style={{ marginLeft: '24px' }}>
           {items.map((item) => (
             <Checkbox
               key={item.id}

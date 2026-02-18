@@ -446,7 +446,7 @@ export const AllStyles: Story = {
     const styles: Array<TextareaProps['textareaStyle']> = ['default', 'shadow', 'soft'];
 
     return (
-      <div className="flex flex-col gap-24 max-w-md">
+      <div className="flex flex-col ds-gap-24 max-w-md">
         {styles.map((style) => (
           <Textarea
             key={style}
@@ -468,7 +468,7 @@ export const AllSizes: Story = {
     const sizes: Array<TextareaProps['size']> = ['sm', 'lg'];
 
     return (
-      <div className="flex flex-col gap-24 max-w-md">
+      <div className="flex flex-col ds-gap-24 max-w-md">
         {sizes.map((size) => (
           <Textarea
             key={size}
@@ -487,7 +487,7 @@ export const AllSizes: Story = {
  */
 export const AllStates: Story = {
   render: () => (
-    <div className="flex flex-col gap-24 max-w-md">
+    <div className="flex flex-col ds-gap-24 max-w-md">
       <Textarea
         label="Default"
         placeholder="Default state..."
@@ -533,7 +533,7 @@ export const ToolbarStyles: Story = {
     ];
 
     return (
-      <div className="flex flex-col gap-24 max-w-md">
+      <div className="flex flex-col ds-gap-24 max-w-md">
         {styles.map((style) => (
           <Textarea
             key={style}

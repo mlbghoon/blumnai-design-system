@@ -37,14 +37,14 @@ export const InputLabel = ({
   ...props
 }: InputLabelProps) => {
   return (
-    <div className="flex items-center gap-4 margin-b-4">
+    <div className="flex items-center ds-gap-4 margin-b-4">
       <label
         htmlFor={htmlFor}
         className={cn(LABEL_STYLE, 'select-none', className)}
         {...props}
       >
         {children}
-        {required && <span className={cn(REQUIRED_STYLE, 'ml-0.5')}>*</span>}
+        {required && <span className={cn(REQUIRED_STYLE, 'margin-l-2')}>*</span>}
       </label>
       {supportText && (
         <span className={SUPPORT_TEXT_STYLE}>{supportText}</span>

@@ -45,8 +45,8 @@ const useTabsContext = () => React.useContext(TabsContext);
 const Tabs = TabsPrimitive.Root;
 
 const UNDERLINE_LIST_SIZE_STYLES = {
-  sm: 'gap-12',
-  lg: 'gap-16',
+  sm: 'ds-gap-12',
+  lg: 'ds-gap-16',
 } as const;
 
 const TabsList = React.forwardRef<
@@ -63,8 +63,8 @@ const TabsList = React.forwardRef<
         ref={ref}
         className={cn(
           'inline-flex items-center',
-          variant === 'pill' && 'gap-8',
-          variant === 'segmented' && ['gap-2 padding-2', containerRadiusClass, 'bg-state-soft'],
+          variant === 'pill' && 'ds-gap-8',
+          variant === 'segmented' && ['ds-gap-2 padding-2', containerRadiusClass, 'bg-state-soft'],
           variant === 'underline' && ['border-b-default', UNDERLINE_LIST_SIZE_STYLES[size]],
           type === 'fixed' && 'w-full',
           'data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start',
@@ -80,11 +80,11 @@ const TabsList = React.forwardRef<
 });
 TabsList.displayName = TabsPrimitive.List.displayName;
 
-const PILL_SEGMENTED_TRIGGER_STYLES = 'height-28 padding-x-8 padding-y-4 gap-4';
+const PILL_SEGMENTED_TRIGGER_STYLES = 'height-28 padding-x-8 padding-y-4 ds-gap-4';
 
 const UNDERLINE_TRIGGER_SIZE_STYLES = {
-  sm: 'height-40 padding-y-6 gap-4',
-  lg: 'height-48 padding-y-6 gap-4',
+  sm: 'height-40 padding-y-6 ds-gap-4',
+  lg: 'height-48 padding-y-6 ds-gap-4',
 } as const;
 
 const ICON_SIZE = {
@@ -162,7 +162,7 @@ const TabsTrigger = React.forwardRef<
       {variant === 'underline' ? (
         <span
           className={cn(
-            'inline-flex items-center justify-center gap-4',
+            'inline-flex items-center justify-center ds-gap-4',
             'height-28 padding-x-6 rounded-md',
             'group-focus-visible:[box-shadow:0_0_0_2px_var(--border-highlight-accent)]'
           )}

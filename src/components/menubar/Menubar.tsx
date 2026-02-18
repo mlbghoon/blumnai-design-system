@@ -25,7 +25,7 @@ const Menubar = React.forwardRef<
   <MenubarPrimitive.Root
     ref={ref}
     className={cn(
-      "flex height-36 items-center gap-4 rounded-lg border-default bg-card padding-4",
+      "flex height-36 items-center ds-gap-4 rounded-lg border-default bg-card padding-4",
       className
     )}
     {...props}
@@ -144,7 +144,7 @@ const MenubarSubTrigger = React.forwardRef<
   <MenubarPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "flex cursor-default select-none items-center gap-8 rounded-sm padding-x-8 padding-y-6 size-sm font-body line-height-leading-5 text-default outline-none",
+      "flex cursor-default select-none items-center ds-gap-8 rounded-sm padding-x-8 padding-y-6 size-sm font-body line-height-leading-5 text-default outline-none",
       "focus:bg-accent data-[state=open]:bg-accent",
       inset && "padding-l-32",
       className
@@ -204,7 +204,7 @@ const MenubarItem = React.forwardRef<
     <MenubarPrimitive.Item
       ref={mergeRefs}
       className={cn(
-        "relative flex cursor-default select-none items-center gap-8 rounded-sm padding-x-8 size-sm font-body line-height-leading-5 outline-none transition-colors",
+        "relative flex cursor-default select-none items-center ds-gap-8 rounded-sm padding-x-8 size-sm font-body line-height-leading-5 outline-none transition-colors",
         isLarge ? "padding-y-8" : "padding-y-6",
         destructive
           ? "text-destructive focus:bg-state-destructive-soft focus:text-destructive"
@@ -231,7 +231,7 @@ const MenubarItem = React.forwardRef<
       )}
 
       {isLarge && description ? (
-        <div className="flex flex-col flex-1 min-w-0 gap-1">
+        <div className="flex flex-col flex-1 min-w-0 ds-gap-1">
           <span className="truncate">{children}</span>
           <span className="font-body size-xs line-height-leading-4 text-muted truncate">
             {description}

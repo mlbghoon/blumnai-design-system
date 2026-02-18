@@ -211,11 +211,11 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
         document.body
       )}
       {showLegend && (
-        <div className="mt-4 px-4 pb-4 flex flex-wrap justify-center gap-4" role="list" aria-label="Chart legend">
+        <div className="margin-t-16 padding-x-16 padding-b-16 flex flex-wrap justify-center ds-gap-4" role="list" aria-label="Chart legend">
           {slices.map((slice, index) => (
-            <div key={`legend-${index}`} className="flex items-center gap-2" role="listitem">
+            <div key={`legend-${index}`} className="flex items-center ds-gap-2" role="listitem">
               <div
-                className="h-3 w-3 rounded-full"
+                className="[width:12px] [height:12px] rounded-full"
                 style={{ backgroundColor: slice.color }}
                 aria-hidden="true"
               />

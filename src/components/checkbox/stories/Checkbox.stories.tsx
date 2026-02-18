@@ -107,9 +107,9 @@ export const AllVariants: Story = {
     };
 
     return (
-      <div className="flex flex-col gap-32 max-w-md">
+      <div className="flex flex-col ds-gap-32 max-w-md">
         <div>
-          <h3 className="size-sm font-medium text-default mb-12">Checkbox</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">Checkbox</h3>
           <Checkbox
             checked={basicChecked}
             onCheckedChange={(checked) => setBasicChecked(checked === true)}
@@ -121,7 +121,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-12">CheckboxCard</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">CheckboxCard</h3>
           <CheckboxCard
             title="Card Title"
             description="This is a checkbox card with title and description."
@@ -133,7 +133,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default mb-12">CheckboxList</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">CheckboxList</h3>
           <CheckboxList
             items={listItems.map((item) => ({
               ...item,

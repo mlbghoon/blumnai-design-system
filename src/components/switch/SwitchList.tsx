@@ -8,7 +8,7 @@ const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
   ({ items, listStyle = 'default', color = 'green', onItemChange, className }, ref) => {
     const containerClassName = cn(
       'flex flex-col',
-      listStyle === 'default' && 'gap-24',
+      listStyle === 'default' && 'ds-gap-24',
       className
     );
 

@@ -375,7 +375,7 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
   };
 
   const renderDatePart = (part: DatePart) => (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center ds-gap-2">
       {renderSegment(part, segmentOrder[0])}
       <span className="text-hint size-sm">{separator}</span>
       {renderSegment(part, segmentOrder[1])}
@@ -390,7 +390,7 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
       className={wrapperClassName}
     >
       <div
-        className="flex items-center gap-8 flex-1 min-w-0"
+        className="flex items-center ds-gap-8 flex-1 min-w-0"
         onClick={handleInputAreaClick}
       >
         {renderDatePart('from')}

@@ -51,7 +51,7 @@ const RadioGroup = React.forwardRef<
     <RadioContext.Provider value={{ value: currentValue }}>
       <RadioGroupPrimitive.Root
         ref={ref}
-        className={cn('flex flex-col gap-12', className)}
+        className={cn('flex flex-col ds-gap-12', className)}
         value={currentValue}
         onValueChange={handleValueChange}
         {...props}
@@ -126,7 +126,7 @@ const Radio = React.forwardRef<
   return (
     <label
       className={cn(
-        'inline-flex items-start gap-10',
+        'inline-flex items-start ds-gap-10',
         radioPosition === 'right' && 'flex-row-reverse',
         disabled ? 'cursor-not-allowed' : 'cursor-pointer'
       )}
@@ -134,7 +134,7 @@ const Radio = React.forwardRef<
       <div className="height-20 flex items-center shrink-0">
         {radioElement}
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col ds-gap-4">
         {label && (
           <span
             className={cn(

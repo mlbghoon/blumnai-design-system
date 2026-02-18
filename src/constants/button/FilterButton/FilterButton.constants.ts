@@ -14,9 +14,9 @@ export const SIZE_CONFIG = {
   },
   // 갭 (Figma 기준: 모든 크기에서 4px)
   gap: {
-    xs: 'gap-4',
-    md: 'gap-4',
-    lg: 'gap-4',
+    xs: 'ds-gap-4',
+    md: 'ds-gap-4',
+    lg: 'ds-gap-4',
   },
   // 패딩 (Figma 기준: horizontal / vertical)
   padding: {

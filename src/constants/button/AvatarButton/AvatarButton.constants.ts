@@ -2,8 +2,8 @@
 export const SIZE_CONFIG = {
   // 버튼 컨테이너 크기
   button: {
-    sm: 'height-28 padding-y-4 padding-l-4 padding-r-8 gap-4',
-    lg: 'height-32 padding-y-6 padding-l-6 padding-r-12 gap-6',
+    sm: 'height-28 padding-y-4 padding-l-4 padding-r-8 ds-gap-4',
+    lg: 'height-32 padding-y-6 padding-l-6 padding-r-12 ds-gap-6',
   },
   // 아바타 크기 (Figma 기준 20x20 = Avatar 'xs')
   avatar: {

@@ -89,7 +89,7 @@ export const Default: Story = {
   render: function Render(args) {
     return (
       <DndContext>
-        <div className="flex gap-16">
+        <div className="flex ds-gap-16">
           <Draggable id={args.id} disabled={args.disabled} handle={args.handle}>
             <div className="padding-16 bg-card border-default rounded-lg shadow-sm cursor-grab">
               드래그 해보세요
@@ -122,7 +122,7 @@ export const WithHandle: Story = {
     return (
       <DndContext>
         <Draggable id={args.id} disabled={args.disabled} handle={args.handle}>
-          <div className="flex items-center gap-12 padding-16 bg-card border-default rounded-lg shadow-sm">
+          <div className="flex items-center ds-gap-12 padding-16 bg-card border-default rounded-lg shadow-sm">
             <DragHandle />
             <span>핸들로만 드래그 가능</span>
           </div>
@@ -151,8 +151,8 @@ export const WithDropZone: Story = {
 
     return (
       <DndContext onDragEnd={handleDragEnd}>
-        <div className="flex gap-32">
-          <div className="flex flex-col gap-12">
+        <div className="flex ds-gap-32">
+          <div className="flex flex-col ds-gap-12">
             <p className="size-sm text-muted font-body">드래그 아이템</p>
             {['item-1', 'item-2', 'item-3'].map((id) => (
               <Draggable key={id} id={id}>
@@ -168,9 +168,9 @@ export const WithDropZone: Story = {
             className="width-200 min-h-[200px] padding-16 border border-dashed border-default rounded-lg"
             overClassName="bg-state-soft border-highlight"
           >
-            <p className="size-sm text-muted font-body mb-12">여기에 드롭하세요</p>
+            <p className="size-sm text-muted font-body [margin-bottom:48px]">여기에 드롭하세요</p>
             {droppedItems.map((item, index) => (
-              <div key={index} className="padding-8 bg-muted rounded-md mb-8 size-sm font-body">
+              <div key={index} className="padding-8 bg-muted rounded-md [margin-bottom:32px] size-sm font-body">
                 {item} 드롭됨
               </div>
             ))}
@@ -209,7 +209,7 @@ export const WithOverlay: Story = {
         }}
         onDragEnd={() => setActiveItem(null)}
       >
-        <div className="flex gap-16">
+        <div className="flex ds-gap-16">
           {items.map((item) => (
             <Draggable key={item.id} id={item.id} data={item}>
               <div
@@ -245,7 +245,7 @@ export const Disabled: Story = {
   render: function Render() {
     return (
       <DndContext>
-        <div className="flex gap-16">
+        <div className="flex ds-gap-16">
           <Draggable id="enabled" disabled={false}>
             <div className="padding-16 bg-card border-default rounded-lg shadow-sm cursor-grab">
               드래그 가능

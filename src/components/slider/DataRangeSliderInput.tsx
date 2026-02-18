@@ -100,7 +100,7 @@ const DataRangeSliderInput = React.forwardRef<
           {label}
         </label>
       )}
-      <div className="flex items-end gap-12">
+      <div className="flex items-end ds-gap-12">
         <div
           className={cn(
             'flex items-center justify-center self-end',

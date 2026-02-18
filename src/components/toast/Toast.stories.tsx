@@ -63,7 +63,7 @@ type Story = StoryObj<ToastContentProps>;
  */
 export const StaticPreview: Story = {
   render: () => (
-    <div className="flex flex-col gap-12" style={{ width: 500 }}>
+    <div className="flex flex-col ds-gap-12" style={{ width: 500 }}>
       <ToastContent variant="default" message="This is a toast message" />
       <ToastContent variant="info" message="Here is some helpful information for you." />
       <ToastContent
@@ -134,8 +134,8 @@ toast.success('Quick message', { duration: 2000 });`,
  */
 export const AllVariants: Story = {
   render: () => (
-    <div className="flex flex-col gap-12">
-      <div className="flex gap-12 flex-wrap">
+    <div className="flex flex-col ds-gap-12">
+      <div className="flex ds-gap-12 flex-wrap">
         <Button buttonStyle="secondary" onClick={() => toast.default('This is a default message')}>
           Default
         </Button>
@@ -190,7 +190,7 @@ export const LongMessage: Story = {
  */
 export const CustomLabel: Story = {
   render: () => (
-    <div className="flex gap-12">
+    <div className="flex ds-gap-12">
       <Button
         buttonStyle="secondary"
         onClick={() => toast.success('Your profile has been saved.', { label: 'Saved!' })}
@@ -211,7 +211,7 @@ export const CustomLabel: Story = {
  */
 export const CustomDuration: Story = {
   render: () => (
-    <div className="flex gap-12">
+    <div className="flex ds-gap-12">
       <Button buttonStyle="secondary" onClick={() => toast.success('Quick toast!', { duration: 1000 })}>
         1초 후 닫힘
       </Button>

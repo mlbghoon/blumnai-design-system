@@ -141,7 +141,7 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
           {renderLeadContent()}
 
           {option.description ? (
-            <div className="flex flex-col flex-1 min-w-0 padding-x-4 gap-1">
+            <div className="flex flex-col flex-1 min-w-0 padding-x-4 ds-gap-1">
               <span
                 className={cn(
                   'font-body',
@@ -411,7 +411,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
         };
 
         return (
-          <div className="flex flex-wrap gap-4 items-center">
+          <div className="flex flex-wrap ds-gap-4 items-center">
             {visibleOptions.map((option) => (
               <Badge
                 key={option.id}
@@ -436,7 +436,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
         const option = selectedOptions[0];
         if (variant === 'avatar' && option.avatarSrc) {
           return (
-            <div className="flex items-center gap-6">
+            <div className="flex items-center ds-gap-6">
               <Avatar variant="userpic" size="2xs" src={option.avatarSrc} alt={option.label} />
               <span
                 className={cn('truncate', disabled ? 'text-hint' : 'text-default')}
@@ -562,7 +562,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
               >
                 {searchable && (
                   <div style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.10)' }}>
-                    <div className="flex items-center gap-2 padding-x-8 height-36">
+                    <div className="flex items-center ds-gap-2 padding-x-8 height-36">
                       <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
                         <Icon iconType={['system', 'search']} size={16} color="default-muted" />
                       </div>

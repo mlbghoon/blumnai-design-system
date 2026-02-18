@@ -78,7 +78,7 @@ export const Default: Story = {
           </CollapsibleTrigger>
         </div>
         <CollapsibleContent>
-          <div className="padding-12 mt-4 rounded-md border-default bg-muted/30">
+          <div className="padding-12 margin-t-16 rounded-md border-default bg-muted/30">
             <p className="size-sm font-body text-muted line-height-leading-5">
               This content can be collapsed and expanded. It animates smoothly
               when toggling the visibility.
@@ -119,14 +119,14 @@ export const MultipleItems: Story = {
             </button>
           </CollapsibleTrigger>
         </div>
-        <div className="padding-x-12 padding-y-8 mt-4 rounded-md border-default">
+        <div className="padding-x-12 padding-y-8 margin-t-16 rounded-md border-default">
           <span className="size-sm font-body font-mono">@radix-ui/primitives</span>
         </div>
-        <CollapsibleContent className="space-y-2">
-          <div className="padding-x-12 padding-y-8 mt-4 rounded-md border-default">
+        <CollapsibleContent className="flex flex-col ds-gap-8">
+          <div className="padding-x-12 padding-y-8 margin-t-16 rounded-md border-default">
             <span className="size-sm font-body font-mono">@radix-ui/colors</span>
           </div>
-          <div className="padding-x-12 padding-y-8 mt-4 rounded-md border-default">
+          <div className="padding-x-12 padding-y-8 margin-t-16 rounded-md border-default">
             <span className="size-sm font-body font-mono">@stitches/react</span>
           </div>
         </CollapsibleContent>
@@ -153,16 +153,16 @@ export const DefaultOpen: Story = {
           </CollapsibleTrigger>
         </div>
         <CollapsibleContent>
-          <div className="flex flex-col gap-8 padding-12 mt-4 rounded-md border-default">
-            <label className="flex items-center gap-8">
+          <div className="flex flex-col ds-gap-8 padding-12 margin-t-16 rounded-md border-default">
+            <label className="flex items-center ds-gap-8">
               <input type="checkbox" defaultChecked />
               <span className="size-sm font-body">Enable notifications</span>
             </label>
-            <label className="flex items-center gap-8">
+            <label className="flex items-center ds-gap-8">
               <input type="checkbox" />
               <span className="size-sm font-body">Dark mode</span>
             </label>
-            <label className="flex items-center gap-8">
+            <label className="flex items-center ds-gap-8">
               <input type="checkbox" defaultChecked />
               <span className="size-sm font-body">Auto-save</span>
             </label>

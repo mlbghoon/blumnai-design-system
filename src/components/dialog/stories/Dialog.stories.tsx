@@ -227,7 +227,7 @@ export const WithForm: Story = {
               프로필 정보를 수정합니다.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex flex-col gap-16">
+          <div className="flex flex-col ds-gap-16">
             <Input variant="default" label="이름" placeholder="이름 입력..." />
             <Input variant="default" label="이메일" placeholder="email@example.com" />
           </div>
@@ -297,7 +297,7 @@ export const LongContent: Story = {
             <DialogTitle>이용약관</DialogTitle>
           </DialogHeader>
           <DialogScrollArea maxHeight="50vh">
-            <div className="flex flex-col gap-16 font-body size-sm text-default">
+            <div className="flex flex-col ds-gap-16 font-body size-sm text-default">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -365,7 +365,7 @@ export const CustomFooter: Story = {
             <DialogClose asChild>
               <Button buttonStyle="ghost">나중에 저장</Button>
             </DialogClose>
-            <div className="flex gap-8">
+            <div className="flex ds-gap-8">
               <DialogClose asChild>
                 <Button buttonStyle="secondary">취소</Button>
               </DialogClose>
@@ -452,11 +452,11 @@ export const Programmatic: Story = {
     const [open, setOpen] = useState(false);
 
     return (
-      <div className="flex flex-col gap-16 items-start">
+      <div className="flex flex-col ds-gap-16 items-start">
         <p className="font-body size-sm text-muted">
           Dialog는 외부 상태로 제어할 수 있습니다. 아래 버튼들은 Dialog 외부에 있습니다.
         </p>
-        <div className="flex gap-8">
+        <div className="flex ds-gap-8">
           <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
             Open Dialog
           </Button>
@@ -491,7 +491,7 @@ export const Programmatic: Story = {
 export const Sizes: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-16">
+      <div className="flex ds-gap-16">
         <Dialog>
           <DialogTrigger asChild>
             <Button buttonStyle="secondary" size="sm">Small</Button>

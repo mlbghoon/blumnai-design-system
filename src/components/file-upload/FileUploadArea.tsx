@@ -221,7 +221,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
           color={disabled ? 'default-disabled' : 'default-muted'}
         />
 
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center ds-gap-4">
           <span className={titleClassName}>
             {title}
             {clickText && (

@@ -101,7 +101,7 @@ export const Default: Story = {
 
     return (
       <DndContext onDragEnd={handleDragEnd}>
-        <div className="flex gap-32">
+        <div className="flex ds-gap-32">
           <Draggable id="drag-item">
             <div className="padding-16 bg-card border-default rounded-lg shadow-sm cursor-grab">
               드래그 아이템
@@ -153,35 +153,35 @@ export const TypeFiltering: Story = {
 
     return (
       <DndContext onDragEnd={handleDragEnd}>
-        <div className="space-y-24">
-          <div className="flex gap-12">
+        <div className="flex flex-col ds-gap-96">
+          <div className="flex ds-gap-12">
             <Draggable id="text-1" data={{ type: 'text' }}>
-              <div className="padding-12 bg-blue-50 border-default rounded-md cursor-grab flex items-center gap-8">
+              <div className="padding-12 bg-blue-50 border-default rounded-md cursor-grab flex items-center ds-gap-8">
                 <Icon iconType={['editor', 'text']} size={16} />
                 <span className="size-sm font-body">텍스트 1</span>
               </div>
             </Draggable>
             <Draggable id="text-2" data={{ type: 'text' }}>
-              <div className="padding-12 bg-blue-50 border-default rounded-md cursor-grab flex items-center gap-8">
+              <div className="padding-12 bg-blue-50 border-default rounded-md cursor-grab flex items-center ds-gap-8">
                 <Icon iconType={['editor', 'text']} size={16} />
                 <span className="size-sm font-body">텍스트 2</span>
               </div>
             </Draggable>
             <Draggable id="image-1" data={{ type: 'image' }}>
-              <div className="padding-12 bg-green-50 border-default rounded-md cursor-grab flex items-center gap-8">
+              <div className="padding-12 bg-green-50 border-default rounded-md cursor-grab flex items-center ds-gap-8">
                 <Icon iconType={['media', 'image']} size={16} />
                 <span className="size-sm font-body">이미지 1</span>
               </div>
             </Draggable>
             <Draggable id="image-2" data={{ type: 'image' }}>
-              <div className="padding-12 bg-green-50 border-default rounded-md cursor-grab flex items-center gap-8">
+              <div className="padding-12 bg-green-50 border-default rounded-md cursor-grab flex items-center ds-gap-8">
                 <Icon iconType={['media', 'image']} size={16} />
                 <span className="size-sm font-body">이미지 2</span>
               </div>
             </Draggable>
           </div>
 
-          <div className="flex gap-16">
+          <div className="flex ds-gap-16">
             <Droppable
               id="text-zone"
               accepts={['text']}
@@ -189,8 +189,8 @@ export const TypeFiltering: Story = {
               activeClassName="border-blue-300"
               overClassName="bg-blue-50 border-blue-500 border-solid"
             >
-              <p className="size-sm text-muted font-body mb-12">텍스트만 드롭 가능</p>
-              <div className="flex flex-wrap gap-8">
+              <p className="size-sm text-muted font-body [margin-bottom:48px]">텍스트만 드롭 가능</p>
+              <div className="flex flex-wrap ds-gap-8">
                 {textItems.map((item, i) => (
                   <span key={i} className="padding-8 bg-blue-100 rounded-md size-sm font-body">
                     {item}
@@ -206,8 +206,8 @@ export const TypeFiltering: Story = {
               activeClassName="border-green-300"
               overClassName="bg-green-50 border-green-500 border-solid"
             >
-              <p className="size-sm text-muted font-body mb-12">이미지만 드롭 가능</p>
-              <div className="flex flex-wrap gap-8">
+              <p className="size-sm text-muted font-body [margin-bottom:48px]">이미지만 드롭 가능</p>
+              <div className="flex flex-wrap ds-gap-8">
                 {imageItems.map((item, i) => (
                   <span key={i} className="padding-8 bg-green-100 rounded-md size-sm font-body">
                     {item}
@@ -236,7 +236,7 @@ export const RenderProps: Story = {
   render: function Render() {
     return (
       <DndContext>
-        <div className="flex gap-32">
+        <div className="flex ds-gap-32">
           <Draggable id="item">
             <div className="padding-16 bg-card border-default rounded-lg shadow-sm cursor-grab">
               드래그 해보세요
@@ -257,7 +257,7 @@ export const RenderProps: Story = {
                   size={24}
                   className={isOver ? 'text-white' : 'text-muted'}
                 />
-                <p className={`size-sm font-body mt-8 ${isOver ? 'text-white' : 'text-muted'}`}>
+                <p className={`size-sm font-body margin-t-32 ${isOver ? 'text-white' : 'text-muted'}`}>
                   {isOver ? '놓으세요!' : active ? '여기로 드래그' : '대기 중'}
                 </p>
               </div>
@@ -304,7 +304,7 @@ export const MultipleZones: Story = {
 
     return (
       <DndContext onDragEnd={handleDragEnd}>
-        <div className="flex gap-16">
+        <div className="flex ds-gap-16">
           {Object.entries(zones).map(([zoneId, items]) => (
             <Droppable
               key={zoneId}
@@ -312,10 +312,10 @@ export const MultipleZones: Story = {
               className="width-180 min-h-[200px] padding-12 bg-muted rounded-lg"
               overClassName="bg-state-soft"
             >
-              <p className="size-sm font-medium text-default font-body mb-12">
+              <p className="size-sm font-medium text-default font-body [margin-bottom:48px]">
                 {zoneId.replace('zone-', 'Zone ')}
               </p>
-              <div className="flex flex-col gap-8">
+              <div className="flex flex-col ds-gap-8">
                 {items.map((itemId) => (
                   <Draggable key={itemId} id={itemId}>
                     <div className="padding-12 bg-card border-default rounded-md shadow-sm cursor-grab size-sm font-body">

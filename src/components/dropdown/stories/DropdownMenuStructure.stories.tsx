@@ -156,7 +156,7 @@ export const Submenu: Story = {
         <DropdownMenuTrigger asChild>
           <Button buttonStyle="secondary">Edit</Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
+        <DropdownMenuContent className="[width:224px]">
           <DropdownMenuItem shortcut="⌘Z">Undo</DropdownMenuItem>
           <DropdownMenuItem shortcut="⇧⌘Z">Redo</DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -274,7 +274,7 @@ export const MenuGroups: Story = {
 export const Positions: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-16 items-center">
+      <div className="flex ds-gap-16 items-center">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button buttonStyle="secondary" size="sm">Top</Button>
@@ -325,7 +325,7 @@ export const Positions: Story = {
 export const CustomWidth: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-16">
+      <div className="flex ds-gap-16">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button buttonStyle="secondary" size="sm">Narrow (150px)</Button>

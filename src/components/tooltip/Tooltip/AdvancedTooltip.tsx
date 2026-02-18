@@ -24,7 +24,7 @@ export const AdvancedTooltip = forwardRef<HTMLDivElement, AdvancedTooltipProps>(
         'padding-4',
         'bg-card',
         'shadow-modal-sm',
-        'flex flex-col items-center justify-center gap-4',
+        'flex flex-col items-center justify-center ds-gap-4',
         className
       )}
       style={minWidth ? { minWidth: `${minWidth}px` } : undefined}

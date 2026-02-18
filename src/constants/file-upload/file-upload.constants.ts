@@ -5,7 +5,7 @@
  */
 
 // FileUploadArea base styles
-export const FILE_UPLOAD_AREA_BASE = 'flex flex-col items-center justify-center gap-12 rounded-lg cursor-pointer transition-colors duration-150';
+export const FILE_UPLOAD_AREA_BASE = 'flex flex-col items-center justify-center ds-gap-12 rounded-lg cursor-pointer transition-colors duration-150';
 
 // FileUploadArea state styles
 export const FILE_UPLOAD_AREA_STATE = {
@@ -31,7 +31,7 @@ export const FILE_UPLOAD_AREA_CAPTION = 'font-body size-xs line-height-leading-4
 export const FILE_UPLOAD_AREA_ERROR_CAPTION = 'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-destructive';
 
 // FileUploadCard base styles
-export const FILE_UPLOAD_CARD_BASE = 'flex items-center gap-8 rounded-lg border-default bg-card shadow-component-default';
+export const FILE_UPLOAD_CARD_BASE = 'flex items-center ds-gap-8 rounded-lg border-default bg-card shadow-component-default';
 
 // FileUploadCard size configurations
 export const FILE_UPLOAD_CARD_SIZE = {
@@ -49,9 +49,9 @@ export const FILE_UPLOAD_CARD_SIZE = {
 export const FILE_UPLOAD_THUMBNAIL = 'rounded-sm overflow-hidden flex-shrink-0 flex items-center justify-center bg-subtle';
 
 // FileUploadCard content styles
-export const FILE_UPLOAD_CONTENT = 'flex-1 min-w-0 flex flex-col gap-2';
+export const FILE_UPLOAD_CONTENT = 'flex-1 min-w-0 flex flex-col ds-gap-2';
 export const FILE_UPLOAD_FILENAME = 'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal font-medium text-default truncate';
-export const FILE_UPLOAD_META = 'flex items-center gap-4 font-body size-xs line-height-leading-4 letter-spacing-tracking-normal text-muted';
+export const FILE_UPLOAD_META = 'flex items-center ds-gap-4 font-body size-xs line-height-leading-4 letter-spacing-tracking-normal text-muted';
 export const FILE_UPLOAD_META_DIVIDER = 'text-hint';
 
 // FileUploadCard status text styles
@@ -73,7 +73,7 @@ export const FILE_UPLOAD_PROGRESS_TRACK = 'w-full height-4 bg-muted rounded-full
 export const FILE_UPLOAD_PROGRESS_FILL = 'h-full bg-state-primary transition-all duration-200';
 
 // FileUploadCard actions styles
-export const FILE_UPLOAD_ACTIONS = 'flex items-center gap-4 flex-shrink-0';
+export const FILE_UPLOAD_ACTIONS = 'flex items-center ds-gap-4 flex-shrink-0';
 
 // Icon sizes
 export const FILE_UPLOAD_AREA_ICON_SIZE = 40;

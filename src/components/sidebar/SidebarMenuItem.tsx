@@ -49,13 +49,13 @@ const menuItemVariants = cva(
   {
     variants: {
       variant: {
-        default: 'height-32 padding-6 gap-6',
-        label: 'height-24 padding-x-8 padding-y-4 gap-4',
-        caption: 'min-height-40 padding-x-10 padding-y-6 gap-2',
-        buttons: 'height-32 gap-4',
+        default: 'height-32 padding-6 ds-gap-6',
+        label: 'height-24 padding-x-8 padding-y-4 ds-gap-4',
+        caption: 'min-height-40 padding-x-10 padding-y-6 ds-gap-2',
+        buttons: 'height-32 ds-gap-4',
         divider: 'height-8 padding-x-0 padding-y-0',
-        avatar: 'height-32 padding-6 gap-6',
-        children: 'height-32 padding-6 gap-6',
+        avatar: 'height-32 padding-6 ds-gap-6',
+        children: 'height-32 padding-6 ds-gap-6',
       },
       state: {
         default: '',
@@ -238,7 +238,7 @@ const ButtonsMenuItem = forwardRef<HTMLButtonElement, SidebarMenuItemButtonsProp
             ref={ref}
             disabled={disabled}
             className={cn(
-              'flex-1 flex items-center height-32 padding-x-10 gap-6 font-body size-sm text-default',
+              'flex-1 flex items-center height-32 padding-x-10 ds-gap-6 font-body size-sm text-default',
               'bg-transparent border-none cursor-pointer text-left',
               disabled && 'cursor-not-allowed'
             )}
@@ -252,7 +252,7 @@ const ButtonsMenuItem = forwardRef<HTMLButtonElement, SidebarMenuItemButtonsProp
             {!isCollapsed && <span className="flex-1 truncate">{label}</span>}
           </button>
           {actions && !isCollapsed && (
-            <div className="flex items-center gap-6 padding-r-8 opacity-0 group-hover/buttons:opacity-100 transition-opacity">
+            <div className="flex items-center ds-gap-6 padding-r-8 opacity-0 group-hover/buttons:opacity-100 transition-opacity">
               {actions}
             </div>
           )}
@@ -271,7 +271,7 @@ const DividerMenuItem = forwardRef<HTMLDivElement, SidebarMenuItemDividerProps>(
         ref={ref}
         className={cn(
           menuItemVariants({ variant: 'divider' }),
-          'my-4',
+          'margin-y-16',
           className
         )}
         {...props}

@@ -71,7 +71,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
   const headerClassName = useMemo(
     () =>
       cn(
-        'flex items-center justify-between w-full gap-2 cursor-pointer select-none outline-none border-none bg-transparent p-0',
+        'flex items-center justify-between w-full ds-gap-2 cursor-pointer select-none outline-none border-none bg-transparent padding-0',
         'text-default transition-colors duration-200 ease-in-out',
         'focus-visible:shadow-component-misc-focus focus-visible:rounded-sm',
         !disabled && 'hover:text-default',
@@ -83,7 +83,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
   const iconClassName = useMemo(
     () =>
       cn(
-        'flex items-center justify-center w-6 h-6 shrink-0 icon-default-muted',
+        'flex items-center justify-center width-24 height-24 shrink-0 icon-default-muted',
         'transition-all duration-200 ease-in-out',
         isOpen && 'rotate-180'
       ),

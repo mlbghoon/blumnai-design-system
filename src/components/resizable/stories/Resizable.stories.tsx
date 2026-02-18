@@ -169,7 +169,7 @@ export const Default: Story = {
  */
 export const HandleVariants: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col ds-gap-24">
       <div>
         <p className="font-body size-sm text-muted margin-b-8">Line (기본) - 두꺼운 선 핸들</p>
         <ResizablePanelGroup
@@ -427,7 +427,7 @@ export const CollapseButtonPositions: Story = {
     const [customCollapsed, setCustomCollapsed] = useState(false);
 
     return (
-      <div className="flex flex-col gap-24">
+      <div className="flex flex-col ds-gap-24">
         <div>
           <p className="font-body size-sm text-muted margin-b-8">position=&quot;start&quot; (상단)</p>
           <ResizablePanelGroup
@@ -572,7 +572,7 @@ export const SidebarLayout: Story = {
               <p className="font-body size-sm font-medium text-default">Navigation</p>
             </div>
             <div className="flex-1 padding-12">
-              <ul className="flex flex-col gap-8">
+              <ul className="flex flex-col ds-gap-8">
                 <li className="font-body size-sm text-muted hover:text-default cursor-pointer">Dashboard</li>
                 <li className="font-body size-sm text-muted hover:text-default cursor-pointer">Projects</li>
                 <li className="font-body size-sm text-muted hover:text-default cursor-pointer">Settings</li>

@@ -369,7 +369,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
         )}
 
         {/* Input Field Container */}
-        <div className={cn('flex-1 flex items-center gap-6', sizeConfig.padding)}>
+        <div className={cn('flex-1 flex items-center ds-gap-6', sizeConfig.padding)}>
           {/* Input Field */}
           <input
             ref={ref}

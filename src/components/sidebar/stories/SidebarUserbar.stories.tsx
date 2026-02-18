@@ -111,7 +111,7 @@ export const AllVariants: Story = {
     const [openVariant, setOpenVariant] = useState<string | null>(null);
 
     return (
-      <div className="flex flex-col gap-24">
+      <div className="flex flex-col ds-gap-24">
         <div>
           <p className="font-body size-sm font-medium margin-b-8">Variant 1 (Compact)</p>
           <div className="w-[280px] border-default rounded-md padding-8">
@@ -170,8 +170,8 @@ export const AllVariants: Story = {
 export const Collapsed: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-16">
-        <div className="flex flex-col items-center gap-4">
+      <div className="flex ds-gap-16">
+        <div className="flex flex-col items-center ds-gap-4">
           <p className="font-body size-xs text-muted">V1</p>
           <div className="border-default rounded-md padding-8">
             <SidebarProvider defaultOpen={false}>
@@ -183,7 +183,7 @@ export const Collapsed: Story = {
             </SidebarProvider>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center ds-gap-4">
           <p className="font-body size-xs text-muted">V2</p>
           <div className="border-default rounded-md padding-8">
             <SidebarProvider defaultOpen={false}>
@@ -195,7 +195,7 @@ export const Collapsed: Story = {
             </SidebarProvider>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center ds-gap-4">
           <p className="font-body size-xs text-muted">V3</p>
           <div className="border-default rounded-md padding-8">
             <SidebarProvider defaultOpen={false}>
@@ -220,7 +220,7 @@ export const Collapsed: Story = {
 export const OpenState: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <div className="w-[280px] border-default rounded-md padding-8">
           <SidebarProvider defaultOpen={true}>
             <SidebarUserbar

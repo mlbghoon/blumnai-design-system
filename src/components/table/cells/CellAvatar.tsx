@@ -28,7 +28,7 @@ export function CellAvatar({
   const variant = src ? 'userpic' : avatarInitials ? 'initials' : 'empty';
 
   return (
-    <div className="flex items-center gap-8">
+    <div className="flex items-center ds-gap-8">
       <Avatar
         variant={variant}
         src={src}

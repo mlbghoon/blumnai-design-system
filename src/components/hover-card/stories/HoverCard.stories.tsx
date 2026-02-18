@@ -37,16 +37,16 @@ export const Default: Story = {
           </a>
         </HoverCardTrigger>
         <HoverCardContent>
-          <div className="flex gap-16">
+          <div className="flex ds-gap-16">
             <Avatar size="lg" initials="BL" />
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col ds-gap-4">
               <h4 className="size-sm font-body font-semibold line-height-leading-5">
                 @blumnai
               </h4>
               <p className="size-sm font-body text-muted line-height-leading-5">
                 Beautiful design system for building modern web applications.
               </p>
-              <div className="flex items-center gap-8">
+              <div className="flex items-center ds-gap-8">
                 <span className="size-xs font-body text-muted">
                   Joined December 2024
                 </span>
@@ -76,14 +76,14 @@ export const ImagePreview: Story = {
             View Project
           </a>
         </HoverCardTrigger>
-        <HoverCardContent className="w-80">
-          <div className="flex flex-col gap-12">
+        <HoverCardContent className="[width:320px]">
+          <div className="flex flex-col ds-gap-12">
             <img
               src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop"
               alt="Project preview"
-              className="rounded-md w-full h-32 object-cover"
+              className="rounded-md w-full [height:128px] object-cover"
             />
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col ds-gap-4">
               <h4 className="size-sm font-body font-semibold line-height-leading-5">
                 Design System Project
               </h4>
@@ -106,7 +106,7 @@ export const ImagePreview: Story = {
 export const Positions: Story = {
   render: function Render() {
     return (
-      <div className="flex gap-24 items-center">
+      <div className="flex ds-gap-24 items-center">
         <HoverCard>
           <HoverCardTrigger asChild>
             <button className="size-sm font-body padding-x-12 padding-y-6 rounded-md bg-muted">

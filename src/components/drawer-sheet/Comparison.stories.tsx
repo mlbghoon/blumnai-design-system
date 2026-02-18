@@ -84,7 +84,7 @@ export const SideBySide: Story = {
     };
 
     return (
-      <div className="flex gap-16 items-center">
+      <div className="flex ds-gap-16 items-center">
         <Drawer>
           <DrawerTrigger asChild>
             <Button buttonStyle="secondary">Open Drawer</Button>
@@ -94,7 +94,7 @@ export const SideBySide: Story = {
               <DrawerTitle>{content.title}</DrawerTitle>
               <DrawerDescription>{content.description}</DrawerDescription>
             </DrawerHeader>
-            <div className="flex flex-col gap-8 padding-x-16 padding-y-8">
+            <div className="flex flex-col ds-gap-8 padding-x-16 padding-y-8">
               {content.items.map((item) => (
                 <DrawerClose asChild key={item}>
                   <button className="text-left font-body size-sm text-default padding-12 rounded-md hover:bg-state-soft transition-colors cursor-pointer">
@@ -120,7 +120,7 @@ export const SideBySide: Story = {
               <SheetTitle>{content.title}</SheetTitle>
               <SheetDescription>{content.description}</SheetDescription>
             </SheetHeader>
-            <div className="flex flex-col gap-8 padding-y-16">
+            <div className="flex flex-col ds-gap-8 padding-y-16">
               {content.items.map((item) => (
                 <SheetClose asChild key={item}>
                   <button className="text-left font-body size-sm text-default padding-12 rounded-md hover:bg-state-soft transition-colors cursor-pointer">
@@ -149,8 +149,8 @@ export const SideBySide: Story = {
 export const ResponsivePattern: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-24">
-        <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium text-default">
             📱 모바일 패턴 (Drawer 권장)
           </span>
@@ -165,7 +165,7 @@ export const ResponsivePattern: Story = {
               <DrawerHeader>
                 <DrawerTitle>메뉴</DrawerTitle>
               </DrawerHeader>
-              <div className="flex flex-col gap-8 padding-x-16 padding-y-8">
+              <div className="flex flex-col ds-gap-8 padding-x-16 padding-y-8">
                 <DrawerClose asChild>
                   <button className="text-left font-body size-sm text-default padding-12 rounded-md hover:bg-state-soft cursor-pointer">
                     홈
@@ -186,7 +186,7 @@ export const ResponsivePattern: Story = {
           </Drawer>
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm font-medium text-default">
             🖥️ 데스크톱 패턴 (Sheet 권장)
           </span>
@@ -204,7 +204,7 @@ export const ResponsivePattern: Story = {
                   데스크톱에서는 사이드 패널이 더 자연스럽습니다.
                 </SheetDescription>
               </SheetHeader>
-              <div className="flex flex-col gap-8 padding-y-16">
+              <div className="flex flex-col ds-gap-8 padding-y-16">
                 <SheetClose asChild>
                   <button className="text-left font-body size-sm text-default padding-12 rounded-md hover:bg-state-soft cursor-pointer">
                     일반 설정
@@ -244,8 +244,8 @@ export const ActionSheetComparison: Story = {
     ];
 
     return (
-      <div className="flex gap-16">
-        <div className="flex flex-col gap-8 items-center">
+      <div className="flex ds-gap-16">
+        <div className="flex flex-col ds-gap-8 items-center">
           <span className="font-body size-xs text-muted">Drawer (스와이프 가능)</span>
           <Drawer>
             <DrawerTrigger asChild>
@@ -258,7 +258,7 @@ export const ActionSheetComparison: Story = {
               <div className="flex flex-col padding-x-16 padding-y-8">
                 {actions.map((action) => (
                   <DrawerClose asChild key={action.label}>
-                    <button className="flex flex-col gap-2 padding-12 rounded-md hover:bg-state-soft text-left cursor-pointer">
+                    <button className="flex flex-col ds-gap-2 padding-12 rounded-md hover:bg-state-soft text-left cursor-pointer">
                       <span className="font-body size-sm font-medium text-default">
                         {action.label}
                       </span>
@@ -278,7 +278,7 @@ export const ActionSheetComparison: Story = {
           </Drawer>
         </div>
 
-        <div className="flex flex-col gap-8 items-center">
+        <div className="flex flex-col ds-gap-8 items-center">
           <span className="font-body size-xs text-muted">Sheet Bottom (클릭 닫기)</span>
           <Sheet>
             <SheetTrigger asChild>
@@ -291,7 +291,7 @@ export const ActionSheetComparison: Story = {
               <div className="flex flex-col padding-y-8">
                 {actions.map((action) => (
                   <SheetClose asChild key={action.label}>
-                    <button className="flex flex-col gap-2 padding-12 rounded-md hover:bg-state-soft text-left cursor-pointer">
+                    <button className="flex flex-col ds-gap-2 padding-12 rounded-md hover:bg-state-soft text-left cursor-pointer">
                       <span className="font-body size-sm font-medium text-default">
                         {action.label}
                       </span>
@@ -322,57 +322,57 @@ export const ActionSheetComparison: Story = {
  */
 export const WhenToUse: Story = {
   render: () => (
-    <div className="flex flex-col gap-20 max-w-lg">
-      <div className="flex flex-col gap-12">
+    <div className="flex flex-col ds-gap-20 max-w-lg">
+      <div className="flex flex-col ds-gap-12">
         <h3 className="font-body size-md font-semibold text-default">
           ✅ Drawer 사용
         </h3>
-        <ul className="flex flex-col gap-8">
-          <li className="font-body size-sm text-default flex gap-8">
+        <ul className="flex flex-col ds-gap-8">
+          <li className="font-body size-sm text-default flex ds-gap-8">
             <span>•</span>
             <span>모바일 우선 앱의 액션 시트</span>
           </li>
-          <li className="font-body size-sm text-default flex gap-8">
+          <li className="font-body size-sm text-default flex ds-gap-8">
             <span>•</span>
             <span>지도 앱의 장소 상세 (Google Maps 스타일)</span>
           </li>
-          <li className="font-body size-sm text-default flex gap-8">
+          <li className="font-body size-sm text-default flex ds-gap-8">
             <span>•</span>
             <span>음악/미디어 플레이어 확장</span>
           </li>
-          <li className="font-body size-sm text-default flex gap-8">
+          <li className="font-body size-sm text-default flex ds-gap-8">
             <span>•</span>
             <span>iOS/Android 네이티브 같은 UX 필요 시</span>
           </li>
-          <li className="font-body size-sm text-default flex gap-8">
+          <li className="font-body size-sm text-default flex ds-gap-8">
             <span>•</span>
             <span>스와이프 제스처가 중요한 경우</span>
           </li>
         </ul>
       </div>
 
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col ds-gap-12">
         <h3 className="font-body size-md font-semibold text-default">
           ✅ Sheet 사용
         </h3>
-        <ul className="flex flex-col gap-8">
-          <li className="font-body size-sm text-default flex gap-8">
+        <ul className="flex flex-col ds-gap-8">
+          <li className="font-body size-sm text-default flex ds-gap-8">
             <span>•</span>
             <span>데스크톱 설정/필터 사이드바</span>
           </li>
-          <li className="font-body size-sm text-default flex gap-8">
+          <li className="font-body size-sm text-default flex ds-gap-8">
             <span>•</span>
             <span>네비게이션 메뉴 (좌측 슬라이드)</span>
           </li>
-          <li className="font-body size-sm text-default flex gap-8">
+          <li className="font-body size-sm text-default flex ds-gap-8">
             <span>•</span>
             <span>폼 입력이 많은 편집 패널</span>
           </li>
-          <li className="font-body size-sm text-default flex gap-8">
+          <li className="font-body size-sm text-default flex ds-gap-8">
             <span>•</span>
             <span>상/하/좌/우 다양한 방향 필요 시</span>
           </li>
-          <li className="font-body size-sm text-default flex gap-8">
+          <li className="font-body size-sm text-default flex ds-gap-8">
             <span>•</span>
             <span>키보드 접근성이 중요한 경우</span>
           </li>

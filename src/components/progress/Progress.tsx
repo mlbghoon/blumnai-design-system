@@ -136,7 +136,7 @@ function DashedTrack({ percentage, color, isIndeterminate }: DashedTrackProps) {
     : Math.round((percentage / 100) * segmentCount);
 
   return (
-    <div className="flex gap-2 h-full">
+    <div className="flex ds-gap-2 h-full">
       {Array.from({ length: segmentCount }).map((_, index) => (
         <div
           key={index}

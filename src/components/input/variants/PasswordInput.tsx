@@ -296,7 +296,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
       {showStrength && (
         <div className={STRENGTH_INDICATOR_CONTAINER}>
           {/* Strength Bars */}
-          <div className="flex gap-2 flex-1">
+          <div className="flex ds-gap-2 flex-1">
             {[1, 2, 3].map((barIndex) => (
               <div
                 key={barIndex}

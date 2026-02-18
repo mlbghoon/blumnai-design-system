@@ -178,20 +178,20 @@ export const DifferentPageCounts: Story = {
     const [page50, setPage50] = useState(25);
 
     return (
-      <div className="flex flex-col gap-24">
-        <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm text-subtle">3 페이지</span>
           <Pagination page={page3} totalPages={3} onPageChange={setPage3} />
         </div>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm text-subtle">5 페이지</span>
           <Pagination page={page5} totalPages={5} onPageChange={setPage5} />
         </div>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm text-subtle">10 페이지</span>
           <Pagination page={page10} totalPages={10} onPageChange={setPage10} />
         </div>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm text-subtle">50 페이지</span>
           <Pagination page={page50} totalPages={50} onPageChange={setPage50} />
         </div>
@@ -230,8 +230,8 @@ export const SimpleVariant: Story = {
     const [page, setPage] = useState(1);
 
     return (
-      <div className="flex flex-col gap-24">
-        <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm text-subtle">기본 텍스트</span>
           <div style={{ width: 400 }}>
             <Pagination
@@ -243,7 +243,7 @@ export const SimpleVariant: Story = {
             />
           </div>
         </div>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm text-subtle">커스텀 텍스트 (resultTextFormatter)</span>
           <div style={{ width: 400 }}>
             <Pagination
@@ -267,7 +267,7 @@ export const SimpleVariant: Story = {
 export const Disabled: Story = {
   render: function Render() {
     return (
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col ds-gap-16">
         <Pagination
           page={3}
           totalPages={10}
@@ -314,7 +314,7 @@ export const WithConfirmation: Story = {
     const [page, setPage] = useState(1);
 
     return (
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-8">
         <span className="font-body size-sm text-subtle">
           현재 페이지: {page}
         </span>
@@ -340,12 +340,12 @@ export const EdgePages: Story = {
     const [page2, setPage2] = useState(10);
 
     return (
-      <div className="flex flex-col gap-16">
-        <div className="flex flex-col gap-8">
+      <div className="flex flex-col ds-gap-16">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm text-subtle">첫 페이지</span>
           <Pagination page={page1} totalPages={10} onPageChange={setPage1} />
         </div>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col ds-gap-8">
           <span className="font-body size-sm text-subtle">마지막 페이지</span>
           <Pagination page={page2} totalPages={10} onPageChange={setPage2} />
         </div>

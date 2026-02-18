@@ -20,7 +20,7 @@ export function CellIcon({
   const { iconType: parsedIconType, isFill } = parseIconTypeWithFill(iconType);
 
   return (
-    <div className={cn('flex items-center gap-6', className)}>
+    <div className={cn('flex items-center ds-gap-6', className)}>
       <Icon iconType={parsedIconType} size={size} color={color} isFill={isFill} />
       {label && (
         <span className="font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default">{label}</span>

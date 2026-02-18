@@ -321,7 +321,7 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
       className={wrapperClassName}
     >
       <div
-        className="flex items-center gap-2 flex-1 min-w-0"
+        className="flex items-center ds-gap-2 flex-1 min-w-0"
         onClick={handleInputAreaClick}
       >
         {renderSegment(segmentOrder[0])}

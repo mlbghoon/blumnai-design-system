@@ -221,7 +221,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
         {renderToolbar()}
 
         {showCount && maxLength && !hasToolbarContent && (
-          <div className={cn('flex justify-end mt-4', COUNT_STYLE)}>
+          <div className={cn('flex justify-end margin-t-16', COUNT_STYLE)}>
             <span>{currentLength}/{maxLength}</span>
           </div>
         )}

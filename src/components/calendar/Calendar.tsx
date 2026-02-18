@@ -243,11 +243,11 @@ function CustomCaption({
 
   if (layout === 'month-left') {
     return (
-      <div className="flex items-center height-40 border-b-default [margin-top:-8px] [margin-right:-8px] [margin-left:-8px] padding-y-8 padding-l-12 padding-r-8 gap-8" data-caption-layout="month-left">
+      <div className="flex items-center height-40 border-b-default [margin-top:-8px] [margin-right:-8px] [margin-left:-8px] padding-y-8 padding-l-12 padding-r-8 ds-gap-8" data-caption-layout="month-left">
         <span className="flex-1 text-left size-md font-medium line-height-leading-5 text-default font-body">
           {monthName}
         </span>
-        <div className="flex gap-4">
+        <div className="flex ds-gap-4">
           <MonthNavButton direction="prev" disabled={!previousMonth} onClick={handlePreviousClick} />
           <MonthNavButton direction="next" disabled={!nextMonth} onClick={handleNextClick} />
         </div>
@@ -256,9 +256,9 @@ function CustomCaption({
   }
 
   return (
-    <div className="flex items-center height-40 border-b-default [margin-top:-8px] [margin-right:-8px] [margin-left:-8px] padding-8 gap-8" data-caption-layout={layout}>
+    <div className="flex items-center height-40 border-b-default [margin-top:-8px] [margin-right:-8px] [margin-left:-8px] padding-8 ds-gap-8" data-caption-layout={layout}>
       <MonthNavButton direction="prev" disabled={!previousMonth} onClick={handlePreviousClick} />
-      <div className="flex-1 flex items-center justify-center gap-6 size-sm font-medium line-height-leading-5 text-default font-body">
+      <div className="flex-1 flex items-center justify-center ds-gap-6 size-sm font-medium line-height-leading-5 text-default font-body">
         {isMonthOnly ? monthName : children}
       </div>
       <MonthNavButton direction="next" disabled={!nextMonth} onClick={handleNextClick} />
@@ -298,11 +298,11 @@ function Calendar({
       classNames={{
         root: cn('w-fit [--calendar-width:234px]', defaultClassNames.root),
         months: cn(
-          'flex flex-col md:flex-row md:gap-0',
+          'flex flex-col md:flex-row md:ds-gap-0',
           defaultClassNames.months
         ),
         month: cn(
-          'flex w-[var(--calendar-width)] [box-sizing:content-box] flex-col gap-4 relative',
+          'flex w-[var(--calendar-width)] [box-sizing:content-box] flex-col ds-gap-4 relative',
           'md:[&:not(:first-child)]:[padding-left:8px] md:[&:not(:last-child)]:[padding-right:8px]',
           'md:[&:not(:first-child)]:before:content-[""] md:[&:not(:first-child)]:before:absolute md:[&:not(:first-child)]:before:[left:-0.5px] md:[&:not(:first-child)]:before:[top:-8px] md:[&:not(:first-child)]:before:[bottom:-8px] md:[&:not(:first-child)]:before:w-px md:[&:not(:first-child)]:before:[background:var(--border-darker)]',
           defaultClassNames.month
@@ -312,7 +312,7 @@ function Calendar({
         button_next: cn('hidden', defaultClassNames.button_next),
         month_caption: cn(defaultClassNames.month_caption),
         dropdowns: cn(
-          'flex items-center justify-center gap-6',
+          'flex items-center justify-center ds-gap-6',
           defaultClassNames.dropdowns
         ),
         dropdown_root: cn(
@@ -328,12 +328,12 @@ function Calendar({
           defaultClassNames.caption_label
         ),
         table: 'w-full',
-        weekdays: cn('flex gap-4 [margin-bottom:4px]', defaultClassNames.weekdays),
+        weekdays: cn('flex ds-gap-4 [margin-bottom:4px]', defaultClassNames.weekdays),
         weekday: cn(
           'text-hint select-none rounded-sm size-xs font-medium width-30 height-32 flex items-center justify-center letter-spacing-tracking-tight',
           defaultClassNames.weekday
         ),
-        week: cn('flex w-full gap-4 [margin-bottom:4px] last:mb-0', defaultClassNames.week),
+        week: cn('flex w-full ds-gap-4 [margin-bottom:4px] last:[margin-bottom:0]', defaultClassNames.week),
         week_number_header: cn(
           'width-30 select-none',
           defaultClassNames.week_number_header
@@ -343,7 +343,7 @@ function Calendar({
           defaultClassNames.week_number
         ),
         day: cn(
-          'group/day relative width-30 height-32 select-none p-0 text-center',
+          'group/day relative width-30 height-32 select-none padding-0 text-center',
           '[&:first-child[data-selected=true]_button]:rounded-l-md',
           '[&:last-child[data-selected=true]_button]:rounded-r-md',
           defaultClassNames.day
