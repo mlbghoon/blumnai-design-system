@@ -126,6 +126,21 @@ const meta: Meta<StoryProps> = {
         defaultValue: { summary: 'ko' },
       },
     },
+    showActions: {
+      control: 'boolean',
+      description: '확인/취소 버튼 표시 여부',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    confirmLabel: {
+      control: 'text',
+      description: '확인 버튼 라벨',
+      table: { type: { summary: 'string' }, defaultValue: { summary: '확인' } },
+    },
+    cancelLabel: {
+      control: 'text',
+      description: '취소 버튼 라벨',
+      table: { type: { summary: 'string' }, defaultValue: { summary: '취소' } },
+    },
     presets: {
       control: false,
       description: '커스텀 빠른 프리셋 목록 (showQuickPresets와 함께 사용)',
@@ -162,6 +177,7 @@ export const Default: Story = {
     datePickerStyle: 'default',
     size: 'sm',
     showQuickPresets: false,
+    showActions: false,
     dateFormat: 'yyyy.MM.dd',
     locale: 'ko',
     captionLayout: 'month-centered',
@@ -179,6 +195,9 @@ export const Default: Story = {
         datePickerStyle={args.datePickerStyle}
         size={args.size}
         showQuickPresets={args.showQuickPresets}
+        showActions={args.showActions}
+        confirmLabel={args.confirmLabel || undefined}
+        cancelLabel={args.cancelLabel || undefined}
         dateFormat={args.dateFormat}
         required={args.required}
         supportText={args.supportText}
@@ -381,6 +400,50 @@ export const KoreanLocale: Story = {
         <DatePicker
           label="날짜 선택"
           locale={ko}
+          value={date}
+          onChange={setDate}
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 확인/취소 버튼
+ *
+ * `showActions`를 사용하면 날짜 선택 후 확인/취소 버튼으로 적용 여부를 결정할 수 있습니다.
+ */
+export const WithActions: Story = {
+  render: function Render() {
+    const [date, setDate] = useState<Date | undefined>();
+    return (
+      <div style={{ width: 320 }}>
+        <DatePicker
+          label="Select Date"
+          showActions
+          value={date}
+          onChange={setDate}
+        />
+        <div className="font-body size-sm text-muted margin-t-16">
+          선택된 날짜: {date ? date.toLocaleDateString() : '없음'}
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * 확인/취소 + 빠른 프리셋
+ */
+export const WithActionsAndPresets: Story = {
+  render: function Render() {
+    const [date, setDate] = useState<Date | undefined>();
+    return (
+      <div style={{ width: 320 }}>
+        <DatePicker
+          label="Select Date"
+          showActions
+          showQuickPresets
           value={date}
           onChange={setDate}
         />

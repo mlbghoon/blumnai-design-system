@@ -1,17 +1,17 @@
 # Changelog
 
-## [0.2.27] - 2026-02-18
+## [0.2.28] - 2026-02-18
 
 ### Added
 
-- Textarea: `maxRows` 설정 시 네이티브 스크롤바 대신 ScrollArea 커스텀 스크롤바 적용
-  - textarea가 콘텐츠 높이만큼 자동 확장, ScrollArea가 maxHeight으로 클리핑
-  - 커서 위치 자동 추적 (입력, 방향키 이동 시 뷰포트 스크롤 동기화)
-  - 툴바가 있는 경우 기존 동작 유지
+- Textarea: 항상 커스텀 스크롤바 적용 (`scrollbar-thin` 유틸리티 클래스)
+  - `maxRows` 없이도 네이티브 스크롤바가 디자인 시스템 스타일로 표시
+  - `maxRows` 설정 시 ScrollArea 기반 커스텀 스크롤바 + 커서 위치 자동 추적
 - DatePicker / DateRangePicker: `showActions` prop 추가 — 확인/취소 버튼 모드
   - `showActions={true}` 시 선택 후 팝오버가 닫히지 않고 하단에 확인/취소 버튼 표시
   - 확인: 선택값 적용 후 닫기, 취소: 열기 전 값으로 복원 후 닫기
   - `confirmLabel`, `cancelLabel` prop으로 버튼 라벨 커스터마이징 가능
+- DatePicker / DateRangePicker: `WithActions`, `WithActionsAndPresets` 스토리 추가
 
 ## [0.2.26] - 2026-02-18
 

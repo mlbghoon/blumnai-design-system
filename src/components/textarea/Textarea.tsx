@@ -200,6 +200,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
 
   const textareaClassName = cn(
     TEXTAREA_BASE,
+    'scrollbar-thin',
     sizeConfig.text,
     'letter-spacing-tracking-tight',
     stateConfig.text,
