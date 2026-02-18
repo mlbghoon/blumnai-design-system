@@ -68,6 +68,10 @@
   src: url('./assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff2') format('woff2');
 }
 
+:where(:root) {
+  --spacing: 0.25rem;
+}
+
 /* shadcn theme inline config - defines colors for Tailwind v4 utilities */
 @theme inline {
   --spacing: initial;

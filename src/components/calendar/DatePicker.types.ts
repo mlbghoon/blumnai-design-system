@@ -114,6 +114,21 @@ export interface DatePickerBaseProps {
    * @default 'month-centered'
    */
   captionLayout?: CaptionLayout;
+  /**
+   * 확인/취소 버튼 표시 여부
+   * @default false
+   */
+  showActions?: boolean;
+  /**
+   * 확인 버튼 라벨
+   * @default '확인'
+   */
+  confirmLabel?: string;
+  /**
+   * 취소 버튼 라벨
+   * @default '취소'
+   */
+  cancelLabel?: string;
 }
 
 /**

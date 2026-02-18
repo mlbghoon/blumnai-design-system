@@ -67,7 +67,7 @@ export const TEXTAREA_CONTAINER_BASE = 'flex flex-col' as const;
 
 export const COUNT_STYLE = 'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-muted' as const;
 
-export const TOOLBAR_CONTAINER = 'flex items-center justify-between ds-gap-8 margin-t-32' as const;
+export const TOOLBAR_CONTAINER = 'flex items-center justify-between ds-gap-8 margin-t-4' as const;
 
 export const TOOLBAR_ACTIONS_CONTAINER = 'flex items-center ds-gap-4' as const;
 

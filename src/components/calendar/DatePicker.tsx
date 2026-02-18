@@ -1,10 +1,11 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { addDays, addWeeks, addMonths, startOfDay, endOfDay } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 
 import { cn } from '../../utils/cn';
 import { Popover, PopoverContent, PopoverAnchor } from '../popover/Popover';
 import { InputWrapper } from '../input/shared/InputWrapper';
+import { Button } from '../button/Button';
 import { Calendar } from './Calendar';
 import { DateInput, DateRangeInput, QuickPresets } from './components';
 import type {
@@ -93,26 +94,54 @@ export const DatePicker = ({
   value,
   onChange,
   presets,
+  showActions = false,
+  confirmLabel = '확인',
+  cancelLabel = '취소',
 }: DatePickerProps) => {
   const [open, setOpen] = useState(false);
   const [month, setMonth] = useState<Date>(value || new Date());
+  const [stagedValue, setStagedValue] = useState<Date | undefined>(value);
+  const snapshotRef = useRef<Date | undefined>(value);
 
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
   const hasSuccess = success === true || (typeof success === 'string' && success.length > 0);
 
   const effectivePresets = presets || DEFAULT_SINGLE_PRESETS;
+  const displayValue = showActions ? stagedValue : value;
   const selectedPresetIndex = useMemo(
-    () => findMatchingPresetIndex(effectivePresets, value, false),
-    [effectivePresets, value]
+    () => findMatchingPresetIndex(effectivePresets, displayValue, false),
+    [effectivePresets, displayValue]
   );
 
-  const handleSelect = useCallback((date: Date | undefined) => {
-    onChange?.(date);
-    if (date) {
-      setMonth(date);
-      setOpen(false);
+  useEffect(() => {
+    if (!open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setStagedValue(value);
     }
-  }, [onChange]);
+  }, [open, value]);
+
+  const handleOpenChange = useCallback((nextOpen: boolean) => {
+    if (nextOpen) {
+      snapshotRef.current = value;
+      setStagedValue(value);
+    } else if (showActions) {
+      onChange?.(snapshotRef.current);
+    }
+    setOpen(nextOpen);
+  }, [showActions, value, onChange]);
+
+  const handleSelect = useCallback((date: Date | undefined) => {
+    if (showActions) {
+      setStagedValue(date);
+      if (date) setMonth(date);
+    } else {
+      onChange?.(date);
+      if (date) {
+        setMonth(date);
+        setOpen(false);
+      }
+    }
+  }, [onChange, showActions]);
 
   const handleInputChange = useCallback((date: Date | undefined) => {
     onChange?.(date);
@@ -123,10 +152,25 @@ export const DatePicker = ({
 
   const handlePresetSelect = useCallback((preset: QuickPreset) => {
     const date = preset.getValue() as Date;
-    onChange?.(date);
-    setMonth(date);
+    if (showActions) {
+      setStagedValue(date);
+      setMonth(date);
+    } else {
+      onChange?.(date);
+      setMonth(date);
+      setOpen(false);
+    }
+  }, [onChange, showActions]);
+
+  const handleConfirm = useCallback(() => {
+    onChange?.(stagedValue);
     setOpen(false);
-  }, [onChange]);
+  }, [onChange, stagedValue]);
+
+  const handleCancel = useCallback(() => {
+    setStagedValue(snapshotRef.current);
+    setOpen(false);
+  }, []);
 
   const handleOpenCalendar = useCallback(() => {
     if (!value) {
@@ -154,7 +198,7 @@ export const DatePicker = ({
       width={width}
       className={className}
     >
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverAnchor asChild>
           <div>
             <DateInput
@@ -175,25 +219,39 @@ export const DatePicker = ({
           className={cn('w-auto ![padding:0] overflow-hidden', showQuickPresets && 'flex')}
           align={align}
         >
-          {showQuickPresets && (
-            <QuickPresets
-              presets={effectivePresets}
-              onSelect={handlePresetSelect}
-              selectedIndex={selectedPresetIndex}
-            />
-          )}
-          <Calendar
-            mode="single"
-            selected={value}
-            onSelect={handleSelect}
-            month={month}
-            onMonthChange={setMonth}
-            disabled={disabledMatcher}
-            locale={locale}
-            calendarStyle="default"
-            captionLayout={captionLayout}
-            initialFocus
-          />
+          <div className={cn(showQuickPresets && 'flex')}>
+            {showQuickPresets && (
+              <QuickPresets
+                presets={effectivePresets}
+                onSelect={handlePresetSelect}
+                selectedIndex={selectedPresetIndex}
+              />
+            )}
+            <div>
+              <Calendar
+                mode="single"
+                selected={displayValue}
+                onSelect={handleSelect}
+                month={month}
+                onMonthChange={setMonth}
+                disabled={disabledMatcher}
+                locale={locale}
+                calendarStyle="default"
+                captionLayout={captionLayout}
+                initialFocus
+              />
+              {showActions && (
+                <div className="flex justify-end ds-gap-8 padding-x-12 padding-y-8 border-t border-default">
+                  <Button size="sm" buttonStyle="ghost" onClick={handleCancel}>
+                    {cancelLabel}
+                  </Button>
+                  <Button size="sm" buttonStyle="primary" onClick={handleConfirm}>
+                    {confirmLabel}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
         </PopoverContent>
       </Popover>
     </InputWrapper>
@@ -235,42 +293,74 @@ export const DateRangePicker = ({
   onChange,
   presets,
   numberOfMonths = 2,
+  showActions = false,
+  confirmLabel = '확인',
+  cancelLabel = '취소',
 }: DateRangePickerProps) => {
   const [open, setOpen] = useState(false);
   const [month, setMonth] = useState<Date>(value?.from || new Date());
   const [selectionPhase, setSelectionPhase] = useState<'idle' | 'selecting-end'>('idle');
+  const [stagedValue, setStagedValue] = useState<DateRange | undefined>(value);
+  const snapshotRef = useRef<DateRange | undefined>(value);
 
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
   const hasSuccess = success === true || (typeof success === 'string' && success.length > 0);
 
   const effectivePresets = presets || DEFAULT_RANGE_PRESETS;
+  const displayValue = showActions ? stagedValue : value;
   const selectedPresetIndex = useMemo(
-    () => findMatchingPresetIndex(effectivePresets, value, true),
-    [effectivePresets, value]
+    () => findMatchingPresetIndex(effectivePresets, displayValue, true),
+    [effectivePresets, displayValue]
   );
 
   useEffect(() => {
     if (!open) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectionPhase('idle');
+      setStagedValue(value);
     }
-  }, [open]);
+  }, [open, value]);
+
+  const handleOpenChange = useCallback((nextOpen: boolean) => {
+    if (nextOpen) {
+      snapshotRef.current = value;
+      setStagedValue(value);
+    } else if (showActions) {
+      onChange?.(snapshotRef.current);
+    }
+    setOpen(nextOpen);
+  }, [showActions, value, onChange]);
 
   const handleSelect = useCallback((range: DateRange | undefined) => {
-    onChange?.(range);
+    if (showActions) {
+      setStagedValue(range);
 
-    if (!range?.from) {
-      setSelectionPhase('idle');
-      return;
-    }
+      if (!range?.from) {
+        setSelectionPhase('idle');
+        return;
+      }
 
-    if (selectionPhase === 'idle') {
-      setSelectionPhase('selecting-end');
-    } else if (selectionPhase === 'selecting-end' && range?.to) {
-      setOpen(false);
-      setSelectionPhase('idle');
+      if (selectionPhase === 'idle') {
+        setSelectionPhase('selecting-end');
+      } else if (selectionPhase === 'selecting-end' && range?.to) {
+        setSelectionPhase('idle');
+      }
+    } else {
+      onChange?.(range);
+
+      if (!range?.from) {
+        setSelectionPhase('idle');
+        return;
+      }
+
+      if (selectionPhase === 'idle') {
+        setSelectionPhase('selecting-end');
+      } else if (selectionPhase === 'selecting-end' && range?.to) {
+        setOpen(false);
+        setSelectionPhase('idle');
+      }
     }
-  }, [onChange, selectionPhase]);
+  }, [onChange, selectionPhase, showActions]);
 
   const handleInputChange = useCallback((range: DateRange | undefined) => {
     onChange?.(range);
@@ -281,12 +371,27 @@ export const DateRangePicker = ({
 
   const handlePresetSelect = useCallback((preset: QuickPreset) => {
     const range = preset.getValue() as DateRange;
-    onChange?.(range);
-    if (range.from) {
-      setMonth(range.from);
+    if (showActions) {
+      setStagedValue(range);
+      if (range.from) setMonth(range.from);
+    } else {
+      onChange?.(range);
+      if (range.from) {
+        setMonth(range.from);
+      }
+      setOpen(false);
     }
+  }, [onChange, showActions]);
+
+  const handleConfirm = useCallback(() => {
+    onChange?.(stagedValue);
     setOpen(false);
-  }, [onChange]);
+  }, [onChange, stagedValue]);
+
+  const handleCancel = useCallback(() => {
+    setStagedValue(snapshotRef.current);
+    setOpen(false);
+  }, []);
 
   const handleOpenCalendar = useCallback(() => {
     if (!value?.from) {
@@ -314,7 +419,7 @@ export const DateRangePicker = ({
       width={width}
       className={className}
     >
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverAnchor asChild>
           <div>
             <DateRangeInput
@@ -335,27 +440,41 @@ export const DateRangePicker = ({
           className={cn('w-auto ![padding:0] overflow-hidden', showQuickPresets && 'flex')}
           align={align}
         >
-          {showQuickPresets && (
-            <QuickPresets
-              presets={effectivePresets}
-              onSelect={handlePresetSelect}
-              selectedIndex={selectedPresetIndex}
-            />
-          )}
-          <Calendar
-            mode="range"
-            selected={value}
-            onSelect={handleSelect}
-            month={month}
-            onMonthChange={setMonth}
-            numberOfMonths={numberOfMonths}
-            disabled={disabledMatcher}
-            locale={locale}
-            calendarStyle="default"
-            captionLayout={captionLayout}
-            showOutsideDays={false}
-            initialFocus
-          />
+          <div className={cn(showQuickPresets && 'flex')}>
+            {showQuickPresets && (
+              <QuickPresets
+                presets={effectivePresets}
+                onSelect={handlePresetSelect}
+                selectedIndex={selectedPresetIndex}
+              />
+            )}
+            <div>
+              <Calendar
+                mode="range"
+                selected={displayValue}
+                onSelect={handleSelect}
+                month={month}
+                onMonthChange={setMonth}
+                numberOfMonths={numberOfMonths}
+                disabled={disabledMatcher}
+                locale={locale}
+                calendarStyle="default"
+                captionLayout={captionLayout}
+                showOutsideDays={false}
+                initialFocus
+              />
+              {showActions && (
+                <div className="flex justify-end ds-gap-8 padding-x-12 padding-y-8 border-t border-default">
+                  <Button size="sm" buttonStyle="ghost" onClick={handleCancel}>
+                    {cancelLabel}
+                  </Button>
+                  <Button size="sm" buttonStyle="primary" onClick={handleConfirm}>
+                    {confirmLabel}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
         </PopoverContent>
       </Popover>
     </InputWrapper>

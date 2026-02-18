@@ -117,7 +117,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
         aria-disabled={disabled}
         {...headerProps}
       >
-        <span className="flex-1 text-base font-medium leading-6 text-left text-default">
+        <span className="flex-1 size-md font-medium line-height-leading-6 text-left text-default">
           {header}
         </span>
         <span className={iconClassName}>

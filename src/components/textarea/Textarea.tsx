@@ -1,8 +1,10 @@
-import { forwardRef, useId } from 'react';
+import { forwardRef, useId, useRef, useCallback, useEffect } from 'react';
+import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
 import { cn } from '../../utils/cn';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { InputWrapper } from '../input/shared/InputWrapper';
+import { ScrollBar } from '../scroll-area/ScrollArea';
 import type { TextareaProps } from './Textarea.types';
 import {
   SIZE_CONFIG,
@@ -51,9 +53,23 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   maxLength,
   value,
   defaultValue,
+  onInput,
+  onKeyUp,
   ...props
 }, ref) => {
   const textareaId = useId();
+  const internalRef = useRef<HTMLTextAreaElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number>(0);
+
+  const mergedRef = useCallback((node: HTMLTextAreaElement | null) => {
+    internalRef.current = node;
+    if (typeof ref === 'function') {
+      ref(node);
+    } else if (ref) {
+      (ref as React.MutableRefObject<HTMLTextAreaElement | null>).current = node;
+    }
+  }, [ref]);
 
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
   const hasSuccess = success === true || (typeof success === 'string' && success.length > 0);
@@ -76,6 +92,100 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       : 0;
 
   const hasToolbarContent = showToolbar || onAttach || onSubmit || onVoiceInput || toolbarActions?.length || toolbarTrailing;
+  const useCustomScrollbar = !!maxRows && !hasToolbarContent;
+
+  const adjustHeight = useCallback(() => {
+    const textarea = internalRef.current;
+    if (!textarea) return;
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  }, []);
+
+  const scrollToCursor = useCallback(() => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      const textarea = internalRef.current;
+      const viewport = viewportRef.current;
+      if (!textarea || !viewport) return;
+
+      const mirror = document.createElement('div');
+      const computed = window.getComputedStyle(textarea);
+      mirror.style.position = 'absolute';
+      mirror.style.visibility = 'hidden';
+      mirror.style.whiteSpace = 'pre-wrap';
+      mirror.style.wordWrap = 'break-word';
+      mirror.style.overflow = 'hidden';
+      mirror.style.width = computed.width;
+      mirror.style.fontFamily = computed.fontFamily;
+      mirror.style.fontSize = computed.fontSize;
+      mirror.style.fontWeight = computed.fontWeight;
+      mirror.style.lineHeight = computed.lineHeight;
+      mirror.style.letterSpacing = computed.letterSpacing;
+      mirror.style.paddingTop = computed.paddingTop;
+      mirror.style.paddingRight = computed.paddingRight;
+      mirror.style.paddingBottom = computed.paddingBottom;
+      mirror.style.paddingLeft = computed.paddingLeft;
+      mirror.style.borderWidth = computed.borderWidth;
+      mirror.style.boxSizing = computed.boxSizing;
+
+      const textBeforeCursor = textarea.value.substring(0, textarea.selectionEnd ?? textarea.value.length);
+      mirror.textContent = textBeforeCursor;
+
+      const marker = document.createElement('span');
+      marker.textContent = '\u200b';
+      mirror.appendChild(marker);
+
+      document.body.appendChild(mirror);
+      const cursorTop = marker.offsetTop;
+      const cursorBottom = cursorTop + marker.offsetHeight;
+      document.body.removeChild(mirror);
+
+      const scrollTop = viewport.scrollTop;
+      const viewHeight = viewport.clientHeight;
+
+      if (cursorTop < scrollTop) {
+        viewport.scrollTop = cursorTop;
+      } else if (cursorBottom > scrollTop + viewHeight) {
+        viewport.scrollTop = cursorBottom - viewHeight;
+      }
+    });
+  }, []);
+
+  const handleInput = useCallback((e: React.FormEvent<HTMLTextAreaElement>) => {
+    if (useCustomScrollbar) {
+      adjustHeight();
+      scrollToCursor();
+    }
+    onInput?.(e);
+  }, [useCustomScrollbar, adjustHeight, scrollToCursor, onInput]);
+
+  const handleKeyUp = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (useCustomScrollbar) {
+      const navKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown'];
+      if (navKeys.includes(e.key)) {
+        scrollToCursor();
+      }
+    }
+    onKeyUp?.(e);
+  }, [useCustomScrollbar, scrollToCursor, onKeyUp]);
+
+  useEffect(() => {
+    if (useCustomScrollbar) {
+      adjustHeight();
+    }
+  }, [useCustomScrollbar, value, adjustHeight]);
+
+  useEffect(() => {
+    if (!useCustomScrollbar) return;
+    const textarea = internalRef.current;
+    if (!textarea) return;
+
+    const observer = new ResizeObserver(() => {
+      adjustHeight();
+    });
+    observer.observe(textarea);
+    return () => observer.disconnect();
+  }, [useCustomScrollbar, adjustHeight]);
 
   const wrapperClassName = cn(
     'flex flex-col w-full transition-colors duration-150',
@@ -94,7 +204,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     'letter-spacing-tracking-tight',
     stateConfig.text,
     stateConfig.placeholder,
-    hasToolbarContent ? 'resize-none' : RESIZE_CONFIG[resize],
+    (hasToolbarContent || useCustomScrollbar) ? 'resize-none' : RESIZE_CONFIG[resize],
     disabled && 'cursor-not-allowed'
   );
 
@@ -187,6 +297,29 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     );
   };
 
+  const textareaElement = (
+    <textarea
+      ref={useCustomScrollbar ? mergedRef : ref}
+      id={textareaId}
+      disabled={disabled}
+      className={textareaClassName}
+      style={{
+        minHeight: hasToolbarContent ? undefined : `${minHeight}px`,
+        maxHeight: useCustomScrollbar ? undefined : (maxHeight && !hasToolbarContent ? `${maxHeight}px` : undefined),
+        overflow: useCustomScrollbar ? 'hidden' : undefined,
+      }}
+      rows={minRows}
+      maxLength={maxLength}
+      value={value}
+      defaultValue={defaultValue}
+      aria-invalid={hasError}
+      aria-describedby={caption || error || success ? `${textareaId}-caption` : undefined}
+      onInput={handleInput}
+      onKeyUp={handleKeyUp}
+      {...props}
+    />
+  );
+
   return (
     <InputWrapper
       label={label}
@@ -200,23 +333,21 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       className={className}
     >
       <div className={wrapperClassName}>
-        <textarea
-          ref={ref}
-          id={textareaId}
-          disabled={disabled}
-          className={textareaClassName}
-          style={{
-            minHeight: hasToolbarContent ? undefined : `${minHeight}px`,
-            maxHeight: maxHeight && !hasToolbarContent ? `${maxHeight}px` : undefined,
-          }}
-          rows={minRows}
-          maxLength={maxLength}
-          value={value}
-          defaultValue={defaultValue}
-          aria-invalid={hasError}
-          aria-describedby={caption || error || success ? `${textareaId}-caption` : undefined}
-          {...props}
-        />
+        {useCustomScrollbar ? (
+          <ScrollAreaPrimitive.Root className="relative overflow-hidden min-h-0">
+            <ScrollAreaPrimitive.Viewport
+              ref={viewportRef}
+              className="h-full w-full max-w-full"
+              style={{ maxHeight: `${maxHeight}px` }}
+            >
+              {textareaElement}
+            </ScrollAreaPrimitive.Viewport>
+            <ScrollBar orientation="vertical" />
+            <ScrollAreaPrimitive.Corner />
+          </ScrollAreaPrimitive.Root>
+        ) : (
+          textareaElement
+        )}
 
         {renderToolbar()}
 
