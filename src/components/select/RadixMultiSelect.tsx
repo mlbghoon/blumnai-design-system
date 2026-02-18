@@ -221,6 +221,8 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       width,
       maxHeight = 300,
       className,
+      showSelectAll = false,
+      selectAllLabel = '전체 선택',
     },
     ref
   ) => {
@@ -279,6 +281,20 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       return filteredOptions.filter((option) => !option.disabled);
     }, [filteredOptions]);
 
+    const effectiveShowSelectAll = showSelectAll && !maxSelections;
+
+    const selectableOptions = React.useMemo(() => {
+      return filteredOptions.filter((o) => !o.disabled);
+    }, [filteredOptions]);
+
+    const allSelected = effectiveShowSelectAll
+      && selectableOptions.length > 0
+      && selectableOptions.every((o) => selectedValues.includes(o.id));
+
+    const someSelected = effectiveShowSelectAll
+      && !allSelected
+      && selectableOptions.some((o) => selectedValues.includes(o.id));
+
     const selectedOptions = React.useMemo(() => {
       return options.filter((opt) => selectedValues.includes(opt.id));
     }, [options, selectedValues]);
@@ -335,6 +351,22 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       [disabled, selectedValues, isControlledValue, onChange]
     );
 
+    const toggleAll = React.useCallback(() => {
+      if (disabled) return;
+      const selectableIds = selectableOptions.map((o) => o.id);
+      let newValue: string[];
+      if (allSelected) {
+        newValue = selectedValues.filter((v) => !selectableIds.includes(v));
+      } else {
+        const set = new Set([...selectedValues, ...selectableIds]);
+        newValue = Array.from(set);
+      }
+      if (!isControlledValue) setInternalValue(newValue);
+      onChange?.(newValue);
+    }, [disabled, selectableOptions, allSelected, selectedValues, isControlledValue, onChange]);
+
+    const totalNavigableCount = (effectiveShowSelectAll ? 1 : 0) + navigableOptions.length;
+
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent) => {
         if (!isOpen) {
@@ -346,18 +378,20 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
           return;
         }
 
+        const offset = effectiveShowSelectAll ? 1 : 0;
+
         switch (event.key) {
           case 'ArrowDown':
             event.preventDefault();
             setFocusedIndex((prev) =>
-              prev + 1 >= navigableOptions.length ? 0 : prev + 1
+              prev + 1 >= totalNavigableCount ? 0 : prev + 1
             );
             break;
 
           case 'ArrowUp':
             event.preventDefault();
             setFocusedIndex((prev) =>
-              prev - 1 < 0 ? navigableOptions.length - 1 : prev - 1
+              prev - 1 < 0 ? totalNavigableCount - 1 : prev - 1
             );
             break;
 
@@ -368,14 +402,16 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
 
           case 'End':
             event.preventDefault();
-            setFocusedIndex(navigableOptions.length - 1);
+            setFocusedIndex(totalNavigableCount - 1);
             break;
 
           case 'Enter':
           case ' ':
             event.preventDefault();
-            if (focusedIndex >= 0 && focusedIndex < navigableOptions.length) {
-              const option = navigableOptions[focusedIndex];
+            if (effectiveShowSelectAll && focusedIndex === 0) {
+              toggleAll();
+            } else if (focusedIndex >= offset && focusedIndex < totalNavigableCount) {
+              const option = navigableOptions[focusedIndex - offset];
               toggleValue(option.id);
             }
             break;
@@ -387,7 +423,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
             break;
         }
       },
-      [isOpen, navigableOptions, focusedIndex, toggleValue, setOpen]
+      [isOpen, navigableOptions, focusedIndex, toggleValue, toggleAll, setOpen, effectiveShowSelectAll, totalNavigableCount]
     );
 
     const renderSelectedValue = () => {
@@ -606,22 +642,106 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   }}
                 >
                   {filteredOptions.length > 0 ? (
-                    filteredOptions.map((option) => {
-                      const navIndex = navigableOptions.findIndex(
-                        (nav) => nav.id === option.id
-                      );
-                      return (
-                        <MultiSelectItem
-                          key={option.id}
-                          option={option}
-                          selected={selectedValues.includes(option.id)}
-                          focused={navIndex === focusedIndex}
-                          disabled={option.disabled}
-                          variant={variant}
-                          onToggle={() => toggleValue(option.id)}
-                        />
-                      );
-                    })
+                    <>
+                      {effectiveShowSelectAll && (
+                        <>
+                          <div className="flex w-full padding-x-4">
+                            <div
+                              role="option"
+                              aria-selected={allSelected}
+                              tabIndex={0}
+                              onClick={toggleAll}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  toggleAll();
+                                }
+                              }}
+                              className={cn(
+                                'flex items-center w-full rounded-xs transition-colors duration-150',
+                                MENU_ITEM_SIZE_CONFIG.default.height,
+                                MENU_ITEM_SIZE_CONFIG.default.padding,
+                                MENU_ITEM_SIZE_CONFIG.default.gap,
+                                'bg-transparent hover:bg-state-ghost-hover active:bg-state-ghost-hover cursor-pointer',
+                                focusedIndex === 0 && 'shadow-component-focus'
+                              )}
+                            >
+                              <div
+                                className={cn(
+                                  'relative width-16 height-16 rounded-default overflow-hidden flex-shrink-0 transition-colors',
+                                  allSelected || someSelected
+                                    ? 'border-none bg-checkbox-active'
+                                    : 'border-darker bg-checkbox-default'
+                                )}
+                              >
+                                {(allSelected || someSelected) && (
+                                  <div
+                                    className="absolute flex items-center justify-center"
+                                    style={{ inset: '1px' }}
+                                  >
+                                    <svg
+                                      width="8"
+                                      height="8"
+                                      viewBox="0 0 8 8"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      {allSelected ? (
+                                        <path
+                                          d="M1 4L3 6L7 2"
+                                          stroke="#FFFFFF"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                      ) : (
+                                        <path
+                                          d="M1.5 4H6.5"
+                                          stroke="#FFFFFF"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                        />
+                                      )}
+                                    </svg>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="flex-1 min-w-0 padding-x-4">
+                                <span
+                                  className={cn(
+                                    'font-body',
+                                    MENU_ITEM_SIZE_CONFIG.default.text,
+                                    'text-default truncate'
+                                  )}
+                                >
+                                  {selectAllLabel}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="margin-x-4 margin-y-4 height-1 bg-muted" />
+                        </>
+                      )}
+                      {filteredOptions.map((option) => {
+                        const navIndex = navigableOptions.findIndex(
+                          (nav) => nav.id === option.id
+                        );
+                        const adjustedFocusedIndex = effectiveShowSelectAll
+                          ? navIndex + 1 === focusedIndex
+                          : navIndex === focusedIndex;
+                        return (
+                          <MultiSelectItem
+                            key={option.id}
+                            option={option}
+                            selected={selectedValues.includes(option.id)}
+                            focused={adjustedFocusedIndex}
+                            disabled={option.disabled}
+                            variant={variant}
+                            onToggle={() => toggleValue(option.id)}
+                          />
+                        );
+                      })}
+                    </>
                   ) : (
                     <div className="flex items-center justify-center padding-y-8 text-muted size-sm font-body">
                       {noResultsText}

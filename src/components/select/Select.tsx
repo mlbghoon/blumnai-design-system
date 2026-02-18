@@ -51,6 +51,8 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         className={multiProps.className}
         maxSelections={multiProps.maxSelections}
         selectedText={multiProps.selectedText}
+        showSelectAll={multiProps.showSelectAll}
+        selectAllLabel={multiProps.selectAllLabel}
       />
     );
   }

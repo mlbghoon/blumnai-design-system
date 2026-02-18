@@ -136,6 +136,16 @@ const meta: Meta<typeof Select> = {
         },
       },
     },
+    showSelectAll: {
+      control: 'boolean',
+      description: '전체 선택 옵션 표시 여부 (maxSelections 설정 시 무시됨)',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    selectAllLabel: {
+      control: 'text',
+      description: '전체 선택 라벨',
+      table: { type: { summary: 'string' }, defaultValue: { summary: '전체 선택' } },
+    },
     width: {
       control: 'text',
       description: '컨테이너 너비',
@@ -202,6 +212,8 @@ export const Default: Story = {
     maxHeight: 300,
     maxSelections: undefined,
     selectedText: '',
+    showSelectAll: false,
+    selectAllLabel: '전체 선택',
   },
   parameters: {
     controls: { disable: false },
@@ -214,6 +226,8 @@ export const Default: Story = {
     const success = args.success || undefined;
     const maxSelections = 'maxSelections' in args ? args.maxSelections : undefined;
     const selectedText = 'selectedText' in args ? (args.selectedText || undefined) : undefined;
+    const showSelectAll = 'showSelectAll' in args ? args.showSelectAll : undefined;
+    const selectAllLabel = 'selectAllLabel' in args ? (args.selectAllLabel || undefined) : undefined;
     return (
       <Select
         variant="multi-select"
@@ -233,6 +247,8 @@ export const Default: Story = {
         maxHeight={args.maxHeight}
         maxSelections={maxSelections}
         selectedText={selectedText}
+        showSelectAll={showSelectAll}
+        selectAllLabel={selectAllLabel}
         value={value}
         onChange={setValue}
       />
@@ -586,6 +602,81 @@ export const CustomSelectedTextFunction: Story = {
         value={value}
         onChange={setValue}
         selectedText={(count) => `${count}개 항목 선택됨`}
+        width={300}
+      />
+    );
+  },
+};
+
+// ============================================================================
+// SELECT ALL
+// ============================================================================
+
+/**
+ * 전체 선택
+ *
+ * `showSelectAll` prop으로 전체 선택 체크박스를 표시합니다.
+ */
+export const WithSelectAll: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string[]>();
+    return (
+      <Select
+        variant="multi-select"
+        label="Select options"
+        placeholder="Choose options..."
+        options={defaultOptions}
+        value={value}
+        onChange={setValue}
+        showSelectAll
+        width={300}
+      />
+    );
+  },
+};
+
+/**
+ * 전체 선택 (커스텀 라벨)
+ *
+ * `selectAllLabel` prop으로 전체 선택 라벨을 변경합니다.
+ */
+export const WithSelectAllCustomLabel: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string[]>();
+    return (
+      <Select
+        variant="multi-select"
+        label="Select options"
+        placeholder="Choose options..."
+        options={defaultOptions}
+        value={value}
+        onChange={setValue}
+        showSelectAll
+        selectAllLabel="Select All"
+        width={300}
+      />
+    );
+  },
+};
+
+/**
+ * 전체 선택 + 검색
+ *
+ * 검색과 함께 사용할 때 전체 선택은 필터된 옵션에만 적용됩니다.
+ */
+export const WithSelectAllAndSearch: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string[]>();
+    return (
+      <Select
+        variant="multi-select"
+        label="Search and select all"
+        placeholder="Search and select..."
+        options={manyOptions}
+        value={value}
+        onChange={setValue}
+        showSelectAll
+        searchable
         width={300}
       />
     );

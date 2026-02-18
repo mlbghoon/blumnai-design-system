@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.29] - 2026-02-18
+
+### Added
+
+- MultiSelect: `showSelectAll` prop 추가 — 드롭다운 상단에 전체 선택 체크박스 표시
+  - 전체 선택 / 전체 해제 토글 (체크/인터미디에이트/빈 상태)
+  - 검색 활성화 시 필터된 옵션에만 적용
+  - `maxSelections` 설정 시 자동으로 숨김
+  - 키보드 내비게이션 지원 (Select All이 첫 번째 항목)
+- MultiSelect: `selectAllLabel` prop 추가 — 전체 선택 라벨 커스터마이징 (기본값: `'전체 선택'`)
+
 ## [0.2.28] - 2026-02-18
 
 ### Added

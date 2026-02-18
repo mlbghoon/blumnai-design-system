@@ -214,6 +214,16 @@ export interface MultiSelectProps extends SelectBaseProps, Omit<HTMLAttributes<H
    * @default '{count} selected'
    */
   selectedText?: string | ((count: number) => string);
+  /**
+   * 전체 선택 옵션 표시 여부 (maxSelections 설정 시 무시됨)
+   * @default false
+   */
+  showSelectAll?: boolean;
+  /**
+   * 전체 선택 라벨
+   * @default '전체 선택'
+   */
+  selectAllLabel?: string;
 }
 
 /**
@@ -272,6 +282,10 @@ export interface RadixMultiSelectProps extends SelectBaseProps {
   selectedText?: string | ((count: number) => string);
   maxVisibleTags?: number;
   overflowText?: string | ((hiddenCount: number, totalCount: number) => string);
+  /** 전체 선택 옵션 표시 여부 (maxSelections 설정 시 무시됨) @default false */
+  showSelectAll?: boolean;
+  /** 전체 선택 라벨 @default '전체 선택' */
+  selectAllLabel?: string;
 }
 
 // ============================================================================
