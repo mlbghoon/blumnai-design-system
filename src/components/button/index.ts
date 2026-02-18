@@ -1,6 +1,6 @@
 // Button
 export { Button, buttonVariants } from './Button';
-export type { ButtonProps, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape, ButtonIconType } from './Button';
+export type { ButtonProps, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape, ButtonIconType, ButtonColor } from './Button';
 
 // LinkButton
 export { LinkButton, linkButtonVariants } from './LinkButton';

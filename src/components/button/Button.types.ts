@@ -27,6 +27,11 @@ export type ButtonShape = 'rounded' | 'pill';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
 
+export type ButtonColor =
+  | 'gray' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime'
+  | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue'
+  | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
+
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
   /**
    * The visual style of the button.
@@ -80,6 +85,11 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
    * <Button loading width={120}>Save</Button>
    */
   loading?: boolean;
+  /**
+   * Override the button color while preserving the style pattern.
+   * Changes the hue of the button using design system color tokens.
+   */
+  colorOverride?: ButtonColor;
   /**
    * If true, the button is disabled.
    * @default false

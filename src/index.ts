@@ -30,6 +30,7 @@ export type {
   ButtonSize,
   ButtonShape,
   ButtonIconType,
+  ButtonColor,
   LinkButtonProps,
   LinkButtonSize,
   LinkButtonType,

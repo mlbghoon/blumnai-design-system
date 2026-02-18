@@ -8,7 +8,7 @@ import type { IconType } from '../icons/Icon/Icon.types';
 import { cn } from '../../lib/utils';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 
-import type { ButtonProps, ButtonIconType, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape } from './Button.types';
+import type { ButtonProps, ButtonIconType, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape, ButtonColor } from './Button.types';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center cursor-pointer transition-all duration-200 focus:outline-none font-medium letter-spacing-tracking-normal',
@@ -88,6 +88,35 @@ const LOADING_STYLE = {
   dashed: 'bg-state-secondary-loading text-default border-dashed [border-width:1px] [border-color:var(--border-default)] cursor-wait',
 } as const;
 
+const getColorOverrideVars = (color: ButtonColor): Record<string, string> => ({
+  '--btn-bg': `var(--bg-basic-${color}-accent)`,
+  '--btn-bg-hover': `var(--bg-basic-${color}-strong)`,
+  '--btn-bg-subtle': `var(--bg-basic-${color}-subtle)`,
+  '--btn-bg-alpha': `var(--bg-basic-${color}-alpha-15)`,
+  '--btn-text': `var(--bg-basic-${color}-strong)`,
+  '--btn-text-muted': `var(--bg-basic-${color}-accent)`,
+});
+
+const COLOR_OVERRIDE_STYLE: Record<ButtonStyle, string> = {
+  primary: '[background-color:var(--btn-bg)] text-white-default border-solid border-[1px] border-transparent hover:[background-color:var(--btn-bg-hover)] active:[background-color:var(--btn-bg-hover)] focus-visible:shadow-component-focus',
+  destructive: '[background-color:var(--btn-bg)] text-white-default border-solid border-[1px] border-transparent hover:[background-color:var(--btn-bg-hover)] active:[background-color:var(--btn-bg-hover)] focus-visible:shadow-component-focus',
+  secondary: '[background-color:var(--btn-bg-subtle)] [color:var(--btn-text)] border-default hover:[background-color:var(--btn-bg-alpha)] active:[background-color:var(--btn-bg-alpha)] focus-visible:shadow-component-focus',
+  ghost: 'bg-transparent [color:var(--btn-text)] border-solid border-[1px] border-transparent hover:[background-color:var(--btn-bg-alpha)] active:[background-color:var(--btn-bg-alpha)] focus-visible:shadow-component-misc-focus',
+  ghostMuted: 'bg-transparent [color:var(--btn-text-muted)] border-solid border-[1px] border-transparent hover:[background-color:var(--btn-bg-alpha)] active:[background-color:var(--btn-bg-alpha)] focus-visible:shadow-component-misc-focus',
+  soft: '[background-color:var(--btn-bg-subtle)] [color:var(--btn-text)] border-solid border-[1px] border-transparent hover:[background-color:var(--btn-bg-alpha)] active:[background-color:var(--btn-bg-alpha)] focus-visible:shadow-component-misc-focus',
+  dashed: '[background-color:var(--btn-bg-subtle)] [color:var(--btn-text)] border-dashed [border-width:1px] [border-color:var(--border-default)] hover:[background-color:var(--btn-bg-alpha)] active:[background-color:var(--btn-bg-alpha)] focus-visible:shadow-component-misc-focus',
+};
+
+const COLOR_OVERRIDE_LOADING_STYLE: Record<ButtonStyle, string> = {
+  primary: '[background-color:var(--btn-bg-subtle)] text-white-default border-solid border-[1px] border-transparent cursor-wait',
+  destructive: '[background-color:var(--btn-bg-subtle)] text-white-default border-solid border-[1px] border-transparent cursor-wait',
+  secondary: '[background-color:var(--btn-bg-subtle)] [color:var(--btn-text)] border-default cursor-wait',
+  ghost: '[background-color:var(--btn-bg-alpha)] [color:var(--btn-text)] border-solid border-[1px] border-transparent cursor-wait',
+  ghostMuted: '[background-color:var(--btn-bg-alpha)] [color:var(--btn-text-muted)] border-solid border-[1px] border-transparent cursor-wait',
+  soft: '[background-color:var(--btn-bg-subtle)] [color:var(--btn-text)] border-solid border-[1px] border-transparent cursor-wait',
+  dashed: '[background-color:var(--btn-bg-subtle)] [color:var(--btn-text)] border-dashed [border-width:1px] [border-color:var(--border-default)] cursor-wait',
+};
+
 /**
  * Button 컴포넌트
  *
@@ -105,6 +134,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   leadIcon,
   tailIcon,
   shortcut,
+  colorOverride,
   loading = false,
   disabled = false,
   fullWidth = false,
@@ -156,12 +186,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     : undefined;
 
   const isTextOnlyLoading = loading && !isIconOnly && !leadIcon && !tailIcon;
+  const hasColorOverride = !!colorOverride;
 
   const containerClassName = cn(
     buttonVariants({ size, shape }),
-    !disabled && !loading && BUTTON_COLOR_STYLE[buttonStyle],
+    !disabled && !loading && (hasColorOverride ? COLOR_OVERRIDE_STYLE[buttonStyle] : BUTTON_COLOR_STYLE[buttonStyle]),
     disabled && DISABLED_STYLE,
-    loading && LOADING_STYLE[buttonStyle],
+    loading && (hasColorOverride && !disabled ? COLOR_OVERRIDE_LOADING_STYLE[buttonStyle] : LOADING_STYLE[buttonStyle]),
     isIconOnly && iconOnlySizeVariants({ size }),
     isIconOnly && 'aspect-square padding-0',
     isTextOnlyLoading && 'relative',
@@ -172,6 +203,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   const getIconColor = () => {
     if (disabled) return 'var(--icon-default-disabled)';
     if (isInvertedStyle) return 'var(--icon-white-default)';
+    if (colorOverride) return `var(--bg-basic-${colorOverride}-${buttonStyle === 'ghostMuted' ? 'accent' : 'strong'})`;
     return 'var(--icon-default-muted)';
   };
 
@@ -205,17 +237,26 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 
   const renderShortcut = () => {
     if (!shortcut) return null;
+    const shortcutColorStyle = isInvertedStyle
+      ? SHORTCUT_STYLE.inverted
+      : colorOverride
+        ? cn(SHORTCUT_STYLE.light, '[color:var(--btn-text)]')
+        : SHORTCUT_STYLE.light;
     return (
-      <span className={cn('inline-flex items-center justify-center leading-none', shortcutClasses, isInvertedStyle ? SHORTCUT_STYLE.inverted : SHORTCUT_STYLE.light)}>
+      <span className={cn('inline-flex items-center justify-center leading-none', shortcutClasses, shortcutColorStyle)}>
         {shortcut}
       </span>
     );
   };
 
-  const mergedStyle: React.CSSProperties = {
+  const colorVars = colorOverride && !disabled
+    ? getColorOverrideVars(colorOverride) : {};
+
+  const mergedStyle = {
     ...(style || {}),
     ...(widthStyle || {}),
-  };
+    ...colorVars,
+  } as React.CSSProperties;
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (disabled || loading) {
@@ -276,4 +317,4 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 Button.displayName = 'Button';
 
 export { buttonVariants };
-export type { ButtonProps, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape, ButtonIconType };
+export type { ButtonProps, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape, ButtonIconType, ButtonColor };

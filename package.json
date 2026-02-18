@@ -1,6 +1,6 @@
 {
   "name": "@mbisolution/blumnai-design-system",
-  "version": "0.2.24",
+  "version": "0.2.25",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
