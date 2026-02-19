@@ -9,13 +9,21 @@ export type BadgeSize = 'sm' | 'lg';
 export type BadgeColor =
   | 'red'
   | 'orange'
+  | 'amber'
+  | 'yellow'
   | 'lime'
   | 'green'
+  | 'emerald'
+  | 'teal'
   | 'cyan'
+  | 'sky'
   | 'blue'
+  | 'indigo'
   | 'violet'
+  | 'purple'
   | 'fuchsia'
   | 'pink'
+  | 'rose'
   | 'neutral';
 
 export type BadgeShape = 'rounded' | 'pill';

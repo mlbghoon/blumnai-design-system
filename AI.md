@@ -1024,7 +1024,7 @@ import { Badge } from '@mbisolution/blumnai-design-system';
 |------|------|---------|-------------|
 | `label` | `string` | - | Badge text |
 | `variant` | `'default'` `'icon'` `'image'` `'dot'` | `'default'` | Badge type |
-| `color` | `'red'` `'orange'` `'lime'` `'green'` `'cyan'` `'blue'` `'violet'` `'fuchsia'` `'pink'` `'neutral'` | `'neutral'` | Badge color |
+| `color` | `'red'` `'orange'` `'amber'` `'yellow'` `'lime'` `'green'` `'emerald'` `'teal'` `'cyan'` `'sky'` `'blue'` `'indigo'` `'violet'` `'purple'` `'fuchsia'` `'pink'` `'rose'` `'neutral'` | `'neutral'` | Badge color |
 | `size` | `'sm'` `'lg'` | `'sm'` | Badge size |
 | `shape` | `'rounded'` `'pill'` | `'rounded'` | Badge shape |
 | `border` | `boolean` | `false` | Show border |

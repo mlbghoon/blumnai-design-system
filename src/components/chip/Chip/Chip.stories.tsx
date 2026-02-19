@@ -88,6 +88,17 @@ const meta: Meta<typeof Chip> = {
         },
       },
     },
+    color: {
+      control: 'select',
+      options: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'],
+      description: '칩 색상',
+      table: {
+        type: {
+          summary: 'ChipColor',
+          detail: `'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose' | 'neutral'`,
+        },
+      },
+    },
     label: {
       control: 'text',
       description: '표시할 텍스트 라벨',
@@ -118,6 +129,8 @@ export const Default: Story = {
     style: 'default',
     shape: 'rounded',
     size: 'md',
+    selected: false,
+    color: undefined,
     className: '',
   },
   parameters: {
@@ -202,6 +215,60 @@ export const Selected: Story = {
         <Chip icon={['business', 'at']} variant="iconOnly" style="soft" selected />
         <Chip icon={['business', 'at']} variant="iconOnly" style="ghost" selected />
         <Chip icon={['business', 'at']} variant="iconOnly" style="ghostMuted" selected />
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * 색상 변형 (비선택)
+ */
+export const Colors: Story = {
+  render: () => (
+    <div className="flex flex-wrap items-center ds-gap-4">
+      {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
+        (c) => (
+          <Chip key={c} label={c} icon={['business', 'at']} color={c} />
+        )
+      )}
+    </div>
+  ),
+};
+
+/**
+ * 색상 변형 (선택됨)
+ */
+export const ColorsSelected: Story = {
+  render: () => (
+    <div className="flex flex-wrap items-center ds-gap-4">
+      {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
+        (c) => (
+          <Chip key={c} label={c} icon={['business', 'at']} selected color={c} />
+        )
+      )}
+    </div>
+  ),
+};
+
+/**
+ * 아이콘만 색상 변형
+ */
+export const ColorsIconOnly: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-8">
+      <div className="flex flex-wrap items-center ds-gap-4">
+        {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
+          (c) => (
+            <Chip key={c} icon={['business', 'at']} variant="iconOnly" color={c} />
+          )
+        )}
+      </div>
+      <div className="flex flex-wrap items-center ds-gap-4">
+        {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
+          (c) => (
+            <Chip key={c} icon={['business', 'at']} variant="iconOnly" selected color={c} />
+          )
+        )}
       </div>
     </div>
   ),

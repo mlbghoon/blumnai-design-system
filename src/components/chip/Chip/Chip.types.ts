@@ -34,6 +34,29 @@ export type ChipStyle = 'default' | 'soft' | 'ghost' | 'ghostMuted';
 export type ChipShape = 'rounded' | 'pill';
 
 /**
+ * Chip 색상
+ */
+export type ChipColor =
+  | 'red'
+  | 'orange'
+  | 'amber'
+  | 'yellow'
+  | 'lime'
+  | 'green'
+  | 'emerald'
+  | 'teal'
+  | 'cyan'
+  | 'sky'
+  | 'blue'
+  | 'indigo'
+  | 'violet'
+  | 'purple'
+  | 'fuchsia'
+  | 'pink'
+  | 'rose'
+  | 'neutral';
+
+/**
  * Chip 컴포넌트 Props
  */
 export interface ChipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'style'> {
@@ -72,4 +95,8 @@ export interface ChipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childre
    * @default false
    */
   selected?: boolean;
+  /**
+   * 칩 색상
+   */
+  color?: ChipColor;
 }

@@ -610,7 +610,7 @@ export { Badge } from './components/badge';
 export type { BadgeProps, BadgeVariant, BadgeColor, BadgeSize, BadgeShape } from './components/badge';
 
 export { Chip } from './components/chip';
-export type { ChipProps, ChipSize, ChipVariant, ChipShape } from './components/chip';
+export type { ChipProps, ChipSize, ChipVariant, ChipShape, ChipColor } from './components/chip';
 
 export { Progress, ProgressCircular } from './components/progress';
 export type {

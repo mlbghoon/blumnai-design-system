@@ -43,12 +43,12 @@ const meta: Meta<typeof Badge> = {
     },
     color: {
       control: 'select',
-      options: ['red', 'orange', 'lime', 'green', 'cyan', 'blue', 'violet', 'fuchsia', 'pink', 'neutral'],
+      options: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'],
       description: '배지의 색상',
       table: {
         type: {
           summary: 'BadgeColor',
-          detail: `'red' | 'orange' | 'lime' | 'green' | 'cyan' | 'blue' | 'violet' | 'fuchsia' | 'pink' | 'neutral'
+          detail: `'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose' | 'neutral'
 기본값: 'neutral'`,
         },
       },
@@ -224,7 +224,7 @@ export const WithCloseIcon: Story = {
 export const AllColors: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {(['red', 'orange', 'lime', 'green', 'cyan', 'blue', 'violet', 'fuchsia', 'pink', 'neutral'] as const).map((color) => (
+      {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map((color) => (
         <div key={color} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <span style={{ width: '100px', textTransform: 'capitalize' }}>{color}</span>
           <Badge variant="default" label="A Label" color={color} size="sm" />

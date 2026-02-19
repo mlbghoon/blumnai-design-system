@@ -14,7 +14,7 @@ type SidebarMenuItemStoryProps = {
   isActive: boolean;
   disabled: boolean;
   badgeLabel: string;
-  badgeColor: 'red' | 'orange' | 'lime' | 'green' | 'cyan' | 'blue' | 'violet' | 'fuchsia' | 'pink' | 'neutral';
+  badgeColor: 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose' | 'neutral';
   badgeShape: 'rounded' | 'pill';
   badgeBorder: boolean;
   shortcut: string;
@@ -61,7 +61,7 @@ const meta: Meta<SidebarMenuItemStoryProps> = {
     },
     badgeColor: {
       control: 'select',
-      options: ['red', 'orange', 'lime', 'green', 'cyan', 'blue', 'violet', 'fuchsia', 'pink', 'neutral'],
+      options: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'],
       description: '배지 색상',
       table: {
         type: { summary: 'BadgeColor' },

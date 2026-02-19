@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.2.30] - 2026-02-19
+
+### Changed
+
+- Chip: `color` prop이 선택/비선택 모든 상태에 적용
+  - 비선택: `bg-badge-{color}` 배경 + 컬러 텍스트/아이콘
+  - 선택: `bg-basic-{color}-subtle` 배경 (더 진한 파스텔) + 컬러 텍스트/아이콘
+  - ghost/ghostMuted 비선택: 투명 배경 유지, 텍스트/아이콘만 컬러 적용
+  - `color` 미설정 시 기존 동작 유지 (회색 비선택, 파랑 선택)
+- Chip: `color` prop 기본값 제거 (`'blue'` → `undefined`)
+
+### Added
+
+- Badge/Chip 색상 8종 추가: `amber`, `yellow`, `emerald`, `teal`, `sky`, `indigo`, `purple`, `rose` (10 → 18색)
+  - `BadgeColor`, `ChipColor` 타입에 반영
+  - Dropdown, Table CellBadge 등 `BadgeColor` 참조 컴포넌트 자동 적용
+
 ## [0.2.29] - 2026-02-18
 
 ### Added

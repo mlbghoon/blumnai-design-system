@@ -3,7 +3,22 @@ import { forwardRef } from 'react';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import { cn } from '../../../utils/cn';
 
-import type { ChipProps, ChipShape, ChipStyle } from './Chip.types';
+import type { ChipColor, ChipProps, ChipShape, ChipStyle } from './Chip.types';
+
+const getBadgeBgClass = (color: ChipColor): string => {
+  if (color === 'neutral') return 'bg-badge-gray';
+  return `bg-badge-${color}`;
+};
+
+const getSubtleBgClass = (color: ChipColor): string => {
+  if (color === 'neutral') return 'bg-basic-gray-subtle';
+  return `bg-basic-${color}-subtle`;
+};
+
+const getColorTextClass = (color: ChipColor): string => {
+  if (color === 'neutral') return 'text-subtle';
+  return `text-basic-${color}-strong`;
+};
 
 /**
  * Chip 컴포넌트
@@ -23,6 +38,7 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
       shape = 'rounded',
       size = 'md',
       selected = false,
+      color,
       className,
       ...props
     },
@@ -50,99 +66,74 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
 
     const currentSize = sizeStyles[size];
 
-    // Style styles (applies to both default and iconOnly variants)
-    const styleStyles: Record<
-      ChipStyle,
-      {
-        base: string;
-        hover: string;
-        press: string;
-        text: string;
-        icon: string;
-        border: string;
-      }
-    > = {
-      default: {
-        base: 'bg-state-secondary',
-        hover: 'hover:bg-state-secondary-hover',
-        press: 'active:bg-state-secondary-press',
-        text: 'text-muted group-hover-text-subtle',
-        icon: 'icon-default-muted group-hover-icon-default-subtle',
-        border: 'border-darker',
-      },
-      soft: {
-        base: 'bg-state-soft',
-        hover: 'hover:bg-state-soft-hover',
-        press: 'active:bg-state-soft-press',
-        text: 'text-muted group-hover-text-subtle',
-        icon: 'icon-default-muted group-hover-icon-default-subtle',
-        border: '',
-      },
-      ghost: {
-        base: 'bg-state-ghost',
-        hover: 'hover:bg-state-ghost-hover',
-        press: 'active:bg-state-ghost-press',
-        text: 'text-muted group-hover-text-subtle',
-        icon: 'icon-default-muted group-hover-icon-default-subtle',
-        border: '',
-      },
-      ghostMuted: {
-        base: 'bg-state-ghost',
-        hover: 'hover:bg-state-ghost-hover',
-        press: 'active:bg-state-ghost-press',
-        text: 'text-muted group-hover-text-subtle',
-        icon: 'icon-default-muted group-hover-icon-default-subtle',
-        border: '',
-      },
+    type StyleEntry = {
+      base: string;
+      hover: string;
+      press: string;
+      text: string;
+      icon: string;
+      border: string;
     };
+
+    const txt = color ? getColorTextClass(color) : '';
+
+    const styleStyles: Record<ChipStyle, StyleEntry> = color
+      ? {
+          default: { base: getBadgeBgClass(color), hover: '', press: '', text: txt, icon: txt, border: 'border-darker' },
+          soft: { base: getBadgeBgClass(color), hover: '', press: '', text: txt, icon: txt, border: '' },
+          ghost: { base: 'bg-state-ghost', hover: 'hover:bg-state-ghost-hover', press: 'active:bg-state-ghost-press', text: txt, icon: txt, border: '' },
+          ghostMuted: { base: 'bg-state-ghost', hover: 'hover:bg-state-ghost-hover', press: 'active:bg-state-ghost-press', text: txt, icon: txt, border: '' },
+        }
+      : {
+          default: {
+            base: 'bg-state-secondary',
+            hover: 'hover:bg-state-secondary-hover',
+            press: 'active:bg-state-secondary-press',
+            text: 'text-muted group-hover-text-subtle',
+            icon: 'icon-default-muted group-hover-icon-default-subtle',
+            border: 'border-darker',
+          },
+          soft: {
+            base: 'bg-state-soft',
+            hover: 'hover:bg-state-soft-hover',
+            press: 'active:bg-state-soft-press',
+            text: 'text-muted group-hover-text-subtle',
+            icon: 'icon-default-muted group-hover-icon-default-subtle',
+            border: '',
+          },
+          ghost: {
+            base: 'bg-state-ghost',
+            hover: 'hover:bg-state-ghost-hover',
+            press: 'active:bg-state-ghost-press',
+            text: 'text-muted group-hover-text-subtle',
+            icon: 'icon-default-muted group-hover-icon-default-subtle',
+            border: '',
+          },
+          ghostMuted: {
+            base: 'bg-state-ghost',
+            hover: 'hover:bg-state-ghost-hover',
+            press: 'active:bg-state-ghost-press',
+            text: 'text-muted group-hover-text-subtle',
+            icon: 'icon-default-muted group-hover-icon-default-subtle',
+            border: '',
+          },
+        };
 
     const currentStyle = styleStyles[style];
 
-    // Selected state styles (applies to any style)
-    const selectedStyles: Record<
-      ChipStyle,
-      {
-        base: string;
-        hover: string;
-        press: string;
-        text: string;
-        icon: string;
-        border: string;
-      }
-    > = {
-      default: {
-        base: 'bg-badge-blue',
-        hover: 'hover:bg-badge-blue',
-        press: 'active:bg-badge-blue',
-        text: 'text-basic-blue-strong',
-        icon: 'text-basic-blue-accent',
-        border: 'border-darker',
-      },
-      soft: {
-        base: 'bg-badge-blue',
-        hover: 'hover:bg-badge-blue',
-        press: 'active:bg-badge-blue',
-        text: 'text-basic-blue-strong',
-        icon: 'text-basic-blue-accent',
-        border: '',
-      },
-      ghost: {
-        base: 'bg-badge-blue',
-        hover: 'hover:bg-badge-blue',
-        press: 'active:bg-badge-blue',
-        text: 'text-basic-blue-strong',
-        icon: 'text-basic-blue-accent',
-        border: '',
-      },
-      ghostMuted: {
-        base: 'bg-state-soft',
-        hover: 'hover:bg-state-soft-hover',
-        press: 'active:bg-state-soft-press',
-        text: 'text-basic-blue-strong',
-        icon: 'text-basic-blue-accent',
-        border: '',
-      },
-    };
+    const selectedStyles: Record<ChipStyle, StyleEntry> = color
+      ? {
+          default: { base: getSubtleBgClass(color), hover: '', press: '', text: txt, icon: txt, border: 'border-darker' },
+          soft: { base: getSubtleBgClass(color), hover: '', press: '', text: txt, icon: txt, border: '' },
+          ghost: { base: getSubtleBgClass(color), hover: '', press: '', text: txt, icon: txt, border: '' },
+          ghostMuted: { base: 'bg-state-soft', hover: 'hover:bg-state-soft-hover', press: 'active:bg-state-soft-press', text: txt, icon: txt, border: '' },
+        }
+      : {
+          default: { base: 'bg-badge-blue', hover: '', press: '', text: 'text-basic-blue-strong', icon: 'text-basic-blue-accent', border: 'border-darker' },
+          soft: { base: 'bg-badge-blue', hover: '', press: '', text: 'text-basic-blue-strong', icon: 'text-basic-blue-accent', border: '' },
+          ghost: { base: 'bg-badge-blue', hover: '', press: '', text: 'text-basic-blue-strong', icon: 'text-basic-blue-accent', border: '' },
+          ghostMuted: { base: 'bg-state-soft', hover: 'hover:bg-state-soft-hover', press: 'active:bg-state-soft-press', text: 'text-basic-blue-strong', icon: 'text-basic-blue-accent', border: '' },
+        };
 
     const currentSelectedStyle = selected ? selectedStyles[style] : null;
 
