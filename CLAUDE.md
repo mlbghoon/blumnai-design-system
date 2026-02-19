@@ -934,6 +934,16 @@ Per the CSS spec, **unlayered CSS always beats layered CSS** regardless of speci
 
 When fixing CSS or styling issues, always analyze the existing styles and their interactions before proposing changes. Never remove styles (like `border-bottom`) unless explicitly requested — existing styles may be intentional and removing them can break dependent visual behavior.
 
+## Planning Workflow (CRITICAL)
+
+When entering plan mode or creating an implementation plan:
+
+1. **Write the plan** — Design the implementation approach with clear steps
+2. **Review before presenting** — After finishing the plan, spawn a separate agent to review the plan one more time for correctness, completeness, and adherence to design system rules
+3. **Only then present to user** — Do NOT tell the user the plan is ready until the review agent has confirmed it
+
+This ensures plans are double-checked before the user sees them.
+
 ## Quality Assurance
 
 After implementing fixes, verify that related functionality still works. For component changes, check that dependent features (like tooltips, hover states, and focus rings) are not affected by the change.
