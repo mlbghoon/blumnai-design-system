@@ -28,6 +28,7 @@ export type {
   SortingState,
   ColumnFiltersState,
   RowSelectionState,
+  ColumnOrderState,
   OnChangeFn,
   Row,
 } from './DataGrid.types';

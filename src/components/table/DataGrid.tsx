@@ -34,6 +34,9 @@ function DataGridInner<T>(
     rowSelection,
     onRowSelectionChange,
     enableRowSelection,
+    enableColumnReorder,
+    columnOrder,
+    onColumnOrderChange,
     pagination = true,
     page,
     total,
@@ -72,6 +75,7 @@ function DataGridInner<T>(
     pagination: paginationInfo,
     handlePageChange,
     handleLimitChange,
+    handleColumnOrderChange,
     displayData,
   } = useDataGridTable({
     data,
@@ -84,6 +88,9 @@ function DataGridInner<T>(
     rowSelection,
     onRowSelectionChange,
     enableRowSelection,
+    enableColumnReorder,
+    columnOrder,
+    onColumnOrderChange,
     pagination,
     page,
     total,
@@ -94,18 +101,35 @@ function DataGridInner<T>(
     preserveDataWhileLoading,
   });
 
-  const gridTemplateColumns = useMemo(() => {
-    return columns
-      .map((col) => col.meta?.width ?? '1fr')
-      .join(' ');
-  }, [columns]);
-
-  const stickyColumnPositions = useMemo(
-    () => calculateStickyPositions(columns),
-    [columns]
+  const headerGroups = table.getHeaderGroups();
+  const orderedHeaders = useMemo(
+    () => headerGroups[0]?.headers ?? [],
+    [headerGroups]
   );
 
-  const headerGroups = table.getHeaderGroups();
+  const gridTemplateColumns = useMemo(() => {
+    if (enableColumnReorder && orderedHeaders.length > 0) {
+      return orderedHeaders
+        .map((h) => h.column.columnDef.meta?.width ?? '1fr')
+        .join(' ');
+    }
+    return columns.map((col) => col.meta?.width ?? '1fr').join(' ');
+  }, [enableColumnReorder, orderedHeaders, columns]);
+
+  const stickyColumnPositions = useMemo(() => {
+    if (enableColumnReorder && orderedHeaders.length > 0) {
+      const orderedColumnDefs = orderedHeaders.map((h) => h.column.columnDef);
+      return calculateStickyPositions(orderedColumnDefs);
+    }
+    return calculateStickyPositions(columns);
+  }, [enableColumnReorder, orderedHeaders, columns]);
+
+  const orderedColumns = useMemo(() => {
+    if (enableColumnReorder && orderedHeaders.length > 0) {
+      return orderedHeaders.map((h) => h.column.columnDef);
+    }
+    return columns;
+  }, [enableColumnReorder, orderedHeaders, columns]);
   const rows = table.getRowModel().rows;
   const hasData = displayData.length > 0;
   const showSkeletonLoading = isLoading && !preserveDataWhileLoading && !hasData;
@@ -133,6 +157,8 @@ function DataGridInner<T>(
             gridTemplateColumns={gridTemplateColumns}
             stickyColumnPositions={stickyColumnPositions}
             headerHeight={headerHeight}
+            enableColumnReorder={enableColumnReorder}
+            onColumnOrderChange={handleColumnOrderChange}
           />
 
           {showErrorState ? (
@@ -141,7 +167,7 @@ function DataGridInner<T>(
             <DataGridEmpty text={emptyText} content={emptyContent} />
           ) : showSkeletonLoading ? (
             <DataGridLoading
-              columns={columns}
+              columns={orderedColumns}
               gridTemplateColumns={gridTemplateColumns}
               rowCount={limit}
               stickyColumnPositions={stickyColumnPositions}
@@ -163,7 +189,7 @@ function DataGridInner<T>(
 
           {showOverlayLoading && (
             <DataGridLoading
-              columns={columns}
+              columns={orderedColumns}
               gridTemplateColumns={gridTemplateColumns}
               overlay
               stickyColumnPositions={stickyColumnPositions}

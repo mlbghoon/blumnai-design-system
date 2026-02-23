@@ -10,6 +10,7 @@ import type {
   SortingState,
   ColumnFiltersState,
   RowSelectionState,
+  ColumnOrderState,
   ColumnDef,
   OnChangeFn,
   Row,
@@ -29,6 +30,10 @@ interface UseDataGridTableOptions<T> {
   rowSelection?: RowSelectionState;
   onRowSelectionChange?: OnChangeFn<RowSelectionState>;
   enableRowSelection?: boolean | ((row: Row<T>) => boolean);
+
+  enableColumnReorder?: boolean;
+  columnOrder?: ColumnOrderState;
+  onColumnOrderChange?: OnChangeFn<ColumnOrderState>;
 
   pagination?: boolean;
   page?: number;
@@ -53,6 +58,9 @@ export function useDataGridTable<T>(options: UseDataGridTableOptions<T>) {
     rowSelection: externalRowSelection,
     onRowSelectionChange: externalOnRowSelectionChange,
     enableRowSelection,
+    enableColumnReorder,
+    columnOrder: externalColumnOrder,
+    onColumnOrderChange: externalOnColumnOrderChange,
     pagination = true,
     page: externalPage,
     total,
@@ -74,12 +82,14 @@ export function useDataGridTable<T>(options: UseDataGridTableOptions<T>) {
   const [internalSorting, setInternalSorting] = useState<SortingState>([]);
   const [internalColumnFilters, setInternalColumnFilters] = useState<ColumnFiltersState>([]);
   const [internalRowSelection, setInternalRowSelection] = useState<RowSelectionState>({});
+  const [internalColumnOrder, setInternalColumnOrder] = useState<ColumnOrderState>([]);
   const [internalPage, setInternalPage] = useState(1);
   const [internalLimit, setInternalLimit] = useState(externalLimit);
 
   const sorting = externalSorting ?? internalSorting;
   const columnFilters = externalColumnFilters ?? internalColumnFilters;
   const rowSelection = externalRowSelection ?? internalRowSelection;
+  const columnOrder = externalColumnOrder ?? internalColumnOrder;
   const page = externalPage ?? internalPage;
   const limit = externalLimit ?? internalLimit;
 
@@ -114,6 +124,17 @@ export function useDataGridTable<T>(options: UseDataGridTableOptions<T>) {
       }
     },
     [externalOnRowSelectionChange]
+  );
+
+  const handleColumnOrderChange: OnChangeFn<ColumnOrderState> = useCallback(
+    (updater) => {
+      if (externalOnColumnOrderChange) {
+        externalOnColumnOrderChange(updater);
+      } else {
+        setInternalColumnOrder(updater);
+      }
+    },
+    [externalOnColumnOrderChange]
   );
 
   const handlePageChange = useCallback(
@@ -166,6 +187,7 @@ export function useDataGridTable<T>(options: UseDataGridTableOptions<T>) {
       sorting,
       columnFilters,
       rowSelection,
+      ...(enableColumnReorder ? { columnOrder } : {}),
       pagination: pagination
         ? {
             pageIndex: page - 1,
@@ -176,6 +198,7 @@ export function useDataGridTable<T>(options: UseDataGridTableOptions<T>) {
     onSortingChange: handleSortingChange,
     onColumnFiltersChange: handleColumnFiltersChange,
     onRowSelectionChange: handleRowSelectionChange,
+    ...(enableColumnReorder ? { onColumnOrderChange: handleColumnOrderChange } : {}),
     enableRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: isServerSide ? undefined : getSortedRowModel(),
@@ -211,6 +234,7 @@ export function useDataGridTable<T>(options: UseDataGridTableOptions<T>) {
     handleSortingChange,
     handleColumnFiltersChange,
     handleRowSelectionChange,
+    handleColumnOrderChange,
     handlePageChange,
     handleLimitChange,
     displayData,

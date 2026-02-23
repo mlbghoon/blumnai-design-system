@@ -195,7 +195,7 @@ const DialogContentInner = React.forwardRef<
           <DialogPrimitive.Close
             disabled={isPending}
             className={cn(
-              'absolute right-4 top-4 rounded-sm cursor-pointer',
+              'absolute [right:20px] [top:20px] rounded-sm cursor-pointer',
               'text-muted hover:text-default',
               'transition-colors duration-150',
               'focus:outline-none focus-visible:shadow-component-misc-focus',

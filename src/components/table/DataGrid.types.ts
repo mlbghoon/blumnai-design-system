@@ -4,6 +4,7 @@ import type {
   SortingState,
   ColumnFiltersState,
   RowSelectionState,
+  ColumnOrderState,
   OnChangeFn,
   Row,
 } from '@tanstack/react-table';
@@ -42,6 +43,24 @@ export interface DataGridProps<T> {
    * 행 식별자 함수 (기본값: row.id)
    */
   getRowId?: (row: T) => string;
+
+  // ============================================
+  // Column Reorder
+  // ============================================
+  /**
+   * 컬럼 드래그 재정렬 활성화 여부
+   */
+  enableColumnReorder?: boolean;
+
+  /**
+   * 컬럼 순서 상태
+   */
+  columnOrder?: ColumnOrderState;
+
+  /**
+   * 컬럼 순서 변경 콜백
+   */
+  onColumnOrderChange?: OnChangeFn<ColumnOrderState>;
 
   // ============================================
   // Sorting
@@ -257,4 +276,4 @@ export interface DataGridProps<T> {
   showSelectedRowBackground?: boolean;
 }
 
-export type { ColumnDef, SortingState, ColumnFiltersState, RowSelectionState, OnChangeFn, Row };
+export type { ColumnDef, SortingState, ColumnFiltersState, RowSelectionState, ColumnOrderState, OnChangeFn, Row };

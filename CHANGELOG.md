@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.2.31] - 2026-02-23
+
+### Added
+
+- DataGrid: `enableColumnReorder` prop — 컬럼 헤더 드래그로 순서 변경
+  - `columnOrder`, `onColumnOrderChange` controlled/uncontrolled 상태 지원
+  - Sticky 컬럼 및 select 컬럼은 고정 (드래그 불가)
+  - 정렬과 동시 사용 가능 (클릭=정렬, 드래그=재정렬)
+  - `ColumnOrderState` 타입 export
+- DataGrid: `WithColumnReorder`, `WithStickyAndReorder` 스토리 추가
+- Form: `SignupForm` 복합 폼 스토리 추가
+
+### Fixed
+
+- Dialog: 닫기 버튼 위치 보정 (`right-4 top-4` → `right:20px top:20px`)
+- Sheet: 닫기 버튼 위치 보정 (Dialog와 동일)
+- Sheet: `onOpenAutoFocus` prop 전달 지원, 기본값으로 자동 포커스 방지
+
 ## [0.2.30] - 2026-02-19
 
 ### Changed

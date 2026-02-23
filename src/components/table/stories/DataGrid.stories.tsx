@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { ColumnDef, SortingState, RowSelectionState } from '@tanstack/react-table';
+import type { ColumnDef, SortingState, RowSelectionState, ColumnOrderState } from '@tanstack/react-table';
 
 import { DataGrid } from '../DataGrid';
 import type { DataGridProps } from '../DataGrid.types';
@@ -1731,6 +1731,220 @@ export const FullFeaturedCombination: Story = {
         showItemCount
         limitOptionLabel={(n) => `${n}개씩 보기`}
       />
+    );
+  },
+};
+
+/**
+ * 컬럼 드래그 재정렬
+ *
+ * `enableColumnReorder`로 컬럼 헤더를 드래그하여 순서를 변경할 수 있습니다.
+ *
+ * - **드래그**: 컬럼 헤더를 8px 이상 이동하면 드래그 시작
+ * - **클릭**: 8px 미만 이동은 정렬로 동작
+ * - **정렬과 함께 사용**: 클릭=정렬, 드래그=재정렬
+ */
+export const WithColumnReorder: Story = {
+  render: function Render() {
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
+
+    const columns: ColumnDef<User>[] = [
+      {
+        accessorKey: 'name',
+        header: '이름',
+        enableSorting: true,
+        meta: { width: '120px' },
+      },
+      {
+        accessorKey: 'email',
+        header: '이메일',
+        enableSorting: true,
+        meta: { width: '1fr' },
+      },
+      {
+        accessorKey: 'role',
+        header: '역할',
+        enableSorting: true,
+        cell: ({ row }) => (
+          <Badge label={row.original.role} color={roleColorMap[row.original.role]} size="sm" />
+        ),
+        meta: { width: '100px', align: 'center' },
+      },
+      {
+        accessorKey: 'status',
+        header: '상태',
+        enableSorting: true,
+        cell: ({ row }) => (
+          <CellBadge label={row.original.status} color={statusColorMap[row.original.status]} />
+        ),
+        meta: { width: '100px', align: 'center' },
+      },
+      {
+        accessorKey: 'progress',
+        header: '진행률',
+        enableSorting: true,
+        cell: ({ row }) => <CellProgress value={row.original.progress} />,
+        meta: { width: '150px' },
+      },
+    ];
+
+    return (
+      <div className="flex flex-col ds-gap-16">
+        <DataGrid
+          data={sampleUsers}
+          columns={columns}
+          getRowId={(row) => row.id}
+          sorting={sorting}
+          onSortingChange={setSorting}
+          enableColumnReorder
+          columnOrder={columnOrder}
+          onColumnOrderChange={setColumnOrder}
+          limit={5}
+        />
+        {columnOrder.length > 0 && (
+          <div className="font-body size-sm text-subtle">
+            컬럼 순서: {columnOrder.join(' → ')}
+          </div>
+        )}
+      </div>
+    );
+  },
+};
+
+/**
+ * 고정 컬럼 + 컬럼 재정렬
+ *
+ * Sticky 컬럼과 선택 컬럼은 드래그할 수 없습니다.
+ * 나머지 컬럼만 드래그하여 순서를 변경할 수 있습니다.
+ */
+export const ColumnReorderWithStickyColumns: Story = {
+  render: function Render() {
+    const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
+    const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+
+    interface ReorderUser {
+      id: string;
+      name: string;
+      email: string;
+      department: string;
+      position: string;
+      phone: string;
+      joinDate: string;
+      status: 'active' | 'inactive' | 'pending';
+    }
+
+    const reorderUsers: ReorderUser[] = Array.from({ length: 10 }, (_, i) => ({
+      id: String(i + 1),
+      name: `사용자 ${i + 1}`,
+      email: `user${i + 1}@example.com`,
+      department: ['개발팀', '디자인팀', '마케팅팀'][i % 3],
+      position: ['사원', '대리', '과장'][i % 3],
+      phone: `010-${String(1000 + i).padStart(4, '0')}-${String(2000 + i).padStart(4, '0')}`,
+      joinDate: `2024-${String((i % 12) + 1).padStart(2, '0')}-15`,
+      status: (['active', 'inactive', 'pending'] as const)[i % 3],
+    }));
+
+    const columns: ColumnDef<ReorderUser>[] = useMemo(
+      () => [
+        {
+          id: 'select',
+          header: ({ table }) => (
+            <Checkbox
+              checkboxStyle="with-shadow"
+              checked={
+                table.getIsAllPageRowsSelected()
+                  ? true
+                  : table.getIsSomePageRowsSelected()
+                    ? 'indeterminate'
+                    : false
+              }
+              onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+              aria-label="모두 선택"
+            />
+          ),
+          cell: ({ row }) => (
+            <Checkbox
+              checkboxStyle="with-shadow"
+              checked={row.getIsSelected()}
+              disabled={!row.getCanSelect()}
+              onCheckedChange={(value) => row.toggleSelected(!!value)}
+              aria-label="행 선택"
+            />
+          ),
+          meta: { width: '46px', align: 'center' },
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'name',
+          header: '이름',
+          cell: ({ row }) => <CellText value={row.original.name} />,
+          meta: { width: '100px', sticky: true },
+        },
+        {
+          accessorKey: 'email',
+          header: '이메일',
+          cell: ({ row }) => <CellText value={row.original.email} />,
+          meta: { width: '180px' },
+        },
+        {
+          accessorKey: 'department',
+          header: '부서',
+          cell: ({ row }) => <CellText value={row.original.department} />,
+          meta: { width: '120px' },
+        },
+        {
+          accessorKey: 'position',
+          header: '직책',
+          cell: ({ row }) => <CellText value={row.original.position} />,
+          meta: { width: '100px' },
+        },
+        {
+          accessorKey: 'phone',
+          header: '연락처',
+          cell: ({ row }) => <CellText value={row.original.phone} />,
+          meta: { width: '150px' },
+        },
+        {
+          accessorKey: 'joinDate',
+          header: '입사일',
+          cell: ({ row }) => <CellText value={row.original.joinDate} />,
+          meta: { width: '120px' },
+        },
+        {
+          accessorKey: 'status',
+          header: '상태',
+          cell: ({ row }) => (
+            <CellBadge
+              label={row.original.status}
+              color={statusColorMap[row.original.status]}
+            />
+          ),
+          meta: { width: '1fr', align: 'center' },
+        },
+      ],
+      []
+    );
+
+    return (
+      <div className="flex flex-col ds-gap-16">
+        <div className="font-body size-sm text-subtle bg-muted padding-12 rounded-md">
+          선택(체크박스)과 이름(sticky) 컬럼은 고정됩니다. 나머지 컬럼을 드래그하여 순서를 변경하세요.
+        </div>
+        <DataGrid
+          data={reorderUsers}
+          columns={columns}
+          getRowId={(row) => row.id}
+          rowSelection={rowSelection}
+          onRowSelectionChange={setRowSelection}
+          enableRowSelection
+          enableColumnReorder
+          columnOrder={columnOrder}
+          onColumnOrderChange={setColumnOrder}
+          maxHeight="400px"
+          pagination={false}
+        />
+      </div>
     );
   },
 };
