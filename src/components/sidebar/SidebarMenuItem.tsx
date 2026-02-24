@@ -269,6 +269,7 @@ const DividerMenuItem = forwardRef<HTMLDivElement, SidebarMenuItemDividerProps>(
     return (
       <div
         ref={ref}
+        role="separator"
         className={cn(
           menuItemVariants({ variant: 'divider' }),
           'margin-y-16',

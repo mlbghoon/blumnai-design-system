@@ -305,7 +305,6 @@ const DropdownMenuAvatar = React.forwardRef<HTMLDivElement, DropdownMenuAvatarPr
     disabled = false,
     iconColor,
     onClick,
-    ...props
   }, ref) => {
     const internalRef = React.useRef<HTMLDivElement>(null);
     const mergeRefs = React.useCallback(
@@ -323,37 +322,19 @@ const DropdownMenuAvatar = React.forwardRef<HTMLDivElement, DropdownMenuAvatarPr
       { enabled: !disabled },
     );
 
-    const handleClick = () => {
-      if (!disabled && onClick) {
-        onClick();
-      }
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-      if ((e.key === 'Enter' || e.key === ' ') && !disabled && onClick) {
-        e.preventDefault();
-        onClick();
-      }
-    };
-
     const effectiveIconColor = disabled ? 'default-disabled' : iconColor ?? 'default-subtle';
 
     return (
-      <div
+      <DropdownMenuPrimitive.Item
         ref={mergeRefs}
-        role="menuitem"
-        tabIndex={disabled ? -1 : 0}
-        aria-disabled={disabled}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
+        disabled={disabled}
+        onSelect={onClick}
         className={cn(
           "flex items-center ds-gap-8 rounded-sm padding-x-8 padding-y-6 outline-none transition-colors",
-          disabled
-            ? "opacity-50 cursor-not-allowed"
-            : "cursor-pointer hover:bg-accent focus:bg-accent",
+          "text-default focus:bg-accent focus:text-accent-foreground",
+          "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
           className
         )}
-        {...props}
       >
         <Avatar
           variant={avatarSrc ? 'userpic' : 'initials'}
@@ -393,7 +374,7 @@ const DropdownMenuAvatar = React.forwardRef<HTMLDivElement, DropdownMenuAvatarPr
             />
           </div>
         )}
-      </div>
+      </DropdownMenuPrimitive.Item>
     );
   }
 );

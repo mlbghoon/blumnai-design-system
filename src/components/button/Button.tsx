@@ -6,6 +6,7 @@ import { cva } from 'class-variance-authority';
 import { Icon } from '../icons/Icon';
 import type { IconType } from '../icons/Icon/Icon.types';
 import { cn } from '../../lib/utils';
+import { getPixelValue } from '../../lib/css-utils';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 
 import type { ButtonProps, ButtonIconType, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape, ButtonColor } from './Button.types';
@@ -172,17 +173,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   const iconSizeConfig = isIconOnly ? ICON_SIZE.iconOnly : ICON_SIZE.default;
   const iconSize = iconSizeConfig[size] ?? 16;
   const shortcutClasses = SHORTCUT_SIZE[size] ?? SHORTCUT_SIZE.md;
-  const getWidthValue = (w: string | number): string => {
-    if (typeof w === 'number') return `${w}px`;
-    const numericValue = parseFloat(w);
-    if (!isNaN(numericValue) && String(numericValue) === w.trim()) {
-      return `${numericValue}px`;
-    }
-    return w;
-  };
-
   const widthStyle = width !== undefined && width !== ''
-    ? { width: getWidthValue(width) }
+    ? { width: getPixelValue(width) }
     : undefined;
 
   const isTextOnlyLoading = loading && !isIconOnly && !leadIcon && !tailIcon;
@@ -215,6 +207,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       style={{ display: 'block', fill: 'var(--bg-default)' }}
+      aria-hidden="true"
     >
       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="32" strokeDashoffset="32" opacity="0.3" />
       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="32" strokeDashoffset="24" />
@@ -266,6 +259,22 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     props.onClick?.(e);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if ((disabled || loading) && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      return;
+    }
+    props.onKeyDown?.(e);
+  };
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if ((disabled || loading) && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault();
+      return;
+    }
+    props.onKeyUp?.(e);
+  };
+
   return (
     <Comp
       ref={mergeRefs}
@@ -277,6 +286,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
       {...props}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      onKeyUp={handleKeyUp}
     >
       {isIconOnly ? (
         loading ? renderLoadingSpinner() : renderIcon(leadIcon)

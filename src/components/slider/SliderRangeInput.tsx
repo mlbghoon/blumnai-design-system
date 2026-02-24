@@ -103,6 +103,7 @@ const SliderRangeInput = React.forwardRef<
         <div className="relative flex items-center">
           <input
             type="text"
+            aria-label="Minimum value"
             value={minInputValue}
             onChange={handleMinInputChange}
             onBlur={handleMinInputBlur}
@@ -166,6 +167,7 @@ const SliderRangeInput = React.forwardRef<
         <div className="relative flex items-center">
           <input
             type="text"
+            aria-label="Maximum value"
             value={maxInputValue}
             onChange={handleMaxInputChange}
             onBlur={handleMaxInputBlur}

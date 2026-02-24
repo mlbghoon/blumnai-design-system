@@ -178,10 +178,8 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
           width={width}
           height={svgHeight}
           className="overflow-visible"
-          role="graphics-document"
-          aria-label={chartAriaLabel}
+          aria-hidden="true"
         >
-        <title>{chartAriaLabel}</title>
         <g role="list" aria-label="Donut chart slices">
           {slices.map((slice, index) => (
             <path

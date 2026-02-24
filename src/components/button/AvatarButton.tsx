@@ -8,6 +8,7 @@ import { Avatar } from '../avatar/Avatar';
 import { Icon } from '../icons/Icon';
 import type { IconType } from '../icons/Icon/Icon.types';
 import { cn } from '../../lib/utils';
+import { getPixelValue } from '../../lib/css-utils';
 
 import type { AvatarButtonProps, AvatarButtonIconType, AvatarButtonSize, AvatarButtonStyle } from './AvatarButton.types';
 
@@ -64,17 +65,8 @@ export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
   const avatarSize = 'xs' as const;
   const iconSize = 20;
 
-  const getWidthValue = (w: string | number): string => {
-    if (typeof w === 'number') return `${w}px`;
-    const numericValue = parseFloat(w);
-    if (!isNaN(numericValue) && String(numericValue) === w.trim()) {
-      return `${numericValue}px`;
-    }
-    return w;
-  };
-
   const widthStyle = width !== undefined && width !== ''
-    ? { width: getWidthValue(width) }
+    ? { width: getPixelValue(width) }
     : undefined;
 
   const mergedStyle: CSSProperties = {
@@ -133,7 +125,7 @@ export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
         size={avatarSize}
         shape="circular"
         src={avatar}
-        alt={alt}
+        alt={alt || label}
         ring={false}
       />
       <span>{label}</span>

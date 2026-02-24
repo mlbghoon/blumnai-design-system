@@ -22,6 +22,12 @@ export interface ScrollAreaProps extends ComponentPropsWithoutRef<typeof ScrollA
    */
   maxWidth?: string | number;
   /**
+   * 스크롤 가능한 뷰포트 요소에 대한 ref (programmatic scroll 제어용)
+   * @example const viewportRef = useRef<HTMLDivElement>(null);
+   * viewportRef.current?.scrollTo({ top: 0 });
+   */
+  viewportRef?: React.Ref<HTMLDivElement>;
+  /**
    * 스크롤 영역 내용
    */
   children?: ReactNode;

@@ -217,6 +217,7 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
         disabled={isButtonDisabled}
         className={inlineButtonClassName}
         tabIndex={isButtonDisabled ? -1 : 0}
+        aria-label={buttonLabel || 'Action button'}
       >
         {buttonLeadIcon && (() => {
           const { iconType, isFill } = parseIconTypeWithFill(buttonLeadIcon);
@@ -290,6 +291,7 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
             ref={ref}
             id={inputId}
             disabled={disabled}
+            required={required}
             className={inputClassName}
             value={value}
             autoComplete="off"

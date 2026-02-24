@@ -5,7 +5,7 @@ import { InputWrapper } from '../../input/shared/InputWrapper';
 import { TimeInput } from './TimeInput';
 import type { TimePickerProps, TimeValue, QuickSelectOption } from '../time-picker.types';
 
-const DEFAULT_QUICK_OPTIONS: QuickSelectOption[] = [
+const getDefaultQuickOptions = (): QuickSelectOption[] => [
   { label: 'Now', value: { hour: new Date().getHours(), minute: new Date().getMinutes() } },
   { label: '9:00 AM', value: { hour: 9, minute: 0 } },
   { label: '12:00 PM', value: { hour: 12, minute: 0 } },
@@ -70,7 +70,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
     onChange?.(newValue);
   }, [onChange]);
 
-  const options = quickSelectOptions || DEFAULT_QUICK_OPTIONS;
+  const options = quickSelectOptions || getDefaultQuickOptions();
 
   return (
     <InputWrapper

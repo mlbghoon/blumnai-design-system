@@ -80,6 +80,7 @@ const SliderChart = React.forwardRef<HTMLDivElement, SliderChartProps>(
           viewBox={`0 0 100 ${height}`}
           preserveAspectRatio="none"
           className="w-full h-full"
+          aria-hidden="true"
         >
           <defs>
             <clipPath id={`${id}-selected`}>

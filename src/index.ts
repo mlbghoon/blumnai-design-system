@@ -529,6 +529,7 @@ export type {
 export {
   Menubar,
   MenubarMenu,
+  MenubarGroup,
   MenubarTrigger,
   MenubarContent,
   MenubarItem,
@@ -546,6 +547,7 @@ export {
 export type {
   MenubarProps,
   MenubarMenuProps,
+  MenubarGroupProps,
   MenubarTriggerProps,
   MenubarContentProps,
   MenubarItemProps,
@@ -610,7 +612,7 @@ export { Badge } from './components/badge';
 export type { BadgeProps, BadgeVariant, BadgeColor, BadgeSize, BadgeShape } from './components/badge';
 
 export { Chip } from './components/chip';
-export type { ChipProps, ChipSize, ChipVariant, ChipShape, ChipColor } from './components/chip';
+export type { ChipProps, ChipSize, ChipVariant, ChipStyle, ChipShape, ChipColor } from './components/chip';
 
 export { Progress, ProgressCircular } from './components/progress';
 export type {
@@ -654,6 +656,9 @@ export type { ScrollAreaProps, ScrollBarProps, ScrollAreaOrientation } from './c
 
 export { AccordionGroup } from './components/accordion/AccordionGroup';
 export type { AccordionGroupProps } from './components/accordion/AccordionGroup';
+
+export { AccordionItem } from './components/accordion/AccordionItem';
+export type { AccordionItemProps, AccordionItemStyle } from './components/accordion/AccordionItem';
 
 export {
   Collapsible,

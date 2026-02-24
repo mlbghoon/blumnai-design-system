@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import type { SkeletonProps } from './Skeleton.types';
 
 const skeletonVariants = cva(
-  'animate-pulse bg-muted',
+  'motion-safe:animate-pulse bg-muted',
   {
     variants: {
       variant: {
@@ -35,6 +35,7 @@ const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
     return (
       <div
         ref={ref}
+        aria-hidden="true"
         className={cn(skeletonVariants({ variant }), className)}
         style={Object.keys(sizeStyle).length > 0 ? sizeStyle : undefined}
         {...props}

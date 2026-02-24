@@ -261,6 +261,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
           id={inputId}
           type={isVisible ? 'text' : 'password'}
           disabled={disabled}
+          required={required}
           className={inputClassName}
           value={value}
           onChange={onChange}

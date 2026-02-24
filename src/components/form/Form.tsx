@@ -16,6 +16,7 @@ export const Form = <TFieldValues extends FieldValues = FieldValues>({
   return (
     <FormProvider {...form}>
       <form
+        noValidate
         onSubmit={onSubmit ? form.handleSubmit(onSubmit) : undefined}
         {...props}
       >

@@ -40,6 +40,9 @@ export {
   CellAvatar,
   CellProgress,
   CellLink,
+  CellIcon,
+  CellDate,
+  CellDateRange,
 } from './cells';
 
 // Hooks

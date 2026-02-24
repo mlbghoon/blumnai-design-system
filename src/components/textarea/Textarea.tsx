@@ -239,6 +239,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
                   onClick={action.onClick}
                   disabled={disabled || action.disabled}
                   className={cn(TOOLBAR_BUTTON_BASE, TOOLBAR_BUTTON_ICON_ONLY)}
+                  aria-label={action.label || action.key}
                 >
                   <Icon iconType={iconType} isFill={isFill} size={16} color="default-muted" />
                 </button>
@@ -303,6 +304,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       ref={useCustomScrollbar ? mergedRef : ref}
       id={textareaId}
       disabled={disabled}
+      required={required}
       className={textareaClassName}
       style={{
         minHeight: hasToolbarContent ? undefined : `${minHeight}px`,
@@ -353,7 +355,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
         {renderToolbar()}
 
         {showCount && maxLength && !hasToolbarContent && (
-          <div className={cn('flex justify-end margin-t-16', COUNT_STYLE)}>
+          <div className={cn('flex justify-end margin-t-16', COUNT_STYLE)} aria-live="polite">
             <span>{currentLength}/{maxLength}</span>
           </div>
         )}

@@ -18,7 +18,7 @@ const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
 
     if (listStyle === 'bordered') {
       return (
-        <div ref={ref} className={containerClassName}>
+        <div ref={ref} role="group" className={containerClassName}>
           {items.map((item) => (
             <div
               key={item.id}
@@ -39,7 +39,7 @@ const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
     }
 
     return (
-      <div ref={ref} className={containerClassName}>
+      <div ref={ref} role="group" className={containerClassName}>
         {items.map((item) => (
           <Switch
             key={item.id}

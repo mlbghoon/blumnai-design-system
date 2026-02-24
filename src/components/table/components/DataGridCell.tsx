@@ -17,7 +17,7 @@ export function DataGridCell<T>({ cell, stickyInfo, isRowSelected, height }: Dat
 
   return (
     <div
-      role="gridcell"
+      role="cell"
       className={cn(
         'padding-x-10 flex items-center',
         'font-body size-xs line-height-leading-4 text-default',

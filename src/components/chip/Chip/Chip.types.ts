@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 
@@ -59,7 +59,7 @@ export type ChipColor =
 /**
  * Chip 컴포넌트 Props
  */
-export interface ChipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'style'> {
+export interface ChipProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'style'> {
   /**
    * Chip에 표시할 텍스트
    */
@@ -99,4 +99,9 @@ export interface ChipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childre
    * 칩 색상
    */
   color?: ChipColor;
+  /**
+   * 비활성화 여부
+   * @default false
+   */
+  disabled?: boolean;
 }

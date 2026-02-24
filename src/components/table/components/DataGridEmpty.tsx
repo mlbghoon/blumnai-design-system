@@ -18,6 +18,7 @@ export function DataGridEmpty({
 
   return (
     <div
+      role="status"
       className={cn(
         'flex flex-col items-center justify-center padding-24 ds-gap-12',
         'min-height-200'

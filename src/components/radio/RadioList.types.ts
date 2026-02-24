@@ -54,6 +54,11 @@ export interface RadioListProps {
    */
   radioStyle?: RadioStyle;
   /**
+   * 전체 비활성화 여부
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * 추가 클래스명
    */
   className?: string;

@@ -30,15 +30,17 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
   className,
   ...props
 }, ref) => {
+  const effectiveMaxItems = maxItems && maxItems >= 2 ? maxItems : undefined;
+
   const visibleItems = useMemo(() => {
-    if (!maxItems || items.length <= maxItems) {
+    if (!effectiveMaxItems || items.length <= effectiveMaxItems) {
       return items;
     }
 
     const firstItem = items[0];
-    const lastItems = items.slice(-(maxItems - 1));
+    const lastItems = items.slice(-(effectiveMaxItems - 1));
     return [firstItem, { label: '...', disabled: true }, ...lastItems] as typeof items;
-  }, [items, maxItems]);
+  }, [items, effectiveMaxItems]);
 
   const separatorChar = useMemo(() => {
     switch (separator) {
@@ -118,19 +120,31 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
               key={item.href ?? `${item.label}-${index}`}
               className={cn('flex items-center ds-gap-2', sizeClasses)}
             >
-              {isClickable ? (
+              {isClickable && item.href ? (
                 <a
-                  href={item.href || '#'}
+                  href={item.href}
                   onClick={handleClick}
                   className={cn(
                     'flex items-center ds-gap-1 hover:underline',
-                    'text-default',
-                    !item.href && item.onClick && 'cursor-pointer'
+                    'text-default'
                   )}
                 >
                   {renderIcon(item)}
                   {item.label}
                 </a>
+              ) : isClickable && item.onClick ? (
+                <button
+                  type="button"
+                  onClick={() => item.onClick!()}
+                  className={cn(
+                    'flex items-center ds-gap-1 hover:underline',
+                    'text-default cursor-pointer',
+                    'bg-transparent border-none padding-0 font-inherit'
+                  )}
+                >
+                  {renderIcon(item)}
+                  {item.label}
+                </button>
               ) : (
                 <span
                   className={cn(

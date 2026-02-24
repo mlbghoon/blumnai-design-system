@@ -56,6 +56,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   label,
   icon,
   image,
+  imageAlt,
   onClose,
   className,
   style,
@@ -118,7 +119,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
         >
           <img
             src={image || BADGE_PLACEHOLDER_IMAGE}
-            alt=""
+            alt={imageAlt || ''}
             className="object-cover rounded-full"
           />
         </span>
@@ -140,7 +141,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
       {closeIcon && (
         <button
           type="button"
-          className="flex items-center justify-center shrink-0 cursor-pointer padding-0 border-0 bg-transparent hover:opacity-80"
+          className="flex items-center justify-center shrink-0 cursor-pointer padding-0 border-0 bg-transparent hover:opacity-80 focus:outline-none focus-visible:shadow-component-misc-focus rounded-full"
           onClick={onClose}
           aria-label="Close badge"
         >

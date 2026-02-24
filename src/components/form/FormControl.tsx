@@ -6,7 +6,7 @@ import type { FormControlProps } from './Form.types';
 /**
  * error prop을 지원하는 컴포넌트 목록
  */
-const COMPONENTS_WITH_ERROR_PROP = ['Input', 'Textarea', 'Select'];
+const COMPONENTS_WITH_ERROR_PROP = ['Input', 'Textarea', 'Select', 'Combobox'];
 
 /**
  * 컴포넌트가 error prop을 지원하는지 확인
@@ -19,7 +19,8 @@ const getDisplayName = (element: ReactElement): string => {
   }
 
   if (typeof type === 'object' && type !== null) {
-    return (type as { displayName?: string }).displayName || '';
+    const obj = type as { displayName?: string; type?: { displayName?: string; name?: string } };
+    return obj.displayName || obj.type?.displayName || obj.type?.name || '';
   }
 
   if (typeof type === 'function') {
@@ -61,7 +62,7 @@ export const FormControl = ({ children }: FormControlProps) => {
   if (supportsErrorProp(children)) {
     return cloneElement(children, {
       ...ariaProps,
-      error: errorMessage,
+      error: errorMessage || (hasError ? true : undefined),
     } as Record<string, unknown>);
   }
 

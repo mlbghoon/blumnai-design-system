@@ -260,6 +260,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
           <div
             key={option.value}
             role="option"
+            tabIndex={0}
             aria-selected={option.value === dropdownValue}
             className={cn(
               DROPDOWN_OPTION_BASE,
@@ -375,6 +376,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
             ref={ref}
             id={inputId}
             disabled={disabled}
+            required={required}
             className={inputClassName}
             value={value}
             autoComplete="off"

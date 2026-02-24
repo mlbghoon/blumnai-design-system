@@ -33,9 +33,9 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
   });
 
   const handleToggle = useCallback(
-    (id: string, currentIsOpen: boolean, itemOnToggle?: () => void) => {
+    (id: string, currentIsOpen: boolean, itemOnToggle?: (isOpen: boolean) => void) => {
       if (itemOnToggle) {
-        itemOnToggle();
+        itemOnToggle(!currentIsOpen);
         return;
       }
 

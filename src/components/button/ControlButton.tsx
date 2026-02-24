@@ -87,14 +87,28 @@ export const ControlButton = forwardRef<HTMLButtonElement, ControlButtonProps>((
     return config.iconColor;
   }, [buttonStyle, disabled]);
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (disabled) { e.preventDefault(); return; }
+    props.onClick?.(e);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (disabled && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); return; }
+    props.onKeyDown?.(e);
+  };
+
   return (
     <Comp
       ref={ref}
       type={asChild ? undefined : 'button'}
-      disabled={disabled}
+      disabled={asChild ? undefined : disabled}
+      aria-disabled={disabled || undefined}
+      tabIndex={asChild && disabled ? -1 : undefined}
       className={containerClassName}
       aria-label={ariaLabel}
       {...props}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
     >
       <Icon
         iconType={icon}

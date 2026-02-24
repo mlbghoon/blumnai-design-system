@@ -62,7 +62,7 @@ const SheetContent = React.forwardRef<
     <SheetPrimitive.Content
       ref={ref}
       className={cn(sheetVariants({ side }), className)}
-      onOpenAutoFocus={onOpenAutoFocus ?? ((e) => e.preventDefault())}
+      onOpenAutoFocus={onOpenAutoFocus}
       {...props}
     >
       <SheetPrimitive.Close className="absolute [right:20px] [top:20px] rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">

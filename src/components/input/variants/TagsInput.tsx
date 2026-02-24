@@ -229,25 +229,22 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
     setInputValue('');
   }, [tags, canAddTag, allowDuplicates, onTagsChange, onTagAdd, setInputValue]);
 
-  // Remove a tag
-  const removeTag = useCallback((tagToRemove: string) => {
-    const newTags = tags.filter(tag => tag !== tagToRemove);
+  const removeTag = useCallback((index: number) => {
+    const removedTag = tags[index];
+    const newTags = tags.filter((_, i) => i !== index);
     onTagsChange?.(newTags);
-    onTagRemove?.(tagToRemove);
+    onTagRemove?.(removedTag);
   }, [tags, onTagsChange, onTagRemove]);
 
-  // Handle key down
   const handleKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    // Check for Enter key
     if (e.key === 'Enter' && delimiters.includes('Enter')) {
       e.preventDefault();
       addTag(inputValue);
       return;
     }
 
-    // Check for Backspace to remove last tag
     if (e.key === 'Backspace' && inputValue === '' && tags.length > 0) {
-      removeTag(tags[tags.length - 1]);
+      removeTag(tags.length - 1);
       return;
     }
   }, [delimiters, inputValue, tags, addTag, removeTag]);
@@ -272,13 +269,12 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
     setInputValue(value);
   }, [delimiters, addTag, setInputValue]);
 
-  // Render tags
   const renderTags = (variant: 'inline' | 'stacked') => (
-    tags.map((tag) => (
+    tags.map((tag, index) => (
       <Tag
-        key={tag}
+        key={index}
         label={tag}
-        onRemove={() => removeTag(tag)}
+        onRemove={() => removeTag(index)}
         disabled={disabled}
         size={size}
         variant={variant}

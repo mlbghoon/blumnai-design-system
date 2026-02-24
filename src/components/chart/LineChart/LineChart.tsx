@@ -39,6 +39,12 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     },
     ref
   ) => {
+  if (process.env.NODE_ENV !== 'production') {
+    if (dataKey && dataKeys && dataKeys.length > 0) {
+      console.warn('[LineChart] dataKey와 dataKeys가 동시에 제공되었습니다. dataKeys가 우선 적용됩니다.');
+    }
+  }
+
   const isMultiLine = dataKeys && dataKeys.length > 0;
   const activeKeys = useMemo(() => {
     return isMultiLine ? dataKeys : (dataKey ? [dataKey] : []);
@@ -85,8 +91,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     } else {
       values = [0];
     }
-    const maxValue = Math.max(...values, 0);
-    const minValue = Math.min(...values, 0);
+    const maxValue = values.reduce((max, v) => v > max ? v : max, 0);
+    const minValue = values.reduce((min, v) => v < min ? v : min, 0);
     const domain: [number, number] =
       yAxis.domain && yAxis.domain !== 'auto'
         ? yAxis.domain
@@ -268,16 +274,23 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 
   const chartAriaLabel = ariaLabel || `Line chart showing ${activeKeys.join(', ') || 'data'}`;
 
+  if (!data || data.length === 0) {
+    return (
+      <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
+        <svg width={width} height={height} aria-hidden="true">
+        </svg>
+      </Chart>
+    );
+  }
+
   return (
     <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
       <svg
         width={width}
         height={height}
         className="overflow-visible"
-        role="graphics-document"
-        aria-label={chartAriaLabel}
+        aria-hidden="true"
       >
-        <title>{chartAriaLabel}</title>
         {showXGrid &&
           yTicks.map((tick, i) => {
             const y = padding.top + yScale.scale(tick);

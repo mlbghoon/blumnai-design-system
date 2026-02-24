@@ -78,6 +78,11 @@ export interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childr
    */
   image?: string;
   /**
+   * Alt text for the image (for image variant).
+   * @default ''
+   */
+  imageAlt?: string;
+  /**
    * Callback when close icon is clicked (only used when closeIcon=true).
    */
   onClose?: () => void;

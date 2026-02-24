@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 
 import { cn } from '@/lib/utils';
+import { getPixelValue } from '@/lib/css-utils';
 import { Icon } from '../icons/Icon';
 import { buttonVariants } from '../button/Button';
 import { ScrollArea } from '../scroll-area';
@@ -127,15 +128,6 @@ const DialogOverlay = React.forwardRef<
   />
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-
-const getPixelValue = (v: string | number): string => {
-  if (typeof v === 'number') return `${v}px`;
-  const numericValue = parseFloat(v);
-  if (!isNaN(numericValue) && String(numericValue) === v.trim()) {
-    return `${numericValue}px`;
-  }
-  return v;
-};
 
 const DialogContentInner = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,

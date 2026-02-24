@@ -4,7 +4,7 @@ import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import { cn } from '@/lib/utils';
 import type { RadioGroupProps, RadioProps } from './Radio.types';
 
-const RadioIndicator = ({ color = 'currentColor' }: { color?: string }) => (
+export const RadioIndicator = ({ color = 'currentColor' }: { color?: string }) => (
   <svg
     width="8"
     height="8"
@@ -36,7 +36,7 @@ const RadioContext = React.createContext<RadioContextValue>({ value: undefined }
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
   RadioGroupProps
->(({ className, value, onValueChange, defaultValue, ...props }, ref) => {
+>(({ className, value, onValueChange, defaultValue, orientation, ...props }, ref) => {
   const [internalValue, setInternalValue] = React.useState(defaultValue);
   const currentValue = value !== undefined ? (value ?? undefined) : internalValue;
 
@@ -51,9 +51,14 @@ const RadioGroup = React.forwardRef<
     <RadioContext.Provider value={{ value: currentValue }}>
       <RadioGroupPrimitive.Root
         ref={ref}
-        className={cn('flex flex-col ds-gap-12', className)}
+        className={cn(
+          'flex ds-gap-12',
+          orientation === 'horizontal' ? 'flex-row flex-wrap' : 'flex-col',
+          className
+        )}
         value={currentValue}
         onValueChange={handleValueChange}
+        orientation={orientation}
         {...props}
       />
     </RadioContext.Provider>

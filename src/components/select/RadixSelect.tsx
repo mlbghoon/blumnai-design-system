@@ -637,7 +637,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
               maxHeight={maxHeight}
               header={
                 searchable ? (
-                  <div style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.10)' }}>
+                  <div className="border-b border-default">
                     <div className="flex items-center ds-gap-2 padding-x-8 height-36">
                       <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
                         <Icon iconType={['system', 'search']} size={16} color="default-muted" />
@@ -645,6 +645,8 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                       <input
                         ref={searchInputRef}
                         type="text"
+                        role="searchbox"
+                        aria-label={searchPlaceholder || 'Search options'}
                         value={searchQuery}
                         onChange={(e) => {
                           setSearchQuery(e.target.value);
@@ -684,6 +686,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                   <ExtendedSelectItem
                     key={option.id}
                     value={option.id}
+                    textValue={option.label}
                     selectType={selectType}
                     leadIcon={option.leadIcon}
                     iconColor={option.iconColor}

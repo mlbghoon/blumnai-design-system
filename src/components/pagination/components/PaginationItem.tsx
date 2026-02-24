@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import type { PaginationItemProps } from '../Pagination.types';
 
 export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>(
-  ({ className, isActive, variant = 'numbered', disabled, href, children, ...props }, ref) => {
+  ({ className, isActive, variant = 'numbered', disabled, href, children, onClick, ...props }, ref) => {
     const baseStyles =
       variant === 'numbered'
         ? cn(
@@ -38,6 +38,8 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
           href={href}
           className={baseStyles}
           aria-current={isActive ? 'page' : undefined}
+          aria-label={isActive ? `Page ${children}, current page` : `Go to page ${children}`}
+          onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>}
         >
           {children}
         </a>
@@ -51,6 +53,11 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
         className={baseStyles}
         disabled={disabled}
         aria-current={isActive ? 'page' : undefined}
+        aria-label={variant === 'dot'
+          ? (isActive ? `Slide ${children}, current` : `Go to slide ${children}`)
+          : undefined
+        }
+        onClick={onClick}
         {...props}
       >
         {children}

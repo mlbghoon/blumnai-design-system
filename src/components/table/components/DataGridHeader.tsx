@@ -22,9 +22,10 @@ interface DataGridHeaderCellProps<T> {
   header: Header<T, unknown>;
   stickyInfo?: StickyColumnInfo;
   headerHeight?: string;
+  colIndex?: number;
 }
 
-function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight }: DataGridHeaderCellProps<T>) {
+function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: DataGridHeaderCellProps<T>) {
   const canSort = header.column.getCanSort();
   const sortDirection = header.column.getIsSorted();
   const sortIndex = header.column.getSortIndex();
@@ -40,6 +41,7 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight }: DataGridHea
   return (
     <div
       role="columnheader"
+      aria-colindex={colIndex}
       className={cn(
         'padding-x-10 flex items-center ds-gap-4',
         'font-body size-xs line-height-leading-4 font-medium text-subtle',

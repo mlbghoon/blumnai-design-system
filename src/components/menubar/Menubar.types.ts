@@ -6,6 +6,8 @@ export type MenubarProps = ComponentPropsWithoutRef<typeof MenubarPrimitive.Root
 
 export type MenubarMenuProps = ComponentPropsWithoutRef<typeof MenubarPrimitive.Menu>;
 
+export type MenubarGroupProps = ComponentPropsWithoutRef<typeof MenubarPrimitive.Group>;
+
 export type MenubarTriggerProps = ComponentPropsWithoutRef<typeof MenubarPrimitive.Trigger>;
 
 export interface MenubarContentProps

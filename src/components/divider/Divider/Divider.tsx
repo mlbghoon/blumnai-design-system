@@ -95,6 +95,7 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
 
     const content = renderContent();
     const position = type.split('-')[1] as 'left' | 'center' | 'right' | undefined;
+    const hasInteractiveContent = type.startsWith('button-');
 
     if (type === 'default' || !content) {
       return (
@@ -112,7 +113,7 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
     return (
       <div
         ref={ref}
-        role="separator"
+        role={hasInteractiveContent ? 'presentation' : 'separator'}
         className={cn(CONTAINER_WITH_CONTENT, className)}
         {...props}
       >

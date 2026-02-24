@@ -6,7 +6,7 @@ import type { IconType } from '../../icons/Icon/Icon.types';
 import type { PaginationNavProps } from '../Pagination.types';
 
 export const PaginationNav = forwardRef<HTMLButtonElement, PaginationNavProps>(
-  ({ className, direction, disabled, href, ...props }, ref) => {
+  ({ className, direction, disabled, href, onClick, ...props }, ref) => {
     const iconType: IconType =
       direction === 'prev'
         ? ['arrows', 'arrow-left-s']
@@ -34,7 +34,12 @@ export const PaginationNav = forwardRef<HTMLButtonElement, PaginationNavProps>(
 
     if (href && !disabled) {
       return (
-        <a href={href} className={baseStyles} aria-label={ariaLabel}>
+        <a
+          href={href}
+          className={baseStyles}
+          aria-label={ariaLabel}
+          onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>}
+        >
           {iconElement}
         </a>
       );
@@ -47,6 +52,7 @@ export const PaginationNav = forwardRef<HTMLButtonElement, PaginationNavProps>(
         className={baseStyles}
         disabled={disabled}
         aria-label={ariaLabel}
+        onClick={onClick}
         {...props}
       >
         {iconElement}

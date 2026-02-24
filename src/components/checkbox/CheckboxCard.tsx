@@ -24,6 +24,8 @@ const CheckboxCard = React.forwardRef<HTMLDivElement, CheckboxCardProps>(
       background = 'default',
       checkboxPosition = 'right',
       checkboxStyle = 'with-shadow',
+      name,
+      value,
       onCheckedChange,
       className,
     },
@@ -96,6 +98,8 @@ const CheckboxCard = React.forwardRef<HTMLDivElement, CheckboxCardProps>(
           checked={checked}
           disabled={disabled}
           checkboxStyle={checkboxStyle}
+          name={name}
+          value={value}
           onCheckedChange={onCheckedChange}
         />
       </div>

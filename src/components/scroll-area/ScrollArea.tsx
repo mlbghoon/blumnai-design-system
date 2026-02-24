@@ -2,21 +2,13 @@ import * as React from 'react';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
 import { cn } from '@/lib/utils';
+import { getPixelValue } from '@/lib/css-utils';
 import type { ScrollAreaProps, ScrollBarProps } from './ScrollArea.types';
-
-const getPixelValue = (v: string | number): string => {
-  if (typeof v === 'number') return `${v}px`;
-  const numericValue = parseFloat(v);
-  if (!isNaN(numericValue) && String(numericValue) === v.trim()) {
-    return `${numericValue}px`;
-  }
-  return v;
-};
 
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,
   ScrollAreaProps
->(({ className, children, orientation = 'vertical', maxHeight, maxWidth, style, ...props }, ref) => {
+>(({ className, children, orientation = 'vertical', maxHeight, maxWidth, viewportRef, style, ...props }, ref) => {
   const rootStyle: React.CSSProperties = {
     ...(style || {}),
     ...(maxHeight !== undefined && maxHeight !== '' ? { maxHeight: getPixelValue(maxHeight) } : {}),
@@ -36,7 +28,9 @@ const ScrollArea = React.forwardRef<
       {...props}
     >
       <ScrollAreaPrimitive.Viewport
+        ref={viewportRef as React.Ref<HTMLDivElement>}
         className="h-full w-full max-w-full rounded-[inherit]"
+        tabIndex={0}
         style={Object.keys(viewportStyle).length > 0 ? viewportStyle : undefined}
       >
         {children}

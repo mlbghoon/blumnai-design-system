@@ -149,6 +149,9 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
           )}
           {...props}
         >
+          <span className="sr-only" aria-live="polite" aria-atomic="true">
+            {`${page} / ${totalPages} 페이지`}
+          </span>
           {variant === 'simple' ? (
             <>
               <span className="font-body size-sm line-height-leading-5 text-muted">

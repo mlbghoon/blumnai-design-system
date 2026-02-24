@@ -115,7 +115,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     } else {
       values = [0];
     }
-    const maxValue = Math.max(...values, 0);
+    const maxValue = values.reduce((max, v) => v > max ? v : max, 0);
     let domain: [number, number];
     if (Array.isArray(yAxis.domain) && yAxis.domain.length === 2 && typeof yAxis.domain[0] === 'number' && typeof yAxis.domain[1] === 'number') {
       domain = [yAxis.domain[0], yAxis.domain[1]];
@@ -223,7 +223,22 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     return items;
   }, [data, dataKey, xAxis.dataKey, getBarColor, stacked, stackedKeys, getColor, getLabel]);
 
+  if (process.env.NODE_ENV !== 'production') {
+    if (stacked && (!stackedKeys || stackedKeys.length === 0)) {
+      console.warn('[BarChart] stacked={true}이지만 stackedKeys가 제공되지 않았습니다. stacked 모드를 사용하려면 stackedKeys를 지정하세요.');
+    }
+  }
+
   const chartAriaLabel = ariaLabel || `Bar chart showing ${dataKey || (stackedKeys?.join(', ') || 'data')}`;
+
+  if (!data || data.length === 0) {
+    return (
+      <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
+        <svg width={width} height={height} aria-hidden="true">
+        </svg>
+      </Chart>
+    );
+  }
 
   return (
     <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
@@ -231,10 +246,8 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         width={width}
         height={height}
         className="overflow-hidden"
-        role="graphics-document"
-        aria-label={chartAriaLabel}
+        aria-hidden="true"
       >
-        <title>{chartAriaLabel}</title>
         {showXGrid &&
           yTicks.map((tick, i) => {
             const y = padding.top + yScale.scale(tick);

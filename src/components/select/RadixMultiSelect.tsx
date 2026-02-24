@@ -23,6 +23,22 @@ import {
 
 const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
   ({ option, selected, focused, disabled = false, variant, onToggle }, ref) => {
+    const internalRef = React.useRef<HTMLDivElement>(null);
+    React.useEffect(() => {
+      if (focused && internalRef.current) {
+        internalRef.current.scrollIntoView({ block: 'nearest' });
+      }
+    }, [focused]);
+
+    const mergeRefs = React.useCallback(
+      (node: HTMLDivElement | null) => {
+        internalRef.current = node;
+        if (typeof ref === 'function') ref(node);
+        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      },
+      [ref],
+    );
+
     const sizeConfig = option.description
       ? MENU_ITEM_SIZE_CONFIG.large
       : MENU_ITEM_SIZE_CONFIG.default;
@@ -116,7 +132,7 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
 
     return (
       <div
-        ref={ref}
+        ref={mergeRefs}
         role="option"
         aria-selected={selected}
         aria-disabled={disabled}
@@ -597,7 +613,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                 }}
               >
                 {searchable && (
-                  <div style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.10)' }}>
+                  <div className="border-b border-default">
                     <div className="flex items-center ds-gap-2 padding-x-8 height-36">
                       <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
                         <Icon iconType={['system', 'search']} size={16} color="default-muted" />
@@ -605,6 +621,8 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                       <input
                         ref={searchInputRef}
                         type="text"
+                        role="searchbox"
+                        aria-label={searchPlaceholder || 'Search options'}
                         value={searchQuery}
                         onChange={(e) => {
                           setSearchQuery(e.target.value);
@@ -633,6 +651,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                 <div
                   role="listbox"
                   aria-multiselectable="true"
+                  aria-label={label || placeholder || 'Options'}
                   className="padding-y-4 overflow-y-auto overflow-x-hidden"
                   style={{
                     maxHeight:

@@ -64,6 +64,8 @@ function DataGridInner<T>(
     emptyContent,
     error,
     onRetry,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby,
     className,
     onRowClick,
     showSelectedRowBackground = true,
@@ -141,7 +143,12 @@ function DataGridInner<T>(
     <TableTooltipProvider>
       <div
         ref={ref}
-        role="grid"
+        role="table"
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledby}
+        aria-busy={isLoading || undefined}
+        aria-rowcount={total ?? data.length}
+        aria-colcount={columns.length}
         className={cn(
           'relative overflow-hidden bg-default border-default rounded-lg',
           className

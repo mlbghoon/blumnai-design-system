@@ -159,7 +159,7 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
       return;
     }
 
-    const numValue = parseInt(inputValue, 10);
+    const numValue = parseFloat(inputValue);
     if (!isNaN(numValue)) {
       let clampedValue = Math.max(numValue, min);
       if (max !== undefined) {

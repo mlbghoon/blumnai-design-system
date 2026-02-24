@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type {
+  CancelDrop,
   DragEndEvent,
   DragStartEvent,
   DragOverEvent,
@@ -9,6 +10,8 @@ import type {
   Modifiers,
   CollisionDetection,
   DraggableAttributes,
+  MeasuringConfiguration,
+  SensorDescriptor,
 } from '@dnd-kit/core';
 import type { SortingStrategy } from '@dnd-kit/sortable';
 
@@ -37,6 +40,13 @@ export interface DndContextProps {
   modifiers?: Modifiers;
   collisionDetection?: CollisionDetection;
   autoScroll?: boolean;
+  /** 드롭 취소 여부를 결정하는 비동기 함수 */
+  cancelDrop?: CancelDrop;
+  /** 요소 측정 설정 */
+  measuring?: MeasuringConfiguration;
+  /** 커스텀 센서 설정 (미제공 시 기본 PointerSensor/TouchSensor/KeyboardSensor 사용) */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  sensors?: SensorDescriptor<any>[];
 }
 
 // ============================================================================

@@ -6,6 +6,7 @@ import { cva } from 'class-variance-authority';
 import { Icon } from '../icons/Icon';
 import type { IconType } from '../icons/Icon/Icon.types';
 import { cn } from '../../lib/utils';
+import { getPixelValue } from '../../lib/css-utils';
 
 import type { LinkButtonProps, LinkButtonIconType, LinkButtonSize, LinkButtonType } from './LinkButton.types';
 
@@ -67,17 +68,8 @@ export const LinkButton = forwardRef<HTMLElement, LinkButtonProps>(({
 }, ref) => {
   const iconSize = 16;
 
-  const getWidthValue = (w: string | number): string => {
-    if (typeof w === 'number') return `${w}px`;
-    const numericValue = parseFloat(w);
-    if (!isNaN(numericValue) && String(numericValue) === w.trim()) {
-      return `${numericValue}px`;
-    }
-    return w;
-  };
-
   const widthStyle = width !== undefined && width !== ''
-    ? { width: getWidthValue(width) }
+    ? { width: getPixelValue(width) }
     : undefined;
 
   const mergedStyle: React.CSSProperties = {
@@ -139,6 +131,7 @@ export const LinkButton = forwardRef<HTMLElement, LinkButtonProps>(({
         rel={openInNewTab ? 'noopener noreferrer' : undefined}
         className={containerClassName}
         style={styleProps}
+        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
       >
         {content}
       </a>

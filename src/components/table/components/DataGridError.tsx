@@ -12,6 +12,7 @@ interface DataGridErrorProps {
 export function DataGridError({ error, onRetry }: DataGridErrorProps) {
   return (
     <div
+      role="alert"
       className={cn(
         'flex flex-col items-center justify-center padding-24 ds-gap-12',
         'min-height-200'

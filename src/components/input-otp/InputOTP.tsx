@@ -16,6 +16,7 @@ const InputOTP = React.forwardRef<
 >(({ containerClassName, className, ...props }, ref) => (
   <OTPInput
     ref={ref}
+    aria-label={props['aria-label'] || 'One-time password'}
     containerClassName={cn(
       'flex items-center ds-gap-8 has-[:disabled]:opacity-50',
       containerClassName

@@ -39,6 +39,12 @@ function MenubarMenu({
   return <MenubarPrimitive.Menu {...props} />;
 }
 
+function MenubarGroup({
+  ...props
+}: React.ComponentProps<typeof MenubarPrimitive.Group>) {
+  return <MenubarPrimitive.Group {...props} />;
+}
+
 function MenubarRadioGroup({
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.RadioGroup>) {
@@ -98,7 +104,7 @@ const MenubarContent = React.forwardRef<
         alignOffset={alignOffset}
         sideOffset={sideOffset}
         className={cn(
-          "z-50 min-w-[192px] overflow-hidden rounded-lg border-default bg-card padding-4 text-default shadow-modal-sm",
+          "z-50 min-w-[192px] max-h-[var(--radix-menubar-content-available-height)] overflow-y-auto overflow-x-hidden rounded-lg border-default bg-card padding-4 text-default shadow-modal-sm",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -123,7 +129,7 @@ const MenubarSubContent = React.forwardRef<
   <MenubarPrimitive.SubContent
     ref={ref}
     className={cn(
-      "z-50 min-w-[128px] overflow-hidden rounded-lg border-default bg-card padding-4 text-default shadow-modal-sm",
+      "z-50 min-w-[128px] max-h-[var(--radix-menubar-content-available-height)] overflow-y-auto overflow-x-hidden rounded-lg border-default bg-card padding-4 text-default shadow-modal-sm",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -279,7 +285,7 @@ const MenubarCheckboxItem = React.forwardRef<
     checked={checked}
     {...props}
   >
-    <span className="absolute left-8 flex height-16 width-16 items-center justify-center">
+    <span className="absolute flex height-16 width-16 items-center justify-center" style={{ left: '8px' }}>
       <MenubarPrimitive.ItemIndicator>
         <Icon iconType={['system', 'check']} size={16} color="default" />
       </MenubarPrimitive.ItemIndicator>
@@ -303,7 +309,7 @@ const MenubarRadioItem = React.forwardRef<
     )}
     {...props}
   >
-    <span className="absolute left-8 flex height-16 width-16 items-center justify-center">
+    <span className="absolute flex height-16 width-16 items-center justify-center" style={{ left: '8px' }}>
       <MenubarPrimitive.ItemIndicator>
         <div className="width-8 height-8 rounded-full bg-current" />
       </MenubarPrimitive.ItemIndicator>
@@ -376,6 +382,7 @@ MenubarCaption.displayName = 'MenubarCaption';
 export {
   Menubar,
   MenubarMenu,
+  MenubarGroup,
   MenubarTrigger,
   MenubarContent,
   MenubarItem,

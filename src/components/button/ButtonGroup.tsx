@@ -1,4 +1,3 @@
-import type { KeyboardEvent } from 'react';
 import { forwardRef } from 'react';
 
 import { Icon } from '../icons/Icon';
@@ -138,8 +137,9 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
           const isDisabled = item.disabled || !item.onClick;
 
           return (
-            <div
+            <button
               key={item.id ?? index}
+              type="button"
               className={cn(
                 'inline-flex items-center justify-center',
                 'bg-transparent',
@@ -150,19 +150,8 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
                 !isDisabled && 'hover:bg-basic-gray-alpha-4 active:bg-basic-gray-alpha-10'
               )}
               onClick={isDisabled ? undefined : item.onClick}
-              onKeyDown={(e: KeyboardEvent) => {
-                if (isDisabled) return;
-                if (e.key === 'Enter') {
-                  item.onClick!();
-                } else if (e.key === ' ' || e.key === 'Spacebar') {
-                  e.preventDefault();
-                  item.onClick!();
-                }
-              }}
-              role="button"
               aria-label={iconOnly ? item.ariaLabel : undefined}
-              aria-disabled={isDisabled || undefined}
-              tabIndex={isDisabled ? -1 : 0}
+              disabled={isDisabled}
             >
               {buttonContent.length === 1 && iconOnly ? (
                 buttonContent[0]
@@ -171,7 +160,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
                   {buttonContent}
                 </div>
               )}
-            </div>
+            </button>
           );
         })}
       </div>

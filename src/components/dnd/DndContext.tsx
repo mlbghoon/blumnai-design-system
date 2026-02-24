@@ -22,8 +22,11 @@ export function DndContext({
   modifiers,
   collisionDetection = closestCenter,
   autoScroll = true,
+  cancelDrop,
+  measuring,
+  sensors: customSensors,
 }: DndContextProps) {
-  const sensors = useSensors(
+  const defaultSensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
         distance: 8,
@@ -42,7 +45,7 @@ export function DndContext({
 
   return (
     <DndKitContext
-      sensors={sensors}
+      sensors={customSensors ?? defaultSensors}
       collisionDetection={collisionDetection}
       onDragStart={onDragStart}
       onDragMove={onDragMove}
@@ -51,6 +54,8 @@ export function DndContext({
       onDragCancel={onDragCancel}
       modifiers={modifiers}
       autoScroll={autoScroll}
+      cancelDrop={cancelDrop}
+      measuring={measuring}
     >
       {children}
     </DndKitContext>

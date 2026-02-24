@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, useState } from 'react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
 import { AspectRatio } from '../../aspect-ratio';
@@ -60,6 +60,8 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     },
     ref
   ) => {
+  const [imgError, setImgError] = useState(false);
+
   // Get initials text - 1 letter for small sizes (2xs~md), 2 letters for large sizes (lg~3xl)
   const initialsText = useMemo(() => {
     if (!initials) return '';
@@ -168,12 +170,17 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         )}
 
         {/* Userpic variant: HAS Image wrapper */}
-        {variant === 'userpic' && src && (
+        {variant === 'userpic' && src && !imgError && (
           <div className={IMAGE_WRAPPER_CLASSES}>
             <AspectRatio ratio={1}>
-              <img src={src} alt={alt || ''} className={IMAGE_CLASSES} />
+              <img src={src} alt={alt || ''} className={IMAGE_CLASSES} onError={() => setImgError(true)} />
             </AspectRatio>
           </div>
+        )}
+
+        {/* Userpic variant: fallback to initials on image error */}
+        {variant === 'userpic' && imgError && initialsText && (
+          <span className={initialsClasses}>{initialsText}</span>
         )}
 
         {/* Empty variant: HAS Image wrapper with placeholder icon */}

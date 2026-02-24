@@ -120,6 +120,7 @@ const SliderInput = React.forwardRef<
         <div className="relative flex items-center">
           <input
             type="text"
+            aria-label="Value"
             value={inputValue}
             onChange={handleInputChange}
             onBlur={handleInputBlur}

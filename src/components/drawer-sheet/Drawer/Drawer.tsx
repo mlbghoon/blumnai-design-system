@@ -20,6 +20,7 @@ const Drawer = ({
     <DrawerPrimitive.Root
       shouldScaleBackground={shouldScaleBackground}
       direction={direction}
+      autoFocus
       {...props}
     />
   </DrawerContext.Provider>

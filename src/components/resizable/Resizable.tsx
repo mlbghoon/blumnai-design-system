@@ -16,6 +16,7 @@ const GripDotsIcon = () => (
     height="14"
     viewBox="0 0 6 14"
     fill="currentColor"
+    aria-hidden="true"
   >
     <circle cx="1.5" cy="1.5" r="1.5" />
     <circle cx="1.5" cy="7" r="1.5" />
@@ -102,6 +103,7 @@ const CollapseButton = ({
         getPositionClasses()
       )}
       style={getPositionStyles()}
+      aria-expanded={!isCollapsed}
       aria-label={isCollapsed ? 'Expand panel' : 'Collapse panel'}
     >
       {getIcon()}

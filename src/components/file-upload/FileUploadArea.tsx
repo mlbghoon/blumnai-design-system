@@ -56,6 +56,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
 }, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const effectiveDragging = isDragging && !disabled;
 
   const handleClick = useCallback(() => {
     if (disabled) return;
@@ -111,6 +112,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
     e.preventDefault();
     e.stopPropagation();
     if (disabled) return;
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return;
     setIsDragging(false);
     onDragLeave?.();
   }, [disabled, onDragLeave]);
@@ -127,6 +129,10 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
     if (!files || files.length === 0) return;
 
     let fileArray = Array.from(files);
+
+    if (!multiple) {
+      fileArray = fileArray.slice(0, 1);
+    }
 
     if (accept) {
       const acceptedTypes = accept.split(',').map(t => t.trim());
@@ -158,12 +164,12 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
     if (fileArray.length > 0) {
       onFilesSelected?.(fileArray);
     }
-  }, [accept, disabled, maxFiles, maxSize, onDragLeave, onFilesSelected]);
+  }, [accept, disabled, maxFiles, maxSize, multiple, onDragLeave, onFilesSelected]);
 
   const getStateClassName = () => {
     if (disabled) return FILE_UPLOAD_AREA_STATE.disabled;
     if (error) return FILE_UPLOAD_AREA_STATE.error;
-    if (isDragging) return FILE_UPLOAD_AREA_STATE.dragging;
+    if (effectiveDragging) return FILE_UPLOAD_AREA_STATE.dragging;
     return FILE_UPLOAD_AREA_STATE.default;
   };
 
@@ -203,6 +209,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
           getStateClassName()
         )}
         aria-disabled={disabled}
+        aria-label={title || DEFAULT_TITLE}
       >
         <input
           ref={inputRef}

@@ -4,6 +4,7 @@ export interface ToastContentProps {
   variant?: ToastVariant;
   message: string;
   label?: string;
+  toastId?: string | number;
 }
 
 export interface ToastOptions {

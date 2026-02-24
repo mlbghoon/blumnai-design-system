@@ -18,7 +18,7 @@ const CheckboxList = React.forwardRef<HTMLDivElement, CheckboxListProps>(
 
     if (listStyle === 'bordered') {
       return (
-        <div ref={ref} className={containerClassName}>
+        <div ref={ref} role="group" className={containerClassName}>
           {items.map((item) => (
             <div
               key={item.id}
@@ -39,7 +39,7 @@ const CheckboxList = React.forwardRef<HTMLDivElement, CheckboxListProps>(
     }
 
     return (
-      <div ref={ref} className={containerClassName}>
+      <div ref={ref} role="group" className={containerClassName}>
         {items.map((item) => (
           <Checkbox
             key={item.id}

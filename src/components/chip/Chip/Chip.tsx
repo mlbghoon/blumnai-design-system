@@ -28,7 +28,7 @@ const getColorTextClass = (color: ChipColor): string => {
  * @example
  * <Chip label="Tag" size="md" style="default" />
  */
-export const Chip = forwardRef<HTMLDivElement, ChipProps>(
+export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
   (
     {
       label,
@@ -38,6 +38,7 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
       shape = 'rounded',
       size = 'md',
       selected = false,
+      disabled = false,
       color,
       className,
       ...props
@@ -165,7 +166,8 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
     const containerClassName = cn(
       'inline-flex items-center justify-center ds-gap-4',
       'box-border',
-      'cursor-pointer select-none group',
+      disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
+      'select-none group',
       'transition-colors duration-150',
       currentSize.padding,
       fixedHeightClass,
@@ -173,15 +175,15 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
       activeStyle.base,
       activeStyle.border,
       shapeStyles[shape],
-      activeStyle.hover,
-      activeStyle.press,
+      !disabled && activeStyle.hover,
+      !disabled && activeStyle.press,
       focusStyles,
       className
     );
 
 
     return (
-      <div ref={ref} className={containerClassName} role="button" tabIndex={0} {...props}>
+      <button ref={ref} type="button" className={containerClassName} disabled={disabled} aria-pressed={selected} {...props}>
         {icon && (
           <span
             className={cn(
@@ -207,7 +209,7 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
             {label}
           </span>
         )}
-      </div>
+      </button>
     );
   }
 );

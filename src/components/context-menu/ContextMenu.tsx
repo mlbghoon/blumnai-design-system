@@ -185,7 +185,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
     )}
-    style={{ paddingLeft: inset ? '32px' : '32px' }}
+    style={{ paddingLeft: inset ? '56px' : '32px' }}
     checked={checked}
     {...props}
   >
@@ -214,7 +214,7 @@ const ContextMenuRadioItem = React.forwardRef<
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className
     )}
-    style={{ paddingLeft: inset ? '32px' : '32px' }}
+    style={{ paddingLeft: inset ? '56px' : '32px' }}
     {...props}
   >
     <span
@@ -339,6 +339,7 @@ const ChevronRightIcon = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className="ml-auto width-16 height-16"
+    aria-hidden="true"
   >
     <path
       d="M6 12L10 8L6 4"

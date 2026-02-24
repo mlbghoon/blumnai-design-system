@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, type ReactNode } from 'react';
+import { useState, useCallback, useRef, useEffect, type ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 import { TooltipTrigger } from '../../tooltip/Tooltip/TooltipTrigger';
@@ -23,6 +23,12 @@ export function CellText({
   const elementRef = useRef<HTMLSpanElement | HTMLButtonElement>(null);
   const tableTooltip = useTableTooltipOptional();
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+    };
+  }, []);
 
   const handleCopy = useCallback(async () => {
     if (value == null) return;
@@ -83,6 +89,7 @@ export function CellText({
       <button
         type="button"
         onClick={handleCopy}
+        aria-label={`Copy ${displayValue}`}
         className={cn(
           'inline-flex items-center ds-gap-4 truncate max-w-full',
           'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default',

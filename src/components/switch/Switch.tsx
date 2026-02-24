@@ -33,6 +33,7 @@ const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Root>,
   SwitchProps
 >(({ className, label, description, switchPosition = 'left', color = 'green', disabled, checked, onCheckedChange, ...props }, ref) => {
+  const descriptionId = React.useId();
   const [isHovered, setIsHovered] = React.useState(false);
   const isGreen = color === 'green';
 
@@ -52,6 +53,8 @@ const Switch = React.forwardRef<
       onCheckedChange={onCheckedChange}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      aria-label={!label && !props['aria-label'] ? 'Toggle' : props['aria-label']}
+      aria-describedby={description ? descriptionId : undefined}
       className={cn(
         'peer relative inline-flex items-center shrink-0',
         'width-32 height-20',
@@ -108,6 +111,7 @@ const Switch = React.forwardRef<
         )}
         {description && (
           <span
+            id={descriptionId}
             className={cn(
               'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal select-none',
               disabled ? 'text-hint' : 'text-subtle'

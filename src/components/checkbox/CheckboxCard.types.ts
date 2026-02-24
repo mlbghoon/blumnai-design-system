@@ -71,6 +71,14 @@ export interface CheckboxCardProps {
    */
   checkboxStyle?: CheckboxStyle;
   /**
+   * 폼 필드 이름
+   */
+  name?: string;
+  /**
+   * 폼 필드 값
+   */
+  value?: string;
+  /**
    * 변경 이벤트 핸들러
    */
   onCheckedChange?: (checked: boolean) => void;

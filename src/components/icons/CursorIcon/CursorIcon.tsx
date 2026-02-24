@@ -24,9 +24,9 @@ export const CursorIcon = forwardRef<SVGSVGElement, CursorIconProps>(({
     case 'arrow':
       return <CursorArrowIcon {...iconProps} />;
     case 'hand-closed':
-      return <CursorHandOpenIcon {...iconProps} />;
-    case 'hand-open':
       return <CursorHandClosedIcon {...iconProps} />;
+    case 'hand-open':
+      return <CursorHandOpenIcon {...iconProps} />;
     case 'not-allowed':
       return <CursorNotAllowedIcon {...iconProps} />;
     case 'pointer':

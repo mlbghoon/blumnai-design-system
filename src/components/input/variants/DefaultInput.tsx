@@ -209,6 +209,7 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
           ref={mergeRefs}
           id={inputId}
           disabled={disabled}
+          required={required}
           className={inputClassName}
           value={value}
           autoComplete="off"

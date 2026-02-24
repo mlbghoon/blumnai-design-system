@@ -5,6 +5,7 @@ import {
   useCallback,
   useRef,
   useEffect,
+  useId,
   type ReactNode,
   type ReactElement,
 } from 'react';
@@ -77,6 +78,8 @@ export function TooltipTrigger({
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [floating, setFloating] = useState<HTMLDivElement | null>(null);
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tooltipId = useId();
 
   const isControlled = controlledOpen !== undefined;
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
@@ -111,13 +114,26 @@ export function TooltipTrigger({
     }, delay);
   }, [disabled, delay, setIsOpen]);
 
+  const startCloseTimeout = useCallback(() => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 100);
+  }, [setIsOpen]);
+
+  const cancelCloseTimeout = useCallback(() => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+  }, []);
+
   const handleMouseLeave = useCallback(() => {
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
       hoverTimeoutRef.current = null;
     }
-    setIsOpen(false);
-  }, [setIsOpen]);
+    startCloseTimeout();
+  }, [startCloseTimeout]);
 
   const handleFocus = useCallback(() => {
     if (disabled) return;
@@ -128,10 +144,19 @@ export function TooltipTrigger({
     setIsOpen(false);
   }, [setIsOpen]);
 
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Escape' && isOpen) {
+      setIsOpen(false);
+    }
+  }, [isOpen, setIsOpen]);
+
   useEffect(() => {
     return () => {
       if (hoverTimeoutRef.current) {
         clearTimeout(hoverTimeoutRef.current);
+      }
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
       }
     };
   }, []);
@@ -156,6 +181,8 @@ export function TooltipTrigger({
         onMouseLeave={handleMouseLeave}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        aria-describedby={shouldShow ? tooltipId : undefined}
         className="block min-w-0"
       >
         {children}
@@ -164,7 +191,11 @@ export function TooltipTrigger({
         createPortal(
           <div
             ref={setFloating}
+            id={tooltipId}
+            role="tooltip"
             style={{ ...floatingStyles, zIndex: 50 }}
+            onMouseEnter={cancelCloseTimeout}
+            onMouseLeave={startCloseTimeout}
           >
             {tooltipContent}
           </div>,
