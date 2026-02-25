@@ -42,7 +42,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     },
     ref
   ) => {
-  if (process.env.NODE_ENV !== 'production') {
+  if (import.meta.env.DEV) {
     if (dataKey && dataKeys && dataKeys.length > 0) {
       console.warn('[LineChart] dataKey와 dataKeys가 동시에 제공되었습니다. dataKeys가 우선 적용됩니다.');
     }

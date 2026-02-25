@@ -230,7 +230,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     return items;
   }, [safeData, dataKey, xAxis.dataKey, getBarColor, stacked, stackedKeys, getColor, getLabel]);
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (import.meta.env.DEV) {
     if (stacked && (!stackedKeys || stackedKeys.length === 0)) {
       console.warn('[BarChart] stacked={true}이지만 stackedKeys가 제공되지 않았습니다. stacked 모드를 사용하려면 stackedKeys를 지정하세요.');
     }
