@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.36] - 2026-02-25
+
+### Fixed
+
+- react-hook-form, @hookform/resolvers, zod를 `peerDependencies`에 추가 — dist 코드가 react-hook-form을 import하므로 의존성 선언 필요
+  - `peerDependenciesMeta`의 `optional: true`와 함께 사용하여 Form 미사용 프로젝트에서는 설치 불필요
+  - 넓은 버전 범위 (`^7.0.0`)로 TS 4.x 프로젝트는 `7.53.x`, TS 5+ 프로젝트는 최신 버전 선택 가능
+
 ## [0.2.35] - 2026-02-25
 
 ### Fixed

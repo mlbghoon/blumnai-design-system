@@ -1,6 +1,6 @@
 {
   "name": "@mbisolution/blumnai-design-system",
-  "version": "0.2.35",
+  "version": "0.2.36",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -595,7 +595,10 @@
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "react-dom": "^18.0.0 || ^19.0.0",
+    "react-hook-form": "^7.0.0",
+    "@hookform/resolvers": "^3.0.0 || ^4.0.0 || ^5.0.0",
+    "zod": "^3.0.0 || ^4.0.0"
   },
   "peerDependenciesMeta": {
     "react-hook-form": {
