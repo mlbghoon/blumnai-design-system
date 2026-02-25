@@ -16,6 +16,7 @@ import {
 } from "@/components/drawer-sheet/Sheet"
 import { Skeleton } from "@/components/skeleton"
 import { TooltipTrigger } from "@/components/tooltip/Tooltip/TooltipTrigger"
+import type { SidebarProviderProps } from "./Sidebar.types"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -49,14 +50,7 @@ function useSidebar() {
 
 const SidebarProvider = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<"div"> & {
-    defaultOpen?: boolean
-    open?: boolean
-    onOpenChange?: (open: boolean) => void
-    onCollapse?: () => void
-    onExpand?: () => void
-    persistState?: boolean
-  }
+  SidebarProviderProps
 >(
   (
     {

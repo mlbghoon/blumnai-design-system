@@ -1,7 +1,40 @@
-import type { ReactNode, HTMLAttributes, ButtonHTMLAttributes } from 'react';
+import type { ReactNode, HTMLAttributes, ButtonHTMLAttributes, ComponentProps } from 'react';
 
 import type { IconType } from '../icons/Icon/Icon.types';
 import type { BadgeProps } from '../badge/Badge/Badge.types';
+
+// ============================================
+// SidebarProvider Types
+// ============================================
+
+export interface SidebarProviderProps extends ComponentProps<'div'> {
+  /**
+   * Whether the sidebar starts open.
+   * @default true
+   */
+  defaultOpen?: boolean;
+  /**
+   * Controlled open state.
+   */
+  open?: boolean;
+  /**
+   * Callback when open state changes.
+   */
+  onOpenChange?: (open: boolean) => void;
+  /**
+   * Callback when the sidebar collapses.
+   */
+  onCollapse?: () => void;
+  /**
+   * Callback when the sidebar expands.
+   */
+  onExpand?: () => void;
+  /**
+   * Whether to persist sidebar state in a cookie.
+   * @default true
+   */
+  persistState?: boolean;
+}
 
 // ============================================
 // SidebarMenuItem Types

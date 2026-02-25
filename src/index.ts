@@ -119,6 +119,7 @@ export type {
   ExtendedSelectItemProps,
   ExtendedSelectProps,
   MultiSelectItemProps,
+  SelectOptionGroup,
 } from './components/select';
 
 export { Combobox } from './components/select/Combobox';
@@ -321,19 +322,21 @@ export {
   HoverCard,
   HoverCardTrigger,
   HoverCardContent,
+  HoverCardArrow,
 } from './components/hover-card';
 
 export type {
   HoverCardProps,
   HoverCardTriggerProps,
   HoverCardContentProps,
+  HoverCardArrowProps,
 } from './components/hover-card';
 
 // =============================================================================
 // TOAST & NOTIFICATIONS
 // =============================================================================
-export { toast, ToastContent } from './components/toast';
-export type { ToastContentProps, ToastOptions, ToastVariant } from './components/toast';
+export { toast, ToastContent, BlumnaiToaster } from './components/toast';
+export type { ToastContentProps, ToastOptions, ToastVariant, BlumnaiToasterProps, ToastAction } from './components/toast';
 
 export {
   Tooltip,
@@ -412,6 +415,7 @@ export {
 } from './components/sidebar';
 
 export type {
+  SidebarProviderProps,
   SidebarMenuItemProps,
   SidebarMenuItemVariant,
   SidebarMenuItemIconType,
@@ -500,6 +504,9 @@ export {
   DropdownMenuSub,
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   MenuButton,
 } from './components/dropdown';
 
@@ -517,6 +524,9 @@ export type {
   DropdownMenuGroupProps,
   DropdownMenuPortalProps,
   DropdownMenuSubProps,
+  DropdownMenuCheckboxItemProps,
+  DropdownMenuRadioGroupProps,
+  DropdownMenuRadioItemProps,
   DropdownMenuCaptionProps,
   DropdownMenuAvatarProps,
   DropdownMenuUserbarProps,
@@ -567,7 +577,7 @@ export type {
 // =============================================================================
 // DATA DISPLAY
 // =============================================================================
-export { DataGrid } from './components/table';
+export { DataGrid, useGridKeyboardNav } from './components/table';
 export type {
   DataGridProps,
   ColumnDef,
@@ -625,7 +635,7 @@ export type {
 } from './components/progress';
 
 export { Skeleton } from './components/skeleton';
-export type { SkeletonProps } from './components/skeleton';
+export type { SkeletonProps, SkeletonAnimation } from './components/skeleton';
 
 // =============================================================================
 // LAYOUT
@@ -651,7 +661,7 @@ export type {
 } from './components/card';
 
 export { Divider } from './components/divider';
-export type { DividerProps, DividerType, DividerStyle } from './components/divider';
+export type { DividerProps, DividerType, DividerStyle, DividerOrientation } from './components/divider';
 
 export { ScrollArea, ScrollBar } from './components/scroll-area';
 export type { ScrollAreaProps, ScrollBarProps, ScrollAreaOrientation } from './components/scroll-area';
@@ -770,6 +780,9 @@ export type {
   FileUploadStatus,
   FileUploadCardSize,
   FileInfo,
+  FileSelectSource,
+  FileError,
+  FileErrorCode,
 } from './components/file-upload';
 
 export {

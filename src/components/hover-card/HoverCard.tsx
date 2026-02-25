@@ -6,6 +6,7 @@ import type {
   HoverCardProps,
   HoverCardTriggerProps,
   HoverCardContentProps,
+  HoverCardArrowProps,
 } from './HoverCard.types';
 
 const HoverCard = ({ ...props }: HoverCardProps) => (
@@ -22,14 +23,15 @@ HoverCardTrigger.displayName = 'HoverCardTrigger';
 const HoverCardContent = React.forwardRef<
   React.ElementRef<typeof HoverCardPrimitive.Content>,
   HoverCardContentProps
->(({ className, align = 'center', sideOffset = 4, container, ...props }, ref) => (
+>(({ className, align = 'center', sideOffset = 4, container, width, style, ...props }, ref) => (
   <HoverCardPrimitive.Portal container={container}>
     <HoverCardPrimitive.Content
       ref={ref}
       align={align}
       sideOffset={sideOffset}
       className={cn(
-        'z-50 [width:256px] rounded-lg border-default bg-card padding-16 text-default shadow-modal-sm outline-none',
+        'z-50 rounded-lg border-default bg-card padding-16 text-default shadow-modal-sm outline-none',
+        !width && '[width:256px]',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
         'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
@@ -38,10 +40,23 @@ const HoverCardContent = React.forwardRef<
         'origin-[--radix-hover-card-content-transform-origin]',
         className
       )}
+      style={width ? { width: typeof width === 'number' ? `${width}px` : width, ...style } : style}
       {...props}
     />
   </HoverCardPrimitive.Portal>
 ));
 HoverCardContent.displayName = 'HoverCardContent';
 
-export { HoverCard, HoverCardTrigger, HoverCardContent };
+const HoverCardArrow = React.forwardRef<
+  React.ElementRef<typeof HoverCardPrimitive.Arrow>,
+  HoverCardArrowProps
+>(({ className, ...props }, ref) => (
+  <HoverCardPrimitive.Arrow
+    ref={ref}
+    className={cn('fill-card', className)}
+    {...props}
+  />
+));
+HoverCardArrow.displayName = 'HoverCardArrow';
+
+export { HoverCard, HoverCardTrigger, HoverCardContent, HoverCardArrow };

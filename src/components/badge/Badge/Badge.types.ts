@@ -83,6 +83,11 @@ export interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childr
    */
   imageAlt?: string;
   /**
+   * If true, disables the close icon button (only used when closeIcon=true).
+   * @default false
+   */
+  closeDisabled?: boolean;
+  /**
    * Callback when close icon is clicked (only used when closeIcon=true).
    */
   onClose?: () => void;

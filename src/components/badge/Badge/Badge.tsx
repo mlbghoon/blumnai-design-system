@@ -53,6 +53,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   shape = 'rounded',
   border = false,
   closeIcon = false,
+  closeDisabled = false,
   label,
   icon,
   image,
@@ -141,8 +142,13 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
       {closeIcon && (
         <button
           type="button"
-          className="flex items-center justify-center shrink-0 cursor-pointer padding-0 border-0 bg-transparent hover:opacity-80 focus:outline-none focus-visible:shadow-component-misc-focus rounded-full"
+          className={cn(
+            'flex items-center justify-center shrink-0 padding-0 border-0 bg-transparent focus:outline-none focus-visible:shadow-component-misc-focus rounded-full',
+            closeDisabled ? 'cursor-not-allowed opacity-40' : 'cursor-pointer hover:opacity-80'
+          )}
           onClick={onClose}
+          disabled={closeDisabled}
+          aria-disabled={closeDisabled}
           aria-label="Close badge"
         >
           <Icon iconType={['system', 'close']} size={iconSize} color={getIconColor(color)} />
