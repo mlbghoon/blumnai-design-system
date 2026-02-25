@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.2.37] - 2026-02-25
+
+### Documentation
+
+- **AI.md 전체 감사 및 수정** — 소스 코드 대비 150+ 누락 props 추가, 12개 잘못된 정보 수정
+  - Button `colorOverride` (18색) 등 주요 props 문서화
+  - Checkbox `indeterminate` 팬텀 prop 제거 → `checked="indeterminate"` 올바른 사용법으로 수정
+  - Dropdown의 "CheckboxItem/RadioItem 없음" 오류 삭제 — 실제로 둘 다 존재
+  - Toast: `BlumnaiToaster` 컴포넌트 추가, sonner 직접 임포트 대신 DS 컴포넌트 사용 권장
+  - AlertDialog vs ConfirmDialog 비교 섹션의 뒤바뀐 설명 수정
+  - InfoBox variant 기본값 `'info'` → `'default'` 수정
+  - TimeInput 기본값 수정: `timeFormat` '12h'→'24h', `size` 'lg'→'sm'
+  - IsometricIcon 3개 기본값 수정
+  - CursorIcon 신규 섹션 추가 (미문서화 컴포넌트)
+  - DnD (Drag and Drop) 신규 섹션 추가 (7개 컴포넌트 + 2개 훅)
+  - TimePicker/TimeRangePicker 섹션 전면 재작성 (7→22 props, 5→23 props)
+  - 40+ 컴포넌트의 label/description 타입 `string` → `ReactNode` 수정
+  - Quick Reference Table, Component Categories, Keywords, Subpath Imports 업데이트
+
 ## [0.2.36] - 2026-02-25
 
 ### Fixed

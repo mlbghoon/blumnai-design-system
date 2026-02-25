@@ -121,6 +121,8 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | Menubar | `Menubar` | `<Menubar><MenubarMenu>...</MenubarMenu></Menubar>` |
 | Navigation menu | `NavigationMenu` | `<NavigationMenu><NavigationMenuList>...</NavigationMenuList></NavigationMenu>` |
 | Charts | `BarChart`, `LineChart`, `PieChart`, `DonutChart` | See chart section |
+| Cursor icon | `CursorIcon` | `<CursorIcon cursorType="pointer" />` |
+| Drag and drop | `DndContext`, `Draggable`, `Droppable`, `Sortable` | See DnD section |
 
 ### Component Categories
 
@@ -221,6 +223,25 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | `PieChart` | Pie charts |
 | `DonutChart` | Donut charts |
 
+#### Icons
+
+| Component | Use Case |
+|-----------|----------|
+| `Icon` | UI icons (system, arrows, etc.) |
+| `BrandIcon` | Brand/logo icons |
+| `FlagIcon` | Country flag icons |
+| `FileIcon` | File type icons |
+| `IsometricIcon` | 3D isometric icons |
+| `CursorIcon` | Cursor/pointer icons |
+
+#### Interaction
+
+| Component | Use Case |
+|-----------|----------|
+| `DndContext` / `Draggable` / `Droppable` | Drag and drop |
+| `Sortable` / `SortableItem` | Reorderable lists |
+| `DragHandle` / `DragOverlay` | DnD utilities |
+
 ### Decision Guide
 
 #### Text Input Needs
@@ -298,6 +319,7 @@ import { Button } from '@mbisolution/blumnai-design-system';
 | `leadIcon` | `IconTypeWithFill \| ReactNode` | - | Icon before text |
 | `tailIcon` | `IconTypeWithFill \| ReactNode` | - | Icon after text |
 | `shortcut` | `string` | - | Keyboard shortcut badge (e.g., `'⌘K'`) |
+| `colorOverride` | `ButtonColor` | - | Override button color hue (18 colors: `'gray'` `'red'` `'orange'` `'amber'` `'yellow'` `'lime'` `'green'` `'emerald'` `'teal'` `'cyan'` `'sky'` `'blue'` `'indigo'` `'violet'` `'purple'` `'fuchsia'` `'pink'` `'rose'`) |
 | `asChild` | `boolean` | `false` | Render as child element (Radix Slot) |
 
 > **Tip:** When using `loading`, always set `width` to prevent the button from shrinking when the label is replaced by a spinner.
@@ -318,8 +340,8 @@ import { LinkButton } from '@mbisolution/blumnai-design-system';
 | `label` | `string` | required | Button label text |
 | `href` | `string` | - | URL (renders as `<a>` when provided) |
 | `openInNewTab` | `boolean` | `false` | Open in new tab (`target="_blank"`) |
-| `leadIcon` | `IconType \| ReactNode` | - | Icon before label |
-| `tailIcon` | `IconType \| ReactNode` | `['system', 'external-link']` | Icon after label |
+| `leadIcon` | `IconTypeWithFill \| ReactNode` | - | Icon before label |
+| `tailIcon` | `IconTypeWithFill \| ReactNode` | `['system', 'external-link']` | Icon after label |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `asChild` | `boolean` | `false` | Render as child element (Radix Slot) |
 | `width` | `string \| number` | - | Custom width |
@@ -354,8 +376,11 @@ import { ButtonGroup } from '@mbisolution/blumnai-design-system';
 | `size` | `'2xs'` `'xs'` `'sm'` `'md'` `'lg'` | `'md'` | Group size |
 
 **ButtonGroupItem** (discriminated union):
+- **Common**: `{ id?, icon?, tailIcon?, disabled?, onClick? }`
+- **Regular**: `{ label?, badge?, ariaLabel? }`
 - **Icon-only**: `{ icon, ariaLabel }` — `label` not allowed
-- **Regular**: `{ label?, icon?, tailIcon?, badge?, disabled?, onClick? }`
+
+
 
 ### Input
 
@@ -379,6 +404,7 @@ import { Input } from '@mbisolution/blumnai-design-system';
 | `supportText` | `string` | - | Helper text next to label |
 | `caption` | `string` | - | Description below input |
 | `width` | `string \| number` | - | Container width |
+| `showCount` | `boolean` | `false` | Show character count (use with `maxLength`) |
 
 #### variant="default"
 
@@ -508,6 +534,7 @@ import { Textarea } from '@mbisolution/blumnai-design-system';
 | `submitDisabled` | `boolean` | `false` | Disable submit button |
 | `onVoiceInput` | `() => void` | - | Voice input callback (shows mic icon) |
 | `toolbarTrailing` | `ReactNode` | - | Custom content in toolbar right side |
+| `fieldSizing` | `'content'` `'fixed'` | `'fixed'` | CSS field-sizing: `'content'` auto-adjusts height to content (Chrome 123+) |
 
 **TextareaToolbarAction**: `{ key, icon?, label?, onClick?, disabled? }`
 
@@ -543,12 +570,16 @@ import { Select } from '@mbisolution/blumnai-design-system';
 | `maxHeight` | `number \| string` | `300` | Dropdown max height |
 | `renderOption` | `(option: SelectOption, isSelected: boolean) => ReactNode` | - | Custom option rendering |
 | `minWidth` | `string \| number` | - | Minimum width of select trigger |
+| `clearable` | `boolean` | `false` | Show clear button when value is selected |
+| `loading` | `boolean` | `false` | Show loading spinner in dropdown |
+| `optionGroups` | `SelectOptionGroup[]` | - | Group options by label (each group: `{ label, optionIds: string[] }`) |
 
 #### variant="default"
 
 | Prop | Type | Description |
 |------|------|-------------|
 | `value` | `string` | Selected option ID |
+| `defaultValue` | `string` | Initial value (uncontrolled mode) |
 | `onChange` | `(value: string) => void` | Change callback |
 | `selectType` | `'default'` `'checkbox'` `'radio'` | Selection indicator style (default `'default'`) |
 
@@ -558,6 +589,7 @@ import { Select } from '@mbisolution/blumnai-design-system';
 |------|------|-------------|
 | `value` | `string` | Selected option ID |
 | `onChange` | `(value: string) => void` | Change callback |
+| `defaultValue` | `string` | Initial value (uncontrolled mode) |
 
 #### variant="multi-select"
 
@@ -567,6 +599,8 @@ import { Select } from '@mbisolution/blumnai-design-system';
 | `onChange` | `(value: string[]) => void` | Change callback |
 | `maxSelections` | `number` | Maximum selections allowed |
 | `selectedText` | `string \| ((count: number) => string)` | Display text for selected count |
+| `showSelectAll` | `boolean` | Show "Select All" option (ignored when `maxSelections` set) |
+| `selectAllLabel` | `string` | "Select All" label text (default `'전체 선택'`) |
 
 #### variant="tags"
 
@@ -584,6 +618,7 @@ interface SelectOption {
   label: string;
   description?: string;
   leadIcon?: IconTypeWithFill;
+  iconColor?: IconColor;
   badge?: string;
   avatarSrc?: string;
   disabled?: boolean;
@@ -629,7 +664,8 @@ interface ComboboxOption {
   id: string;
   label: string;
   description?: string;
-  leadIcon?: IconType;
+  leadIcon?: IconTypeWithFill;
+  iconColor?: IconColor;
   badge?: string;
   avatarSrc?: string;
   disabled?: boolean;
@@ -644,11 +680,10 @@ import { Checkbox } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `label` | `string` | - | Label text |
-| `description` | `string` | - | Description below label |
-| `checked` | `boolean` | `false` | Checked state |
-| `onCheckedChange` | `(checked: boolean) => void` | - | Change callback |
-| `indeterminate` | `boolean` | `false` | Indeterminate state |
+| `label` | `ReactNode` | - | Label text |
+| `description` | `ReactNode` | - | Description below label |
+| `checked` | `boolean \| 'indeterminate'` | `false` | Checked state |
+| `onCheckedChange` | `(checked: boolean \| 'indeterminate') => void` | - | Change callback |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `checkboxStyle` | `'default'` `'with-shadow'` | `'default'` | Visual style |
 | `checkboxPosition` | `'left'` `'right'` `'off'` | `'left'` | Checkbox position |
@@ -666,9 +701,10 @@ import { CheckboxList } from '@mbisolution/blumnai-design-system';
 | `items` | `CheckboxListItem[]` | required | Checkbox items |
 | `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
 | `checkboxStyle` | `'default'` `'with-shadow'` | `'with-shadow'` | Checkbox style |
+| `name` | `string` | - | Form field name (applied to all checkboxes) |
 | `onItemChange` | `(id: string, checked: boolean) => void` | - | Change handler |
 
-**CheckboxListItem**: `{ id, title, description?, checked?, disabled? }`
+**CheckboxListItem**: `{ id, title, description?, checked?, disabled?, value? }`
 
 ### CheckboxCard
 
@@ -688,6 +724,8 @@ import { CheckboxCard } from '@mbisolution/blumnai-design-system';
 | `checkboxPosition` | `'left'` `'right'` `'off'` | `'right'` | Checkbox position |
 | `checkboxStyle` | `'default'` `'with-shadow'` | `'with-shadow'` | Checkbox style |
 | `onCheckedChange` | `(checked: boolean) => void` | - | Change handler |
+| `name` | `string` | - | Form field name |
+| `value` | `string` | - | Form field value |
 
 ### Switch
 
@@ -697,14 +735,15 @@ import { Switch } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `label` | `string` | - | Label text |
-| `description` | `string` | - | Description text |
+| `label` | `ReactNode` | - | Label text |
+| `description` | `ReactNode` | - | Description text |
 | `checked` | `boolean` | `false` | Checked state |
 | `onCheckedChange` | `(checked: boolean) => void` | - | Change callback |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `switchPosition` | `'left'` `'right'` | `'left'` | Switch position |
 | `color` | `'green'` `'blue'` `'red'` `'orange'` `'violet'` `'cyan'` `'pink'` | `'green'` | Active color |
 | `size` | `'sm'` `'md'` `'lg'` | `'sm'` | Switch size (sm=32×20, md=40×24, lg=48×28) |
+| `loading` | `boolean` | `false` | Show loading spinner and disable interaction |
 
 ### SwitchList
 
@@ -718,6 +757,9 @@ import { SwitchList } from '@mbisolution/blumnai-design-system';
 | `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
 | `color` | `'green'` `'blue'` `'red'` `'orange'` `'violet'` `'cyan'` `'pink'` | `'green'` | Switch color |
 | `onItemChange` | `(id: string, checked: boolean) => void` | - | Change handler |
+| `showToggleAll` | `boolean` | `false` | Show "Toggle All" switch at top of list |
+| `toggleAllLabel` | `string` | `'전체 토글'` | "Toggle All" label text |
+| `onToggleAll` | `(checked: boolean) => void` | - | Toggle all state change handler |
 
 **SwitchListItem**: `{ id, title, description?, checked?, disabled? }`
 
@@ -729,7 +771,7 @@ import { RadioGroup, Radio } from '@mbisolution/blumnai-design-system';
 
 **RadioGroup**: `value`, `onValueChange`, `disabled`, `orientation` (`'horizontal'`|`'vertical'`)
 
-**Radio**: `value` (required), `label`, `description`, `disabled`
+**Radio**: `value` (required string), `label?` (ReactNode), `description?` (ReactNode), `disabled?`, `radioPosition?` (`'left'`|`'right'`|`'off'`, default `'left'`), `radioStyle?` (`'default'`|`'with-shadow'`, default `'default'`)
 
 ### RadioList
 
@@ -741,9 +783,11 @@ import { RadioList } from '@mbisolution/blumnai-design-system';
 |------|------|---------|-------------|
 | `items` | `RadioListItem[]` | required | Radio items |
 | `value` | `string` | - | Selected value |
+| `defaultValue` | `string` | - | Initial value (uncontrolled mode) |
 | `onValueChange` | `(value: string) => void` | - | Value change handler |
 | `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
 | `radioStyle` | `'default'` `'with-shadow'` | `'with-shadow'` | Radio style |
+| `disabled` | `boolean` | `false` | Disable all radio items |
 
 **RadioListItem**: `{ value, title, description?, disabled? }`
 
@@ -770,10 +814,10 @@ Used inside a `RadioGroup`. Each card is one radio option.
 ### Dialog
 
 ```tsx
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogScrollArea } from '@mbisolution/blumnai-design-system';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogScrollArea, DialogAction, DialogClose, DialogTrigger } from '@mbisolution/blumnai-design-system';
 ```
 
-**Dialog**: `open`, `onOpenChange`, `modal`
+**Dialog**: `open`, `onOpenChange`, `defaultOpen`, `modal`
 
 **DialogContent**: `hideCloseButton`, `disableEscapeClose`, `disableOutsideClose`, `width` (string|number), `fullScreen` (boolean — full viewport modal)
 
@@ -782,6 +826,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 **DialogTitle**, **DialogDescription**: Radix Dialog primitives for accessibility
 
 **DialogScrollArea**: `maxHeight` (string|number) — Scrollable content area
+
+**DialogAction**: `onAction` (`() => void | Promise<void>` — closes dialog after promise resolves), `asChild` (boolean)
+
+**DialogClose**: Radix Dialog.Close primitive (closes the dialog when clicked)
+
+**DialogTrigger**: Radix Dialog.Trigger primitive (`asChild` supported)
 
 ### ConfirmDialog
 
@@ -818,7 +868,7 @@ import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, 
 | `onOpenChange` | `(open: boolean) => void` | - | Open change callback |
 | `title` | `string` | required | Title text |
 | `description` | `string` | - | Description text |
-| `confirmLabel` | `string` | - | Confirm button text |
+| `confirmLabel` | `string` | `'확인'` | Confirm button text |
 | `onConfirm` | `() => void` | - | Confirm callback |
 | `width` | `string \| number` | - | Custom width |
 
@@ -842,7 +892,7 @@ import { InfoBox } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'info'` `'success'` `'warning'` `'error'` | `'info'` | Color variant |
+| `variant` | `'default'` `'info'` `'success'` `'warning'` `'error'` | `'default'` | Color variant |
 | `icon` | `IconType` | Per-variant default | Override default icon |
 | `visible` | `boolean` | `true` | Show/hide |
 | `title` | `ReactNode` | - | Optional title |
@@ -894,14 +944,26 @@ toast.dismissAll();
 | Option | Type | Description |
 |--------|------|-------------|
 | `duration` | `number` | Display duration in ms |
-| `label` | `string` | Action label text (display-only — no click callback; for interactive undo flows, manage state externally before dismissing) |
+| `label` | `string` | Action label text (display-only) |
+| `action` | `{ label: string; onClick: () => void }` | Action button with click callback |
+| `onDismiss` | `() => void` | Called when user manually dismisses toast |
+| `onAutoClose` | `() => void` | Called when toast auto-closes after duration |
 
-> **Setup (required):** Toasts won't render without a `<Toaster />` provider. `sonner` is bundled — no separate install needed. Add this once in your root layout:
-> ```tsx
-> import { Toaster } from 'sonner'; // not from the design system
-> // In your root layout (e.g., App.tsx or layout.tsx):
-> <Toaster position="top-right" />
-> ```
+**BlumnaiToaster** (required — add once in root layout):
+
+```tsx
+import { BlumnaiToaster } from '@mbisolution/blumnai-design-system';
+
+// In your root layout (e.g., App.tsx or layout.tsx):
+<BlumnaiToaster />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `visibleToasts` | `number` | `3` | Max simultaneous toasts |
+| `position` | `string` | `'bottom-right'` | Toast position |
+
+> Extends sonner `Toaster` props (except `toastOptions`). `sonner` is bundled — no separate install needed.
 
 ### Tabs
 
@@ -911,9 +973,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@mbisolution/blumnai-d
 
 **Tabs**: `value`, `defaultValue`, `onValueChange`, `orientation`
 
-**TabsList**: `variant` (`'pill'`|`'segmented'`|`'underline'`), `shape` (`'pill'`|`'rounded'`), `size` (`'sm'`|`'lg'`), `type` (`'default'`|`'fixed'`)
+**TabsList**: `variant` (`'pill'`|`'segmented'`|`'underline'`), `shape` (`'pill'`|`'rounded'`), `size` (`'sm'`|`'lg'`), `type` (`'default'`|`'fixed'`), `scrollable` (boolean, default `false`)
 
-**TabsTrigger**: `leadIcon` (`IconTypeWithFill | ReactNode`), `tailIcon` (`IconTypeWithFill | ReactNode`), `badge` (`string | number`)
+**TabsTrigger**: `leadIcon` (`IconTypeWithFill | ReactNode`), `tailIcon` (`IconTypeWithFill | ReactNode`), `badge` (`string | number`), `closable` (boolean, default `false`), `onClose` (`(value: string) => void`)
+
+**TabsContent**: `animated` (boolean, default `false`)
 
 ### Table
 
@@ -926,12 +990,27 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFoo
 | `striped` | `boolean` | - | Striped row style |
 | `bordered` | `boolean` | - | Show border |
 | `stickyHeader` | `boolean` | - | Sticky header on scroll |
+| `minHeight` | `string` | - | Container min height |
 | `maxHeight` | `string` | - | Container max height (enables scroll) |
 | `isLoading` | `boolean` | - | Loading state |
 | `pagination` | `boolean` | - | Show pagination UI |
 | `page` | `number` | - | Current page (1-indexed) |
 | `totalPages` | `number` | - | Total pages |
 | `onPageChange` | `(page: number) => void` | - | Page change callback |
+| `limit` | `number` | `10` | Items per page |
+| `limitOptions` | `number[]` | - | Page size options |
+| `limitOptionLabel` | `(limit: number) => string` | - | Page size option label formatter |
+| `onLimitChange` | `(limit: number) => void` | - | Page size change callback |
+| `paginationAlign` | `TablePaginationAlign` | `'right'` | Pagination position (`'left'`\|`'center'`\|`'right'`) |
+| `paginationVariant` | `PaginationVariant` | `'numbered'` | Pagination style (`'numbered'`\|`'dot'`\|`'simple'`) |
+| `maxVisiblePages` | `number` | `7` | Max visible page buttons |
+| `paginationDisabled` | `boolean` | - | Disable pagination |
+| `hideNavButtons` | `boolean` | - | Hide prev/next buttons |
+| `pageChangeConfirmMessage` | `string` | - | Confirmation dialog before page change |
+| `resultTextFormatter` | `(current: number, total: number) => string` | - | Custom result text (simple variant) |
+| `showItemCount` | `boolean` | - | Show item count |
+| `total` | `number` | - | Total items |
+| `itemCountFormatter` | `(start: number, end: number, total: number) => string` | - | Item count text formatter |
 
 **TableHead**: `sortable?` (boolean), `sortDirection?` (`'asc'`|`'desc'`|`false`)
 
@@ -954,7 +1033,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFoo
 
 ```tsx
 import { DataGrid } from '@mbisolution/blumnai-design-system';
-import type { ColumnDef } from '@mbisolution/blumnai-design-system';
+import type { ColumnDef, ColumnOrderState } from '@mbisolution/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -962,6 +1041,9 @@ import type { ColumnDef } from '@mbisolution/blumnai-design-system';
 | `columns` | `ColumnDef<T>[]` | required | Column definitions (TanStack Table) |
 | `data` | `T[]` | required | Data array |
 | `getRowId` | `(row: T) => string` | `row.id` | Row identifier function |
+| `enableColumnReorder` | `boolean` | - | Enable column drag reorder |
+| `columnOrder` | `ColumnOrderState` | - | Controlled column order state |
+| `onColumnOrderChange` | `OnChangeFn<ColumnOrderState>` | - | Column order change callback |
 | `sorting` | `SortingState` | - | Controlled sorting state |
 | `onSortingChange` | `OnChangeFn<SortingState>` | - | Sorting change callback |
 | `columnFilters` | `ColumnFiltersState` | - | Controlled filter state |
@@ -1036,6 +1118,8 @@ import { Avatar, AvatarGroup } from '@mbisolution/blumnai-design-system';
 | `logoImage` | `string` | - | Logo image URL (for `status="logo"`) |
 | `icon` | `IconType` | - | Icon (for `status="icon"`) |
 | `badgeLocation` | `'top'` `'bottom'` | `'top'` | Status badge position |
+| `onError` | `ReactEventHandler<HTMLImageElement>` | - | Image load error callback (userpic) |
+| `onLoad` | `ReactEventHandler<HTMLImageElement>` | - | Image loaded callback (userpic) |
 
 ```tsx
 <Avatar variant="initials" initials="JD" size="md" />
@@ -1064,6 +1148,8 @@ import { Badge } from '@mbisolution/blumnai-design-system';
 | `onClose` | `() => void` | - | Close callback |
 | `icon` | `IconTypeWithFill` | - | Icon (for `variant="icon"`) |
 | `image` | `string` | - | Image URL (for `variant="image"`) |
+| `imageAlt` | `string` | `''` | Alt text for image (for `variant="image"`) |
+| `closeDisabled` | `boolean` | `false` | Disable close button (when `closeIcon=true`) |
 
 ```tsx
 <Badge label="Active" color="green" />
@@ -1098,6 +1184,7 @@ import { Icon } from '@mbisolution/blumnai-design-system';
 | `size` | `number` | `24` | Icon size in px |
 | `color` | `IconColor` | - | Icon color token or CSS color string (defaults to `currentColor` via CSS) |
 | `isFill` | `boolean` | `false` | Use fill variant |
+| `focusable` | `boolean` | - | Keyboard focusable (sets SVG `focusable` attribute) |
 
 > **IconColor tokens:** `'default'`, `'default-subtle'`, `'default-muted'`, `'default-disabled'`, `'inverted-default'`, `'inverted-subtle'`, `'inverted-muted'`, `'inverted-disabled'`, `'white-default'`, `'black-default'`, `'destructive'`, `'informative'`, `'success'`, `'warning'`, or any CSS color string.
 
@@ -1139,9 +1226,58 @@ import { Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, Da
 import { TimePicker, TimeRangePicker } from '@mbisolution/blumnai-design-system';
 ```
 
-**TimePicker**: `value` (`TimeValue`), `onChange`, `timeFormat` (`'12h'`|`'24h'`), `showSeconds`, `label`, `error`, `showQuickSelect`
+**TimePicker** (extends TimeInput props, adds label/popup):
 
-**TimeRangePicker**: `value` (`TimeRange`), `onChange`, `timeFormat`, `showSeconds`, `showQuickSelect`
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `TimeValue` | - | Time value `{ hour, minute, second? }` |
+| `onChange` | `(value: TimeValue \| undefined) => void` | - | Change callback |
+| `timeFormat` | `'12h'` `'24h'` | `'24h'` | Time format |
+| `showSeconds` | `boolean` | `false` | Show seconds segment |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `size` | `'sm'` `'lg'` | `'sm'` | Size |
+| `timePickerStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
+| `placeholder` | `TimeSegmentPlaceholder` | - | Placeholder `{ hour?, minute?, second? }` |
+| `name` | `string` | - | Form name (renders hidden input) |
+| `label` | `string` | - | Label text |
+| `required` | `boolean` | `false` | Required indicator |
+| `supportText` | `string` | - | Support text next to label |
+| `caption` | `string` | - | Description below input |
+| `error` | `boolean \| string` | - | Error state/message |
+| `success` | `boolean \| string` | - | Success state/message |
+| `width` | `string \| number` | - | Custom width |
+| `showQuickSelect` | `boolean` | `false` | Show quick select options |
+| `quickSelectOptions` | `QuickSelectOption[]` | - | Quick select option list |
+| `align` | `'start'` `'center'` `'end'` | `'start'` | Popover alignment |
+| `onFocus` | `() => void` | - | Focus callback |
+| `onBlur` | `() => void` | - | Blur callback |
+
+**TimeRangePicker:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `TimeRange` | - | Time range `{ start?: TimeValue, end?: TimeValue }` |
+| `onChange` | `(value: TimeRange \| undefined) => void` | - | Change callback |
+| `timeFormat` | `'12h'` `'24h'` | `'24h'` | Time format |
+| `showSeconds` | `boolean` | `false` | Show seconds segment |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `size` | `'sm'` `'lg'` | `'sm'` | Size |
+| `timePickerStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
+| `placeholder` | `TimeSegmentPlaceholder` | - | Start/end placeholder |
+| `name` | `string` | - | Form name (`{name}-start`, `{name}-end`) |
+| `label` | `string` | - | Label text |
+| `required` | `boolean` | `false` | Required indicator |
+| `supportText` | `string` | - | Support text next to label |
+| `caption` | `string` | - | Description below input |
+| `error` | `boolean \| string` | - | Error state/message |
+| `success` | `boolean \| string` | - | Success state/message |
+| `width` | `string \| number` | - | Custom width |
+| `showQuickSelect` | `boolean` | `false` | Show quick select options |
+| `quickSelectOptions` | `QuickRangeSelectOption[]` | - | Quick range select option list |
+| `align` | `'start'` `'center'` `'end'` | `'start'` | Popover alignment |
+| `onValidationError` | `(error: 'invalid-range' \| null) => void` | - | Validation error callback |
+| `onFocus` | `() => void` | - | Focus callback |
+| `onBlur` | `() => void` | - | Blur callback |
 
 ### TimeInput / TimeRangeInput
 
@@ -1155,24 +1291,27 @@ import { TimeInput, TimeRangeInput } from '@mbisolution/blumnai-design-system';
 |------|------|---------|-------------|
 | `value` | `TimeValue` | - | Time value `{ hour, minute, second? }` |
 | `onChange` | `(value: TimeValue \| undefined) => void` | - | Change callback |
-| `timeFormat` | `'12h'` `'24h'` | `'12h'` | Time format |
+| `timeFormat` | `'12h'` `'24h'` | `'24h'` | Time format |
 | `showSeconds` | `boolean` | `false` | Show seconds segment |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `hasError` | `boolean` | `false` | Error style |
 | `hasSuccess` | `boolean` | `false` | Success style |
 | `isOpen` | `boolean` | - | Open state indicator |
-| `size` | `'sm'` `'lg'` | `'lg'` | Size |
+| `size` | `'sm'` `'lg'` | `'sm'` | Size |
 | `timePickerStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `placeholder` | `TimeSegmentPlaceholder` | - | Placeholder `{ hour?, minute?, second? }` |
 | `hideClockIcon` | `boolean` | `false` | Hide clock icon |
+| `onFocus` | `() => void` | - | Focus callback |
+| `onBlur` | `() => void` | - | Blur callback |
+| `onClockClick` | `() => void` | - | Clock icon click callback |
 
-**TimeRangeInput**: `value` (`TimeRange` — `{ start?: TimeValue, end?: TimeValue }`), `onChange`, `timeFormat`, `showSeconds`, `disabled`, `hasError`, `hasSuccess`, `isOpen`, `size`, `timePickerStyle`, `placeholder`
+**TimeRangeInput** (lower-level, no label/popup): `value` (`TimeRange`), `onChange`, `timeFormat`, `showSeconds`, `disabled`, `hasError`, `hasSuccess`, `isOpen`, `size`, `timePickerStyle`, `placeholder`, `onFocus`, `onBlur`, `onClockClick`
 
 ### Sheet / Drawer
 
 ```tsx
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from '@mbisolution/blumnai-design-system';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter } from '@mbisolution/blumnai-design-system';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetTrigger, SheetClose } from '@mbisolution/blumnai-design-system';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerTrigger, DrawerClose } from '@mbisolution/blumnai-design-system';
 ```
 
 **Sheet**: `open`, `onOpenChange`. **SheetContent**: `side` (`'top'`|`'right'`|`'bottom'`|`'left'`)
@@ -1180,10 +1319,18 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, Dr
 **SheetHeader**, **SheetFooter**: Layout wrappers (`HTMLAttributes<HTMLDivElement>`)
 **SheetTitle**, **SheetDescription**: Radix Dialog primitives for accessibility
 
+**SheetTrigger**: Radix Dialog.Trigger primitive (`asChild` supported)
+
+**SheetClose**: Radix Dialog.Close primitive (closes the sheet when clicked)
+
 **Drawer**: `open`, `onOpenChange`, `direction` (`'top'`|`'right'`|`'bottom'`|`'left'`, default `'bottom'`), `shouldScaleBackground` (default `true`)
 
 **DrawerHeader**, **DrawerFooter**: Layout wrappers (`HTMLAttributes<HTMLDivElement>`)
 **DrawerTitle**, **DrawerDescription**: Vaul primitives for accessibility
+
+**DrawerTrigger**: Vaul Drawer.Trigger primitive (`asChild` supported)
+
+**DrawerClose**: Vaul Drawer.Close primitive (closes the drawer when clicked)
 
 ### FilterButton
 
@@ -1254,14 +1401,18 @@ import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@mbiso
 | `maxLength` | `number` | Number of digits (required) |
 | `value` | `string` | Current OTP value |
 | `onChange` | `(value: string) => void` | Change callback |
+| `error` | `boolean \| string` | Error state/message (red border + optional error text) |
+| `label` | `string` | Label text above OTP input |
 
 ### HoverCard
 
 ```tsx
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@mbisolution/blumnai-design-system';
+import { HoverCard, HoverCardTrigger, HoverCardContent, HoverCardArrow } from '@mbisolution/blumnai-design-system';
 ```
 
-`openDelay` (700ms), `closeDelay` (300ms). **HoverCardContent**: `container?` (HTMLElement)
+`openDelay` (700ms), `closeDelay` (300ms). **HoverCardContent**: `container?` (HTMLElement), `width?` (number|string — default 256px)
+
+**HoverCardArrow**: Radix HoverCard.Arrow primitive (renders arrow pointing to trigger)
 
 ### NavigationMenu
 
@@ -1275,7 +1426,7 @@ import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuT
 
 **NavigationMenuLink**: `active?` (boolean)
 
-**NavigationMenuListItem**: `title` (required), `description?`, `href` (required), `icon?` (IconType), `iconFill?`
+**NavigationMenuListItem**: `title` (required), `description?`, `href` (required), `icon?` (IconType), `iconFill?` (boolean, default false), `active?` (boolean — sets aria-current="page"), `children?` (ReactNode — custom content instead of title/description)
 
 ### AspectRatio
 
@@ -1366,6 +1517,12 @@ import { DatePicker, DateRangePicker } from '@mbisolution/blumnai-design-system'
 | `dateFormat` | `'yyyy.MM.dd'` `'yyyy-MM-dd'` `'yyyy/MM/dd'` `'MM/dd/yyyy'` `'dd/MM/yyyy'` | `'yyyy.MM.dd'` | Display format |
 | `showQuickPresets` | `boolean` | `false` | Show quick date presets |
 | `locale` | `Locale` | - | date-fns locale |
+| `supportText` | `string` | - | Support text next to label |
+| `align` | `'start'` `'center'` `'end'` | `'start'` | Popover alignment |
+| `captionLayout` | `CaptionLayout` | `'month-centered'` | Calendar caption layout |
+| `showActions` | `boolean` | `false` | Show confirm/cancel buttons |
+| `confirmLabel` | `string` | `'확인'` | Confirm button label |
+| `cancelLabel` | `string` | `'취소'` | Cancel button label |
 
 **DatePicker-specific:** `value` (Date), `onChange` ((date: Date | undefined) => void), `presets` (QuickPreset[])
 
@@ -1423,12 +1580,16 @@ import { BarChart, LineChart, PieChart, DonutChart } from '@mbisolution/blumnai-
 | `showXGrid` | `boolean` | - | Show X-axis grid lines |
 | `showYGrid` | `boolean` | - | Show Y-axis grid lines |
 | `showLegend` | `boolean` | - | Show legend |
+| `ariaLabel` | `string` | - | Accessible label for the chart |
+| `onDataPointClick` | `(point: ChartDataPoint, index: number) => void` | - | Callback when a data point is clicked |
+| `isLoading` | `boolean` | - | Show skeleton loading overlay |
+| `responsive` | `boolean` | `false` | Auto-resize to fill container via ResizeObserver |
 
-**BarChart:** `xAxis` (ChartAxisConfig), `yAxis` (ChartAxisConfig), `barSize` (number), `stacked` (boolean), `stackedKeys` (string[])
+**BarChart:** `xAxis` (ChartAxisConfig), `yAxis` (ChartAxisConfig), `barSize` (number), `dataKey` (string), `gap` (number), `stacked` (boolean), `stackedKeys` (string[]), `stackedColors` (Record<string, string> | string[])
 
-**LineChart:** `xAxis`, `yAxis`, `dataKeys` (string[]), `showArea` (boolean), `showPoints` (boolean), `strokeWidth` (number)
+**LineChart:** `xAxis`, `yAxis`, `dataKey` (string), `dataKeys` (string[]), `lineColors` (Record<string, string> | string[]), `showArea` (boolean), `showPoints` (boolean), `strokeWidth` (number)
 
-**PieChart:** `dataKey` (string), `nameKey` (string), `outerRadius` (number), `isHalf` (boolean)
+**PieChart:** `dataKey` (string), `nameKey` (string), `outerRadius` (number), `startAngle` (number), `endAngle` (number), `paddingAngle` (number), `isHalf` (boolean)
 
 **DonutChart** extends PieChart: `innerRadius` (number), `centerLabel` (string), `centerValue` (string)
 
@@ -1465,6 +1626,7 @@ import { AccordionGroup } from '@mbisolution/blumnai-design-system';
 | `spacing` | `number` | - | Gap between items (px) |
 | `style` | `AccordionItemStyle` | - | Default style for all items |
 | `allowMultipleOpen` | `boolean` | - | Allow multiple items open simultaneously |
+| `onToggle` | `(id: string, isOpen: boolean) => void` | - | Group-level toggle callback (controlled mode) |
 
 ```ts
 interface AccordionGroupItem {
@@ -1474,7 +1636,7 @@ interface AccordionGroupItem {
   style?: AccordionItemStyle;
   isOpen?: boolean;
   disabled?: boolean;
-  onToggle?: () => void;
+  onToggle?: (isOpen: boolean) => void;
 }
 ```
 
@@ -1496,24 +1658,34 @@ import {
   ContextMenuItem, ContextMenuSeparator, ContextMenuLabel,
   ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem,
   ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent,
+  ContextMenuCaption,
 } from '@mbisolution/blumnai-design-system';
 ```
 
-**ContextMenuContent**: `width` (string|number)
+**ContextMenuContent**: `width` (string|number), `container?` (HTMLElement|null — portal target)
 
 **ContextMenuItem:**
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
+| `inset` | `boolean` | `false` | Left indent (align with checkbox/radio items) |
 | `destructive` | `boolean` | `false` | Danger/delete styling |
 | `leadIcon` | `IconType` | - | Icon before label |
+| `leadIconFill` | `boolean` | `false` | Lead icon filled style |
 | `tailIcon` | `IconType` | - | Icon after label |
+| `tailIconFill` | `boolean` | `false` | Tail icon filled style |
+| `iconColor` | `IconColor` | - | Icon color |
 | `shortcut` | `string` | - | Keyboard shortcut display |
 | `caption` | `string` | - | Secondary text |
 | `description` | `string` | - | Description (large size only) |
 | `size` | `'default'` `'large'` | `'default'` | Item size |
+| `onClick` | `() => void` | - | Click handler |
 
-**ContextMenuLabel**: `caption` (string)
+**ContextMenuLabel**: `caption?` (string), `inset?` (boolean)
+
+**ContextMenuCaption**: Caption text block (children: ReactNode)
+
+**ContextMenuSubTrigger**: `inset?` (boolean — left indent)
 
 ```tsx
 <ContextMenu>
@@ -1541,10 +1713,14 @@ import { FileUploadArea, FileUploadCard } from '@mbisolution/blumnai-design-syst
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `onFilesSelected` | `(files: File[]) => void` | - | File selection callback |
+| `onFilesSelected` | `(files: File[], source: FileSelectSource) => void` | - | File selection callback (`source`: `'click'` or `'drop'`) |
+| `onValidationError` | `(errors: FileError[]) => void` | - | Validation error callback |
+| `onDragEnter` | `() => void` | - | Drag enter callback |
+| `onDragLeave` | `() => void` | - | Drag leave callback |
 | `accept` | `string` | - | Accepted file types (e.g., `"image/*,.pdf"`) |
 | `maxFiles` | `number` | - | Maximum file count |
 | `maxSize` | `number` | - | Max total size in bytes |
+| `maxFileSize` | `number` | - | Max individual file size in bytes |
 | `multiple` | `boolean` | - | Allow multiple files |
 | `title` | `string` | - | Title text |
 | `clickText` | `string` | - | Highlighted click text |
@@ -1604,9 +1780,14 @@ import { Pagination } from '@mbisolution/blumnai-design-system';
 | `totalPages` | `number` | required | Total pages |
 | `onPageChange` | `(page: number) => void` | required | Page change callback |
 | `variant` | `'numbered'` `'dot'` `'simple'` | `'numbered'` | Pagination style |
-| `maxVisiblePages` | `number` | `7` | Max visible page buttons |
+| `maxVisiblePages` | `number` | `7` | Max visible page buttons (numbered) |
+| `siblingCount` | `number` | - | Pages shown beside current (overrides maxVisiblePages) |
+| `boundaryCount` | `number` | `1` | Pages always shown at start/end |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `hideNavButtons` | `boolean` | `false` | Hide prev/next buttons |
+| `showFirstLastButtons` | `boolean` | `false` | Show first/last page buttons (numbered) |
+| `maxDots` | `number` | - | Max dots shown (dot variant, unlimited by default) |
+| `ellipsisJump` | `number` | `5` | Pages to jump on ellipsis click |
 | `getPageHref` | `(page: number) => string` | - | For router integration |
 | `pageChangeConfirmMessage` | `string` | - | Show confirmation dialog before page change |
 | `total` | `number` | - | Total items (for `'simple'` variant display) |
@@ -1618,10 +1799,14 @@ import { Pagination } from '@mbisolution/blumnai-design-system';
 ### Card
 
 ```tsx
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@mbisolution/blumnai-design-system';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardGroup } from '@mbisolution/blumnai-design-system';
 ```
 
-**Card**: `variant` (`'default'`|`'outline'`|`'ghost'`)
+**Card**: `variant` (`'default'`|`'outline'`|`'ghost'`), `interactive` (boolean — clickable card with role="button", tabIndex, keyboard support)
+
+**CardTitle**: `as` (`'h1'`|`'h2'`|`'h3'`|`'h4'`|`'h5'`|`'h6'`, default `'h3'`)
+
+**CardGroup**: `columns` (`1`|`2`|`3`|`4`, default `3`)
 
 ```tsx
 <Card variant="outline">
@@ -1648,7 +1833,10 @@ import { Chip } from '@mbisolution/blumnai-design-system';
 | `style` | `'default'` `'soft'` `'ghost'` `'ghostMuted'` | `'default'` | Visual style |
 | `shape` | `'rounded'` `'pill'` | `'rounded'` | Shape |
 | `size` | `'sm'` `'md'` `'lg'` | `'md'` | Size |
+| `color` | `ChipColor` | - | Chip color (same 18 colors as BadgeColor) |
 | `selected` | `boolean` | `false` | Selected state |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `onToggle` | `(selected: boolean) => void` | - | Toggle callback (receives new selected state) |
 
 ### Skeleton
 
@@ -1658,9 +1846,11 @@ import { Skeleton } from '@mbisolution/blumnai-design-system';
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `'default'` `'circular'` `'text'` | - | Shape variant |
+| `variant` | `'default'` `'circular'` `'text'` | `'default'` | Shape variant |
 | `width` | `string \| number` | - | Width |
 | `height` | `string \| number` | - | Height |
+| `animation` | `'pulse'` `'wave'` `'none'` | `'pulse'` | Animation style |
+| `count` | `number` | `1` | Number of skeleton lines (vertical stack) |
 
 ```tsx
 <Skeleton width={200} height={20} />
@@ -1670,7 +1860,7 @@ import { Skeleton } from '@mbisolution/blumnai-design-system';
 ### Form
 
 ```tsx
-import { Form, FormField, FormControl, FormItem, FormError } from '@mbisolution/blumnai-design-system';
+import { Form, FormField, FormControl, FormItem, FormDescription, FormError } from '@mbisolution/blumnai-design-system';
 ```
 
 Integrates with `react-hook-form` and `zod`. `FormControl` automatically injects error messages into children that support the `error` prop.
@@ -1681,6 +1871,7 @@ Integrates with `react-hook-form` and `zod`. `FormControl` automatically injects
 | `FormField` | `control`, `name`, `render` |
 | `FormControl` | `children` (auto-injects error + aria attributes) |
 | `FormItem` | Container div |
+| `FormDescription` | Description text below the field (p element) |
 | `FormError` | Custom error message override |
 
 See Login Form pattern for complete example.
@@ -1692,6 +1883,8 @@ import {
   DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
   DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel,
   DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent,
+  DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem,
+  DropdownMenuCaption, DropdownMenuButtonGroup, MenuButton,
 } from '@mbisolution/blumnai-design-system';
 ```
 
@@ -1699,9 +1892,9 @@ Same compound pattern as ContextMenu. Triggered by click instead of right-click.
 
 **DropdownMenuLabel**: `caption?` (string — secondary text on right), `inset?` (boolean — left indent)
 
-**DropdownMenuContent**: `width` (string|number)
+**DropdownMenuContent**: `width` (string|number), `maxHeight?` (string|number), `loading?` (boolean, default `false`), `container?` (HTMLElement|null)
 
-**DropdownMenuItem**: Same props as ContextMenuItem — `destructive`, `leadIcon`, `tailIcon`, `shortcut`, `caption`, `description`, `size`
+**DropdownMenuItem**: `inset?`, `destructive?`, `leadIcon?`, `leadIconFill?`, `tailIcon?`, `tailIconFill?`, `iconColor?`, `shortcut?`, `caption?`, `description?`, `size?` (`'default'`|`'large'`), `onClick?`
 
 **DropdownMenuAvatar**: `label` (required), `avatarSrc?`, `avatarAlt?`, `tailIcon?`, `caption?`, `shortcut?`, `disabled?`, `iconColor?`, `onClick?`
 
@@ -1711,7 +1904,18 @@ Same compound pattern as ContextMenu. Triggered by click instead of right-click.
 
 **DropdownMenuSearch**: `value?`, `onChange?`, `placeholder?` (`'Search...'`), `autoFocus?` (`true`)
 
-> **Note:** Unlike ContextMenu, DropdownMenu does **not** have CheckboxItem or RadioItem sub-components. Use regular `DropdownMenuItem` with custom checkbox/radio rendering if needed.
+**DropdownMenuCheckboxItem**: `checked?`, `onCheckedChange?`, `inset?`, `leadIcon?`, `iconColor?`
+
+**DropdownMenuRadioGroup**: `value?`, `onValueChange?`
+
+**DropdownMenuRadioItem**: `value` (required), `inset?`, `leadIcon?`, `iconColor?`
+
+**DropdownMenuCaption**: Caption text block (children: ReactNode)
+
+**DropdownMenuButtonGroup**: Button group wrapper (children: ReactNode)
+
+**MenuButton**: `label` (required), `disabled?`, `onClick?` — used inside DropdownMenuButtonGroup
+
 
 ```tsx
 <DropdownMenu>
@@ -1742,6 +1946,11 @@ import { ScrollArea } from '@mbisolution/blumnai-design-system';
 | `orientation` | `'vertical'` `'horizontal'` `'both'` | `'vertical'` | Scroll direction |
 | `maxHeight` | `string \| number` | - | Max height (e.g., `300`, `"50vh"`) |
 | `maxWidth` | `string \| number` | - | Max width |
+| `viewportRef` | `Ref<HTMLDivElement>` | - | Ref to viewport element for programmatic scroll control |
+| `onScrollPositionChange` | `(position: { x: number; y: number }) => void` | - | Scroll position callback (rAF throttled) |
+| `type` | `'hover'` `'scroll'` `'auto'` `'always'` | `'hover'` | Scrollbar visibility mode |
+| `scrollbarSize` | `number` | - | Scrollbar track thickness in px |
+| `offsetScrollbars` | `boolean` | - | Inset content to prevent scrollbar overlap |
 
 ### Collapsible
 
@@ -1756,6 +1965,8 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@mbisolutio
 | `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
 | `disabled` | `boolean` | `false` | Disable collapsible |
 
+**CollapsibleContent**: `forceMount` (true | undefined) — keep content mounted in DOM when collapsed
+
 ### Divider
 
 ```tsx
@@ -1765,10 +1976,14 @@ import { Divider } from '@mbisolution/blumnai-design-system';
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `type` | `'default'` `'text-left'` `'text-center'` `'text-right'` `'icon-left'` `'icon-center'` `'icon-right'` `'button-left'` `'button-center'` `'button-right'` | `'default'` | Divider type |
+| `orientation` | `'horizontal'` `'vertical'` | `'horizontal'` | Divider direction |
 | `lineStyle` | `'default'` `'dashed'` | `'default'` | Line style |
 | `label` | `string` | - | Text label (for text-* types) |
 | `icon` | `IconTypeWithFill` | - | Icon (for icon-* types) |
 | `buttonLabel` | `string` | - | Button label (for button-* types) |
+| `buttonLeadIcon` | `ButtonIconType \| ReactNode` | - | Icon before button label |
+| `buttonTailIcon` | `ButtonIconType \| ReactNode` | - | Icon after button label |
+| `buttonBadge` | `string` | - | Badge/shortcut text in button |
 | `onButtonClick` | `() => void` | - | Button click handler |
 | `children` | `ReactNode` | - | Custom content (overrides label/icon/button) |
 
@@ -1782,9 +1997,9 @@ Wraps react-resizable-panels: `ResizablePanelGroup`, `ResizablePanel`, `Resizabl
 
 ### AlertDialog vs ConfirmDialog
 
-> **AlertDialog** — Low-level compound component (like Dialog). Build custom layouts with `AlertDialogContent`, `AlertDialogHeader`, `AlertDialogFooter`, `onConfirm`. Supports `loading` and `confirmDisabled` props. Use for simple yes/no confirmations.
+> **AlertDialog** (SimpleAlertDialog) — Simple alert with `title`, `description`, `confirmLabel`, `onConfirm`. Single confirm button, no cancel. Use for simple acknowledgment alerts.
 >
-> **ConfirmDialog** — Higher-level wrapper. Pass `title`, `description`, `confirmLabel`, `cancelLabel`, `variant`, `onConfirm`. Use for standard confirmation patterns.
+> **ConfirmDialog** — Higher-level wrapper with `loading`, `confirmDisabled`, `variant` (`'default'`|`'destructive'`), `cancelLabel`. Has both confirm and cancel buttons. Use for confirmation patterns that need loading/disabled states.
 
 ### Sidebar
 
@@ -1799,6 +2014,22 @@ import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem,
 | `defaultOpen` | `boolean` | `true` | Initial open state (uncontrolled) |
 | `open` | `boolean` | - | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
+| `onCollapse` | `() => void` | - | Callback when sidebar collapses |
+| `onExpand` | `() => void` | - | Callback when sidebar expands |
+| `persistState` | `boolean` | `true` | Persist sidebar state in cookie |
+
+**Sidebar** (main sidebar container):
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `'left'` `'right'` | `'left'` | Which side to render |
+| `variant` | `'sidebar'` `'floating'` `'inset'` | `'sidebar'` | Visual variant |
+| `collapsible` | `'offcanvas'` `'icon'` `'none'` | `'offcanvas'` | Collapse behavior |
+| `showRail` | `boolean` | `false` | Show invisible rail toggle |
+| `showToggleButton` | `boolean` | `false` | Show visible toggle button |
+| `toggleButtonPosition` | `'top'` `'center'` `'bottom'` | `'center'` | Toggle button position |
+| `toggleButtonOffset` | `number \| string` | - | Custom toggle button offset |
+| `toggleButtonIcon` | `ReactNode` | - | Custom toggle button icon |
 
 **SidebarInset**: Main content area (`<main>`) — adapts layout to sidebar state. No custom props, standard HTML main element props.
 
@@ -1846,12 +2077,28 @@ import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, Menu
 |------|------|---------|-------------|
 | `destructive` | `boolean` | - | Destructive action styling |
 | `leadIcon` | `IconType` | - | Icon before label |
+| `leadIconFill` | `boolean` | `false` | Lead icon filled style |
 | `tailIcon` | `IconType` | - | Icon after label |
+| `tailIconFill` | `boolean` | `false` | Tail icon filled style |
+| `iconColor` | `IconColor` | - | Icon color |
 | `caption` | `string` | - | Caption text |
 | `description` | `string` | - | Description (large size only) |
 | `shortcut` | `string` | - | Keyboard shortcut |
 | `size` | `'default'` `'large'` | `'default'` | Item size |
 | `inset` | `boolean` | - | Left indent |
+| `onClick` | `() => void` | - | Click handler |
+
+**MenubarCheckboxItem**: `inset?` (boolean — left indent), plus Radix CheckboxItem props (`checked`, `onCheckedChange`)
+
+**MenubarRadioGroup**: Radix RadioGroup props (`value`, `onValueChange`)
+
+**MenubarRadioItem**: `inset?` (boolean — left indent), plus Radix RadioItem props (`value`)
+
+**MenubarLabel**: `inset?` (boolean), `caption?` (string — caption text beside label)
+
+**MenubarSubTrigger**: `inset?` (boolean — left indent)
+
+**MenubarCaption**: Text caption block (children: ReactNode)
 
 ### PopoverContent
 
@@ -1873,6 +2120,90 @@ import { Popover, PopoverTrigger, PopoverContent, PopoverScrollArea, PopoverArro
 **PopoverScrollArea**: `maxHeight` (string|number)
 
 **PopoverArrow**: Renders an arrow pointing to the trigger. Wraps Radix `PopoverPrimitive.Arrow` — props: `width?` (number), `height?` (number), `className?`
+
+### DnD (Drag and Drop)
+
+```tsx
+import {
+  DndContext, Draggable, Droppable, DragHandle, DragOverlay,
+  Sortable, SortableItem, useDraggableContext, useSortableItemContext,
+} from '@mbisolution/blumnai-design-system';
+```
+
+**DndContext** (wraps drag area, provides sensors):
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `onDragStart` | `(event: DragStartEvent) => void` | - | Drag start callback |
+| `onDragMove` | `(event: DragMoveEvent) => void` | - | Drag move callback |
+| `onDragOver` | `(event: DragOverEvent) => void` | - | Drag over callback |
+| `onDragEnd` | `(event: DragEndEvent) => void` | - | Drag end callback |
+| `onDragCancel` | `(event: DragCancelEvent) => void` | - | Drag cancel callback |
+| `modifiers` | `Modifiers` | - | dnd-kit modifiers |
+| `collisionDetection` | `CollisionDetection` | - | Collision algorithm |
+| `autoScroll` | `boolean` | - | Auto-scroll during drag |
+| `cancelDrop` | `CancelDrop` | - | Async cancel drop check |
+| `sensors` | `SensorDescriptor[]` | - | Custom sensors (default: Pointer + Touch + Keyboard) |
+
+**Draggable**:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `DndId` | required | Unique identifier |
+| `children` | `ReactNode \| (props: DraggableRenderProps) => ReactNode` | required | Content or render function |
+| `data` | `T` | - | Custom data attached to drag item |
+| `disabled` | `boolean` | - | Disable dragging |
+| `handle` | `boolean` | - | Use DragHandle instead of entire element |
+
+**Droppable**:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `DndId` | required | Unique identifier |
+| `children` | `ReactNode \| (props: DroppableRenderProps) => ReactNode` | required | Content or render function |
+| `disabled` | `boolean` | - | Disable dropping |
+| `accepts` | `string[]` | - | Accepted drag types |
+| `activeClassName` | `string` | - | Class when any drag is active |
+| `overClassName` | `string` | - | Class when dragged item is over |
+| `rejectedClassName` | `string` | - | Class when item is over but not accepted |
+
+**DragHandle**: Render inside a `Draggable` with `handle={true}`. Props: `children?`, `className?`
+
+**DragOverlay**: `children` (ReactNode | (activeItem: DndItem | null) => ReactNode), `dropAnimation?` ({ duration?, easing? } | null)
+
+**Sortable** (reorderable list):
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `DndItem<T>[]` | required | Items array (each needs `id`) |
+| `onReorder` | `(items: T[]) => void` | - | Reorder callback with new order |
+| `strategy` | `'vertical'` `'horizontal'` `'grid'` | - | Sort layout strategy |
+| `disabled` | `boolean` | - | Disable sorting |
+| `standalone` | `boolean` | `true` | Create own DndContext (false for multi-list) |
+
+**SortableItem**:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `DndId` | required | Must match an item id |
+| `children` | `ReactNode \| (props: SortableItemRenderProps) => ReactNode` | required | Content or render function |
+| `disabled` | `boolean` | - | Disable this item |
+| `handle` | `boolean` | - | Use DragHandle |
+| `activeClassName` | `string` | - | Class when dragging |
+
+**Hooks:**
+- `useDraggableContext()` — access `{ isDragging, attributes, listeners }` inside a Draggable
+- `useSortableItemContext()` — access sortable item state inside a SortableItem
+
+```tsx
+<Sortable items={items} onReorder={setItems} strategy="vertical">
+  {items.map(item => (
+    <SortableItem key={item.id} id={item.id}>
+      {item.label}
+    </SortableItem>
+  ))}
+</Sortable>
+```
 
 ---
 
@@ -2011,7 +2342,7 @@ toast.success('저장되었습니다');
 toast.error('오류가 발생했습니다');
 toast.warning('주의가 필요합니다');
 toast.info('새로운 메시지가 있습니다');
-toast.info('삭제됨', { label: '실행취소' });
+toast.info('삭제됨', { action: { label: '실행취소', onClick: () => handleUndo() } });
 ```
 
 ### FilterButton with Popover
@@ -2158,7 +2489,7 @@ import { Button } from '@mbisolution/blumnai-design-system';
 ### Popover
 
 ```tsx
-import { Popover, PopoverTrigger, PopoverContent, Button } from '@mbisolution/blumnai-design-system';
+import { Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverAnchor, Button } from '@mbisolution/blumnai-design-system';
 
 <Popover>
   <PopoverTrigger asChild>
@@ -2169,6 +2500,12 @@ import { Popover, PopoverTrigger, PopoverContent, Button } from '@mbisolution/bl
   </PopoverContent>
 </Popover>
 ```
+
+**PopoverContent**: `width?` (string|number), `container?` (HTMLElement|null — portal target, default `document.body`)
+
+**PopoverClose**: Radix Popover.Close primitive (closes the popover when clicked)
+
+**PopoverAnchor**: Radix Popover.Anchor primitive (custom anchor element for positioning)
 
 ### Combobox with Creatable
 
@@ -2389,11 +2726,12 @@ function AsyncForm() {
 ### Usage
 
 ```tsx
-import { Icon } from '@mbisolution/blumnai-design-system';
+import { Icon, BrandIcon, FlagIcon, FileIcon, IsometricIcon, CursorIcon } from '@mbisolution/blumnai-design-system';
 
 <Icon iconType={['system', 'check']} />
 <Icon iconType={['system', 'close']} size={24} />
 <Icon iconType={['system', 'heart']} isFill />
+<CursorIcon cursorType="pointer" />
 ```
 
 ### Categories
@@ -2468,14 +2806,29 @@ import { IsometricIcon } from '@mbisolution/blumnai-design-system';
 |------|------|---------|-------------|
 | `iconType` | `IsometricIconType` | required | Icon identifier |
 | `view` | `'top'` `'left'` | `'top'` | Viewing angle |
-| `size` | `number` | - | Icon size in px |
-| `fillColor` | `IsometricFillColor` | - | Fill color |
-| `strokeColor` | `IsometricStrokeColor` | - | Stroke color |
-| `className` | `string` | - | Custom class |
+| `size` | `number` | `24` | Icon size in px |
+| `fillColor` | `IsometricFillColor` | `'default'` | Fill color |
+| `strokeColor` | `IsometricStrokeColor` | `'accent'` | Stroke color |
 
 > **Note:** `IsometricIcon` is a separate component, not part of the `Icon` tuple system.
 
 **All 160 IsometricIconType values:** `'123'`, `'abc'`, `'actionkey'`, `'acute'`, `'addbox'`, `'addcircle'`, `'addreaction'`, `'addtask'`, `'allmatch'`, `'arrowandedge'`, `'arrowcircledown'`, `'arrowcircleleft'`, `'arrowcircleright'`, `'arrowcircleup'`, `'backspace'`, `'block'`, `'bolt'`, `'boy'`, `'bringyourownip'`, `'cached'`, `'cancel'`, `'cancelcircle'`, `'captiveportal'`, `'changecircle'`, `'check'`, `'checkbox'`, `'checkcircle'`, `'checksmall'`, `'chipextraction'`, `'chips'`, `'chronic'`, `'clearall'`, `'clockleader'`, `'clockloader'`, `'couples'`, `'createnewfolder'`, `'css'`, `'cycle'`, `'dataalert'`, `'datacheckdouble'`, `'datainfoalert'`, `'dataset'`, `'datasetlinked'`, `'delete'`, `'deletesweep'`, `'deployedcode'`, `'deployedcodeaccount'`, `'deployedcodealert'`, `'deployedcodehistory'`, `'desktoplandscape'`, `'desktoplandscapeadd'`, `'desktopportrait'`, `'dialog'`, `'diamond'`, `'directorysync'`, `'diversity'`, `'doneall'`, `'donotdisturboff'`, `'donotdisturbon'`, `'download'`, `'downloaddone'`, `'emojievent'`, `'emojiobjects'`, `'emojipeople'`, `'extensionoff'`, `'favorite'`, `'favoriteminus'`, `'favoriteplus'`, `'filter'`, `'fitscreen'`, `'fronthand'`, `'fullscreen'`, `'fullscreenexit'`, `'gardencart'`, `'groupwork'`, `'happy'`, `'heartbroken'`, `'heartcheck'`, `'highlightkeyboardfocus'`, `'highlightmousecursor'`, `'highlighttextcursor'`, `'hive'`, `'hls'`, `'house'`, `'html'`, `'inputcircle'`, `'installdesktop'`, `'installmobile'`, `'iosshare'`, `'javascript'`, `'key'`, `'keyboardcommandkey'`, `'keyvertical'`, `'leftclick'`, `'linkedservices'`, `'loginblank'`, `'logout'`, `'man'`, `'managesearch'`, `'mood'`, `'moodbad'`, `'moveitem'`, `'multimodalhandeye'`, `'neutral'`, `'newwindow'`, `'openinnew'`, `'outputcircle'`, `'personadd'`, `'psychologyalt'`, `'rocketlaunch'`, `'rotateauto'`, `'rulesettings'`, `'searchcheck'`, `'searchoff'`, `'selectcheckbox'`, `'sendtimeextension'`, `'settings'`, `'settingsaccessibility'`, `'settingsheart'`, `'shelfautohide'`, `'shield'`, `'shoppingcart'`, `'signlanguage'`, `'skull'`, `'sort'`, `'sortbyalpha'`, `'stacks'`, `'star'`, `'starhalf'`, `'start'`, `'statdouble'`, `'stepover'`, `'swaphorizontalcircle'`, `'swapvertical'`, `'swipedown'`, `'swipeleft'`, `'swipeup'`, `'switchaccess'`, `'switchaccessshortcutadd'`, `'sync'`, `'toggleoff'`, `'toggleon'`, `'token'`, `'transcribe'`, `'unable'`, `'undo'`, `'unhappy'`, `'upload'`, `'veryhappy'`, `'veryunhappy'`, `'viewcomfyalt'`, `'viewcozy'`, `'viewkanbab'`, `'viewtimeline'`, `'weight'`, `'workspacepremium'`
+
+### CursorIcon
+
+```tsx
+import { CursorIcon } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `cursorType` | `'arrow'` `'hand-closed'` `'hand-open'` `'not-allowed'` `'pointer'` `'text'` | required | Cursor type |
+| `size` | `number` | `24` | Icon size in px |
+
+```tsx
+<CursorIcon cursorType="pointer" size={32} />
+<CursorIcon cursorType="text" />
+```
 
 ---
 
@@ -2530,7 +2883,7 @@ type ChartDataPoint = { [key: string]: string | number };
 ### ChartConfig
 
 ```ts
-type ChartConfig = Record<string, { label: string; color: string }>;
+type ChartConfig = Record<string, { label: string; color: string; icon?: ReactNode }>;
 ```
 
 ### ChartAxisConfig
@@ -2539,8 +2892,8 @@ type ChartConfig = Record<string, { label: string; color: string }>;
 interface ChartAxisConfig {
   dataKey: string;
   label?: string;
-  domain?: [number, number];
-  tickFormatter?: (value: any) => string;
+  domain?: [number, number] | 'auto';
+  tickFormatter?: (value: string | number) => string;
 }
 ```
 
@@ -2866,6 +3219,8 @@ function ResponsivePanel({ children }) {
 | line chart, trend, time series | `LineChart` |
 | pie chart, distribution | `PieChart` |
 | donut chart, ring chart | `DonutChart` |
+| cursor, pointer, mouse cursor | `CursorIcon` |
+| drag, drop, drag and drop, dnd, sortable, reorder | `DndContext` / `Sortable` |
 
 ---
 
@@ -2890,13 +3245,15 @@ function ResponsivePanel({ children }) {
 | `/drawer` | Drawer, Sheet |
 | `/dropdown` | DropdownMenu |
 | `/file-upload` | FileUploadArea, FileUploadCard |
-| `/form` | Form, FormField, FormControl, FormItem, FormError |
+| `/dnd` | DndContext, Draggable, Droppable, DragHandle, DragOverlay, Sortable, SortableItem |
+| `/form` | Form, FormField, FormControl, FormItem, FormDescription, FormError |
 | `/hover-card` | HoverCard, HoverCardTrigger, HoverCardContent |
 | `/icons` | All icons |
 | `/icons/icon` | Icon |
 | `/icons/brand` | BrandIcon |
 | `/icons/flag` | FlagIcon |
 | `/icons/file` | FileIcon |
+| `/icons/cursor` | CursorIcon |
 | `/input` | Input |
 | `/input-otp` | InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator |
 | `/menubar` | Menubar, MenubarMenu, MenubarTrigger, MenubarContent |
