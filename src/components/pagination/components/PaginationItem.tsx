@@ -59,7 +59,7 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
         aria-current={isActive ? 'page' : undefined}
         aria-label={variant === 'dot'
           ? (children != null
-            ? (isActive ? `Slide ${children}, current` : `Go to slide ${children}`)
+            ? (isActive ? `슬라이드 ${children}, 현재` : `슬라이드 ${children}(으)로 이동`)
             : undefined)
           : ariaLabel
         }

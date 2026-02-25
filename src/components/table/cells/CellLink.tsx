@@ -29,7 +29,8 @@ export function CellLink({
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
       tableTooltip?.hideTooltip();
     };
-  }, [tableTooltip]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getTooltipContent = useCallback((): ReactNode => {
     if (typeof tooltip === 'boolean') {

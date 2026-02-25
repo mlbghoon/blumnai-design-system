@@ -143,7 +143,7 @@ function DataGridInner<T>(
     <TableTooltipProvider>
       <div
         ref={ref}
-        role="table"
+        role="grid"
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledby}
         aria-busy={isLoading || undefined}

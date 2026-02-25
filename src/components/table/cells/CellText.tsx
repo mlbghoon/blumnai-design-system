@@ -29,7 +29,8 @@ export function CellText({
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
       tableTooltip?.hideTooltip();
     };
-  }, [tableTooltip]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleCopy = useCallback(async () => {
     if (value == null) return;

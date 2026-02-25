@@ -41,21 +41,22 @@ export function DataGridRow<T>({
       className={cn(
         'grid group',
         !canSelect && '[&>*]:opacity-50',
-        onRowClick && 'cursor-pointer'
+        onRowClick && canSelect !== false && 'cursor-pointer'
       )}
       style={{ gridTemplateColumns }}
-      onClick={onRowClick ? handleClick : undefined}
+      onClick={onRowClick && canSelect !== false ? handleClick : undefined}
       aria-selected={isSelected}
       aria-disabled={!canSelect || undefined}
       data-state={isSelected ? 'selected' : undefined}
     >
-      {row.getVisibleCells().map((cell) => (
+      {row.getVisibleCells().map((cell, index) => (
         <DataGridCell
           key={cell.id}
           cell={cell}
           stickyInfo={stickyColumnPositions.get(cell.column.id)}
           isRowSelected={isSelected && showSelectedRowBackground}
           height={height}
+          colIndex={index + 1}
         />
       ))}
     </div>
