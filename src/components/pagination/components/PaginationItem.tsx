@@ -49,7 +49,7 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
         <a
           href={href}
           className={baseStyles}
-          aria-current={isActive ? 'page' : undefined}
+          aria-current={isActive ? (variant === 'dot' ? true : 'page') : undefined}
           aria-label={computedAriaLabel}
           onClick={onClick}
         >
@@ -64,7 +64,7 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
         type="button"
         className={baseStyles}
         disabled={disabled}
-        aria-current={isActive ? 'page' : undefined}
+        aria-current={isActive ? (variant === 'dot' ? true : 'page') : undefined}
         aria-label={computedAriaLabel}
         onClick={onClick}
         {...props}

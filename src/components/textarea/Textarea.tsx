@@ -163,11 +163,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   }, [useCustomScrollbar, adjustHeight, scrollToCursor, onInput]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    onKeyDown?.(e);
+    if (e.defaultPrevented) return;
     if (onSubmit && !submitDisabled && (e.metaKey || e.ctrlKey) && e.key === 'Enter') {
       e.preventDefault();
       onSubmit();
     }
-    onKeyDown?.(e);
   }, [onSubmit, submitDisabled, onKeyDown]);
 
   const handleKeyUp = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {

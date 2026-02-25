@@ -36,23 +36,23 @@ const formatTimeValue = (v: TimeValue | undefined, showSeconds: boolean): string
   if (!v) return '';
   const h = String(v.hour).padStart(2, '0');
   const m = String(v.minute).padStart(2, '0');
-  if (showSeconds && v.second !== undefined) {
-    const s = String(v.second).padStart(2, '0');
+  if (showSeconds) {
+    const s = String(v.second ?? 0).padStart(2, '0');
     return `${h}:${m}:${s}`;
   }
   return `${h}:${m}`;
 };
 
-const timeToMinutes = (v: TimeValue): number =>
-  v.hour * 60 + v.minute;
+const timeToSeconds = (v: TimeValue): number =>
+  v.hour * 3600 + v.minute * 60 + (v.second ?? 0);
 
 const isRangeEqual = (a: TimeRange | undefined, b: TimeRange): boolean => {
   if (!a) return false;
   const startEq = a.start && b.start
-    ? a.start.hour === b.start.hour && a.start.minute === b.start.minute
+    ? a.start.hour === b.start.hour && a.start.minute === b.start.minute && (a.start.second ?? 0) === (b.start.second ?? 0)
     : !a.start && !b.start;
   const endEq = a.end && b.end
-    ? a.end.hour === b.end.hour && a.end.minute === b.end.minute
+    ? a.end.hour === b.end.hour && a.end.minute === b.end.minute && (a.end.second ?? 0) === (b.end.second ?? 0)
     : !a.end && !b.end;
   return !!startEq && !!endEq;
 };
@@ -112,7 +112,7 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
   useEffect(() => {
     if (onValidationError) {
       if (value?.start && value?.end) {
-        const isInvalid = timeToMinutes(value.start) >= timeToMinutes(value.end);
+        const isInvalid = timeToSeconds(value.start) >= timeToSeconds(value.end);
         onValidationError(isInvalid ? 'invalid-range' : null);
       } else {
         onValidationError(null);

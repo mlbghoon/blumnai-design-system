@@ -116,7 +116,7 @@ function getDotPages(
   totalPages: number,
   maxDots?: number
 ): number[] {
-  if (!maxDots || totalPages <= maxDots) {
+  if (!maxDots || maxDots < 1 || totalPages <= maxDots) {
     return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 

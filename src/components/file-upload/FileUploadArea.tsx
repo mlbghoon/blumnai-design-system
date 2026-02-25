@@ -99,7 +99,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
       }
     }
 
-    if (maxFileSize) {
+    if (maxFileSize !== undefined) {
       const oversized = validFiles.filter(f => f.size > maxFileSize);
       if (oversized.length > 0) {
         oversized.forEach(f => {
@@ -114,7 +114,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
       validFiles = validFiles.slice(0, maxFiles);
     }
 
-    if (maxSize) {
+    if (maxSize !== undefined) {
       const totalSize = validFiles.reduce((sum, file) => sum + file.size, 0);
       if (totalSize > maxSize) {
         errors.push({ code: 'total-size-exceeded', message: `Total size exceeds ${maxSize} bytes` });
