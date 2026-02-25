@@ -110,9 +110,13 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
   }, [onChange]);
 
   useEffect(() => {
-    if (onValidationError && value?.start && value?.end) {
-      const isInvalid = timeToMinutes(value.start) >= timeToMinutes(value.end);
-      onValidationError(isInvalid ? 'invalid-range' : null);
+    if (onValidationError) {
+      if (value?.start && value?.end) {
+        const isInvalid = timeToMinutes(value.start) >= timeToMinutes(value.end);
+        onValidationError(isInvalid ? 'invalid-range' : null);
+      } else {
+        onValidationError(null);
+      }
     }
   }, [value, onValidationError]);
 

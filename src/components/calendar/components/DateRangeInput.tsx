@@ -189,6 +189,10 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
 
     if (fromDate && toDate && fromDate > toDate) {
       [fromDate, toDate] = [toDate, fromDate];
+      const normalizedFrom = dateToSegments(fromDate);
+      const normalizedTo = dateToSegments(toDate);
+      setFromSegments(normalizedFrom);
+      setToSegments(normalizedTo);
     }
 
     if (isEmpty) {

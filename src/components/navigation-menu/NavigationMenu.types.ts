@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
 import type { IconType } from '../icons/Icon/Icon.types';

@@ -66,7 +66,7 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
         onClick={onClick}
         {...props}
       >
-        {children}
+        {variant === 'dot' ? <span className="sr-only">{children}</span> : children}
       </button>
     );
   }

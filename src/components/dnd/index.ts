@@ -24,4 +24,6 @@ export type {
   DragEndEvent,
   DragStartEvent,
   DragOverEvent,
+  DragMoveEvent,
+  DragCancelEvent,
 } from './dnd.types';

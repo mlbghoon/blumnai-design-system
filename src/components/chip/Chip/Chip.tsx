@@ -190,7 +190,7 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
 
 
     return (
-      <button ref={ref} {...props} type="button" className={containerClassName} disabled={disabled} aria-pressed={selected} onClick={handleClick}>
+      <button ref={ref} {...props} type="button" className={containerClassName} disabled={disabled} aria-pressed={selected} aria-label={iconOnly ? (props['aria-label'] ?? label) : undefined} onClick={handleClick}>
         {icon && (
           <span
             className={cn(

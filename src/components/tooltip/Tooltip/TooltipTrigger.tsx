@@ -173,7 +173,10 @@ export function TooltipTrigger({
       clearTimeout(touchTimeoutRef.current);
       touchTimeoutRef.current = null;
     }
-  }, []);
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  }, [isOpen, setIsOpen]);
 
   const handleTouchMove = useCallback(() => {
     if (touchTimeoutRef.current) {

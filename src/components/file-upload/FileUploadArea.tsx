@@ -77,6 +77,28 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
     const errors: FileError[] = [];
     let validFiles = fileArray;
 
+    if (accept) {
+      const acceptedTypes = accept.split(',').map(t => t.trim());
+      const rejected = validFiles.filter(file => {
+        return !acceptedTypes.some(acceptType => {
+          if (acceptType.startsWith('.')) {
+            return file.name.toLowerCase().endsWith(acceptType.toLowerCase());
+          }
+          if (acceptType.endsWith('/*')) {
+            const baseType = acceptType.slice(0, -2);
+            return file.type.startsWith(baseType);
+          }
+          return file.type === acceptType;
+        });
+      });
+      if (rejected.length > 0) {
+        rejected.forEach(f => {
+          errors.push({ file: f, code: 'invalid-type', message: `File "${f.name}" has an unsupported type` });
+        });
+        validFiles = validFiles.filter(f => !rejected.includes(f));
+      }
+    }
+
     if (maxFileSize) {
       const oversized = validFiles.filter(f => f.size > maxFileSize);
       if (oversized.length > 0) {
@@ -107,7 +129,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
     if (validFiles.length > 0) {
       onFilesSelected?.(validFiles, source);
     }
-  }, [maxFileSize, maxFiles, maxSize, onValidationError, onFilesSelected]);
+  }, [accept, maxFileSize, maxFiles, maxSize, onValidationError, onFilesSelected]);
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -155,40 +177,13 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
     if (!files || files.length === 0) return;
 
     let fileArray = Array.from(files);
-    const errors: FileError[] = [];
-
-    if (accept) {
-      const acceptedTypes = accept.split(',').map(t => t.trim());
-      const rejected = fileArray.filter(file => {
-        return !acceptedTypes.some(acceptType => {
-          if (acceptType.startsWith('.')) {
-            return file.name.toLowerCase().endsWith(acceptType.toLowerCase());
-          }
-          if (acceptType.endsWith('/*')) {
-            const baseType = acceptType.slice(0, -2);
-            return file.type.startsWith(baseType);
-          }
-          return file.type === acceptType;
-        });
-      });
-      if (rejected.length > 0) {
-        rejected.forEach(f => {
-          errors.push({ file: f, code: 'invalid-type', message: `File "${f.name}" has an unsupported type` });
-        });
-        fileArray = fileArray.filter(f => !rejected.includes(f));
-      }
-    }
 
     if (!multiple) {
       fileArray = fileArray.slice(0, 1);
     }
 
-    if (errors.length > 0) {
-      onValidationError?.(errors);
-    }
-
     validateAndEmit(fileArray, 'drop');
-  }, [accept, disabled, multiple, onDragLeave, onValidationError, validateAndEmit]);
+  }, [disabled, multiple, onDragLeave, validateAndEmit]);
 
   const getStateClassName = () => {
     if (disabled) return FILE_UPLOAD_AREA_STATE.disabled;

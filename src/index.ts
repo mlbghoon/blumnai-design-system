@@ -905,6 +905,8 @@ export type {
   DragEndEvent,
   DragStartEvent,
   DragOverEvent,
+  DragMoveEvent,
+  DragCancelEvent,
 } from './components/dnd';
 
 // =============================================================================

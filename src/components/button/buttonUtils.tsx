@@ -20,6 +20,10 @@ export const renderButtonIcon = (
     return <Icon iconType={[icon[0], icon[1]] as IconType} isFill={isFill} size={size} color={color} />;
   }
 
+  if (typeof icon === 'string' || typeof icon === 'number') {
+    return <span className="inline-flex items-center">{icon}</span>;
+  }
+
   if (!isValidElement(icon)) return null;
   return <span className="inline-flex items-center">{icon}</span>;
 };

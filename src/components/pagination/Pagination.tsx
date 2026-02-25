@@ -331,7 +331,9 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
                         disabled={disabled}
                         onClick={() => handlePageChange(dotPage)}
                         href={getPageHref ? getPageHref(dotPage) : undefined}
-                      />
+                      >
+                        {dotPage}
+                      </PaginationItem>
                     ))}
               </div>
 

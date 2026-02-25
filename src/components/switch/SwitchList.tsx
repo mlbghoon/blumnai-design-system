@@ -20,12 +20,15 @@ const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
     };
 
     const handleToggleAll = (checked: boolean) => {
-      onToggleAll?.(checked);
-      enabledItems.forEach((item) => {
-        if (item.checked !== checked) {
-          onItemChange?.(item.id, checked);
-        }
-      });
+      if (onToggleAll) {
+        onToggleAll(checked);
+      } else {
+        enabledItems.forEach((item) => {
+          if (item.checked !== checked) {
+            onItemChange?.(item.id, checked);
+          }
+        });
+      }
     };
 
     const toggleAllElement = showToggleAll ? (

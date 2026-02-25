@@ -26,7 +26,7 @@ export const PaginationEllipsis = forwardRef<HTMLSpanElement, PaginationEllipsis
         onKeyDown={isClickable ? (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            onClick?.(e as unknown as React.MouseEvent<HTMLElement>);
+            (e.currentTarget as HTMLElement).click();
           }
         } : undefined}
         {...props}

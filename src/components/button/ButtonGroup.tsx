@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useRef, useState, type KeyboardEvent } from 'react';
+import { forwardRef, useCallback, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 
 import { Icon } from '../icons/Icon';
 import type { IconType } from '../icons/Icon/Icon.types';
@@ -32,17 +32,18 @@ const BUTTON_PADDING = {
  * <ButtonGroup items={[{ label: "A" }, { label: "B" }]} size="md" />
  */
 export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
-  ({ items, size = 'md', className }, ref) => {
+  ({ items, size = 'md', className, 'aria-label': ariaLabelProp, ...restProps }, ref) => {
     const currentSize = SIZE_STYLES[size];
     const iconSize = 16;
     const buttonGap = size === 'lg' || size === 'md' ? 'ds-gap-6' : 'ds-gap-4';
     const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
-    const [focusedIndex, setFocusedIndex] = useState(0);
 
-    const enabledIndices = items
+    const enabledIndices = useMemo(() => items
       .map((item, i) => ({ i, disabled: item.disabled || !item.onClick }))
       .filter((e) => !e.disabled)
-      .map((e) => e.i);
+      .map((e) => e.i), [items]);
+
+    const [focusedIndex, setFocusedIndex] = useState(() => enabledIndices[0] ?? 0);
 
     const handleKeyDown = useCallback((e: KeyboardEvent<HTMLButtonElement>, index: number) => {
       const pos = enabledIndices.indexOf(index);
@@ -120,7 +121,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
     };
 
     return (
-      <div ref={ref} role="toolbar" aria-orientation="horizontal" className={containerClassName}>
+      <div ref={ref} role="toolbar" aria-orientation="horizontal" aria-label={ariaLabelProp ?? 'Button group'} className={containerClassName} {...restProps}>
         {items.map((item, index) => {
           const isFirst = index === 0;
           const hasSeparator = !isFirst;

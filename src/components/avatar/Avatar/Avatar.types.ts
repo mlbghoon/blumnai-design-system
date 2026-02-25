@@ -12,7 +12,7 @@ export type AvatarStatus = 'online' | 'offline' | 'checkmark' | 'logo' | 'icon' 
 
 export type AvatarBadgeLocation = 'top' | 'bottom';
 
-export interface AvatarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface AvatarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'onError' | 'onLoad'> {
   /**
    * The variant of the avatar.
    * - `initials`: Shows initials text

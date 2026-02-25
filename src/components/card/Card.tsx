@@ -32,7 +32,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant, interactive, onClick, onKeyDown, ...props }, ref) => {
     const handleKeyDown = interactive
       ? (e: React.KeyboardEvent<HTMLDivElement>) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if ((e.key === 'Enter' || e.key === ' ') && !e.repeat) {
             e.preventDefault();
             (e.currentTarget as HTMLElement).click();
           }
