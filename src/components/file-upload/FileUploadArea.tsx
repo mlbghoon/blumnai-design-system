@@ -109,7 +109,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
       }
     }
 
-    if (maxFiles && validFiles.length > maxFiles) {
+    if (maxFiles !== undefined && validFiles.length > maxFiles) {
       errors.push({ code: 'too-many-files', message: `Maximum ${maxFiles} files allowed` });
       validFiles = validFiles.slice(0, maxFiles);
     }
@@ -228,7 +228,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
           getStateClassName()
         )}
         aria-disabled={disabled}
-        aria-label={clickText ? `${title} ${clickText}` : title || DEFAULT_TITLE}
+        aria-label={clickText ? [title, clickText].filter(Boolean).join(' ') : title || DEFAULT_TITLE}
       >
         <input
           ref={inputRef}

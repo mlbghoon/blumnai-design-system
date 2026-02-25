@@ -32,9 +32,17 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
             className
           );
 
-    const ariaLabel = (typeof children === 'string' || typeof children === 'number')
-      ? (isActive ? `${children} 페이지, 현재 페이지` : `${children} 페이지로 이동`)
-      : undefined;
+    const computedAriaLabel = variant === 'dot'
+      ? (children != null
+          ? (isActive ? `슬라이드 ${children}, 현재` : `슬라이드 ${children}(으)로 이동`)
+          : undefined)
+      : (typeof children === 'string' || typeof children === 'number')
+        ? (isActive ? `${children} 페이지, 현재 페이지` : `${children} 페이지로 이동`)
+        : undefined;
+
+    const renderedChildren = variant === 'dot'
+      ? (children != null ? <span className="sr-only">{children}</span> : null)
+      : children;
 
     if (href && !disabled) {
       return (
@@ -42,10 +50,10 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
           href={href}
           className={baseStyles}
           aria-current={isActive ? 'page' : undefined}
-          aria-label={ariaLabel}
+          aria-label={computedAriaLabel}
           onClick={onClick}
         >
-          {children}
+          {renderedChildren}
         </a>
       );
     }
@@ -57,16 +65,11 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
         className={baseStyles}
         disabled={disabled}
         aria-current={isActive ? 'page' : undefined}
-        aria-label={variant === 'dot'
-          ? (children != null
-            ? (isActive ? `슬라이드 ${children}, 현재` : `슬라이드 ${children}(으)로 이동`)
-            : undefined)
-          : ariaLabel
-        }
+        aria-label={computedAriaLabel}
         onClick={onClick}
         {...props}
       >
-        {variant === 'dot' ? <span className="sr-only">{children}</span> : children}
+        {renderedChildren}
       </button>
     );
   }

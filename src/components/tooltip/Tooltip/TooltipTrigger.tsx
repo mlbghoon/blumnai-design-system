@@ -116,7 +116,9 @@ export function TooltipTrigger({
   const handleMouseEnter = useCallback(() => {
     if (disabled) return;
     cancelCloseTimeout();
-
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
     hoverTimeoutRef.current = setTimeout(() => {
       setIsOpen(true);
     }, delay);
@@ -140,6 +142,9 @@ export function TooltipTrigger({
   const handleFocus = useCallback(() => {
     if (disabled) return;
     cancelCloseTimeout();
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
     hoverTimeoutRef.current = setTimeout(() => {
       setIsOpen(true);
     }, delay);
@@ -163,6 +168,9 @@ export function TooltipTrigger({
 
   const handleTouchStart = useCallback(() => {
     if (disabled) return;
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+    }
     touchTimeoutRef.current = setTimeout(() => {
       setIsOpen(true);
     }, 500);
@@ -182,6 +190,16 @@ export function TooltipTrigger({
     if (touchTimeoutRef.current) {
       clearTimeout(touchTimeoutRef.current);
       touchTimeoutRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    const styleId = 'blumnai-tooltip-keyframes';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@keyframes tooltip-enter{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}';
+      document.head.appendChild(style);
     }
   }, []);
 
@@ -243,7 +261,6 @@ export function TooltipTrigger({
             onMouseEnter={cancelCloseTimeout}
             onMouseLeave={startCloseTimeout}
           >
-            <style>{`@keyframes tooltip-enter { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }`}</style>
             {tooltipContent}
           </div>,
           document.body

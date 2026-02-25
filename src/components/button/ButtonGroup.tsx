@@ -44,6 +44,9 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
       .map((e) => e.i), [items]);
 
     const [focusedIndex, setFocusedIndex] = useState(() => enabledIndices[0] ?? 0);
+    if (enabledIndices.length > 0 && !enabledIndices.includes(focusedIndex)) {
+      setFocusedIndex(enabledIndices[0]);
+    }
 
     const handleKeyDown = useCallback((e: KeyboardEvent<HTMLButtonElement>, index: number) => {
       const pos = enabledIndices.indexOf(index);
@@ -121,7 +124,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
     };
 
     return (
-      <div ref={ref} role="toolbar" aria-orientation="horizontal" aria-label={ariaLabelProp ?? 'Button group'} className={containerClassName} {...restProps}>
+      <div ref={ref} {...restProps} role="toolbar" aria-orientation="horizontal" aria-label={ariaLabelProp ?? 'Button group'} className={containerClassName}>
         {items.map((item, index) => {
           const isFirst = index === 0;
           const hasSeparator = !isFirst;

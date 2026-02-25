@@ -35,6 +35,7 @@ const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
       <Switch
         checked={allChecked}
         color={color}
+        disabled={enabledItems.length === 0}
         onCheckedChange={handleToggleAll}
         label={toggleAllLabel}
       />
