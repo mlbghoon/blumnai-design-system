@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.35] - 2026-02-25
+
+### Fixed
+
+- `typesVersions` catch-all `"*"` 패턴이 메인 엔트리 해석을 가로채던 문제 수정 — `"."` 엔트리 추가로 `moduleResolution: "node"` 환경에서 `dist/.d.ts` 경로 오류 해결
+- `optionalDependencies`에서 react-hook-form, @hookform/resolvers, zod 제거 — TS 4.x 프로젝트에서 `const` 타입 파라미터 파싱 오류 방지
+  - `peerDependenciesMeta`의 `optional: true`로 충분; Form 컴포넌트 사용 시 수동 설치 필요
+
 ## [0.2.34] - 2026-02-25
 
 ### Added
