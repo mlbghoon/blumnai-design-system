@@ -27,8 +27,9 @@ export function CellText({
   useEffect(() => {
     return () => {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      tableTooltip?.hideTooltip();
     };
-  }, []);
+  }, [tableTooltip]);
 
   const handleCopy = useCallback(async () => {
     if (value == null) return;

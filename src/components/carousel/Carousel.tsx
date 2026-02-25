@@ -67,6 +67,12 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
+        const target = event.target as HTMLElement;
+        const tag = target.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable) {
+          return;
+        }
+
         const prevKey = orientation === 'vertical' ? 'ArrowUp' : 'ArrowLeft';
         const nextKey = orientation === 'vertical' ? 'ArrowDown' : 'ArrowRight';
 

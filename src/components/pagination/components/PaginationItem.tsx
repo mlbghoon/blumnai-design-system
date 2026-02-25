@@ -58,7 +58,9 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
         disabled={disabled}
         aria-current={isActive ? 'page' : undefined}
         aria-label={variant === 'dot'
-          ? (isActive ? `Slide ${children}, current` : `Go to slide ${children}`)
+          ? (children != null
+            ? (isActive ? `Slide ${children}, current` : `Go to slide ${children}`)
+            : undefined)
           : ariaLabel
         }
         onClick={onClick}
