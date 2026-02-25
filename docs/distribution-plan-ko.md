@@ -191,14 +191,105 @@ npm publish
 
 **팀원이 설치하려면:**
 
-1. 자신의 GitHub 토큰 생성 (`read:packages` 권한)
-2. `~/.npmrc` (홈 폴더)에 추가:
-```ini
-//npm.pkg.github.com/:_authToken=ghp_본인_토큰_여기에
-```
-3. 설치:
+**1. GitHub Personal Access Token 생성**
+
+1. [GitHub.com](https://github.com) 로그인
+2. 우측 상단 프로필 아이콘 클릭 → **Settings** 클릭
+3. 왼쪽 메뉴 맨 아래 **Developer settings** 클릭
+4. **Personal access tokens** → **Tokens (classic)** 클릭
+5. **Generate new token (classic)** 클릭
+6. Note(이름)에 `design-system` 입력
+7. **Expiration**: 원하는 만료일 선택 (예: 90 days)
+8. 권한에서 `read:packages`에 체크 ✅
+9. 맨 아래 **Generate token** 클릭
+10. ⚠️ **생성된 토큰(`ghp_`로 시작)을 지금 바로 복사하세요!** 페이지를 벗어나면 다시 볼 수 없습니다.
+
+**2. 홈 폴더에 `.npmrc` 파일 만들기**
+
+아래에서 본인 운영체제에 맞는 방법을 따라하세요.
+`YOUR_TOKEN` 부분만 위에서 복사한 토큰으로 바꿔주세요.
+
+> ⚠️ **토큰을 갱신할 때:** 이미 `.npmrc` 파일이 있다면, 아래 명령어를 다시 실행하면 줄이 중복으로 추가됩니다.
+> 토큰을 바꿀 때는 기존 `.npmrc` 파일을 먼저 삭제하고 다시 만드세요.
+> - 맥/리눅스: `rm ~/.npmrc` 후 아래 명령어 실행
+> - 윈도우: `Remove-Item "$env:USERPROFILE\.npmrc"` 후 아래 명령어 실행
+
+<details>
+<summary><b>🍎 맥(macOS) / 리눅스(Linux)</b></summary>
+
+**Terminal** 앱을 열고 아래 명령어를 **한 줄씩** 실행:
+
 ```bash
-npm install @mbisolution/blumnai-design-system
+echo "@mbisolution:registry=https://npm.pkg.github.com" >> ~/.npmrc
+```
+```bash
+echo "//npm.pkg.github.com/:_authToken=YOUR_TOKEN" >> ~/.npmrc
+```
+
+**확인:** `cat ~/.npmrc` 실행 후 **정확히 아래 두 줄만** 보이면 성공:
+```
+@mbisolution:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=ghp_xxxx...
+```
+
+만약 같은 줄이 여러 번 반복된다면, 파일을 초기화하세요:
+```bash
+rm ~/.npmrc
+```
+그리고 위의 `echo` 명령어 두 줄을 다시 실행하세요.
+
+</details>
+
+<details>
+<summary><b>🪟 윈도우(Windows)</b></summary>
+
+**PowerShell**을 열고 아래 명령어를 **한 줄씩** 실행:
+
+```powershell
+Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "@mbisolution:registry=https://npm.pkg.github.com"
+```
+```powershell
+Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "//npm.pkg.github.com/:_authToken=YOUR_TOKEN"
+```
+
+**확인:** `Get-Content "$env:USERPROFILE\.npmrc"` 실행 후 **정확히 아래 두 줄만** 보이면 성공:
+```
+@mbisolution:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=ghp_xxxx...
+```
+
+만약 같은 줄이 여러 번 반복된다면, 파일을 초기화하세요:
+```powershell
+Remove-Item "$env:USERPROFILE\.npmrc"
+```
+그리고 위의 `Add-Content` 명령어 두 줄을 다시 실행하세요.
+
+</details>
+
+> **참고:** `$env:USERPROFILE`은 보통 `C:\Users\본인이름` 폴더입니다.
+
+</details>
+
+> **이 명령어가 하는 일:** 홈 폴더에 `.npmrc`라는 설정 파일을 만들어서,
+> npm이 `@mbisolution` 패키지를 GitHub에서 다운로드할 수 있도록 인증 정보를 저장합니다.
+
+**3. 프로젝트에 설치**
+
+본인 프로젝트 폴더에서 실행:
+```bash
+npm install @mbisolution/blumnai-design-system --legacy-peer-deps
+```
+
+**4. CSS 불러오기 (필수)**
+
+프로젝트의 진입점 파일(예: `main.tsx`, `App.tsx`, `layout.tsx`)에 아래 한 줄을 추가:
+```tsx
+import '@mbisolution/blumnai-design-system/styles';
+```
+
+**5. 컴포넌트 사용**
+```tsx
+import { Button, Input } from '@mbisolution/blumnai-design-system';
 ```
 
 ---
@@ -303,7 +394,7 @@ jobs:
 2. [ ] 팀에 Storybook URL 공유
 3. [ ] 개발자용 설치 안내 문서화:
    ```bash
-   npm install @mbisolution/blumnai-design-system
+   npm install @mbisolution/blumnai-design-system --legacy-peer-deps
    ```
    ```tsx
    import { Button, Input } from '@mbisolution/blumnai-design-system';
@@ -387,7 +478,7 @@ import '@mbisolution/blumnai-design-system/styles';
 
 ```bash
 # 설치
-npm install @mbisolution/blumnai-design-system
+npm install @mbisolution/blumnai-design-system --legacy-peer-deps
 
 # 코드에서
 import { Button, Input, Checkbox } from '@mbisolution/blumnai-design-system';
@@ -404,3 +495,181 @@ function App() {
 - **Create React App** (Webpack)
 - **Remix**
 - **모든 React 프로젝트**
+
+---
+
+## v0.2.34 — 마이그레이션 갭 기능
+
+happytalk-front 프로젝트에서 커스텀 UI / happytalk-design-guide(hdg) 마이그레이션을 지원하기 위해 12개의 새로운 기능이 추가되었습니다.
+
+### 새 컴포넌트
+
+#### InfoBox (콜아웃)
+
+변형 색상, 인디케이터 바, 아이콘, 선택적 제목, 닫기 버튼을 갖춘 정적 인라인 정보/콜아웃 박스입니다.
+
+```tsx
+import { InfoBox } from '@mbisolution/blumnai-design-system';
+
+<InfoBox variant="info" title="안내">
+  안내 메시지입니다.
+</InfoBox>
+
+<InfoBox variant="warning" closable onClose={() => {}}>
+  닫기 버튼이 있는 경고 메시지입니다.
+</InfoBox>
+
+<InfoBox variant="error">
+  에러 상세 내용입니다.
+</InfoBox>
+```
+
+| Prop | 타입 | 기본값 | 설명 |
+|------|------|--------|------|
+| `variant` | `'default' \| 'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | 색상 변형 |
+| `icon` | `IconType` | 변형별 기본 아이콘 | 기본 아이콘 재정의 |
+| `visible` | `boolean` | `true` | 표시/숨김 |
+| `title` | `ReactNode` | — | 선택적 제목 |
+| `closable` | `boolean` | `false` | 닫기 버튼 표시 |
+| `onClose` | `() => void` | — | 닫기 콜백 |
+| `children` | `ReactNode` | 필수 | 본문 내용 |
+
+### 향상된 Props
+
+#### ConfirmDialog `description` → ReactNode
+
+`description`이 이제 `ReactNode`를 지원합니다 (기존에는 `string`만 가능). 볼드 텍스트 등 스타일링된 텍스트를 사용할 수 있습니다.
+
+```tsx
+<ConfirmDialog
+  title="사용자 삭제"
+  description={<>정말 <strong>홍길동</strong>님을 삭제하시겠습니까?</>}
+/>
+```
+
+#### Select `renderOption`
+
+셀렉트 옵션 항목의 커스텀 렌더링을 지원합니다. 모든 변형(default, avatar, multi-select, tags)에서 동작합니다.
+
+```tsx
+<Select
+  variant="default"
+  options={options}
+  renderOption={(option, isSelected) => (
+    <div className="flex items-center ds-gap-8">
+      <Avatar size="2xs" src={option.avatarSrc} />
+      <span>{option.label}</span>
+      {isSelected && <Icon iconType={['system', 'check']} size={16} />}
+    </div>
+  )}
+/>
+```
+
+#### Select `minWidth`
+
+```tsx
+<Select minWidth={200} options={options} />
+<Select minWidth="15rem" options={options} />
+```
+
+#### Checkbox `size` + `shape`
+
+```tsx
+<Checkbox size="sm" />   {/* 16×16 (기본값) */}
+<Checkbox size="md" />   {/* 20×20 */}
+<Checkbox size="lg" />   {/* 24×24 */}
+
+<Checkbox shape="square" />  {/* 기본값 */}
+<Checkbox shape="round" />   {/* 원형 */}
+```
+
+#### Switch `size`
+
+```tsx
+<Switch size="sm" />   {/* 32×20 트랙 (기본값) */}
+<Switch size="md" />   {/* 40×24 트랙 */}
+<Switch size="lg" />   {/* 48×28 트랙 */}
+```
+
+#### Input `xs` 사이즈
+
+```tsx
+<Input variant="default" size="xs" />  {/* 28px 높이 */}
+<Input variant="default" size="sm" />  {/* 32px 높이 (기본값) */}
+<Input variant="default" size="lg" />  {/* 36px 높이 */}
+```
+
+#### TooltipTrigger `sideOffset` / `alignOffset`
+
+```tsx
+<TooltipTrigger content="툴팁" sideOffset={12} alignOffset={4}>
+  <button>마우스를 올려보세요</button>
+</TooltipTrigger>
+```
+
+| Prop | 타입 | 기본값 |
+|------|------|--------|
+| `sideOffset` | `number` | `8` |
+| `alignOffset` | `number` | `0` |
+
+#### Tooltip `width` / `minWidth`
+
+```tsx
+<TooltipTrigger content="넓은 툴팁" width={300} minWidth={200}>
+  <button>마우스를 올려보세요</button>
+</TooltipTrigger>
+```
+
+#### Dialog `fullScreen`
+
+```tsx
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogContent fullScreen>
+    {/* 모바일용 전체 화면 콘텐츠 */}
+  </DialogContent>
+</Dialog>
+```
+
+#### Pagination `size`
+
+```tsx
+<Pagination size="sm" page={1} totalPages={10} onPageChange={setPage} />
+<Pagination size="lg" page={1} totalPages={10} onPageChange={setPage} />  {/* 기본값 */}
+```
+
+| 사이즈 | 항목 | 점 | 네비게이션 | 텍스트 |
+|--------|------|-----|-----------|--------|
+| `sm` | 28×28 | 8×8 | 28×28 | size-xs |
+| `lg` | 32×32 | 10×10 | 32×32 | size-sm |
+
+#### DataGrid 컬럼 헤더 툴팁
+
+```tsx
+const columns = [
+  {
+    accessorKey: 'name',
+    header: '이름',
+    meta: {
+      headerTooltip: '사용자의 전체 이름',
+    },
+  },
+];
+```
+
+### 새 Export 목록
+
+```ts
+// 새 컴포넌트
+export { InfoBox } from '@mbisolution/blumnai-design-system';
+export type { InfoBoxProps, InfoBoxVariant } from '@mbisolution/blumnai-design-system';
+
+// 새 타입
+export type {
+  CheckboxSize,      // 'sm' | 'md' | 'lg'
+  CheckboxShape,     // 'square' | 'round'
+  SwitchSize,        // 'sm' | 'md' | 'lg'
+  PaginationSize,    // 'sm' | 'lg'
+} from '@mbisolution/blumnai-design-system';
+
+// InputSize에 'xs' 추가: 'xs' | 'sm' | 'lg'
+```

@@ -190,14 +190,100 @@ npm publish
 
 **For team members to install:**
 
-1. Create their own GitHub token (with `read:packages` permission)
-2. Add to `~/.npmrc` (home folder):
-```ini
-//npm.pkg.github.com/:_authToken=ghp_their_token_here
-```
-3. Install:
+**1. Create a GitHub Personal Access Token**
+
+1. Log in to [GitHub.com](https://github.com)
+2. Click your profile icon (top right) → **Settings**
+3. Scroll down the left sidebar → click **Developer settings**
+4. Click **Personal access tokens** → **Tokens (classic)**
+5. Click **Generate new token (classic)**
+6. Note (name): enter `design-system`
+7. **Expiration**: choose your preferred expiry (e.g., 90 days)
+8. Check `read:packages` ✅
+9. Click **Generate token** at the bottom
+10. ⚠️ **Copy the token (starts with `ghp_`) immediately!** You won't be able to see it again after leaving the page.
+
+**2. Create `.npmrc` file in your home folder**
+
+Pick your OS below and follow the instructions.
+Replace `YOUR_TOKEN` with the token you just copied.
+
+> ⚠️ **Renewing a token?** If you already have a `.npmrc` file, running these commands again will add duplicate lines.
+> Delete the old file first, then re-run:
+> - Mac/Linux: `rm ~/.npmrc`
+> - Windows: `Remove-Item "$env:USERPROFILE\.npmrc"`
+
+<details>
+<summary><b>🍎 Mac (macOS) / Linux</b></summary>
+
+Open **Terminal** and run these commands **one at a time**:
+
 ```bash
-npm install @mbisolution/blumnai-design-system
+echo "@mbisolution:registry=https://npm.pkg.github.com" >> ~/.npmrc
+```
+```bash
+echo "//npm.pkg.github.com/:_authToken=YOUR_TOKEN" >> ~/.npmrc
+```
+
+**Verify:** Run `cat ~/.npmrc` — you should see **exactly these 2 lines**:
+```
+@mbisolution:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=ghp_xxxx...
+```
+
+If you see duplicate lines, delete and redo:
+```bash
+rm ~/.npmrc
+```
+Then run the two `echo` commands above again.
+
+</details>
+
+<details>
+<summary><b>🪟 Windows</b></summary>
+
+Open **PowerShell** and run these commands **one at a time**:
+
+```powershell
+Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "@mbisolution:registry=https://npm.pkg.github.com"
+```
+```powershell
+Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "//npm.pkg.github.com/:_authToken=YOUR_TOKEN"
+```
+
+**Verify:** Run `Get-Content "$env:USERPROFILE\.npmrc"` — you should see **exactly these 2 lines**:
+```
+@mbisolution:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=ghp_xxxx...
+```
+
+If you see duplicate lines, delete and redo:
+```powershell
+Remove-Item "$env:USERPROFILE\.npmrc"
+```
+Then run the two `Add-Content` commands above again.
+
+> **Note:** `$env:USERPROFILE` is usually `C:\Users\YourName`.
+
+</details>
+
+**3. Install the package**
+
+In your project folder, run:
+```bash
+npm install @mbisolution/blumnai-design-system --legacy-peer-deps --legacy-peer-deps
+```
+
+**4. Import CSS (required, do this once)**
+
+Add this line to your app's entry file (e.g., `main.tsx`, `App.tsx`, `layout.tsx`):
+```tsx
+import '@mbisolution/blumnai-design-system/styles';
+```
+
+**5. Use components**
+```tsx
+import { Button, Input } from '@mbisolution/blumnai-design-system';
 ```
 
 ---
@@ -302,7 +388,7 @@ jobs:
 2. [ ] Share Storybook URL with team
 3. [ ] Document installation instructions for developers:
    ```bash
-   npm install @mbisolution/blumnai-design-system
+   npm install @mbisolution/blumnai-design-system --legacy-peer-deps
    ```
    ```tsx
    import { Button, Input } from '@mbisolution/blumnai-design-system';
@@ -386,7 +472,7 @@ import '@mbisolution/blumnai-design-system/styles';
 
 ```bash
 # Install
-npm install @mbisolution/blumnai-design-system
+npm install @mbisolution/blumnai-design-system --legacy-peer-deps
 
 # In code
 import { Button, Input, Checkbox } from '@mbisolution/blumnai-design-system';
@@ -403,3 +489,181 @@ function App() {
 - **Create React App** (Webpack)
 - **Remix**
 - **Any React project**
+
+---
+
+## v0.2.34 — Migration Gap Features
+
+12 new features added to support the happytalk-front migration from custom UI / happytalk-design-guide (hdg).
+
+### New Components
+
+#### InfoBox (Callout)
+
+Static inline info/callout box with variant colors, indicator bar, icon, optional title, and close button.
+
+```tsx
+import { InfoBox } from '@mbisolution/blumnai-design-system';
+
+<InfoBox variant="info" title="Information">
+  This is an informational message.
+</InfoBox>
+
+<InfoBox variant="warning" closable onClose={() => {}}>
+  Warning message with close button.
+</InfoBox>
+
+<InfoBox variant="error">
+  Error details here.
+</InfoBox>
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Color variant |
+| `icon` | `IconType` | Per-variant default | Override default icon |
+| `visible` | `boolean` | `true` | Show/hide |
+| `title` | `ReactNode` | — | Optional title |
+| `closable` | `boolean` | `false` | Show close button |
+| `onClose` | `() => void` | — | Close callback |
+| `children` | `ReactNode` | Required | Body content |
+
+### Enhanced Props
+
+#### ConfirmDialog `description` → ReactNode
+
+`description` now accepts `ReactNode` (previously `string` only). Supports styled text like bold names.
+
+```tsx
+<ConfirmDialog
+  title="Delete user"
+  description={<>Are you sure you want to delete <strong>John</strong>?</>}
+/>
+```
+
+#### Select `renderOption`
+
+Custom rendering for select option items. Works with all variants (default, avatar, multi-select, tags).
+
+```tsx
+<Select
+  variant="default"
+  options={options}
+  renderOption={(option, isSelected) => (
+    <div className="flex items-center ds-gap-8">
+      <Avatar size="2xs" src={option.avatarSrc} />
+      <span>{option.label}</span>
+      {isSelected && <Icon iconType={['system', 'check']} size={16} />}
+    </div>
+  )}
+/>
+```
+
+#### Select `minWidth`
+
+```tsx
+<Select minWidth={200} options={options} />
+<Select minWidth="15rem" options={options} />
+```
+
+#### Checkbox `size` + `shape`
+
+```tsx
+<Checkbox size="sm" />   {/* 16×16 (default) */}
+<Checkbox size="md" />   {/* 20×20 */}
+<Checkbox size="lg" />   {/* 24×24 */}
+
+<Checkbox shape="square" />  {/* default */}
+<Checkbox shape="round" />   {/* rounded-full */}
+```
+
+#### Switch `size`
+
+```tsx
+<Switch size="sm" />   {/* 32×20 track (default) */}
+<Switch size="md" />   {/* 40×24 track */}
+<Switch size="lg" />   {/* 48×28 track */}
+```
+
+#### Input `xs` size
+
+```tsx
+<Input variant="default" size="xs" />  {/* 28px height */}
+<Input variant="default" size="sm" />  {/* 32px height (default) */}
+<Input variant="default" size="lg" />  {/* 36px height */}
+```
+
+#### TooltipTrigger `sideOffset` / `alignOffset`
+
+```tsx
+<TooltipTrigger content="Tooltip" sideOffset={12} alignOffset={4}>
+  <button>Hover me</button>
+</TooltipTrigger>
+```
+
+| Prop | Type | Default |
+|------|------|---------|
+| `sideOffset` | `number` | `8` |
+| `alignOffset` | `number` | `0` |
+
+#### Tooltip `width` / `minWidth`
+
+```tsx
+<TooltipTrigger content="Wide tooltip" width={300} minWidth={200}>
+  <button>Hover</button>
+</TooltipTrigger>
+```
+
+#### Dialog `fullScreen`
+
+```tsx
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogContent fullScreen>
+    {/* Full-screen content for mobile */}
+  </DialogContent>
+</Dialog>
+```
+
+#### Pagination `size`
+
+```tsx
+<Pagination size="sm" page={1} totalPages={10} onPageChange={setPage} />
+<Pagination size="lg" page={1} totalPages={10} onPageChange={setPage} />  {/* default */}
+```
+
+| Size | Items | Dots | Nav | Text |
+|------|-------|------|-----|------|
+| `sm` | 28×28 | 8×8 | 28×28 | size-xs |
+| `lg` | 32×32 | 10×10 | 32×32 | size-sm |
+
+#### DataGrid Column Header Tooltip
+
+```tsx
+const columns = [
+  {
+    accessorKey: 'name',
+    header: 'Name',
+    meta: {
+      headerTooltip: 'Full name of the user',
+    },
+  },
+];
+```
+
+### New Exports
+
+```ts
+// New component
+export { InfoBox } from '@mbisolution/blumnai-design-system';
+export type { InfoBoxProps, InfoBoxVariant } from '@mbisolution/blumnai-design-system';
+
+// New types
+export type {
+  CheckboxSize,      // 'sm' | 'md' | 'lg'
+  CheckboxShape,     // 'square' | 'round'
+  SwitchSize,        // 'sm' | 'md' | 'lg'
+  PaginationSize,    // 'sm' | 'lg'
+} from '@mbisolution/blumnai-design-system';
+
+// InputSize now includes 'xs': 'xs' | 'sm' | 'lg'
+```

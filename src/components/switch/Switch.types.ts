@@ -19,6 +19,11 @@ export type SwitchColor =
   | 'pink';
 
 /**
+ * Switch 크기
+ */
+export type SwitchSize = 'sm' | 'md' | 'lg';
+
+/**
  * Switch Props
  */
 export interface SwitchProps
@@ -41,6 +46,11 @@ export interface SwitchProps
    * @default 'green'
    */
   color?: SwitchColor;
+  /**
+   * 스위치 크기
+   * @default 'sm'
+   */
+  size?: SwitchSize;
   /**
    * 로딩 상태 — 스피너를 표시하고 인터랙션을 비활성화합니다
    * @default false

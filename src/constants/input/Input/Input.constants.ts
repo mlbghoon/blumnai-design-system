@@ -7,6 +7,16 @@
 // Size configurations (based on Figma)
 // Figma uses consistent padding regardless of icon presence
 export const SIZE_CONFIG = {
+  xs: {
+    container: 'height-28',
+    padding: 'padding-x-6 padding-y-4',
+    paddingWithLeadIcon: 'padding-x-6 padding-y-4',
+    paddingWithTailIcon: 'padding-x-6 padding-y-4',
+    paddingWithBothIcons: 'padding-x-6 padding-y-4',
+    text: 'size-xs line-height-leading-4',
+    iconSize: 14,
+    gap: 'ds-gap-4',
+  },
   sm: {
     container: 'height-32',
     padding: 'padding-x-8 padding-y-6',

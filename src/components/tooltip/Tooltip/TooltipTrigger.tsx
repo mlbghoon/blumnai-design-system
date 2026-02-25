@@ -54,6 +54,24 @@ export interface TooltipTriggerProps {
    */
   maxWidth?: number;
   /**
+   * 메인 축 오프셋 (px)
+   * @default 8
+   */
+  sideOffset?: number;
+  /**
+   * 크로스 축 오프셋 (px)
+   * @default 0
+   */
+  alignOffset?: number;
+  /**
+   * 툴팁 너비 (px)
+   */
+  width?: number;
+  /**
+   * 툴팁 최소 너비 (px)
+   */
+  minWidth?: number;
+  /**
    * 제어 모드: 열림 상태
    */
   open?: boolean;
@@ -71,6 +89,10 @@ export function TooltipTrigger({
   delay = 200,
   disabled = false,
   maxWidth = 240,
+  sideOffset = 8,
+  alignOffset = 0,
+  width,
+  minWidth,
   open: controlledOpen,
   onOpenChange,
 }: TooltipTriggerProps) {
@@ -98,7 +120,7 @@ export function TooltipTrigger({
   const { floatingStyles } = useFloating({
     open: isOpen && anchor !== null,
     placement,
-    middleware: [offset(8), flip(), shift({ padding: 8 })],
+    middleware: [offset({ mainAxis: sideOffset, crossAxis: alignOffset }), flip(), shift({ padding: 8 })],
     whileElementsMounted: autoUpdate,
     elements: {
       reference: anchor,
@@ -220,7 +242,7 @@ export function TooltipTrigger({
   const isSimpleContent = typeof content === 'string' || typeof content === 'number';
 
   const tooltipContent = isSimpleContent ? (
-    <Tooltip badge={badge} maxWidth={maxWidth}>
+    <Tooltip badge={badge} maxWidth={maxWidth} width={width} minWidth={minWidth}>
       {content}
     </Tooltip>
   ) : (

@@ -2,6 +2,8 @@ import type { HTMLAttributes, ButtonHTMLAttributes } from 'react';
 
 export type PaginationVariant = 'numbered' | 'dot' | 'simple';
 
+export type PaginationSize = 'sm' | 'lg';
+
 export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onChange'> {
   /**
    * 현재 페이지 (1-indexed)
@@ -23,6 +25,12 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
    * @default 'numbered'
    */
   variant?: PaginationVariant;
+
+  /**
+   * 페이지네이션 크기
+   * @default 'lg'
+   */
+  size?: PaginationSize;
 
   /**
    * 최대 표시할 항목 수 (numbered 변형에서만 사용)
@@ -123,6 +131,12 @@ export interface PaginationItemProps extends Omit<ButtonHTMLAttributes<HTMLButto
   variant?: PaginationVariant;
 
   /**
+   * 페이지네이션 크기
+   * @default 'lg'
+   */
+  size?: PaginationSize;
+
+  /**
    * href 속성 (설정 시 a 태그로 렌더링)
    */
   href?: string;
@@ -137,6 +151,12 @@ export interface PaginationNavProps extends Omit<ButtonHTMLAttributes<HTMLButton
    * 방향
    */
   direction: 'prev' | 'next';
+
+  /**
+   * 페이지네이션 크기
+   * @default 'lg'
+   */
+  size?: PaginationSize;
 
   /**
    * href 속성 (설정 시 a 태그로 렌더링)
@@ -154,4 +174,10 @@ export interface PaginationEllipsisProps extends HTMLAttributes<HTMLSpanElement>
    * 클릭 이벤트 핸들러 (설정 시 클릭 가능한 버튼으로 렌더링)
    */
   onClick?: React.MouseEventHandler<HTMLElement>;
+
+  /**
+   * 페이지네이션 크기
+   * @default 'lg'
+   */
+  size?: PaginationSize;
 }

@@ -4,10 +4,16 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { cn } from '@/lib/utils';
 import type { CheckboxProps } from './Checkbox.types';
 
-const CheckIcon = ({ color = 'currentColor' }: { color?: string }) => (
+const CHECKBOX_SIZE_CONFIG = {
+  sm: { box: 'width-16 height-16', checkSize: 8, indeterminateBar: 'width-10 height-2', labelLineHeight: 'height-20' },
+  md: { box: 'width-20 height-20', checkSize: 10, indeterminateBar: 'width-14 height-2', labelLineHeight: 'height-24' },
+  lg: { box: 'width-24 height-24', checkSize: 12, indeterminateBar: 'width-16 height-2', labelLineHeight: 'height-28' },
+} as const;
+
+const CheckIcon = ({ color = 'currentColor', size = 8 }: { color?: string; size?: number }) => (
   <svg
-    width="8"
-    height="8"
+    width={size}
+    height={size}
     viewBox="0 0 8 8"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -22,9 +28,9 @@ const CheckIcon = ({ color = 'currentColor' }: { color?: string }) => (
   </svg>
 );
 
-const IndeterminateIcon = ({ color = 'currentColor' }: { color?: string }) => (
+const IndeterminateIcon = ({ color = 'currentColor', className }: { color?: string; className?: string }) => (
   <div
-    className="width-10 height-2"
+    className={className}
     style={{ backgroundColor: color }}
   />
 );
@@ -40,9 +46,10 @@ const IndeterminateIcon = ({ color = 'currentColor' }: { color?: string }) => (
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   CheckboxProps
->(({ className, label, description, checkboxPosition = 'left', checkboxStyle = 'default', disabled, checked, onCheckedChange, ...props }, ref) => {
+>(({ className, label, description, checkboxPosition = 'left', checkboxStyle = 'default', size = 'sm', shape = 'square', disabled, checked, onCheckedChange, ...props }, ref) => {
   const isChecked = checked === true || checked === 'indeterminate';
   const isIndeterminate = checked === 'indeterminate';
+  const sizeConfig = CHECKBOX_SIZE_CONFIG[size];
 
   const shadowEffects = checkboxStyle === 'with-shadow' && !isChecked && !disabled
     ? 'shadow-[inset_0_-1px_0_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04)]'
@@ -60,8 +67,8 @@ const Checkbox = React.forwardRef<
       onCheckedChange={onCheckedChange}
       className={cn(
         'peer relative shrink-0 group',
-        'width-16 height-16',
-        'rounded-default',
+        sizeConfig.box,
+        shape === 'round' ? 'rounded-full' : 'rounded-default',
         'overflow-hidden',
         'transition-colors',
         'focus-visible:outline-none focus-visible:shadow-component-focus',
@@ -83,9 +90,9 @@ const Checkbox = React.forwardRef<
       )}
       <CheckboxPrimitive.Indicator className="absolute flex items-center justify-center" style={{ inset: '1px' }}>
         {isIndeterminate ? (
-          <IndeterminateIcon color={iconColor} />
+          <IndeterminateIcon color={iconColor} className={sizeConfig.indeterminateBar} />
         ) : (
-          <CheckIcon color={iconColor} />
+          <CheckIcon color={iconColor} size={sizeConfig.checkSize} />
         )}
       </CheckboxPrimitive.Indicator>
       {!disabled && !isChecked && (
@@ -93,7 +100,7 @@ const Checkbox = React.forwardRef<
           className="absolute flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
           style={{ inset: '1px' }}
         >
-          <CheckIcon color="var(--icon-default-disabled)" />
+          <CheckIcon color="var(--icon-default-disabled)" size={sizeConfig.checkSize} />
         </div>
       )}
     </CheckboxPrimitive.Root>
@@ -111,7 +118,7 @@ const Checkbox = React.forwardRef<
         disabled ? 'cursor-not-allowed' : 'cursor-pointer'
       )}
     >
-      <div className="height-20 flex items-center shrink-0">
+      <div className={cn(sizeConfig.labelLineHeight, 'flex items-center shrink-0')}>
         {checkboxElement}
       </div>
       <div className="flex flex-col ds-gap-4">

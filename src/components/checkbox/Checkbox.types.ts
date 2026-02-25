@@ -12,6 +12,16 @@ export type CheckboxStyle = 'default' | 'with-shadow';
 export type CheckboxPosition = 'left' | 'right' | 'off';
 
 /**
+ * Checkbox 크기
+ */
+export type CheckboxSize = 'sm' | 'md' | 'lg';
+
+/**
+ * Checkbox 모양
+ */
+export type CheckboxShape = 'square' | 'round';
+
+/**
  * Checkbox Props
  */
 export interface CheckboxProps
@@ -34,4 +44,14 @@ export interface CheckboxProps
    * @default 'default'
    */
   checkboxStyle?: CheckboxStyle;
+  /**
+   * 체크박스 크기
+   * @default 'sm'
+   */
+  size?: CheckboxSize;
+  /**
+   * 체크박스 모양
+   * @default 'square'
+   */
+  shape?: CheckboxShape;
 }

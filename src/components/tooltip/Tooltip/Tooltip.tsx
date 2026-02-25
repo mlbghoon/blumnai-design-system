@@ -17,6 +17,8 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(({
   children,
   badge,
   maxWidth = 240,
+  width,
+  minWidth,
   style,
   ...props
 }, ref) => {
@@ -31,7 +33,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(({
         'inline-flex items-center justify-center ds-gap-2',
         className
       )}
-      style={{ maxWidth, ...style }}
+      style={{ maxWidth, width, minWidth, ...style }}
       role="tooltip"
       {...props}
     >

@@ -152,6 +152,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
       totalPages,
       onPageChange,
       variant = 'numbered',
+      size = 'lg',
       maxVisiblePages = 7,
       siblingCount,
       boundaryCount = 1,
@@ -273,6 +274,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
               {showFirstLastButtons && variant === 'numbered' && (
                 <PaginationNav
                   direction="prev"
+                  size={size}
                   disabled={disabled || !hasPreviousPage}
                   onClick={() => handlePageChange(1)}
                   aria-label="첫 페이지"
@@ -283,6 +285,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
               {!hideNavButtons && (
                 <PaginationNav
                   direction="prev"
+                  size={size}
                   disabled={disabled || !hasPreviousPage}
                   onClick={() => handlePageChange(page - 1)}
                   href={getPageHref && hasPreviousPage ? getPageHref(page - 1) : undefined}
@@ -300,6 +303,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
                       typeof pageNum === 'string' ? (
                         <PaginationEllipsis
                           key={pageNum}
+                          size={size}
                           onClick={
                             ellipsisJump
                               ? () => {
@@ -314,6 +318,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
                         <PaginationItem
                           key={pageNum}
                           variant="numbered"
+                          size={size}
                           isActive={pageNum === page}
                           disabled={disabled}
                           onClick={() => handlePageChange(pageNum)}
@@ -327,6 +332,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
                       <PaginationItem
                         key={dotPage}
                         variant="dot"
+                        size={size}
                         isActive={dotPage === page}
                         disabled={disabled}
                         onClick={() => handlePageChange(dotPage)}
@@ -340,6 +346,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
               {!hideNavButtons && (
                 <PaginationNav
                   direction="next"
+                  size={size}
                   disabled={disabled || !hasNextPage}
                   onClick={() => handlePageChange(page + 1)}
                   href={getPageHref && hasNextPage ? getPageHref(page + 1) : undefined}
@@ -349,6 +356,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
               {showFirstLastButtons && variant === 'numbered' && (
                 <PaginationNav
                   direction="next"
+                  size={size}
                   disabled={disabled || !hasNextPage}
                   onClick={() => handlePageChange(totalPages)}
                   aria-label="마지막 페이지"

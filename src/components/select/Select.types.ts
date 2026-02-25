@@ -120,6 +120,10 @@ export interface SelectBaseProps {
    */
   width?: string | number;
   /**
+   * Select 컨테이너의 최소 너비 (숫자는 px, 문자열은 그대로 사용)
+   */
+  minWidth?: string | number;
+  /**
    * 비활성화 여부
    * @default false
    */
@@ -186,6 +190,10 @@ export interface SelectBaseProps {
    * `options`와 함께 사용하여 그룹별로 옵션을 구분합니다.
    */
   optionGroups?: SelectOptionGroup[];
+  /**
+   * 옵션 아이템의 커스텀 렌더링 함수
+   */
+  renderOption?: (option: SelectOption, isSelected: boolean) => ReactNode;
 }
 
 /**

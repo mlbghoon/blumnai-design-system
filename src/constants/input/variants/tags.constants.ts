@@ -10,6 +10,12 @@ export const TAG_BASE = 'inline-flex items-center rounded-xs transition-colors b
 // Tag size configurations
 // 태그 크기는 입력 필드 크기와 관계없이 동일 (Figma 기준: height 20px, fontSize 12px)
 export const TAG_SIZE_CONFIG = {
+  xs: {
+    container: 'height-20 padding-x-2 ds-gap-0',
+    text: 'size-xs line-height-leading-4 padding-x-4',
+    closeButton: 'width-16 height-16',
+    iconSize: 14,
+  },
   sm: {
     container: 'height-20 padding-x-2 ds-gap-0',
     text: 'size-xs line-height-leading-4 padding-x-4',

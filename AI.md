@@ -76,6 +76,7 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | Modal dialog | `Dialog` | `<Dialog><DialogContent>...</DialogContent></Dialog>` |
 | Confirmation popup | `AlertDialog` | `<AlertDialog title="Sure?" onConfirm={...} />` |
 | Simple confirm/cancel | `ConfirmDialog` | `<ConfirmDialog title="Delete?" onConfirm={...} />` |
+| Info/callout box | `InfoBox` | `<InfoBox variant="info" title="Note">Message</InfoBox>` |
 | Toast notification | `toast()` | `toast.success("Saved!")` |
 | Tooltip | `TooltipTrigger` | `<TooltipTrigger content="Help text"><Button>?</Button></TooltipTrigger>` |
 | Tabs | `Tabs` | `<Tabs><TabsList>...</TabsList></Tabs>` |
@@ -167,6 +168,7 @@ import { Input } from '@mbisolution/blumnai-design-system/input';
 | `Dialog` | Modal for complex content |
 | `AlertDialog` | Confirmation with icon and actions |
 | `ConfirmDialog` | Simple yes/no confirmation |
+| `InfoBox` | Static inline info/callout box |
 | `toast()` | Temporary notifications |
 | `TooltipTrigger` | Hover help text |
 | `Popover` | Click-triggered floating content |
@@ -367,7 +369,7 @@ import { Input } from '@mbisolution/blumnai-design-system';
 |------|------|---------|-------------|
 | `variant` | `'default'` `'password'` `'quantity'` `'quantity-2'` `'tags'` `'inline-tags'` `'addon'` `'inline-addon'` `'shortcut'` `'lead-button'` `'tail-button'` `'lead-dropdown'` `'tail-dropdown'` | `'default'` | Input type |
 | `inputStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
-| `size` | `'sm'` `'lg'` | `'sm'` | Input size |
+| `size` | `'xs'` `'sm'` `'lg'` | `'sm'` | Input size (xs=28px, sm=32px, lg=36px) |
 | `label` | `string` | - | Label text |
 | `placeholder` | `string` | - | Placeholder text |
 | `required` | `boolean` | `false` | Show required indicator |
@@ -539,6 +541,8 @@ import { Select } from '@mbisolution/blumnai-design-system';
 | `open` | `boolean` | - | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
 | `maxHeight` | `number \| string` | `300` | Dropdown max height |
+| `renderOption` | `(option: SelectOption, isSelected: boolean) => ReactNode` | - | Custom option rendering |
+| `minWidth` | `string \| number` | - | Minimum width of select trigger |
 
 #### variant="default"
 
@@ -648,6 +652,8 @@ import { Checkbox } from '@mbisolution/blumnai-design-system';
 | `disabled` | `boolean` | `false` | Disabled state |
 | `checkboxStyle` | `'default'` `'with-shadow'` | `'default'` | Visual style |
 | `checkboxPosition` | `'left'` `'right'` `'off'` | `'left'` | Checkbox position |
+| `size` | `'sm'` `'md'` `'lg'` | `'sm'` | Checkbox size (sm=16px, md=20px, lg=24px) |
+| `shape` | `'square'` `'round'` | `'square'` | Checkbox shape |
 
 ### CheckboxList
 
@@ -698,6 +704,7 @@ import { Switch } from '@mbisolution/blumnai-design-system';
 | `disabled` | `boolean` | `false` | Disabled state |
 | `switchPosition` | `'left'` `'right'` | `'left'` | Switch position |
 | `color` | `'green'` `'blue'` `'red'` `'orange'` `'violet'` `'cyan'` `'pink'` | `'green'` | Active color |
+| `size` | `'sm'` `'md'` `'lg'` | `'sm'` | Switch size (sm=32×20, md=40×24, lg=48×28) |
 
 ### SwitchList
 
@@ -768,7 +775,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 
 **Dialog**: `open`, `onOpenChange`, `modal`
 
-**DialogContent**: `hideCloseButton`, `disableEscapeClose`, `disableOutsideClose`, `width` (string|number)
+**DialogContent**: `hideCloseButton`, `disableEscapeClose`, `disableOutsideClose`, `width` (string|number), `fullScreen` (boolean — full viewport modal)
 
 **DialogHeader**, **DialogFooter**: Layout wrappers (`HTMLAttributes<HTMLDivElement>`)
 
@@ -787,7 +794,7 @@ import { ConfirmDialog } from '@mbisolution/blumnai-design-system';
 | `open` | `boolean` | - | Open state |
 | `onOpenChange` | `(open: boolean) => void` | - | Open change callback |
 | `title` | `string` | required | Title text |
-| `description` | `string` | - | Description text |
+| `description` | `ReactNode` | - | Description (supports styled text) |
 | `variant` | `'default'` `'destructive'` | `'default'` | Confirm button style |
 | `confirmLabel` | `string` | `'확인'` | Confirm button text |
 | `cancelLabel` | `string` | `'취소'` | Cancel button text |
@@ -826,6 +833,30 @@ import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, 
 **AlertDialogTitle**, **AlertDialogDescription**: Radix AlertDialog primitives for accessibility
 
 **AlertDialogAction**, **AlertDialogCancel**: Radix AlertDialog primitives + `asChild`
+
+### InfoBox
+
+```tsx
+import { InfoBox } from '@mbisolution/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'default'` `'info'` `'success'` `'warning'` `'error'` | `'info'` | Color variant |
+| `icon` | `IconType` | Per-variant default | Override default icon |
+| `visible` | `boolean` | `true` | Show/hide |
+| `title` | `ReactNode` | - | Optional title |
+| `closable` | `boolean` | `false` | Show close button |
+| `onClose` | `() => void` | - | Close callback |
+| `children` | `ReactNode` | required | Body content |
+
+```tsx
+<InfoBox variant="info" title="안내">메시지 내용</InfoBox>
+<InfoBox variant="warning" closable onClose={() => {}}>경고 메시지</InfoBox>
+<InfoBox variant="error">에러 상세 내용</InfoBox>
+```
+
+> ARIA: `role="status"` for default/info/success, `role="alert"` for warning/error. Uses same color palette as Toast.
 
 ### Toast
 
@@ -966,6 +997,7 @@ import type { ColumnDef } from '@mbisolution/blumnai-design-system';
 | `width` | `string` | CSS Grid width (e.g., `'1fr'`, `'minmax(100px, 1fr)'`) |
 | `align` | `'left'` `'center'` `'right'` | Cell text alignment |
 | `sticky` | `boolean \| 'left'` | Sticky column |
+| `headerTooltip` | `ReactNode` | Tooltip shown on column header hover |
 
 ```tsx
 const columns: ColumnDef<User>[] = [
@@ -1267,6 +1299,10 @@ import { TooltipTrigger } from '@mbisolution/blumnai-design-system';
 | `delay` | `number` | `200` | Hover delay in ms |
 | `disabled` | `boolean` | `false` | Disable tooltip |
 | `maxWidth` | `number` | `240` | Max width in px |
+| `width` | `number` | - | Fixed width in px |
+| `minWidth` | `number` | - | Min width in px |
+| `sideOffset` | `number` | `8` | Distance from trigger (main axis) |
+| `alignOffset` | `number` | `0` | Cross-axis offset |
 | `badge` | `string` | - | Badge text inside tooltip |
 | `open` | `boolean` | - | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | - | Open change callback |
@@ -1577,6 +1613,7 @@ import { Pagination } from '@mbisolution/blumnai-design-system';
 | `resultTextFormatter` | `(current, total) => string` | - | Custom result text (simple variant) |
 | `prevText` | `string` | `'Prev'` | Previous button text (simple variant) |
 | `nextText` | `string` | `'Next'` | Next button text (simple variant) |
+| `size` | `'sm'` `'lg'` | `'lg'` | Pagination size (sm=28px items, lg=32px items) |
 
 ### Card
 

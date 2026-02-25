@@ -24,6 +24,10 @@ declare module '@tanstack/react-table' {
      * 수평 스크롤 시 컬럼 고정 여부
      */
     sticky?: boolean | 'left';
+    /**
+     * 컬럼 헤더에 표시할 툴팁
+     */
+    headerTooltip?: ReactNode;
     _unused?: [TData, TValue];
   }
 }

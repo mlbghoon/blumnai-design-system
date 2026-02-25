@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export type ConfirmDialogVariant = 'default' | 'destructive';
 
 export interface ConfirmDialogProps {
@@ -8,7 +10,7 @@ export interface ConfirmDialogProps {
   /** 다이얼로그 제목 */
   title: string;
   /** 다이얼로그 설명 (선택) */
-  description?: string;
+  description?: ReactNode;
   /** 확인 버튼 텍스트 @default '확인' */
   confirmLabel?: string;
   /** 취소 버튼 텍스트 @default '취소' */

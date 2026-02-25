@@ -4,13 +4,17 @@ import { cn } from '@/lib/utils';
 import type { PaginationItemProps } from '../Pagination.types';
 
 export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>(
-  ({ className, isActive, variant = 'numbered', disabled, href, children, onClick, ...props }, ref) => {
+  ({ className, isActive, variant = 'numbered', size = 'lg', disabled, href, children, onClick, ...props }, ref) => {
+    const numberedSize = size === 'sm' ? 'width-28 height-28' : 'width-32 height-32';
+    const textSize = size === 'sm' ? 'size-xs' : 'size-sm';
+    const dotSize = size === 'sm' ? 'width-8 height-8' : 'width-10 height-10';
+
     const baseStyles =
       variant === 'numbered'
         ? cn(
-            'width-32 height-32 rounded-sm',
+            numberedSize, 'rounded-sm',
             'flex items-center justify-center',
-            'font-body size-sm font-medium line-height-leading-5',
+            `font-body ${textSize} font-medium line-height-leading-5`,
             'transition-colors',
             isActive
               ? 'border-solid border-[1px] border-[color:var(--bg-basic-blue-accent)] text-basic-blue-strong'
@@ -21,7 +25,7 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
             className
           )
         : cn(
-            'width-10 height-10 rounded-full',
+            dotSize, 'rounded-full',
             'transition-colors',
             isActive
               ? 'bg-basic-blue-accent'

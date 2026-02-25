@@ -12,7 +12,7 @@ export type InputStyle = 'default' | 'shadow' | 'soft';
 /**
  * 입력 필드 크기 변형
  */
-export type InputSize = 'sm' | 'lg';
+export type InputSize = 'xs' | 'sm' | 'lg';
 
 /**
  * 입력 필드 변형 타입

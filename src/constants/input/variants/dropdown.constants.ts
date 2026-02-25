@@ -25,6 +25,10 @@ export const DROPDOWN_OPTION_SELECTED = 'bg-state-soft' as const;
 
 // Size-specific configurations
 export const DROPDOWN_SIZE_CONFIG = {
+  xs: {
+    triggerPadding: 'padding-x-6 padding-y-4',
+    iconSize: 14,
+  },
   sm: {
     triggerPadding: 'padding-x-8 padding-y-6',
     iconSize: 16,

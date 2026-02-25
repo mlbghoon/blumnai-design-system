@@ -148,6 +148,8 @@ export type {
   CheckboxProps,
   CheckboxStyle,
   CheckboxPosition,
+  CheckboxSize,
+  CheckboxShape,
   CheckboxCardProps,
   CheckboxCardBackground,
   CheckboxCardLayout,
@@ -183,6 +185,7 @@ export type {
   SwitchProps,
   SwitchPosition,
   SwitchColor,
+  SwitchSize,
   SwitchListProps,
   SwitchListStyle,
   SwitchListItem,
@@ -338,6 +341,9 @@ export type {
 export { toast, ToastContent, BlumnaiToaster } from './components/toast';
 export type { ToastContentProps, ToastOptions, ToastVariant, BlumnaiToasterProps, ToastAction } from './components/toast';
 
+export { InfoBox } from './components/info-box';
+export type { InfoBoxProps, InfoBoxVariant } from './components/info-box';
+
 export {
   Tooltip,
   TooltipTrigger,
@@ -383,6 +389,7 @@ export type {
   PaginationNavProps,
   PaginationEllipsisProps,
   PaginationVariant,
+  PaginationSize,
 } from './components/pagination';
 
 export {

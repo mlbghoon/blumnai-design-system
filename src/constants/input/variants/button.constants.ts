@@ -16,6 +16,14 @@
 
 // Size-specific configurations
 export const BUTTON_SIZE_CONFIG = {
+  xs: {
+    container: 'height-28',
+    inputPadding: 'padding-6',
+    inputGap: 'ds-gap-4',
+    buttonPadding: 'padding-x-8 padding-y-4',
+    buttonGap: 'ds-gap-4',
+    iconSize: 14,
+  },
   sm: {
     // Container height
     container: 'height-32',

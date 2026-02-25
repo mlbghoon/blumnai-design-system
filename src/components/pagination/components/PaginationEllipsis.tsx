@@ -4,8 +4,10 @@ import { cn } from '@/lib/utils';
 import type { PaginationEllipsisProps } from '../Pagination.types';
 
 export const PaginationEllipsis = forwardRef<HTMLSpanElement, PaginationEllipsisProps>(
-  ({ className, onClick, ...props }, ref) => {
+  ({ className, onClick, size = 'lg', ...props }, ref) => {
     const isClickable = !!onClick;
+    const ellipsisSize = size === 'sm' ? 'width-28 height-28' : 'width-32 height-32';
+    const textSize = size === 'sm' ? 'size-xs' : 'size-sm';
 
     return (
       <span
@@ -15,9 +17,9 @@ export const PaginationEllipsis = forwardRef<HTMLSpanElement, PaginationEllipsis
         aria-hidden={isClickable ? undefined : true}
         aria-label={isClickable ? '페이지 건너뛰기' : undefined}
         className={cn(
-          'width-32 height-32',
+          ellipsisSize,
           'flex items-center justify-center',
-          'font-body size-sm font-medium line-height-leading-5',
+          `font-body ${textSize} font-medium line-height-leading-5`,
           'text-hint',
           isClickable && 'cursor-pointer hover:bg-state-ghost-hover hover:text-muted rounded-sm transition-colors',
           className

@@ -1,5 +1,5 @@
 export { Switch } from './Switch';
-export type { SwitchProps, SwitchPosition, SwitchColor } from './Switch.types';
+export type { SwitchProps, SwitchPosition, SwitchColor, SwitchSize } from './Switch.types';
 
 export { SwitchList } from './SwitchList';
 export type {

@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.2.34] - 2026-02-25
+
+### Added
+
+- **InfoBox**: 새 컴포넌트 — 인라인 정보/콜아웃 박스 (`variant`: default, info, success, warning, error)
+  - 인디케이터 바, 아이콘, 선택적 제목, 닫기 버튼 지원
+  - Toast와 동일한 시맨틱 색상 팔레트 재사용
+  - `role="status"` (info/success/default), `role="alert"` (warning/error) 접근성 지원
+- Checkbox: `size` prop 추가 (`'sm'` | `'md'` | `'lg'`, 기본값 `'sm'`)
+- Checkbox: `shape` prop 추가 (`'square'` | `'round'`, 기본값 `'square'`)
+- Switch: `size` prop 추가 (`'sm'` | `'md'` | `'lg'`, 기본값 `'sm'`)
+- Input: `'xs'` 사이즈 추가 (28px 높이) — `InputSize`에 `'xs'` 포함
+- Select: `renderOption` prop 추가 — 드롭다운 옵션 커스텀 렌더링 (모든 variant 지원)
+- Select: `minWidth` prop 추가 (`string | number`)
+- TooltipTrigger: `sideOffset` (기본값 8), `alignOffset` (기본값 0) prop 추가
+- TooltipTrigger / Tooltip: `width`, `minWidth` prop 추가
+- Dialog: `fullScreen` prop 추가 — 전체 화면 모달 (모바일용)
+- Pagination: `size` prop 추가 (`'sm'` | `'lg'`, 기본값 `'lg'`)
+- DataGrid: `ColumnMeta`에 `headerTooltip` prop 추가 — 컬럼 헤더 툴팁
+
+### Changed
+
+- ConfirmDialog: `description` 타입 `string` → `ReactNode` (하위 호환)
+
+### New Exports
+
+- `InfoBox`, `InfoBoxProps`, `InfoBoxVariant`
+- `CheckboxSize`, `CheckboxShape`
+- `SwitchSize`
+- `PaginationSize`
+
 ## [0.2.31] - 2026-02-23
 
 ### Added

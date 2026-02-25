@@ -48,6 +48,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         onOpenChange={multiProps.onOpenChange}
         maxHeight={multiProps.maxHeight}
         width={multiProps.width}
+        minWidth={multiProps.minWidth}
         className={multiProps.className}
         maxSelections={multiProps.maxSelections}
         selectedText={multiProps.selectedText}
@@ -56,6 +57,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         clearable={multiProps.clearable}
         loading={multiProps.loading}
         optionGroups={multiProps.optionGroups}
+        renderOption={multiProps.renderOption}
       />
     );
   }
@@ -87,6 +89,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         onOpenChange={tagsProps.onOpenChange}
         maxHeight={tagsProps.maxHeight}
         width={tagsProps.width}
+        minWidth={tagsProps.minWidth}
         className={tagsProps.className}
         maxSelections={tagsProps.maxSelections}
         maxVisibleTags={tagsProps.maxVisibleTags}
@@ -94,6 +97,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         clearable={tagsProps.clearable}
         loading={tagsProps.loading}
         optionGroups={tagsProps.optionGroups}
+        renderOption={tagsProps.renderOption}
       />
     );
   }
@@ -126,10 +130,12 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         onOpenChange={avatarProps.onOpenChange}
         maxHeight={avatarProps.maxHeight}
         width={avatarProps.width}
+        minWidth={avatarProps.minWidth}
         className={avatarProps.className}
         clearable={avatarProps.clearable}
         loading={avatarProps.loading}
         optionGroups={avatarProps.optionGroups}
+        renderOption={avatarProps.renderOption}
       />
     );
   }
@@ -161,11 +167,13 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
       onOpenChange={defaultProps.onOpenChange}
       maxHeight={defaultProps.maxHeight}
       width={defaultProps.width}
+      minWidth={defaultProps.minWidth}
       className={defaultProps.className}
       selectType={defaultProps.selectType}
       clearable={defaultProps.clearable}
       loading={defaultProps.loading}
       optionGroups={defaultProps.optionGroups}
+      renderOption={defaultProps.renderOption}
     />
   );
 });

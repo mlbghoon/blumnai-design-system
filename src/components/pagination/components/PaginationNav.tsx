@@ -6,7 +6,7 @@ import type { IconType } from '../../icons/Icon/Icon.types';
 import type { PaginationNavProps } from '../Pagination.types';
 
 export const PaginationNav = forwardRef<HTMLButtonElement, PaginationNavProps>(
-  ({ className, direction, disabled, href, onClick, iconOverride, ...props }, ref) => {
+  ({ className, direction, size = 'lg', disabled, href, onClick, iconOverride, ...props }, ref) => {
     const iconType: IconType = iconOverride
       ? (iconOverride as IconType)
       : direction === 'prev'
@@ -14,9 +14,11 @@ export const PaginationNav = forwardRef<HTMLButtonElement, PaginationNavProps>(
         : ['arrows', 'arrow-right-s'];
 
     const ariaLabel = direction === 'prev' ? '이전 페이지' : '다음 페이지';
+    const navSize = size === 'sm' ? 'width-28 height-28' : 'width-32 height-32';
+    const iconSize = size === 'sm' ? 16 : 20;
 
     const baseStyles = cn(
-      'width-32 height-32 rounded-sm',
+      navSize, 'rounded-sm',
       'flex items-center justify-center',
       'transition-colors',
       disabled
@@ -28,7 +30,7 @@ export const PaginationNav = forwardRef<HTMLButtonElement, PaginationNavProps>(
     const iconElement = (
       <Icon
         iconType={iconType}
-        size={20}
+        size={iconSize}
         className={cn(disabled ? 'text-hint' : 'text-subtle')}
       />
     );

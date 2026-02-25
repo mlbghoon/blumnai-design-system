@@ -8,4 +8,5 @@ export type {
   PaginationNavProps,
   PaginationEllipsisProps,
   PaginationVariant,
+  PaginationSize,
 } from './Pagination.types';

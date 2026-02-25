@@ -4,6 +4,33 @@ import * as SwitchPrimitive from '@radix-ui/react-switch';
 import { cn } from '@/lib/utils';
 import type { SwitchColor, SwitchProps } from './Switch.types';
 
+const SWITCH_SIZE_CONFIG = {
+  sm: {
+    track: 'width-32 height-20',
+    thumb: 'width-14 height-14',
+    translateOff: 'translate-x-[3px]',
+    translateOn: 'data-[state=checked]:translate-x-[15px]',
+    spinnerSize: 'width-10 height-10',
+    labelLineHeight: 'height-20',
+  },
+  md: {
+    track: 'width-40 height-24',
+    thumb: 'width-20 height-20',
+    translateOff: 'translate-x-[2px]',
+    translateOn: 'data-[state=checked]:translate-x-[18px]',
+    spinnerSize: 'width-14 height-14',
+    labelLineHeight: 'height-24',
+  },
+  lg: {
+    track: 'width-48 height-28',
+    thumb: 'width-24 height-24',
+    translateOff: 'translate-x-[2px]',
+    translateOn: 'data-[state=checked]:translate-x-[22px]',
+    spinnerSize: 'width-16 height-16',
+    labelLineHeight: 'height-28',
+  },
+} as const;
+
 const getActiveStyle = (color: SwitchColor, disabled: boolean): React.CSSProperties | undefined => {
   if (color === 'green') {
     return undefined;
@@ -21,9 +48,9 @@ const getActiveHoverStyle = (color: SwitchColor): React.CSSProperties | undefine
   return { backgroundColor: `var(--bg-basic-${color}-strong)` };
 };
 
-const LoadingSpinner = () => (
+const LoadingSpinner = ({ className }: { className?: string }) => (
   <svg
-    className="animate-spin width-10 height-10 text-muted"
+    className={cn('animate-spin text-muted', className)}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
@@ -45,11 +72,12 @@ const LoadingSpinner = () => (
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Root>,
   SwitchProps
->(({ className, label, description, switchPosition = 'left', color = 'green', disabled, loading = false, checked, onCheckedChange, 'aria-describedby': ariaDescribedBy, ...props }, ref) => {
+>(({ className, label, description, switchPosition = 'left', color = 'green', size = 'sm', disabled, loading = false, checked, onCheckedChange, 'aria-describedby': ariaDescribedBy, ...props }, ref) => {
   const descriptionId = React.useId();
   const [isHovered, setIsHovered] = React.useState(false);
   const isGreen = color === 'green';
   const isDisabled = disabled || loading;
+  const sizeConfig = SWITCH_SIZE_CONFIG[size];
 
   const getTrackStyle = (): React.CSSProperties | undefined => {
     if (!checked) return undefined;
@@ -72,7 +100,7 @@ const Switch = React.forwardRef<
       aria-busy={loading || undefined}
       className={cn(
         'peer relative inline-flex items-center shrink-0',
-        'width-32 height-20',
+        sizeConfig.track,
         'rounded-full cursor-pointer transition-colors',
         'focus-visible:outline-none focus-visible:shadow-component-misc-focus',
         isDisabled
@@ -88,17 +116,19 @@ const Switch = React.forwardRef<
     >
       {loading ? (
         <span className="absolute inset-0 flex items-center justify-center">
-          <LoadingSpinner />
+          <LoadingSpinner className={sizeConfig.spinnerSize} />
         </span>
       ) : (
         <SwitchPrimitive.Thumb
           className={cn(
-            'pointer-events-none block width-14 height-14 rounded-full',
+            'pointer-events-none block rounded-full',
+            sizeConfig.thumb,
             'transition-transform duration-200',
             'motion-reduce:transition-none',
             isDisabled ? 'bg-switch-handle-disabled' : 'bg-switch-handle',
             !isDisabled && 'shadow-[0_1px_3px_rgba(0,0,0,0.08),0_1px_2px_-1px_rgba(0,0,0,0.08)]',
-            'translate-x-[3px] data-[state=checked]:translate-x-[15px]'
+            sizeConfig.translateOff,
+            sizeConfig.translateOn
           )}
         />
       )}
@@ -117,7 +147,7 @@ const Switch = React.forwardRef<
         isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'
       )}
     >
-      <div className="height-20 flex items-center shrink-0">
+      <div className={cn(sizeConfig.labelLineHeight, 'flex items-center shrink-0')}>
         {switchElement}
       </div>
       <div className="flex flex-col ds-gap-4">

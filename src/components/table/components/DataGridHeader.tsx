@@ -6,6 +6,7 @@ import { CSS } from '@dnd-kit/utilities';
 
 import { cn } from '@/lib/utils';
 import { Icon } from '../../icons/Icon';
+import { TooltipTrigger } from '../../tooltip';
 import { DndContext } from '../../dnd';
 import type { StickyColumnInfo } from '../utils/stickyColumnUtils';
 
@@ -30,6 +31,7 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: D
   const sortDirection = header.column.getIsSorted();
   const sortIndex = header.column.getSortIndex();
   const align = header.column.columnDef.meta?.align ?? 'left';
+  const headerTooltip = header.column.columnDef.meta?.headerTooltip;
 
   const getSortIcon = () => {
     if (!sortDirection) return 'expand-up-down';
@@ -37,6 +39,14 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: D
   };
 
   const isSticky = !!stickyInfo;
+
+  const headerContent = (
+    <span className="truncate">
+      {header.isPlaceholder
+        ? null
+        : render(header.column.columnDef.header, header.getContext())}
+    </span>
+  );
 
   return (
     <div
@@ -65,11 +75,13 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: D
             : undefined
       }
     >
-      <span className="truncate">
-        {header.isPlaceholder
-          ? null
-          : render(header.column.columnDef.header, header.getContext())}
-      </span>
+      {headerTooltip ? (
+        <TooltipTrigger content={headerTooltip} placement="top">
+          {headerContent}
+        </TooltipTrigger>
+      ) : (
+        headerContent
+      )}
       {canSort && (
         <div className="flex items-center ds-gap-1 shrink-0">
           <Icon
@@ -115,6 +127,7 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: S
   const sortDirection = header.column.getIsSorted();
   const sortIndex = header.column.getSortIndex();
   const align = header.column.columnDef.meta?.align ?? 'left';
+  const headerTooltip = header.column.columnDef.meta?.headerTooltip;
 
   const getSortIcon = () => {
     if (!sortDirection) return 'expand-up-down';
@@ -129,6 +142,14 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: S
     transform: CSS.Translate.toString(transform),
     transition,
   };
+
+  const headerContent = (
+    <span className="truncate">
+      {header.isPlaceholder
+        ? null
+        : render(header.column.columnDef.header, header.getContext())}
+    </span>
+  );
 
   return (
     <div
@@ -164,11 +185,13 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: S
           className="shrink-0 text-hint"
         />
       )}
-      <span className="truncate">
-        {header.isPlaceholder
-          ? null
-          : render(header.column.columnDef.header, header.getContext())}
-      </span>
+      {headerTooltip ? (
+        <TooltipTrigger content={headerTooltip} placement="top">
+          {headerContent}
+        </TooltipTrigger>
+      ) : (
+        headerContent
+      )}
       {canSort && (
         <div className="flex items-center ds-gap-1 shrink-0">
           <Icon

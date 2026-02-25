@@ -20,6 +20,12 @@ export const INLINE_ADDON_STYLE = 'font-body size-sm line-height-leading-5 lette
 
 // Size-specific configurations for add-on
 export const ADDON_SIZE_CONFIG = {
+  xs: {
+    addOnPadding: 'padding-x-10 padding-y-4',
+    inputPadding: 'padding-x-6 padding-y-4',
+    prefixBorder: 'border-r-darker',
+    suffixBorder: 'border-l-darker',
+  },
   sm: {
     // Add-on section: 12px horizontal padding (Figma spec)
     addOnPadding: 'padding-x-12 padding-y-6',

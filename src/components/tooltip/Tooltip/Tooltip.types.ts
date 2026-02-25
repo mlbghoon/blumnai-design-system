@@ -48,6 +48,14 @@ export interface TooltipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chil
    * @default 240
    */
   maxWidth?: number;
+  /**
+   * 툴팁 너비 (px)
+   */
+  width?: number;
+  /**
+   * 툴팁 최소 너비 (px)
+   */
+  minWidth?: number;
 }
 
 export interface AdvancedTooltipProps extends HTMLAttributes<HTMLDivElement> {

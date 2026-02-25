@@ -1,5 +1,5 @@
 export { Checkbox } from './Checkbox';
-export type { CheckboxProps, CheckboxStyle, CheckboxPosition } from './Checkbox.types';
+export type { CheckboxProps, CheckboxStyle, CheckboxPosition, CheckboxSize, CheckboxShape } from './Checkbox.types';
 
 export { CheckboxCard } from './CheckboxCard';
 export type {

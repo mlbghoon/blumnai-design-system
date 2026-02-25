@@ -33,6 +33,11 @@ export interface DialogContentProps
    * @example width="80%" - 80%
    */
   width?: string | number;
+  /**
+   * 전체 화면 모드
+   * @default false
+   */
+  fullScreen?: boolean;
 }
 
 export type DialogHeaderProps = HTMLAttributes<HTMLDivElement>;

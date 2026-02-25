@@ -11,6 +11,7 @@ import type {
   SelectContentProps,
   ExtendedSelectItemProps,
   ExtendedSelectProps,
+  SelectOption,
 } from './Select.types';
 import {
   SIZE_CONFIG,
@@ -523,10 +524,12 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       noResultsText = 'No results found',
       maxHeight = 300,
       width,
+      minWidth,
       className,
       clearable = false,
       loading = false,
       optionGroups,
+      renderOption,
     },
     ref
   ) => {
@@ -581,6 +584,48 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       [onChange]
     );
 
+    const renderSingleOption = (option: SelectOption) => {
+      const isSelected = option.id === value;
+      if (renderOption) {
+        return (
+          <SelectPrimitive.Item
+            key={option.id}
+            value={option.id}
+            textValue={option.label}
+            className={cn(
+              'flex w-full select-none items-center rounded-sm outline-none',
+              'padding-6',
+              'hover:bg-[var(--bg-state-ghost-hover)]',
+              'data-[highlighted]:bg-[var(--bg-state-ghost-hover)]',
+              option.disabled && 'pointer-events-none opacity-50 cursor-not-allowed',
+              !option.disabled && 'cursor-pointer'
+            )}
+            disabled={option.disabled}
+          >
+            <SelectPrimitive.ItemText className="sr-only">{option.label}</SelectPrimitive.ItemText>
+            {renderOption(option, isSelected)}
+          </SelectPrimitive.Item>
+        );
+      }
+      return (
+        <ExtendedSelectItem
+          key={option.id}
+          value={option.id}
+          textValue={option.label}
+          selectType={selectType}
+          leadIcon={option.leadIcon}
+          iconColor={option.iconColor}
+          description={option.description}
+          badge={option.badge}
+          avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}
+          disabled={option.disabled}
+          isSelected={isSelected}
+        >
+          {option.label}
+        </ExtendedSelectItem>
+      );
+    };
+
     const renderOptions = () => {
       if (loading) {
         return (
@@ -616,64 +661,16 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
               return (
                 <SelectPrimitive.Group key={group.label}>
                   <SelectLabel>{group.label}</SelectLabel>
-                  {groupOptions.map((option) => (
-                    <ExtendedSelectItem
-                      key={option.id}
-                      value={option.id}
-                      textValue={option.label}
-                      selectType={selectType}
-                      leadIcon={option.leadIcon}
-                      iconColor={option.iconColor}
-                      description={option.description}
-                      badge={option.badge}
-                      avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}
-                      disabled={option.disabled}
-                      isSelected={option.id === value}
-                    >
-                      {option.label}
-                    </ExtendedSelectItem>
-                  ))}
+                  {groupOptions.map(renderSingleOption)}
                 </SelectPrimitive.Group>
               );
             })}
-            {ungroupedOptions.map((option) => (
-              <ExtendedSelectItem
-                key={option.id}
-                value={option.id}
-                textValue={option.label}
-                selectType={selectType}
-                leadIcon={option.leadIcon}
-                iconColor={option.iconColor}
-                description={option.description}
-                badge={option.badge}
-                avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}
-                disabled={option.disabled}
-                isSelected={option.id === value}
-              >
-                {option.label}
-              </ExtendedSelectItem>
-            ))}
+            {ungroupedOptions.map(renderSingleOption)}
           </>
         );
       }
 
-      return filteredOptions.map((option) => (
-        <ExtendedSelectItem
-          key={option.id}
-          value={option.id}
-          textValue={option.label}
-          selectType={selectType}
-          leadIcon={option.leadIcon}
-          iconColor={option.iconColor}
-          description={option.description}
-          badge={option.badge}
-          avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}
-          disabled={option.disabled}
-          isSelected={option.id === value}
-        >
-          {option.label}
-        </ExtendedSelectItem>
-      ));
+      return filteredOptions.map(renderSingleOption);
     };
 
     const renderSelectedValue = () => {
@@ -718,7 +715,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
         width={width}
         className={className}
       >
-        <div ref={ref} className="relative">
+        <div ref={ref} className="relative" style={minWidth ? { minWidth: typeof minWidth === 'number' ? `${minWidth}px` : minWidth } : undefined}>
           <Select
             value={value}
             onValueChange={onChange}

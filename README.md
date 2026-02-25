@@ -114,6 +114,7 @@ import { Button } from '@mbisolution/blumnai-design-system/button';
 | `/file-upload` | FileUploadArea, FileUploadCard |
 | `/form` | Form, FormField, FormControl, FormItem, FormError |
 | `/hover-card` | HoverCard, HoverCardTrigger, HoverCardContent |
+| `/info-box` | InfoBox |
 | `/icons` | 모든 아이콘 컴포넌트 |
 | `/icons/icon` | Icon (UI 아이콘) |
 | `/icons/brand` | BrandIcon |

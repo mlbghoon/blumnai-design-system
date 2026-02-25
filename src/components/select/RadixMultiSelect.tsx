@@ -9,6 +9,7 @@ import { Badge } from '../badge/Badge';
 import type {
   RadixMultiSelectProps,
   MultiSelectItemProps,
+  SelectOption,
 } from './Select.types';
 import {
   SIZE_CONFIG,
@@ -235,6 +236,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       maxVisibleTags,
       overflowText,
       width,
+      minWidth,
       maxHeight = 300,
       className,
       showSelectAll = false,
@@ -242,6 +244,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       clearable = false,
       loading = false,
       optionGroups,
+      renderOption,
     },
     ref
   ) => {
@@ -562,7 +565,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
         width={width}
         className={className}
       >
-        <div ref={ref} onKeyDown={handleKeyDown}>
+        <div ref={ref} onKeyDown={handleKeyDown} style={minWidth ? { minWidth: typeof minWidth === 'number' ? `${minWidth}px` : minWidth } : undefined}>
           <PopoverPrimitive.Root open={isOpen} onOpenChange={setOpen}>
             <PopoverPrimitive.Trigger asChild disabled={disabled}>
               <button
@@ -772,18 +775,52 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                         </>
                       )}
                       {(() => {
-                        const renderItem = (option: typeof filteredOptions[number]) => {
+                        const renderItem = (option: SelectOption) => {
                           const navIndex = navigableOptions.findIndex(
                             (nav) => nav.id === option.id
                           );
                           const adjustedFocusedIndex = effectiveShowSelectAll
                             ? navIndex + 1 === focusedIndex
                             : navIndex === focusedIndex;
+                          const isSelected = selectedValues.includes(option.id);
+
+                          if (renderOption) {
+                            return (
+                              <div
+                                key={option.id}
+                                role="option"
+                                aria-selected={isSelected}
+                                aria-disabled={option.disabled}
+                                tabIndex={option.disabled ? -1 : 0}
+                                onClick={() => !option.disabled && toggleValue(option.id)}
+                                onKeyDown={(e) => {
+                                  if ((e.key === 'Enter' || e.key === ' ') && !option.disabled) {
+                                    e.preventDefault();
+                                    toggleValue(option.id);
+                                  }
+                                }}
+                                className="flex w-full padding-x-4"
+                              >
+                                <div
+                                  className={cn(
+                                    'flex items-center w-full rounded-xs transition-colors duration-150 padding-6',
+                                    option.disabled
+                                      ? 'cursor-not-allowed opacity-50'
+                                      : 'hover:bg-state-ghost-hover cursor-pointer',
+                                    !option.disabled && adjustedFocusedIndex && 'shadow-component-focus'
+                                  )}
+                                >
+                                  {renderOption(option, isSelected)}
+                                </div>
+                              </div>
+                            );
+                          }
+
                           return (
                             <MultiSelectItem
                               key={option.id}
                               option={option}
-                              selected={selectedValues.includes(option.id)}
+                              selected={isSelected}
                               focused={adjustedFocusedIndex}
                               disabled={option.disabled}
                               variant={variant}
