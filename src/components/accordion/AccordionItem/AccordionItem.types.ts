@@ -1,9 +1,19 @@
-import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode, Ref } from 'react';
 
 /**
  * AccordionItem 스타일 variant
  */
 export type AccordionItemStyle = 'default' | 'soft' | 'ghost' | 'line';
+
+/**
+ * 헤더 버튼에 전달할 추가 props
+ */
+export type AccordionHeaderProps = Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'onClick' | 'disabled' | 'aria-expanded' | 'aria-controls' | 'aria-disabled'
+> & {
+  ref?: Ref<HTMLButtonElement>;
+};
 
 /**
  * AccordionItem props
@@ -30,6 +40,6 @@ export interface AccordionItemProps extends Omit<HTMLAttributes<HTMLDivElement>,
   headingLevel?: 2 | 3 | 4 | 5 | 6;
   /** 추가 CSS 클래스 이름 */
   className?: string;
-  /** 헤더 버튼에 전달할 추가 props */
-  headerProps?: Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'disabled' | 'aria-expanded' | 'aria-controls' | 'aria-disabled'>;
+  /** 헤더 버튼에 전달할 추가 props (ref, onKeyDown 등 포함 가능) */
+  headerProps?: AccordionHeaderProps;
 }

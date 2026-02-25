@@ -175,8 +175,8 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
   }, [segmentOrder]);
 
   const updateRange = useCallback((newFrom: Record<DateSegment, string>, newTo: Record<DateSegment, string>) => {
-    const fromDate = segmentsToDate(newFrom);
-    const toDate = segmentsToDate(newTo);
+    let fromDate = segmentsToDate(newFrom);
+    let toDate = segmentsToDate(newTo);
 
     const isEmpty = !newFrom.day && !newFrom.month && !newFrom.year &&
       !newTo.day && !newTo.month && !newTo.year;
@@ -186,6 +186,10 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
 
     const hasInvalid = (isFromComplete && !fromDate) || (isToComplete && !toDate);
     setHasInvalidDate(hasInvalid);
+
+    if (fromDate && toDate && fromDate > toDate) {
+      [fromDate, toDate] = [toDate, fromDate];
+    }
 
     if (isEmpty) {
       onChange?.(undefined);

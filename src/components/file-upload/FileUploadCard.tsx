@@ -41,7 +41,11 @@ function getFileTypeIcon(mimeType: string): IconType {
   if (mimeType.includes('word') || mimeType.includes('document')) return ['document', 'file-word'];
   if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) return ['document', 'file-excel'];
   if (mimeType.includes('powerpoint') || mimeType.includes('presentation')) return ['document', 'file-ppt'];
-  if (mimeType.includes('zip') || mimeType.includes('rar') || mimeType.includes('archive')) return ['document', 'file-zip'];
+  if (mimeType.includes('zip') || mimeType.includes('rar') || mimeType.includes('archive') || mimeType.includes('compressed') || mimeType.includes('tar') || mimeType.includes('gzip')) return ['document', 'file-zip'];
+  if (mimeType === 'application/json' || mimeType === 'application/xml' || mimeType === 'application/javascript' || mimeType === 'application/typescript') return ['development', 'code-s'];
+  if (mimeType.startsWith('text/html') || mimeType.startsWith('text/css') || mimeType.startsWith('text/javascript') || mimeType.startsWith('text/xml')) return ['development', 'code-s'];
+  if (mimeType.startsWith('text/csv')) return ['document', 'file-excel'];
+  if (mimeType.startsWith('text/')) return ['document', 'file-text'];
   return ['document', 'file'];
 }
 

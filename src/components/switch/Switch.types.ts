@@ -41,4 +41,9 @@ export interface SwitchProps
    * @default 'green'
    */
   color?: SwitchColor;
+  /**
+   * 로딩 상태 — 스피너를 표시하고 인터랙션을 비활성화합니다
+   * @default false
+   */
+  loading?: boolean;
 }

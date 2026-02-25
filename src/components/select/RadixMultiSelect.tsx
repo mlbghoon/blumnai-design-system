@@ -239,6 +239,9 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       className,
       showSelectAll = false,
       selectAllLabel = '전체 선택',
+      clearable = false,
+      loading = false,
+      optionGroups,
     },
     ref
   ) => {
@@ -380,6 +383,16 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       if (!isControlledValue) setInternalValue(newValue);
       onChange?.(newValue);
     }, [disabled, selectableOptions, allSelected, selectedValues, isControlledValue, onChange]);
+
+    const handleClearAll = React.useCallback(
+      (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (!isControlledValue) setInternalValue([]);
+        onChange?.([]);
+      },
+      [isControlledValue, onChange]
+    );
 
     const totalNavigableCount = (effectiveShowSelectAll ? 1 : 0) + navigableOptions.length;
 
@@ -584,6 +597,19 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   {renderSelectedValue()}
                 </div>
 
+                {clearable && selectedValues.length > 0 && !disabled && (
+                  <span
+                    role="button"
+                    tabIndex={-1}
+                    aria-label="Clear all selections"
+                    onClick={handleClearAll}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClearAll(e as unknown as React.MouseEvent); }}}
+                    className="flex items-center justify-center width-16 height-16 flex-shrink-0 text-muted hover:text-default"
+                  >
+                    <Icon iconType={['system', 'close']} size={12} />
+                  </span>
+                )}
+
                 <Icon
                   iconType={['arrows', 'expand-up-down']}
                   size={sizeConfig.iconSize}
@@ -660,7 +686,11 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                         : maxHeight,
                   }}
                 >
-                  {filteredOptions.length > 0 ? (
+                  {loading ? (
+                    <div className="flex items-center justify-center padding-y-16">
+                      <div className="width-16 height-16 border-2 border-default border-t-transparent rounded-full motion-safe:animate-spin" />
+                    </div>
+                  ) : filteredOptions.length > 0 ? (
                     <>
                       {effectiveShowSelectAll && (
                         <>
@@ -741,25 +771,59 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                           <div className="margin-x-4 margin-y-4 height-1 bg-muted" />
                         </>
                       )}
-                      {filteredOptions.map((option) => {
-                        const navIndex = navigableOptions.findIndex(
-                          (nav) => nav.id === option.id
-                        );
-                        const adjustedFocusedIndex = effectiveShowSelectAll
-                          ? navIndex + 1 === focusedIndex
-                          : navIndex === focusedIndex;
-                        return (
-                          <MultiSelectItem
-                            key={option.id}
-                            option={option}
-                            selected={selectedValues.includes(option.id)}
-                            focused={adjustedFocusedIndex}
-                            disabled={option.disabled}
-                            variant={variant}
-                            onToggle={() => toggleValue(option.id)}
-                          />
-                        );
-                      })}
+                      {(() => {
+                        const renderItem = (option: typeof filteredOptions[number]) => {
+                          const navIndex = navigableOptions.findIndex(
+                            (nav) => nav.id === option.id
+                          );
+                          const adjustedFocusedIndex = effectiveShowSelectAll
+                            ? navIndex + 1 === focusedIndex
+                            : navIndex === focusedIndex;
+                          return (
+                            <MultiSelectItem
+                              key={option.id}
+                              option={option}
+                              selected={selectedValues.includes(option.id)}
+                              focused={adjustedFocusedIndex}
+                              disabled={option.disabled}
+                              variant={variant}
+                              onToggle={() => toggleValue(option.id)}
+                            />
+                          );
+                        };
+
+                        if (optionGroups && optionGroups.length > 0) {
+                          const groupedIds = new Set(
+                            optionGroups.flatMap((g) => g.optionIds)
+                          );
+                          const ungrouped = filteredOptions.filter(
+                            (opt) => !groupedIds.has(opt.id)
+                          );
+                          return (
+                            <>
+                              {optionGroups.map((group) => {
+                                const groupOpts = filteredOptions.filter((opt) =>
+                                  group.optionIds.includes(opt.id)
+                                );
+                                if (groupOpts.length === 0) return null;
+                                return (
+                                  <React.Fragment key={group.label}>
+                                    <div className="padding-x-8 padding-y-4">
+                                      <span className="font-body size-xs text-muted font-medium">
+                                        {group.label}
+                                      </span>
+                                    </div>
+                                    {groupOpts.map(renderItem)}
+                                  </React.Fragment>
+                                );
+                              })}
+                              {ungrouped.map(renderItem)}
+                            </>
+                          );
+                        }
+
+                        return filteredOptions.map(renderItem);
+                      })()}
                     </>
                   ) : (
                     <div className="flex items-center justify-center padding-y-8 text-muted size-sm font-body">

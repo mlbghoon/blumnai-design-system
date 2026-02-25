@@ -82,6 +82,8 @@ export interface DroppableProps {
   className?: string;
   activeClassName?: string;
   overClassName?: string;
+  /** 드래그 아이템이 올려졌으나 허용되지 않을 때 적용되는 클래스 */
+  rejectedClassName?: string;
 }
 
 export interface DroppableRenderProps {
@@ -127,6 +129,14 @@ export interface DragOverlayProps {
 
 export type SortableStrategy = 'vertical' | 'horizontal' | 'grid';
 
+/**
+ * Sortable 컴포넌트 Props.
+ *
+ * **대규모 리스트 가상화 가이드:**
+ * 500개 이상의 아이템을 렌더링할 때는 `@tanstack/react-virtual` 등
+ * 가상화 라이브러리와 함께 `standalone={false}`를 사용하여
+ * 외부 DndContext에서 가상화를 제어하세요.
+ */
 export interface SortableProps<T extends DndItem> {
   items: T[];
   children: ReactNode;
@@ -134,6 +144,20 @@ export interface SortableProps<T extends DndItem> {
   strategy?: SortableStrategy;
   disabled?: boolean;
   id?: DndId;
+  /**
+   * true이면 자체 DndContext를 생성합니다.
+   * false이면 부모 DndContext를 사용합니다 (다중 Sortable 연동 시 사용).
+   * @default true
+   */
+  standalone?: boolean;
+  /** 드래그 시작 시 호출되는 콜백 */
+  onDragStart?: (event: DragStartEvent) => void;
+  /** 드래그 이동 시 호출되는 콜백 */
+  onDragMove?: (event: DragMoveEvent) => void;
+  /** 드래그 오버 시 호출되는 콜백 */
+  onDragOver?: (event: DragOverEvent) => void;
+  /** 드래그 취소 시 호출되는 콜백 */
+  onDragCancel?: (event: DragCancelEvent) => void;
 }
 
 export interface SortableItemProps {
@@ -165,4 +189,4 @@ export interface DragData<T = unknown> {
   data?: T;
 }
 
-export type { DragEndEvent, DragStartEvent, DragOverEvent, SortingStrategy, DraggableAttributes };
+export type { DragEndEvent, DragStartEvent, DragOverEvent, DragMoveEvent, DragCancelEvent, SortingStrategy, DraggableAttributes };

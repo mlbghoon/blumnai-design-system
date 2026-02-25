@@ -10,21 +10,42 @@ import type {
   InputOTPSeparatorProps,
 } from './InputOTP.types';
 
+const InputOTPErrorContext = React.createContext(false);
+
 const InputOTP = React.forwardRef<
   React.ElementRef<typeof OTPInput>,
   InputOTPProps
->(({ containerClassName, className, 'aria-label': ariaLabel, ...restProps }, ref) => (
-  <OTPInput
-    ref={ref}
-    containerClassName={cn(
-      'flex items-center ds-gap-8 has-[:disabled]:opacity-50',
-      containerClassName
-    )}
-    className={cn('disabled:cursor-not-allowed', className)}
-    {...restProps}
-    aria-label={ariaLabel ?? 'One-time password'}
-  />
-));
+>(({ containerClassName, className, error, label, 'aria-label': ariaLabel, ...restProps }, ref) => {
+  const hasError = error === true || (typeof error === 'string' && error.length > 0);
+
+  return (
+    <InputOTPErrorContext.Provider value={hasError}>
+      <div className="flex flex-col ds-gap-4">
+        {label && (
+          <span className="font-body size-sm line-height-leading-5 font-medium text-default">
+            {label}
+          </span>
+        )}
+        <OTPInput
+          ref={ref}
+          containerClassName={cn(
+            'flex items-center ds-gap-8 has-[:disabled]:opacity-50',
+            containerClassName
+          )}
+          className={cn('disabled:cursor-not-allowed', className)}
+          {...restProps}
+          aria-label={ariaLabel ?? label ?? 'One-time password'}
+          aria-invalid={hasError || undefined}
+        />
+        {typeof error === 'string' && error.length > 0 && (
+          <span className="font-body size-xs line-height-leading-4 text-destructive">
+            {error}
+          </span>
+        )}
+      </div>
+    </InputOTPErrorContext.Provider>
+  );
+});
 InputOTP.displayName = 'InputOTP';
 
 const InputOTPGroup = React.forwardRef<
@@ -40,6 +61,7 @@ const InputOTPSlot = React.forwardRef<
   InputOTPSlotProps
 >(({ index, className, ...props }, ref) => {
   const inputOTPContext = React.useContext(OTPInputContext);
+  const hasError = React.useContext(InputOTPErrorContext);
   const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index];
 
   return (
@@ -47,10 +69,12 @@ const InputOTPSlot = React.forwardRef<
       ref={ref}
       className={cn(
         'relative flex height-40 width-40 items-center justify-center',
-        'border-y border-r border-default size-md font-body font-medium line-height-leading-5',
+        'border-y border-r size-md font-body font-medium line-height-leading-5',
         'shadow-sm transition-all',
         'first:rounded-l-md first:border-l last:rounded-r-md',
-        isActive && 'z-10 ring-2 ring-highlight',
+        hasError ? 'border-destructive' : 'border-default',
+        isActive && !hasError && 'z-10 shadow-component-input-focus',
+        isActive && hasError && 'z-10 shadow-component-input-focus-error',
         className
       )}
       {...props}

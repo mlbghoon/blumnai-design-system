@@ -637,6 +637,7 @@ export {
   CardTitle,
   CardDescription,
   CardContent,
+  CardGroup,
 } from './components/card';
 
 export type {
@@ -646,6 +647,7 @@ export type {
   CardDescriptionProps,
   CardContentProps,
   CardFooterProps,
+  CardGroupProps,
 } from './components/card';
 
 export { Divider } from './components/divider';

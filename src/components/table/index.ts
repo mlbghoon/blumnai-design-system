@@ -47,3 +47,4 @@ export {
 
 // Hooks
 export { useDataGridTable } from './hooks/useDataGridTable';
+export { useGridKeyboardNav } from './hooks/useGridKeyboardNav';

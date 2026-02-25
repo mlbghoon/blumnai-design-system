@@ -35,6 +35,9 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       showLegend = false,
       className,
       ariaLabel,
+      onDataPointClick,
+      isLoading,
+      responsive,
       ...props
     },
     ref
@@ -278,7 +281,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 
   if (!data || data.length === 0) {
     return (
-      <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
+      <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
         <svg width={width} height={height} aria-hidden="true">
         </svg>
       </Chart>
@@ -286,7 +289,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   }
 
   return (
-    <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
+    <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
       <svg
         width={width}
         height={height}
@@ -455,6 +458,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                   onMouseEnter={(e) => handlePointMouseEnter(index, keyIndex, e)}
                   onMouseMove={handlePointMouseMove}
                   onMouseLeave={handlePointMouseLeave}
+                  onClick={() => onDataPointClick?.(data[index], index)}
                   style={{ cursor: 'pointer' }}
                   tabIndex={0}
                   role="graphics-symbol"
@@ -462,6 +466,17 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
+                      onDataPointClick?.(data[index], index);
+                      const circle = e.target as SVGCircleElement;
+                      const rect = circle.getBoundingClientRect();
+                      setTooltipState({
+                        visible: true,
+                        x: rect.left + rect.width / 2,
+                        y: rect.top,
+                        pointIndex: index,
+                        pointX: xScale.scale(index),
+                        lineIndex: keyIndex,
+                      });
                     }
                   }}
                 />
@@ -487,6 +502,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 onMouseEnter={(e) => handlePointMouseEnter(index, 0, e)}
                 onMouseMove={handlePointMouseMove}
                 onMouseLeave={handlePointMouseLeave}
+                onClick={() => onDataPointClick?.(data[index], index)}
                 style={{ cursor: 'pointer' }}
                 tabIndex={0}
                 role="graphics-symbol"
@@ -494,6 +510,17 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
+                    onDataPointClick?.(data[index], index);
+                    const circle = e.target as SVGCircleElement;
+                    const rect = circle.getBoundingClientRect();
+                    setTooltipState({
+                      visible: true,
+                      x: rect.left + rect.width / 2,
+                      y: rect.top,
+                      pointIndex: index,
+                      pointX: xScale.scale(index),
+                      lineIndex: 0,
+                    });
                   }
                 }}
               />

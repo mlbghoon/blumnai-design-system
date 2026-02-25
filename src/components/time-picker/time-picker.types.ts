@@ -153,6 +153,10 @@ export interface TimeInputProps {
  */
 export interface TimePickerProps extends Omit<TimeInputProps, 'isOpen' | 'onClockClick' | 'hideClockIcon'> {
   /**
+   * form 전송 시 사용할 name 속성 (설정 시 hidden input 렌더링)
+   */
+  name?: string;
+  /**
    * 라벨 텍스트
    */
   label?: string;
@@ -201,6 +205,15 @@ export interface TimePickerProps extends Omit<TimeInputProps, 'isOpen' | 'onCloc
  * TimeRangePicker 컴포넌트 Props
  */
 export interface TimeRangePickerProps {
+  /**
+   * form 전송 시 사용할 name 속성 (설정 시 hidden input 렌더링)
+   * start는 `{name}-start`, end는 `{name}-end`로 전송됩니다
+   */
+  name?: string;
+  /**
+   * 범위 유효성 검사 실패 시 호출되는 콜백 (start >= end일 때)
+   */
+  onValidationError?: (error: 'invalid-range' | null) => void;
   /**
    * 현재 시간 범위 값
    */

@@ -55,6 +55,7 @@ const RadioCard = React.forwardRef<HTMLLabelElement, RadioCardProps>(
       layout === 'vertical' ? 'flex flex-col ds-gap-24' : 'flex',
       backgroundStyles,
       getBorderStyles(),
+      radioPosition === 'off' && isChecked && !disabled && 'bg-state-soft',
       disabled ? 'cursor-not-allowed' : 'cursor-pointer',
       className
     );

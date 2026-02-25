@@ -84,13 +84,17 @@ export interface MenubarItemProps
   onClick?: () => void;
 }
 
-export type MenubarCheckboxItemProps = ComponentPropsWithoutRef<
-  typeof MenubarPrimitive.CheckboxItem
->;
+export interface MenubarCheckboxItemProps
+  extends ComponentPropsWithoutRef<typeof MenubarPrimitive.CheckboxItem> {
+  /** 왼쪽 인덴트 적용 */
+  inset?: boolean;
+}
 
-export type MenubarRadioItemProps = ComponentPropsWithoutRef<
-  typeof MenubarPrimitive.RadioItem
->;
+export interface MenubarRadioItemProps
+  extends ComponentPropsWithoutRef<typeof MenubarPrimitive.RadioItem> {
+  /** 왼쪽 인덴트 적용 */
+  inset?: boolean;
+}
 
 export interface MenubarLabelProps
   extends ComponentPropsWithoutRef<typeof MenubarPrimitive.Label> {

@@ -36,9 +36,13 @@ export interface RadioListProps {
    */
   items: RadioListItem[];
   /**
-   * 현재 선택된 값
+   * 현재 선택된 값 (제어 모드)
    */
   value?: string;
+  /**
+   * 초기 선택 값 (비제어 모드)
+   */
+  defaultValue?: string;
   /**
    * 값 변경 핸들러
    */

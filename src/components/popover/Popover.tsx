@@ -34,7 +34,7 @@ const PopoverClose = PopoverPrimitive.Close;
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   PopoverContentProps
->(({ className, align = 'center', sideOffset = 4, width, style, ...props }, ref) => {
+>(({ className, align = 'center', sideOffset = 4, width, container, style, ...props }, ref) => {
   const widthStyle = width !== undefined && width !== ''
     ? { width: getPixelValue(width) }
     : undefined;
@@ -45,7 +45,7 @@ const PopoverContent = React.forwardRef<
   };
 
   return (
-    <PopoverPrimitive.Portal>
+    <PopoverPrimitive.Portal container={container}>
       <PopoverPrimitive.Content
         ref={ref}
         align={align}

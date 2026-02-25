@@ -139,18 +139,48 @@ export function TooltipTrigger({
 
   const handleFocus = useCallback(() => {
     if (disabled) return;
-    setIsOpen(true);
-  }, [disabled, setIsOpen]);
+    cancelCloseTimeout();
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsOpen(true);
+    }, delay);
+  }, [disabled, delay, setIsOpen, cancelCloseTimeout]);
 
   const handleBlur = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    startCloseTimeout();
+  }, [startCloseTimeout]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Escape' && isOpen) {
       setIsOpen(false);
     }
   }, [isOpen, setIsOpen]);
+
+  const touchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleTouchStart = useCallback(() => {
+    if (disabled) return;
+    touchTimeoutRef.current = setTimeout(() => {
+      setIsOpen(true);
+    }, 500);
+  }, [disabled, setIsOpen]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+      touchTimeoutRef.current = null;
+    }
+  }, []);
+
+  const handleTouchMove = useCallback(() => {
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+      touchTimeoutRef.current = null;
+    }
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -159,6 +189,9 @@ export function TooltipTrigger({
       }
       if (closeTimeoutRef.current) {
         clearTimeout(closeTimeoutRef.current);
+      }
+      if (touchTimeoutRef.current) {
+        clearTimeout(touchTimeoutRef.current);
       }
     };
   }, []);
@@ -184,21 +217,30 @@ export function TooltipTrigger({
         onFocus={handleFocus}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onTouchMove={handleTouchMove}
         aria-describedby={shouldShow ? tooltipId : undefined}
         className="block min-w-0"
       >
         {children}
       </span>
       {shouldShow &&
+        typeof document !== 'undefined' &&
         createPortal(
           <div
             ref={setFloating}
             id={tooltipId}
             role="tooltip"
-            style={{ ...floatingStyles, zIndex: 50 }}
+            style={{
+              ...floatingStyles,
+              zIndex: 50,
+              animation: 'tooltip-enter 150ms ease-out',
+            }}
             onMouseEnter={cancelCloseTimeout}
             onMouseLeave={startCloseTimeout}
           >
+            <style>{`@keyframes tooltip-enter { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }`}</style>
             {tooltipContent}
           </div>,
           document.body

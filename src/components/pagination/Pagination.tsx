@@ -63,6 +63,79 @@ function getPageNumbers(
   return pages;
 }
 
+function getPageNumbersFromCounts(
+  page: number,
+  totalPages: number,
+  siblingCount: number,
+  boundaryCount: number
+): (number | 'ellipsis-start' | 'ellipsis-end')[] {
+  const range = (start: number, end: number) => {
+    const result: number[] = [];
+    for (let i = start; i <= end; i++) result.push(i);
+    return result;
+  };
+
+  const startPages = range(1, Math.min(boundaryCount, totalPages));
+  const endPages = range(Math.max(totalPages - boundaryCount + 1, boundaryCount + 1), totalPages);
+
+  const siblingsStart = Math.max(
+    Math.min(page - siblingCount, totalPages - boundaryCount - siblingCount * 2 - 1),
+    boundaryCount + 2
+  );
+  const siblingsEnd = Math.min(
+    Math.max(page + siblingCount, boundaryCount + siblingCount * 2 + 2),
+    endPages.length > 0 ? endPages[0] - 2 : totalPages - 1
+  );
+
+  const pages: (number | 'ellipsis-start' | 'ellipsis-end')[] = [];
+
+  pages.push(...startPages);
+
+  if (siblingsStart > boundaryCount + 2) {
+    pages.push('ellipsis-start');
+  } else if (boundaryCount + 1 < totalPages - boundaryCount) {
+    pages.push(boundaryCount + 1);
+  }
+
+  pages.push(...range(siblingsStart, siblingsEnd));
+
+  if (siblingsEnd < totalPages - boundaryCount - 1) {
+    pages.push('ellipsis-end');
+  } else if (totalPages - boundaryCount > boundaryCount) {
+    const val = totalPages - boundaryCount;
+    if (!pages.includes(val)) pages.push(val);
+  }
+
+  pages.push(...endPages.filter((p) => !pages.includes(p)));
+
+  return pages;
+}
+
+function getDotPages(
+  page: number,
+  totalPages: number,
+  maxDots?: number
+): number[] {
+  if (!maxDots || totalPages <= maxDots) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+
+  const half = Math.floor(maxDots / 2);
+  let start = page - half;
+  let end = start + maxDots - 1;
+
+  if (start < 1) {
+    start = 1;
+    end = maxDots;
+  }
+  if (end > totalPages) {
+    end = totalPages;
+    start = Math.max(1, totalPages - maxDots + 1);
+  }
+
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+}
+
 /**
  * Pagination 컴포넌트
  *
@@ -80,8 +153,13 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
       onPageChange,
       variant = 'numbered',
       maxVisiblePages = 7,
+      siblingCount,
+      boundaryCount = 1,
       disabled = false,
       hideNavButtons = false,
+      showFirstLastButtons = false,
+      maxDots,
+      ellipsisJump = 5,
       pageChangeConfirmMessage,
       getPageHref,
       total,
@@ -124,9 +202,16 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
       setConfirmDialogOpen(false);
     }, []);
 
-    const pageNumbers = useMemo(
-      () => getPageNumbers(page, totalPages, maxVisiblePages),
-      [page, totalPages, maxVisiblePages]
+    const pageNumbers = useMemo(() => {
+      if (siblingCount !== undefined) {
+        return getPageNumbersFromCounts(page, totalPages, siblingCount, boundaryCount);
+      }
+      return getPageNumbers(page, totalPages, maxVisiblePages);
+    }, [page, totalPages, maxVisiblePages, siblingCount, boundaryCount]);
+
+    const dotPages = useMemo(
+      () => getDotPages(page, totalPages, maxDots),
+      [page, totalPages, maxDots]
     );
 
     const hasPreviousPage = page > 1;
@@ -135,6 +220,11 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
     if (totalPages <= 0) {
       return null;
     }
+
+    const firstLastIconType = (dir: 'first' | 'last'): ['arrows', string] =>
+      dir === 'first'
+        ? ['arrows', 'arrow-left-double']
+        : ['arrows', 'arrow-right-double'];
 
     return (
       <>
@@ -180,6 +270,16 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
             </>
           ) : (
             <>
+              {showFirstLastButtons && variant === 'numbered' && (
+                <PaginationNav
+                  direction="prev"
+                  disabled={disabled || !hasPreviousPage}
+                  onClick={() => handlePageChange(1)}
+                  aria-label="첫 페이지"
+                  iconOverride={firstLastIconType('first')}
+                />
+              )}
+
               {!hideNavButtons && (
                 <PaginationNav
                   direction="prev"
@@ -198,7 +298,18 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
                 {variant === 'numbered'
                   ? pageNumbers.map((pageNum) =>
                       typeof pageNum === 'string' ? (
-                        <PaginationEllipsis key={pageNum} />
+                        <PaginationEllipsis
+                          key={pageNum}
+                          onClick={
+                            ellipsisJump
+                              ? () => {
+                                  const jumpDir = pageNum === 'ellipsis-start' ? -ellipsisJump : ellipsisJump;
+                                  const target = Math.max(1, Math.min(totalPages, page + jumpDir));
+                                  handlePageChange(target);
+                                }
+                              : undefined
+                          }
+                        />
                       ) : (
                         <PaginationItem
                           key={pageNum}
@@ -212,14 +323,14 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
                         </PaginationItem>
                       )
                     )
-                  : Array.from({ length: totalPages }).map((_, index) => (
+                  : dotPages.map((dotPage) => (
                       <PaginationItem
-                        key={index + 1}
+                        key={dotPage}
                         variant="dot"
-                        isActive={index + 1 === page}
+                        isActive={dotPage === page}
                         disabled={disabled}
-                        onClick={() => handlePageChange(index + 1)}
-                        href={getPageHref ? getPageHref(index + 1) : undefined}
+                        onClick={() => handlePageChange(dotPage)}
+                        href={getPageHref ? getPageHref(dotPage) : undefined}
                       />
                     ))}
               </div>
@@ -230,6 +341,16 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
                   disabled={disabled || !hasNextPage}
                   onClick={() => handlePageChange(page + 1)}
                   href={getPageHref && hasNextPage ? getPageHref(page + 1) : undefined}
+                />
+              )}
+
+              {showFirstLastButtons && variant === 'numbered' && (
+                <PaginationNav
+                  direction="next"
+                  disabled={disabled || !hasNextPage}
+                  onClick={() => handlePageChange(totalPages)}
+                  aria-label="마지막 페이지"
+                  iconOverride={firstLastIconType('last')}
                 />
               )}
             </>

@@ -55,6 +55,8 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
       logoImage,
       icon,
       badgeLocation = 'top',
+      onError: onErrorProp,
+      onLoad: onLoadProp,
       className,
       ...props
     },
@@ -178,7 +180,16 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         {variant === 'userpic' && src && !imgError && (
           <div className={IMAGE_WRAPPER_CLASSES}>
             <AspectRatio ratio={1}>
-              <img src={src} alt={alt || ''} className={IMAGE_CLASSES} onError={() => setImgError(true)} />
+              <img
+                src={src}
+                alt={alt || ''}
+                className={IMAGE_CLASSES}
+                onError={(e) => {
+                  setImgError(true);
+                  onErrorProp?.(e);
+                }}
+                onLoad={onLoadProp}
+              />
             </AspectRatio>
           </div>
         )}

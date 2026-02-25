@@ -53,6 +53,9 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         selectedText={multiProps.selectedText}
         showSelectAll={multiProps.showSelectAll}
         selectAllLabel={multiProps.selectAllLabel}
+        clearable={multiProps.clearable}
+        loading={multiProps.loading}
+        optionGroups={multiProps.optionGroups}
       />
     );
   }
@@ -88,6 +91,9 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         maxSelections={tagsProps.maxSelections}
         maxVisibleTags={tagsProps.maxVisibleTags}
         overflowText={tagsProps.overflowText}
+        clearable={tagsProps.clearable}
+        loading={tagsProps.loading}
+        optionGroups={tagsProps.optionGroups}
       />
     );
   }
@@ -112,6 +118,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         options={avatarProps.options}
         value={avatarProps.value}
         onChange={avatarProps.onChange}
+        defaultValue={avatarProps.defaultValue}
         searchable={avatarProps.searchable}
         searchPlaceholder={avatarProps.searchPlaceholder}
         noResultsText={avatarProps.noResultsText}
@@ -120,6 +127,9 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         maxHeight={avatarProps.maxHeight}
         width={avatarProps.width}
         className={avatarProps.className}
+        clearable={avatarProps.clearable}
+        loading={avatarProps.loading}
+        optionGroups={avatarProps.optionGroups}
       />
     );
   }
@@ -143,6 +153,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
       options={defaultProps.options}
       value={defaultProps.value}
       onChange={defaultProps.onChange}
+      defaultValue={defaultProps.defaultValue}
       searchable={defaultProps.searchable}
       searchPlaceholder={defaultProps.searchPlaceholder}
       noResultsText={defaultProps.noResultsText}
@@ -152,6 +163,9 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
       width={defaultProps.width}
       className={defaultProps.className}
       selectType={defaultProps.selectType}
+      clearable={defaultProps.clearable}
+      loading={defaultProps.loading}
+      optionGroups={defaultProps.optionGroups}
     />
   );
 });

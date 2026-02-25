@@ -54,6 +54,20 @@ export interface SwitchListProps {
    */
   onItemChange?: (id: string, checked: boolean) => void;
   /**
+   * "전체 토글" 스위치를 리스트 상단에 표시합니다
+   * @default false
+   */
+  showToggleAll?: boolean;
+  /**
+   * "전체 토글" 스위치의 라벨 텍스트
+   * @default '전체 토글'
+   */
+  toggleAllLabel?: string;
+  /**
+   * 전체 토글 상태 변경 핸들러
+   */
+  onToggleAll?: (checked: boolean) => void;
+  /**
    * 추가 클래스명
    */
   className?: string;

@@ -36,6 +36,8 @@ const SliderTicks = React.forwardRef<HTMLDivElement, SliderTicksProps>(
     return (
       <div
         ref={ref}
+        role="presentation"
+        aria-hidden="true"
         className={cn('relative w-full h-[24px] margin-t-4', className)}
       >
         {ticks.map((tick, index) => {

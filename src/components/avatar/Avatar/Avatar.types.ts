@@ -84,4 +84,14 @@ export interface AvatarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'child
    * @default 'top'
    */
   badgeLocation?: AvatarBadgeLocation;
+  /**
+   * Callback fired when the avatar image fails to load.
+   * Only used when `variant='userpic'`.
+   */
+  onError?: React.ReactEventHandler<HTMLImageElement>;
+  /**
+   * Callback fired when the avatar image has loaded.
+   * Only used when `variant='userpic'`.
+   */
+  onLoad?: React.ReactEventHandler<HTMLImageElement>;
 }

@@ -6,4 +6,7 @@ export type {
   FileUploadStatus,
   FileUploadCardSize,
   FileInfo,
+  FileSelectSource,
+  FileError,
+  FileErrorCode,
 } from './FileUpload.types';

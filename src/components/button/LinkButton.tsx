@@ -1,12 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
-import { forwardRef, useMemo, isValidElement } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 
-import { Icon } from '../icons/Icon';
-import type { IconType } from '../icons/Icon/Icon.types';
 import { cn } from '../../lib/utils';
 import { getPixelValue } from '../../lib/css-utils';
+import { renderButtonIcon } from './buttonUtils';
 
 import type { LinkButtonProps, LinkButtonIconType, LinkButtonSize, LinkButtonType } from './LinkButton.types';
 
@@ -90,19 +89,8 @@ export const LinkButton = forwardRef<HTMLElement, LinkButtonProps>(({
     return typeConfig.iconColor;
   }, [disabled, typeConfig]);
 
-  const renderIcon = (icon: LinkButtonIconType | React.ReactNode) => {
-    if (!icon) return null;
-    if (typeof icon === 'object' && !Array.isArray(icon) && Object.keys(icon as object).length === 0) return null;
-
-    if (Array.isArray(icon) && (icon.length === 2 || icon.length === 3) && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
-      const fillValue = icon[2] as boolean | string | undefined;
-      const isFill = icon.length === 3 && (fillValue === true || fillValue === 'true');
-      return <Icon iconType={[icon[0], icon[1]] as IconType} isFill={isFill} size={iconSize} color={getIconColor} />;
-    }
-
-    if (!isValidElement(icon)) return null;
-    return <span className="inline-flex items-center">{icon}</span>;
-  };
+  const renderIcon = (icon: LinkButtonIconType | React.ReactNode) =>
+    renderButtonIcon(icon, iconSize, getIconColor);
 
   const content = (
     <>

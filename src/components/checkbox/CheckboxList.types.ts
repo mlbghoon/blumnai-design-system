@@ -24,11 +24,15 @@ export interface CheckboxListItem {
   /**
    * 체크 상태
    */
-  checked?: boolean;
+  checked?: boolean | 'indeterminate';
   /**
    * 비활성화 상태
    */
   disabled?: boolean;
+  /**
+   * 폼 필드 값
+   */
+  value?: string;
 }
 
 /**
@@ -49,6 +53,10 @@ export interface CheckboxListProps {
    * @default 'with-shadow'
    */
   checkboxStyle?: CheckboxStyle;
+  /**
+   * 폼 필드 이름 (모든 체크박스에 적용)
+   */
+  name?: string;
   /**
    * 아이템 체크 상태 변경 핸들러
    */

@@ -144,8 +144,20 @@ Carousel.displayName = 'Carousel';
 export const CarouselContent = React.forwardRef<
   HTMLDivElement,
   CarouselContentProps
->(({ className, style, ...props }, ref) => {
+>(({ className, style, children, ...props }, ref) => {
   const { carouselRef, orientation, gap } = useCarousel();
+
+  const childArray = React.Children.toArray(children);
+  const slideCount = childArray.length;
+  const enrichedChildren = childArray.map((child, index) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child as React.ReactElement<CarouselItemProps>, {
+        'data-slide-index': index,
+        'data-slide-count': slideCount,
+      });
+    }
+    return child;
+  });
 
   return (
     <div ref={carouselRef} className="overflow-hidden">
@@ -158,7 +170,9 @@ export const CarouselContent = React.forwardRef<
         )}
         style={{ gap, ...style }}
         {...props}
-      />
+      >
+        {enrichedChildren}
+      </div>
     </div>
   );
 });
@@ -173,15 +187,24 @@ export const CarouselViewport = React.forwardRef<
 CarouselViewport.displayName = 'CarouselViewport';
 
 export const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      role="group"
-      aria-roledescription="slide"
-      className={cn('min-w-0 shrink-0 grow-0 basis-full', className)}
-      {...props}
-    />
-  )
+  ({ className, 'data-slide-index': slideIndex, 'data-slide-count': slideCount, 'aria-label': ariaLabel, ...props }, ref) => {
+    const label = ariaLabel ?? (
+      slideIndex !== undefined && slideCount !== undefined
+        ? `${slideIndex + 1} of ${slideCount}`
+        : undefined
+    );
+
+    return (
+      <div
+        ref={ref}
+        role="group"
+        aria-roledescription="slide"
+        aria-label={label}
+        className={cn('min-w-0 shrink-0 grow-0 basis-full', className)}
+        {...props}
+      />
+    );
+  }
 );
 CarouselItem.displayName = 'CarouselItem';
 

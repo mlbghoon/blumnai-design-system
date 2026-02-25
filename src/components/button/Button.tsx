@@ -1,13 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
-import { forwardRef, isValidElement, useRef, useCallback } from 'react';
+import { forwardRef, useRef, useCallback } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 
-import { Icon } from '../icons/Icon';
-import type { IconType } from '../icons/Icon/Icon.types';
 import { cn } from '../../lib/utils';
 import { getPixelValue } from '../../lib/css-utils';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
+import { renderButtonIcon } from './buttonUtils';
 
 import type { ButtonProps, ButtonIconType, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape, ButtonColor } from './Button.types';
 
@@ -214,19 +213,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     </svg>
   );
 
-  const renderIcon = (icon: ButtonIconType | React.ReactNode) => {
-    if (!icon) return null;
-    if (typeof icon === 'object' && !Array.isArray(icon) && Object.keys(icon as object).length === 0) return null;
-
-    if (Array.isArray(icon) && (icon.length === 2 || icon.length === 3) && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
-      const fillValue = icon[2] as boolean | string | undefined;
-      const isFill = icon.length === 3 && (fillValue === true || fillValue === 'true');
-      return <Icon iconType={[icon[0], icon[1]] as IconType} isFill={isFill} size={iconSize} color={getIconColor()} />;
-    }
-
-    if (!isValidElement(icon)) return null;
-    return <span className="inline-flex items-center">{icon}</span>;
-  };
+  const renderIcon = (icon: ButtonIconType | React.ReactNode) =>
+    renderButtonIcon(icon, iconSize, getIconColor());
 
   const renderShortcut = () => {
     if (!shortcut) return null;

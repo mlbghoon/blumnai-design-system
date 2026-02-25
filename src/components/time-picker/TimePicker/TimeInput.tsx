@@ -250,6 +250,24 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
       const newSegments = { ...segments, [segment]: paddedValue };
       setSegments(newSegments);
       updateTimeFromSegments(newSegments, period);
+    } else if (e.key === 'PageUp' || e.key === 'PageDown') {
+      e.preventDefault();
+      const currentValue = parseInt(segments[segment] || '0', 10);
+      const min = getSegmentMin(segment, timeFormat);
+      const max = getSegmentMax(segment, timeFormat);
+      const step = segment === 'hour' ? 1 : 5;
+      let newValue: number;
+      if (e.key === 'PageUp') {
+        newValue = currentValue + step;
+        if (newValue > max) newValue = max;
+      } else {
+        newValue = currentValue - step;
+        if (newValue < min) newValue = min;
+      }
+      const paddedValue = padSegment(String(newValue));
+      const newSegments = { ...segments, [segment]: paddedValue };
+      setSegments(newSegments);
+      updateTimeFromSegments(newSegments, period);
     } else if (e.key === 'Backspace' && !segments[segment] && currentIndex > 0) {
       e.preventDefault();
       const prevSegment = segmentOrder[currentIndex - 1];

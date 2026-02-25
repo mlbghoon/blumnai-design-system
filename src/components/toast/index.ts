@@ -1,3 +1,4 @@
 export { ToastContent } from './ToastContent';
 export { toast } from './useToast';
-export type { ToastContentProps, ToastOptions, ToastVariant } from './Toast.types';
+export { BlumnaiToaster } from './BlumnaiToaster';
+export type { ToastContentProps, ToastOptions, ToastVariant, ToastAction, BlumnaiToasterProps } from './Toast.types';

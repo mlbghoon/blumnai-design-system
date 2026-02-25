@@ -273,13 +273,14 @@ MenubarItem.displayName = 'MenubarItem';
 const MenubarCheckboxItem = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.CheckboxItem>,
   MenubarCheckboxItemProps
->(({ className, children, checked, ...props }, ref) => (
+>(({ className, children, checked, inset, ...props }, ref) => (
   <MenubarPrimitive.CheckboxItem
     ref={ref}
     className={cn(
       "relative flex cursor-default select-none items-center rounded-sm padding-y-6 padding-r-8 padding-l-32 size-sm font-body line-height-leading-5 outline-none transition-colors",
       "focus:bg-accent focus:text-accent-foreground",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      inset && "padding-l-32",
       className
     )}
     checked={checked}
@@ -298,13 +299,14 @@ MenubarCheckboxItem.displayName = 'MenubarCheckboxItem';
 const MenubarRadioItem = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.RadioItem>,
   MenubarRadioItemProps
->(({ className, children, ...props }, ref) => (
+>(({ className, children, inset, ...props }, ref) => (
   <MenubarPrimitive.RadioItem
     ref={ref}
     className={cn(
       "relative flex cursor-default select-none items-center rounded-sm padding-y-6 padding-r-8 padding-l-32 size-sm font-body line-height-leading-5 outline-none transition-colors",
       "focus:bg-accent focus:text-accent-foreground",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      inset && "padding-l-32",
       className
     )}
     {...props}

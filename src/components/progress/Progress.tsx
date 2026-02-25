@@ -141,11 +141,17 @@ function DashedTrack({ percentage, color, isIndeterminate }: DashedTrackProps) {
         <div
           key={index}
           className={cn(
-            'flex-1 h-full rounded-full transition-colors duration-200',
-            index < filledSegments
-              ? FILL_COLOR_MAP[color]
-              : 'bg-basic-gray-alpha-10'
+            'flex-1 h-full rounded-full',
+            isIndeterminate
+              ? cn(FILL_COLOR_MAP[color], 'animate-progress-dashed-sweep')
+              : cn(
+                  'transition-colors duration-200',
+                  index < filledSegments
+                    ? FILL_COLOR_MAP[color]
+                    : 'bg-basic-gray-alpha-10'
+                )
           )}
+          style={isIndeterminate ? { animationDelay: `${index * 0.15}s` } : undefined}
         />
       ))}
     </div>

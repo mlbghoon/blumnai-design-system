@@ -151,7 +151,6 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
     }
   }, [disabled, canDecrement, value, step, min, onChange]);
 
-  // Handle input change
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     if (inputValue === '') {
@@ -168,6 +167,16 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
       onChange?.(clampedValue);
     }
   }, [min, max, onChange]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      handleIncrement();
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      handleDecrement();
+    }
+  }, [handleIncrement, handleDecrement]);
 
   // Render default variant (buttons on sides)
   if (quantityVariant === 'default') {
@@ -233,12 +242,14 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
             ref={ref}
             id={inputId}
             type="text"
+            role="spinbutton"
             inputMode={step % 1 !== 0 ? 'decimal' : 'numeric'}
             pattern={step % 1 !== 0 ? '[0-9]*[.]?[0-9]*' : '[0-9]*'}
             disabled={disabled}
             className={inputClassName}
             value={value}
             onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
             autoComplete="off"
             aria-invalid={hasError}
             aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
@@ -312,12 +323,14 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
           ref={ref}
           id={inputId}
           type="text"
+          role="spinbutton"
           inputMode={step % 1 !== 0 ? 'decimal' : 'numeric'}
           pattern={step % 1 !== 0 ? '[0-9]*[.]?[0-9]*' : '[0-9]*'}
           disabled={disabled}
           className={cn(inputClassName, 'flex-1')}
           value={value}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           autoComplete="off"
           aria-invalid={hasError}
           aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}

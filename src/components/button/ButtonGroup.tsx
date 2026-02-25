@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useCallback, useRef, useState, type KeyboardEvent } from 'react';
 
 import { Icon } from '../icons/Icon';
 import type { IconType } from '../icons/Icon/Icon.types';
@@ -26,6 +26,7 @@ const BUTTON_PADDING = {
  * ButtonGroup 컴포넌트
  *
  * 관련 버튼들을 그룹으로 묶어 표시하는 컴포넌트입니다.
+ * WAI-ARIA toolbar 패턴으로 ArrowLeft/Right, Home/End 키보드 탐색을 지원합니다.
  *
  * @example
  * <ButtonGroup items={[{ label: "A" }, { label: "B" }]} size="md" />
@@ -35,6 +36,44 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
     const currentSize = SIZE_STYLES[size];
     const iconSize = 16;
     const buttonGap = size === 'lg' || size === 'md' ? 'ds-gap-6' : 'ds-gap-4';
+    const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+    const [focusedIndex, setFocusedIndex] = useState(0);
+
+    const enabledIndices = items
+      .map((item, i) => ({ i, disabled: item.disabled || !item.onClick }))
+      .filter((e) => !e.disabled)
+      .map((e) => e.i);
+
+    const handleKeyDown = useCallback((e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+      const pos = enabledIndices.indexOf(index);
+      if (pos === -1) return;
+
+      let targetIndex: number | undefined;
+
+      switch (e.key) {
+        case 'ArrowRight':
+          e.preventDefault();
+          targetIndex = enabledIndices[(pos + 1) % enabledIndices.length];
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          targetIndex = enabledIndices[(pos - 1 + enabledIndices.length) % enabledIndices.length];
+          break;
+        case 'Home':
+          e.preventDefault();
+          targetIndex = enabledIndices[0];
+          break;
+        case 'End':
+          e.preventDefault();
+          targetIndex = enabledIndices[enabledIndices.length - 1];
+          break;
+      }
+
+      if (targetIndex !== undefined) {
+        setFocusedIndex(targetIndex);
+        buttonRefs.current[targetIndex]?.focus();
+      }
+    }, [enabledIndices]);
 
     const containerClassName = cn(
       'inline-flex items-center justify-start',
@@ -81,7 +120,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
     };
 
     return (
-      <div ref={ref} className={containerClassName}>
+      <div ref={ref} role="toolbar" aria-orientation="horizontal" className={containerClassName}>
         {items.map((item, index) => {
           const isFirst = index === 0;
           const hasSeparator = !isFirst;
@@ -139,6 +178,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
           return (
             <button
               key={item.id ?? index}
+              ref={(el: HTMLButtonElement | null) => { buttonRefs.current[index] = el; }}
               type="button"
               className={cn(
                 'inline-flex items-center justify-center',
@@ -150,6 +190,9 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
                 !isDisabled && 'hover:bg-basic-gray-alpha-4 active:bg-basic-gray-alpha-10'
               )}
               onClick={isDisabled ? undefined : item.onClick}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              onFocus={() => setFocusedIndex(index)}
+              tabIndex={index === focusedIndex ? 0 : -1}
               aria-label={iconOnly ? item.ariaLabel : undefined}
               disabled={isDisabled}
             >

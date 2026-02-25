@@ -40,11 +40,18 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
       selected = false,
       disabled = false,
       color,
+      onToggle,
       className,
+      onClick,
       ...props
     },
     ref
   ) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      onToggle?.(!selected);
+      onClick?.(e);
+    };
+
     const iconOnly = variant === 'iconOnly';
     // Size styles
     const sizeStyles = {
@@ -183,7 +190,7 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
 
 
     return (
-      <button ref={ref} {...props} type="button" className={containerClassName} disabled={disabled} aria-pressed={selected}>
+      <button ref={ref} {...props} type="button" className={containerClassName} disabled={disabled} aria-pressed={selected} onClick={handleClick}>
         {icon && (
           <span
             className={cn(

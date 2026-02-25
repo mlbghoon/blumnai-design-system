@@ -15,6 +15,7 @@ export const Droppable = forwardRef<HTMLDivElement, DroppableProps>(
       className,
       activeClassName,
       overClassName,
+      rejectedClassName,
     },
     ref
   ) {
@@ -60,7 +61,8 @@ export const Droppable = forwardRef<HTMLDivElement, DroppableProps>(
         className={cn(
           className,
           hasActiveItem && activeClassName,
-          isOver && isAccepted && overClassName
+          isOver && isAccepted && overClassName,
+          isOver && !isAccepted && rejectedClassName
         )}
       >
         {content}

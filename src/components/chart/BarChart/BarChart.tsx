@@ -35,6 +35,9 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       showLegend = false,
       className,
       ariaLabel,
+      onDataPointClick,
+      isLoading,
+      responsive,
       ...props
     },
     ref
@@ -237,7 +240,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 
   if (!safeData || safeData.length === 0) {
     return (
-      <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
+      <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
         <svg width={width} height={height} aria-hidden="true">
         </svg>
       </Chart>
@@ -245,7 +248,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   }
 
   return (
-    <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
+    <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
       <svg
         width={width}
         height={height}
@@ -432,9 +435,27 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
                       tabIndex={0}
                       role="graphics-symbol"
                       aria-label={`${getLabel(segment.key)}: ${segment.value}`}
+                      onClick={(e) => {
+                        if (onDataPointClick) {
+                          onDataPointClick(safeData[index], index);
+                        }
+                        handleBarMouseEnter(index, barX, e as unknown as React.MouseEvent<SVGRectElement>);
+                      }}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
+                          if (onDataPointClick) {
+                            onDataPointClick(safeData[index], index);
+                          }
+                          const rect = (e.target as SVGRectElement).getBoundingClientRect();
+                          setTooltipState({
+                            visible: true,
+                            x: rect.left + rect.width / 2,
+                            y: rect.top,
+                            barIndex: index,
+                            barX: barX + padding.left + xScale.barWidth / 2,
+                          });
+                          setHoveredBarIndex(index);
                         }
                       }}
                     />

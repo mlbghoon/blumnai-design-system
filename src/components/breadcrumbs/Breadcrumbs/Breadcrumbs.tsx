@@ -1,11 +1,13 @@
 import type { MouseEvent } from 'react';
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, useState } from 'react';
 
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
 
 import type { BreadcrumbsProps } from './Breadcrumbs.types';
+
+const ELLIPSIS_MARKER = '__breadcrumb_ellipsis__';
 
 const isIconTypeWithFill = (icon: unknown): icon is IconTypeWithFill =>
   Array.isArray(icon) &&
@@ -31,16 +33,17 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
   ...props
 }, ref) => {
   const effectiveMaxItems = maxItems && maxItems >= 3 ? maxItems : undefined;
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const visibleItems = useMemo(() => {
-    if (!effectiveMaxItems || items.length <= effectiveMaxItems) {
+    if (isExpanded || !effectiveMaxItems || items.length <= effectiveMaxItems) {
       return items;
     }
 
     const firstItem = items[0];
     const lastItems = items.slice(-(effectiveMaxItems - 2));
-    return [firstItem, { label: '...', disabled: true }, ...lastItems] as typeof items;
-  }, [items, effectiveMaxItems]);
+    return [firstItem, { label: ELLIPSIS_MARKER, disabled: true }, ...lastItems] as typeof items;
+  }, [items, effectiveMaxItems, isExpanded]);
 
   const separatorChar = useMemo(() => {
     switch (separator) {
@@ -107,6 +110,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
         {visibleItems.map((item, index) => {
           const isLast = index === visibleItems.length - 1;
           const isClickable = (!!item.href || !!item.onClick) && !item.disabled && !isLast;
+          const isEllipsis = item.label === ELLIPSIS_MARKER;
 
           const handleClick = (e: MouseEvent) => {
             if (item.onClick) {
@@ -120,7 +124,20 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
               key={item.href ?? `${item.label}-${index}`}
               className={cn('flex items-center ds-gap-2', sizeClasses)}
             >
-              {isClickable && item.href ? (
+              {isEllipsis ? (
+                <button
+                  type="button"
+                  onClick={() => setIsExpanded(true)}
+                  aria-label="Show hidden breadcrumbs"
+                  className={cn(
+                    'flex items-center ds-gap-1 cursor-pointer',
+                    'text-default hover:underline',
+                    'bg-transparent border-none padding-0 font-inherit'
+                  )}
+                >
+                  &hellip;
+                </button>
+              ) : isClickable && item.href ? (
                 <a
                   href={item.href}
                   onClick={handleClick}

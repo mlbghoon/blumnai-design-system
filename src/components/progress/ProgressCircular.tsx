@@ -199,7 +199,12 @@ const ProgressCircular = React.forwardRef<HTMLDivElement, ProgressCircularProps>
           {showLabel && !isIndeterminate && (
             <span
               className={cn(
-                'absolute font-body size-sm line-height-leading-5 font-medium',
+                'absolute font-body font-medium',
+                size < 64
+                  ? 'size-xs line-height-leading-4'
+                  : size < 96
+                    ? 'size-sm line-height-leading-5'
+                    : 'size-md line-height-leading-6',
                 textColorClass,
                 isHalf && 'bottom-0'
               )}

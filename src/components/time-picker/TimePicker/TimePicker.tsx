@@ -23,9 +23,26 @@ const getDefaultQuickOptions = (): QuickSelectOption[] => {
  * @example
  * <TimePicker value={time} onChange={setTime} timeFormat="24h" label="시간 선택" />
  */
+const formatTimeValue = (v: TimeValue | undefined, showSeconds: boolean): string => {
+  if (!v) return '';
+  const h = String(v.hour).padStart(2, '0');
+  const m = String(v.minute).padStart(2, '0');
+  if (showSeconds && v.second !== undefined) {
+    const s = String(v.second).padStart(2, '0');
+    return `${h}:${m}:${s}`;
+  }
+  return `${h}:${m}`;
+};
+
+const isTimeEqual = (a: TimeValue | undefined, b: TimeValue): boolean => {
+  if (!a) return false;
+  return a.hour === b.hour && a.minute === b.minute && (a.second ?? 0) === (b.second ?? 0);
+};
+
 export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
   value,
   onChange,
+  name,
   label,
   required = false,
   supportText,
@@ -87,6 +104,9 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
       width={width}
       className={className}
     >
+      {name && (
+        <input type="hidden" name={name} value={formatTimeValue(value, showSeconds)} />
+      )}
       <Popover open={isOpen && showQuickSelect} onOpenChange={handleOpenChange}>
         <PopoverAnchor asChild>
           <TimeInput
@@ -115,22 +135,28 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
             className="w-auto padding-8"
           >
             <div className="flex flex-wrap ds-gap-6">
-              {options.map((option, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => handleQuickSelect(option)}
-                  className={cn(
-                    'padding-x-10 padding-y-6 rounded-md',
-                    'font-body size-sm line-height-leading-5',
-                    'bg-state-ghost hover:bg-state-ghost-hover',
-                    'text-default transition-colors duration-150',
-                    'cursor-pointer border-0'
-                  )}
-                >
-                  {option.label}
-                </button>
-              ))}
+              {options.map((option, index) => {
+                const isSelected = isTimeEqual(value, option.value);
+                return (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => handleQuickSelect(option)}
+                    aria-pressed={isSelected}
+                    className={cn(
+                      'padding-x-10 padding-y-6 rounded-md',
+                      'font-body size-sm line-height-leading-5',
+                      isSelected
+                        ? 'bg-state-soft text-basic-blue-strong'
+                        : 'bg-state-ghost hover:bg-state-ghost-hover text-default',
+                      'transition-colors duration-150',
+                      'cursor-pointer border-0'
+                    )}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })}
             </div>
           </PopoverContent>
         )}

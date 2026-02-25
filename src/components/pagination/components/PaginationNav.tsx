@@ -6,9 +6,10 @@ import type { IconType } from '../../icons/Icon/Icon.types';
 import type { PaginationNavProps } from '../Pagination.types';
 
 export const PaginationNav = forwardRef<HTMLButtonElement, PaginationNavProps>(
-  ({ className, direction, disabled, href, onClick, ...props }, ref) => {
-    const iconType: IconType =
-      direction === 'prev'
+  ({ className, direction, disabled, href, onClick, iconOverride, ...props }, ref) => {
+    const iconType: IconType = iconOverride
+      ? (iconOverride as IconType)
+      : direction === 'prev'
         ? ['arrows', 'arrow-left-s']
         : ['arrows', 'arrow-right-s'];
 

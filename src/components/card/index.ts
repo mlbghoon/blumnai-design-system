@@ -5,6 +5,7 @@ export {
   CardDescription,
   CardContent,
   CardFooter,
+  CardGroup,
 } from './Card';
 export type {
   CardProps,
@@ -13,4 +14,5 @@ export type {
   CardDescriptionProps,
   CardContentProps,
   CardFooterProps,
+  CardGroupProps,
 } from './Card.types';
