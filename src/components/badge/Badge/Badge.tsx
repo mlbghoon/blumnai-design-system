@@ -119,7 +119,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
         >
           <img
             src={image || BADGE_PLACEHOLDER_IMAGE}
-            alt={imageAlt || ''}
+            alt={imageAlt ?? ''}
             className="object-cover rounded-full"
           />
         </span>

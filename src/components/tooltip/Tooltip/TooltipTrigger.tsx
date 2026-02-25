@@ -106,26 +106,28 @@ export function TooltipTrigger({
     },
   });
 
-  const handleMouseEnter = useCallback(() => {
-    if (disabled) return;
-
-    hoverTimeoutRef.current = setTimeout(() => {
-      setIsOpen(true);
-    }, delay);
-  }, [disabled, delay, setIsOpen]);
-
-  const startCloseTimeout = useCallback(() => {
-    closeTimeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, 100);
-  }, [setIsOpen]);
-
   const cancelCloseTimeout = useCallback(() => {
     if (closeTimeoutRef.current) {
       clearTimeout(closeTimeoutRef.current);
       closeTimeoutRef.current = null;
     }
   }, []);
+
+  const handleMouseEnter = useCallback(() => {
+    if (disabled) return;
+    cancelCloseTimeout();
+
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsOpen(true);
+    }, delay);
+  }, [disabled, delay, setIsOpen, cancelCloseTimeout]);
+
+  const startCloseTimeout = useCallback(() => {
+    cancelCloseTimeout();
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 100);
+  }, [setIsOpen, cancelCloseTimeout]);
 
   const handleMouseLeave = useCallback(() => {
     if (hoverTimeoutRef.current) {

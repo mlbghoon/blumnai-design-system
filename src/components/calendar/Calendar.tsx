@@ -88,7 +88,6 @@ function CalendarDayButton({
       data-range-middle={isRangeMiddle}
       data-today={isToday}
       data-outside={isOutside}
-      aria-current={isToday ? 'date' : undefined}
       className={cn(
         'flex items-center justify-center',
         'width-30 height-32',
@@ -105,6 +104,7 @@ function CalendarDayButton({
         className
       )}
       {...props}
+      aria-current={isToday ? 'date' : undefined}
     >
       {renderContent()}
     </button>

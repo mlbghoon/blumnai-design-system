@@ -130,10 +130,6 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
 
     let fileArray = Array.from(files);
 
-    if (!multiple) {
-      fileArray = fileArray.slice(0, 1);
-    }
-
     if (accept) {
       const acceptedTypes = accept.split(',').map(t => t.trim());
       fileArray = fileArray.filter(file => {
@@ -148,6 +144,10 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
           return file.type === acceptType;
         });
       });
+    }
+
+    if (!multiple) {
+      fileArray = fileArray.slice(0, 1);
     }
 
     if (maxFiles && fileArray.length > maxFiles) {
@@ -209,7 +209,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
           getStateClassName()
         )}
         aria-disabled={disabled}
-        aria-label={title || DEFAULT_TITLE}
+        aria-label={clickText ? `${title} ${clickText}` : title || DEFAULT_TITLE}
       >
         <input
           ref={inputRef}

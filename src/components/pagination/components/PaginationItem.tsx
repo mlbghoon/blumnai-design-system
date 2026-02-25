@@ -32,14 +32,18 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
             className
           );
 
+    const ariaLabel = (typeof children === 'string' || typeof children === 'number')
+      ? (isActive ? `${children} 페이지, 현재 페이지` : `${children} 페이지로 이동`)
+      : undefined;
+
     if (href && !disabled) {
       return (
         <a
           href={href}
           className={baseStyles}
           aria-current={isActive ? 'page' : undefined}
-          aria-label={isActive ? `Page ${children}, current page` : `Go to page ${children}`}
-          onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>}
+          aria-label={ariaLabel}
+          onClick={onClick}
         >
           {children}
         </a>
@@ -55,7 +59,7 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
         aria-current={isActive ? 'page' : undefined}
         aria-label={variant === 'dot'
           ? (isActive ? `Slide ${children}, current` : `Go to slide ${children}`)
-          : undefined
+          : ariaLabel
         }
         onClick={onClick}
         {...props}

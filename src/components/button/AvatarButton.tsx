@@ -125,7 +125,7 @@ export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
         size={avatarSize}
         shape="circular"
         src={avatar}
-        alt={alt || label}
+        alt={alt ?? label}
         ring={false}
       />
       <span>{label}</span>

@@ -60,7 +60,12 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     },
     ref
   ) => {
-  const [imgError, setImgError] = useState(false);
+  const [imgState, setImgState] = useState<{ src: string | undefined; error: boolean }>({ src, error: false });
+  if (imgState.src !== src) {
+    setImgState({ src, error: false });
+  }
+  const imgError = imgState.error;
+  const setImgError = (error: boolean) => setImgState((prev) => ({ ...prev, error }));
 
   // Get initials text - 1 letter for small sizes (2xs~md), 2 letters for large sizes (lg~3xl)
   const initialsText = useMemo(() => {

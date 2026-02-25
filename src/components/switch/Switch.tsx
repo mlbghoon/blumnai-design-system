@@ -32,7 +32,7 @@ const getActiveHoverStyle = (color: SwitchColor): React.CSSProperties | undefine
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Root>,
   SwitchProps
->(({ className, label, description, switchPosition = 'left', color = 'green', disabled, checked, onCheckedChange, ...props }, ref) => {
+>(({ className, label, description, switchPosition = 'left', color = 'green', disabled, checked, onCheckedChange, 'aria-describedby': ariaDescribedBy, ...props }, ref) => {
   const descriptionId = React.useId();
   const [isHovered, setIsHovered] = React.useState(false);
   const isGreen = color === 'green';
@@ -54,7 +54,7 @@ const Switch = React.forwardRef<
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       aria-label={!label && !props['aria-label'] ? 'Toggle' : props['aria-label']}
-      aria-describedby={description ? descriptionId : undefined}
+      aria-describedby={[ariaDescribedBy, description ? descriptionId : undefined].filter(Boolean).join(' ') || undefined}
       className={cn(
         'peer relative inline-flex items-center shrink-0',
         'width-32 height-20',

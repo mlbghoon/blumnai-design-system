@@ -328,7 +328,7 @@ const DropdownMenuAvatar = React.forwardRef<HTMLDivElement, DropdownMenuAvatarPr
       <DropdownMenuPrimitive.Item
         ref={mergeRefs}
         disabled={disabled}
-        onSelect={onClick}
+        onSelect={() => onClick?.()}
         className={cn(
           "flex items-center ds-gap-8 rounded-sm padding-x-8 padding-y-6 outline-none transition-colors",
           "text-default focus:bg-accent focus:text-accent-foreground",

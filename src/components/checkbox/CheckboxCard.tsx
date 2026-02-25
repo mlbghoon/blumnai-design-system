@@ -93,7 +93,7 @@ const CheckboxCard = React.forwardRef<HTMLDivElement, CheckboxCardProps>(
     };
 
     const checkboxElement = (
-      <div className="height-20 flex items-center shrink-0">
+      <div className="height-20 flex items-center shrink-0" onClick={e => e.stopPropagation()}>
         <Checkbox
           checked={checked}
           disabled={disabled}

@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode, Ref } from 'react';
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
 export type ScrollAreaOrientation = 'vertical' | 'horizontal' | 'both';
@@ -26,7 +26,7 @@ export interface ScrollAreaProps extends ComponentPropsWithoutRef<typeof ScrollA
    * @example const viewportRef = useRef<HTMLDivElement>(null);
    * viewportRef.current?.scrollTo({ top: 0 });
    */
-  viewportRef?: React.Ref<HTMLDivElement>;
+  viewportRef?: Ref<HTMLDivElement>;
   /**
    * 스크롤 영역 내용
    */

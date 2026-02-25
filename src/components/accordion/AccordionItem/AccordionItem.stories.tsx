@@ -69,7 +69,7 @@ const meta = {
       description: '아코디언 토글 시 호출되는 콜백 함수',
       table: {
         type: {
-          summary: '() => void',
+          summary: '(isOpen: boolean) => void',
         },
       },
     },

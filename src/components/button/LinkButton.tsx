@@ -128,10 +128,10 @@ export const LinkButton = forwardRef<HTMLElement, LinkButtonProps>(({
         ref={ref as React.Ref<HTMLAnchorElement>}
         href={href}
         target={openInNewTab ? '_blank' : undefined}
-        rel={openInNewTab ? 'noopener noreferrer' : undefined}
         className={containerClassName}
         style={styleProps}
         {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        rel={openInNewTab ? 'noopener noreferrer' : undefined}
       >
         {content}
       </a>

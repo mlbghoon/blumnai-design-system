@@ -250,7 +250,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTableCellElement>) => {
       if (sortable && (e.key === 'Enter' || e.key === ' ')) {
         e.preventDefault();
-        onClick?.(e as unknown as React.MouseEvent<HTMLTableCellElement>);
+        e.currentTarget.click();
       }
     };
 

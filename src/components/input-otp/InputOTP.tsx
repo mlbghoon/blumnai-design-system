@@ -13,16 +13,16 @@ import type {
 const InputOTP = React.forwardRef<
   React.ElementRef<typeof OTPInput>,
   InputOTPProps
->(({ containerClassName, className, ...props }, ref) => (
+>(({ containerClassName, className, 'aria-label': ariaLabel, ...restProps }, ref) => (
   <OTPInput
     ref={ref}
-    aria-label={props['aria-label'] || 'One-time password'}
     containerClassName={cn(
       'flex items-center ds-gap-8 has-[:disabled]:opacity-50',
       containerClassName
     )}
     className={cn('disabled:cursor-not-allowed', className)}
-    {...props}
+    {...restProps}
+    aria-label={ariaLabel ?? 'One-time password'}
   />
 ));
 InputOTP.displayName = 'InputOTP';

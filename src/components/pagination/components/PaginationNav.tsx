@@ -38,7 +38,7 @@ export const PaginationNav = forwardRef<HTMLButtonElement, PaginationNavProps>(
           href={href}
           className={baseStyles}
           aria-label={ariaLabel}
-          onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>}
+          onClick={onClick}
         >
           {iconElement}
         </a>

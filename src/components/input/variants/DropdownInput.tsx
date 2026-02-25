@@ -267,6 +267,12 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
               option.value === dropdownValue && DROPDOWN_OPTION_SELECTED
             )}
             onClick={() => handleSelectOption(option.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleSelectOption(option.value);
+              }
+            }}
           >
             {option.icon && (() => {
               const { iconType, isFill } = parseIconTypeWithFill(option.icon);

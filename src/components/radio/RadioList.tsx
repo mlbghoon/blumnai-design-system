@@ -44,6 +44,7 @@ const RadioList = React.forwardRef<HTMLDivElement, RadioListProps>(
         ref={ref}
         value={value}
         onValueChange={onValueChange}
+        disabled={disabled}
         className={containerClassName}
       >
         {items.map((item) => (

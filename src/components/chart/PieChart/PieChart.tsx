@@ -165,7 +165,6 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
           width={width}
           height={svgHeight}
           className="overflow-visible"
-          aria-hidden="true"
         >
           <g role="list" aria-label="Pie chart slices">
             {slices.map((slice, index) => (
@@ -182,11 +181,6 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
                 tabIndex={0}
                 role="listitem"
                 aria-label={`${getLabel(slice.name)}: ${slice.value} (${(slice.percentage * 100).toFixed(1)}%)`}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                  }
-                }}
               />
             ))}
           </g>

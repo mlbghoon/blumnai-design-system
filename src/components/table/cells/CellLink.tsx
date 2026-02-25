@@ -27,8 +27,9 @@ export function CellLink({
   useEffect(() => {
     return () => {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      tableTooltip?.hideTooltip();
     };
-  }, []);
+  }, [tableTooltip]);
 
   const getTooltipContent = useCallback((): ReactNode => {
     if (typeof tooltip === 'boolean') {

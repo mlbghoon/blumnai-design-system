@@ -231,6 +231,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
 
   const removeTag = useCallback((index: number) => {
     const removedTag = tags[index];
+    if (removedTag === undefined) return;
     const newTags = tags.filter((_, i) => i !== index);
     onTagsChange?.(newTags);
     onTagRemove?.(removedTag);

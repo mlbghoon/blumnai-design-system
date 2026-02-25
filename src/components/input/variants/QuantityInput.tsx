@@ -233,8 +233,8 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
             ref={ref}
             id={inputId}
             type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
+            inputMode={step % 1 !== 0 ? 'decimal' : 'numeric'}
+            pattern={step % 1 !== 0 ? '[0-9]*[.]?[0-9]*' : '[0-9]*'}
             disabled={disabled}
             className={inputClassName}
             value={value}
@@ -312,8 +312,8 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
           ref={ref}
           id={inputId}
           type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
+          inputMode={step % 1 !== 0 ? 'decimal' : 'numeric'}
+          pattern={step % 1 !== 0 ? '[0-9]*[.]?[0-9]*' : '[0-9]*'}
           disabled={disabled}
           className={cn(inputClassName, 'flex-1')}
           value={value}

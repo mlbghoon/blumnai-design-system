@@ -622,7 +622,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                         ref={searchInputRef}
                         type="text"
                         role="searchbox"
-                        aria-label={searchPlaceholder || 'Search options'}
+                        aria-label={searchPlaceholder || '옵션'}
                         value={searchQuery}
                         onChange={(e) => {
                           setSearchQuery(e.target.value);
@@ -651,7 +651,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                 <div
                   role="listbox"
                   aria-multiselectable="true"
-                  aria-label={label || placeholder || 'Options'}
+                  aria-label={label || 'Options'}
                   className="padding-y-4 overflow-y-auto overflow-x-hidden"
                   style={{
                     maxHeight:

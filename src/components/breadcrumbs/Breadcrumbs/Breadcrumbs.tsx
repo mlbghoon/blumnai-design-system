@@ -30,7 +30,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
   className,
   ...props
 }, ref) => {
-  const effectiveMaxItems = maxItems && maxItems >= 2 ? maxItems : undefined;
+  const effectiveMaxItems = maxItems && maxItems >= 3 ? maxItems : undefined;
 
   const visibleItems = useMemo(() => {
     if (!effectiveMaxItems || items.length <= effectiveMaxItems) {
@@ -38,7 +38,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
     }
 
     const firstItem = items[0];
-    const lastItems = items.slice(-(effectiveMaxItems - 1));
+    const lastItems = items.slice(-(effectiveMaxItems - 2));
     return [firstItem, { label: '...', disabled: true }, ...lastItems] as typeof items;
   }, [items, effectiveMaxItems]);
 

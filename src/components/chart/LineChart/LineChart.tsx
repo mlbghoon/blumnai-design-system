@@ -91,12 +91,14 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     } else {
       values = [0];
     }
-    const maxValue = values.reduce((max, v) => v > max ? v : max, 0);
-    const minValue = values.reduce((min, v) => v < min ? v : min, 0);
+    const rawMax = values.reduce((max, v) => v > max ? v : max, Number.NEGATIVE_INFINITY);
+    const rawMin = values.reduce((min, v) => v < min ? v : min, Number.POSITIVE_INFINITY);
+    const maxValue = Number.isFinite(rawMax) ? rawMax : 0;
+    const minValue = Number.isFinite(rawMin) ? rawMin : 0;
     const domain: [number, number] =
       yAxis.domain && yAxis.domain !== 'auto'
         ? yAxis.domain
-        : [minValue, maxValue * 1.1];
+        : [minValue, maxValue > 0 ? maxValue * 1.1 : 1];
     return {
       domain,
       scale: (value: number) => {
@@ -289,7 +291,6 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
         width={width}
         height={height}
         className="overflow-visible"
-        aria-hidden="true"
       >
         {showXGrid &&
           yTicks.map((tick, i) => {

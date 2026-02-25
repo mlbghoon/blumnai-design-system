@@ -5,12 +5,15 @@ import { InputWrapper } from '../../input/shared/InputWrapper';
 import { TimeInput } from './TimeInput';
 import type { TimePickerProps, TimeValue, QuickSelectOption } from '../time-picker.types';
 
-const getDefaultQuickOptions = (): QuickSelectOption[] => [
-  { label: 'Now', value: { hour: new Date().getHours(), minute: new Date().getMinutes() } },
+const getDefaultQuickOptions = (): QuickSelectOption[] => {
+  const now = new Date();
+  return [
+  { label: 'Now', value: { hour: now.getHours(), minute: now.getMinutes() } },
   { label: '9:00 AM', value: { hour: 9, minute: 0 } },
   { label: '12:00 PM', value: { hour: 12, minute: 0 } },
   { label: '5:00 PM', value: { hour: 17, minute: 0 } },
 ];
+};
 
 /**
  * TimePicker 컴포넌트

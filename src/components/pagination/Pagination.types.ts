@@ -75,7 +75,11 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
   nextText?: string;
 }
 
-export interface PaginationItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface PaginationItemProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
+  /**
+   * 클릭 이벤트 핸들러
+   */
+  onClick?: React.MouseEventHandler<HTMLElement>;
   /**
    * 활성화 상태
    */
@@ -92,7 +96,11 @@ export interface PaginationItemProps extends ButtonHTMLAttributes<HTMLButtonElem
   href?: string;
 }
 
-export interface PaginationNavProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface PaginationNavProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
+  /**
+   * 클릭 이벤트 핸들러
+   */
+  onClick?: React.MouseEventHandler<HTMLElement>;
   /**
    * 방향
    */
