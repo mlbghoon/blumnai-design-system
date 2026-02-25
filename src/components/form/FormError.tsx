@@ -24,6 +24,7 @@ export const FormError = forwardRef<HTMLParagraphElement, FormErrorProps>(
       <p
         ref={ref}
         id={formMessageId}
+        role="alert"
         className={cn(ERROR_CAPTION_STYLE, className)}
         {...props}
       >

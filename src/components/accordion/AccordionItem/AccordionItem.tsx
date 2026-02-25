@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useMemo, useState } from 'react';
+import { forwardRef, useCallback, useId, useMemo, useState } from 'react';
 
 import { ArrowDownIcon } from '../../icons/Icon/icons/arrows';
 import { cn } from '../../../utils/cn';
@@ -25,34 +25,31 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
   header,
   children,
   disabled = false,
+  defaultIsOpen,
+  headingLevel = 3,
   className,
   headerProps,
   ...restProps
 }, ref) => {
-  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(defaultIsOpen ?? false);
   const [isHovered, setIsHovered] = useState(false);
   const isControlled = controlledIsOpen !== undefined;
   const isOpen = isControlled ? controlledIsOpen : internalIsOpen;
+  const uniqueId = useId();
+  const buttonId = `accordion-button-${uniqueId}`;
+  const panelId = `accordion-panel-${uniqueId}`;
 
   const handleToggle = useCallback(() => {
     if (disabled) return;
 
+    const newIsOpen = !isOpen;
     if (isControlled) {
-      controlledOnToggle?.();
+      controlledOnToggle?.(newIsOpen);
     } else {
-      setInternalIsOpen((prev) => !prev);
+      setInternalIsOpen(newIsOpen);
+      controlledOnToggle?.(newIsOpen);
     }
-  }, [disabled, isControlled, controlledOnToggle]);
-
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        handleToggle();
-      }
-    },
-    [handleToggle]
-  );
+  }, [disabled, isControlled, isOpen, controlledOnToggle]);
 
   const containerClassName = useMemo(() => {
     const canHover = isHovered && !isOpen && !disabled;
@@ -107,24 +104,27 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
       onMouseLeave={() => setIsHovered(false)}
       {...restProps}
     >
-      <button
-        type="button"
-        className={headerClassName}
-        onClick={handleToggle}
-        onKeyDown={handleKeyDown}
-        disabled={disabled}
-        aria-expanded={isOpen}
-        aria-disabled={disabled}
-        {...headerProps}
-      >
-        <span className="flex-1 size-md font-medium line-height-leading-6 text-left text-default">
-          {header}
-        </span>
-        <span className={iconClassName}>
-          <ArrowDownIcon size={20} />
-        </span>
-      </button>
-      <div className={contentClassName}>
+      <div role="heading" aria-level={headingLevel}>
+        <button
+          id={buttonId}
+          type="button"
+          className={headerClassName}
+          onClick={handleToggle}
+          disabled={disabled}
+          aria-expanded={isOpen}
+          aria-controls={panelId}
+          aria-disabled={disabled}
+          {...headerProps}
+        >
+          <span className="flex-1 size-md font-medium line-height-leading-6 text-left text-default">
+            {header}
+          </span>
+          <span className={iconClassName}>
+            <ArrowDownIcon size={20} />
+          </span>
+        </button>
+      </div>
+      <div id={panelId} role="region" aria-labelledby={buttonId} className={contentClassName} aria-hidden={!isOpen} {...(!isOpen && { inert: true })}>
         <div className="overflow-hidden"><div className="padding-y-8 size-md font-normal line-height-leading-6 text-subtle">{children}</div></div>
       </div>
     </div>

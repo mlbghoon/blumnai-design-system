@@ -1,6 +1,7 @@
 export {
   Menubar,
   MenubarMenu,
+  MenubarGroup,
   MenubarTrigger,
   MenubarContent,
   MenubarItem,
@@ -19,6 +20,7 @@ export {
 export type {
   MenubarProps,
   MenubarMenuProps,
+  MenubarGroupProps,
   MenubarTriggerProps,
   MenubarContentProps,
   MenubarItemProps,

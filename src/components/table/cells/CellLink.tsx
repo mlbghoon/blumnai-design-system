@@ -1,4 +1,4 @@
-import { useCallback, useRef, type ReactNode } from 'react';
+import { useCallback, useRef, useEffect, type ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Icon } from '../../icons/Icon';
@@ -23,6 +23,14 @@ export function CellLink({
   const elementRef = useRef<HTMLAnchorElement>(null);
   const tableTooltip = useTableTooltipOptional();
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      tableTooltip?.hideTooltip();
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getTooltipContent = useCallback((): ReactNode => {
     if (typeof tooltip === 'boolean') {
@@ -69,6 +77,7 @@ export function CellLink({
         <Icon
           iconType={['system', 'external-link']}
           size={12}
+          aria-hidden="true"
         />
       )}
     </a>

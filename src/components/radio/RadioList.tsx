@@ -5,7 +5,7 @@ import { Radio, RadioGroup } from './Radio';
 import type { RadioListProps } from './RadioList.types';
 
 const RadioList = React.forwardRef<HTMLDivElement, RadioListProps>(
-  ({ items, value, onValueChange, listStyle = 'default', radioStyle = 'with-shadow', className }, ref) => {
+  ({ items, value, defaultValue, onValueChange, listStyle = 'default', radioStyle = 'with-shadow', disabled = false, className }, ref) => {
     const containerClassName = cn(
       'flex flex-col',
       listStyle === 'default' && 'ds-gap-24',
@@ -17,7 +17,9 @@ const RadioList = React.forwardRef<HTMLDivElement, RadioListProps>(
         <RadioGroup
           ref={ref}
           value={value}
+          defaultValue={defaultValue}
           onValueChange={onValueChange}
+          disabled={disabled}
           className={containerClassName}
         >
           {items.map((item) => (
@@ -43,6 +45,7 @@ const RadioList = React.forwardRef<HTMLDivElement, RadioListProps>(
         ref={ref}
         value={value}
         onValueChange={onValueChange}
+        disabled={disabled}
         className={containerClassName}
       >
         {items.map((item) => (

@@ -35,10 +35,19 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       showLegend = false,
       className,
       ariaLabel,
+      onDataPointClick,
+      isLoading,
+      responsive,
       ...props
     },
     ref
   ) => {
+  if (process.env.NODE_ENV !== 'production') {
+    if (dataKey && dataKeys && dataKeys.length > 0) {
+      console.warn('[LineChart] dataKey와 dataKeys가 동시에 제공되었습니다. dataKeys가 우선 적용됩니다.');
+    }
+  }
+
   const isMultiLine = dataKeys && dataKeys.length > 0;
   const activeKeys = useMemo(() => {
     return isMultiLine ? dataKeys : (dataKey ? [dataKey] : []);
@@ -85,12 +94,14 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     } else {
       values = [0];
     }
-    const maxValue = Math.max(...values, 0);
-    const minValue = Math.min(...values, 0);
+    const rawMax = values.reduce((max, v) => v > max ? v : max, Number.NEGATIVE_INFINITY);
+    const rawMin = values.reduce((min, v) => v < min ? v : min, Number.POSITIVE_INFINITY);
+    const maxValue = Number.isFinite(rawMax) ? rawMax : 0;
+    const minValue = Number.isFinite(rawMin) ? rawMin : 0;
     const domain: [number, number] =
       yAxis.domain && yAxis.domain !== 'auto'
         ? yAxis.domain
-        : [minValue, maxValue * 1.1];
+        : [minValue, maxValue > 0 ? maxValue * 1.1 : 1];
     return {
       domain,
       scale: (value: number) => {
@@ -268,16 +279,22 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 
   const chartAriaLabel = ariaLabel || `Line chart showing ${activeKeys.join(', ') || 'data'}`;
 
+  if (!data || data.length === 0) {
+    return (
+      <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
+        <svg width={width} height={height} aria-hidden="true">
+        </svg>
+      </Chart>
+    );
+  }
+
   return (
-    <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
+    <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
       <svg
         width={width}
         height={height}
         className="overflow-visible"
-        role="graphics-document"
-        aria-label={chartAriaLabel}
       >
-        <title>{chartAriaLabel}</title>
         {showXGrid &&
           yTicks.map((tick, i) => {
             const y = padding.top + yScale.scale(tick);
@@ -441,6 +458,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                   onMouseEnter={(e) => handlePointMouseEnter(index, keyIndex, e)}
                   onMouseMove={handlePointMouseMove}
                   onMouseLeave={handlePointMouseLeave}
+                  onClick={() => onDataPointClick?.(data[index], index)}
                   style={{ cursor: 'pointer' }}
                   tabIndex={0}
                   role="graphics-symbol"
@@ -448,6 +466,17 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
+                      onDataPointClick?.(data[index], index);
+                      const circle = e.target as SVGCircleElement;
+                      const rect = circle.getBoundingClientRect();
+                      setTooltipState({
+                        visible: true,
+                        x: rect.left + rect.width / 2,
+                        y: rect.top,
+                        pointIndex: index,
+                        pointX: xScale.scale(index),
+                        lineIndex: keyIndex,
+                      });
                     }
                   }}
                 />
@@ -473,6 +502,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 onMouseEnter={(e) => handlePointMouseEnter(index, 0, e)}
                 onMouseMove={handlePointMouseMove}
                 onMouseLeave={handlePointMouseLeave}
+                onClick={() => onDataPointClick?.(data[index], index)}
                 style={{ cursor: 'pointer' }}
                 tabIndex={0}
                 role="graphics-symbol"
@@ -480,6 +510,17 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
+                    onDataPointClick?.(data[index], index);
+                    const circle = e.target as SVGCircleElement;
+                    const rect = circle.getBoundingClientRect();
+                    setTooltipState({
+                      visible: true,
+                      x: rect.left + rect.width / 2,
+                      y: rect.top,
+                      pointIndex: index,
+                      pointX: xScale.scale(index),
+                      lineIndex: 0,
+                    });
                   }
                 }}
               />

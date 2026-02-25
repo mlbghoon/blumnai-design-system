@@ -5,6 +5,7 @@ import { cva } from 'class-variance-authority';
 
 import { Icon } from '../icons/Icon';
 import { cn } from '../../lib/utils';
+import { getPixelValue } from '../../lib/css-utils';
 
 import type { FilterButtonProps, FilterButtonSize, FilterButtonShape } from './FilterButton.types';
 
@@ -77,17 +78,8 @@ export const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(({
   const Comp = asChild ? Slot : 'button';
   const iconSize = 16;
 
-  const getWidthValue = (w: string | number): string => {
-    if (typeof w === 'number') return `${w}px`;
-    const numericValue = parseFloat(w);
-    if (!isNaN(numericValue) && String(numericValue) === w.trim()) {
-      return `${numericValue}px`;
-    }
-    return w;
-  };
-
   const widthStyle = width !== undefined && width !== ''
-    ? { width: getWidthValue(width) }
+    ? { width: getPixelValue(width) }
     : undefined;
 
   const mergedStyle: React.CSSProperties = {
@@ -123,14 +115,29 @@ export const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(({
     className
   );
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (disabled) { e.preventDefault(); return; }
+    props.onClick?.(e);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (disabled && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); return; }
+    props.onKeyDown?.(e);
+  };
+
   return (
     <Comp
       ref={ref}
       type={asChild ? undefined : 'button'}
-      disabled={disabled}
+      disabled={asChild ? undefined : disabled}
+      aria-disabled={disabled || undefined}
+      aria-pressed={selected}
+      tabIndex={asChild && disabled ? -1 : undefined}
       className={containerClassName}
       style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
       {...props}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
     >
       <Icon
         iconType={icon}

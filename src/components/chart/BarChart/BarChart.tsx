@@ -35,10 +35,15 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       showLegend = false,
       className,
       ariaLabel,
+      onDataPointClick,
+      isLoading,
+      responsive,
       ...props
     },
     ref
   ) => {
+  const safeData = useMemo(() => data ?? [], [data]);
+
   const getColor = useCallback((key: string, index: number): string => {
     if (config && config[key]) {
       return config[key].color;
@@ -66,7 +71,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   const chartHeight = height - padding.top - padding.bottom;
 
   const xScale = useMemo(() => {
-    const maxBars = data.length;
+    const maxBars = safeData.length;
     const availableWidth = chartWidth - (barAreaPadding * 2);
 
     let calculatedBarWidth: number;
@@ -102,34 +107,36 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         return startOffset + (calculatedBarWidth + calculatedGap) * index;
       },
     };
-  }, [chartWidth, data.length, barSize, gap, barAreaPadding]);
+  }, [chartWidth, safeData.length, barSize, gap, barAreaPadding]);
 
   const yScale = useMemo(() => {
     let values: number[];
     if (stacked && stackedKeys && stackedKeys.length > 0) {
-      values = data.map((d) => {
+      values = safeData.map((d) => {
         return stackedKeys.reduce((sum, key) => sum + (Number(d[key]) || 0), 0);
       });
     } else if (dataKey) {
-      values = data.map((d) => Number(d[dataKey]) || 0);
+      values = safeData.map((d) => Number(d[dataKey]) || 0);
     } else {
       values = [0];
     }
-    const maxValue = Math.max(...values, 0);
+    const maxValue = values.reduce((max, v) => v > max ? v : max, 0);
+    const safeMax = maxValue > 0 ? maxValue * 1.1 : 1;
     let domain: [number, number];
     if (Array.isArray(yAxis.domain) && yAxis.domain.length === 2 && typeof yAxis.domain[0] === 'number' && typeof yAxis.domain[1] === 'number') {
       domain = [yAxis.domain[0], yAxis.domain[1]];
     } else {
-      domain = [0, maxValue * 1.1];
+      domain = [0, safeMax];
     }
     return {
       domain,
       scale: (value: number) => {
         const [min, max] = domain;
+        if (max === min) return chartHeight;
         return chartHeight - ((value - min) / (max - min)) * chartHeight;
       },
     };
-  }, [chartHeight, data, dataKey, yAxis.domain, stacked, stackedKeys]);
+  }, [chartHeight, safeData, dataKey, yAxis.domain, stacked, stackedKeys]);
 
   const getBarColor = useCallback((index: number) => {
     if (dataKey && config && config[dataKey]) {
@@ -190,7 +197,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   }, []);
 
   const getTooltipItems = useCallback((index: number): TooltipItemData[] => {
-    const item = data[index];
+    const item = safeData[index];
     const dateLabel = String(item[xAxis.dataKey] || '');
 
     const items: TooltipItemData[] = [
@@ -221,20 +228,32 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     }
 
     return items;
-  }, [data, dataKey, xAxis.dataKey, getBarColor, stacked, stackedKeys, getColor, getLabel]);
+  }, [safeData, dataKey, xAxis.dataKey, getBarColor, stacked, stackedKeys, getColor, getLabel]);
+
+  if (process.env.NODE_ENV !== 'production') {
+    if (stacked && (!stackedKeys || stackedKeys.length === 0)) {
+      console.warn('[BarChart] stacked={true}이지만 stackedKeys가 제공되지 않았습니다. stacked 모드를 사용하려면 stackedKeys를 지정하세요.');
+    }
+  }
 
   const chartAriaLabel = ariaLabel || `Bar chart showing ${dataKey || (stackedKeys?.join(', ') || 'data')}`;
 
+  if (!safeData || safeData.length === 0) {
+    return (
+      <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
+        <svg width={width} height={height} aria-hidden="true">
+        </svg>
+      </Chart>
+    );
+  }
+
   return (
-    <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} {...props}>
+    <Chart ref={ref} width={width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
       <svg
         width={width}
         height={height}
         className="overflow-hidden"
-        role="graphics-document"
-        aria-label={chartAriaLabel}
       >
-        <title>{chartAriaLabel}</title>
         {showXGrid &&
           yTicks.map((tick, i) => {
             const y = padding.top + yScale.scale(tick);
@@ -252,7 +271,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
           })}
 
         {showYGrid &&
-          data.slice(0, -1).map((_, index) => {
+          safeData.slice(0, -1).map((_, index) => {
             const x1 = padding.left + xScale.getX(index) + xScale.barWidth;
             const x2 = padding.left + xScale.getX(index + 1);
             const midX = (x1 + x2) / 2;
@@ -323,7 +342,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         )}
 
         <g role="list" aria-label="Bar chart data">
-          {data.map((item, index) => {
+          {safeData.map((item, index) => {
             const barX = xScale.getX(index);
             const x = padding.left + barX;
             const isHovered = hoveredBarIndex === index;
@@ -416,9 +435,27 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
                       tabIndex={0}
                       role="graphics-symbol"
                       aria-label={`${getLabel(segment.key)}: ${segment.value}`}
+                      onClick={(e) => {
+                        if (onDataPointClick) {
+                          onDataPointClick(safeData[index], index);
+                        }
+                        handleBarMouseEnter(index, barX, e as unknown as React.MouseEvent<SVGRectElement>);
+                      }}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
+                          if (onDataPointClick) {
+                            onDataPointClick(safeData[index], index);
+                          }
+                          const rect = (e.target as SVGRectElement).getBoundingClientRect();
+                          setTooltipState({
+                            visible: true,
+                            x: rect.left + rect.width / 2,
+                            y: rect.top,
+                            barIndex: index,
+                            barX: barX + padding.left + xScale.barWidth / 2,
+                          });
+                          setHoveredBarIndex(index);
                         }
                       }}
                     />
@@ -429,7 +466,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
           })}
         </g>
 
-        {data.map((item, index) => {
+        {safeData.map((item, index) => {
           const x = padding.left + xScale.getX(index) + xScale.barWidth / 2;
           const label = String(item[xAxis.dataKey] || '');
           return (

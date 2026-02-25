@@ -86,8 +86,10 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
             height: overlaySize.height,
             fontSize: overlaySize.fontSize,
           }}
+          role="img"
+          aria-label={`${remainingCount} more`}
         >
-          +{remainingCount}
+          <span aria-hidden="true">+{remainingCount}</span>
         </div>
       )}
     </div>

@@ -35,6 +35,7 @@ export type {
   ExtendedSelectItemProps,
   ExtendedSelectProps,
   MultiSelectItemProps,
+  SelectOptionGroup,
 } from './Select.types';
 
 // Radix primitives (for advanced customization)

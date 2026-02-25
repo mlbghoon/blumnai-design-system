@@ -67,15 +67,24 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === 'ArrowLeft') {
+        const target = event.target as HTMLElement;
+        const tag = target.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable) {
+          return;
+        }
+
+        const prevKey = orientation === 'vertical' ? 'ArrowUp' : 'ArrowLeft';
+        const nextKey = orientation === 'vertical' ? 'ArrowDown' : 'ArrowRight';
+
+        if (event.key === prevKey) {
           event.preventDefault();
           scrollPrev();
-        } else if (event.key === 'ArrowRight') {
+        } else if (event.key === nextKey) {
           event.preventDefault();
           scrollNext();
         }
       },
-      [scrollPrev, scrollNext]
+      [scrollPrev, scrollNext, orientation]
     );
 
     React.useEffect(() => {
@@ -93,24 +102,29 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
 
       return () => {
         api.off('select', onSelect);
+        api.off('reInit', onSelect);
       };
     }, [api, onSelect]);
 
+    const resolvedOrientation = orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal');
+
+    const contextValue = React.useMemo(
+      () => ({
+        carouselRef,
+        api,
+        opts,
+        orientation: resolvedOrientation,
+        gap,
+        scrollPrev,
+        scrollNext,
+        canScrollPrev,
+        canScrollNext,
+      }),
+      [carouselRef, api, opts, resolvedOrientation, gap, scrollPrev, scrollNext, canScrollPrev, canScrollNext]
+    );
+
     return (
-      <CarouselContext.Provider
-        value={{
-          carouselRef,
-          api,
-          opts,
-          orientation:
-            orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
-          gap,
-          scrollPrev,
-          scrollNext,
-          canScrollPrev,
-          canScrollNext,
-        }}
-      >
+      <CarouselContext.Provider value={contextValue}>
         <div
           ref={ref}
           onKeyDownCapture={handleKeyDown}
@@ -130,8 +144,20 @@ Carousel.displayName = 'Carousel';
 export const CarouselContent = React.forwardRef<
   HTMLDivElement,
   CarouselContentProps
->(({ className, style, ...props }, ref) => {
+>(({ className, style, children, ...props }, ref) => {
   const { carouselRef, orientation, gap } = useCarousel();
+
+  const childArray = React.Children.toArray(children);
+  const slideCount = childArray.length;
+  const enrichedChildren = childArray.map((child, index) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child as React.ReactElement<CarouselItemProps>, {
+        'data-slide-index': index,
+        'data-slide-count': slideCount,
+      });
+    }
+    return child;
+  });
 
   return (
     <div ref={carouselRef} className="overflow-hidden">
@@ -144,7 +170,9 @@ export const CarouselContent = React.forwardRef<
         )}
         style={{ gap, ...style }}
         {...props}
-      />
+      >
+        {enrichedChildren}
+      </div>
     </div>
   );
 });
@@ -159,15 +187,24 @@ export const CarouselViewport = React.forwardRef<
 CarouselViewport.displayName = 'CarouselViewport';
 
 export const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      role="group"
-      aria-roledescription="slide"
-      className={cn('min-w-0 shrink-0 grow-0 basis-full', className)}
-      {...props}
-    />
-  )
+  ({ className, 'data-slide-index': slideIndex, 'data-slide-count': slideCount, 'aria-label': ariaLabel, ...props }, ref) => {
+    const label = ariaLabel ?? (
+      slideIndex !== undefined && slideCount !== undefined
+        ? `${slideIndex + 1} of ${slideCount}`
+        : undefined
+    );
+
+    return (
+      <div
+        ref={ref}
+        role="group"
+        aria-roledescription="slide"
+        aria-label={label}
+        className={cn('min-w-0 shrink-0 grow-0 basis-full', className)}
+        {...props}
+      />
+    );
+  }
 );
 CarouselItem.displayName = 'CarouselItem';
 
@@ -256,6 +293,8 @@ export const CarouselIndicators = React.forwardRef<
     return (
       <div
         ref={ref}
+        role="tablist"
+        aria-label="Slides"
         className={cn('flex items-center justify-center ds-gap-8', className)}
         {...props}
       >
@@ -263,6 +302,7 @@ export const CarouselIndicators = React.forwardRef<
           <button
             key={index}
             type="button"
+            role="tab"
             className={cn(
               'width-10 height-10 rounded-full transition-colors cursor-pointer',
               index === selectedIndex
@@ -271,7 +311,7 @@ export const CarouselIndicators = React.forwardRef<
             )}
             onClick={() => api?.scrollTo(index)}
             aria-label={`Go to slide ${index + 1}`}
-            aria-current={index === selectedIndex ? 'true' : undefined}
+            aria-selected={index === selectedIndex}
           />
         ))}
       </div>
@@ -282,6 +322,8 @@ export const CarouselIndicators = React.forwardRef<
     return (
       <div
         ref={ref}
+        role="tablist"
+        aria-label="Slides"
         className={cn('flex items-center justify-center ds-gap-4', className)}
         {...props}
       >
@@ -289,6 +331,7 @@ export const CarouselIndicators = React.forwardRef<
           <button
             key={index}
             type="button"
+            role="tab"
             className={cn(
               'height-4 rounded-full transition-all cursor-pointer',
               index === selectedIndex
@@ -297,7 +340,7 @@ export const CarouselIndicators = React.forwardRef<
             )}
             onClick={() => api?.scrollTo(index)}
             aria-label={`Go to slide ${index + 1}`}
-            aria-current={index === selectedIndex ? 'true' : undefined}
+            aria-selected={index === selectedIndex}
           />
         ))}
       </div>

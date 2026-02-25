@@ -79,6 +79,10 @@ export interface DefaultInputProps extends Omit<InputHTMLAttributes<HTMLInputEle
    * @default false
    */
   showCount?: boolean;
+  /**
+   * Cmd/Ctrl+Enter 입력 시 호출되는 콜백
+   */
+  onCmdEnter?: () => void;
 }
 
 /**
@@ -102,9 +106,11 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
   disabled = false,
   className,
   onClear,
+  onCmdEnter,
   showCount = false,
   maxLength,
   value,
+  onKeyDown: onKeyDownProp,
   ...props
 }, ref) => {
   const internalRef = useRef<HTMLInputElement>(null);
@@ -138,6 +144,14 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
   const currentLength = typeof value === 'string' ? value.length : 0;
 
   // Determine if we have tail content
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (onCmdEnter && e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      onCmdEnter();
+    }
+    onKeyDownProp?.(e);
+  }, [onCmdEnter, onKeyDownProp]);
+
   const hasClearButton = onClear !== undefined && value !== '' && value !== undefined;
   const hasLeadIcon = leadIcon !== undefined;
   const hasTailContent = tailIcon !== undefined || shortcut !== undefined || hasClearButton;
@@ -209,11 +223,13 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
           ref={mergeRefs}
           id={inputId}
           disabled={disabled}
+          required={required}
           className={inputClassName}
           value={value}
           autoComplete="off"
           aria-invalid={hasError}
           aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
+          onKeyDown={handleKeyDown}
           {...props}
         />
 

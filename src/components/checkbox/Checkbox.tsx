@@ -41,13 +41,6 @@ const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   CheckboxProps
 >(({ className, label, description, checkboxPosition = 'left', checkboxStyle = 'default', disabled, checked, onCheckedChange, ...props }, ref) => {
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !disabled) {
-      e.preventDefault();
-      onCheckedChange?.(checked === true ? false : true);
-    }
-  };
-
   const isChecked = checked === true || checked === 'indeterminate';
   const isIndeterminate = checked === 'indeterminate';
 
@@ -65,7 +58,6 @@ const Checkbox = React.forwardRef<
       checked={checked}
       disabled={disabled}
       onCheckedChange={onCheckedChange}
-      onKeyDown={handleKeyDown}
       className={cn(
         'peer relative shrink-0 group',
         'width-16 height-16',

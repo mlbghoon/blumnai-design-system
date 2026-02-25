@@ -32,8 +32,6 @@ export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
 
 export type CarouselContentProps = HTMLAttributes<HTMLDivElement>;
 
-export type CarouselItemProps = HTMLAttributes<HTMLDivElement>;
-
 export type CarouselNavProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 export type CarouselIndicatorVariant = 'dot' | 'line' | 'number';
@@ -44,6 +42,13 @@ export interface CarouselIndicatorsProps extends HTMLAttributes<HTMLDivElement> 
    * @default 'dot'
    */
   variant?: CarouselIndicatorVariant;
+}
+
+export interface CarouselItemProps extends HTMLAttributes<HTMLDivElement> {
+  /** 슬라이드 인덱스 (0-based). CarouselContent가 자동으로 주입합니다. */
+  'data-slide-index'?: number;
+  /** 전체 슬라이드 수. CarouselContent가 자동으로 주입합니다. */
+  'data-slide-count'?: number;
 }
 
 export interface CarouselContextProps {

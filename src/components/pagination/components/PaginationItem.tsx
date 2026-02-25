@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import type { PaginationItemProps } from '../Pagination.types';
 
 export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>(
-  ({ className, isActive, variant = 'numbered', disabled, href, children, ...props }, ref) => {
+  ({ className, isActive, variant = 'numbered', disabled, href, children, onClick, ...props }, ref) => {
     const baseStyles =
       variant === 'numbered'
         ? cn(
@@ -32,14 +32,28 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
             className
           );
 
+    const computedAriaLabel = variant === 'dot'
+      ? (children != null
+          ? (isActive ? `슬라이드 ${children}, 현재` : `슬라이드 ${children}(으)로 이동`)
+          : undefined)
+      : (typeof children === 'string' || typeof children === 'number')
+        ? (isActive ? `${children} 페이지, 현재 페이지` : `${children} 페이지로 이동`)
+        : undefined;
+
+    const renderedChildren = variant === 'dot'
+      ? (children != null ? <span className="sr-only">{children}</span> : null)
+      : children;
+
     if (href && !disabled) {
       return (
         <a
           href={href}
           className={baseStyles}
-          aria-current={isActive ? 'page' : undefined}
+          aria-current={isActive ? (variant === 'dot' ? true : 'page') : undefined}
+          aria-label={computedAriaLabel}
+          onClick={onClick}
         >
-          {children}
+          {renderedChildren}
         </a>
       );
     }
@@ -50,10 +64,12 @@ export const PaginationItem = forwardRef<HTMLButtonElement, PaginationItemProps>
         type="button"
         className={baseStyles}
         disabled={disabled}
-        aria-current={isActive ? 'page' : undefined}
+        aria-current={isActive ? (variant === 'dot' ? true : 'page') : undefined}
+        aria-label={computedAriaLabel}
+        onClick={onClick}
         {...props}
       >
-        {children}
+        {renderedChildren}
       </button>
     );
   }

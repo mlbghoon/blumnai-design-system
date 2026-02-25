@@ -2,20 +2,8 @@ import * as React from 'react';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 
 import { cn } from '@/lib/utils';
-import { RadioContext } from './Radio';
+import { RadioContext, RadioIndicator } from './Radio';
 import type { RadioCardProps } from './RadioCard.types';
-
-const RadioIndicator = ({ color = 'currentColor' }: { color?: string }) => (
-  <svg
-    width="8"
-    height="8"
-    viewBox="0 0 8 8"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <circle cx="4" cy="4" r="4" fill={color} />
-  </svg>
-);
 
 /**
  * RadioCard 컴포넌트
@@ -63,9 +51,11 @@ const RadioCard = React.forwardRef<HTMLLabelElement, RadioCardProps>(
 
     const cardClassName = cn(
       'group w-full padding-16 rounded-md overflow-hidden',
+      'focus-visible:outline-none focus-visible:shadow-component-focus',
       layout === 'vertical' ? 'flex flex-col ds-gap-24' : 'flex',
       backgroundStyles,
       getBorderStyles(),
+      radioPosition === 'off' && isChecked && !disabled && 'bg-state-soft',
       disabled ? 'cursor-not-allowed' : 'cursor-pointer',
       className
     );

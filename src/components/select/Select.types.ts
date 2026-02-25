@@ -62,6 +62,20 @@ export interface SelectOption {
 }
 
 /**
+ * Select 옵션 그룹
+ */
+export interface SelectOptionGroup {
+  /**
+   * 그룹 라벨
+   */
+  label: string;
+  /**
+   * 그룹에 포함되는 옵션 ID 목록
+   */
+  optionIds: string[];
+}
+
+/**
  * 모든 Select 변형에서 공유되는 기본 Props
  */
 export interface SelectBaseProps {
@@ -154,6 +168,24 @@ export interface SelectBaseProps {
    * 외부 컨테이너에 적용할 추가 className
    */
   className?: string;
+  /**
+   * 선택 초기화 버튼 표시 여부.
+   * `true`이면 선택된 값이 있을 때 X 버튼이 표시됩니다.
+   * @default false
+   */
+  clearable?: boolean;
+  /**
+   * 로딩 상태.
+   * `true`이면 드롭다운 내에 스피너가 표시됩니다.
+   * @default false
+   */
+  loading?: boolean;
+  /**
+   * 옵션 그룹 정의.
+   * 각 그룹에 라벨과 옵션 ID 목록을 지정합니다.
+   * `options`와 함께 사용하여 그룹별로 옵션을 구분합니다.
+   */
+  optionGroups?: SelectOptionGroup[];
 }
 
 /**
@@ -165,6 +197,10 @@ export interface DefaultSelectProps extends SelectBaseProps, Omit<HTMLAttributes
    * 현재 선택된 값
    */
   value?: string;
+  /**
+   * 비제어 모드에서의 초기 선택 값
+   */
+  defaultValue?: string;
   /**
    * 선택 변경 시 호출되는 콜백
    */
@@ -185,6 +221,10 @@ export interface AvatarSelectProps extends SelectBaseProps, Omit<HTMLAttributes<
    * 현재 선택된 값
    */
   value?: string;
+  /**
+   * 비제어 모드에서의 초기 선택 값
+   */
+  defaultValue?: string;
   /**
    * 선택 변경 시 호출되는 콜백
    */

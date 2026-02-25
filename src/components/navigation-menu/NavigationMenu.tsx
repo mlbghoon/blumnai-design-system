@@ -57,6 +57,7 @@ const navigationMenuTriggerStyle = cva(
     'padding-x-16 padding-y-8 size-sm font-body font-medium line-height-leading-5 text-default',
     'transition-colors hover:bg-accent hover:text-accent-foreground',
     'focus:bg-accent focus:text-accent-foreground focus:outline-none',
+    'focus-visible:shadow-component-misc-focus focus-visible:rounded-sm',
     'disabled:pointer-events-none disabled:opacity-50',
     'data-[state=open]:text-accent-foreground data-[state=open]:bg-accent/50',
     'data-[state=open]:hover:bg-accent data-[state=open]:focus:bg-accent'
@@ -177,18 +178,20 @@ NavigationMenuIndicator.displayName = 'NavigationMenuIndicator';
 const NavigationMenuListItem = React.forwardRef<
   HTMLAnchorElement,
   NavigationMenuListItemProps
->(({ className, title, description, href, icon, iconFill = false, children }, ref) => {
+>(({ className, title, description, href, icon, iconFill = false, active, children, ...props }, ref) => {
   return (
     <li>
-      <NavigationMenuPrimitive.Link asChild>
+      <NavigationMenuPrimitive.Link asChild active={active}>
         <a
           ref={ref}
           href={href}
           className={cn(
             'block select-none rounded-md padding-12 no-underline outline-none transition-colors',
             'hover:bg-accent focus:bg-accent',
+            'focus-visible:shadow-component-misc-focus',
             className
           )}
+          {...props}
         >
           {children || (
             <div className="flex items-start ds-gap-12">

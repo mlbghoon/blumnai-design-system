@@ -9,6 +9,7 @@ import type {
   CardDescriptionProps,
   CardContentProps,
   CardFooterProps,
+  CardGroupProps,
 } from './Card.types';
 
 const cardVariants = cva(
@@ -28,13 +29,34 @@ const cardVariants = cva(
 );
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(cardVariants({ variant }), className)}
-      {...props}
-    />
-  )
+  ({ className, variant, interactive, onClick, onKeyDown, ...props }, ref) => {
+    const handleKeyDown = interactive
+      ? (e: React.KeyboardEvent<HTMLDivElement>) => {
+          onKeyDown?.(e);
+          if (e.defaultPrevented) return;
+          if ((e.key === 'Enter' || e.key === ' ') && !e.repeat) {
+            e.preventDefault();
+            (e.currentTarget as HTMLElement).click();
+          }
+        }
+      : onKeyDown;
+
+    return (
+      <div
+        ref={ref}
+        role={interactive ? 'button' : undefined}
+        tabIndex={interactive ? 0 : undefined}
+        className={cn(
+          cardVariants({ variant }),
+          interactive && 'cursor-pointer hover:shadow-md transition-shadow focus-visible:shadow-component-focus focus-visible:outline-none',
+          className
+        )}
+        onClick={onClick}
+        onKeyDown={handleKeyDown}
+        {...props}
+      />
+    );
+  }
 );
 Card.displayName = 'Card';
 
@@ -49,9 +71,16 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
 );
 CardHeader.displayName = 'CardHeader';
 
-const CardTitle = React.forwardRef<HTMLParagraphElement, CardTitleProps>(
-  ({ className, ...props }, ref) => (
-    <h3
+const GRID_COLS = {
+  1: 'grid-cols-1',
+  2: 'grid-cols-1 sm:grid-cols-2',
+  3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+  4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
+} as const;
+
+const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
+  ({ className, as: Tag = 'h3', ...props }, ref) => (
+    <Tag
       ref={ref}
       className={cn(
         'size-lg font-body font-semibold line-height-leading-6 letter-spacing-tracking-tight',
@@ -96,6 +125,17 @@ const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
 );
 CardFooter.displayName = 'CardFooter';
 
+const CardGroup = React.forwardRef<HTMLDivElement, CardGroupProps>(
+  ({ className, columns = 3, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn('grid ds-gap-16', GRID_COLS[columns], className)}
+      {...props}
+    />
+  )
+);
+CardGroup.displayName = 'CardGroup';
+
 export {
   Card,
   CardHeader,
@@ -103,4 +143,5 @@ export {
   CardDescription,
   CardContent,
   CardFooter,
+  CardGroup,
 };

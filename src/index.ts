@@ -119,6 +119,7 @@ export type {
   ExtendedSelectItemProps,
   ExtendedSelectProps,
   MultiSelectItemProps,
+  SelectOptionGroup,
 } from './components/select';
 
 export { Combobox } from './components/select/Combobox';
@@ -321,19 +322,21 @@ export {
   HoverCard,
   HoverCardTrigger,
   HoverCardContent,
+  HoverCardArrow,
 } from './components/hover-card';
 
 export type {
   HoverCardProps,
   HoverCardTriggerProps,
   HoverCardContentProps,
+  HoverCardArrowProps,
 } from './components/hover-card';
 
 // =============================================================================
 // TOAST & NOTIFICATIONS
 // =============================================================================
-export { toast, ToastContent } from './components/toast';
-export type { ToastContentProps, ToastOptions, ToastVariant } from './components/toast';
+export { toast, ToastContent, BlumnaiToaster } from './components/toast';
+export type { ToastContentProps, ToastOptions, ToastVariant, BlumnaiToasterProps, ToastAction } from './components/toast';
 
 export {
   Tooltip,
@@ -412,6 +415,7 @@ export {
 } from './components/sidebar';
 
 export type {
+  SidebarProviderProps,
   SidebarMenuItemProps,
   SidebarMenuItemVariant,
   SidebarMenuItemIconType,
@@ -500,6 +504,9 @@ export {
   DropdownMenuSub,
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   MenuButton,
 } from './components/dropdown';
 
@@ -517,6 +524,9 @@ export type {
   DropdownMenuGroupProps,
   DropdownMenuPortalProps,
   DropdownMenuSubProps,
+  DropdownMenuCheckboxItemProps,
+  DropdownMenuRadioGroupProps,
+  DropdownMenuRadioItemProps,
   DropdownMenuCaptionProps,
   DropdownMenuAvatarProps,
   DropdownMenuUserbarProps,
@@ -529,6 +539,7 @@ export type {
 export {
   Menubar,
   MenubarMenu,
+  MenubarGroup,
   MenubarTrigger,
   MenubarContent,
   MenubarItem,
@@ -546,6 +557,7 @@ export {
 export type {
   MenubarProps,
   MenubarMenuProps,
+  MenubarGroupProps,
   MenubarTriggerProps,
   MenubarContentProps,
   MenubarItemProps,
@@ -565,7 +577,7 @@ export type {
 // =============================================================================
 // DATA DISPLAY
 // =============================================================================
-export { DataGrid } from './components/table';
+export { DataGrid, useGridKeyboardNav } from './components/table';
 export type {
   DataGridProps,
   ColumnDef,
@@ -610,7 +622,7 @@ export { Badge } from './components/badge';
 export type { BadgeProps, BadgeVariant, BadgeColor, BadgeSize, BadgeShape } from './components/badge';
 
 export { Chip } from './components/chip';
-export type { ChipProps, ChipSize, ChipVariant, ChipShape, ChipColor } from './components/chip';
+export type { ChipProps, ChipSize, ChipVariant, ChipStyle, ChipShape, ChipColor } from './components/chip';
 
 export { Progress, ProgressCircular } from './components/progress';
 export type {
@@ -623,7 +635,7 @@ export type {
 } from './components/progress';
 
 export { Skeleton } from './components/skeleton';
-export type { SkeletonProps } from './components/skeleton';
+export type { SkeletonProps, SkeletonAnimation } from './components/skeleton';
 
 // =============================================================================
 // LAYOUT
@@ -635,6 +647,7 @@ export {
   CardTitle,
   CardDescription,
   CardContent,
+  CardGroup,
 } from './components/card';
 
 export type {
@@ -644,16 +657,20 @@ export type {
   CardDescriptionProps,
   CardContentProps,
   CardFooterProps,
+  CardGroupProps,
 } from './components/card';
 
 export { Divider } from './components/divider';
-export type { DividerProps, DividerType, DividerStyle } from './components/divider';
+export type { DividerProps, DividerType, DividerStyle, DividerOrientation } from './components/divider';
 
 export { ScrollArea, ScrollBar } from './components/scroll-area';
 export type { ScrollAreaProps, ScrollBarProps, ScrollAreaOrientation } from './components/scroll-area';
 
 export { AccordionGroup } from './components/accordion/AccordionGroup';
 export type { AccordionGroupProps } from './components/accordion/AccordionGroup';
+
+export { AccordionItem } from './components/accordion/AccordionItem';
+export type { AccordionItemProps, AccordionItemStyle } from './components/accordion/AccordionItem';
 
 export {
   Collapsible,
@@ -763,6 +780,9 @@ export type {
   FileUploadStatus,
   FileUploadCardSize,
   FileInfo,
+  FileSelectSource,
+  FileError,
+  FileErrorCode,
 } from './components/file-upload';
 
 export {
@@ -885,6 +905,8 @@ export type {
   DragEndEvent,
   DragStartEvent,
   DragOverEvent,
+  DragMoveEvent,
+  DragCancelEvent,
 } from './components/dnd';
 
 // =============================================================================

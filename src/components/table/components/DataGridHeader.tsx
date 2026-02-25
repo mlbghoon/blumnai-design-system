@@ -22,9 +22,10 @@ interface DataGridHeaderCellProps<T> {
   header: Header<T, unknown>;
   stickyInfo?: StickyColumnInfo;
   headerHeight?: string;
+  colIndex?: number;
 }
 
-function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight }: DataGridHeaderCellProps<T>) {
+function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: DataGridHeaderCellProps<T>) {
   const canSort = header.column.getCanSort();
   const sortDirection = header.column.getIsSorted();
   const sortIndex = header.column.getSortIndex();
@@ -40,6 +41,7 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight }: DataGridHea
   return (
     <div
       role="columnheader"
+      aria-colindex={colIndex}
       className={cn(
         'padding-x-10 flex items-center ds-gap-4',
         'font-body size-xs line-height-leading-4 font-medium text-subtle',
@@ -88,11 +90,12 @@ interface SortableHeaderCellProps<T> {
   header: Header<T, unknown>;
   stickyInfo?: StickyColumnInfo;
   headerHeight?: string;
+  colIndex?: number;
 }
 
 const noAnimateLayoutChanges = () => false;
 
-function SortableHeaderCell<T>({ header, stickyInfo, headerHeight }: SortableHeaderCellProps<T>) {
+function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: SortableHeaderCellProps<T>) {
   const isFixed = !!stickyInfo || header.column.id === 'select';
 
   const {
@@ -131,6 +134,7 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight }: SortableHea
     <div
       ref={setNodeRef}
       role="columnheader"
+      aria-colindex={colIndex}
       className={cn(
         'padding-x-10 flex items-center ds-gap-4',
         'font-body size-xs line-height-leading-4 font-medium text-subtle',
@@ -219,12 +223,13 @@ function SortableHeaderRow<T>({
     <DndContext onDragEnd={handleDragEnd}>
       <SortableContext items={columnIds} strategy={horizontalListSortingStrategy}>
         <div role="row" className="grid" style={{ gridTemplateColumns }}>
-          {headerGroup.headers.map((header) => (
+          {headerGroup.headers.map((header, index) => (
             <SortableHeaderCell
               key={header.id}
               header={header}
               stickyInfo={stickyColumnPositions.get(header.column.id)}
               headerHeight={headerHeight}
+              colIndex={index + 1}
             />
           ))}
         </div>
@@ -263,12 +268,13 @@ export function DataGridHeader<T>({
             className="grid"
             style={{ gridTemplateColumns }}
           >
-            {headerGroup.headers.map((header) => (
+            {headerGroup.headers.map((header, index) => (
               <DataGridHeaderCell
                 key={header.id}
                 header={header}
                 stickyInfo={stickyColumnPositions.get(header.column.id)}
                 headerHeight={headerHeight}
+                colIndex={index + 1}
               />
             ))}
           </div>

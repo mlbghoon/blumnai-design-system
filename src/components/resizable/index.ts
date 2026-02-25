@@ -1,6 +1,6 @@
 export { ResizablePanelGroup, ResizablePanel, ResizableHandle } from './Resizable';
-export { usePanelRef } from 'react-resizable-panels';
-export type { PanelImperativeHandle } from 'react-resizable-panels';
+export { usePanelRef, useGroupRef, useDefaultLayout } from 'react-resizable-panels';
+export type { PanelImperativeHandle, GroupImperativeHandle, PanelSize } from 'react-resizable-panels';
 export type {
   ResizablePanelGroupProps,
   ResizablePanelProps,

@@ -524,6 +524,9 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       maxHeight = 300,
       width,
       className,
+      clearable = false,
+      loading = false,
+      optionGroups,
     },
     ref
   ) => {
@@ -569,6 +572,110 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       [onOpenChange]
     );
 
+    const handleClear = React.useCallback(
+      (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        onChange?.('');
+      },
+      [onChange]
+    );
+
+    const renderOptions = () => {
+      if (loading) {
+        return (
+          <div className="flex items-center justify-center padding-y-16">
+            <div className="width-16 height-16 border-2 border-default border-t-transparent rounded-full motion-safe:animate-spin" />
+          </div>
+        );
+      }
+
+      if (filteredOptions.length === 0) {
+        return (
+          <div className="flex items-center justify-center padding-y-8 text-muted size-sm font-body">
+            {noResultsText}
+          </div>
+        );
+      }
+
+      if (optionGroups && optionGroups.length > 0) {
+        const ungroupedOptionIds = new Set(
+          optionGroups.flatMap((g) => g.optionIds)
+        );
+        const ungroupedOptions = filteredOptions.filter(
+          (opt) => !ungroupedOptionIds.has(opt.id)
+        );
+
+        return (
+          <>
+            {optionGroups.map((group) => {
+              const groupOptions = filteredOptions.filter((opt) =>
+                group.optionIds.includes(opt.id)
+              );
+              if (groupOptions.length === 0) return null;
+              return (
+                <SelectPrimitive.Group key={group.label}>
+                  <SelectLabel>{group.label}</SelectLabel>
+                  {groupOptions.map((option) => (
+                    <ExtendedSelectItem
+                      key={option.id}
+                      value={option.id}
+                      textValue={option.label}
+                      selectType={selectType}
+                      leadIcon={option.leadIcon}
+                      iconColor={option.iconColor}
+                      description={option.description}
+                      badge={option.badge}
+                      avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}
+                      disabled={option.disabled}
+                      isSelected={option.id === value}
+                    >
+                      {option.label}
+                    </ExtendedSelectItem>
+                  ))}
+                </SelectPrimitive.Group>
+              );
+            })}
+            {ungroupedOptions.map((option) => (
+              <ExtendedSelectItem
+                key={option.id}
+                value={option.id}
+                textValue={option.label}
+                selectType={selectType}
+                leadIcon={option.leadIcon}
+                iconColor={option.iconColor}
+                description={option.description}
+                badge={option.badge}
+                avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}
+                disabled={option.disabled}
+                isSelected={option.id === value}
+              >
+                {option.label}
+              </ExtendedSelectItem>
+            ))}
+          </>
+        );
+      }
+
+      return filteredOptions.map((option) => (
+        <ExtendedSelectItem
+          key={option.id}
+          value={option.id}
+          textValue={option.label}
+          selectType={selectType}
+          leadIcon={option.leadIcon}
+          iconColor={option.iconColor}
+          description={option.description}
+          badge={option.badge}
+          avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}
+          disabled={option.disabled}
+          isSelected={option.id === value}
+        >
+          {option.label}
+        </ExtendedSelectItem>
+      ));
+    };
+
     const renderSelectedValue = () => {
       if (!selectedOption) {
         return placeholder;
@@ -611,7 +718,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
         width={width}
         className={className}
       >
-        <div ref={ref}>
+        <div ref={ref} className="relative">
           <Select
             value={value}
             onValueChange={onChange}
@@ -633,11 +740,21 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                 <SelectValue placeholder={placeholder} />
               )}
             </SelectTrigger>
+            {clearable && value && !disabled && (
+              <button
+                type="button"
+                aria-label="Clear selection"
+                onClick={handleClear}
+                className="absolute right-8 top-1/2 -translate-y-1/2 flex items-center justify-center width-16 height-16 text-muted hover:text-default z-10"
+              >
+                <Icon iconType={['system', 'close']} size={12} />
+              </button>
+            )}
             <SelectContent
               maxHeight={maxHeight}
               header={
                 searchable ? (
-                  <div style={{ borderBottom: '1px solid rgba(39, 39, 42, 0.10)' }}>
+                  <div className="border-b border-default">
                     <div className="flex items-center ds-gap-2 padding-x-8 height-36">
                       <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
                         <Icon iconType={['system', 'search']} size={16} color="default-muted" />
@@ -645,6 +762,8 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                       <input
                         ref={searchInputRef}
                         type="text"
+                        role="searchbox"
+                        aria-label={searchPlaceholder || 'Search options'}
                         value={searchQuery}
                         onChange={(e) => {
                           setSearchQuery(e.target.value);
@@ -679,28 +798,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                 ) : undefined
               }
             >
-              {filteredOptions.length > 0 ? (
-                filteredOptions.map((option) => (
-                  <ExtendedSelectItem
-                    key={option.id}
-                    value={option.id}
-                    selectType={selectType}
-                    leadIcon={option.leadIcon}
-                    iconColor={option.iconColor}
-                    description={option.description}
-                    badge={option.badge}
-                    avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}
-                    disabled={option.disabled}
-                    isSelected={option.id === value}
-                  >
-                    {option.label}
-                  </ExtendedSelectItem>
-                ))
-              ) : (
-                <div className="flex items-center justify-center padding-y-8 text-muted size-sm font-body">
-                  {noResultsText}
-                </div>
-              )}
+              {renderOptions()}
             </SelectContent>
           </Select>
         </div>

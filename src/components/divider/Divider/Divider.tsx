@@ -6,6 +6,7 @@ import { Button } from '../../button/Button';
 
 import {
   LINE_BASE,
+  LINE_VERTICAL,
   LINE_DASHED,
   CONTENT_BASE,
   CONTENT_TEXT,
@@ -13,7 +14,9 @@ import {
   ICON_SIZE,
   ICON_COLOR,
   CONTAINER_BASE,
+  CONTAINER_VERTICAL,
   CONTAINER_WITH_CONTENT,
+  CONTAINER_VERTICAL_WITH_CONTENT,
 } from 'constants/divider/Divider/Divider.constants';
 import type { DividerProps } from './Divider.types';
 
@@ -31,6 +34,7 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
   (
     {
       type = 'default',
+      orientation = 'horizontal',
       lineStyle = 'default',
       label,
       icon,
@@ -46,9 +50,10 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
     ref
   ) => {
     const isDashed = lineStyle === 'dashed';
+    const isVertical = orientation === 'vertical';
 
     const lineClassName = cn(
-      LINE_BASE,
+      isVertical ? LINE_VERTICAL : LINE_BASE,
       isDashed && LINE_DASHED
     );
 
@@ -95,13 +100,15 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
 
     const content = renderContent();
     const position = type.split('-')[1] as 'left' | 'center' | 'right' | undefined;
+    const hasInteractiveContent = type.startsWith('button-');
 
     if (type === 'default' || !content) {
       return (
         <div
           ref={ref}
           role="separator"
-          className={cn(CONTAINER_BASE, className)}
+          aria-orientation={orientation}
+          className={cn(isVertical ? CONTAINER_VERTICAL : CONTAINER_BASE, className)}
           {...props}
         >
           <div className={lineClassName} />
@@ -112,8 +119,9 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
     return (
       <div
         ref={ref}
-        role="separator"
-        className={cn(CONTAINER_WITH_CONTENT, className)}
+        role={hasInteractiveContent ? 'presentation' : 'separator'}
+        aria-orientation={hasInteractiveContent ? undefined : orientation}
+        className={cn(isVertical ? CONTAINER_VERTICAL_WITH_CONTENT : CONTAINER_WITH_CONTENT, className)}
         {...props}
       >
         {position === 'left' && (

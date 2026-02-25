@@ -135,4 +135,10 @@ export interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaE
    * 툴바 오른쪽 영역에 표시할 커스텀 컨텐츠
    */
   toolbarTrailing?: ReactNode;
+  /**
+   * CSS `field-sizing` 속성 사용 여부.
+   * `'content'`로 설정하면 입력 내용에 따라 높이가 자동 조정됩니다 (Chrome 123+).
+   * @default 'fixed'
+   */
+  fieldSizing?: 'content' | 'fixed';
 }

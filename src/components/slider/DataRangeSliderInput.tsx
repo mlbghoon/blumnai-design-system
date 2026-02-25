@@ -113,6 +113,7 @@ const DataRangeSliderInput = React.forwardRef<
         >
           <input
             type="text"
+            aria-label="Minimum value"
             value={minInputValue}
             onChange={handleMinInputChange}
             onBlur={handleMinInputBlur}
@@ -163,11 +164,13 @@ const DataRangeSliderInput = React.forwardRef<
               disabled={disabled}
               showTooltip
               tooltipValue={formatFn(internalValue[0])}
+              aria-label="Minimum"
             />
             <SliderThumb
               disabled={disabled}
               showTooltip
               tooltipValue={formatFn(internalValue[1])}
+              aria-label="Maximum"
             />
           </SliderPrimitive.Root>
           {showTicks && (
@@ -192,6 +195,7 @@ const DataRangeSliderInput = React.forwardRef<
         >
           <input
             type="text"
+            aria-label="Maximum value"
             value={maxInputValue}
             onChange={handleMaxInputChange}
             onBlur={handleMaxInputBlur}

@@ -31,6 +31,11 @@ export function Sortable<T extends DndItem>({
   strategy = 'vertical',
   disabled = false,
   id,
+  standalone = true,
+  onDragStart,
+  onDragMove,
+  onDragOver,
+  onDragCancel,
 }: SortableProps<T>) {
   const handleDragEnd = useCallback(
     (event: DragEndEvent) => {
@@ -54,18 +59,32 @@ export function Sortable<T extends DndItem>({
 
   const contextValue = useMemo(() => ({ disabled }), [disabled]);
 
+  const sortableContent = (
+    <SortableDisabledContext.Provider value={contextValue}>
+      <SortableContext
+        id={id?.toString()}
+        items={itemIds}
+        strategy={sortingStrategy}
+        disabled={disabled}
+      >
+        {children}
+      </SortableContext>
+    </SortableDisabledContext.Provider>
+  );
+
+  if (!standalone) {
+    return sortableContent;
+  }
+
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <SortableDisabledContext.Provider value={contextValue}>
-        <SortableContext
-          id={id?.toString()}
-          items={itemIds}
-          strategy={sortingStrategy}
-          disabled={disabled}
-        >
-          {children}
-        </SortableContext>
-      </SortableDisabledContext.Provider>
+    <DndContext
+      onDragEnd={handleDragEnd}
+      onDragStart={onDragStart}
+      onDragMove={onDragMove}
+      onDragOver={onDragOver}
+      onDragCancel={onDragCancel}
+    >
+      {sortableContent}
     </DndContext>
   );
 }

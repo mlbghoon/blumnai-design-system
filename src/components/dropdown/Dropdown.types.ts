@@ -18,6 +18,16 @@ export interface DropdownMenuContentProps
    */
   width?: string | number;
   /**
+   * 드롭다운 메뉴의 최대 높이 (숫자는 px, 문자열은 그대로 사용)
+   * 미지정 시 Radix의 available-height를 사용
+   */
+  maxHeight?: string | number;
+  /**
+   * 비동기 데이터 로딩 중 표시 여부
+   * @default false
+   */
+  loading?: boolean;
+  /**
    * Portal이 렌더링될 컨테이너 요소
    */
   container?: HTMLElement | null;
@@ -261,6 +271,55 @@ export interface MenuButtonProps extends Omit<HTMLAttributes<HTMLButtonElement>,
    * 클릭 이벤트 핸들러
    */
   onClick?: () => void;
+}
+
+/**
+ * DropdownMenuCheckboxItem 컴포넌트 Props
+ *
+ * 체크박스 상태를 가지는 메뉴 아이템 (role="menuitemcheckbox")
+ */
+export interface DropdownMenuCheckboxItemProps
+  extends ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem> {
+  /**
+   * 왼쪽 인덴트 적용
+   */
+  inset?: boolean;
+  /**
+   * 라벨 앞에 표시되는 아이콘
+   */
+  leadIcon?: IconType;
+  /**
+   * 아이콘 색상
+   */
+  iconColor?: IconColor;
+}
+
+/**
+ * DropdownMenuRadioGroup 컴포넌트 Props
+ */
+export type DropdownMenuRadioGroupProps = ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.RadioGroup
+>;
+
+/**
+ * DropdownMenuRadioItem 컴포넌트 Props
+ *
+ * 라디오 선택 상태를 가지는 메뉴 아이템 (role="menuitemradio")
+ */
+export interface DropdownMenuRadioItemProps
+  extends ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem> {
+  /**
+   * 왼쪽 인덴트 적용
+   */
+  inset?: boolean;
+  /**
+   * 라벨 앞에 표시되는 아이콘
+   */
+  leadIcon?: IconType;
+  /**
+   * 아이콘 색상
+   */
+  iconColor?: IconColor;
 }
 
 /**

@@ -1,13 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
-import { forwardRef, isValidElement } from 'react';
+import { forwardRef } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 
 import { Avatar } from '../avatar/Avatar';
-import { Icon } from '../icons/Icon';
-import type { IconType } from '../icons/Icon/Icon.types';
 import { cn } from '../../lib/utils';
+import { getPixelValue } from '../../lib/css-utils';
+import { renderButtonIcon } from './buttonUtils';
 
 import type { AvatarButtonProps, AvatarButtonIconType, AvatarButtonSize, AvatarButtonStyle } from './AvatarButton.types';
 
@@ -64,17 +64,8 @@ export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
   const avatarSize = 'xs' as const;
   const iconSize = 20;
 
-  const getWidthValue = (w: string | number): string => {
-    if (typeof w === 'number') return `${w}px`;
-    const numericValue = parseFloat(w);
-    if (!isNaN(numericValue) && String(numericValue) === w.trim()) {
-      return `${numericValue}px`;
-    }
-    return w;
-  };
-
   const widthStyle = width !== undefined && width !== ''
-    ? { width: getWidthValue(width) }
+    ? { width: getPixelValue(width) }
     : undefined;
 
   const mergedStyle: CSSProperties = {
@@ -93,19 +84,8 @@ export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
     return 'var(--icon-default-muted)';
   };
 
-  const renderIcon = (icon: AvatarButtonIconType | ReactNode) => {
-    if (!icon) return null;
-    if (typeof icon === 'object' && !Array.isArray(icon) && Object.keys(icon as object).length === 0) return null;
-
-    if (Array.isArray(icon) && (icon.length === 2 || icon.length === 3) && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
-      const fillValue = icon[2] as boolean | string | undefined;
-      const isFill = icon.length === 3 && (fillValue === true || fillValue === 'true');
-      return <Icon iconType={[icon[0], icon[1]] as IconType} isFill={isFill} size={iconSize} color={getIconColor()} />;
-    }
-
-    if (!isValidElement(icon)) return null;
-    return <span className="inline-flex items-center">{icon}</span>;
-  };
+  const renderIcon = (icon: AvatarButtonIconType | ReactNode) =>
+    renderButtonIcon(icon, iconSize, getIconColor());
 
   const asChildDisabled = asChild && disabled;
 
@@ -133,7 +113,7 @@ export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
         size={avatarSize}
         shape="circular"
         src={avatar}
-        alt={alt}
+        alt={alt ?? label}
         ring={false}
       />
       <span>{label}</span>

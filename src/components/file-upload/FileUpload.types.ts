@@ -1,11 +1,35 @@
 import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
 
 /**
+ * 파일 선택 소스
+ */
+export type FileSelectSource = 'click' | 'drop';
+
+/**
+ * 파일 유효성 검사 에러 타입
+ */
+export type FileErrorCode = 'file-too-large' | 'total-size-exceeded' | 'too-many-files' | 'invalid-type';
+
+/**
+ * 파일 유효성 검사 에러
+ */
+export interface FileError {
+  /** 에러가 발생한 파일 (파일별 에러 시) */
+  file?: File;
+  /** 에러 코드 */
+  code: FileErrorCode;
+  /** 사람이 읽을 수 있는 에러 메시지 */
+  message: string;
+}
+
+/**
  * FileUploadArea props
  */
 export interface FileUploadAreaProps {
   /** 파일 선택 시 호출되는 콜백 */
-  onFilesSelected?: (files: File[]) => void;
+  onFilesSelected?: (files: File[], source: FileSelectSource) => void;
+  /** 유효성 검사 에러 발생 시 호출되는 콜백 */
+  onValidationError?: (errors: FileError[]) => void;
   /** 드래그 진입 시 호출되는 콜백 */
   onDragEnter?: () => void;
   /** 드래그 이탈 시 호출되는 콜백 */
@@ -17,6 +41,11 @@ export interface FileUploadAreaProps {
   maxFiles?: number;
   /** 최대 총 크기 (바이트) */
   maxSize?: number;
+  /**
+   * 개별 파일 최대 크기 (바이트).
+   * 이 크기를 초과하는 파일은 거부되고 onValidationError가 호출됩니다.
+   */
+  maxFileSize?: number;
   /** 다중 파일 선택 허용 여부 */
   multiple?: boolean;
 

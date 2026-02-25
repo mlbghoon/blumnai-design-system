@@ -74,7 +74,7 @@ export type ButtonGroupItem = IconOnlyItem | RegularItem;
 /**
  * ButtonGroup Props
  */
-export interface ButtonGroupProps {
+export interface ButtonGroupProps extends React.AriaAttributes {
   /**
    * 버튼 아이템 배열
    */

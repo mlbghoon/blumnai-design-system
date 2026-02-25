@@ -22,6 +22,8 @@ import type {
   DropdownMenuButtonGroupProps,
   MenuButtonProps,
   DropdownMenuSearchProps,
+  DropdownMenuCheckboxItemProps,
+  DropdownMenuRadioItemProps,
 } from './Dropdown.types';
 
 /**
@@ -50,14 +52,19 @@ const DropdownMenuSub = DropdownMenuPrimitive.Sub;
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
   DropdownMenuContentProps
->(({ className, sideOffset = 4, width, style, container, ...props }, ref) => {
+>(({ className, sideOffset = 4, width, maxHeight, loading = false, style, container, children, ...props }, ref) => {
   const widthStyle = width !== undefined && width !== ''
     ? { width: typeof width === 'number' ? `${width}px` : width }
+    : undefined;
+
+  const maxHeightStyle = maxHeight !== undefined
+    ? { maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight }
     : undefined;
 
   const mergedStyle: React.CSSProperties = {
     ...(style || {}),
     ...(widthStyle || {}),
+    ...(maxHeightStyle || {}),
   };
 
   return (
@@ -66,7 +73,8 @@ const DropdownMenuContent = React.forwardRef<
         ref={ref}
         sideOffset={sideOffset}
         className={cn(
-          "z-50 max-h-[var(--radix-dropdown-menu-content-available-height)] min-w-[128px] overflow-y-auto overflow-x-hidden rounded-lg border-default bg-card padding-4 text-default shadow-modal-sm",
+          "z-50 min-w-[128px] overflow-y-auto overflow-x-hidden rounded-lg border-default bg-card padding-4 text-default shadow-modal-sm",
+          !maxHeight && "max-h-[var(--radix-dropdown-menu-content-available-height)]",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -78,7 +86,22 @@ const DropdownMenuContent = React.forwardRef<
         )}
         style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
         {...props}
-      />
+      >
+        {loading ? (
+          <div className="flex items-center justify-center padding-y-12">
+            <svg
+              className="animate-spin width-16 height-16 text-muted"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              aria-label="Loading"
+            >
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+          </div>
+        ) : children}
+      </DropdownMenuPrimitive.Content>
     </DropdownMenuPrimitive.Portal>
   );
 });
@@ -190,6 +213,83 @@ const DropdownMenuItem = React.forwardRef<
   );
 });
 DropdownMenuItem.displayName = 'DropdownMenuItem';
+
+const DropdownMenuCheckboxItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
+  DropdownMenuCheckboxItemProps
+>(({ className, children, checked, inset, leadIcon, iconColor, ...props }, ref) => {
+  const effectiveIconColor = props.disabled
+    ? 'default-disabled'
+    : iconColor ?? 'default-subtle';
+
+  return (
+    <DropdownMenuPrimitive.CheckboxItem
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center ds-gap-8 rounded-sm padding-x-8 padding-y-6 size-sm font-body line-height-leading-5 outline-none transition-colors",
+        "text-default focus:bg-accent focus:text-accent-foreground",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        className
+      )}
+      style={inset ? { paddingLeft: '32px' } : undefined}
+      checked={checked}
+      {...props}
+    >
+      <span className="flex items-center justify-center width-16 height-16 flex-shrink-0">
+        <DropdownMenuPrimitive.ItemIndicator>
+          <Icon iconType={['system', 'check']} size={14} color="primary" />
+        </DropdownMenuPrimitive.ItemIndicator>
+      </span>
+      {leadIcon && (
+        <div className="flex items-center justify-center flex-shrink-0 width-20 height-20">
+          <Icon iconType={leadIcon} size={16} color={effectiveIconColor} />
+        </div>
+      )}
+      <span className="flex-1 min-w-0 truncate">{children}</span>
+    </DropdownMenuPrimitive.CheckboxItem>
+  );
+});
+DropdownMenuCheckboxItem.displayName = 'DropdownMenuCheckboxItem';
+
+const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
+
+const DropdownMenuRadioItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
+  DropdownMenuRadioItemProps
+>(({ className, children, inset, leadIcon, iconColor, ...props }, ref) => {
+  const effectiveIconColor = props.disabled
+    ? 'default-disabled'
+    : iconColor ?? 'default-subtle';
+
+  return (
+    <DropdownMenuPrimitive.RadioItem
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center ds-gap-8 rounded-sm padding-x-8 padding-y-6 size-sm font-body line-height-leading-5 outline-none transition-colors",
+        "text-default focus:bg-accent focus:text-accent-foreground",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        className
+      )}
+      style={inset ? { paddingLeft: '32px' } : undefined}
+      {...props}
+    >
+      <span className="flex items-center justify-center width-16 height-16 flex-shrink-0">
+        <DropdownMenuPrimitive.ItemIndicator>
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="4" cy="4" r="4" />
+          </svg>
+        </DropdownMenuPrimitive.ItemIndicator>
+      </span>
+      {leadIcon && (
+        <div className="flex items-center justify-center flex-shrink-0 width-20 height-20">
+          <Icon iconType={leadIcon} size={16} color={effectiveIconColor} />
+        </div>
+      )}
+      <span className="flex-1 min-w-0 truncate">{children}</span>
+    </DropdownMenuPrimitive.RadioItem>
+  );
+});
+DropdownMenuRadioItem.displayName = 'DropdownMenuRadioItem';
 
 const DropdownMenuLabel = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Label>,
@@ -305,7 +405,6 @@ const DropdownMenuAvatar = React.forwardRef<HTMLDivElement, DropdownMenuAvatarPr
     disabled = false,
     iconColor,
     onClick,
-    ...props
   }, ref) => {
     const internalRef = React.useRef<HTMLDivElement>(null);
     const mergeRefs = React.useCallback(
@@ -323,37 +422,19 @@ const DropdownMenuAvatar = React.forwardRef<HTMLDivElement, DropdownMenuAvatarPr
       { enabled: !disabled },
     );
 
-    const handleClick = () => {
-      if (!disabled && onClick) {
-        onClick();
-      }
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-      if ((e.key === 'Enter' || e.key === ' ') && !disabled && onClick) {
-        e.preventDefault();
-        onClick();
-      }
-    };
-
     const effectiveIconColor = disabled ? 'default-disabled' : iconColor ?? 'default-subtle';
 
     return (
-      <div
+      <DropdownMenuPrimitive.Item
         ref={mergeRefs}
-        role="menuitem"
-        tabIndex={disabled ? -1 : 0}
-        aria-disabled={disabled}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
+        disabled={disabled}
+        onSelect={() => onClick?.()}
         className={cn(
           "flex items-center ds-gap-8 rounded-sm padding-x-8 padding-y-6 outline-none transition-colors",
-          disabled
-            ? "opacity-50 cursor-not-allowed"
-            : "cursor-pointer hover:bg-accent focus:bg-accent",
+          "text-default focus:bg-accent focus:text-accent-foreground",
+          "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
           className
         )}
-        {...props}
       >
         <Avatar
           variant={avatarSrc ? 'userpic' : 'initials'}
@@ -393,7 +474,7 @@ const DropdownMenuAvatar = React.forwardRef<HTMLDivElement, DropdownMenuAvatarPr
             />
           </div>
         )}
-      </div>
+      </DropdownMenuPrimitive.Item>
     );
   }
 );
@@ -600,6 +681,9 @@ export {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,

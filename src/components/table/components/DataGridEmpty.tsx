@@ -13,11 +13,12 @@ export function DataGridEmpty({
   content,
 }: DataGridEmptyProps) {
   if (content) {
-    return <div className="padding-24">{content}</div>;
+    return <div role="status" className="padding-24">{content}</div>;
   }
 
   return (
     <div
+      role="status"
       className={cn(
         'flex flex-col items-center justify-center padding-24 ds-gap-12',
         'min-height-200'

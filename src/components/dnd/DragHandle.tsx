@@ -25,6 +25,7 @@ export const DragHandle = forwardRef<HTMLButtonElement, DragHandleProps>(
       <button
         ref={ref}
         type="button"
+        aria-label="Drag handle"
         className={cn(
           'flex items-center justify-center cursor-grab touch-none',
           'text-muted hover:text-default transition-colors',

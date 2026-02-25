@@ -104,6 +104,7 @@ function CalendarDayButton({
         className
       )}
       {...props}
+      aria-current={isToday ? 'date' : undefined}
     >
       {renderContent()}
     </button>
@@ -179,15 +180,17 @@ function MonthNavButton({
   direction,
   disabled,
   onClick,
+  'aria-label': ariaLabelProp,
 }: {
   direction: 'prev' | 'next';
   disabled: boolean;
   onClick: () => void;
+  'aria-label'?: string;
 }) {
   return (
     <button
       type="button"
-      aria-label={direction === 'prev' ? 'Previous month' : 'Next month'}
+      aria-label={ariaLabelProp ?? (direction === 'prev' ? 'Previous month' : 'Next month')}
       onClick={onClick}
       disabled={disabled}
       className={cn(
@@ -239,6 +242,15 @@ function CustomCaption({
     if (nextMonth) goToMonth(nextMonth);
   };
 
+  const prevMonthLabel = previousMonth
+    ? format(previousMonth, 'LLLL', { locale: locale as Locale })
+    : undefined;
+  const nextMonthLabel = nextMonth
+    ? format(nextMonth, 'LLLL', { locale: locale as Locale })
+    : undefined;
+  const prevAriaLabel = prevMonthLabel ? `${prevMonthLabel}` : undefined;
+  const nextAriaLabel = nextMonthLabel ? `${nextMonthLabel}` : undefined;
+
   const isMonthOnly = layout === 'month-centered' || layout === 'month-left';
 
   if (layout === 'month-left') {
@@ -248,8 +260,8 @@ function CustomCaption({
           {monthName}
         </span>
         <div className="flex ds-gap-4">
-          <MonthNavButton direction="prev" disabled={!previousMonth} onClick={handlePreviousClick} />
-          <MonthNavButton direction="next" disabled={!nextMonth} onClick={handleNextClick} />
+          <MonthNavButton direction="prev" disabled={!previousMonth} onClick={handlePreviousClick} aria-label={prevAriaLabel} />
+          <MonthNavButton direction="next" disabled={!nextMonth} onClick={handleNextClick} aria-label={nextAriaLabel} />
         </div>
       </div>
     );
@@ -257,11 +269,11 @@ function CustomCaption({
 
   return (
     <div className="flex items-center height-40 border-b-default [margin-top:-8px] [margin-right:-8px] [margin-left:-8px] padding-8 ds-gap-8" data-caption-layout={layout}>
-      <MonthNavButton direction="prev" disabled={!previousMonth} onClick={handlePreviousClick} />
+      <MonthNavButton direction="prev" disabled={!previousMonth} onClick={handlePreviousClick} aria-label={prevAriaLabel} />
       <div className="flex-1 flex items-center justify-center ds-gap-6 size-sm font-medium line-height-leading-5 text-default font-body">
         {isMonthOnly ? monthName : children}
       </div>
-      <MonthNavButton direction="next" disabled={!nextMonth} onClick={handleNextClick} />
+      <MonthNavButton direction="next" disabled={!nextMonth} onClick={handleNextClick} aria-label={nextAriaLabel} />
     </div>
   );
 }

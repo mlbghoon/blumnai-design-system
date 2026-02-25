@@ -72,7 +72,7 @@ export const MENU_ITEM_SIZE_CONFIG = {
     text: 'size-sm line-height-leading-5 letter-spacing-tracking-tight',
   },
   large: {
-    height: 'min-h-[54px]',
+    height: 'min-height-50',
     padding: 'padding-x-8 padding-y-6',
     gap: 'ds-gap-6',
     iconSize: 20 as const,

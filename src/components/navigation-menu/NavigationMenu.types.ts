@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
 import type { IconType } from '../icons/Icon/Icon.types';
@@ -45,7 +46,8 @@ export type NavigationMenuIndicatorProps = ComponentPropsWithoutRef<
 /**
  * 리스트 아이템 컴포넌트 Props (mega-menu용)
  */
-export interface NavigationMenuListItemProps {
+export interface NavigationMenuListItemProps
+  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'title' | 'children'> {
   /**
    * 제목
    */
@@ -67,6 +69,10 @@ export interface NavigationMenuListItemProps {
    * @default false
    */
   iconFill?: boolean;
+  /**
+   * 현재 활성 상태 (aria-current="page" 설정)
+   */
+  active?: boolean;
   /**
    * 추가 CSS 클래스
    */

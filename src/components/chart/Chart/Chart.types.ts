@@ -97,6 +97,21 @@ export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
    * Accessible label for the chart
    */
   ariaLabel?: string;
+  /**
+   * Callback fired when a data point (bar, line point, pie slice) is clicked.
+   * Receives the data point object and its index.
+   */
+  onDataPointClick?: (point: ChartDataPoint, index: number) => void;
+  /**
+   * When `true`, shows a skeleton loading overlay instead of chart content.
+   */
+  isLoading?: boolean;
+  /**
+   * When `true`, the chart will auto-resize to fill its container using ResizeObserver.
+   * The `width` and `height` props serve as initial/fallback values.
+   * @default false
+   */
+  responsive?: boolean;
 }
 
 /**

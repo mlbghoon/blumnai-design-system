@@ -18,6 +18,11 @@ export interface TabsListProps extends ComponentPropsWithoutRef<typeof TabsPrimi
   size?: TabsSize;
   /** 탭 너비 타입 (default: 콘텐츠 크기, fixed: 균등 너비) */
   type?: TabsType;
+  /**
+   * 탭이 넘칠 때 스크롤 화살표 버튼 표시
+   * @default false
+   */
+  scrollable?: boolean;
 }
 
 export interface TabsTriggerProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {
@@ -45,6 +50,21 @@ export interface TabsTriggerProps extends ComponentPropsWithoutRef<typeof TabsPr
   tailIcon?: IconTypeWithFill | ReactNode;
   /** 배지 텍스트/숫자 */
   badge?: string | number;
+  /**
+   * 탭 닫기 가능 여부
+   * @default false
+   */
+  closable?: boolean;
+  /**
+   * 탭 닫기 시 호출되는 콜백
+   */
+  onClose?: (value: string) => void;
 }
 
-export type TabsContentProps = ComponentPropsWithoutRef<typeof TabsPrimitive.Content>;
+export interface TabsContentProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Content> {
+  /**
+   * 패널 전환 애니메이션 활성화
+   * @default false
+   */
+  animated?: boolean;
+}

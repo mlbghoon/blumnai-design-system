@@ -5,7 +5,10 @@ import { Switch } from './Switch';
 import type { SwitchListProps } from './SwitchList.types';
 
 const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
-  ({ items, listStyle = 'default', color = 'green', onItemChange, className }, ref) => {
+  ({ items, listStyle = 'default', color = 'green', onItemChange, showToggleAll = false, toggleAllLabel = '전체 토글', onToggleAll, className }, ref) => {
+    const enabledItems = items.filter((item) => !item.disabled);
+    const allChecked = enabledItems.length > 0 && enabledItems.every((item) => item.checked);
+
     const containerClassName = cn(
       'flex flex-col',
       listStyle === 'default' && 'ds-gap-24',
@@ -16,9 +19,36 @@ const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
       onItemChange?.(id, checked);
     };
 
+    const handleToggleAll = (checked: boolean) => {
+      if (onToggleAll) {
+        onToggleAll(checked);
+      } else {
+        enabledItems.forEach((item) => {
+          if (item.checked !== checked) {
+            onItemChange?.(item.id, checked);
+          }
+        });
+      }
+    };
+
+    const toggleAllElement = showToggleAll ? (
+      <Switch
+        checked={allChecked}
+        color={color}
+        disabled={enabledItems.length === 0}
+        onCheckedChange={handleToggleAll}
+        label={toggleAllLabel}
+      />
+    ) : null;
+
     if (listStyle === 'bordered') {
       return (
-        <div ref={ref} className={containerClassName}>
+        <div ref={ref} role="group" className={containerClassName}>
+          {toggleAllElement && (
+            <div className="w-full padding-y-12 border-b-default">
+              {toggleAllElement}
+            </div>
+          )}
           {items.map((item) => (
             <div
               key={item.id}
@@ -39,7 +69,8 @@ const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
     }
 
     return (
-      <div ref={ref} className={containerClassName}>
+      <div ref={ref} role="group" className={containerClassName}>
+        {toggleAllElement}
         {items.map((item) => (
           <Switch
             key={item.id}

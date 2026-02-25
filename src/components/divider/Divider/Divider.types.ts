@@ -30,6 +30,13 @@ export type DividerType =
 export type DividerStyle = 'default' | 'dashed';
 
 /**
+ * Divider 방향
+ * - horizontal: 수평 구분선 (기본값)
+ * - vertical: 수직 구분선
+ */
+export type DividerOrientation = 'horizontal' | 'vertical';
+
+/**
  * Divider 컴포넌트 Props
  */
 export interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
@@ -38,6 +45,13 @@ export interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chil
    * @default 'default'
    */
   type?: DividerType;
+  /**
+   * 디바이더 방향.
+   * `vertical`일 때 구분선이 수직으로 표시됩니다.
+   * 수직 모드에서는 부모 요소에 높이가 설정되어 있어야 합니다.
+   * @default 'horizontal'
+   */
+  orientation?: DividerOrientation;
   /**
    * 디바이더 스타일
    * @default 'default'

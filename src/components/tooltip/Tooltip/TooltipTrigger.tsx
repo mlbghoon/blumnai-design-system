@@ -5,6 +5,7 @@ import {
   useCallback,
   useRef,
   useEffect,
+  useId,
   type ReactNode,
   type ReactElement,
 } from 'react';
@@ -77,6 +78,8 @@ export function TooltipTrigger({
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [floating, setFloating] = useState<HTMLDivElement | null>(null);
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tooltipId = useId();
 
   const isControlled = controlledOpen !== undefined;
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
@@ -103,35 +106,113 @@ export function TooltipTrigger({
     },
   });
 
+  const cancelCloseTimeout = useCallback(() => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+  }, []);
+
   const handleMouseEnter = useCallback(() => {
     if (disabled) return;
-
+    cancelCloseTimeout();
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
     hoverTimeoutRef.current = setTimeout(() => {
       setIsOpen(true);
     }, delay);
-  }, [disabled, delay, setIsOpen]);
+  }, [disabled, delay, setIsOpen, cancelCloseTimeout]);
+
+  const startCloseTimeout = useCallback(() => {
+    cancelCloseTimeout();
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 100);
+  }, [setIsOpen, cancelCloseTimeout]);
 
   const handleMouseLeave = useCallback(() => {
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
       hoverTimeoutRef.current = null;
     }
-    setIsOpen(false);
-  }, [setIsOpen]);
+    startCloseTimeout();
+  }, [startCloseTimeout]);
 
   const handleFocus = useCallback(() => {
     if (disabled) return;
-    setIsOpen(true);
-  }, [disabled, setIsOpen]);
+    cancelCloseTimeout();
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsOpen(true);
+    }, delay);
+  }, [disabled, delay, setIsOpen, cancelCloseTimeout]);
 
   const handleBlur = useCallback(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    startCloseTimeout();
+  }, [startCloseTimeout]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Escape' && isOpen) {
+      setIsOpen(false);
+    }
+  }, [isOpen, setIsOpen]);
+
+  const touchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleTouchStart = useCallback(() => {
+    if (disabled) return;
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+    }
+    touchTimeoutRef.current = setTimeout(() => {
+      setIsOpen(true);
+    }, 500);
+  }, [disabled, setIsOpen]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+      touchTimeoutRef.current = null;
+    }
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  }, [isOpen, setIsOpen]);
+
+  const handleTouchMove = useCallback(() => {
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+      touchTimeoutRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    const styleId = 'blumnai-tooltip-keyframes';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@keyframes tooltip-enter{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}';
+      document.head.appendChild(style);
+    }
+  }, []);
 
   useEffect(() => {
     return () => {
       if (hoverTimeoutRef.current) {
         clearTimeout(hoverTimeoutRef.current);
+      }
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+      if (touchTimeoutRef.current) {
+        clearTimeout(touchTimeoutRef.current);
       }
     };
   }, []);
@@ -156,15 +237,29 @@ export function TooltipTrigger({
         onMouseLeave={handleMouseLeave}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onTouchMove={handleTouchMove}
+        aria-describedby={shouldShow ? tooltipId : undefined}
         className="block min-w-0"
       >
         {children}
       </span>
       {shouldShow &&
+        typeof document !== 'undefined' &&
         createPortal(
           <div
             ref={setFloating}
-            style={{ ...floatingStyles, zIndex: 50 }}
+            id={tooltipId}
+            role="tooltip"
+            style={{
+              ...floatingStyles,
+              zIndex: 50,
+              animation: 'tooltip-enter 150ms ease-out',
+            }}
+            onMouseEnter={cancelCloseTimeout}
+            onMouseLeave={startCloseTimeout}
           >
             {tooltipContent}
           </div>,

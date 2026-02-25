@@ -123,6 +123,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
             className={cn('w-full caption-bottom size-sm font-body', className)}
             data-slot="table"
             data-striped={striped || undefined}
+            aria-busy={isLoading || undefined}
             {...props}
           >
             {children}
@@ -130,7 +131,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
         </ScrollArea>
 
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-default/80 z-20">
+          <div role="status" className="absolute inset-0 flex items-center justify-center bg-default/80 z-20">
             <div className="flex items-center ds-gap-8">
               <div className="width-20 height-20 border-2 border-state-primary border-t-transparent rounded-full animate-spin" />
               <span className="font-body size-sm text-subtle">로딩 중...</span>
@@ -231,6 +232,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
         selected && 'bg-basic-gray-alpha-4',
         className
       )}
+      aria-selected={selected || undefined}
       data-state={selected ? 'selected' : undefined}
       {...props}
     />
@@ -245,9 +247,17 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       return sortDirection === 'asc' ? 'arrow-up-s' : 'arrow-down-s';
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTableCellElement>) => {
+      if (sortable && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        e.currentTarget.click();
+      }
+    };
+
     return (
       <th
         ref={ref}
+        scope="col"
         className={cn(
           'height-32 padding-x-10 text-left align-middle bg-default',
           'font-body size-xs line-height-leading-4 font-medium text-subtle',
@@ -256,6 +266,8 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
           className
         )}
         onClick={sortable ? onClick : undefined}
+        onKeyDown={sortable ? handleKeyDown : undefined}
+        tabIndex={sortable ? 0 : undefined}
         aria-sort={
           sortDirection === 'asc'
             ? 'ascending'

@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useMemo, useState } from 'react';
+import { forwardRef, useCallback, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 
 import { cn } from '../../../utils/cn';
 
@@ -24,6 +24,8 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
 
   const isGroupControlled = groupOnToggle !== undefined;
 
+  const headerRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
   const [openItems, setOpenItems] = useState<Set<string>>(() => {
     const ids = new Set<string>();
     items.forEach((item, index) => {
@@ -33,9 +35,9 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
   });
 
   const handleToggle = useCallback(
-    (id: string, currentIsOpen: boolean, itemOnToggle?: () => void) => {
+    (id: string, currentIsOpen: boolean, itemOnToggle?: (isOpen: boolean) => void) => {
       if (itemOnToggle) {
-        itemOnToggle();
+        itemOnToggle(!currentIsOpen);
         return;
       }
 
@@ -69,6 +71,47 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
     [allowMultipleOpen, isGroupControlled, groupOnToggle]
   );
 
+  const enabledIndices = useMemo(
+    () => items
+      .map((item, i) => ({ index: i, disabled: item.disabled ?? false }))
+      .filter((e) => !e.disabled)
+      .map((e) => e.index),
+    [items]
+  );
+
+  const handleHeaderKeyDown = useCallback(
+    (index: number, e: KeyboardEvent<HTMLButtonElement>) => {
+      const currentEnabledPos = enabledIndices.indexOf(index);
+      if (currentEnabledPos === -1) return;
+
+      let targetIndex: number | undefined;
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          targetIndex = enabledIndices[(currentEnabledPos + 1) % enabledIndices.length];
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          targetIndex = enabledIndices[(currentEnabledPos - 1 + enabledIndices.length) % enabledIndices.length];
+          break;
+        case 'Home':
+          e.preventDefault();
+          targetIndex = enabledIndices[0];
+          break;
+        case 'End':
+          e.preventDefault();
+          targetIndex = enabledIndices[enabledIndices.length - 1];
+          break;
+      }
+
+      if (targetIndex !== undefined) {
+        headerRefs.current[targetIndex]?.focus();
+      }
+    },
+    [enabledIndices]
+  );
+
   const containerClassName = useMemo(() => {
     return cn('flex flex-col w-full', className);
   }, [className]);
@@ -97,6 +140,10 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
             onToggle={() => handleToggle(id, isOpen, item.onToggle)}
             disabled={item.disabled}
             className={item.className}
+            headerProps={{
+              ref: (el: HTMLButtonElement | null) => { headerRefs.current[index] = el; },
+              onKeyDown: (e: KeyboardEvent<HTMLButtonElement>) => handleHeaderKeyDown(index, e),
+            }}
           >
             {item.children}
           </AccordionItem>

@@ -55,6 +55,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   defaultValue,
   onInput,
   onKeyUp,
+  onKeyDown,
+  readOnly,
+  fieldSizing = 'fixed',
   ...props
 }, ref) => {
   const textareaId = useId();
@@ -159,6 +162,15 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     onInput?.(e);
   }, [useCustomScrollbar, adjustHeight, scrollToCursor, onInput]);
 
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    onKeyDown?.(e);
+    if (e.defaultPrevented) return;
+    if (onSubmit && !submitDisabled && (e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      onSubmit();
+    }
+  }, [onSubmit, submitDisabled, onKeyDown]);
+
   const handleKeyUp = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (useCustomScrollbar) {
       const navKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown'];
@@ -191,12 +203,15 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     'flex flex-col w-full transition-colors duration-150',
     sizeConfig.padding,
     styleConfig.base,
-    !disabled && styleConfig.focus,
+    !disabled && !readOnly && styleConfig.focus,
     state === 'disabled' && STATE_CONFIG.disabled.bg,
     state === 'error' && 'border-destructive',
     state === 'success' && 'border-success',
-    disabled && 'cursor-not-allowed'
+    disabled && 'cursor-not-allowed',
+    readOnly && 'bg-muted cursor-default'
   );
+
+  const showResizeHandle = !hasToolbarContent && !useCustomScrollbar && resize !== 'none' && !disabled && !readOnly;
 
   const textareaClassName = cn(
     TEXTAREA_BASE,
@@ -205,8 +220,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     'letter-spacing-tracking-tight',
     stateConfig.text,
     stateConfig.placeholder,
+    'placeholder:transition-opacity placeholder:duration-150',
+    'focus:placeholder:opacity-50',
     (hasToolbarContent || useCustomScrollbar) ? 'resize-none' : RESIZE_CONFIG[resize],
-    disabled && 'cursor-not-allowed'
+    disabled && 'cursor-not-allowed',
+    readOnly && 'cursor-default'
   );
 
   const renderToolbar = () => {
@@ -239,6 +257,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
                   onClick={action.onClick}
                   disabled={disabled || action.disabled}
                   className={cn(TOOLBAR_BUTTON_BASE, TOOLBAR_BUTTON_ICON_ONLY)}
+                  aria-label={action.label || action.key}
                 >
                   <Icon iconType={iconType} isFill={isFill} size={16} color="default-muted" />
                 </button>
@@ -303,12 +322,15 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       ref={useCustomScrollbar ? mergedRef : ref}
       id={textareaId}
       disabled={disabled}
+      readOnly={readOnly}
+      required={required}
       className={textareaClassName}
       style={{
         minHeight: hasToolbarContent ? undefined : `${minHeight}px`,
         maxHeight: useCustomScrollbar ? undefined : (maxHeight && !hasToolbarContent ? `${maxHeight}px` : undefined),
         overflow: useCustomScrollbar ? 'hidden' : undefined,
-      }}
+        ...(fieldSizing === 'content' ? { fieldSizing: 'content' } : {}),
+      } as React.CSSProperties}
       rows={minRows}
       maxLength={maxLength}
       value={value}
@@ -316,6 +338,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       aria-invalid={hasError}
       aria-describedby={caption || error || success ? `${textareaId}-caption` : undefined}
       onInput={handleInput}
+      onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
       {...props}
     />
@@ -333,7 +356,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       width={width}
       className={className}
     >
-      <div className={wrapperClassName}>
+      <div className={cn(wrapperClassName, 'relative')}>
         {useCustomScrollbar ? (
           <ScrollAreaPrimitive.Root className="relative overflow-hidden min-h-0">
             <ScrollAreaPrimitive.Viewport
@@ -350,10 +373,23 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
           textareaElement
         )}
 
+        {showResizeHandle && (
+          <div className="absolute bottom-0 right-0 pointer-events-none padding-2 text-hint" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+              <circle cx="8" cy="2" r="1" />
+              <circle cx="8" cy="5.5" r="1" />
+              <circle cx="8" cy="9" r="1" />
+              <circle cx="4.5" cy="5.5" r="1" />
+              <circle cx="4.5" cy="9" r="1" />
+              <circle cx="1" cy="9" r="1" />
+            </svg>
+          </div>
+        )}
+
         {renderToolbar()}
 
         {showCount && maxLength && !hasToolbarContent && (
-          <div className={cn('flex justify-end margin-t-16', COUNT_STYLE)}>
+          <div className={cn('flex justify-end margin-t-16', COUNT_STYLE)} aria-live="polite">
             <span>{currentLength}/{maxLength}</span>
           </div>
         )}

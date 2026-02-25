@@ -18,7 +18,7 @@ import {
   FILE_UPLOAD_AREA_ICON_SIZE,
 } from '../../constants/file-upload/file-upload.constants';
 
-import type { FileUploadAreaProps } from './FileUpload.types';
+import type { FileUploadAreaProps, FileError } from './FileUpload.types';
 
 const DEFAULT_TITLE = 'Drop your files here, or';
 const DEFAULT_CLICK_TEXT = 'click to browse';
@@ -38,11 +38,13 @@ const DEFAULT_DESCRIPTION = 'Up to 10 files, 100MB total limit';
  */
 export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
   onFilesSelected,
+  onValidationError,
   onDragEnter,
   onDragLeave,
   accept,
   maxFiles,
   maxSize,
+  maxFileSize,
   multiple = true,
   title = DEFAULT_TITLE,
   clickText = DEFAULT_CLICK_TEXT,
@@ -56,6 +58,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
 }, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const effectiveDragging = isDragging && !disabled;
 
   const handleClick = useCallback(() => {
     if (disabled) return;
@@ -70,29 +73,75 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
     }
   }, [disabled]);
 
+  const validateAndEmit = useCallback((fileArray: File[], source: 'click' | 'drop') => {
+    const errors: FileError[] = [];
+    let validFiles = fileArray;
+
+    if (accept) {
+      const acceptedTypes = accept.split(',').map(t => t.trim());
+      const rejected = validFiles.filter(file => {
+        return !acceptedTypes.some(acceptType => {
+          if (acceptType.startsWith('.')) {
+            return file.name.toLowerCase().endsWith(acceptType.toLowerCase());
+          }
+          if (acceptType.endsWith('/*')) {
+            const baseType = acceptType.slice(0, -2);
+            return file.type.startsWith(baseType);
+          }
+          return file.type === acceptType;
+        });
+      });
+      if (rejected.length > 0) {
+        rejected.forEach(f => {
+          errors.push({ file: f, code: 'invalid-type', message: `File "${f.name}" has an unsupported type` });
+        });
+        validFiles = validFiles.filter(f => !rejected.includes(f));
+      }
+    }
+
+    if (maxFileSize !== undefined) {
+      const oversized = validFiles.filter(f => f.size > maxFileSize);
+      if (oversized.length > 0) {
+        oversized.forEach(f => {
+          errors.push({ file: f, code: 'file-too-large', message: `File "${f.name}" exceeds ${maxFileSize} bytes` });
+        });
+        validFiles = validFiles.filter(f => f.size <= maxFileSize);
+      }
+    }
+
+    if (maxFiles !== undefined && validFiles.length > maxFiles) {
+      errors.push({ code: 'too-many-files', message: `Maximum ${maxFiles} files allowed` });
+      validFiles = validFiles.slice(0, maxFiles);
+    }
+
+    if (maxSize !== undefined) {
+      const totalSize = validFiles.reduce((sum, file) => sum + file.size, 0);
+      if (totalSize > maxSize) {
+        errors.push({ code: 'total-size-exceeded', message: `Total size exceeds ${maxSize} bytes` });
+        validFiles = [];
+      }
+    }
+
+    if (errors.length > 0) {
+      onValidationError?.(errors);
+    }
+
+    if (validFiles.length > 0) {
+      onFilesSelected?.(validFiles, source);
+    }
+  }, [accept, maxFileSize, maxFiles, maxSize, onValidationError, onFilesSelected]);
+
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    let fileArray = Array.from(files);
-
-    if (maxFiles && fileArray.length > maxFiles) {
-      fileArray = fileArray.slice(0, maxFiles);
-    }
-
-    if (maxSize) {
-      const totalSize = fileArray.reduce((sum, file) => sum + file.size, 0);
-      if (totalSize > maxSize) {
-        return;
-      }
-    }
-
-    onFilesSelected?.(fileArray);
+    const fileArray = Array.from(files);
+    validateAndEmit(fileArray, 'click');
 
     if (inputRef.current) {
       inputRef.current.value = '';
     }
-  }, [maxFiles, maxSize, onFilesSelected]);
+  }, [validateAndEmit]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -111,6 +160,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
     e.preventDefault();
     e.stopPropagation();
     if (disabled) return;
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return;
     setIsDragging(false);
     onDragLeave?.();
   }, [disabled, onDragLeave]);
@@ -128,42 +178,17 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
 
     let fileArray = Array.from(files);
 
-    if (accept) {
-      const acceptedTypes = accept.split(',').map(t => t.trim());
-      fileArray = fileArray.filter(file => {
-        return acceptedTypes.some(acceptType => {
-          if (acceptType.startsWith('.')) {
-            return file.name.toLowerCase().endsWith(acceptType.toLowerCase());
-          }
-          if (acceptType.endsWith('/*')) {
-            const baseType = acceptType.slice(0, -2);
-            return file.type.startsWith(baseType);
-          }
-          return file.type === acceptType;
-        });
-      });
+    if (!multiple) {
+      fileArray = fileArray.slice(0, 1);
     }
 
-    if (maxFiles && fileArray.length > maxFiles) {
-      fileArray = fileArray.slice(0, maxFiles);
-    }
-
-    if (maxSize) {
-      const totalSize = fileArray.reduce((sum, file) => sum + file.size, 0);
-      if (totalSize > maxSize) {
-        return;
-      }
-    }
-
-    if (fileArray.length > 0) {
-      onFilesSelected?.(fileArray);
-    }
-  }, [accept, disabled, maxFiles, maxSize, onDragLeave, onFilesSelected]);
+    validateAndEmit(fileArray, 'drop');
+  }, [disabled, multiple, onDragLeave, validateAndEmit]);
 
   const getStateClassName = () => {
     if (disabled) return FILE_UPLOAD_AREA_STATE.disabled;
     if (error) return FILE_UPLOAD_AREA_STATE.error;
-    if (isDragging) return FILE_UPLOAD_AREA_STATE.dragging;
+    if (effectiveDragging) return FILE_UPLOAD_AREA_STATE.dragging;
     return FILE_UPLOAD_AREA_STATE.default;
   };
 
@@ -203,6 +228,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
           getStateClassName()
         )}
         aria-disabled={disabled}
+        aria-label={clickText ? [title, clickText].filter(Boolean).join(' ') : title || DEFAULT_TITLE}
       >
         <input
           ref={inputRef}

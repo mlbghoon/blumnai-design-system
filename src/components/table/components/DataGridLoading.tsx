@@ -21,9 +21,9 @@ export function DataGridLoading<T>({
 }: DataGridLoadingProps<T>) {
   if (overlay) {
     return (
-      <div className="absolute inset-0 flex items-center justify-center bg-default/80 z-20">
+      <div role="status" aria-label="로딩 중" className="absolute inset-0 flex items-center justify-center bg-default/80 z-20">
         <div className="flex items-center ds-gap-8">
-          <div className="width-20 height-20 border-2 border-state-primary border-t-transparent rounded-full animate-spin" />
+          <div className="width-20 height-20 border-2 border-state-primary border-t-transparent rounded-full animate-spin" aria-hidden="true" />
           <span className="font-body size-sm text-subtle">로딩 중...</span>
         </div>
       </div>
@@ -49,7 +49,7 @@ export function DataGridLoading<T>({
             return (
               <div
                 key={colIndex}
-                role="gridcell"
+                role="cell"
                 className={cn(
                   'padding-x-10 flex items-center',
                   'border-r-default border-b-default last:border-r-0',
@@ -64,7 +64,7 @@ export function DataGridLoading<T>({
                 <div
                   className="height-16 bg-basic-gray-alpha-10 rounded"
                   style={{
-                    width: `${Math.random() * 40 + 40}%`,
+                    width: `${((rowIndex * 7 + colIndex * 13 + 5) % 40) + 40}%`,
                   }}
                 />
               </div>

@@ -34,10 +34,14 @@ const SliderRange = React.forwardRef<
   formatTick,
   ...props
 }, ref) => {
-  const internalValue = value ?? defaultValue ?? [min, max];
+  const [trackedValue, setTrackedValue] = React.useState<[number, number]>(
+    value ?? defaultValue ?? [min, max]
+  );
+  const internalValue = value ?? trackedValue;
   const formatFn = formatValue ?? String;
 
   const handleValueChange = React.useCallback((values: number[]) => {
+    setTrackedValue([values[0], values[1]]);
     onChange?.([values[0], values[1]]);
   }, [onChange]);
 

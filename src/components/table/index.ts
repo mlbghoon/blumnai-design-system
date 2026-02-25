@@ -40,7 +40,11 @@ export {
   CellAvatar,
   CellProgress,
   CellLink,
+  CellIcon,
+  CellDate,
+  CellDateRange,
 } from './cells';
 
 // Hooks
 export { useDataGridTable } from './hooks/useDataGridTable';
+export { useGridKeyboardNav } from './hooks/useGridKeyboardNav';

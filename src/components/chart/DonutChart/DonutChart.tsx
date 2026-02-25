@@ -35,6 +35,9 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
       isHalf = false,
       className,
       ariaLabel,
+      onDataPointClick,
+      isLoading,
+      responsive,
       ...props
     },
     ref
@@ -172,16 +175,13 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   const chartAriaLabel = ariaLabel || `Donut chart showing ${slices.map(s => getLabel(s.name)).join(', ')}`;
 
   return (
-    <Chart ref={ref} width={chartWidth} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} {...props}>
+    <Chart ref={ref} width={chartWidth} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
       <div className="relative" style={{ height: svgHeight }}>
         <svg
           width={width}
           height={svgHeight}
           className="overflow-visible"
-          role="graphics-document"
-          aria-label={chartAriaLabel}
         >
-        <title>{chartAriaLabel}</title>
         <g role="list" aria-label="Donut chart slices">
           {slices.map((slice, index) => (
             <path
@@ -193,15 +193,25 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
               onMouseEnter={(e) => handleSliceMouseEnter(index, e)}
               onMouseMove={handleSliceMouseMove}
               onMouseLeave={handleSliceMouseLeave}
+              onClick={() => onDataPointClick?.(data[index], index)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onDataPointClick?.(data[index], index);
+                  const path = e.target as SVGPathElement;
+                  const rect = path.getBoundingClientRect();
+                  setTooltipState({
+                    visible: true,
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2,
+                    sliceIndex: index,
+                  });
+                }
+              }}
               style={{ cursor: 'pointer' }}
               tabIndex={0}
               role="listitem"
               aria-label={`${getLabel(slice.name)}: ${slice.value} (${(slice.percentage * 100).toFixed(1)}%)`}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                }
-              }}
             />
           ))}
         </g>

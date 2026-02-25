@@ -261,6 +261,16 @@ export interface DataGridProps<T> {
   // Styling
   // ============================================
   /**
+   * 그리드의 접근성 라벨
+   */
+  'aria-label'?: string;
+
+  /**
+   * 그리드 라벨을 제공하는 요소의 ID
+   */
+  'aria-labelledby'?: string;
+
+  /**
    * 추가 CSS 클래스
    */
   className?: string;

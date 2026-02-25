@@ -9,15 +9,17 @@ interface DataGridCellProps<T> {
   stickyInfo?: StickyColumnInfo;
   isRowSelected?: boolean;
   height?: string;
+  colIndex?: number;
 }
 
-export function DataGridCell<T>({ cell, stickyInfo, isRowSelected, height }: DataGridCellProps<T>) {
+export function DataGridCell<T>({ cell, stickyInfo, isRowSelected, height, colIndex }: DataGridCellProps<T>) {
   const align = cell.column.columnDef.meta?.align ?? 'left';
   const isSticky = !!stickyInfo;
 
   return (
     <div
       role="gridcell"
+      aria-colindex={colIndex}
       className={cn(
         'padding-x-10 flex items-center',
         'font-body size-xs line-height-leading-4 text-default',

@@ -314,6 +314,53 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
         prevRef?.focus();
         prevRef?.setSelectionRange(prevRef.value.length, prevRef.value.length);
       }
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      const min = getSegmentMin(segment, timeFormat);
+      const paddedValue = padSegment(String(min));
+      const setSegmentsForPart = part === 'start' ? setStartSegments : setEndSegments;
+      const newSegments = { ...currentSegments, [segment]: paddedValue };
+      setSegmentsForPart(newSegments);
+      if (part === 'start') {
+        updateRange(newSegments, endSegments, startPeriod, endPeriod);
+      } else {
+        updateRange(startSegments, newSegments, startPeriod, endPeriod);
+      }
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      const max = getSegmentMax(segment, timeFormat);
+      const paddedValue = padSegment(String(max));
+      const setSegmentsForPart = part === 'start' ? setStartSegments : setEndSegments;
+      const newSegments = { ...currentSegments, [segment]: paddedValue };
+      setSegmentsForPart(newSegments);
+      if (part === 'start') {
+        updateRange(newSegments, endSegments, startPeriod, endPeriod);
+      } else {
+        updateRange(startSegments, newSegments, startPeriod, endPeriod);
+      }
+    } else if (e.key === 'PageUp' || e.key === 'PageDown') {
+      e.preventDefault();
+      const currentValue = parseInt(currentSegments[segment] || '0', 10);
+      const min = getSegmentMin(segment, timeFormat);
+      const max = getSegmentMax(segment, timeFormat);
+      const step = segment === 'hour' ? 1 : 5;
+      let newValue: number;
+      if (e.key === 'PageUp') {
+        newValue = currentValue + step;
+        if (newValue > max) newValue = max;
+      } else {
+        newValue = currentValue - step;
+        if (newValue < min) newValue = min;
+      }
+      const paddedValue = padSegment(String(newValue));
+      const setSegmentsForPart = part === 'start' ? setStartSegments : setEndSegments;
+      const newSegments = { ...currentSegments, [segment]: paddedValue };
+      setSegmentsForPart(newSegments);
+      if (part === 'start') {
+        updateRange(newSegments, endSegments, startPeriod, endPeriod);
+      } else {
+        updateRange(startSegments, newSegments, startPeriod, endPeriod);
+      }
     } else if (e.key === 'Backspace' && !currentSegments[segment] && currentIndex > 0) {
       e.preventDefault();
       const prev = allSegments[currentIndex - 1];

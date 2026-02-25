@@ -52,29 +52,99 @@ const UNDERLINE_LIST_SIZE_STYLES = {
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   TabsListProps
->(({ variant = 'segmented', shape = 'rounded', size = 'sm', type = 'default', className, children, ...props }, ref) => {
+>(({ variant = 'segmented', shape = 'rounded', size = 'sm', type = 'default', scrollable = false, className, children, ...props }, ref) => {
   const contextValue = React.useMemo(() => ({ variant, shape, size, type }), [variant, shape, size, type]);
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = React.useState(false);
+  const [canScrollRight, setCanScrollRight] = React.useState(false);
+
+  const checkScroll = React.useCallback(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  }, []);
+
+  React.useEffect(() => {
+    if (!scrollable) return;
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    checkScroll();
+    el.addEventListener('scroll', checkScroll, { passive: true });
+    const observer = new ResizeObserver(checkScroll);
+    observer.observe(el);
+    return () => {
+      el.removeEventListener('scroll', checkScroll);
+      observer.disconnect();
+    };
+  }, [scrollable, checkScroll]);
+
+  const scrollBy = React.useCallback((dir: number) => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * 120, behavior: 'smooth' });
+  }, []);
 
   const containerRadiusClass = shape === 'pill' ? 'rounded-full' : 'rounded-md';
 
+  const listElement = (
+    <TabsPrimitive.List
+      ref={ref}
+      className={cn(
+        'inline-flex items-center',
+        variant === 'pill' && 'ds-gap-8',
+        variant === 'segmented' && ['ds-gap-2 padding-2', containerRadiusClass, 'bg-state-soft'],
+        variant === 'underline' && ['border-b-default', UNDERLINE_LIST_SIZE_STYLES[size]],
+        type === 'fixed' && 'w-full',
+        'data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start',
+        variant === 'underline' && 'data-[orientation=vertical]:border-b-0 data-[orientation=vertical]:border-r-default',
+        scrollable && 'flex-nowrap',
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </TabsPrimitive.List>
+  );
+
+  if (scrollable) {
+    return (
+      <TabsContext.Provider value={contextValue}>
+        <div className="relative flex items-center">
+          {canScrollLeft && (
+            <button
+              type="button"
+              onClick={() => scrollBy(-1)}
+              aria-label="이전 탭"
+              className="flex-shrink-0 flex items-center justify-center width-24 height-24 rounded-sm bg-default border-default cursor-pointer hover:bg-subtle transition-colors z-[1]"
+            >
+              <Icon iconType={['arrows', 'arrow-left-s']} size={14} />
+            </button>
+          )}
+          <div
+            ref={scrollContainerRef}
+            className="overflow-x-auto scrollbar-none flex-1 min-w-0"
+          >
+            {listElement}
+          </div>
+          {canScrollRight && (
+            <button
+              type="button"
+              onClick={() => scrollBy(1)}
+              aria-label="다음 탭"
+              className="flex-shrink-0 flex items-center justify-center width-24 height-24 rounded-sm bg-default border-default cursor-pointer hover:bg-subtle transition-colors z-[1]"
+            >
+              <Icon iconType={['arrows', 'arrow-right-s']} size={14} />
+            </button>
+          )}
+        </div>
+      </TabsContext.Provider>
+    );
+  }
+
   return (
     <TabsContext.Provider value={contextValue}>
-      <TabsPrimitive.List
-        ref={ref}
-        className={cn(
-          'inline-flex items-center',
-          variant === 'pill' && 'ds-gap-8',
-          variant === 'segmented' && ['ds-gap-2 padding-2', containerRadiusClass, 'bg-state-soft'],
-          variant === 'underline' && ['border-b-default', UNDERLINE_LIST_SIZE_STYLES[size]],
-          type === 'fixed' && 'w-full',
-          'data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start',
-          variant === 'underline' && 'data-[orientation=vertical]:border-b-0 data-[orientation=vertical]:border-r-default',
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </TabsPrimitive.List>
+      {listElement}
     </TabsContext.Provider>
   );
 });
@@ -95,7 +165,7 @@ const ICON_SIZE = {
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
->(({ leadIcon, tailIcon, badge, className, children, ...props }, ref) => {
+>(({ leadIcon, tailIcon, badge, closable = false, onClose, className, children, value, ...props }, ref) => {
   const { variant, shape, size, type } = useTabsContext();
   const iconSize = variant === 'underline' ? ICON_SIZE[size] : 14;
 
@@ -114,11 +184,31 @@ const TabsTrigger = React.forwardRef<
     return null;
   };
 
+  const handleClose = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (value) onClose?.(value);
+  };
+
   const shapeClass = shape === 'pill' ? 'rounded-full' : 'rounded-sm';
+
+  const closeButton = closable ? (
+    <button
+      type="button"
+      onClick={handleClose}
+      aria-label="탭 닫기"
+      className="inline-flex items-center justify-center width-14 height-14 rounded-xs text-muted hover:text-default transition-colors cursor-pointer shrink-0"
+    >
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+        <path d="M7.5 2.5L2.5 7.5M2.5 2.5L7.5 7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </button>
+  ) : null;
 
   return (
     <TabsPrimitive.Trigger
       ref={ref}
+      value={value}
       className={cn(
         'inline-flex items-center justify-center whitespace-nowrap',
         'font-body size-sm font-medium line-height-leading-5',
@@ -133,14 +223,11 @@ const TabsTrigger = React.forwardRef<
           'border-[1px]',
           'text-muted',
           'hover:text-subtle',
-          // Focus state (inactive)
           'focus-visible:[box-shadow:0_0_0_2px_var(--border-highlight-accent)]',
-          // Active state
           'data-[state=active]:![color:var(--text-default)]',
           'data-[state=active]:[border-color:var(--border-darker)]',
           'data-[state=active]:[background-color:var(--bg-state-secondary)]',
           'data-[state=active]:[box-shadow:0_-1px_0_0_rgba(0,0,0,0.08)_inset,0_1px_2px_0_rgba(0,0,0,0.05)]',
-          // Focus + Active state (combined shadows)
           'data-[state=active]:focus-visible:[box-shadow:0_-1px_0_0_rgba(0,0,0,0.08)_inset,0_1px_2px_0_rgba(0,0,0,0.05),0_0_0_2px_var(--border-highlight-accent)]',
         ],
         variant === 'underline' && [
@@ -182,6 +269,7 @@ const TabsTrigger = React.forwardRef<
               {badge}
             </span>
           )}
+          {closeButton}
         </span>
       ) : (
         <>
@@ -200,6 +288,7 @@ const TabsTrigger = React.forwardRef<
               {badge}
             </span>
           )}
+          {closeButton}
         </>
       )}
     </TabsPrimitive.Trigger>
@@ -210,12 +299,16 @@ TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
   TabsContentProps
->(({ className, ...props }, ref) => (
+>(({ className, animated = false, ...props }, ref) => (
   <TabsPrimitive.Content
     ref={ref}
     className={cn(
       'margin-t-8',
       'focus-visible:outline-none focus-visible:shadow-component-misc-focus',
+      animated && [
+        'data-[state=active]:animate-in data-[state=active]:fade-in-0 data-[state=active]:duration-200',
+        'motion-reduce:data-[state=active]:animate-none',
+      ],
       className
     )}
     {...props}

@@ -18,8 +18,8 @@ export interface AccordionGroupItem {
   isOpen?: boolean;
   /** 아코디언 아이템이 비활성화되어 있는지 여부 */
   disabled?: boolean;
-  /** 아이템별 토글 콜백 */
-  onToggle?: () => void;
+  /** 아이템별 토글 콜백 (새 상태 값을 전달받음) */
+  onToggle?: (isOpen: boolean) => void;
   /** 추가 CSS 클래스 이름 */
   className?: string;
 }

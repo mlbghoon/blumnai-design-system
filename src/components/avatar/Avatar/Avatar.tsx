@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, useState } from 'react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
 import { AspectRatio } from '../../aspect-ratio';
@@ -55,11 +55,20 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
       logoImage,
       icon,
       badgeLocation = 'top',
+      onError: onErrorProp,
+      onLoad: onLoadProp,
       className,
       ...props
     },
     ref
   ) => {
+  const [imgState, setImgState] = useState<{ src: string | undefined; error: boolean }>({ src, error: false });
+  if (imgState.src !== src) {
+    setImgState({ src, error: false });
+  }
+  const imgError = imgState.error;
+  const setImgError = (error: boolean) => setImgState((prev) => ({ ...prev, error }));
+
   // Get initials text - 1 letter for small sizes (2xs~md), 2 letters for large sizes (lg~3xl)
   const initialsText = useMemo(() => {
     if (!initials) return '';
@@ -168,12 +177,26 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         )}
 
         {/* Userpic variant: HAS Image wrapper */}
-        {variant === 'userpic' && src && (
+        {variant === 'userpic' && src && !imgError && (
           <div className={IMAGE_WRAPPER_CLASSES}>
             <AspectRatio ratio={1}>
-              <img src={src} alt={alt || ''} className={IMAGE_CLASSES} />
+              <img
+                src={src}
+                alt={alt || ''}
+                className={IMAGE_CLASSES}
+                onError={(e) => {
+                  setImgError(true);
+                  onErrorProp?.(e);
+                }}
+                onLoad={onLoadProp}
+              />
             </AspectRatio>
           </div>
+        )}
+
+        {/* Userpic variant: fallback to initials on image error */}
+        {variant === 'userpic' && imgError && initialsText && (
+          <span className={initialsClasses}>{initialsText}</span>
         )}
 
         {/* Empty variant: HAS Image wrapper with placeholder icon */}

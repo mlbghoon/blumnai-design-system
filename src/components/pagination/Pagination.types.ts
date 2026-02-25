@@ -32,6 +32,20 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
   maxVisiblePages?: number;
 
   /**
+   * 현재 페이지 양옆에 표시할 페이지 수 (numbered 변형에서만 사용)
+   * 설정 시 maxVisiblePages 대신 siblingCount/boundaryCount 기반으로 계산됩니다
+   * @default undefined
+   */
+  siblingCount?: number;
+
+  /**
+   * 시작과 끝에 항상 표시할 페이지 수 (numbered 변형에서만 사용)
+   * siblingCount와 함께 사용됩니다
+   * @default 1
+   */
+  boundaryCount?: number;
+
+  /**
    * 비활성화 여부
    */
   disabled?: boolean;
@@ -40,6 +54,24 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
    * 이전/다음 버튼 숨김
    */
   hideNavButtons?: boolean;
+
+  /**
+   * 처음/마지막 페이지 이동 버튼 표시 (numbered 변형에서만 사용)
+   * @default false
+   */
+  showFirstLastButtons?: boolean;
+
+  /**
+   * dot 변형에서 최대 표시할 점 개수 (초과 시 생략)
+   * @default undefined (제한 없음)
+   */
+  maxDots?: number;
+
+  /**
+   * ellipsis 클릭 시 점프할 페이지 수
+   * @default 5
+   */
+  ellipsisJump?: number;
 
   /**
    * 페이지 변경 전 확인 메시지 (설정 시 확인 다이얼로그 표시)
@@ -75,7 +107,11 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
   nextText?: string;
 }
 
-export interface PaginationItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface PaginationItemProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
+  /**
+   * 클릭 이벤트 핸들러
+   */
+  onClick?: React.MouseEventHandler<HTMLElement>;
   /**
    * 활성화 상태
    */
@@ -92,7 +128,11 @@ export interface PaginationItemProps extends ButtonHTMLAttributes<HTMLButtonElem
   href?: string;
 }
 
-export interface PaginationNavProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface PaginationNavProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
+  /**
+   * 클릭 이벤트 핸들러
+   */
+  onClick?: React.MouseEventHandler<HTMLElement>;
   /**
    * 방향
    */
@@ -102,6 +142,16 @@ export interface PaginationNavProps extends ButtonHTMLAttributes<HTMLButtonEleme
    * href 속성 (설정 시 a 태그로 렌더링)
    */
   href?: string;
+
+  /**
+   * 아이콘 타입 오버라이드 (first/last 버튼에 사용)
+   */
+  iconOverride?: [string, string];
 }
 
-export type PaginationEllipsisProps = HTMLAttributes<HTMLSpanElement>;
+export interface PaginationEllipsisProps extends HTMLAttributes<HTMLSpanElement> {
+  /**
+   * 클릭 이벤트 핸들러 (설정 시 클릭 가능한 버튼으로 렌더링)
+   */
+  onClick?: React.MouseEventHandler<HTMLElement>;
+}

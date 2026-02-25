@@ -16,6 +16,7 @@ import {
 } from "@/components/drawer-sheet/Sheet"
 import { Skeleton } from "@/components/skeleton"
 import { TooltipTrigger } from "@/components/tooltip/Tooltip/TooltipTrigger"
+import type { SidebarProviderProps } from "./Sidebar.types"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -49,17 +50,16 @@ function useSidebar() {
 
 const SidebarProvider = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<"div"> & {
-    defaultOpen?: boolean
-    open?: boolean
-    onOpenChange?: (open: boolean) => void
-  }
+  SidebarProviderProps
 >(
   (
     {
       defaultOpen = true,
       open: openProp,
       onOpenChange: setOpenProp,
+      onCollapse,
+      onExpand,
+      persistState = true,
       className,
       style,
       children,
@@ -84,10 +84,17 @@ const SidebarProvider = React.forwardRef<
           _setOpen(openState)
         }
 
-        // This sets the cookie to keep the sidebar state.
-        document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+        if (openState) {
+          onExpand?.()
+        } else {
+          onCollapse?.()
+        }
+
+        if (persistState) {
+          document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+        }
       },
-      [setOpenProp, open]
+      [setOpenProp, open, onCollapse, onExpand, persistState]
     )
 
     // Helper to toggle the sidebar.
@@ -288,6 +295,7 @@ const Sidebar = React.forwardRef<
             data-sidebar="toggle-button"
             onClick={toggleSidebar}
             aria-label="Toggle Sidebar"
+            aria-expanded={effectiveState === "expanded"}
             title="Toggle Sidebar"
             className={cn(
               "fixed z-20 flex items-center justify-center cursor-pointer",
@@ -307,7 +315,11 @@ const Sidebar = React.forwardRef<
           >
             {toggleButtonIcon || (
               <Icon
-                iconType={effectiveState === "collapsed" ? ['arrows', 'arrow-right-s'] : ['arrows', 'arrow-left-s']}
+                iconType={
+                  (effectiveState === "collapsed") !== (side === "right")
+                    ? ['arrows', 'arrow-right-s']
+                    : ['arrows', 'arrow-left-s']
+                }
                 size={14}
                 color="var(--icon-default-muted)"
               />
@@ -404,6 +416,7 @@ const SidebarToggleButton = React.forwardRef<
       data-sidebar="toggle-button"
       onClick={toggleSidebar}
       aria-label="Toggle Sidebar"
+      aria-expanded={state === "expanded"}
       title="Toggle Sidebar"
       className={cn(
         "absolute [right:-12px] z-20 flex items-center justify-center cursor-pointer",
@@ -421,9 +434,13 @@ const SidebarToggleButton = React.forwardRef<
     >
       {icon || (
         <Icon
-          iconType={isCollapsed ? ['arrows', 'arrow-right-s'] : ['arrows', 'arrow-left-s']}
+          iconType={isCollapsed
+            ? ['arrows', 'arrow-right-s']
+            : ['arrows', 'arrow-left-s']
+          }
           size={14}
           color="var(--icon-default-muted)"
+          className="group-data-[side=right]:rotate-180"
         />
       )}
     </button>
@@ -701,6 +718,7 @@ const SidebarMenuButton = React.forwardRef<
         data-sidebar="menu-button"
         data-size={size}
         data-active={isActive}
+        aria-current={isActive ? "page" : undefined}
         className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
         {...props}
       />

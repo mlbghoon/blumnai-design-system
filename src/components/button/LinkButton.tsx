@@ -1,11 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
-import { forwardRef, useMemo, isValidElement } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 
-import { Icon } from '../icons/Icon';
-import type { IconType } from '../icons/Icon/Icon.types';
 import { cn } from '../../lib/utils';
+import { getPixelValue } from '../../lib/css-utils';
+import { renderButtonIcon } from './buttonUtils';
 
 import type { LinkButtonProps, LinkButtonIconType, LinkButtonSize, LinkButtonType } from './LinkButton.types';
 
@@ -67,17 +67,8 @@ export const LinkButton = forwardRef<HTMLElement, LinkButtonProps>(({
 }, ref) => {
   const iconSize = 16;
 
-  const getWidthValue = (w: string | number): string => {
-    if (typeof w === 'number') return `${w}px`;
-    const numericValue = parseFloat(w);
-    if (!isNaN(numericValue) && String(numericValue) === w.trim()) {
-      return `${numericValue}px`;
-    }
-    return w;
-  };
-
   const widthStyle = width !== undefined && width !== ''
-    ? { width: getWidthValue(width) }
+    ? { width: getPixelValue(width) }
     : undefined;
 
   const mergedStyle: React.CSSProperties = {
@@ -98,19 +89,8 @@ export const LinkButton = forwardRef<HTMLElement, LinkButtonProps>(({
     return typeConfig.iconColor;
   }, [disabled, typeConfig]);
 
-  const renderIcon = (icon: LinkButtonIconType | React.ReactNode) => {
-    if (!icon) return null;
-    if (typeof icon === 'object' && !Array.isArray(icon) && Object.keys(icon as object).length === 0) return null;
-
-    if (Array.isArray(icon) && (icon.length === 2 || icon.length === 3) && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
-      const fillValue = icon[2] as boolean | string | undefined;
-      const isFill = icon.length === 3 && (fillValue === true || fillValue === 'true');
-      return <Icon iconType={[icon[0], icon[1]] as IconType} isFill={isFill} size={iconSize} color={getIconColor} />;
-    }
-
-    if (!isValidElement(icon)) return null;
-    return <span className="inline-flex items-center">{icon}</span>;
-  };
+  const renderIcon = (icon: LinkButtonIconType | React.ReactNode) =>
+    renderButtonIcon(icon, iconSize, getIconColor);
 
   const content = (
     <>
@@ -136,9 +116,10 @@ export const LinkButton = forwardRef<HTMLElement, LinkButtonProps>(({
         ref={ref as React.Ref<HTMLAnchorElement>}
         href={href}
         target={openInNewTab ? '_blank' : undefined}
-        rel={openInNewTab ? 'noopener noreferrer' : undefined}
         className={containerClassName}
         style={styleProps}
+        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        rel={openInNewTab ? 'noopener noreferrer' : undefined}
       >
         {content}
       </a>

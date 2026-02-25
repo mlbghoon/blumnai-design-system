@@ -6,6 +6,7 @@ interface SliderThumbProps extends React.ComponentPropsWithoutRef<typeof SliderP
   disabled?: boolean;
   showTooltip?: boolean;
   tooltipValue?: string;
+  'aria-label'?: string;
 }
 
 const SliderThumb = React.forwardRef<
@@ -20,6 +21,7 @@ const SliderThumb = React.forwardRef<
   return (
     <SliderPrimitive.Thumb
       ref={ref}
+      aria-valuetext={tooltipValue}
       className={cn(
         'relative block width-16 height-16 rounded-full',
         'focus-visible:outline-none',

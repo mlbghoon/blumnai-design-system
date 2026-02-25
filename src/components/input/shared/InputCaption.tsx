@@ -40,6 +40,7 @@ export const InputCaption = ({
         error ? ERROR_CAPTION_STYLE : success ? SUCCESS_CAPTION_STYLE : CAPTION_STYLE,
         className
       )}
+      aria-live="polite"
       {...props}
     >
       {children}

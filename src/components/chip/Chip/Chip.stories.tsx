@@ -137,7 +137,7 @@ export const Default: Story = {
     controls: { disable: false },
   },
   render: function Render(args) {
-    const chipRef = useRef<HTMLDivElement>(null);
+    const chipRef = useRef<HTMLButtonElement>(null);
     return <Chip ref={chipRef} {...args} />;
   },
 };

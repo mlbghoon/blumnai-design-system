@@ -24,6 +24,11 @@ export interface PopoverContentProps
    * @example width="80%" - 80%
    */
   width?: string | number;
+  /**
+   * Portal의 타겟 컨테이너 엘리먼트.
+   * 지정하지 않으면 `document.body`에 포탈됩니다.
+   */
+  container?: HTMLElement | null;
 }
 
 export interface PopoverScrollAreaProps extends HTMLAttributes<HTMLDivElement> {

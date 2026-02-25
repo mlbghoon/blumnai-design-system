@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { cn } from '@/lib/utils';
 import { useDataGridTable } from './hooks/useDataGridTable';
+import { useGridKeyboardNav } from './hooks/useGridKeyboardNav';
 import { DataGridHeader } from './components/DataGridHeader';
 import { DataGridBody } from './components/DataGridBody';
 import { DataGridPagination } from './components/DataGridPagination';
@@ -64,6 +65,8 @@ function DataGridInner<T>(
     emptyContent,
     error,
     onRetry,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby,
     className,
     onRowClick,
     showSelectedRowBackground = true,
@@ -137,11 +140,34 @@ function DataGridInner<T>(
   const showEmptyState = !isLoading && !hasData && !error;
   const showErrorState = !!error;
 
+  const { gridRef, handleKeyDown } = useGridKeyboardNav({
+    rowCount: rows.length + 1,
+    colCount: columns.length,
+  });
+
+  const mergedRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      gridRef.current = node;
+      if (typeof ref === 'function') {
+        ref(node);
+      } else if (ref) {
+        (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      }
+    },
+    [ref, gridRef]
+  );
+
   return (
     <TableTooltipProvider>
       <div
-        ref={ref}
+        ref={mergedRef}
         role="grid"
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledby}
+        aria-busy={isLoading || undefined}
+        aria-rowcount={total ?? data.length}
+        aria-colcount={columns.length}
+        onKeyDown={handleKeyDown}
         className={cn(
           'relative overflow-hidden bg-default border-default rounded-lg',
           className

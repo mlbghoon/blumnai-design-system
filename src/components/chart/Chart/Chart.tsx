@@ -1,6 +1,7 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useMemo, useState, useEffect, useRef, useCallback } from 'react';
 
 import { cn } from '../../../utils/cn';
+import { Skeleton } from '../../skeleton/Skeleton';
 
 import type { BaseChartProps } from './Chart.types';
 
@@ -18,21 +19,61 @@ export const Chart = forwardRef<HTMLDivElement, Omit<BaseChartProps, 'data'> & {
       className,
       children,
       ariaLabel,
+      isLoading,
+      responsive,
+      onDataPointClick: _onDataPointClick,
       ...props
     },
     ref
   ) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [responsiveSize, setResponsiveSize] = useState<{ width: number; height: number } | null>(null);
+
+  const mergedRef = useCallback((node: HTMLDivElement | null) => {
+    (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    if (typeof ref === 'function') {
+      ref(node);
+    } else if (ref) {
+      (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    }
+  }, [ref]);
+
+  useEffect(() => {
+    if (!responsive || !containerRef.current) return;
+    const el = containerRef.current;
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (entry) {
+        setResponsiveSize({
+          width: Math.round(entry.contentRect.width),
+          height: Math.round(entry.contentRect.height),
+        });
+      }
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [responsive]);
+
+  const effectiveWidth = responsive && responsiveSize ? responsiveSize.width : width;
+  const effectiveHeight = responsive && responsiveSize ? responsiveSize.height : height;
+
   const containerStyle = useMemo(() => {
     const style: React.CSSProperties = {};
-    if (width) {
-      style.width = typeof width === 'number' ? `${width}px` : width;
-    }
-    if (height) {
-      style.minHeight = typeof height === 'number' ? `${height}px` : height;
-      style.height = 'auto';
+    if (responsive) {
+      style.width = '100%';
+      style.height = height ? (typeof height === 'number' ? `${height}px` : height) : '100%';
+    } else {
+      if (width) {
+        style.width = typeof width === 'number' ? `${width}px` : width;
+      }
+      if (height) {
+        style.minHeight = typeof height === 'number' ? `${height}px` : height;
+        style.height = 'auto';
+      }
     }
     return style;
-  }, [width, height]);
+  }, [width, height, responsive]);
 
   const containerClassName = cn(
     'relative',
@@ -44,14 +85,23 @@ export const Chart = forwardRef<HTMLDivElement, Omit<BaseChartProps, 'data'> & {
 
   return (
     <div
-      ref={ref}
+      ref={mergedRef}
       className={containerClassName}
       style={containerStyle}
       role="img"
       aria-label={ariaLabel}
+      data-responsive-width={effectiveWidth}
+      data-responsive-height={effectiveHeight}
       {...props}
     >
-      {children}
+      {isLoading ? (
+        <div className="flex flex-col ds-gap-8 padding-16 w-full h-full">
+          <Skeleton variant="text" className="height-16 w-1/3" />
+          <Skeleton variant="default" className="flex-1 w-full" height={height ? (typeof height === 'number' ? height - 60 : undefined) : 200} />
+        </div>
+      ) : (
+        children
+      )}
     </div>
   );
   }

@@ -1,4 +1,4 @@
-import { forwardRef, useState, useRef, useEffect, useId, useLayoutEffect } from 'react';
+import { forwardRef, useState, useRef, useEffect, useId, useLayoutEffect, useCallback } from 'react';
 import type { InputHTMLAttributes } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -155,8 +155,21 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
 }, ref) => {
   const dropdownId = useId();
   const [isOpen, setIsOpen] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  const openDropdown = useCallback(() => {
+    setIsOpen(true);
+    const selectedIdx = dropdownOptions?.findIndex(opt => opt.value === dropdownValue) ?? -1;
+    setFocusedIndex(selectedIdx >= 0 ? selectedIdx : 0);
+  }, [dropdownOptions, dropdownValue]);
+
+  const closeDropdown = useCallback(() => {
+    setIsOpen(false);
+    setFocusedIndex(-1);
+  }, []);
   const menuRef = useRef<HTMLDivElement>(null);
+  const optionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0, width: 0 });
 
   const { inputId, hasError, state, sizeConfig, styleConfig, iconColor } = useInputState({
@@ -191,13 +204,13 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
       const isOutsideMenu = menuRef.current && !menuRef.current.contains(target);
 
       if (isOutsideTrigger && isOutsideMenu) {
-        setIsOpen(false);
+        closeDropdown();
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [closeDropdown]);
 
   // Find selected option (guard against undefined dropdownOptions)
   const selectedOption = dropdownOptions?.find(opt => opt.value === dropdownValue);
@@ -207,11 +220,59 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
   const showTailIcon = tailIcon && dropdownPosition !== 'tail';
   const hasClearButton = onClear !== undefined && value !== '' && value !== undefined;
 
-  // Handle dropdown option selection
-  const handleSelectOption = (optionValue: string) => {
+  useEffect(() => {
+    if (isOpen && focusedIndex >= 0) {
+      optionRefs.current[focusedIndex]?.focus();
+    }
+  }, [isOpen, focusedIndex]);
+
+
+  const handleSelectOption = useCallback((optionValue: string) => {
     onDropdownChange?.(optionValue);
-    setIsOpen(false);
-  };
+    closeDropdown();
+    triggerRef.current?.focus();
+  }, [onDropdownChange, closeDropdown]);
+
+  const handleMenuKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (!dropdownOptions) return;
+
+    switch (e.key) {
+      case 'ArrowDown': {
+        e.preventDefault();
+        setFocusedIndex(prev => (prev < dropdownOptions.length - 1 ? prev + 1 : 0));
+        break;
+      }
+      case 'ArrowUp': {
+        e.preventDefault();
+        setFocusedIndex(prev => (prev > 0 ? prev - 1 : dropdownOptions.length - 1));
+        break;
+      }
+      case 'Home': {
+        e.preventDefault();
+        setFocusedIndex(0);
+        break;
+      }
+      case 'End': {
+        e.preventDefault();
+        setFocusedIndex(dropdownOptions.length - 1);
+        break;
+      }
+      case 'Enter':
+      case ' ': {
+        e.preventDefault();
+        if (focusedIndex >= 0 && focusedIndex < dropdownOptions.length) {
+          handleSelectOption(dropdownOptions[focusedIndex].value);
+        }
+        break;
+      }
+      case 'Escape': {
+        e.preventDefault();
+        closeDropdown();
+        triggerRef.current?.focus();
+        break;
+      }
+    }
+  }, [dropdownOptions, focusedIndex, handleSelectOption, closeDropdown]);
 
   // Wrapper className
   const wrapperClassName = cn(
@@ -255,15 +316,19 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
         }}
         role="listbox"
         aria-labelledby={dropdownId}
+        onKeyDown={handleMenuKeyDown}
       >
-        {dropdownOptions.map((option) => (
+        {dropdownOptions.map((option, index) => (
           <div
             key={option.value}
+            ref={(el) => { optionRefs.current[index] = el; }}
             role="option"
+            tabIndex={-1}
             aria-selected={option.value === dropdownValue}
             className={cn(
               DROPDOWN_OPTION_BASE,
-              option.value === dropdownValue && DROPDOWN_OPTION_SELECTED
+              option.value === dropdownValue && DROPDOWN_OPTION_SELECTED,
+              focusedIndex === index && 'bg-state-ghost-hover'
             )}
             onClick={() => handleSelectOption(option.value)}
           >
@@ -294,7 +359,17 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
         type="button"
         id={dropdownId}
         disabled={disabled}
-        onClick={() => !disabled && setIsOpen(!isOpen)}
+        onClick={() => !disabled && (isOpen ? closeDropdown() : openDropdown())}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (!isOpen) openDropdown();
+          }
+          if (e.key === 'Escape' && isOpen) {
+            e.preventDefault();
+            closeDropdown();
+          }
+        }}
         className={cn(
           DROPDOWN_TRIGGER_BASE,
           dropdownSizeConfig.triggerPadding,
@@ -375,6 +450,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
             ref={ref}
             id={inputId}
             disabled={disabled}
+            required={required}
             className={inputClassName}
             value={value}
             autoComplete="off"

@@ -85,6 +85,7 @@ export const AvatarBadge = ({
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{ width: `${badgeSize}px`, height: `${badgeSize}px` }}
+          aria-hidden="true"
         >
           <circle cx="12" cy="12" r="9" fill={ringColor} />
           <circle cx="12" cy="12" r="7" fill="var(--bg-basic-lime-accent)" />
@@ -98,6 +99,7 @@ export const AvatarBadge = ({
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{ width: `${badgeSize}px`, height: `${badgeSize}px` }}
+          aria-hidden="true"
         >
           <circle cx="12" cy="12" r="9" fill={ringColor} />
           <circle cx="12" cy="12" r="7" fill="var(--text-hint)" />
@@ -111,6 +113,7 @@ export const AvatarBadge = ({
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{ width: `${badgeSize}px`, height: `${badgeSize}px` }}
+          aria-hidden="true"
         >
           <circle cx="12" cy="12" r="9" fill={ringColor} />
           <circle cx="12" cy="12" r="7" fill="var(--bg-state-destructive)" />
@@ -126,6 +129,7 @@ export const AvatarBadge = ({
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="xMidYMid meet"
             style={{ width: `${badgeSize}px`, height: `${badgeSize}px` }}
+            aria-hidden="true"
           >
             {/* White wavy star shape (outer border) */}
             <path

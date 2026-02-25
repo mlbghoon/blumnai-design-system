@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 
@@ -59,7 +59,7 @@ export type ChipColor =
 /**
  * Chip 컴포넌트 Props
  */
-export interface ChipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'style'> {
+export interface ChipProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'style' | 'onToggle'> {
   /**
    * Chip에 표시할 텍스트
    */
@@ -99,4 +99,14 @@ export interface ChipProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childre
    * 칩 색상
    */
   color?: ChipColor;
+  /**
+   * 비활성화 여부
+   * @default false
+   */
+  disabled?: boolean;
+  /**
+   * 선택 상태가 토글될 때 호출되는 콜백.
+   * `selected`의 반전된 값을 인자로 전달합니다.
+   */
+  onToggle?: (selected: boolean) => void;
 }

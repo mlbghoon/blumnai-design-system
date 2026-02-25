@@ -236,6 +236,38 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
         prevRef?.focus();
         prevRef?.setSelectionRange(prevRef.value.length, prevRef.value.length);
       }
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      const min = getSegmentMin(segment, timeFormat);
+      const paddedValue = padSegment(String(min));
+      const newSegments = { ...segments, [segment]: paddedValue };
+      setSegments(newSegments);
+      updateTimeFromSegments(newSegments, period);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      const max = getSegmentMax(segment, timeFormat);
+      const paddedValue = padSegment(String(max));
+      const newSegments = { ...segments, [segment]: paddedValue };
+      setSegments(newSegments);
+      updateTimeFromSegments(newSegments, period);
+    } else if (e.key === 'PageUp' || e.key === 'PageDown') {
+      e.preventDefault();
+      const currentValue = parseInt(segments[segment] || '0', 10);
+      const min = getSegmentMin(segment, timeFormat);
+      const max = getSegmentMax(segment, timeFormat);
+      const step = segment === 'hour' ? 1 : 5;
+      let newValue: number;
+      if (e.key === 'PageUp') {
+        newValue = currentValue + step;
+        if (newValue > max) newValue = max;
+      } else {
+        newValue = currentValue - step;
+        if (newValue < min) newValue = min;
+      }
+      const paddedValue = padSegment(String(newValue));
+      const newSegments = { ...segments, [segment]: paddedValue };
+      setSegments(newSegments);
+      updateTimeFromSegments(newSegments, period);
     } else if (e.key === 'Backspace' && !segments[segment] && currentIndex > 0) {
       e.preventDefault();
       const prevSegment = segmentOrder[currentIndex - 1];
@@ -338,6 +370,11 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
         ref={segmentRefs[segment] as React.RefObject<HTMLInputElement>}
         type="text"
         inputMode="numeric"
+        role="spinbutton"
+        aria-label={segment}
+        aria-valuenow={segmentValue ? parseInt(segmentValue, 10) : undefined}
+        aria-valuemin={getSegmentMin(segment, timeFormat)}
+        aria-valuemax={getSegmentMax(segment, timeFormat)}
         value={segmentValue}
         placeholder={placeholderText}
         disabled={disabled}
@@ -366,6 +403,7 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
     <div
       ref={ref}
       className={wrapperClassName}
+      aria-invalid={showError || undefined}
     >
       <div
         className="flex items-center ds-gap-2 flex-1 min-w-0"
@@ -385,6 +423,7 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
             type="button"
             disabled={disabled}
             onClick={handlePeriodToggle}
+            aria-label={`Toggle AM/PM, current: ${period}`}
             className={cn(
               'padding-x-4 padding-y-2 rounded-xs',
               'ml-[4px]',
@@ -404,6 +443,7 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
           type="button"
           disabled={disabled}
           onClick={handleClockIconClick}
+          aria-label="Open time picker"
           className={cn(
             'flex-shrink-0 flex items-center justify-center',
             'hover:bg-state-ghost-hover rounded-xs transition-colors',

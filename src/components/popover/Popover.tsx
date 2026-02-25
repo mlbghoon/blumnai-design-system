@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 
 import { cn } from '@/lib/utils';
+import { getPixelValue } from '@/lib/css-utils';
 import { ScrollArea } from '../scroll-area';
 import type {
   PopoverContentProps,
@@ -30,19 +31,10 @@ const PopoverPortal = PopoverPrimitive.Portal;
 
 const PopoverClose = PopoverPrimitive.Close;
 
-const getPixelValue = (v: string | number): string => {
-  if (typeof v === 'number') return `${v}px`;
-  const numericValue = parseFloat(v);
-  if (!isNaN(numericValue) && String(numericValue) === v.trim()) {
-    return `${numericValue}px`;
-  }
-  return v;
-};
-
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   PopoverContentProps
->(({ className, align = 'center', sideOffset = 4, width, style, ...props }, ref) => {
+>(({ className, align = 'center', sideOffset = 4, width, container, style, ...props }, ref) => {
   const widthStyle = width !== undefined && width !== ''
     ? { width: getPixelValue(width) }
     : undefined;
@@ -53,7 +45,7 @@ const PopoverContent = React.forwardRef<
   };
 
   return (
-    <PopoverPrimitive.Portal>
+    <PopoverPrimitive.Portal container={container}>
       <PopoverPrimitive.Content
         ref={ref}
         align={align}
