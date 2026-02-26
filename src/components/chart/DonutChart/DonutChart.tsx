@@ -65,6 +65,11 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
     });
   }, [data, nameKey, getColor]);
 
+  const totalValue = useMemo(
+    () => data.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
+    [data, dataKey]
+  );
+
   const rStartAngle = isHalf ? 180 : 90 - startAngle;
   const rEndAngle = isHalf ? 0 : 90 - endAngle;
 
@@ -115,6 +120,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
           <PieTooltipAdapter
             renderTooltip={renderTooltip}
             getLabel={getLabel}
+            totalValue={totalValue}
           />
         }
       />
@@ -144,7 +150,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
             className="absolute flex flex-col items-center justify-center ds-gap-1 pointer-events-none"
             style={{
               left: '50%',
-              top: isHalf ? `${outerRadius - (innerRadius / 2)}px` : '50%',
+              top: isHalf ? `${svgHeight - (innerRadius / 2)}px` : '50%',
               transform: 'translate(-50%, -50%)',
             }}
             aria-hidden="true"

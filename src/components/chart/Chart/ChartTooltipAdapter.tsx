@@ -62,11 +62,11 @@ interface PieTooltipAdapterProps {
     value?: number;
     payload?: Record<string, unknown> & {
       fill?: string;
-      percent?: number;
     };
   }>;
   renderTooltip?: (params: PieTooltipParams) => ReactNode;
   getLabel: (key: string) => string;
+  totalValue?: number;
 }
 
 export function PieTooltipAdapter({
@@ -74,13 +74,14 @@ export function PieTooltipAdapter({
   payload,
   renderTooltip,
   getLabel,
+  totalValue = 0,
 }: PieTooltipAdapterProps) {
   if (!active || !payload?.length) return null;
 
   const entry = payload[0];
   const name = String(entry.name ?? '');
   const value = Number(entry.value ?? 0);
-  const percent = (entry.payload?.percent ?? 0) as number;
+  const percent = totalValue > 0 ? value / totalValue : 0;
   const color = String(entry.payload?.fill ?? '');
 
   const params: PieTooltipParams = { name, value, percent: percent * 100, color };

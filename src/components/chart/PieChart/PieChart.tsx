@@ -55,6 +55,11 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
     });
   }, [data, nameKey, getColor]);
 
+  const totalValue = useMemo(
+    () => data.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
+    [data, dataKey]
+  );
+
   // Recharts 각도 변환: Recharts는 0 = 12시 방향, 시계 방향이 양수
   const rStartAngle = isHalf ? 180 : 90 - startAngle;
   const rEndAngle = isHalf ? 0 : 90 - endAngle;
@@ -90,6 +95,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
           <PieTooltipAdapter
             renderTooltip={renderTooltip}
             getLabel={getLabel}
+            totalValue={totalValue}
           />
         }
       />

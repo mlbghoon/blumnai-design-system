@@ -963,3 +963,49 @@ This ensures plans are double-checked before the user sees them.
 ## Quality Assurance
 
 After implementing fixes, verify that related functionality still works. For component changes, check that dependent features (like tooltips, hover states, and focus rings) are not affected by the change.
+
+## DS ↔ Consumer Bridge (Automated Cross-Project Workflow)
+
+This DS serves `happytalk-front` at `/Users/ml/Documents/GitHub/MBI/happytalk-front`.
+
+### Bridge Directory
+- `~/.claude/ds-bridge/requests/` — Consumer writes change requests here
+- `~/.claude/ds-bridge/completed/` — DS writes completion notices here after publishing
+- `~/.claude/ds-bridge/PROTOCOL.md` — Full protocol documentation
+- `~/.claude/ds-bridge/orchestrator-prompt.md` — Orchestrator prompt for coordinated sessions
+
+### How to Process Requests
+When a request file exists in `~/.claude/ds-bridge/requests/` without a matching completion:
+
+1. Read the request file
+2. Implement the requested changes following all DS conventions
+3. Run `npm run typecheck && npm run lint`
+4. Bump version: `npm version patch --no-git-tag-version`
+5. Update `CHANGELOG.md`
+6. Commit, push, then publish: `source ~/.zshrc 2>/dev/null; npm publish`
+7. Write a completion file to `~/.claude/ds-bridge/completed/` with:
+   - Version number
+   - What changed (new props, components, fixes)
+   - Migration steps for the consumer
+   - Any breaking changes
+
+### Completion File Format
+```markdown
+# Completed: {brief title}
+- **version**: 0.2.XX
+- **request**: {original request filename}
+
+## What Changed
+(summary)
+
+## New/Changed Props
+| Prop | Component | Type | Default | Description |
+|------|-----------|------|---------|-------------|
+
+## Migration Steps for Consumer
+1. `npm install @mlbghoon/blumnai-design-system@0.2.XX --legacy-peer-deps`
+2. (specific code changes needed)
+
+## Breaking Changes
+(if any, otherwise "None")
+```
