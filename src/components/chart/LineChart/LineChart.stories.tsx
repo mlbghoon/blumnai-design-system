@@ -491,3 +491,112 @@ export const YearlyTimeSeries: Story = {
     showXGrid: true,
   },
 };
+
+/**
+ * 부드러운 곡선 (smooth)
+ *
+ * smooth prop을 사용해 monotone 보간으로 부드러운 곡선을 그립니다.
+ */
+export const SmoothLine: Story = {
+  args: {
+    data: defaultData,
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'revenue' },
+    dataKey: 'revenue',
+    config: revenueConfig,
+    width: 600,
+    height: 400,
+    smooth: true,
+    showPoints: true,
+    showXGrid: true,
+  },
+};
+
+/**
+ * 부드러운 곡선 + 영역 채우기
+ */
+export const SmoothWithArea: Story = {
+  args: {
+    data: defaultData,
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'revenue' },
+    dataKey: 'revenue',
+    config: revenueConfig,
+    width: 600,
+    height: 400,
+    smooth: true,
+    showArea: true,
+    showPoints: true,
+    showXGrid: true,
+  },
+};
+
+/**
+ * 다중 라인 + 부드러운 곡선
+ */
+export const MultiLineSmoothWithArea: Story = {
+  args: {
+    data: multiLineData,
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'desktop' },
+    dataKeys: ['desktop', 'mobile'],
+    config: multiLineConfig,
+    width: 600,
+    height: 400,
+    smooth: true,
+    showArea: true,
+    showPoints: true,
+    showXGrid: true,
+    showLegend: true,
+  },
+};
+
+/**
+ * Y축 틱 개수 조정
+ */
+export const CustomTickCount: Story = {
+  args: {
+    data: defaultData,
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'revenue', tickCount: 10 },
+    dataKey: 'revenue',
+    config: revenueConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+    showPoints: true,
+  },
+};
+
+/**
+ * 커스텀 툴팁
+ *
+ * renderTooltip 콜백으로 완전한 커스텀 툴팁을 렌더링합니다.
+ */
+export const CustomTooltip: Story = {
+  args: {
+    data: defaultData,
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'revenue' },
+    dataKey: 'revenue',
+    config: revenueConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+    showPoints: true,
+    renderTooltip: (params) => {
+      if (!('items' in params)) return null;
+      return (
+        <div style={{ background: '#fff', padding: 12, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+          <div style={{ fontWeight: 600, marginBottom: 4 }}>{params.xValue}</div>
+          {params.items.map((item, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: item.color }} />
+              <span>{item.label}: ₩{item.value.toLocaleString()}</span>
+            </div>
+          ))}
+        </div>
+      );
+    },
+  },
+};

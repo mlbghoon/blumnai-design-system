@@ -222,6 +222,7 @@ import { Input } from '@mlbghoon/blumnai-design-system/input';
 | `LineChart` | Line/area charts |
 | `PieChart` | Pie charts |
 | `DonutChart` | Donut charts |
+| `ComboChart` | Mixed bar+line charts, dual Y-axis |
 
 #### Icons
 
@@ -1565,8 +1566,10 @@ The underlying calendar used by DatePicker/DateRangePicker. Extends `react-day-p
 
 ### Charts
 
+> Chart internals use **Recharts** (`recharts` is a transitive dependency — consumers do not need to install it separately).
+
 ```tsx
-import { BarChart, LineChart, PieChart, DonutChart } from '@mlbghoon/blumnai-design-system';
+import { BarChart, LineChart, PieChart, DonutChart, ComboChart } from '@mlbghoon/blumnai-design-system';
 ```
 
 **Common Props (all charts):**
@@ -1583,15 +1586,25 @@ import { BarChart, LineChart, PieChart, DonutChart } from '@mlbghoon/blumnai-des
 | `ariaLabel` | `string` | - | Accessible label for the chart |
 | `onDataPointClick` | `(point: ChartDataPoint, index: number) => void` | - | Callback when a data point is clicked |
 | `isLoading` | `boolean` | - | Show skeleton loading overlay |
-| `responsive` | `boolean` | `false` | Auto-resize to fill container via ResizeObserver |
+| `responsive` | `boolean` | `false` | Auto-resize to fill container via ResponsiveContainer |
+| `renderTooltip` | `(params: ChartTooltipParams \| PieTooltipParams) => ReactNode` | - | Custom tooltip renderer |
 
-**BarChart:** `xAxis` (ChartAxisConfig), `yAxis` (ChartAxisConfig), `barSize` (number), `dataKey` (string), `gap` (number), `stacked` (boolean), `stackedKeys` (string[]), `stackedColors` (Record<string, string> | string[])
+**BarChart:** `xAxis` (ChartAxisConfig), `yAxis` (ChartAxisConfig), `barSize` (number), `dataKey` (string), `gap` (number), `stacked` (boolean), `stackedKeys` (string[]), `stackedColors` (Record<string, string> | string[]), `barRadius` (number — rounded bar corners)
 
-**LineChart:** `xAxis`, `yAxis`, `dataKey` (string), `dataKeys` (string[]), `lineColors` (Record<string, string> | string[]), `showArea` (boolean), `showPoints` (boolean), `strokeWidth` (number)
+**LineChart:** `xAxis`, `yAxis`, `dataKey` (string), `dataKeys` (string[]), `lineColors` (Record<string, string> | string[]), `showArea` (boolean), `showPoints` (boolean), `strokeWidth` (number), `smooth` (boolean — monotone curve interpolation)
 
 **PieChart:** `dataKey` (string), `nameKey` (string), `outerRadius` (number), `startAngle` (number), `endAngle` (number), `paddingAngle` (number), `isHalf` (boolean)
 
-**DonutChart** extends PieChart: `innerRadius` (number), `centerLabel` (string), `centerValue` (string)
+**DonutChart** extends PieChart: `innerRadius` (number), `centerLabel` (string), `centerValue` (string), `showCenterOnHover` (boolean — center updates on slice hover)
+
+**ComboChart** — mixed bar + line with optional dual Y-axis:
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `xAxis` | `ChartAxisConfig` | X-axis config |
+| `yAxis` | `ChartAxisConfig \| [ChartAxisConfig, ChartAxisConfig]` | Single or dual Y-axis |
+| `barSeries` | `ComboBarSeries[]` | `{ dataKey, color?, stack?, barSize?, radius? }` |
+| `lineSeries` | `ComboLineSeries[]` | `{ dataKey, color?, yAxisIndex?, smooth?, strokeWidth?, showArea? }` |
 
 ```tsx
 const data = [
@@ -1610,6 +1623,19 @@ const config = {
   xAxis={{ dataKey: 'month' }}
   yAxis={{ dataKey: 'revenue' }}
   height={300}
+  showLegend
+/>
+
+{/* ComboChart with dual Y-axis */}
+<ComboChart
+  data={data}
+  xAxis={{ dataKey: 'month' }}
+  yAxis={[
+    { dataKey: 'revenue', tickFormatter: v => `$${v}` },
+    { dataKey: 'rate', tickFormatter: v => `${v}%` },
+  ]}
+  barSeries={[{ dataKey: 'revenue', color: 'var(--chart-1)' }]}
+  lineSeries={[{ dataKey: 'rate', yAxisIndex: 1, smooth: true }]}
   showLegend
 />
 ```
@@ -2894,6 +2920,29 @@ interface ChartAxisConfig {
   label?: string;
   domain?: [number, number] | 'auto';
   tickFormatter?: (value: string | number) => string;
+  tickCount?: number;   // Y-axis tick count (default: 5)
+  interval?: number;    // explicit tick interval (overrides tickCount)
+  show?: boolean;       // axis visibility (default: true)
+}
+```
+
+### ChartTooltipParams
+
+```ts
+interface ChartTooltipParams {
+  items: Array<{ dataKey: string; label: string; value: number; color: string }>;
+  xValue: string | number;
+}
+```
+
+### PieTooltipParams
+
+```ts
+interface PieTooltipParams {
+  name: string;
+  value: number;
+  percent: number;
+  color: string;
 }
 ```
 
@@ -3219,6 +3268,7 @@ function ResponsivePanel({ children }) {
 | line chart, trend, time series | `LineChart` |
 | pie chart, distribution | `PieChart` |
 | donut chart, ring chart | `DonutChart` |
+| combo chart, mixed chart, dual axis, bar+line | `ComboChart` |
 | cursor, pointer, mouse cursor | `CursorIcon` |
 | drag, drop, drag and drop, dnd, sortable, reorder | `DndContext` / `Sortable` |
 
@@ -3235,7 +3285,7 @@ function ResponsivePanel({ children }) {
 | `/calendar` | Calendar, DatePicker, DateRangePicker |
 | `/card` | Card, CardHeader, CardTitle, CardContent, CardFooter |
 | `/carousel` | Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselIndicators |
-| `/chart` | Chart, BarChart, LineChart, PieChart, DonutChart |
+| `/chart` | Chart, BarChart, LineChart, PieChart, DonutChart, ComboChart |
 | `/checkbox` | Checkbox, CheckboxCard, CheckboxList |
 | `/chip` | Chip |
 | `/collapsible` | Collapsible, CollapsibleTrigger, CollapsibleContent |

@@ -1,1 +1,1 @@
-export type { PieChartProps as DonutChartProps } from '../Chart/Chart.types';
+export type { DonutChartProps } from '../Chart/Chart.types';

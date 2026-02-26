@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useState, useEffect, useRef, useCallback } from 'react';
+import { forwardRef, useMemo } from 'react';
 
 import { cn } from '../../../utils/cn';
 import { Skeleton } from '../../skeleton/Skeleton';
@@ -20,60 +20,24 @@ export const Chart = forwardRef<HTMLDivElement, Omit<BaseChartProps, 'data'> & {
       children,
       ariaLabel,
       isLoading,
-      responsive,
+      responsive: _responsive,
       onDataPointClick: _onDataPointClick,
+      renderTooltip: _renderTooltip,
       ...props
     },
     ref
   ) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [responsiveSize, setResponsiveSize] = useState<{ width: number; height: number } | null>(null);
-
-  const mergedRef = useCallback((node: HTMLDivElement | null) => {
-    (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
-    if (typeof ref === 'function') {
-      ref(node);
-    } else if (ref) {
-      (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
-    }
-  }, [ref]);
-
-  useEffect(() => {
-    if (!responsive || !containerRef.current) return;
-    const el = containerRef.current;
-
-    const observer = new ResizeObserver((entries) => {
-      const entry = entries[0];
-      if (entry) {
-        setResponsiveSize({
-          width: Math.round(entry.contentRect.width),
-          height: Math.round(entry.contentRect.height),
-        });
-      }
-    });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [responsive]);
-
-  const effectiveWidth = responsive && responsiveSize ? responsiveSize.width : width;
-  const effectiveHeight = responsive && responsiveSize ? responsiveSize.height : height;
-
   const containerStyle = useMemo(() => {
     const style: React.CSSProperties = {};
-    if (responsive) {
-      style.width = '100%';
-      style.height = height ? (typeof height === 'number' ? `${height}px` : height) : '100%';
-    } else {
-      if (width) {
-        style.width = typeof width === 'number' ? `${width}px` : width;
-      }
-      if (height) {
-        style.minHeight = typeof height === 'number' ? `${height}px` : height;
-        style.height = 'auto';
-      }
+    if (width) {
+      style.width = typeof width === 'number' ? `${width}px` : width;
+    }
+    if (height) {
+      style.minHeight = typeof height === 'number' ? `${height}px` : height;
+      style.height = 'auto';
     }
     return style;
-  }, [width, height, responsive]);
+  }, [width, height]);
 
   const containerClassName = cn(
     'relative',
@@ -85,13 +49,11 @@ export const Chart = forwardRef<HTMLDivElement, Omit<BaseChartProps, 'data'> & {
 
   return (
     <div
-      ref={mergedRef}
+      ref={ref}
       className={containerClassName}
       style={containerStyle}
       role="img"
       aria-label={ariaLabel}
-      data-responsive-width={effectiveWidth}
-      data-responsive-height={effectiveHeight}
       {...props}
     >
       {isLoading ? (

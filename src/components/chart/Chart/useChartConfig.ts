@@ -1,0 +1,34 @@
+import { useMemo } from 'react';
+
+import type { ChartConfig } from './Chart.types';
+import { DEFAULT_CHART_COLORS } from './Chart.types';
+
+interface UseChartConfigResult {
+  getLabel: (key: string) => string;
+  getColor: (key: string, index: number) => string;
+}
+
+export function useChartConfig(
+  config?: ChartConfig,
+  colorMapping?: Record<string, string> | string[]
+): UseChartConfigResult {
+  return useMemo(() => {
+    const getLabel = (key: string): string => {
+      if (config?.[key]) return config[key].label;
+      return key;
+    };
+
+    const getColor = (key: string, index: number): string => {
+      if (config?.[key]) return config[key].color;
+      if (colorMapping) {
+        if (Array.isArray(colorMapping)) {
+          return colorMapping[index % colorMapping.length] || DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length];
+        }
+        return colorMapping[key] || DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length];
+      }
+      return DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length];
+    };
+
+    return { getLabel, getColor };
+  }, [config, colorMapping]);
+}

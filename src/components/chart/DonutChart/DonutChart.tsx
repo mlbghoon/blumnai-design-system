@@ -1,19 +1,26 @@
-import { forwardRef, useMemo, useState, useCallback } from 'react';
-import { createPortal } from 'react-dom';
+import { forwardRef, useMemo, useState } from 'react';
+import {
+  PieChart as RPieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 import { Chart } from '../Chart/Chart';
-import { AdvancedTooltip } from '../../tooltip/Tooltip';
+import { useChartConfig } from '../Chart/useChartConfig';
+import { PieTooltipAdapter } from '../Chart/ChartTooltipAdapter';
+import { ChartLegend } from '../Chart/ChartLegend';
 import { cn } from '../../../utils/cn';
 
 import type { DonutChartProps } from '../Chart/Chart.types';
-import { DEFAULT_CHART_COLORS } from '../Chart/Chart.types';
-import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
 
 /**
  * DonutChart 컴포넌트
  *
  * 데이터를 도넛 차트(중앙에 구멍이 있는 파이 차트)로 표시합니다.
- * Figma 디자인에 맞는 색상과 간격을 적용합니다.
+ * Recharts 기반으로 Figma 디자인에 맞는 색상과 간격을 적용합니다.
  */
 export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   (
@@ -32,194 +39,109 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
       showLegend = false,
       centerLabel,
       centerValue,
+      showCenterOnHover = false,
       isHalf = false,
       className,
       ariaLabel,
       onDataPointClick,
       isLoading,
       responsive,
+      renderTooltip,
       ...props
     },
     ref
   ) => {
-  const getColor = useCallback((key: string, index: number): string => {
-    if (config && config[key]) {
-      return config[key].color;
-    }
-    return DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length];
-  }, [config]);
+  const { getLabel, getColor } = useChartConfig(config);
 
-  const getLabel = useCallback((key: string): string => {
-    if (config && config[key]) {
-      return config[key].label;
-    }
-    return key;
-  }, [config]);
+  const [hoveredSlice, setHoveredSlice] = useState<{
+    name: string;
+    value: number;
+  } | null>(null);
 
-  const chartWidth = width;
-  const halfChartPadding = 10;
-
-  const svgHeight = isHalf ? outerRadius + halfChartPadding : height;
-  const chartCenterX = chartWidth / 2;
-  const chartCenterY = isHalf ? outerRadius : height / 2;
-
-  const actualStartAngle = isHalf ? -90 : startAngle;
-  const actualEndAngle = isHalf ? 90 : endAngle;
-
-  const total = useMemo(() => {
-    return data.reduce((sum, item) => sum + (Number(item[dataKey]) || 0), 0);
-  }, [data, dataKey]);
-
-  const slices = useMemo(() => {
-    const angleRange = actualEndAngle - actualStartAngle;
-    const result: Array<{
-      name: string;
-      value: number;
-      percentage: number;
-      startAngle: number;
-      endAngle: number;
-      color: string;
-    }> = [];
-    let currentAngle = actualStartAngle;
-
-    for (let index = 0; index < data.length; index++) {
-      const item = data[index];
-      const value = Number(item[dataKey]) || 0;
-      const percentage = total > 0 ? value / total : 0;
-      const angle = angleRange * percentage;
-      const start = currentAngle;
-      const end = currentAngle + angle;
-
-      const itemName = String(item[nameKey] || '');
-
-      result.push({
-        name: itemName,
-        value,
-        percentage,
-        startAngle: start,
-        endAngle: end,
-        color: getColor(itemName, index),
-      });
-
-      currentAngle = currentAngle + angle + paddingAngle;
-    }
-
-    return result;
-  }, [data, dataKey, nameKey, total, actualStartAngle, actualEndAngle, paddingAngle, getColor]);
-
-  const getDonutSlicePath = (startAngle: number, endAngle: number) => {
-    const startRad = ((startAngle - 90) * Math.PI) / 180;
-    const endRad = ((endAngle - 90) * Math.PI) / 180;
-    const largeArcFlag = endAngle - startAngle > 180 ? 1 : 0;
-
-    const x1Outer = chartCenterX + outerRadius * Math.cos(startRad);
-    const y1Outer = chartCenterY + outerRadius * Math.sin(startRad);
-    const x2Outer = chartCenterX + outerRadius * Math.cos(endRad);
-    const y2Outer = chartCenterY + outerRadius * Math.sin(endRad);
-
-    const x1Inner = chartCenterX + innerRadius * Math.cos(startRad);
-    const y1Inner = chartCenterY + innerRadius * Math.sin(startRad);
-    const x2Inner = chartCenterX + innerRadius * Math.cos(endRad);
-    const y2Inner = chartCenterY + innerRadius * Math.sin(endRad);
-
-    return `M ${x1Outer} ${y1Outer} A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${x2Outer} ${y2Outer} L ${x2Inner} ${y2Inner} A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${x1Inner} ${y1Inner} Z`;
-  };
-
-  const [tooltipState, setTooltipState] = useState<{
-    visible: boolean;
-    x: number;
-    y: number;
-    sliceIndex: number | null;
-  }>({
-    visible: false,
-    x: 0,
-    y: 0,
-    sliceIndex: null,
-  });
-
-  const handleSliceMouseEnter = useCallback((index: number, event: React.MouseEvent<SVGPathElement>) => {
-    setTooltipState({
-      visible: true,
-      x: event.clientX,
-      y: event.clientY,
-      sliceIndex: index,
+  const colors = useMemo(() => {
+    return data.map((item, index) => {
+      const name = String(item[nameKey] ?? '');
+      return getColor(name, index);
     });
-  }, []);
+  }, [data, nameKey, getColor]);
 
-  const handleSliceMouseMove = useCallback((event: React.MouseEvent<SVGPathElement>) => {
-    if (!tooltipState.visible) return;
+  const rStartAngle = isHalf ? 180 : 90 - startAngle;
+  const rEndAngle = isHalf ? 0 : 90 - endAngle;
 
-    setTooltipState((prev) => ({
-      ...prev,
-      x: event.clientX,
-      y: event.clientY,
-    }));
-  }, [tooltipState.visible]);
+  const svgHeight = isHalf ? outerRadius + 40 : height;
 
-  const handleSliceMouseLeave = useCallback(() => {
-    setTooltipState((prev) => ({ ...prev, visible: false }));
-  }, []);
+  const displayLabel = showCenterOnHover && hoveredSlice ? hoveredSlice.name : centerLabel;
+  const displayValue = showCenterOnHover && hoveredSlice ? String(hoveredSlice.value) : centerValue;
 
-  const getTooltipItems = useCallback((index: number): TooltipItemData[] => {
-    const slice = slices[index];
-    if (!slice) return [];
+  const chartAriaLabel = ariaLabel || `Donut chart showing ${data.map(d => String(d[nameKey] ?? '')).join(', ')}`;
 
-    return [
-      { type: 'label', label: getLabel(slice.name) },
-      { type: 'divider' },
-      { type: 'item', label: 'Value', caption: String(slice.value), indicatorColor: slice.color },
-      { type: 'item', label: 'Percentage', caption: `${(slice.percentage * 100).toFixed(1)}%`, indicatorColor: slice.color },
-    ];
-  }, [slices, getLabel]);
-
-  const chartAriaLabel = ariaLabel || `Donut chart showing ${slices.map(s => getLabel(s.name)).join(', ')}`;
+  const chartContent = (
+    <RPieChart>
+      <Pie
+        data={data}
+        dataKey={dataKey}
+        nameKey={nameKey}
+        cx="50%"
+        cy={isHalf ? '100%' : '50%'}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={rStartAngle}
+        endAngle={rEndAngle}
+        paddingAngle={paddingAngle}
+        stroke="#fff"
+        strokeWidth={2}
+        onMouseEnter={(_: unknown, index: number) => {
+          if (showCenterOnHover) {
+            const item = data[index];
+            setHoveredSlice({
+              name: getLabel(String(item[nameKey] ?? '')),
+              value: Number(item[dataKey] ?? 0),
+            });
+          }
+        }}
+        onMouseLeave={() => {
+          if (showCenterOnHover) setHoveredSlice(null);
+        }}
+        onClick={(_data: Record<string, unknown>, idx: number) => {
+          if (onDataPointClick) onDataPointClick(data[idx], idx);
+        }}
+      >
+        {data.map((_, index) => (
+          <Cell key={`cell-${index}`} fill={colors[index]} />
+        ))}
+      </Pie>
+      <Tooltip
+        content={
+          <PieTooltipAdapter
+            renderTooltip={renderTooltip}
+            getLabel={getLabel}
+          />
+        }
+      />
+      {showLegend && (
+        <Legend content={<ChartLegend variant="circle" />} />
+      )}
+    </RPieChart>
+  );
 
   return (
-    <Chart ref={ref} width={chartWidth} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
-      <div className="relative" style={{ height: svgHeight }}>
-        <svg
-          width={width}
-          height={svgHeight}
-          className="overflow-visible"
-        >
-        <g role="list" aria-label="Donut chart slices">
-          {slices.map((slice, index) => (
-            <path
-              key={`slice-${index}`}
-              d={getDonutSlicePath(slice.startAngle, slice.endAngle)}
-              fill={slice.color}
-              stroke="white"
-              strokeWidth={2}
-              onMouseEnter={(e) => handleSliceMouseEnter(index, e)}
-              onMouseMove={handleSliceMouseMove}
-              onMouseLeave={handleSliceMouseLeave}
-              onClick={() => onDataPointClick?.(data[index], index)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  onDataPointClick?.(data[index], index);
-                  const path = e.target as SVGPathElement;
-                  const rect = path.getBoundingClientRect();
-                  setTooltipState({
-                    visible: true,
-                    x: rect.left + rect.width / 2,
-                    y: rect.top + rect.height / 2,
-                    sliceIndex: index,
-                  });
-                }
-              }}
-              style={{ cursor: 'pointer' }}
-              tabIndex={0}
-              role="listitem"
-              aria-label={`${getLabel(slice.name)}: ${slice.value} (${(slice.percentage * 100).toFixed(1)}%)`}
-            />
-          ))}
-        </g>
-      </svg>
+    <Chart ref={ref} width={responsive ? undefined : width} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
+      <div className="relative">
+        {responsive ? (
+          <ResponsiveContainer width="100%" height={svgHeight}>
+            {chartContent}
+          </ResponsiveContainer>
+        ) : (
+          <div style={{ width, height: svgHeight }}>
+            <ResponsiveContainer width="100%" height="100%">
+              {chartContent}
+            </ResponsiveContainer>
+          </div>
+        )}
 
-        {(centerLabel || centerValue) && (
+        {(displayLabel || displayValue) && (
           <div
-            className="absolute flex flex-col items-center justify-center ds-gap-1"
+            className="absolute flex flex-col items-center justify-center ds-gap-1 pointer-events-none"
             style={{
               left: '50%',
               top: isHalf ? `${outerRadius - (innerRadius / 2)}px` : '50%',
@@ -227,61 +149,29 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
             }}
             aria-hidden="true"
           >
-            {centerLabel && (
+            {displayLabel && (
               <div
                 className={cn(
                   'size-xs line-height-leading-4 font-medium text-center',
                   'text-muted'
                 )}
               >
-                {centerLabel}
+                {displayLabel}
               </div>
             )}
-            {centerValue && (
+            {displayValue && (
               <div
                 className={cn(
                   'size-2xl line-height-leading-8 font-medium text-center',
                   'text-default'
                 )}
               >
-                {centerValue}
+                {displayValue}
               </div>
             )}
           </div>
         )}
       </div>
-
-      {tooltipState.visible && tooltipState.sliceIndex !== null && createPortal(
-        <div
-          className="fixed pointer-events-none z-50"
-          style={{
-            left: `${tooltipState.x + 12}px`,
-            top: `${tooltipState.y}px`,
-            transform: 'translateY(-50%)',
-          }}
-        >
-          <AdvancedTooltip
-            items={getTooltipItems(tooltipState.sliceIndex)}
-          />
-        </div>,
-        document.body
-      )}
-      {showLegend && (
-        <div className="margin-t-16 padding-x-16 padding-b-16 flex flex-wrap justify-center ds-gap-4" role="list" aria-label="Chart legend">
-          {slices.map((slice, index) => (
-            <div key={`legend-${index}`} className="flex items-center ds-gap-2" role="listitem">
-              <div
-                className="[width:12px] [height:12px] rounded-full"
-                style={{ backgroundColor: slice.color }}
-                aria-hidden="true"
-              />
-              <span className={cn('size-xs', 'text-muted')}>
-                {getLabel(slice.name)} ({(slice.percentage * 100).toFixed(1)}%)
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
     </Chart>
   );
   }

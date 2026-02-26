@@ -505,3 +505,93 @@ export const WithAccessibility: Story = {
     ariaLabel: '2024년 상반기 월별 매출 막대 차트',
   },
 };
+
+/**
+ * 둥근 모서리 막대
+ *
+ * barRadius prop을 사용해 막대 모서리를 둥글게 설정합니다.
+ */
+export const WithBarRadius: Story = {
+  args: {
+    data: defaultData,
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'sales' },
+    dataKey: 'sales',
+    config: salesConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+    barRadius: 4,
+  },
+};
+
+/**
+ * 스택 막대 + 둥근 모서리
+ *
+ * 스택 모드에서 barRadius를 사용하면 최상단 세그먼트에만 radius가 적용됩니다.
+ */
+export const StackedWithRadius: Story = {
+  args: {
+    data: stacked2Data,
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'desktop' },
+    stacked: true,
+    stackedKeys: ['desktop', 'mobile'],
+    config: stacked2Config,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+    showLegend: true,
+    barRadius: 4,
+  },
+};
+
+/**
+ * Y축 틱 개수 조정
+ *
+ * yAxis.tickCount를 사용해 Y축 눈금 개수를 변경합니다.
+ */
+export const CustomTickCount: Story = {
+  args: {
+    data: defaultData,
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'sales', tickCount: 10 },
+    dataKey: 'sales',
+    config: salesConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+  },
+};
+
+/**
+ * 커스텀 툴팁
+ *
+ * renderTooltip 콜백으로 완전한 커스텀 툴팁을 렌더링합니다.
+ */
+export const CustomTooltip: Story = {
+  args: {
+    data: defaultData,
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'sales' },
+    dataKey: 'sales',
+    config: salesConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+    renderTooltip: (params) => {
+      if (!('items' in params)) return null;
+      return (
+        <div style={{ background: '#fff', padding: 12, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+          <div style={{ fontWeight: 600, marginBottom: 4 }}>{params.xValue}</div>
+          {params.items.map((item, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: item.color }} />
+              <span>{item.label}: {item.value.toLocaleString()}원</span>
+            </div>
+          ))}
+        </div>
+      );
+    },
+  },
+};

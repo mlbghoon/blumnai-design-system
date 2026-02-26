@@ -54,6 +54,29 @@ export const DEFAULT_CHART_COLORS = [
 ];
 
 /**
+ * 차트 툴팁에 전달되는 파라미터 (Bar/Line/Combo)
+ */
+export interface ChartTooltipParams {
+  items: Array<{
+    dataKey: string;
+    label: string;
+    value: number;
+    color: string;
+  }>;
+  xValue: string | number;
+}
+
+/**
+ * Pie/Donut 차트 툴팁에 전달되는 파라미터
+ */
+export interface PieTooltipParams {
+  name: string;
+  value: number;
+  percent: number;
+  color: string;
+}
+
+/**
  * Base props for all chart components
  */
 export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
@@ -107,11 +130,15 @@ export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
    */
   isLoading?: boolean;
   /**
-   * When `true`, the chart will auto-resize to fill its container using ResizeObserver.
+   * When `true`, the chart will auto-resize to fill its container using ResponsiveContainer.
    * The `width` and `height` props serve as initial/fallback values.
    * @default false
    */
   responsive?: boolean;
+  /**
+   * 커스텀 툴팁 렌더링 콜백
+   */
+  renderTooltip?: (params: ChartTooltipParams | PieTooltipParams) => ReactNode;
 }
 
 /**
@@ -134,6 +161,18 @@ export interface ChartAxisConfig {
    * Tick formatter function
    */
   tickFormatter?: (value: string | number) => string;
+  /**
+   * Y축 틱 개수 (기본값: 5)
+   */
+  tickCount?: number;
+  /**
+   * 틱 간격 (tickCount 대신 명시적으로 설정)
+   */
+  interval?: number;
+  /**
+   * 축 표시 여부 (기본값: true)
+   */
+  show?: boolean;
 }
 
 /**
@@ -176,6 +215,10 @@ export interface BarChartProps extends BaseChartProps {
    * If not provided, falls back to colors array with index cycling
    */
   stackedColors?: Record<string, string> | string[];
+  /**
+   * 막대 모서리 둥글기 (px)
+   */
+  barRadius?: number;
 }
 
 /**
@@ -218,6 +261,11 @@ export interface LineChartProps extends BaseChartProps {
    * Line stroke width
    */
   strokeWidth?: number;
+  /**
+   * 부드러운 곡선 사용 여부 (monotone 보간)
+   * @default false
+   */
+  smooth?: boolean;
 }
 
 /**
@@ -270,9 +318,59 @@ export interface DonutChartProps extends PieChartProps {
    * Center value text
    */
   centerValue?: string;
+  /**
+   * 호버 시 중앙에 슬라이스 정보 표시
+   * @default false
+   */
+  showCenterOnHover?: boolean;
+}
+
+/**
+ * ComboChart 시리즈 설정 (Bar)
+ */
+export interface ComboBarSeries {
+  dataKey: string;
+  color?: string;
+  stack?: string;
+  barSize?: number;
+  radius?: number;
+}
+
+/**
+ * ComboChart 시리즈 설정 (Line)
+ */
+export interface ComboLineSeries {
+  dataKey: string;
+  color?: string;
+  yAxisIndex?: 0 | 1;
+  smooth?: boolean;
+  strokeWidth?: number;
+  showArea?: boolean;
+}
+
+/**
+ * ComboChart specific props
+ */
+export interface ComboChartProps extends BaseChartProps {
+  /**
+   * X-axis configuration
+   */
+  xAxis: ChartAxisConfig;
+  /**
+   * Y축 설정 (단일 또는 듀얼 Y축)
+   */
+  yAxis: ChartAxisConfig | [ChartAxisConfig, ChartAxisConfig];
+  /**
+   * Bar 시리즈 배열
+   */
+  barSeries: ComboBarSeries[];
+  /**
+   * Line 시리즈 배열
+   */
+  lineSeries: ComboLineSeries[];
 }
 
 /**
  * Chart variant type
  */
-export type ChartVariant = 'bar' | 'line' | 'pie' | 'donut';
+export type ChartVariant = 'bar' | 'line' | 'pie' | 'donut' | 'combo';

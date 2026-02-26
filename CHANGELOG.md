@@ -1,5 +1,46 @@
 # Changelog
 
+## [0.2.38] - 2026-02-26
+
+### Added
+
+- **Recharts 마이그레이션** — 모든 차트 컴포넌트 내부를 커스텀 SVG에서 Recharts로 전면 교체
+  - 기존 DS props API 100% 하위 호환 유지
+  - `recharts` v3.7.0 production dependency 추가 (소비 프로젝트에서 ECharts 대체 시 번들 크기 순감소)
+- **ComboChart** (신규 컴포넌트) — Bar + Line 혼합 차트
+  - `barSeries` / `lineSeries` 배열로 시리즈 구성
+  - `stack` prop으로 바 스태킹 지원
+  - 듀얼 Y축: `yAxis`를 배열로 전달 시 왼쪽/오른쪽 축 자동 생성
+  - `lineSeries[i].yAxisIndex`로 라인을 특정 Y축에 바인딩
+  - `lineSeries[i].showArea`로 영역 채우기 지원
+- **renderTooltip** — 모든 차트에 커스텀 툴팁 콜백 추가
+  - `(params: ChartTooltipParams | PieTooltipParams) => ReactNode`
+  - 미제공 시 `AdvancedTooltip` 기본 렌더링
+- **BarChart**: `barRadius` prop 추가 — 바 모서리 둥글기 (스태킹 시 최상위 세그먼트만 적용)
+- **LineChart**: `smooth` prop 추가 — `type="monotone"` 곡선 보간
+- **DonutChart**: `showCenterOnHover` prop 추가 — 호버 시 슬라이스 이름/값을 중앙에 표시
+- **ChartAxisConfig** 확장: `tickCount`, `interval`, `show` props 추가
+- PieChart/DonutChart 툴팁에서 하드코딩된 영문 문자열('Value', 'Percentage') 제거 → `renderTooltip`으로 완전 커스터마이징 가능
+
+### Infrastructure
+
+- `useChartConfig` 공유 훅 — `getLabel`/`getColor` 로직 DRY 추출
+- `ChartTooltipAdapter` / `PieTooltipAdapter` — Recharts payload → DS 타입 변환 어댑터
+- `ChartLegend` — DS 스타일 커스텀 범례 렌더러 (square/circle 인디케이터)
+- `Chart.tsx`에서 커스텀 `ResizeObserver` 제거 → Recharts `ResponsiveContainer` 사용
+
+### New Exports
+
+- `ComboChart`, `ComboChartProps`, `ComboBarSeries`, `ComboLineSeries`
+- `ChartTooltipParams`, `PieTooltipParams`
+
+### Stories
+
+- BarChart: `WithBarRadius`, `StackedWithRadius`, `CustomTickCount`, `CustomTooltip` 추가
+- LineChart: `SmoothLine`, `SmoothWithArea`, `MultiLineSmoothWithArea`, `CustomTickCount`, `CustomTooltip` 추가
+- DonutChart: `CenterOnHover`, `CustomTooltip` 추가
+- ComboChart: `Default`, `DualYAxis`, `StackedBarsWithLine`, `LineWithArea`, `CustomTooltip` 신규
+
 ## [0.2.37] - 2026-02-25
 
 ### Documentation

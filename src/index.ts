@@ -867,18 +867,23 @@ export type { IsometricIconProps } from './components/icons/IsometricIcon';
 // =============================================================================
 // CHARTS
 // =============================================================================
-export { Chart, BarChart, LineChart, PieChart, DonutChart } from './components/chart';
+export { Chart, BarChart, LineChart, PieChart, DonutChart, ComboChart } from './components/chart';
 export type {
   BaseChartProps,
   BarChartProps,
   LineChartProps,
   PieChartProps,
   DonutChartProps,
+  ComboChartProps,
+  ComboBarSeries,
+  ComboLineSeries,
   ChartDataPoint,
   ChartAxisConfig,
   ChartVariant,
   ChartConfig,
   ChartConfigItem,
+  ChartTooltipParams,
+  PieTooltipParams,
 } from './components/chart';
 
 // =============================================================================

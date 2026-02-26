@@ -434,3 +434,54 @@ export const WithAccessibility: Story = {
     ariaLabel: '카테고리별 분포 도넛 차트',
   },
 };
+
+/**
+ * 호버 시 중앙 텍스트 변경
+ *
+ * showCenterOnHover prop을 사용하면 슬라이스에 호버할 때 중앙 텍스트가
+ * 해당 슬라이스의 라벨과 값으로 변경됩니다.
+ */
+export const CenterOnHover: Story = {
+  args: {
+    data: multipleData,
+    dataKey: 'value',
+    nameKey: 'category',
+    config: multipleConfig,
+    width: 400,
+    height: 400,
+    innerRadius: 80,
+    outerRadius: 150,
+    centerLabel: '전체',
+    centerValue: '100',
+    showCenterOnHover: true,
+    showLegend: true,
+  },
+};
+
+/**
+ * 커스텀 툴팁
+ *
+ * renderTooltip 콜백으로 완전한 커스텀 툴팁을 렌더링합니다.
+ */
+export const CustomTooltip: Story = {
+  args: {
+    data: defaultData,
+    dataKey: 'value',
+    nameKey: 'category',
+    config: defaultConfig,
+    width: 400,
+    height: 400,
+    innerRadius: 80,
+    outerRadius: 150,
+    renderTooltip: (params) => {
+      if (!('name' in params)) return null;
+      return (
+        <div style={{ background: '#fff', padding: 12, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+          <div style={{ fontWeight: 600 }}>{params.name}</div>
+          <div>값: {params.value}</div>
+          <div>비율: {params.percent.toFixed(1)}%</div>
+        </div>
+      );
+    },
+  },
+};
