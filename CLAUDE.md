@@ -1,5 +1,21 @@
 # Blumnai Design System - Development Guidelines
 
+## Publishing to GitHub Packages (CRITICAL)
+
+This is the **@mlbghoon** private mirror. The user has two GitHub accounts, so auth tokens must not collide.
+
+- **Package scope**: `@mlbghoon/blumnai-design-system`
+- **Registry**: `https://npm.pkg.github.com`
+- **Auth env var**: `GITHUB_TOKEN_MLBGHOON` (NOT `GITHUB_TOKEN` — that's for the other account)
+
+**To publish, ALWAYS source env vars first and use this exact command:**
+
+```bash
+source ~/.zshrc 2>/dev/null; npm publish
+```
+
+**NEVER use `GITHUB_TOKEN` for this project.** It belongs to the mbisolution account and will fail with 401.
+
 ## Code Quality Verification (CRITICAL)
 
 **ALWAYS run type-check and lint after making code changes:**

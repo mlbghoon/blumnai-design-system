@@ -184,9 +184,12 @@ source ~/.zshrc
 ```
 
 **5단계: 게시**
+
+> ⚠️ 이 프로젝트는 `GITHUB_TOKEN_MLBGHOON` 환경 변수를 사용합니다.
+> `GITHUB_TOKEN`은 다른 계정(mbisolution)용이므로 절대 사용하지 마세요.
+
 ```bash
-npm run build:lib
-npm publish
+source ~/.zshrc 2>/dev/null; npm publish
 ```
 
 **팀원이 설치하려면:**
