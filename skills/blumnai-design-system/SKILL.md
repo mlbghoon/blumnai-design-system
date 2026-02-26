@@ -10,26 +10,26 @@ globs:
 
 # Blumnai Design System
 
-Package: `@mbisolution/blumnai-design-system`
+Package: `@mlbghoon/blumnai-design-system`
 
 ## Install
 
 ```bash
-npm install @mbisolution/blumnai-design-system --legacy-peer-deps
+npm install @mlbghoon/blumnai-design-system --legacy-peer-deps
 ```
 
 ## Setup
 
 ```tsx
 // 1. Import CSS once in your app entry point
-import '@mbisolution/blumnai-design-system/styles';
+import '@mlbghoon/blumnai-design-system/styles';
 
 // 2. Import components
-import { Button, Input, Select } from '@mbisolution/blumnai-design-system';
+import { Button, Input, Select } from '@mlbghoon/blumnai-design-system';
 
 // Or use subpath imports for tree-shaking
-import { Button } from '@mbisolution/blumnai-design-system/button';
-import { Input } from '@mbisolution/blumnai-design-system/input';
+import { Button } from '@mlbghoon/blumnai-design-system/button';
+import { Input } from '@mlbghoon/blumnai-design-system/input';
 ```
 
 ## Quick Examples

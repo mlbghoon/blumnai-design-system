@@ -1,10 +1,22 @@
 # 디자인 시스템 설치 가이드
 
-> 팀원을 위한 `@mbisolution/blumnai-design-system` 패키지 설치 안내서
+> 팀원을 위한 `@mlbghoon/blumnai-design-system` 패키지 설치 안내서
+>
+> 이 패키지는 [mlbghoon](https://github.com/mlbghoon)의 GitHub Packages에 배포됩니다.
 
 ---
 
-## 1단계: GitHub Personal Access Token 생성
+## 1단계: GitHub Personal Access Token 받기
+
+토큰을 받는 방법은 두 가지입니다. 관리자에게 확인하세요.
+
+### 방법 A: 관리자가 토큰을 직접 전달하는 경우
+
+관리자(mlbghoon)가 `read:packages` 권한으로 생성한 토큰을 직접 받으세요. 받은 토큰(`ghp_`로 시작)을 복사해 두고 **2단계**로 진행하세요.
+
+### 방법 B: 본인이 직접 토큰을 생성하는 경우
+
+> 이 방법은 관리자가 [mlbghoon/blumnai-design-system](https://github.com/mlbghoon/blumnai-design-system) 저장소에 collaborator로 초대한 경우에 사용합니다.
 
 1. [GitHub.com](https://github.com) 로그인
 2. 우측 상단 프로필 아이콘 클릭 → **Settings** 클릭
@@ -36,7 +48,7 @@
 **Terminal** 앱을 열고 아래 명령어를 **한 줄씩** 실행:
 
 ```bash
-echo "@mbisolution:registry=https://npm.pkg.github.com" >> ~/.npmrc
+echo "@mlbghoon:registry=https://npm.pkg.github.com" >> ~/.npmrc
 ```
 ```bash
 echo "//npm.pkg.github.com/:_authToken=YOUR_TOKEN" >> ~/.npmrc
@@ -44,7 +56,7 @@ echo "//npm.pkg.github.com/:_authToken=YOUR_TOKEN" >> ~/.npmrc
 
 **확인:** `cat ~/.npmrc` 실행 후 **정확히 아래 두 줄만** 보이면 성공:
 ```
-@mbisolution:registry=https://npm.pkg.github.com
+@mlbghoon:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=ghp_xxxx...
 ```
 
@@ -62,7 +74,7 @@ rm ~/.npmrc
 **PowerShell**을 열고 아래 명령어를 **한 줄씩** 실행:
 
 ```powershell
-Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "@mbisolution:registry=https://npm.pkg.github.com"
+Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "@mlbghoon:registry=https://npm.pkg.github.com"
 ```
 ```powershell
 Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "//npm.pkg.github.com/:_authToken=YOUR_TOKEN"
@@ -70,7 +82,7 @@ Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "//npm.pkg.github.com/:_authT
 
 **확인:** `Get-Content "$env:USERPROFILE\.npmrc"` 실행 후 **정확히 아래 두 줄만** 보이면 성공:
 ```
-@mbisolution:registry=https://npm.pkg.github.com
+@mlbghoon:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=ghp_xxxx...
 ```
 
@@ -93,7 +105,7 @@ Remove-Item "$env:USERPROFILE\.npmrc"
 디자인 시스템을 사용할 프로젝트 폴더에서 실행:
 
 ```bash
-npm install @mbisolution/blumnai-design-system --legacy-peer-deps
+npm install @mlbghoon/blumnai-design-system --legacy-peer-deps
 ```
 
 ---
@@ -103,7 +115,7 @@ npm install @mbisolution/blumnai-design-system --legacy-peer-deps
 프로젝트의 진입점 파일(예: `main.tsx`, `App.tsx`, `layout.tsx`)에 아래 한 줄을 추가:
 
 ```tsx
-import '@mbisolution/blumnai-design-system/styles';
+import '@mlbghoon/blumnai-design-system/styles';
 ```
 
 > 이 줄은 **한 번만** 추가하면 됩니다. 모든 컴포넌트의 스타일이 포함되어 있습니다.
@@ -113,7 +125,7 @@ import '@mbisolution/blumnai-design-system/styles';
 ## 5단계: 컴포넌트 사용
 
 ```tsx
-import { Button, Input, Checkbox, InfoBox } from '@mbisolution/blumnai-design-system';
+import { Button, Input, Checkbox, InfoBox } from '@mlbghoon/blumnai-design-system';
 
 function MyPage() {
   return (

@@ -1,6 +1,6 @@
 # Blumnai Design System
 
-> React component library with 40+ components, 4 themes, and accessibility support. Package: @mbisolution/blumnai-design-system
+> React component library with 40+ components, 4 themes, and accessibility support. Package: @mlbghoon/blumnai-design-system
 
 ## Documentation
 

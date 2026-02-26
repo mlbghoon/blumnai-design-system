@@ -2,7 +2,7 @@
 
 React 기반 UI 컴포넌트 라이브러리입니다. 40+ 컴포넌트, 4가지 테마, 접근성 지원.
 
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?style=flat-square&logo=github)](https://github.com/mbisolution/blumnai-design-system)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?style=flat-square&logo=github)](https://github.com/mlbghoon/blumnai-design-system)
 
 ---
 
@@ -34,7 +34,7 @@ Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "//npm.pkg.github.com/:_authT
 프로젝트 루트에 `.npmrc` 파일 생성:
 
 ```ini
-@mbisolution:registry=https://npm.pkg.github.com
+@mlbghoon:registry=https://npm.pkg.github.com
 ```
 
 > 이 파일은 git에 커밋해도 됩니다 (토큰 정보 없음).
@@ -42,7 +42,7 @@ Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "//npm.pkg.github.com/:_authT
 ### 4. 패키지 설치
 
 ```bash
-npm install @mbisolution/blumnai-design-system --legacy-peer-deps
+npm install @mlbghoon/blumnai-design-system --legacy-peer-deps
 ```
 
 ---
@@ -55,13 +55,13 @@ npm install @mbisolution/blumnai-design-system --legacy-peer-deps
 
 ```tsx
 // app/layout.tsx 또는 _app.tsx 또는 main.tsx
-import '@mbisolution/blumnai-design-system/styles';
+import '@mlbghoon/blumnai-design-system/styles';
 ```
 
 ### 컴포넌트 사용
 
 ```tsx
-import { Button, Input, Icon, Badge } from '@mbisolution/blumnai-design-system';
+import { Button, Input, Icon, Badge } from '@mlbghoon/blumnai-design-system';
 
 export default function MyPage() {
   return (
@@ -87,10 +87,10 @@ export default function MyPage() {
 
 ```tsx
 // 전체 임포트 (호환됨)
-import { Button } from '@mbisolution/blumnai-design-system';
+import { Button } from '@mlbghoon/blumnai-design-system';
 
 // 서브패스 임포트 (더 빠른 빌드)
-import { Button } from '@mbisolution/blumnai-design-system/button';
+import { Button } from '@mlbghoon/blumnai-design-system/button';
 ```
 
 | 서브패스 | 포함 컴포넌트 |
@@ -179,7 +179,7 @@ import { Button } from '@mbisolution/blumnai-design-system/button';
 
 ### 동작 원리
 
-서브패스 임포트(`@mbisolution/blumnai-design-system/button`)는 3가지 해상도 메커니즘으로 지원됩니다:
+서브패스 임포트(`@mlbghoon/blumnai-design-system/button`)는 3가지 해상도 메커니즘으로 지원됩니다:
 
 1. **`exports` 필드** — 최신 번들러/Node.js에서 사용 (최우선)
 2. **프록시 디렉터리** — `button/package.json` → `../dist/components/button/index.mjs` (레거시 webpack 폴백)
@@ -235,7 +235,7 @@ updates:
     schedule:
       interval: "weekly"
     allow:
-      - dependency-name: "@mbisolution/blumnai-design-system"
+      - dependency-name: "@mlbghoon/blumnai-design-system"
     registries:
       - github-packages
 

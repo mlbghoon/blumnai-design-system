@@ -1,5 +1,5 @@
 {
-  "name": "@mbisolution/blumnai-design-system",
+  "name": "@mlbghoon/blumnai-design-system",
   "version": "0.2.37",
   "private": false,
   "type": "module",
@@ -699,7 +699,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mbisolution/blumnai-design-system.git"
+    "url": "https://github.com/mlbghoon/blumnai-design-system.git"
   },
   "eslintConfig": {
     "extends": [

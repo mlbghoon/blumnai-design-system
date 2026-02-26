@@ -24,7 +24,7 @@ BlumnAI Design System 개발에 참여하기 위한 가이드입니다.
 ### 설치
 
 ```bash
-git clone https://github.com/mbisolution/blumnai-design-system.git
+git clone https://github.com/mlbghoon/blumnai-design-system.git
 cd blumnai-design-system
 
 npm install
@@ -229,7 +229,7 @@ npm run generate:ui-icon-registry   # 아이콘 레지스트리 생성
 
 ## 리소스
 
-- **GitHub Repository**: [mbisolution/blumnai-design-system](https://github.com/mbisolution/blumnai-design-system)
+- **GitHub Repository**: [mlbghoon/blumnai-design-system](https://github.com/mlbghoon/blumnai-design-system)
 - **Figma Design Source**: Sort UI (내부 접근)
 
 ---

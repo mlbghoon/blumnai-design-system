@@ -76,7 +76,7 @@ const SPECIAL_CHUNKED = [
   { subpath: 'isometric', dir: 'IsometricIcon', iconsDir: 'icons', pattern: /^iso-.*\.tsx$/ },
 ];
 
-const PKG_NAME = '@mbisolution/blumnai-design-system';
+const PKG_NAME = '@mlbghoon/blumnai-design-system';
 
 const catalog = {};
 let totalCount = 0;

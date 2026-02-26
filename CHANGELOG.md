@@ -382,10 +382,10 @@
 
 ### Added
 
-- 서브패스 임포트 지원: `import { Button } from '@mbisolution/blumnai-design-system/button'`
+- 서브패스 임포트 지원: `import { Button } from '@mlbghoon/blumnai-design-system/button'`
 - 소비자 프로젝트를 위한 최적화 가이드 (README.md)
 
 ### Notes
 
 - CSS는 별도 임포트를 권장합니다:
-  `import '@mbisolution/blumnai-design-system/styles';`
+  `import '@mlbghoon/blumnai-design-system/styles';`
