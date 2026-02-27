@@ -3402,6 +3402,7 @@ export const iconCatalog = {
   'BrandAirbnbIcon',
   'BrandAlgorandIcon',
   'BrandAliExpressIcon',
+  'BrandAndroidIcon',
   'BrandAngularIcon',
   'BrandAppleIcon',
   'BrandAppleMusicIcon',

@@ -25,57 +25,72 @@ npm run typecheck && npm run lint
 ```
 
 This MUST be done:
+
 - After completing any code changes
 - Before telling the user the work is done
 - To catch TypeScript errors, ESLint violations, and React hooks issues
 
 **Common issues this catches:**
+
 - TypeScript type incompatibilities
 - React refs updated during render (use `useEffect` instead)
 - Missing or incorrect prop types
 - Import errors
+
+## Communication Rules
+
+- During long operations (multi-file edits, team work, waiting for agents), output a brief status update to the user at least every few tool calls. Never go silent for extended periods.
+- When spawning a team, narrate: who was spawned, what they're doing, and relay results as they come in.
+- If blocked or waiting, say so explicitly — don't just go quiet.
 
 ## Typography Classes (CRITICAL)
 
 **NEVER use default Tailwind typography classes. ALWAYS use the design system's utility classes:**
 
 ### Font Size
+
 - Use `size-xs`, `size-sm`, `size-md`, `size-lg`, `size-xl`, `size-2xl`, etc.
 - NOT `text-xs`, `text-sm`, `text-base`, `text-lg`, etc.
 
 ### Line Height
+
 - Use `line-height-leading-3`, `line-height-leading-4`, `line-height-leading-5`, `line-height-leading-6`, etc.
 - NOT `leading-3`, `leading-4`, `leading-5`, `leading-6`, etc.
 
 ### Letter Spacing
+
 - Use `letter-spacing-tracking-tighter`, `letter-spacing-tracking-tight`, `letter-spacing-tracking-normal`, `letter-spacing-tracking-wide`, etc.
 - NOT `tracking-tighter`, `tracking-tight`, `tracking-normal`, `tracking-wide`, etc.
 
 ### Font Family
+
 - Use `font-body`, `font-headline`, `font-quote`, `font-code`
 - These map to CSS variables: `var(--font-body)`, `var(--font-headline)`, etc.
 
 ### Font Weight
+
 - Use `font-medium`, `font-bold`, etc. (Tailwind classes are OK here as they're configured to use CSS variables)
 
 ### Example - Correct Label Styling:
+
 ```tsx
 const labelClassName = cn(
-  'font-body',
-  'size-sm line-height-leading-5 letter-spacing-tracking-normal',
-  'font-medium',
-  'text-default',
-  'select-none'
+  "font-body",
+  "size-sm line-height-leading-5 letter-spacing-tracking-normal",
+  "font-medium",
+  "text-default",
+  "select-none",
 );
 ```
 
 ### Example - WRONG (DO NOT USE):
+
 ```tsx
 // WRONG - Do not use these Tailwind defaults
 const labelClassName = cn(
-  'text-sm leading-5 tracking-normal', // WRONG!
-  'font-medium',
-  'text-gray-700'
+  "text-sm leading-5 tracking-normal", // WRONG!
+  "font-medium",
+  "text-gray-700",
 );
 ```
 
@@ -85,7 +100,9 @@ const labelClassName = cn(
 **NEVER use Tailwind default spacing classes like `w-16`, `h-8`, `p-4`, `px-2`, `gap-4`, `mt-4`, `mx-2`, etc.**
 
 ### Padding
+
 Use design system padding utility classes:
+
 - `padding-0`, `padding-1`, `padding-2`, `padding-4`, `padding-6`, `padding-8`, `padding-10`, `padding-12`, `padding-16`, `padding-20`, `padding-24`
 - `padding-x-*` for horizontal padding (left + right)
 - `padding-y-*` for vertical padding (top + bottom)
@@ -97,7 +114,9 @@ Available padding-t: `padding-t-4`, `padding-t-16`
 Available padding-b: `padding-b-4`, `padding-b-16`
 
 ### Margin
+
 Use design system margin utility classes:
+
 - `margin-0` for all sides
 - `margin-x-*` for horizontal margin (left + right): `margin-x-2`, `margin-x-8`, `margin-x-14`
 - `margin-y-*` for vertical margin (top + bottom): `margin-y-4`, `margin-y-16`
@@ -107,38 +126,45 @@ Use design system margin utility classes:
 - NOT `mt-4`, `mx-2`, `my-4` (Tailwind defaults)
 
 ### Width & Height
+
 Use design system utility classes from `utilities.css`:
+
 - `width-2`, `width-8`, `width-10`, `width-14`, `width-16`, `width-24`, `width-28`, `width-32`, `width-36`, `width-40`
 - `height-2`, `height-8`, `height-14`, `height-16`, `height-24`, `height-28`, `height-32`, `height-36`, `height-40`
 - NOT `w-16`, `h-16` (Tailwind defaults)
 
 ### Gap
+
 Use `ds-gap-*` classes (prefixed to avoid Tailwind collision):
+
 - `ds-gap-0`, `ds-gap-1`, `ds-gap-2`, `ds-gap-4`, `ds-gap-6`, `ds-gap-8`, `ds-gap-10`, `ds-gap-12`, `ds-gap-16`, `ds-gap-20`, `ds-gap-24`, `ds-gap-32`
 - NOT `gap-4`, `gap-8` (Tailwind defaults — these conflict with consuming projects)
 - NOT `gap-[6px]` or other arbitrary values
 - Responsive variants work: `md:ds-gap-0`, `sm:ds-gap-8`, etc.
 
 ### Examples:
+
 ```tsx
 // CORRECT
-'width-16 height-16'           // 16px × 16px
-'width-10 height-2'            // 10px × 2px
-'padding-x-12 padding-y-8'     // 12px horizontal, 8px vertical padding
-'padding-6'                    // 6px padding all sides
-'ds-gap-8'                     // 8px gap
+"width-16 height-16"; // 16px × 16px
+"width-10 height-2"; // 10px × 2px
+"padding-x-12 padding-y-8"; // 12px horizontal, 8px vertical padding
+"padding-6"; // 6px padding all sides
+"ds-gap-8"; // 8px gap
 
 // WRONG - Never use these
-'w-16 h-16'            // WRONG! Use width-16 height-16
-'w-[14px] h-[14px]'    // WRONG! Use width-14 height-14
-'p-4 px-2 py-1'        // WRONG! Use padding-4, padding-x-2, padding-y-1
-'gap-8'                // WRONG! Use ds-gap-8
-'gap-[6px]'            // WRONG! Use ds-gap-6
-'mt-4 mx-2'            // WRONG! Use margin-t-16, margin-x-8
+"w-16 h-16"; // WRONG! Use width-16 height-16
+"w-[14px] h-[14px]"; // WRONG! Use width-14 height-14
+"p-4 px-2 py-1"; // WRONG! Use padding-4, padding-x-2, padding-y-1
+"gap-8"; // WRONG! Use ds-gap-8
+"gap-[6px]"; // WRONG! Use ds-gap-6
+"mt-4 mx-2"; // WRONG! Use margin-t-16, margin-x-8
 ```
 
 ### Border Radius
+
 Use design system radius tokens:
+
 - `rounded-none`, `rounded-2xs`, `rounded-xs`, `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`, `rounded-2xl`, `rounded-3xl`, `rounded-full`
 - NOT `rounded-[5px]` or other arbitrary values
 
@@ -147,24 +173,29 @@ Use design system radius tokens:
 **NEVER use arbitrary color values like `bg-[#437DFC]`, `border-[rgba(39,39,42,0.15)]`, etc.**
 
 ### Text Colors
+
 - Use semantic colors: `text-default`, `text-subtle`, `text-muted`, `text-hint`
 - NOT hardcoded colors like `text-[#4E4E55]` or `text-gray-600`
 
 ### Background Colors
+
 - Use semantic colors: `bg-default`, `bg-subtle`, `bg-muted`, `bg-card`, etc.
 - NOT hardcoded colors like `bg-[#437DFC]`, `bg-[rgba(39,39,42,0.06)]`, `bg-white`
 
 #### Checkbox-specific backgrounds:
+
 - `bg-checkbox-default` - unchecked checkbox background (white)
 - `bg-checkbox-active` - checked/indeterminate checkbox background (blue)
 - `bg-checkbox-active-hover` - hover state for checked checkbox
 - `bg-checkbox-disabled` - disabled checkbox background
 
 ### Border Colors
+
 - Use semantic colors: `border-default`, `border-darker`, `border-strong`, etc.
 - NOT hardcoded colors like `border-[rgba(39,39,42,0.15)]`
 
 #### Border opacity reference:
+
 - `border-default` = 10% opacity (#27272a1a)
 - `border-darker` = 15% opacity (#27272a26)
 - `border-strong` = 25% opacity (#27272a40)
@@ -172,25 +203,27 @@ Use design system radius tokens:
 **Note:** Border classes set `border-width: 1px`, `border-style: solid`, and `border-color` — they are fully self-contained and work without Tailwind's preflight reset. For dashed borders, add `border-dashed` which overrides the style.
 
 ### Examples - Correct checkbox styling:
+
 ```tsx
 // CORRECT
 disabled
-  ? 'bg-checkbox-disabled border-default cursor-not-allowed'
+  ? "bg-checkbox-disabled border-default cursor-not-allowed"
   : isChecked
-    ? 'border-none bg-checkbox-active hover:bg-checkbox-active-hover'
-    : 'border-darker bg-checkbox-default hover:border-strong'
+    ? "border-none bg-checkbox-active hover:bg-checkbox-active-hover"
+    : "border-darker bg-checkbox-default hover:border-strong";
 
 // WRONG - Never use these
 disabled
-  ? 'bg-[rgba(39,39,42,0.06)] border border-[rgba(39,39,42,0.10)]'  // WRONG!
+  ? "bg-[rgba(39,39,42,0.06)] border border-[rgba(39,39,42,0.10)]" // WRONG!
   : isChecked
-    ? 'bg-[#437DFC] hover:bg-[#65A0FD]'                             // WRONG!
-    : 'border border-[rgba(39,39,42,0.15)] bg-white'                // WRONG!
+    ? "bg-[#437DFC] hover:bg-[#65A0FD]" // WRONG!
+    : "border border-[rgba(39,39,42,0.15)] bg-white"; // WRONG!
 ```
 
 ## Component Patterns
 
 ### No darkMode prop
+
 - Components should NOT have a `darkMode` prop
 - Dark mode is handled automatically via CSS variables and themes
 
@@ -199,16 +232,19 @@ disabled
 When rendering images or media in components, use the `<AspectRatio>` component instead of hardcoded `aspect-[...]` CSS classes or inline width/height styles.
 
 ### Import
+
 ```tsx
-import { AspectRatio } from '../../aspect-ratio';
+import { AspectRatio } from "../../aspect-ratio";
 ```
 
 ### Common Ratios
+
 - `1` — Square (avatars, badge images, thumbnails)
 - `16 / 9` — Video, wide banners
 - `4 / 3` — Photos, card thumbnails
 
 ### Pattern
+
 ```tsx
 <AspectRatio ratio={1}>
   <img src={src} alt="" className="object-cover w-full h-full" />
@@ -216,6 +252,7 @@ import { AspectRatio } from '../../aspect-ratio';
 ```
 
 ### Rules
+
 - Always pair with `object-cover w-full h-full` on the `<img>` element
 - Use `<AspectRatio>` instead of `aspect-[16/16]`, `aspect-[4/3]`, or similar Tailwind arbitrary aspect values
 - Only wrap `<img>` / `<video>` / `<iframe>` elements — not icon fallbacks
@@ -224,11 +261,13 @@ import { AspectRatio } from '../../aspect-ratio';
 ## Code Comments (CRITICAL)
 
 ### Minimize Comments
+
 - **Only add comments when absolutely necessary** - when the code logic is not self-explanatory
 - Do NOT add obvious or redundant comments
 - Code should be self-documenting through clear naming
 
 ### No English Comments in Code
+
 - **Do NOT write comments in English** in component code
 - If a comment is truly necessary, write it in Korean
 - Exception: JSDoc for public API documentation can be in English
@@ -258,6 +297,7 @@ const calculateStrength = (password: string): PasswordStrength => {
 ```
 
 ### What NOT to Comment
+
 - Variable declarations with clear names
 - Simple function calls
 - Obvious conditional logic
@@ -265,6 +305,7 @@ const calculateStrength = (password: string): PasswordStrength => {
 - Standard React patterns (useState, useEffect, etc.)
 
 ### When Comments ARE Acceptable
+
 - Complex algorithms that need explanation
 - Non-obvious business logic
 - Workarounds for known issues (with issue reference)
@@ -275,12 +316,14 @@ const calculateStrength = (password: string): PasswordStrength => {
 Use `scripts/fetch-figma.mjs` to fetch component data from Figma. This is the standard way to get design specs.
 
 ### Setup
+
 ```bash
 # Get your token from: https://www.figma.com/developers/api#access-tokens
 export FIGMA_ACCESS_TOKEN=your_token_here
 ```
 
 ### Usage
+
 ```bash
 # Fetch single node (outputs JSON to console)
 FIGMA_ACCESS_TOKEN=xxx node scripts/fetch-figma.mjs --node=2846-3118
@@ -299,22 +342,26 @@ FIGMA_ACCESS_TOKEN=xxx node scripts/fetch-figma.mjs --node=2846-3118 --depth=2
 ```
 
 ### Arguments
-| Argument | Description |
-|----------|-------------|
-| `--node=NODE_ID` | Node ID to fetch (required, can specify multiple). Format: `2846-3118` or `2846:3118` |
-| `--output=PATH` | Save output to file (default: prints to console) |
-| `--file=FILE_KEY` | Figma file key (default: design system file `hNwky49HL9rYtxWb5smgqZ`) |
-| `--raw` | Output raw Figma data without processing |
-| `--depth=N` | Limit child traversal depth |
+
+| Argument          | Description                                                                           |
+| ----------------- | ------------------------------------------------------------------------------------- |
+| `--node=NODE_ID`  | Node ID to fetch (required, can specify multiple). Format: `2846-3118` or `2846:3118` |
+| `--output=PATH`   | Save output to file (default: prints to console)                                      |
+| `--file=FILE_KEY` | Figma file key (default: design system file `hNwky49HL9rYtxWb5smgqZ`)                 |
+| `--raw`           | Output raw Figma data without processing                                              |
+| `--depth=N`       | Limit child traversal depth                                                           |
 
 ### Finding Node IDs
+
 1. Open the Figma file in browser
 2. Select the component/frame you want
 3. The node ID is in the URL after `node-id=` (e.g., `node-id=2846-3118`)
 4. Or right-click → "Copy link" and extract the node ID
 
 ### Output Structure
+
 The processed output includes:
+
 - `id`, `name`, `type` - Node identification
 - `size` - Width and height in pixels
 - `position` - X/Y position relative to parent
@@ -323,6 +370,7 @@ The processed output includes:
 - `children` - Nested child nodes
 
 ## Reference Files
+
 - Typography utilities: `src/styles/utilities.css`
 - Tailwind config: `tailwind.config.js`
 - Design tokens: `src/tokens/`
@@ -334,11 +382,13 @@ The processed output includes:
 ## shadcn/ui Components
 
 ### Component Location
+
 - shadcn components: `src/components/ui/`
 - Hooks: `src/hooks/`
 - CSS bridge: `src/styles/tokens/shadcn-bridge.css`
 
 ### Adding New Components
+
 ```bash
 npx shadcn@latest add [component-name]
 ```
@@ -348,52 +398,57 @@ npx shadcn@latest add [component-name]
 After adding a shadcn component, you MUST customize it to use design system classes:
 
 #### Typography
-| shadcn | Replace with |
-|--------|--------------|
-| `text-sm` | `size-sm` |
-| `text-lg` | `size-lg` |
-| `leading-none` | `line-height-leading-3` |
-| `leading-normal` | `line-height-leading-5` |
+
+| shadcn           | Replace with                    |
+| ---------------- | ------------------------------- |
+| `text-sm`        | `size-sm`                       |
+| `text-lg`        | `size-lg`                       |
+| `leading-none`   | `line-height-leading-3`         |
+| `leading-normal` | `line-height-leading-5`         |
 | `tracking-tight` | `letter-spacing-tracking-tight` |
 
 #### Spacing
-| shadcn | Replace with |
-|--------|--------------|
-| `p-4` | `padding-16` |
-| `px-4` | `padding-x-16` |
-| `py-2` | `padding-y-8` |
-| `gap-2` | `ds-gap-8` |
-| `gap-4` | `ds-gap-16` |
-| `h-9` | `height-36` |
-| `h-10` | `height-40` |
+
+| shadcn  | Replace with   |
+| ------- | -------------- |
+| `p-4`   | `padding-16`   |
+| `px-4`  | `padding-x-16` |
+| `py-2`  | `padding-y-8`  |
+| `gap-2` | `ds-gap-8`     |
+| `gap-4` | `ds-gap-16`    |
+| `h-9`   | `height-36`    |
+| `h-10`  | `height-40`    |
 
 #### Add Font Family
+
 Always add `font-body` to text elements in shadcn components.
 
 ### shadcn Color Variables
 
 shadcn components use these CSS variables (mapped via bridge):
 
-| shadcn Variable | Maps to Design Token |
-|-----------------|---------------------|
-| `--primary` | `--bg-state-primary` |
-| `--secondary` | `--bg-state-secondary` |
+| shadcn Variable | Maps to Design Token     |
+| --------------- | ------------------------ |
+| `--primary`     | `--bg-state-primary`     |
+| `--secondary`   | `--bg-state-secondary`   |
 | `--destructive` | `--bg-state-destructive` |
-| `--muted` | `--bg-muted` |
-| `--accent` | `--bg-state-soft` |
-| `--border` | `--border-default` |
-| `--ring` | `--border-highlight` |
+| `--muted`       | `--bg-muted`             |
+| `--accent`      | `--bg-state-soft`        |
+| `--border`      | `--border-default`       |
+| `--ring`        | `--border-highlight`     |
 
 ### Example - Customizing shadcn Button
 
 Before (shadcn default):
+
 ```tsx
-"h-9 px-4 py-2 text-sm font-medium"
+"h-9 px-4 py-2 text-sm font-medium";
 ```
 
 After (design system):
+
 ```tsx
-"height-36 padding-x-16 padding-y-8 size-sm font-medium font-body line-height-leading-5"
+"height-36 padding-x-16 padding-y-8 size-sm font-medium font-body line-height-leading-5";
 ```
 
 ## Storybook Stories Documentation
@@ -403,6 +458,7 @@ All Storybook stories must follow these conventions for proper Docs page generat
 ### Story Structure (CRITICAL)
 
 Each component's story file must have:
+
 1. **Docs page** - Auto-generated via `tags: ['autodocs']`
 2. **Default story** - Interactive story with controls ENABLED
 3. **Showcase stories** - All other stories with controls DISABLED
@@ -415,14 +471,16 @@ Each component's story file must have:
 
 ```tsx
 const meta: Meta<typeof Component> = {
-  title: 'Components/Category/ComponentName',
+  title: "Components/Category/ComponentName",
   component: Component,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'padded',
-    controls: { disable: true },  // Disable controls globally
+    layout: "padded",
+    controls: { disable: true }, // Disable controls globally
   },
-  argTypes: { /* ... */ },
+  argTypes: {
+    /* ... */
+  },
 };
 
 /**
@@ -432,11 +490,11 @@ const meta: Meta<typeof Component> = {
  */
 export const Default: Story = {
   args: {
-    label: 'Label',
-    placeholder: 'Placeholder...',
+    label: "Label",
+    placeholder: "Placeholder...",
   },
   parameters: {
-    controls: { disable: false },  // Enable controls ONLY for Default
+    controls: { disable: false }, // Enable controls ONLY for Default
   },
 };
 
@@ -445,7 +503,7 @@ export const Default: Story = {
  */
 export const Disabled: Story = {
   args: {
-    label: 'Disabled',
+    label: "Disabled",
     disabled: true,
   },
   // No parameters - inherits controls: { disable: true } from meta
@@ -456,8 +514,8 @@ export const Disabled: Story = {
  */
 export const Error: Story = {
   args: {
-    label: 'Error',
-    error: 'Error message',
+    label: "Error",
+    error: "Error message",
   },
   // No parameters - showcase only, no controls
 };
@@ -472,10 +530,12 @@ export const Error: Story = {
 ### argTypes Structure (CRITICAL)
 
 Every prop must have:
+
 1. **Korean description** - `description: '한글 설명'`
 2. **Proper type display** - Use `table.type.summary` to avoid "union" label
 
 #### For Union/Enum Types (select control)
+
 ```tsx
 size: {
   control: 'select',
@@ -491,6 +551,7 @@ size: {
 ```
 
 #### For Boolean Types
+
 ```tsx
 disabled: {
   control: 'boolean',
@@ -502,6 +563,7 @@ disabled: {
 ```
 
 #### For String/Number Types
+
 ```tsx
 label: {
   control: 'text',
@@ -513,6 +575,7 @@ label: {
 ```
 
 #### For Function Types
+
 ```tsx
 onClick: {
   action: 'clicked',
@@ -524,6 +587,7 @@ onClick: {
 ```
 
 #### For Complex/Object Types
+
 ```tsx
 leadIcon: {
   control: 'object',
@@ -537,6 +601,7 @@ leadIcon: {
 ### Story Documentation
 
 Use JSDoc comments above stories for descriptions in Docs:
+
 ```tsx
 /**
  * 기본 컴포넌트
@@ -553,22 +618,22 @@ export const Default: Story = {
 
 ### Common Korean Descriptions
 
-| English | Korean |
-|---------|--------|
-| Size | 크기 |
-| Style/Variant | 스타일 변형 |
-| Disabled state | 비활성화 여부 |
-| Loading state | 로딩 상태 |
-| Full width | 전체 너비 사용 여부 |
-| Label | 라벨 |
-| Placeholder | 플레이스홀더 텍스트 |
-| Error state | 에러 상태 또는 메시지 |
-| Success state | 성공 상태 또는 메시지 |
-| Required | 필수 입력 여부 |
-| Callback on click | 클릭 시 호출되는 콜백 함수 |
+| English            | Korean                     |
+| ------------------ | -------------------------- |
+| Size               | 크기                       |
+| Style/Variant      | 스타일 변형                |
+| Disabled state     | 비활성화 여부              |
+| Loading state      | 로딩 상태                  |
+| Full width         | 전체 너비 사용 여부        |
+| Label              | 라벨                       |
+| Placeholder        | 플레이스홀더 텍스트        |
+| Error state        | 에러 상태 또는 메시지      |
+| Success state      | 성공 상태 또는 메시지      |
+| Required           | 필수 입력 여부             |
+| Callback on click  | 클릭 시 호출되는 콜백 함수 |
 | Callback on change | 변경 시 호출되는 콜백 함수 |
-| Icon before/lead | 앞에 표시되는 아이콘 |
-| Icon after/tail | 뒤에 표시되는 아이콘 |
+| Icon before/lead   | 앞에 표시되는 아이콘       |
+| Icon after/tail    | 뒤에 표시되는 아이콘       |
 
 ### Connecting Controls to Default Story (CRITICAL)
 
@@ -581,6 +646,7 @@ export const Default: Story = {
 If any of these are missing, the control will appear in Storybook but won't work.
 
 #### Checklist for Default Story
+
 ```tsx
 // 1. Define in argTypes
 argTypes: {
@@ -619,6 +685,7 @@ export const Default: Story = {
 ```
 
 #### Common Mistakes
+
 ```tsx
 // WRONG - Control defined but not in args
 argTypes: { selectType: { control: 'select', ... } }
@@ -633,7 +700,9 @@ args: { maxSelections: '' }  // Should be: maxSelections: undefined
 ```
 
 #### For String Props That Can Be Empty
+
 Use empty string to undefined conversion:
+
 ```tsx
 args: {
   supportText: 'Support text here',
@@ -651,7 +720,7 @@ render: function Render(args) {
 For compound components like Dialog or Popover (based on Radix UI), create a combined type that includes props from both the root and content components. This allows documenting and controlling all props in Storybook.
 
 ```tsx
-import type { DialogProps, DialogContentProps } from './Dialog.types';
+import type { DialogProps, DialogContentProps } from "./Dialog.types";
 
 // Create combined type for story
 type DialogStoryProps = DialogProps & DialogContentProps;
@@ -662,23 +731,23 @@ const meta: Meta<DialogStoryProps> = {
   argTypes: {
     // Dialog (Root) props
     modal: {
-      control: 'boolean',
-      description: '[Dialog] 모달 모드',
+      control: "boolean",
+      description: "[Dialog] 모달 모드",
       table: {
-        type: { summary: 'boolean' },
-        category: 'Dialog',  // Group by component
+        type: { summary: "boolean" },
+        category: "Dialog", // Group by component
       },
     },
     defaultOpen: {
-      control: 'boolean',
-      description: '[Dialog] 초기 열림 상태',
-      table: { category: 'Dialog' },
+      control: "boolean",
+      description: "[Dialog] 초기 열림 상태",
+      table: { category: "Dialog" },
     },
     // DialogContent props
     hideCloseButton: {
-      control: 'boolean',
-      description: '[DialogContent] 닫기 버튼 숨김',
-      table: { category: 'DialogContent' },
+      control: "boolean",
+      description: "[DialogContent] 닫기 버튼 숨김",
+      table: { category: "DialogContent" },
     },
   },
 };
@@ -688,8 +757,8 @@ type Story = StoryObj<DialogStoryProps>;
 
 export const Default: Story = {
   args: {
-    modal: true,              // Root prop
-    hideCloseButton: false,   // Content prop
+    modal: true, // Root prop
+    hideCloseButton: false, // Content prop
   },
   render: function Render(args) {
     const [open, setOpen] = useState(false);
@@ -707,6 +776,7 @@ export const Default: Story = {
 ```
 
 **Key points:**
+
 - Create combined type: `type DialogStoryProps = DialogProps & DialogContentProps`
 - Use combined type for both `Meta<DialogStoryProps>` and `StoryObj<DialogStoryProps>`
 - Use `table: { category: 'ComponentName' }` to group props by component in Storybook UI
@@ -720,21 +790,27 @@ Radix UI's `asChild` prop clones the child element and merges props. This causes
 **Problem:** Our `Button` component has a custom `style` prop (for variants like "primary", "secondary"). When using `asChild`, Radix tries to pass its own `style` prop, causing conflicts.
 
 **Solution for Dialog:** Use controlled state without `DialogTrigger`:
+
 ```tsx
 // Dialog doesn't need a trigger for positioning - it's centered on screen
 <Dialog open={open} onOpenChange={setOpen}>
-  <Button style="secondary" onClick={() => setOpen(true)}>Open</Button>
+  <Button style="secondary" onClick={() => setOpen(true)}>
+    Open
+  </Button>
   <DialogContent>...</DialogContent>
 </Dialog>
 ```
 
 **Solution for Popover:** Popover NEEDS a trigger for positioning. Wrap Button in a span:
+
 ```tsx
 // Popover needs PopoverTrigger for positioning
 <Popover open={open} onOpenChange={setOpen}>
   <PopoverTrigger asChild>
     <span>
-      <Button style="secondary" onClick={() => setOpen(true)}>Open</Button>
+      <Button style="secondary" onClick={() => setOpen(true)}>
+        Open
+      </Button>
     </span>
   </PopoverTrigger>
   <PopoverContent>...</PopoverContent>
@@ -742,6 +818,7 @@ Radix UI's `asChild` prop clones the child element and merges props. This causes
 ```
 
 **Why span wrapper works:**
+
 - `asChild` passes props to the span (no conflicts)
 - Button keeps its custom `style` prop intact
 - PopoverTrigger still gets positioning reference from span
@@ -774,6 +851,7 @@ render: function Render(args) {
 ```
 
 **Common variant-specific props:**
+
 - `SelectProps`: `selectType` (default), `maxSelections`/`selectedText` (multi-select), `maxVisibleTags`/`overflowText` (tags)
 - `InputProps`: `showStrength`/`showToggle` (password), `prefix`/`suffix` (default)
 
@@ -788,28 +866,29 @@ For components with multiple variants (like Input), always use the unified compo
 
 ```tsx
 // CORRECT - Use unified component with variant prop
-import { Input } from '../Input';
+import { Input } from "../Input";
 
 export const PasswordExample: Story = {
   args: {
-    variant: 'password',
-    label: 'Password',
+    variant: "password",
+    label: "Password",
     showStrength: true,
   },
 };
 
 // WRONG - Don't use individual variant components
-import { PasswordInput } from './PasswordInput';
+import { PasswordInput } from "./PasswordInput";
 
 export const PasswordExample: Story = {
   args: {
-    label: 'Password',
+    label: "Password",
     showStrength: true,
   },
 };
 ```
 
 This ensures "Show code" displays:
+
 ```tsx
 // What developers will see and copy
 <Input variant="password" label="Password" showStrength />
@@ -827,7 +906,7 @@ Set all props explicitly to maintain TypeScript type safety and clean "Show code
 // CORRECT - Set props explicitly
 export const WithClearButton: Story = {
   render: function Render() {
-    const [value, setValue] = useState('Hello World');
+    const [value, setValue] = useState("Hello World");
     return (
       <Input
         variant="default"
@@ -835,7 +914,7 @@ export const WithClearButton: Story = {
         placeholder="Type something..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        onClear={() => setValue('')}
+        onClear={() => setValue("")}
       />
     );
   },
@@ -844,49 +923,53 @@ export const WithClearButton: Story = {
 // WRONG - Spreading args loses TypeScript narrowing
 export const WithClearButton: Story = {
   render: function Render(args) {
-    const [value, setValue] = useState('Hello World');
+    const [value, setValue] = useState("Hello World");
     return (
       <Input
-        {...args}  // DON'T DO THIS - loses type safety
+        {...args} // DON'T DO THIS - loses type safety
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        onClear={() => setValue('')}
+        onClear={() => setValue("")}
       />
     );
   },
   args: {
-    variant: 'default',
-    label: 'With Clear Button',
+    variant: "default",
+    label: "With Clear Button",
   },
 };
 ```
 
 **Why this matters:**
+
 1. Spreading `args` breaks TypeScript's discriminated union narrowing
 2. The `variant` prop determines which other props are valid
 3. TypeScript can't narrow the type when `args` is spread
 4. "Show code" displays cleaner, more realistic code
 
 #### Use `render` with Direct Component Usage
+
 ```tsx
 // CORRECT - Shows clean, realistic code
 export const WithIcons: Story = {
   render: () => (
     <div className="flex ds-gap-12">
-      <Button leadIcon={['system', 'add']}>Add</Button>
-      <Button tailIcon={['system', 'check']}>Confirm</Button>
+      <Button leadIcon={["system", "add"]}>Add</Button>
+      <Button tailIcon={["system", "check"]}>Confirm</Button>
     </div>
   ),
 };
 ```
 
 #### For Stateful Components
+
 When component needs state (like controlled inputs), use minimal wrapper:
+
 ```tsx
 // CORRECT - Shows realistic controlled usage
 export const Controlled: Story = {
   render: function Render() {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState("");
     return (
       <Input
         variant="default"
@@ -900,17 +983,19 @@ export const Controlled: Story = {
 ```
 
 #### Avoid Internal Helpers in Render
+
 ```tsx
 // WRONG - Shows confusing internal code
 export const Example: Story = {
   render: () => {
-    const helper = useInternalHelper();  // Don't expose internals
+    const helper = useInternalHelper(); // Don't expose internals
     return <Button {...helper.props}>Click</Button>;
   },
 };
 ```
 
 #### Group Related Examples
+
 ```tsx
 // CORRECT - Shows multiple variants together
 export const AllSizes: Story = {
@@ -969,12 +1054,14 @@ After implementing fixes, verify that related functionality still works. For com
 This DS serves `happytalk-front` at `/Users/ml/Documents/GitHub/MBI/happytalk-front`.
 
 ### Bridge Directory
+
 - `~/.claude/ds-bridge/requests/` — Consumer writes change requests here
 - `~/.claude/ds-bridge/completed/` — DS writes completion notices here after publishing
 - `~/.claude/ds-bridge/PROTOCOL.md` — Full protocol documentation
 - `~/.claude/ds-bridge/orchestrator-prompt.md` — Orchestrator prompt for coordinated sessions
 
 ### How to Process Requests
+
 When a request file exists in `~/.claude/ds-bridge/requests/` without a matching completion:
 
 1. Read the request file
@@ -990,22 +1077,28 @@ When a request file exists in `~/.claude/ds-bridge/requests/` without a matching
    - Any breaking changes
 
 ### Completion File Format
+
 ```markdown
 # Completed: {brief title}
+
 - **version**: 0.2.XX
 - **request**: {original request filename}
 
 ## What Changed
+
 (summary)
 
 ## New/Changed Props
+
 | Prop | Component | Type | Default | Description |
-|------|-----------|------|---------|-------------|
+| ---- | --------- | ---- | ------- | ----------- |
 
 ## Migration Steps for Consumer
+
 1. `npm install @mlbghoon/blumnai-design-system@0.2.XX --legacy-peer-deps`
 2. (specific code changes needed)
 
 ## Breaking Changes
+
 (if any, otherwise "None")
 ```
