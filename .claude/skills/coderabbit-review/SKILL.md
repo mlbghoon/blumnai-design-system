@@ -91,18 +91,18 @@ Report the PR URL to the user.
 ## Phase 3 — CodeRabbit Review Loop (max 3 rounds)
 
 ### 3.1 Initial wait
-Poll every 15 seconds for up to 2 minutes for CodeRabbit's initial review (exit early once review appears):
+Poll every 60 seconds for up to 5 minutes for CodeRabbit's initial review (exit early once review appears):
 ```bash
-for i in $(seq 1 8); do
+for i in $(seq 1 5); do
   REVIEW=$(gh api repos/mbisolution/blumnai-design-system/pulls/PR_NUMBER/reviews \
     --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last' 2>/dev/null)
   [ -n "$REVIEW" ] && [ "$REVIEW" != "null" ] && break
-  sleep 15
+  sleep 60
 done
 ```
 
 ### 3.2 Poll for review
-If not found in 3.1, continue polling every 30 seconds (max 5 more polls):
+If not found in 3.1, continue polling every 60 seconds (max 5 more polls):
 ```bash
 gh api repos/mbisolution/blumnai-design-system/pulls/PR_NUMBER/reviews \
   --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last'
@@ -158,7 +158,7 @@ gh api repos/mbisolution/blumnai-design-system/issues/PR_NUMBER/comments \
 ```
 
 ### 3.9 Wait for re-review
-Poll every 15 seconds for up to 90 seconds (same early-exit pattern as 3.1), then poll as in 3.2 if needed.
+Poll every 60 seconds for up to 5 minutes (same early-exit pattern as 3.1), then poll as in 3.2 if needed.
 
 ### 3.10 Stop conditions
 Stop the review loop if ANY of these occur:

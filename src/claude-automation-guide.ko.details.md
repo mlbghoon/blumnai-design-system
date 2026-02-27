@@ -368,7 +368,7 @@ chmod +x ~/.claude/hooks/team/*.sh
 4. **공유 마커 확인** — 이미 트리거되었으면 skip
 5. 팀 config의 `members[0].agentId`와 `session_id` 비교 → 리더가 아니면 skip
 6. `~/.claude/tasks/{team_name}/` 안에 `pending`/`in_progress` 태스크가 있으면 skip (개별 태스크 완료 시 트리거 안 됨)
-7. `company/main` 대비 미리뷰 커밋이 있는지 확인
+7. `company/main` 대비 미리뷰 커밋이 있고, 변경 파일 중 코드 파일(`.md`/`.txt`/`.mdx` 제외)이 1개 이상인지 확인 — 문서만 변경된 분석/리서치 팀은 트리거하지 않음
 8. 모든 조건 통과 → **마커 생성** → `[CODERABBIT REVIEW AUTO-TRIGGER]` 메시지 출력
 
 ### `coderabbit_stop_trigger.sh` 동작 흐름 (솔로 모드)
@@ -378,7 +378,7 @@ chmod +x ~/.claude/hooks/team/*.sh
 3. `cwd`가 대상 프로젝트 패턴과 일치하는지 확인
 4. `team_name`이 있으면 skip (팀 모드 → `TaskCompleted` 훅이 처리)
 5. **공유 마커 확인** — 이미 트리거되었으면 skip
-6. `company/main` 대비 미리뷰 커밋이 있는지 확인
+6. `company/main` 대비 미리뷰 커밋이 있고, 변경 파일 중 코드 파일(`.md`/`.txt`/`.mdx` 제외)이 1개 이상인지 확인 — 문서만 변경된 경우 트리거하지 않음
 7. `last_assistant_message`에서 완료 키워드(done, published, pushed 등) 감지 + 질문으로 끝나지 않는지 확인
 8. 모든 조건 통과 → **마커 생성** → `{“decision”: “block”, “reason”: “[CODERABBIT REVIEW AUTO-TRIGGER]...”}` 출력
 
