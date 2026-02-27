@@ -1,39 +1,23 @@
-## Claude 개발 자동화 가이드 (Hooks · Bridge Watcher · Skills)
+## Claude 개발 자동화 구현 가이드 (Hooks · Bridge Watcher · Skills · CodeRabbit)
 
-**서로 다른 2개 프로젝트를 나란히 개발**할 때, Claude Code를 **개발 워크플로 자동화 체계**로 쓰기 위해 구성한 자동화(훅/워처/스킬)를 정리한 가이드입니다.
+**서로 다른 2개 프로젝트를 나란히 개발**할 때, Claude Code를 **개발 워크플로 자동화 체계**로 쓰기 위해 구성한 자동화(훅/워처/스킬)의 **구현 가이드**입니다.
 
 라이브러리↔앱, 백엔드↔프론트엔드, 마이크로서비스 간 등 — **협업이 필요한 두 프로젝트**라면 어디든 적용할 수 있습니다.
 
-- **목표**: “요청 → 구현 → 배포 → 적용”을 반복 가능한 프로세스로 만들고, 품질/일관성을 자동으로 끌어올리기
+요약/배경/효과는 `src/claude-automation-summary.ko.md`를 참고합니다.
 
 ---
 
-## 한 줄 요약
+## 1. 용어 정리 + 전제 조건
 
-Claude Code의 **이벤트 훅(Hooks)** 으로 에이전트 팀 작업을 표준화하고, **Bridge Watcher** 로 Project A↔Project B 간 변경 요청을 파일 기반으로 동기화하며, **Skills** 로 반복 업무를 SOP(표준 절차)로 고정해 “AI 작업을 개발 자동화로” 만듭니다. 이 구조 덕분에 요청 감지→작업 진행→품질 게이트→**CodeRabbit 리뷰 자동 트리거**→머지까지 연결되며, 장시간 동안 사람 개입 없이도 흐름이 끊기지 않게 구성할 수 있습니다.
-
----
-
-## 용어 정리
+### 용어
 
 - **Project A / Project B**: 편의상 구분하지만, Bridge는 **양방향**입니다 — 어느 쪽이든 요청을 만들고 응답을 받을 수 있습니다.
   - 일반적으로 Project A = 공통 패키지/라이브러리/백엔드, Project B = 앱/프론트엔드/소비자 프로젝트
   - Bridge 흐름: `requests/`에 변경 요청 작성(`to`/`from` 필수) → 상대가 처리 후 `completed/` 작성 → 요청자가 적용 완료 시 `consumed/` 마커 생성
 - 이 문서에서는 **BlumnAi-design-system(= Project A)** 과 **Happytalk-front(= Project B)** 를 예시로 사용합니다.
 
-## 문서 구조
-
-1. **설정 내용**: 실제로 구성한 Bridge / Hooks / Skills / CodeRabbit
-2. **운영 원칙**: Phase 인터럽트 루프 — 진행 중 변경 요청 → watcher 알림 → 업데이트 → 복귀 흐름
-3. **상세 레퍼런스**: `src/claude-automation-guide.ko.details.md`로 분리
-
----
-
-## 설정 내용 — Bridge + Hooks + Skills + CodeRabbit
-
-**(A) Project A↔Project B 파일 프로토콜**과 **(B) PR+CodeRabbit 리뷰 루프**를 합쳐서, 변경이 끝까지 흘러가게 만드는 것이 핵심이었습니다.
-
-### 0) 전제 조건
+### 전제 조건
 
 이 구성에서 사용한 도구/환경:
 
@@ -42,7 +26,11 @@ Claude Code의 **이벤트 훅(Hooks)** 으로 에이전트 팀 작업을 표준
   - 인증 상태 확인: `gh auth status`
 - **레포 설정**: 자동 머지를 쓰려면 브랜치 보호(필수 체크/필수 승인)와 Auto-merge 허용이 되어 있어야 함
 
-### 1) Bridge 디렉토리 준비
+---
+
+## 2. Bridge 디렉토리 + 프로토콜
+
+### 2-1) 디렉토리 준비
 
 아래 디렉토리가 있어야 합니다(없으면 생성).
 
@@ -54,23 +42,110 @@ Claude Code의 **이벤트 훅(Hooks)** 으로 에이전트 팀 작업을 표준
 mkdir -p ~/.claude/ds-bridge/{requests,completed,consumed}
 ```
 
-### 2) Bridge 워크플로우 시작(파일 기반)
+### 2-2) 디렉토리 의미
 
-이 워크플로우는 **현재 Claude(세션)끼리 “서로 대화/호출”을 깔끔하게 연결하는 표준 방식이 없기 때문에**, `requests/`, `completed/`, `consumed/` 같은 파일을 매개로 하는 **파일 기반 프로토콜**로 설계했습니다.
-핵심은 **”같은 파일명”을 `requests/ → completed/ → consumed/`로 흐르게** 만들어, 두 프로젝트가 독립적으로 움직이면서도 “요청/완료/적용 상태”를 자동으로 매칭할 수 있게 하는 것입니다.
+- `~/.claude/ds-bridge/requests/`: 양방향 변경 요청 (어느 프로젝트든 작성 가능, `to`/`from` 필드로 수신자/발신자 구분)
+- `~/.claude/ds-bridge/completed/`: 양방향 완료 통지 (요청을 처리한 쪽이 작성)
+- `~/.claude/ds-bridge/consumed/`: 요청자가 적용 완료를 표시하는 마커
 
-#### 2-0) 전제: Claude가 Bridge를 스스로 사용하려면
+### 2-3) 파일명 규칙(매우 중요)
 
-watcher는 “이미 생성된 파일”을 감지해 세션을 깨우는 역할만 합니다. Claude가 스스로 `requests/`에 요청 파일을 만들려면 프로토콜/트리거 조건/실행 수단을 알아야 했고, 이를 아래 구성으로 해결했습니다:
+- 완료 파일(`completed/*.md`)의 파일명은 **요청 파일(`requests/*.md`)과 반드시 동일**해야 합니다.
+- 그래야 "소비됨(consumed) 마커"를 기준으로 세 파일을 한 번에 정리(cleanup)할 수 있습니다.
+
+### 2-4) Bridge 워크플로우(파일 기반)
+
+이 워크플로우는 **현재 Claude(세션)끼리 "서로 대화/호출"을 깔끔하게 연결하는 표준 방식이 없기 때문에**, `requests/`, `completed/`, `consumed/` 같은 파일을 매개로 하는 **파일 기반 프로토콜**로 설계했습니다.
+핵심은 **"같은 파일명"을 `requests/ → completed/ → consumed/`로 흐르게** 만들어, 두 프로젝트가 독립적으로 움직이면서도 "요청/완료/적용 상태"를 자동으로 매칭할 수 있게 하는 것입니다.
+
+#### Claude가 Bridge를 스스로 사용하려면
+
+Watcher는 "이미 생성된 파일"을 감지해 세션을 깨우는 역할만 합니다. Claude가 스스로 `requests/`에 요청 파일을 만들려면 프로토콜/트리거 조건/실행 수단을 알아야 했고, 이를 아래 구성으로 해결했습니다:
 
 - **프로토콜** → `inject_context.sh`(4절)가 서브에이전트 시작 시 Bridge 경로/규칙을 자동 주입
 - **트리거 조건** → `check-requests.sh` / `check-completions.sh`가 양쪽 프로젝트에서 주기적 체크, watcher가 양쪽 세션 poke
 - **실행 수단** → 요청/완료 템플릿을 스킬 문서·온보딩에 포함
 - **양방향**: 어느 프로젝트든 `requests/`에 요청을 만들 수 있고, `type: question`으로 상대에게 질문할 수도 있습니다
 
-#### 2-1) Bridge 스크립트
+### 2-5) 요청(Request) 파일 템플릿
 
-`~/.claude/ds-bridge/` 아래 스크립트들이 “2개 프로젝트 동시 운영”을 자동화합니다. (폴더 이름이 `ds-bridge`이지만 역할은 일반적인 Project A↔Project B 브리지입니다.)
+어느 프로젝트든 `requests/`에 작성하는 변경 요청에 사용하는 템플릿입니다.
+
+```md
+# Change Request
+
+- **to**: target-project-name
+- **from**: sender-project-name
+- **priority**: high | medium | low
+- **type**: feature | bugfix | enhancement | question
+
+## What I Need
+
+- (원하는 변경을 2~5줄로 요약)
+
+## Context
+
+- 어떤 화면/컴포넌트에 변경이 필요한지
+- 기존 구현/기술적 제약(가능하면 코드 스니펫/파일명)
+
+## Current Workaround
+
+- 지금은 어떻게 임시로 해결 중인지(있다면)
+```
+
+작성 시 느낀 점:
+
+- "왜 필요한가"가 핵심이었습니다. 상대 프로젝트 변경이 필요한 이유가 명확할수록 구현 결정이 빨랐습니다.
+- 우선순위가 높은 요청에는 **blocked file**(전환/적용이 진행되지 않는 파일)을 명시했더니 효과가 컸습니다.
+- `type: question`은 요청이 불분명할 때 상대에게 질문하는 용도입니다. 이 경우 "completion"은 답변이 됩니다.
+
+### 2-6) 완료(Completion) 파일 템플릿
+
+요청을 처리한 쪽이 `completed/`에 작성하는 완료 통지입니다. 요청자가 바로 적용할 수 있도록 "마이그레이션 절차"를 포함시켰습니다.
+
+```md
+# Completed: {brief title}
+
+- **version**: 0.2.XX
+- **request**: {original request filename}
+
+## What Changed
+
+- (핵심 변경 2~5줄)
+
+## New/Changed Props
+
+| Prop | Component | Type | Default | Description |
+| ---- | --------- | ---- | ------- | ----------- |
+
+## Migration Steps
+
+1. npm install ...
+2. 코드 변경 예시(가능하면 짧게)
+
+## Breaking Changes
+
+- None (또는 상세)
+
+## Answer (type: question인 경우에만)
+
+- (질문에 대한 답변)
+```
+
+### 2-7) 흐름(시각화)
+
+```mermaid
+flowchart LR
+  ProjA["Project A"] <-->|"양방향 요청"| ReqFile["requests/YYYY-MM-DD-title.md"]
+  ProjB["Project B"] <-->|"양방향 요청"| ReqFile
+  ReqFile -->|"수신자가 처리"| CompFile["completed/YYYY-MM-DD-title.md"]
+  CompFile -->|"요청자가 적용"| ConsumedFile["consumed/YYYY-MM-DD-title.md"]
+  ConsumedFile --> Cleanup["cleanup (자동/수동)"] --> Done["정리 완료"]
+```
+
+### 2-8) Bridge 스크립트
+
+`~/.claude/ds-bridge/` 아래 스크립트들이 "2개 프로젝트 동시 운영"을 자동화합니다. (폴더 이름이 `ds-bridge`이지만 역할은 일반적인 Project A↔Project B 브리지입니다.)
 
 > **`ds` / `consumer` 역할명**: 스크립트에서 쓰이는 `ds`와 `consumer`는 **watcher가 tmux pane을 식별하기 위한 라벨**입니다.
 > - `ds` = Project A 세션의 pane (예: blumnai-design-system)
@@ -90,11 +165,11 @@ watcher는 “이미 생성된 파일”을 감지해 세션을 깨우는 역할
   - `bash ~/.claude/ds-bridge/register.sh unregister ds|consumer|all` — 등록 해제
   - `bash ~/.claude/ds-bridge/register.sh status` — 현재 등록 상태 확인
   - 등록 파일이 존재하면 `plan_review_inject.sh`가 Plan 모드에서 Bridge 인터럽트/복귀 규칙을 자동 주입
-- **`check-requests.sh`**: 양쪽 프로젝트에서 “미처리 요청”이 있는지 주기적으로 체크(쿨다운 포함)
-- **`check-completions.sh`**: 양쪽 프로젝트에서 “새 완료”가 있는지 주기적으로 체크(쿨다운 포함)
+- **`check-requests.sh`**: 양쪽 프로젝트에서 "미처리 요청"이 있는지 주기적으로 체크(쿨다운 포함)
+- **`check-completions.sh`**: 양쪽 프로젝트에서 "새 완료"가 있는지 주기적으로 체크(쿨다운 포함)
 - **`cleanup-bridge.sh`**: `consumed/` 마커가 생기면 관련 파일을 정리
 
-##### `~/.claude/ds-bridge/check-requests.sh`
+#### `~/.claude/ds-bridge/check-requests.sh`
 
 ```bash
 #!/bin/bash
@@ -141,7 +216,7 @@ else
 fi
 ```
 
-##### `~/.claude/ds-bridge/check-completions.sh`
+#### `~/.claude/ds-bridge/check-completions.sh`
 
 ```bash
 #!/bin/bash
@@ -191,7 +266,7 @@ else
 fi
 ```
 
-##### `~/.claude/ds-bridge/cleanup-bridge.sh`
+#### `~/.claude/ds-bridge/cleanup-bridge.sh`
 
 ```bash
 #!/bin/bash
@@ -222,9 +297,11 @@ if [ "$cleaned" -eq 0 ]; then
 fi
 ```
 
-### 3) watcher 실행으로 자동 알림 연결
+---
 
-#### 3-1) pane 등록 (최초 1회, 세션 재시작 시 재등록)
+## 3. Bridge Watcher 구성
+
+### 3-1) pane 등록 (최초 1회, 세션 재시작 시 재등록)
 
 구현하는 쪽(Project A) Claude 세션이 실행 중인 tmux 팬의 **셸**에서:
 
@@ -242,13 +319,43 @@ bash ~/.claude/ds-bridge/register.sh consumer   # consumer = 요청을 만들고
 watcher는 매 폴링 때 이 파일을 읽고, 팬이 유효한지(tmux 세션 존재 + 경로 일치) 검증합니다.
 유효하지 않으면 자동으로 등록을 제거하고 재등록을 안내합니다.
 
-#### 3-2) watcher 실행
+등록 파일(`.ds-pane`, `.consumer-pane`)은 `plan_review_inject.sh` 훅의 Bridge 감지 신호로도 사용됩니다 — 등록이 있으면 Plan 모드에서 Bridge 인터럽트/복귀 규칙이 자동 주입되고, 해제하면 주입되지 않습니다.
+
+### 3-2) watcher 실행
 
 ```bash
 bash ~/.claude/ds-bridge/watcher.sh
 ```
 
-#### `~/.claude/ds-bridge/register.sh`
+작업 종료 시 등록 해제: `bash ~/.claude/ds-bridge/register.sh unregister all`
+
+등록 상태 확인: `bash ~/.claude/ds-bridge/register.sh status`
+
+### 3-3) Pane 식별 방식
+
+Watcher는 다음 우선순위로 tmux pane을 식별합니다:
+
+1. **등록 파일 우선**: `.ds-pane`, `.consumer-pane` 파일에 저장된 pane ID를 먼저 사용
+2. **유효성 검증**: 매 폴링마다 pane의 tmux 세션 존재 여부 + 경로 패턴 일치 여부를 확인
+3. **자동 탐지 폴백**: 등록 파일이 없을 때, `node` 프로세스 기반으로 후보가 **정확히 1개**일 때만 자동 선택
+4. **모호한 경우 거부**: 같은 프로젝트 경로에 여러 `node` 프로세스(팀원 세션 등)가 있으면 자동 탐지를 거부하고 수동 등록을 요구
+
+### 3-4) 동작 원리
+
+- watcher는 기본 60초마다 다음을 확인합니다.
+  - `requests/*.md` 중 `completed`에 동일 파일명이 없는 항목 → **양쪽 세션에 알림** (각 세션이 `to` 필드 확인)
+  - `completed/*.md` 중 `consumed`에 동일 파일명이 없는 항목 → **양쪽 세션에 알림**
+  - 같은 pane 중복 방지: `DS_PANE != CONSUMER_PANE`일 때만 두 번째 poke 실행
+- tmux pane ID는 등록 파일(`.ds-pane`, `.consumer-pane`)로 관리합니다. 등록이 없으면 자동 탐지를 시도하되, 후보가 여러 개이면 거부합니다.
+- watcher는 시작 시 `.notified-requests`, `.notified-completions`를 초기화하여 "이번 실행 세션 기준"으로 알림 상태를 관리합니다.
+
+### 3-5) 팁(알림이 과하지 않게)
+
+- watcher는 기본이 60초 폴링입니다. 너무 잦거나 느리면 `POLL_INTERVAL` 환경변수로 조정 가능합니다.
+- 같은 요청을 반복 알림하지 않도록 `.notified-requests`, `.notified-completions`를 사용합니다.
+  - "새로 watcher를 켜면" 추적 파일이 초기화되므로 처음에 한 번은 알림이 다시 올 수 있습니다(의도된 동작).
+
+### 3-6) `register.sh`
 
 ```bash
 #!/bin/bash
@@ -362,7 +469,7 @@ echo "$PANE_ID" > "$BRIDGE_DIR/.${ROLE}-pane"
 echo "✅ Registered $ROLE pane: $PANE_ID ($PANE_PATH)"
 ```
 
-#### `~/.claude/ds-bridge/watcher.sh` (전체)
+### 3-7) `watcher.sh` (전체)
 
 ```bash
 #!/bin/bash
@@ -670,18 +777,43 @@ while true; do
 done
 ```
 
-### 4) Claude Hooks 설치/활성화 — “한 번 세팅 후 자동으로 동작”
+### 3-8) 트러블슈팅(Watcher)
 
-Bridge + watcher가 “요청/완료 알림(세션 깨우기)”를 담당한다면, Hooks는 Claude Code 내부 이벤트에서 아래를 자동화합니다.
+- **알림이 오지 않는다**
+  - pane 등록이 올바른지 확인합니다: `cat ~/.claude/ds-bridge/.ds-pane` / `cat ~/.claude/ds-bridge/.consumer-pane`
+  - 팀원 세션이 여러 개이면 자동 탐지가 실패합니다 → `register.sh`로 수동 등록하세요.
+  - watcher는 "tmux가 실행 중"이어야 동작합니다.
+- **알림이 너무 자주 온다**
+  - 폴링 주기를 늘립니다(`POLL_INTERVAL`).
+  - `.notified-*` 파일이 지워지는 상황(새 실행/정리 스크립트/수동 삭제)이 있는지 확인합니다.
+- **파일은 정리되지 않는다**
+  - cleanup은 `consumed/` 마커가 있어야 동작합니다. 요청자가 적용 후 "동일 파일명의 마커"를 만들었는지 확인합니다.
+- **양방향 알림이 안 온다**
+  - 양쪽 pane이 모두 등록되어 있는지 확인합니다: `bash ~/.claude/ds-bridge/register.sh status`
+  - watcher가 양쪽 poke 로직을 실행하는지 로그를 확인합니다.
+
+---
+
+## 4. Hooks 설치/활성화
+
+Bridge + watcher가 "요청/완료 알림(세션 깨우기)"를 담당한다면, Hooks는 Claude Code 내부 이벤트에서 아래를 자동화합니다.
 
 - plan 모드에서 계획 리뷰 템플릿 자동 주입
 - 에이전트 팀/서브에이전트 시작 시 규칙 자동 주입
 - 태스크 완료 시 typecheck/lint 자동 실행(실패하면 완료를 막음)
 - 태스크 전체 완료 시 CodeRabbit 리뷰 자동 트리거(팀 모드: `TaskCompleted`, 솔로 모드: `Stop`)
-- idle 직전 “할 일 남았는지” 자동 검사(작업이 끊기는 상황 감소)
+- idle 직전 "할 일 남았는지" 자동 검사(작업이 끊기는 상황 감소)
 - 팀 이벤트를 JSONL로 자동 로깅(관측/디버깅)
 
-#### 4-1) 훅 스크립트 실행 권한
+### 4-1) 설정(어디에 무엇을 두는가)
+
+- 전역 설정: `~/.claude/settings.json`
+- 전역 훅 스크립트: `~/.claude/hooks/`
+- (레포 측면) 추가 권한/옵션: `<repo>/.claude/settings.local.json`
+
+실제로 "자동으로 돌아가는지"는 `~/.claude/settings.json`의 `hooks` 연결 여부로 결정됩니다.
+
+### 4-2) 훅 스크립트 실행 권한
 
 ```bash
 chmod +x ~/.claude/hooks/plan_review_inject.sh
@@ -689,9 +821,9 @@ chmod +x ~/.claude/hooks/coderabbit_stop_trigger.sh
 chmod +x ~/.claude/hooks/team/*.sh
 ```
 
-#### 4-2) `~/.claude/settings.json`에 hooks 연결(예시)
+### 4-3) `~/.claude/settings.json`에 hooks 연결(예시)
 
-아래는 “동작에 필요한 최소 예시”입니다. 기존 설정이 있다면 **`hooks`/`teammateMode`만 병합**합니다.
+아래는 "동작에 필요한 최소 예시"입니다. 기존 설정이 있다면 **`hooks`/`teammateMode`만 병합**합니다.
 
 ```json
 {
@@ -804,6 +936,16 @@ chmod +x ~/.claude/hooks/team/*.sh
             "async": true
           }
         ]
+      },
+      {
+        "matcher": "TeamDelete",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/team/cleanup_tmux_panes.sh",
+            "timeout": 10000
+          }
+        ]
       }
     ],
     "Stop": [
@@ -814,6 +956,11 @@ chmod +x ~/.claude/hooks/team/*.sh
             "type": "command",
             "command": "bash ~/.claude/hooks/coderabbit_stop_trigger.sh",
             "timeout": 15000
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/team/cleanup_tmux_panes.sh",
+            "timeout": 10000
           }
         ]
       }
@@ -822,12 +969,50 @@ chmod +x ~/.claude/hooks/team/*.sh
 }
 ```
 
-#### 4-3) 훅 스크립트 템플릿
+설정 포인트(핵심만):
+
+- `matcher`: 특정 도구/이벤트만 골라 실행할 때 사용합니다(예: `PreToolUse`에서 `Task`만 로깅).
+- `timeout`: 지정 시간 내 미완료면 훅 실행을 중단합니다(무한 대기 방지).
+- `async`: 로깅 같은 훅은 비동기로 실행해 작업 흐름을 막지 않습니다.
+
+### 4-4) 이벤트 동작 요약
+
+훅은 Claude Code가 이벤트를 발생시키면 자동으로 실행됩니다. 별도로 훅 스크립트를 "수동 실행"하는 흐름이 아닙니다.
+
+| 이벤트 | 언제 트리거되나 | 실행 스크립트 | 차단(중단) 가능? | 조건(대표) |
+| --- | --- | --- | --- | --- |
+| `UserPromptSubmit` | 프롬프트 제출 순간 | `plan_review_inject.sh` | 보통 없음 | `permission_mode=plan`일 때만: 리뷰 템플릿 출력 + Bridge 등록 파일 존재 시 인터럽트/복귀 규칙 자동 주입 |
+| `SubagentStart` | 서브에이전트 시작 시 | `team/inject_context.sh` | 보통 없음 | `team_name`이 있어야 주입(에이전트 팀 작업에만) |
+| `TeammateIdle` | 팀원이 idle로 들어가기 직전 | `team/log_event.sh` + `team/teammate_idle_check.sh` | 있음(Exit 2) | 남은 작업 있으면 idle 방지 |
+| `TaskCompleted` | 태스크 완료 시 | `team/log_event.sh` + `team/quality_gate.sh` + `team/coderabbit_review_trigger.sh` | 있음(Exit 2) | 프로젝트 루트 하위에서만 typecheck/lint gate → 전체 완료 시 CodeRabbit 트리거 |
+| `PreToolUse`/`PostToolUse` | 도구 실행 전/후 | `team/log_event.sh` | 없음(항상 Exit 0) | matcher로 특정 도구만 로깅 |
+| `PostToolUse` (`TeamDelete`) | 팀 삭제 시 | `team/cleanup_tmux_panes.sh` | 없음 | 종료된 팀원의 tmux pane 자동 정리 |
+| `Stop` | Claude 응답 완료 시 | `coderabbit_stop_trigger.sh` + `team/cleanup_tmux_panes.sh` | 있음(`decision: "block"`) | CodeRabbit 트리거 + 고아 pane 정리 |
+
+### 4-5) exit code 규칙(중요)
+
+- `exit 0`: 훅이 작업 흐름을 **통과**시킵니다.
+- `exit 2`: 훅이 "아직 끝나면 안 된다"고 판단하여 **차단/중단**합니다.
+  - 예: `quality_gate.sh`는 typecheck/lint 실패 시 `exit 2`로 완료를 막습니다.
+  - 예: `teammate_idle_check.sh`는 남은 태스크가 있으면 `exit 2`로 idle을 막습니다.
+- `log_event.sh`는 관측/로깅 목적이므로 **항상 통과**하도록 설계했습니다(항상 `exit 0`).
+
+### 4-6) 프로젝트 루트 매칭(프로젝트 전용 규칙/게이트)
+
+프로젝트 전용 규칙 주입/품질 게이트는 훅 스크립트 내부의 `case "$CWD"` 패턴 매칭에 따라 켜집니다.
+
+- `~/.claude/hooks/team/inject_context.sh`: `case "$CWD" in */<your-project-name>*)` 패턴으로 대상 프로젝트를 판별
+- `~/.claude/hooks/team/quality_gate.sh`: 동일한 `case` 패턴 + `sed` 루트 추출
+- `~/.claude/hooks/team/coderabbit_review_trigger.sh`: 동일한 패턴
+
+절대 경로 대신 글로브 패턴(`*/project-name*`)을 사용했기 때문에, 같은 프로젝트를 여러 경로에 클론해도 훅이 정상 동작합니다. 여러 프로젝트에 적용하려면 `case` 문에 패턴을 추가하면 됩니다.
+
+### 4-7) 훅 스크립트 템플릿
 
 아래는 `settings.json`에서 연결한 훅 스크립트의 **일반화된 템플릿**입니다.
 팀/회사 공유를 위해, **프로젝트별 규칙 주입 내용은 간소화**하고 **절대 경로는 패턴 매칭(`*/project-name*`)으로 대체**했습니다. 실제 운영 스크립트에는 프로젝트별 상세 규칙(타이포그래피·스페이싱·컬러 등)이 추가되어 있습니다.
 
-##### `~/.claude/hooks/plan_review_inject.sh`
+#### `~/.claude/hooks/plan_review_inject.sh`
 
 ```bash
 #!/bin/bash
@@ -875,7 +1060,7 @@ fi
 exit 0
 ```
 
-##### `~/.claude/hooks/team/inject_context.sh`
+#### `~/.claude/hooks/team/inject_context.sh`
 
 ```bash
 #!/usr/bin/env bash
@@ -912,7 +1097,7 @@ Use generic sequential names when spawning teammates:
 - reviewer-one, reviewer-two, reviewer-three
 - implementer-one, implementer-two
 - analyst-one, researcher-one, tester-one
-NEVER use task-specific names like \"button-reviewer\", \"sidebar-fixer\", \"auth-implementer\".
+NEVER use task-specific names like "button-reviewer", "sidebar-fixer", "auth-implementer".
 When your work is complete and no tasks remain, send a message to the team lead requesting shutdown.
 
 GLOBAL
@@ -945,7 +1130,7 @@ fi
 exit 0
 ```
 
-##### `~/.claude/hooks/team/quality_gate.sh`
+#### `~/.claude/hooks/team/quality_gate.sh`
 
 ```bash
 #!/usr/bin/env bash
@@ -997,7 +1182,7 @@ fi
 exit 0
 ```
 
-##### `~/.claude/hooks/team/teammate_idle_check.sh`
+#### `~/.claude/hooks/team/teammate_idle_check.sh`
 
 ```bash
 #!/usr/bin/env bash
@@ -1081,7 +1266,7 @@ fi
 exit 0
 ```
 
-##### `~/.claude/hooks/team/log_event.sh`
+#### `~/.claude/hooks/team/log_event.sh`
 
 ```bash
 #!/usr/bin/env bash
@@ -1138,7 +1323,234 @@ print(json.dumps(entry))
 exit 0
 ```
 
-##### `~/.claude/hooks/team/coderabbit_review_trigger.sh` (팀 모드 — `TaskCompleted`)
+#### `~/.claude/hooks/team/stats.sh`
+
+```bash
+#!/usr/bin/env bash
+# Manual CLI tool to view team event stats
+# Usage:
+#   bash ~/.claude/hooks/team/stats.sh              # All-time stats
+#   bash ~/.claude/hooks/team/stats.sh SESSION_ID   # Stats for one session
+
+set -uo pipefail
+
+LOG_FILE="$HOME/.claude/logs/team-events.jsonl"
+
+if [ ! -f "$LOG_FILE" ]; then
+  echo "No log file found at $LOG_FILE"
+  echo "Events will appear here after team hooks start firing."
+  exit 0
+fi
+
+SESSION_FILTER="${1:-}"
+
+/usr/bin/python3 -c "
+import json, sys
+from collections import Counter, defaultdict
+
+session_filter = '$SESSION_FILTER'
+log_file = '$LOG_FILE'
+
+events = []
+with open(log_file) as f:
+    for line in f:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            events.append(json.loads(line))
+        except:
+            pass
+
+if session_filter:
+    events = [e for e in events if e.get('session') == session_filter]
+
+if not events:
+    if session_filter:
+        print(f'No events found for session: {session_filter}')
+    else:
+        print('No events logged yet.')
+    sys.exit(0)
+
+# Counts
+event_counts = Counter(e['event'] for e in events)
+sessions = set(e.get('session', '') for e in events)
+agents = set(e.get('agent', '') for e in events if e.get('agent'))
+teams = set(e.get('team', '') for e in events if e.get('team'))
+
+# Timeline
+timestamps = sorted(e['ts'] for e in events if 'ts' in e)
+
+print('=' * 60)
+if session_filter:
+    print(f'  Team Stats — Session: {session_filter[:16]}...')
+else:
+    print(f'  Team Stats — All Time')
+print('=' * 60)
+print()
+
+print(f'  Sessions:     {len(sessions)}')
+print(f'  Teams:        {len(teams)}')
+print(f'  Agents:       {len(agents)}')
+print(f'  Total events: {len(events)}')
+print()
+
+print('  Event Breakdown:')
+for event, count in event_counts.most_common():
+    print(f'    {event:30s} {count:>5}')
+print()
+
+if agents:
+    print('  Agents seen:')
+    for a in sorted(agents):
+        print(f'    - {a}')
+    print()
+
+if teams:
+    print('  Teams:')
+    for t in sorted(teams):
+        print(f'    - {t}')
+    print()
+
+if timestamps:
+    print(f'  First event: {timestamps[0]}')
+    print(f'  Last event:  {timestamps[-1]}')
+    print()
+
+print('=' * 60)
+"
+```
+
+#### `~/.claude/hooks/team/cleanup_tmux_panes.sh`
+
+```bash
+#!/usr/bin/env bash
+# Cleans up orphaned tmux panes from terminated teammates.
+# Runs on lead's Stop hook and PostToolUse(TeamDelete).
+# Finds panes where the Claude process has exited
+# (showing shell prompt with "Resume this session" text) and kills them.
+
+set -uo pipefail
+
+# Only run if tmux is available and we're in a tmux session
+if ! command -v tmux &>/dev/null; then
+  exit 0
+fi
+
+# Get all tmux panes except the current one (the lead)
+CURRENT_PANE=$(tmux display-message -p '#{pane_id}' 2>/dev/null || echo "")
+if [ -z "$CURRENT_PANE" ]; then
+  exit 0
+fi
+
+# Find panes that are in the same window group where the command is zsh/bash
+# (meaning the Claude process exited and dropped back to shell)
+tmux list-panes -a -F '#{pane_id} #{pane_current_command} #{pane_pid}' 2>/dev/null | while read -r PANE_ID CMD PID; do
+  # Skip our own pane
+  if [ "$PANE_ID" = "$CURRENT_PANE" ]; then
+    continue
+  fi
+
+  # If the pane's current command is a shell (zsh/bash), the agent process has exited
+  if [ "$CMD" = "zsh" ] || [ "$CMD" = "bash" ]; then
+    # Double-check: look for "Resume this session" in the pane content
+    CONTENT=$(tmux capture-pane -t "$PANE_ID" -p 2>/dev/null || echo "")
+    if echo "$CONTENT" | grep -q "Resume this session"; then
+      tmux kill-pane -t "$PANE_ID" 2>/dev/null || true
+    fi
+  fi
+done
+
+exit 0
+```
+
+### 4-8) 동작 확인
+
+에이전트 팀 작업을 조금 실행한 뒤(서브에이전트/태스크/메시지 전송 등), 아래로 로그가 쌓이는지 확인합니다.
+
+- 로그 파일: `~/.claude/logs/team-events.jsonl`
+- 통계 보기: `bash ~/.claude/hooks/team/stats.sh`
+
+### 4-9) 트러블슈팅(Hooks)
+
+- **훅이 전혀 실행되지 않는 것 같다**
+  - `~/.claude/settings.json`의 `hooks` 섹션이 로드되는지 확인합니다.
+  - 훅 스크립트에 실행 권한(+x)이 있는지 확인합니다.
+- **훅은 도는 것 같은데 프로젝트 규칙 주입/품질 게이트가 안 걸린다**
+  - `case "$CWD"` 패턴이 프로젝트 디렉토리명과 일치하는지 확인합니다(`inject_context.sh`, `quality_gate.sh`, `coderabbit_review_trigger.sh`).
+  - 레포 위치가 바뀌면 이 조건이 깨질 수 있으니, 셋업 시점에 먼저 맞추는 것이 안전합니다.
+
+---
+
+## 5. Skills — "완료 기준"을 고정한 방식
+
+### 위치
+
+- `<repo>/.claude/skills/` 하위에 목적별 `SKILL.md`가 존재
+
+### 현재 레포에 있는 스킬과 역할
+
+- `design-system-rules`: DS 유틸리티 클래스/금지 규칙/검증(타입체크+린트) 기준
+- `component-checklist`: "완료 보고 전에 반드시 확인할 항목" 체크리스트
+- `new-component`: 신규 컴포넌트 생성 템플릿(폴더/파일 구조, 기본 스토리)
+- `storybook-story` / `story`: 스토리북 작성 규칙(controls 정책, argTypes 한글 설명, Default만 controls 활성화 등)
+- `figma-save`: Figma 노드 스펙을 저장(`source/`)하는 절차(REST 스크립트 기반)
+- `visual-test`: Playwright 시각 회귀 테스트 실행/판정/리포트 절차
+- `coderabbit-review`: 구현 완료 보고 **전에** 자동 호출 — Push → PR 생성 → **백그라운드 에이전트**가 CodeRabbit 리뷰 폴링(메인 에이전트 블로킹 없음, 최대 3라운드) → 수정 → 머지
+
+### Skills를 운영에 녹인 방식
+
+- 에이전트 팀에서 "작업 완료의 정의"를 스킬로 고정했습니다.
+  - 예: 컴포넌트 작업은 `component-checklist`를 통과해야 "완료"
+- 반복 작업은 스킬 문서를 "복붙 가능한 체크리스트"로 썼더니, 사람이 바뀌어도 품질이 유지되었습니다.
+
+에이전트 팀 작업의 "DONE 정의"를 스킬로 고정해서, 완료 기준이 흔들리지 않게 했습니다.
+
+- 컴포넌트/스토리 변경: `component-checklist` 통과(타입체크/린트 포함)
+- 스토리 작성: `storybook-story` 규칙 준수(controls 정책/argTypes/Default story 연결)
+- Figma 스펙: `figma-save`로 `source/`에 저장(재호출 최소화)
+- PR/리뷰: `coderabbit-review` — 구현 완료 보고 **전에** 자동 호출(Push → PR → CodeRabbit 리뷰 → 수정 → 머지)
+
+---
+
+## 6. CodeRabbit 자동 리뷰 시스템
+
+### 트리거 방식 (이중 Hook + 중복 방지)
+
+팀 모드/솔로 모드 **어디서든** CodeRabbit 리뷰가 자동 트리거됩니다. 두 훅은 **공유 마커 파일**(`/tmp/coderabbit-triggered-{SESSION_ID}`)로 중복을 방지합니다 — 먼저 트리거되는 쪽이 마커를 생성하면, 다른 쪽은 skip합니다.
+
+| 모드 | Hook 이벤트 | 스크립트 | 트리거 시점 |
+|------|-------------|----------|-------------|
+| **팀 작업** | `TaskCompleted` | `~/.claude/hooks/team/coderabbit_review_trigger.sh` | 리더 에이전트 + 전체 태스크 완료 시 |
+| **솔로 작업** | `Stop` | `~/.claude/hooks/coderabbit_stop_trigger.sh` | Claude 응답 완료 시 (`last_assistant_message`가 완료 신호일 때) |
+
+### 트리거 조건
+
+**공통 조건** (두 훅 모두):
+1. **프로젝트 확인**: `cwd`가 대상 프로젝트 내부인지
+2. **공유 마커 미존재**: 같은 세션에서 이미 트리거되지 않았는지
+3. **미리뷰 코드 변경 존재**: `company/main` 대비 ahead 커밋이 1개 이상이고, 변경 파일 중 코드 파일(`.md`/`.txt`/`.mdx` 제외)이 1개 이상 — 문서만 변경된 경우 트리거하지 않음
+
+**팀 모드 추가 조건** (`TaskCompleted`):
+4. **리더 전용**: `session_id`가 팀 config의 `members[0].agentId`와 일치
+5. **전체 태스크 완료**: `pending`/`in_progress` 태스크가 0개 — 개별 태스크 완료 시에는 트리거되지 않음
+
+**솔로 모드 추가 조건** (`Stop`):
+4. **`stop_hook_active=false`**: 무한루프 방지
+5. **완료 신호 감지**: `last_assistant_message`에 완료 키워드(done, published, pushed 등)가 있고 질문으로 끝나지 않을 때
+
+### `coderabbit_review_trigger.sh` 동작 흐름 (팀 모드)
+
+1. JSON 입력에서 `cwd`, `session_id`, `team_name` 파싱
+2. `cwd`가 대상 프로젝트 패턴(`*/<your-project-name>*`)과 일치하는지 확인
+3. `team_name`이 비어있으면 skip (솔로 모드 → `Stop` 훅이 처리)
+4. **공유 마커 확인** — 이미 트리거되었으면 skip
+5. 팀 config의 `members[0].agentId`와 `session_id` 비교 → 리더가 아니면 skip
+6. `~/.claude/tasks/{team_name}/` 안에 `pending`/`in_progress` 태스크가 있으면 skip (개별 태스크 완료 시 트리거 안 됨)
+7. `company/main` 대비 미리뷰 커밋이 있고, 변경 파일 중 코드 파일(`.md`/`.txt`/`.mdx` 제외)이 1개 이상인지 확인 — 문서만 변경된 분석/리서치 팀은 트리거하지 않음
+8. 모든 조건 통과 → **마커 생성** → `[CODERABBIT REVIEW AUTO-TRIGGER]` 메시지 출력
+
+#### `~/.claude/hooks/team/coderabbit_review_trigger.sh`
 
 ```bash
 #!/usr/bin/env bash
@@ -1260,7 +1672,18 @@ TRIGGER
 exit 0
 ```
 
-##### `~/.claude/hooks/coderabbit_stop_trigger.sh` (솔로 모드 — `Stop`)
+### `coderabbit_stop_trigger.sh` 동작 흐름 (솔로 모드)
+
+1. JSON 입력에서 `cwd`, `session_id`, `team_name`, `stop_hook_active`, `last_assistant_message` 파싱
+2. `stop_hook_active=true`이면 skip (무한루프 방지)
+3. `cwd`가 대상 프로젝트 패턴과 일치하는지 확인
+4. `team_name`이 있으면 skip (팀 모드 → `TaskCompleted` 훅이 처리)
+5. **공유 마커 확인** — 이미 트리거되었으면 skip
+6. `company/main` 대비 미리뷰 커밋이 있고, 변경 파일 중 코드 파일(`.md`/`.txt`/`.mdx` 제외)이 1개 이상인지 확인 — 문서만 변경된 경우 트리거하지 않음
+7. `last_assistant_message`에서 완료 키워드(done, published, pushed 등) 감지 + 질문으로 끝나지 않는지 확인
+8. 모든 조건 통과 → **마커 생성** → `{"decision": "block", "reason": "[CODERABBIT REVIEW AUTO-TRIGGER]..."}` 출력
+
+#### `~/.claude/hooks/coderabbit_stop_trigger.sh`
 
 ```bash
 #!/usr/bin/env bash
@@ -1360,182 +1783,36 @@ EOF
 exit 0
 ```
 
-##### `~/.claude/hooks/team/stats.sh`
+### `coderabbit-review` 스킬 4단계
 
-```bash
-#!/usr/bin/env bash
-# Manual CLI tool to view team event stats
-# Usage:
-#   bash ~/.claude/hooks/team/stats.sh              # All-time stats
-#   bash ~/.claude/hooks/team/stats.sh SESSION_ID   # Stats for one session
+| Phase | 내용 | 핵심 명령 |
+|-------|------|-----------|
+| **1. Pre-flight** | dirty tree, 브랜치 확인, typecheck/lint | `git status`, `npm run typecheck && npm run lint` |
+| **2. Push + PR** | 리모트 push, PR 생성/재사용 | `git push origin HEAD`, `gh pr create --repo ...` |
+| **3. Review loop** | 백그라운드 에이전트가 폴링 + 최대 3라운드 리뷰 수정 | `Task(run_in_background)`, `gh api .../reviews`, `@coderabbitai review` |
+| **4. Merge + sync** | squash merge → main 동기화 | `gh pr merge --squash`, `git pull origin main` |
 
-set -uo pipefail
-
-LOG_FILE="$HOME/.claude/logs/team-events.jsonl"
-
-if [ ! -f "$LOG_FILE" ]; then
-  echo "No log file found at $LOG_FILE"
-  echo "Events will appear here after team hooks start firing."
-  exit 0
-fi
-
-SESSION_FILTER="${1:-}"
-
-/usr/bin/python3 -c "
-import json, sys
-from collections import Counter, defaultdict
-
-session_filter = '$SESSION_FILTER'
-log_file = '$LOG_FILE'
-
-events = []
-with open(log_file) as f:
-    for line in f:
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            events.append(json.loads(line))
-        except:
-            pass
-
-if session_filter:
-    events = [e for e in events if e.get('session') == session_filter]
-
-if not events:
-    if session_filter:
-        print(f'No events found for session: {session_filter}')
-    else:
-        print('No events logged yet.')
-    sys.exit(0)
-
-# Counts
-event_counts = Counter(e['event'] for e in events)
-sessions = set(e.get('session', '') for e in events)
-agents = set(e.get('agent', '') for e in events if e.get('agent'))
-teams = set(e.get('team', '') for e in events if e.get('team'))
-
-# Timeline
-timestamps = sorted(e['ts'] for e in events if 'ts' in e)
-
-print('=' * 60)
-if session_filter:
-    print(f'  Team Stats — Session: {session_filter[:16]}...')
-else:
-    print(f'  Team Stats — All Time')
-print('=' * 60)
-print()
-
-print(f'  Sessions:     {len(sessions)}')
-print(f'  Teams:        {len(teams)}')
-print(f'  Agents:       {len(agents)}')
-print(f'  Total events: {len(events)}')
-print()
-
-print('  Event Breakdown:')
-for event, count in event_counts.most_common():
-    print(f'    {event:30s} {count:>5}')
-print()
-
-if agents:
-    print('  Agents seen:')
-    for a in sorted(agents):
-        print(f'    - {a}')
-    print()
-
-if teams:
-    print('  Teams:')
-    for t in sorted(teams):
-        print(f'    - {t}')
-    print()
-
-if timestamps:
-    print(f'  First event: {timestamps[0]}')
-    print(f'  Last event:  {timestamps[-1]}')
-    print()
-
-print('=' * 60)
-"
-```
-
-#### 4-4) 훅 범위 지정 방식(프로젝트 루트 매칭)
-
-훅 스크립트는 모든 레포에서 실행되지 않도록, **특정 프로젝트 루트 하위에서만** 규칙 주입/품질 게이트가 켜지게 구성했습니다.
-
-- `~/.claude/hooks/team/inject_context.sh`: `case “$CWD” in */<your-project-name>*)` 패턴으로 대상 프로젝트를 판별
-- `~/.claude/hooks/team/quality_gate.sh`: 동일한 `case` 패턴 + `sed` 루트 추출
-
-절대 경로 대신 글로브 패턴(`*/project-name*`)을 사용했기 때문에, 같은 프로젝트를 여러 경로에 클론해도 훅이 정상 동작합니다. 여러 프로젝트에 적용하려면 `case` 문에 패턴을 추가하면 됩니다.
-
-#### 4-5) 동작 확인(설치 후에는 “수동 실행”이 아니라 “이벤트로 자동”)
-
-- 에이전트 팀 작업을 조금 실행한 뒤(서브에이전트/태스크/메시지 전송 등), 아래로 로그가 쌓이는지 확인합니다.
-  - `~/.claude/logs/team-events.jsonl`
-  - 통계 보기: `bash ~/.claude/hooks/team/stats.sh`
-
-### 5) Skills — “완료 기준”을 고정한 방식
-
-에이전트 팀 작업의 “DONE 정의”를 스킬로 고정해서, 완료 기준이 흔들리지 않게 했습니다.
-
-- 컴포넌트/스토리 변경: `component-checklist` 통과(타입체크/린트 포함)
-- 스토리 작성: `storybook-story` 규칙 준수(controls 정책/argTypes/Default story 연결)
-- Figma 스펙: `figma-save`로 `source/`에 저장(재호출 최소화)
-- PR/리뷰: `coderabbit-review` — 구현 완료 보고 **전에** 자동 호출(Push → PR → CodeRabbit 리뷰 → 수정 → 머지)
-
-### 6) CodeRabbit 자동 리뷰 시스템
-
-이 섹션은 CodeRabbit 리뷰가 **자동으로 트리거되는 구조**를 설명합니다.
-
-#### 트리거 방식 (이중 Hook + 중복 방지)
-
-팀 모드/솔로 모드 **어디서든** CodeRabbit 리뷰가 자동 트리거됩니다. 두 훅은 **공유 마커 파일**(`/tmp/coderabbit-triggered-{SESSION_ID}`)로 중복을 방지합니다 — 먼저 트리거되는 쪽이 마커를 생성하면, 다른 쪽은 skip합니다.
-
-| 모드 | Hook 이벤트 | 스크립트 | 트리거 시점 |
-|------|-------------|----------|-------------|
-| **팀 작업** | `TaskCompleted` | `~/.claude/hooks/team/coderabbit_review_trigger.sh` | 리더 에이전트 + 전체 태스크 완료 시 |
-| **솔로 작업** | `Stop` | `~/.claude/hooks/coderabbit_stop_trigger.sh` | Claude 응답 완료 시 (`last_assistant_message`가 완료 신호일 때) |
-
-#### 트리거 조건
-
-**공통 조건** (두 훅 모두):
-1. **프로젝트 확인**: `cwd`가 대상 프로젝트 내부인지
-2. **공유 마커 미존재**: 같은 세션에서 이미 트리거되지 않았는지
-3. **미리뷰 코드 변경 존재**: `company/main` 대비 ahead 커밋이 1개 이상이고, 변경 파일 중 코드 파일(`.md`/`.txt`/`.mdx` 제외)이 1개 이상 — 문서만 변경된 경우 트리거하지 않음
-
-**팀 모드 추가 조건** (`TaskCompleted`):
-4. **리더 전용**: `session_id`가 팀 config의 `members[0].agentId`와 일치
-5. **전체 태스크 완료**: `pending`/`in_progress` 태스크가 0개 — 개별 태스크 완료 시에는 트리거되지 않음
-
-**솔로 모드 추가 조건** (`Stop`):
-4. **`stop_hook_active=false`**: 무한루프 방지
-5. **완료 신호 감지**: `last_assistant_message`에 완료 키워드(done, published, pushed 등)가 있고 질문으로 끝나지 않을 때
-
-#### `coderabbit-review` 스킬 4단계
-
-| Phase | 내용 |
-|-------|------|
-| **1. Pre-flight** | dirty tree 확인, 브랜치 확인, typecheck/lint |
-| **2. Push + PR** | 리모트 push, PR 생성/재사용 |
-| **3. Review loop** | 최대 3라운드: **백그라운드 에이전트**가 CodeRabbit 리뷰 폴링(메인 에이전트 블로킹 없음) → actionable 코멘트 수집 → 수정 → push → `@coderabbitai review` 재리뷰 트리거 |
-| **4. Merge + sync** | squash merge → main 동기화 |
-
-#### 중단 조건
+### 중단 조건
 
 - actionable 코멘트 0개 → 즉시 Phase 4로
 - 최대 3라운드 초과 (critical 이슈 시 4라운드까지 연장 가능)
 - merge conflict / CI 실패 / 리뷰 해석 모호 / regression 발생
 
-#### 안전장치
+### 안전장치
 
-- **중복 방지**: 공유 마커 파일로 세션당 1회만 트리거
-- **무한루프 방지**: `Stop` 훅은 `stop_hook_active` 플래그 체크
-- **반복 제한**: 최대 3회 이후 자동 중단
+- **중복 방지**: 공유 마커 파일(`/tmp/coderabbit-triggered-{SESSION_ID}`)로 세션당 1회만 트리거
+- **무한루프 방지**: `Stop` 훅은 `stop_hook_active` 플래그 체크 — block 후 재실행 시 자동 통과
+- **반복 제한**: 최대 3라운드 (critical 이슈 시 4라운드까지 연장 가능)
 - **force push 금지**: 항상 일반 `git push`
 - **구체적 파일 스테이징**: `git add <specific-files>` — `git add -A` 사용 금지
+- **머지 후 main 동기화**: squash merge 후 로컬 main을 최신 상태로 유지
+- **중단 조건**: merge conflict / CI 실패 / 리뷰 해석 모호 / regression 발생 시 자동 중단
 
-## 운영 원칙(짧게): Plan + Phase 인터럽트
+---
 
-자동화가 끊기지 않도록, “해야 할 일”을 단계(Phase)로 나누고 중간에 상대 프로젝트 변경이 필요해지면 **요청을 남긴 뒤 다른 일을 진행**, watcher 알림이 오면 **현재 작업을 정리하고 업데이트 후 복귀**하는 루프로 운영했습니다. Bridge는 양방향이므로 어느 프로젝트에서든 이 흐름이 동일하게 적용됩니다.
+## 7. 운영 원칙 — Phase 인터럽트 루프
+
+자동화가 끊기지 않도록, "해야 할 일"을 단계(Phase)로 나누고 중간에 상대 프로젝트 변경이 필요해지면 **요청을 남긴 뒤 다른 일을 진행**, watcher 알림이 오면 **현재 작업을 정리하고 업데이트 후 복귀**하는 루프로 운영했습니다. Bridge는 양방향이므로 어느 프로젝트에서든 이 흐름이 동일하게 적용됩니다.
 
 Bridge가 등록된 상태(`.ds-pane`/`.consumer-pane` 존재)에서 Plan 모드에 진입하면, `plan_review_inject.sh`가 Bridge 인터럽트/복귀 규칙을 자동 주입합니다. 수동으로 Plan에 Bridge 항목을 넣을 필요가 없습니다.
 
@@ -1547,15 +1824,16 @@ Bridge가 등록된 상태(`.ds-pane`/`.consumer-pane` 존재)에서 Plan 모드
 - **인터럽트/복귀**: completion 알림 시 → `to` 필드 확인 → 안전한 지점에서 일시 중단 → 업데이트 적용 → consumed 마커 → 이전 작업 복귀
 - **검증/종료 조건**: typecheck/lint + CodeRabbit 루프(최대 3회) + auto-merge 조건
 
-상세 Phase 템플릿/다이어그램은 `src/claude-automation-guide.ko.details.md`로 분리했습니다.
+### "항상 돌아가는 2세션 + watcher 1개"
 
-## 상세 레퍼런스(분리)
+- Project A 세션과 Project B 세션을 tmux로 켜두고, watcher를 돌려 두면
+  - 요청/완료가 생기는 순간 자동으로 알림이 가서 "컨텍스트 스위칭 비용"이 크게 줄어듭니다.
 
-이 문서가 길어지는 것을 막기 위해, 아래 내용은 별도 파일로 분리했습니다.
+### 에이전트 팀 작업은 "규칙 주입 + 품질 게이트 + 로그"가 핵심
 
-- 상세 레퍼런스 파일: `src/claude-automation-guide.ko.details.md`
-  - Bridge 프로토콜(템플릿/시각화 포함)
-  - Watcher 구성/원리/트러블슈팅(pane 등록 포함)
-  - Hooks 이벤트 매핑/스크립트 상세/트러블슈팅
-  - Skills 목록/운영 팁
-  - CodeRabbit 자동 리뷰 시스템(이중 Hook 트리거 + 중복 방지 + Skill 4단계)
+- 서브에이전트가 늘어날수록 실수가 누적되기 쉽기 때문에
+  - 컨텍스트 주입(inject)
+  - 완료 검증(gate)
+  - 작업 지속성(idle check)
+  - 이벤트 관측(log)
+    네 가지가 워크플로 안정성을 좌우합니다.

@@ -25,7 +25,7 @@ git remote get-url company 2>/dev/null
 ```
 If missing, add it:
 ```bash
-source ~/.zshrc 2>/dev/null; git remote add company "https://${GITHUB_TOKEN}@github.com/mbisolution/blumnai-design-system.git"
+SHELL_RC="$HOME/.$(basename "$SHELL")rc"; [ -f "$SHELL_RC" ] && source "$SHELL_RC" 2>/dev/null; git remote add company "https://${GITHUB_TOKEN}@github.com/mbisolution/blumnai-design-system.git"
 ```
 
 ### 1.3 Branch check
@@ -215,8 +215,9 @@ git fetch company main
 git checkout main
 git merge company/main --ff-only
 ```
-If `--ff-only` fails (local main has diverged), reset to company/main:
+If `--ff-only` fails (local main has diverged):
 ```bash
+git branch backup-main-$(date +%s) main 2>/dev/null || true
 git reset --hard company/main
 ```
 
