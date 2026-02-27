@@ -215,7 +215,7 @@ The following icon components are **not** part of the `Icon` tuple system above.
 
 | Component | Import | Description |
 |-----------|--------|-------------|
-| `BrandIcon` | `@mlbghoon/blumnai-design-system/icons/brand` | Brand/company logos (126+ brands). Uses `brandType` prop. |
+| `BrandIcon` | `@mlbghoon/blumnai-design-system/icons/brand` | Brand/company logos (120 brands). Uses `brandType` prop. |
 | `FlagIcon` | `@mlbghoon/blumnai-design-system/icons/flag` | Country flags (250+ countries). Uses `country` prop. |
 | `FileIcon` | `@mlbghoon/blumnai-design-system/icons/file` | File type icons (archive, code, pdf, etc.). Uses `fileType` prop. |
 | `IsometricIcon` | `@mlbghoon/blumnai-design-system` | Isometric-style icons. Uses `iconType`, `view` (`'top'` / `'left'`), `fillColor`, `strokeColor` props. **Not** part of the tuple system. |

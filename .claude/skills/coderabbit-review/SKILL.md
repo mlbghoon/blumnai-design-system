@@ -69,7 +69,8 @@ gh pr list --repo mbisolution/blumnai-design-system --head "$BRANCH" --json numb
 If no existing PR:
 ```bash
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-gh pr create --repo mbisolution/blumnai-design-system --base main --head "$BRANCH" --title "PR_TITLE" --body "$(cat <<'EOF'
+PR_TITLE=$(git log -1 --pretty=%s 2>/dev/null || echo "feat: ${BRANCH}")
+gh pr create --repo mbisolution/blumnai-design-system --base main --head "$BRANCH" --title "$PR_TITLE" --body "$(cat <<'EOF'
 ## Summary
 - Brief description of changes
 
@@ -206,7 +207,9 @@ gh pr merge PR_NUMBER --repo mbisolution/blumnai-design-system --squash --delete
 The `--delete-branch` only removes the branch on `company`. Delete it on `origin` too:
 ```bash
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
-git push origin --delete "$BRANCH" 2>/dev/null || true
+if [ -n "$BRANCH" ] && [ "$BRANCH" != "main" ]; then
+  git push origin --delete "$BRANCH" 2>/dev/null || true
+fi
 ```
 
 ### 4.3 Sync main locally

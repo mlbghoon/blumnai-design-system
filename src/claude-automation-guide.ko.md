@@ -1436,7 +1436,7 @@ exit 0
 **공통 조건** (두 훅 모두):
 1. **프로젝트 확인**: `cwd`가 대상 프로젝트 내부인지
 2. **공유 마커 미존재**: 같은 세션에서 이미 트리거되지 않았는지
-3. **미리뷰 코드 변경 존재**: `company/main` 대비 ahead 커밋이 1개 이상이고, 변경 파일 중 코드 파일(`.md`/`.txt`/`.mdx` 제외)이 1개 이상 — 문서만 변경된 경우 트리거하지 않음
+3. **미리뷰 커밋 존재**: base 브랜치 대비 ahead 커밋이 1개 이상
 
 **팀 모드 추가 조건** (`TaskCompleted`):
 4. **리더 전용**: `session_id`가 팀 config의 `members[0].agentId`와 일치
@@ -1451,11 +1451,11 @@ exit 0
 1. JSON 입력에서 `cwd`, `session_id`, `team_name` 파싱
 2. `cwd`가 대상 프로젝트 패턴(`*/<your-project-name>*`)과 일치하는지 확인
 3. `team_name`이 비어있으면 skip (솔로 모드 → `Stop` 훅이 처리)
-4. **공유 마커 확인** — 이미 트리거되었으면 skip
+4. **공유 마커 원자적 생성** — `noclobber`로 마커 파일 생성 시도, 실패하면(이미 존재) skip
 5. 팀 config의 `members[0].agentId`와 `session_id` 비교 → 리더가 아니면 skip
 6. `~/.claude/tasks/{team_name}/` 안에 `pending`/`in_progress` 태스크가 있으면 skip (개별 태스크 완료 시 트리거 안 됨)
-7. `company/main` 대비 미리뷰 커밋이 있고, 변경 파일 중 코드 파일(`.md`/`.txt`/`.mdx` 제외)이 1개 이상인지 확인 — 문서만 변경된 분석/리서치 팀은 트리거하지 않음
-8. 모든 조건 통과 → **마커 생성** → `[CODERABBIT REVIEW AUTO-TRIGGER]` 메시지 출력
+7. base 브랜치 대비 미리뷰 커밋이 1개 이상인지 확인
+8. 모든 조건 통과 → `[CODERABBIT REVIEW AUTO-TRIGGER]` 메시지 출력
 
 #### `~/.claude/hooks/team/coderabbit_review_trigger.sh`
 
@@ -1491,9 +1491,9 @@ if [ -z "$TEAM_NAME" ]; then
   exit 0
 fi
 
-# 3. Shared marker — skip if Stop hook already triggered this session
+# 3. Shared marker — atomic create to prevent race between hooks
 MARKER="/tmp/coderabbit-triggered-${SESSION_ID}"
-if [ -f "$MARKER" ]; then
+if ! ( set -o noclobber; : > "$MARKER" ) 2>/dev/null; then
   exit 0
 fi
 
@@ -1564,9 +1564,7 @@ if [ "$AHEAD" = "0" ]; then
   exit 0
 fi
 
-# All conditions met — write marker and inject trigger
-touch "$MARKER"
-
+# All conditions met — marker already created at step 3
 cat <<'TRIGGER'
 
 [CODERABBIT REVIEW AUTO-TRIGGER]
@@ -1585,10 +1583,10 @@ exit 0
 2. `stop_hook_active=true`이면 skip (무한루프 방지)
 3. `cwd`가 대상 프로젝트 패턴과 일치하는지 확인
 4. `team_name`이 있으면 skip (팀 모드 → `TaskCompleted` 훅이 처리)
-5. **공유 마커 확인** — 이미 트리거되었으면 skip
-6. `company/main` 대비 미리뷰 커밋이 있고, 변경 파일 중 코드 파일(`.md`/`.txt`/`.mdx` 제외)이 1개 이상인지 확인 — 문서만 변경된 경우 트리거하지 않음
+5. **공유 마커 원자적 생성** — `noclobber`로 마커 파일 생성 시도, 실패하면(이미 존재) skip
+6. base 브랜치 대비 미리뷰 커밋이 1개 이상인지 확인
 7. `last_assistant_message`에서 완료 키워드(done, published, pushed 등) 감지 + 질문으로 끝나지 않는지 확인
-8. 모든 조건 통과 → **마커 생성** → `{"decision": "block", "reason": "[CODERABBIT REVIEW AUTO-TRIGGER]..."}` 출력
+8. 모든 조건 통과 → `{"decision": "block", "reason": "[CODERABBIT REVIEW AUTO-TRIGGER]..."}` 출력
 
 #### `~/.claude/hooks/coderabbit_stop_trigger.sh`
 
@@ -1603,7 +1601,7 @@ exit 0
 #   2. Target project
 #   3. Solo mode (no team — team mode uses TaskCompleted)
 #   4. Shared marker not yet created
-#   5. Has unreviewed commits (ahead of company/main or last tag)
+#   5. Has unreviewed commits (ahead of base branch or last tag)
 #   6. last_assistant_message signals real completion (not mid-conversation)
 
 set -uo pipefail
@@ -1646,9 +1644,9 @@ if [ -n "$TEAM_NAME" ]; then
   exit 0
 fi
 
-# 4. Shared marker — skip if TaskCompleted hook already triggered
+# 4. Shared marker — atomic create to prevent race between hooks
 MARKER="/tmp/coderabbit-triggered-${SESSION_ID}"
-if [ -f "$MARKER" ]; then
+if ! ( set -o noclobber; : > "$MARKER" ) 2>/dev/null; then
   exit 0
 fi
 
@@ -1677,9 +1675,7 @@ if [ "$IS_COMPLETION" != "True" ] && [ "$IS_COMPLETION" != "true" ]; then
   exit 0
 fi
 
-# All conditions met — write marker, block stop with trigger reason
-touch "$MARKER"
-
+# All conditions met — marker already created at step 4
 cat <<'EOF'
 {
   "decision": "block",
