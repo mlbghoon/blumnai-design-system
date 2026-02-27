@@ -1448,10 +1448,10 @@ exit 0
 1. JSON 입력에서 `cwd`, `session_id`, `team_name` 파싱
 2. `cwd`가 대상 프로젝트 패턴(`*/<your-project-name>*`)과 일치하는지 확인
 3. `team_name`이 비어있으면 skip (솔로 모드 → `Stop` 훅이 처리)
-4. **공유 마커 원자적 생성** — `noclobber`로 마커 파일 생성 시도, 실패하면(이미 존재) skip
-5. 팀 config의 `members[0].agentId`와 `session_id` 비교 → 리더가 아니면 skip
-6. `~/.claude/tasks/{team_name}/` 안에 `pending`/`in_progress` 태스크가 있으면 skip (개별 태스크 완료 시 트리거 안 됨)
-7. base 브랜치 대비 미리뷰 커밋이 1개 이상인지 확인
+4. 팀 config의 `members[0].agentId`와 `session_id` 비교 → 리더가 아니면 skip
+5. `~/.claude/tasks/{team_name}/` 안에 `pending`/`in_progress` 태스크가 있으면 skip (개별 태스크 완료 시 트리거 안 됨)
+6. base 브랜치 대비 미리뷰 커밋이 1개 이상인지 확인
+7. **공유 마커 원자적 생성** — `noclobber`로 마커 파일 생성 시도, 실패하면(이미 존재) skip
 8. 모든 조건 통과 → `[CODERABBIT REVIEW AUTO-TRIGGER]` 메시지 출력
 
 #### `~/.claude/hooks/team/coderabbit_review_trigger.sh`
@@ -1459,7 +1459,7 @@ exit 0
 ```bash
 #!/usr/bin/env bash
 # CodeRabbit review auto-trigger for TaskCompleted events (TEAM mode)
-# Fires ONLY when: leader agent + all tasks done + target project + has unreviewed commits
+# Fires ONLY when: leader agent + all tasks done + target project + ahead of origin/main
 # Dedup: shares marker with Stop hook — only one fires per session
 # Runs AFTER quality_gate.sh in the TaskCompleted hook chain
 
@@ -1488,13 +1488,7 @@ if [ -z "$TEAM_NAME" ]; then
   exit 0
 fi
 
-# 3. Shared marker — atomic create to prevent race between hooks
-MARKER="/tmp/coderabbit-triggered-${SESSION_ID}"
-if ! ( set -o noclobber; : > "$MARKER" ) 2>/dev/null; then
-  exit 0
-fi
-
-# 4. Leader-only check
+# 3. Leader-only check
 TEAM_CONFIG="$HOME/.claude/teams/$TEAM_NAME/config.json"
 if [ ! -f "$TEAM_CONFIG" ]; then
   exit 0
@@ -1515,7 +1509,7 @@ if [ -z "$LEADER_ID" ] || [ "$SESSION_ID" != "$LEADER_ID" ]; then
   exit 0
 fi
 
-# 5. ALL tasks done — don't trigger on individual task completions
+# 4. ALL tasks done — don't trigger on individual task completions
 TASKS_DIR="$HOME/.claude/tasks/$TEAM_NAME"
 if [ ! -d "$TASKS_DIR" ]; then
   exit 0
@@ -1541,27 +1535,22 @@ if [ "$INCOMPLETE" != "0" ]; then
   exit 0
 fi
 
-# 6. Has unreviewed commits (company remote behind or missing)
+# 5. Has unreviewed commits (origin remote ahead check)
 PROJECT_ROOT=$(echo "$CWD" | sed 's|\(.*<your-project-name>\).*|\1|')
-HAS_COMPANY=$(cd "$PROJECT_ROOT" && git remote get-url company 2>/dev/null || echo "")
-
-if [ -n "$HAS_COMPANY" ]; then
-  cd "$PROJECT_ROOT" && git fetch company main --quiet 2>/dev/null
-  AHEAD=$(cd "$PROJECT_ROOT" && git rev-list --count company/main..HEAD 2>/dev/null || echo "0")
-else
-  LAST_TAG=$(cd "$PROJECT_ROOT" && git describe --tags --abbrev=0 2>/dev/null || echo "")
-  if [ -n "$LAST_TAG" ]; then
-    AHEAD=$(cd "$PROJECT_ROOT" && git rev-list --count "${LAST_TAG}..HEAD" 2>/dev/null || echo "0")
-  else
-    AHEAD="0"
-  fi
-fi
+cd "$PROJECT_ROOT" && git fetch origin main --quiet 2>/dev/null
+AHEAD=$(cd "$PROJECT_ROOT" && git rev-list --count origin/main..HEAD 2>/dev/null || echo "0")
 
 if [ "$AHEAD" = "0" ]; then
   exit 0
 fi
 
-# All conditions met — marker already created at step 3
+# 6. Shared marker — atomic create to prevent race between hooks
+MARKER="/tmp/coderabbit-triggered-${SESSION_ID}"
+if ! ( set -o noclobber; : > "$MARKER" ) 2>/dev/null; then
+  exit 0
+fi
+
+# All conditions met
 cat <<'TRIGGER'
 
 [CODERABBIT REVIEW AUTO-TRIGGER]
@@ -1580,9 +1569,9 @@ exit 0
 2. `stop_hook_active=true`이면 skip (무한루프 방지)
 3. `cwd`가 대상 프로젝트 패턴과 일치하는지 확인
 4. `team_name`이 있으면 skip (팀 모드 → `TaskCompleted` 훅이 처리)
-5. **공유 마커 원자적 생성** — `noclobber`로 마커 파일 생성 시도, 실패하면(이미 존재) skip
-6. base 브랜치 대비 미리뷰 커밋이 1개 이상인지 확인
-7. `last_assistant_message`에서 완료 키워드(done, published, pushed 등) 감지 + 질문으로 끝나지 않는지 확인
+5. base 브랜치 대비 미리뷰 커밋이 1개 이상인지 확인
+6. `last_assistant_message`에서 완료 키워드(done, published, pushed 등) 감지 + 질문으로 끝나지 않는지 확인
+7. **공유 마커 원자적 생성** — `noclobber`로 마커 파일 생성 시도, 실패하면(이미 존재) skip
 8. 모든 조건 통과 → `{"decision": "block", "reason": "[CODERABBIT REVIEW AUTO-TRIGGER]..."}` 출력
 
 #### `~/.claude/hooks/coderabbit_stop_trigger.sh`
@@ -1597,9 +1586,9 @@ exit 0
 #   1. stop_hook_active=false (prevent infinite loop)
 #   2. Target project
 #   3. Solo mode (no team — team mode uses TaskCompleted)
-#   4. Shared marker not yet created
-#   5. Has unreviewed commits (ahead of base branch or last tag)
-#   6. last_assistant_message signals real completion (not mid-conversation)
+#   4. Has unreviewed commits (ahead of origin/main)
+#   5. last_assistant_message signals real completion (not mid-conversation)
+#   6. Shared marker not yet created
 
 set -uo pipefail
 
@@ -1641,38 +1630,27 @@ if [ -n "$TEAM_NAME" ]; then
   exit 0
 fi
 
-# 4. Shared marker — atomic create to prevent race between hooks
-MARKER="/tmp/coderabbit-triggered-${SESSION_ID}"
-if ! ( set -o noclobber; : > "$MARKER" ) 2>/dev/null; then
-  exit 0
-fi
-
-# 5. Has unreviewed commits
+# 4. Has unreviewed commits
 PROJECT_ROOT=$(echo "$CWD" | sed 's|\(.*<your-project-name>\).*|\1|')
-HAS_COMPANY=$(cd "$PROJECT_ROOT" && git remote get-url company 2>/dev/null || echo "")
-
-if [ -n "$HAS_COMPANY" ]; then
-  cd "$PROJECT_ROOT" && git fetch company main --quiet 2>/dev/null
-  AHEAD=$(cd "$PROJECT_ROOT" && git rev-list --count company/main..HEAD 2>/dev/null || echo "0")
-else
-  LAST_TAG=$(cd "$PROJECT_ROOT" && git describe --tags --abbrev=0 2>/dev/null || echo "")
-  if [ -n "$LAST_TAG" ]; then
-    AHEAD=$(cd "$PROJECT_ROOT" && git rev-list --count "${LAST_TAG}..HEAD" 2>/dev/null || echo "0")
-  else
-    AHEAD="0"
-  fi
-fi
+cd "$PROJECT_ROOT" && git fetch origin main --quiet 2>/dev/null
+AHEAD=$(cd "$PROJECT_ROOT" && git rev-list --count origin/main..HEAD 2>/dev/null || echo "0")
 
 if [ "$AHEAD" = "0" ]; then
   exit 0
 fi
 
-# 6. Last message must signal real completion
+# 5. Last message must signal real completion
 if [ "$IS_COMPLETION" != "True" ] && [ "$IS_COMPLETION" != "true" ]; then
   exit 0
 fi
 
-# All conditions met — marker already created at step 4
+# 6. Shared marker — atomic create to prevent race between hooks
+MARKER="/tmp/coderabbit-triggered-${SESSION_ID}"
+if ! ( set -o noclobber; : > "$MARKER" ) 2>/dev/null; then
+  exit 0
+fi
+
+# All conditions met
 cat <<'EOF'
 {
   "decision": "block",
