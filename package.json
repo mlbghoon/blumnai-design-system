@@ -1,6 +1,6 @@
 {
   "name": "@mlbghoon/blumnai-design-system",
-  "version": "0.2.40",
+  "version": "0.2.41",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
