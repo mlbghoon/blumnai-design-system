@@ -133,6 +133,16 @@ const meta: Meta<typeof BarChart> = {
         type: { summary: 'boolean' },
       },
     },
+    layout: {
+      control: 'select',
+      options: ['vertical', 'horizontal'],
+      description: '차트 방향',
+      table: {
+        type: {
+          summary: `'vertical' | 'horizontal'`,
+        },
+      },
+    },
     stackedKeys: {
       control: 'object',
       description: '누적 막대용 데이터 키 배열',
@@ -594,4 +604,28 @@ export const CustomTooltip: Story = {
       );
     },
   },
+};
+
+/**
+ * 가로 막대 차트
+ */
+export const Horizontal: Story = {
+  render: () => (
+    <BarChart
+      data={[
+        { category: 'A', value: 120 },
+        { category: 'B', value: 85 },
+        { category: 'C', value: 200 },
+        { category: 'D', value: 150 },
+        { category: 'E', value: 95 },
+      ]}
+      xAxis={{ dataKey: 'category' }}
+      yAxis={{ dataKey: 'value', domain: 'auto' }}
+      dataKey="value"
+      layout="horizontal"
+      barRadius={4}
+      height={300}
+      width={500}
+    />
+  ),
 };

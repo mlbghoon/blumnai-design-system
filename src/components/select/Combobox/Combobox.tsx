@@ -22,6 +22,25 @@ import type {
 } from './Combobox.types';
 
 // ============================================================================
+// highlightText helper
+// ============================================================================
+
+const highlightText = (text: string, searchTerm: string): React.ReactNode => {
+  if (!searchTerm.trim()) return text;
+
+  const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const parts = text.split(regex);
+
+  if (parts.length === 1) return text;
+
+  return parts.map((part, i) =>
+    regex.test(part)
+      ? <mark key={i} className="bg-transparent font-bold text-default">{part}</mark>
+      : part
+  );
+};
+
+// ============================================================================
 // ComboboxItem (internal)
 // ============================================================================
 
@@ -30,10 +49,12 @@ interface ComboboxItemProps {
   selected: boolean;
   variant: 'default' | 'avatar' | 'tags';
   onSelect: () => void;
+  searchTerm?: string;
+  highlightSearch?: boolean;
 }
 
 const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
-  ({ option, selected, variant, onSelect }, ref) => {
+  ({ option, selected, variant, onSelect, searchTerm, highlightSearch = true }, ref) => {
     const sizeConfig = option.description
       ? MENU_ITEM_SIZE_CONFIG.large
       : MENU_ITEM_SIZE_CONFIG.default;
@@ -170,7 +191,7 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
                   'flex-1 truncate'
                 )}
               >
-                {option.label}
+                {highlightSearch && searchTerm ? highlightText(option.label, searchTerm) : option.label}
               </span>
               <span
                 className={cn(
@@ -178,7 +199,9 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
                   option.disabled ? 'text-hint' : 'text-muted'
                 )}
               >
-                {option.description}
+                {highlightSearch && searchTerm && option.description
+                  ? highlightText(option.description, searchTerm)
+                  : option.description}
               </span>
             </div>
           ) : (
@@ -191,7 +214,7 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
                   'truncate'
                 )}
               >
-                {option.label}
+                {highlightSearch && searchTerm ? highlightText(option.label, searchTerm) : option.label}
               </span>
             </div>
           )}
@@ -235,6 +258,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       maxHeight = 300,
       width,
       className,
+      highlightSearch = true,
     } = props;
 
     const comboboxId = React.useId();
@@ -694,6 +718,8 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                               selected={selectedValues.includes(option.id)}
                               variant={variant}
                               onSelect={() => handleSelect(option.id)}
+                              searchTerm={inputValue}
+                              highlightSearch={highlightSearch}
                             />
                           ))}
                         </CommandPrimitive.List>

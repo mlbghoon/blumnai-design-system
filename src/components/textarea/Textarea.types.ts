@@ -141,4 +141,9 @@ export interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaE
    * @default 'fixed'
    */
   fieldSizing?: 'content' | 'fixed';
+  /**
+   * 입력 내용에 따라 높이가 자동 조절되는 여부. maxRows 설정 없이 제한 없이 늘어납니다.
+   * @default false
+   */
+  autoResize?: boolean;
 }

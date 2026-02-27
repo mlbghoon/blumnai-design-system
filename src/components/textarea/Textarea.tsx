@@ -58,6 +58,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   onKeyDown,
   readOnly,
   fieldSizing = 'fixed',
+  autoResize = false,
   ...props
 }, ref) => {
   const textareaId = useId();
@@ -96,6 +97,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
 
   const hasToolbarContent = showToolbar || onAttach || onSubmit || onVoiceInput || toolbarActions?.length || toolbarTrailing;
   const useCustomScrollbar = !!maxRows && !hasToolbarContent;
+  const useAutoResize = autoResize && !hasToolbarContent;
 
   const adjustHeight = useCallback(() => {
     const textarea = internalRef.current;
@@ -158,9 +160,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     if (useCustomScrollbar) {
       adjustHeight();
       scrollToCursor();
+    } else if (useAutoResize) {
+      adjustHeight();
     }
     onInput?.(e);
-  }, [useCustomScrollbar, adjustHeight, scrollToCursor, onInput]);
+  }, [useCustomScrollbar, useAutoResize, adjustHeight, scrollToCursor, onInput]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     onKeyDown?.(e);
@@ -182,13 +186,13 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   }, [useCustomScrollbar, scrollToCursor, onKeyUp]);
 
   useEffect(() => {
-    if (useCustomScrollbar) {
+    if (useCustomScrollbar || useAutoResize) {
       adjustHeight();
     }
-  }, [useCustomScrollbar, value, adjustHeight]);
+  }, [useCustomScrollbar, useAutoResize, value, adjustHeight]);
 
   useEffect(() => {
-    if (!useCustomScrollbar) return;
+    if (!useCustomScrollbar && !useAutoResize) return;
     const textarea = internalRef.current;
     if (!textarea) return;
 
@@ -197,7 +201,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     });
     observer.observe(textarea);
     return () => observer.disconnect();
-  }, [useCustomScrollbar, adjustHeight]);
+  }, [useCustomScrollbar, useAutoResize, adjustHeight]);
 
   const wrapperClassName = cn(
     'flex flex-col w-full transition-colors duration-150',
@@ -211,7 +215,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     readOnly && 'bg-muted cursor-default'
   );
 
-  const showResizeHandle = !hasToolbarContent && !useCustomScrollbar && resize !== 'none' && !disabled && !readOnly;
+  const showResizeHandle = !hasToolbarContent && !useCustomScrollbar && !useAutoResize && resize !== 'none' && !disabled && !readOnly;
 
   const textareaClassName = cn(
     TEXTAREA_BASE,
@@ -222,7 +226,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     stateConfig.placeholder,
     'placeholder:transition-opacity placeholder:duration-150',
     'focus:placeholder:opacity-50',
-    (hasToolbarContent || useCustomScrollbar) ? 'resize-none' : RESIZE_CONFIG[resize],
+    (hasToolbarContent || useCustomScrollbar || useAutoResize) ? 'resize-none' : RESIZE_CONFIG[resize],
     disabled && 'cursor-not-allowed',
     readOnly && 'cursor-default'
   );
@@ -319,7 +323,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
 
   const textareaElement = (
     <textarea
-      ref={useCustomScrollbar ? mergedRef : ref}
+      ref={(useCustomScrollbar || useAutoResize) ? mergedRef : ref}
       id={textareaId}
       disabled={disabled}
       readOnly={readOnly}
@@ -327,8 +331,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       className={textareaClassName}
       style={{
         minHeight: hasToolbarContent ? undefined : `${minHeight}px`,
-        maxHeight: useCustomScrollbar ? undefined : (maxHeight && !hasToolbarContent ? `${maxHeight}px` : undefined),
-        overflow: useCustomScrollbar ? 'hidden' : undefined,
+        maxHeight: useCustomScrollbar ? undefined : (useAutoResize ? undefined : (maxHeight && !hasToolbarContent ? `${maxHeight}px` : undefined)),
+        overflow: (useCustomScrollbar || useAutoResize) ? 'hidden' : undefined,
         ...(fieldSizing === 'content' ? { fieldSizing: 'content' } : {}),
       } as React.CSSProperties}
       rows={minRows}

@@ -344,6 +344,9 @@ export type { ToastContentProps, ToastOptions, ToastVariant, BlumnaiToasterProps
 export { InfoBox } from './components/info-box';
 export type { InfoBoxProps, InfoBoxVariant } from './components/info-box';
 
+export { EmptyState } from './components/empty-state';
+export type { EmptyStateProps, EmptyStateSize } from './components/empty-state';
+
 export {
   Tooltip,
   TooltipTrigger,
@@ -644,6 +647,9 @@ export type {
 export { Skeleton } from './components/skeleton';
 export type { SkeletonProps, SkeletonAnimation } from './components/skeleton';
 
+export { StatusDot } from './components/status-dot';
+export type { StatusDotProps, StatusDotColor, StatusDotSize } from './components/status-dot';
+
 // =============================================================================
 // LAYOUT
 // =============================================================================
@@ -733,7 +739,7 @@ export type {
 // =============================================================================
 // DATE & TIME
 // =============================================================================
-export { Calendar, DatePicker, DateRangePicker } from './components/calendar';
+export { Calendar, DatePicker, DateRangePicker, MonthRangePicker } from './components/calendar';
 export type {
   CalendarProps,
   CalendarStyle,
@@ -752,6 +758,8 @@ export type {
   DateSegment,
   DateSegmentOrder,
   DateSegmentPlaceholder,
+  MonthRangePickerProps,
+  MonthRange,
 } from './components/calendar';
 
 export {

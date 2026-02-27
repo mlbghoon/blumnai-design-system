@@ -19,3 +19,6 @@ export type {
   DateSegmentOrder,
   DateSegmentPlaceholder,
 } from './DatePicker.types';
+
+export { MonthRangePicker } from './MonthRangePicker';
+export type { MonthRangePickerProps, MonthRange } from './MonthRangePicker';

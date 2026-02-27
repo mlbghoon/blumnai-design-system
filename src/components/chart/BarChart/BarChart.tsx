@@ -43,6 +43,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       stackedKeys,
       stackedColors,
       barRadius,
+      layout = 'vertical',
       showXGrid = true,
       showYGrid = false,
       showLegend = false,
@@ -56,6 +57,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     },
     ref
   ) => {
+  const isHorizontal = layout === 'horizontal';
   const safeData = useMemo(() => data ?? [], [data]);
   const { getLabel, getColor } = useChartConfig(config, stackedColors);
 
@@ -116,7 +118,11 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         name={getLabel(stackKey)}
         barSize={barSize}
         shape={(shapeProps: RectangleProps) => {
-          const r = isTop ? [barRadius, barRadius, 0, 0] as [number, number, number, number] : [0, 0, 0, 0] as [number, number, number, number];
+          const r = isTop
+            ? (isHorizontal
+              ? [0, barRadius, barRadius, 0] as [number, number, number, number]
+              : [barRadius, barRadius, 0, 0] as [number, number, number, number])
+            : [0, 0, 0, 0] as [number, number, number, number];
           return <Rectangle {...shapeProps} radius={r} />;
         }}
       />
@@ -127,33 +133,62 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     <RBarChart
       data={safeData}
       barCategoryGap={gap ?? 8}
-      margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+      margin={{ top: 20, right: 20, bottom: 20, left: isHorizontal ? 60 : 20 }}
       onClick={onDataPointClick ? handleChartClick : undefined}
+      {...(isHorizontal ? { layout: 'vertical' as const } : {})}
     >
       <CartesianGrid
-        horizontal={showXGrid}
-        vertical={showYGrid}
+        horizontal={isHorizontal ? showYGrid : showXGrid}
+        vertical={isHorizontal ? showXGrid : showYGrid}
         stroke="var(--chart-grid-line)"
         strokeDasharray=""
       />
-      <XAxis
-        dataKey={xAxis.dataKey}
-        tickFormatter={xAxis.tickFormatter}
-        tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
-        axisLine={{ stroke: 'var(--chart-axis)' }}
-        tickLine={false}
-        hide={xAxis.show === false}
-      />
-      <YAxis
-        domain={yDomain}
-        tickCount={tickCount}
-        interval={yAxis.interval}
-        tickFormatter={yAxis.tickFormatter}
-        tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
-        axisLine={{ stroke: 'var(--chart-axis)' }}
-        tickLine={false}
-        hide={yAxis.show === false}
-      />
+      {isHorizontal ? (
+        <>
+          <XAxis
+            type="number"
+            domain={yDomain}
+            tickCount={tickCount}
+            interval={yAxis.interval}
+            tickFormatter={yAxis.tickFormatter}
+            tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
+            axisLine={{ stroke: 'var(--chart-axis)' }}
+            tickLine={false}
+            hide={yAxis.show === false}
+          />
+          <YAxis
+            type="category"
+            dataKey={xAxis.dataKey}
+            tickFormatter={xAxis.tickFormatter}
+            tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
+            axisLine={{ stroke: 'var(--chart-axis)' }}
+            tickLine={false}
+            hide={xAxis.show === false}
+            width={55}
+          />
+        </>
+      ) : (
+        <>
+          <XAxis
+            dataKey={xAxis.dataKey}
+            tickFormatter={xAxis.tickFormatter}
+            tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
+            axisLine={{ stroke: 'var(--chart-axis)' }}
+            tickLine={false}
+            hide={xAxis.show === false}
+          />
+          <YAxis
+            domain={yDomain}
+            tickCount={tickCount}
+            interval={yAxis.interval}
+            tickFormatter={yAxis.tickFormatter}
+            tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
+            axisLine={{ stroke: 'var(--chart-axis)' }}
+            tickLine={false}
+            hide={yAxis.show === false}
+          />
+        </>
+      )}
       <Tooltip
         content={
           <ChartTooltipAdapter
@@ -175,7 +210,11 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
               fill={getBarColor(dataKey, 0)}
               name={getLabel(dataKey)}
               barSize={barSize}
-              radius={barRadius ? [barRadius, barRadius, barRadius, barRadius] : undefined}
+              radius={barRadius
+                ? (isHorizontal
+                  ? [0, barRadius, barRadius, 0] as [number, number, number, number]
+                  : [barRadius, barRadius, 0, 0] as [number, number, number, number])
+                : undefined}
             />
           )}
     </RBarChart>
