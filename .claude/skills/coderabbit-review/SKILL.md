@@ -90,10 +90,25 @@ Report the PR URL to the user.
 
 ## Phase 3 — CodeRabbit Review Loop (max 3 rounds)
 
-### 3.1 Initial wait
-Poll every 60 seconds for up to 5 minutes for CodeRabbit's initial review (exit early once review appears):
+**IMPORTANT**: Do NOT block the main agent with sleep loops. Use a **background agent** to poll for the review, so the main agent can continue working or respond to the user.
+
+### 3.0 Spawn background review watcher
+Use the `Task` tool with `run_in_background: true` to spawn a background agent that handles polling. The background agent should:
+1. Poll for the CodeRabbit review (steps 3.1–3.2 below)
+2. Once found, parse actionable comments (step 3.3)
+3. Collect inline comments if any (step 3.4)
+4. Report back with all findings
+
+While the background agent polls, **tell the user the PR URL and that you're waiting for the review**. You can continue responding to user messages or work on other tasks.
+
+When the background agent reports back:
+- If 0 actionable comments → proceed to Phase 4
+- If actionable comments found → apply fixes (steps 3.5–3.8), then spawn another background agent for re-review
+
+### 3.1 Initial wait (run in background agent)
+Poll every 60 seconds for up to 10 minutes for CodeRabbit's initial review (exit early once review appears):
 ```bash
-for i in $(seq 1 5); do
+for i in $(seq 1 10); do
   REVIEW=$(gh api repos/mbisolution/blumnai-design-system/pulls/PR_NUMBER/reviews \
     --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last' 2>/dev/null)
   [ -n "$REVIEW" ] && [ "$REVIEW" != "null" ] && break
@@ -101,8 +116,14 @@ for i in $(seq 1 5); do
 done
 ```
 
-### 3.2 Poll for review
-If not found in 3.1, continue polling every 60 seconds (max 5 more polls):
+Also check issue comments (CodeRabbit sometimes posts the full review as a comment):
+```bash
+gh api repos/mbisolution/blumnai-design-system/issues/PR_NUMBER/comments \
+  --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last | .body' 2>/dev/null
+```
+
+### 3.2 Extended poll (if not found in 3.1)
+Continue polling every 60 seconds (max 5 more polls):
 ```bash
 gh api repos/mbisolution/blumnai-design-system/pulls/PR_NUMBER/reviews \
   --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last'
@@ -111,8 +132,8 @@ gh api repos/mbisolution/blumnai-design-system/pulls/PR_NUMBER/reviews \
 ### 3.3 Parse actionable comments
 From the review body, look for the pattern: `Actionable comments posted: N`
 
-- If `N = 0` → PASS. Skip to Phase 4.
-- If `N > 0` → collect comments and fix them.
+- If `N = 0` → PASS. Report to main agent, skip to Phase 4.
+- If `N > 0` → collect comments and report to main agent.
 
 ### 3.4 Collect review comments
 Get inline comments:
@@ -126,8 +147,8 @@ Also parse the review body for:
 - `Prompt for AI Agents` blocks (these are HIGH PRIORITY — follow them exactly)
 - `제안 수정` (suggested fixes) diffs
 
-### 3.5 Apply fixes
-For each actionable comment:
+### 3.5 Apply fixes (main agent)
+When the background agent reports actionable comments, the main agent applies fixes:
 1. Read the `Prompt for AI Agents` block if present — follow it as the primary instruction
 2. Otherwise, apply the `제안 수정` diff if provided
 3. Otherwise, implement the fix based on the comment description
@@ -156,9 +177,10 @@ git push origin HEAD
 gh api repos/mbisolution/blumnai-design-system/issues/PR_NUMBER/comments \
   -f body="@coderabbitai review"
 ```
+Then spawn another background agent to poll for the re-review (same pattern as 3.0–3.2).
 
 ### 3.9 Wait for re-review
-Poll every 60 seconds for up to 5 minutes (same early-exit pattern as 3.1), then poll as in 3.2 if needed.
+Background agent polls every 60 seconds for up to 10 minutes (same pattern as 3.1).
 
 ### 3.10 Stop conditions
 Stop the review loop if ANY of these occur:
