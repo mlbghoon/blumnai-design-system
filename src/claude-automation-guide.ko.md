@@ -1,10 +1,6 @@
 ## Claude 개발 자동화 구현 가이드 (Hooks · Bridge Watcher · Skills · CodeRabbit)
 
-**서로 다른 2개 프로젝트를 나란히 개발**할 때, Claude Code를 **개발 워크플로 자동화 체계**로 쓰기 위해 구성한 자동화(훅/워처/스킬)의 **구현 가이드**입니다.
-
-라이브러리↔앱, 백엔드↔프론트엔드, 마이크로서비스 간 등 — **협업이 필요한 두 프로젝트**라면 어디든 적용할 수 있습니다.
-
-요약/배경/효과는 `src/claude-automation-summary.ko.md`를 참고합니다.
+배경/효과는 `src/claude-automation-summary.ko.md` 참고.
 
 ---
 
@@ -48,91 +44,20 @@ mkdir -p ~/.claude/ds-bridge/{requests,completed,consumed}
 - `~/.claude/ds-bridge/completed/`: 양방향 완료 통지 (요청을 처리한 쪽이 작성)
 - `~/.claude/ds-bridge/consumed/`: 요청자가 적용 완료를 표시하는 마커
 
-### 2-3) 파일명 규칙(매우 중요)
+### 2-3) 동작 방식
 
-- 완료 파일(`completed/*.md`)의 파일명은 **요청 파일(`requests/*.md`)과 반드시 동일**해야 합니다.
-- 그래야 "소비됨(consumed) 마커"를 기준으로 세 파일을 한 번에 정리(cleanup)할 수 있습니다.
+파일 기반 프로토콜: 같은 파일명이 `requests/ → completed/ → consumed/`로 흐르면서 요청/완료/적용 상태가 자동 매칭됩니다. `cleanup-bridge.sh`가 `consumed/` 마커를 기준으로 세 파일을 한 번에 정리합니다.
 
-### 2-4) Bridge 워크플로우(파일 기반)
+Claude가 Bridge를 자동으로 사용하는 구조:
+- `inject_context.sh`(4절)가 서브에이전트 시작 시 Bridge 경로/규칙/템플릿을 자동 주입
+- `check-requests.sh` / `check-completions.sh`가 양쪽 프로젝트에서 주기적 체크
+- watcher가 양쪽 세션을 poke
 
-이 워크플로우는 **현재 Claude(세션)끼리 "서로 대화/호출"을 깔끔하게 연결하는 표준 방식이 없기 때문에**, `requests/`, `completed/`, `consumed/` 같은 파일을 매개로 하는 **파일 기반 프로토콜**로 설계했습니다.
-핵심은 **"같은 파일명"을 `requests/ → completed/ → consumed/`로 흐르게** 만들어, 두 프로젝트가 독립적으로 움직이면서도 "요청/완료/적용 상태"를 자동으로 매칭할 수 있게 하는 것입니다.
+요청/완료 파일은 마크다운이며 핵심 필드:
+- **요청 파일** (`requests/*.md`): `to`, `from`, `priority`, `type`(feature/bugfix/enhancement/question), 변경 내용
+- **완료 파일** (`completed/*.md`): 버전, 변경 내역, 마이그레이션 절차, breaking changes
 
-#### Claude가 Bridge를 스스로 사용하려면
-
-Watcher는 "이미 생성된 파일"을 감지해 세션을 깨우는 역할만 합니다. Claude가 스스로 `requests/`에 요청 파일을 만들려면 프로토콜/트리거 조건/실행 수단을 알아야 했고, 이를 아래 구성으로 해결했습니다:
-
-- **프로토콜** → `inject_context.sh`(4절)가 서브에이전트 시작 시 Bridge 경로/규칙을 자동 주입
-- **트리거 조건** → `check-requests.sh` / `check-completions.sh`가 양쪽 프로젝트에서 주기적 체크, watcher가 양쪽 세션 poke
-- **실행 수단** → 요청/완료 템플릿을 스킬 문서·온보딩에 포함
-- **양방향**: 어느 프로젝트든 `requests/`에 요청을 만들 수 있고, `type: question`으로 상대에게 질문할 수도 있습니다
-
-### 2-5) 요청(Request) 파일 템플릿
-
-어느 프로젝트든 `requests/`에 작성하는 변경 요청에 사용하는 템플릿입니다.
-
-```md
-# Change Request
-
-- **to**: target-project-name
-- **from**: sender-project-name
-- **priority**: high | medium | low
-- **type**: feature | bugfix | enhancement | question
-
-## What I Need
-
-- (원하는 변경을 2~5줄로 요약)
-
-## Context
-
-- 어떤 화면/컴포넌트에 변경이 필요한지
-- 기존 구현/기술적 제약(가능하면 코드 스니펫/파일명)
-
-## Current Workaround
-
-- 지금은 어떻게 임시로 해결 중인지(있다면)
-```
-
-작성 시 느낀 점:
-
-- "왜 필요한가"가 핵심이었습니다. 상대 프로젝트 변경이 필요한 이유가 명확할수록 구현 결정이 빨랐습니다.
-- 우선순위가 높은 요청에는 **blocked file**(전환/적용이 진행되지 않는 파일)을 명시했더니 효과가 컸습니다.
-- `type: question`은 요청이 불분명할 때 상대에게 질문하는 용도입니다. 이 경우 "completion"은 답변이 됩니다.
-
-### 2-6) 완료(Completion) 파일 템플릿
-
-요청을 처리한 쪽이 `completed/`에 작성하는 완료 통지입니다. 요청자가 바로 적용할 수 있도록 "마이그레이션 절차"를 포함시켰습니다.
-
-```md
-# Completed: {brief title}
-
-- **version**: 0.2.XX
-- **request**: {original request filename}
-
-## What Changed
-
-- (핵심 변경 2~5줄)
-
-## New/Changed Props
-
-| Prop | Component | Type | Default | Description |
-| ---- | --------- | ---- | ------- | ----------- |
-
-## Migration Steps
-
-1. npm install ...
-2. 코드 변경 예시(가능하면 짧게)
-
-## Breaking Changes
-
-- None (또는 상세)
-
-## Answer (type: question인 경우에만)
-
-- (질문에 대한 답변)
-```
-
-### 2-7) 흐름(시각화)
+### 2-6) 흐름
 
 ```mermaid
 flowchart LR
@@ -143,7 +68,7 @@ flowchart LR
   ConsumedFile --> Cleanup["cleanup (자동/수동)"] --> Done["정리 완료"]
 ```
 
-### 2-8) Bridge 스크립트
+### 2-7) Bridge 스크립트
 
 `~/.claude/ds-bridge/` 아래 스크립트들이 "2개 프로젝트 동시 운영"을 자동화합니다. (폴더 이름이 `ds-bridge`이지만 역할은 일반적인 Project A↔Project B 브리지입니다.)
 
@@ -796,22 +721,11 @@ done
 
 ## 4. Hooks 설치/활성화
 
-Bridge + watcher가 "요청/완료 알림(세션 깨우기)"를 담당한다면, Hooks는 Claude Code 내부 이벤트에서 아래를 자동화합니다.
-
-- plan 모드에서 계획 리뷰 템플릿 자동 주입
-- 에이전트 팀/서브에이전트 시작 시 규칙 자동 주입
-- 태스크 완료 시 typecheck/lint 자동 실행(실패하면 완료를 막음)
-- 태스크 전체 완료 시 CodeRabbit 리뷰 자동 트리거(팀 모드: `TaskCompleted`, 솔로 모드: `Stop`)
-- idle 직전 "할 일 남았는지" 자동 검사(작업이 끊기는 상황 감소)
-- 팀 이벤트를 JSONL로 자동 로깅(관측/디버깅)
-
-### 4-1) 설정(어디에 무엇을 두는가)
+### 4-1) 파일 위치
 
 - 전역 설정: `~/.claude/settings.json`
 - 전역 훅 스크립트: `~/.claude/hooks/`
 - (레포 측면) 추가 권한/옵션: `<repo>/.claude/settings.local.json`
-
-실제로 "자동으로 돌아가는지"는 `~/.claude/settings.json`의 `hooks` 연결 여부로 결정됩니다.
 
 ### 4-2) 훅 스크립트 실행 권한
 
@@ -1007,10 +921,9 @@ chmod +x ~/.claude/hooks/team/*.sh
 
 절대 경로 대신 글로브 패턴(`*/project-name*`)을 사용했기 때문에, 같은 프로젝트를 여러 경로에 클론해도 훅이 정상 동작합니다. 여러 프로젝트에 적용하려면 `case` 문에 패턴을 추가하면 됩니다.
 
-### 4-7) 훅 스크립트 템플릿
+### 4-7) 훅 스크립트
 
-아래는 `settings.json`에서 연결한 훅 스크립트의 **일반화된 템플릿**입니다.
-팀/회사 공유를 위해, **프로젝트별 규칙 주입 내용은 간소화**하고 **절대 경로는 패턴 매칭(`*/project-name*`)으로 대체**했습니다. 실제 운영 스크립트에는 프로젝트별 상세 규칙(타이포그래피·스페이싱·컬러 등)이 추가되어 있습니다.
+`settings.json`에서 연결한 각 스크립트입니다. 프로젝트 경로는 글로브 패턴(`*/<your-project-name>*`)으로 매칭하며, 프로젝트별 규칙은 `case` 블록 안에 추가합니다.
 
 #### `~/.claude/hooks/plan_review_inject.sh`
 
@@ -1482,7 +1395,7 @@ exit 0
 
 ---
 
-## 5. Skills — "완료 기준"을 고정한 방식
+## 5. Skills
 
 ### 위치
 
@@ -1498,13 +1411,7 @@ exit 0
 - `visual-test`: Playwright 시각 회귀 테스트 실행/판정/리포트 절차
 - `coderabbit-review`: 구현 완료 보고 **전에** 자동 호출 — Push → PR 생성 → **백그라운드 에이전트**가 CodeRabbit 리뷰 폴링(메인 에이전트 블로킹 없음, 최대 3라운드) → 수정 → 머지
 
-### Skills를 운영에 녹인 방식
-
-- 에이전트 팀에서 "작업 완료의 정의"를 스킬로 고정했습니다.
-  - 예: 컴포넌트 작업은 `component-checklist`를 통과해야 "완료"
-- 반복 작업은 스킬 문서를 "복붙 가능한 체크리스트"로 썼더니, 사람이 바뀌어도 품질이 유지되었습니다.
-
-에이전트 팀 작업의 "DONE 정의"를 스킬로 고정해서, 완료 기준이 흔들리지 않게 했습니다.
+### 스킬별 완료 기준
 
 - 컴포넌트/스토리 변경: `component-checklist` 통과(타입체크/린트 포함)
 - 스토리 작성: `storybook-story` 규칙 준수(controls 정책/argTypes/Default story 연결)
@@ -1812,9 +1719,9 @@ exit 0
 
 ## 7. 운영 원칙 — Phase 인터럽트 루프
 
-자동화가 끊기지 않도록, "해야 할 일"을 단계(Phase)로 나누고 중간에 상대 프로젝트 변경이 필요해지면 **요청을 남긴 뒤 다른 일을 진행**, watcher 알림이 오면 **현재 작업을 정리하고 업데이트 후 복귀**하는 루프로 운영했습니다. Bridge는 양방향이므로 어느 프로젝트에서든 이 흐름이 동일하게 적용됩니다.
+작업을 단계(Phase)로 나누고, 중간에 상대 프로젝트 변경이 필요하면 **요청을 남긴 뒤 다른 일을 진행** → watcher 알림이 오면 **업데이트 적용 후 복귀**하는 비블로킹 루프입니다. Bridge는 양방향이므로 어느 프로젝트에서든 동일하게 동작합니다.
 
-Bridge가 등록된 상태(`.ds-pane`/`.consumer-pane` 존재)에서 Plan 모드에 진입하면, `plan_review_inject.sh`가 Bridge 인터럽트/복귀 규칙을 자동 주입합니다. 수동으로 Plan에 Bridge 항목을 넣을 필요가 없습니다.
+Bridge가 등록된 상태(`.ds-pane`/`.consumer-pane` 존재)에서 Plan 모드에 진입하면, `plan_review_inject.sh`가 Bridge 인터럽트/복귀 규칙을 자동 주입합니다.
 
 자동 주입되는 항목:
 
@@ -1824,16 +1731,11 @@ Bridge가 등록된 상태(`.ds-pane`/`.consumer-pane` 존재)에서 Plan 모드
 - **인터럽트/복귀**: completion 알림 시 → `to` 필드 확인 → 안전한 지점에서 일시 중단 → 업데이트 적용 → consumed 마커 → 이전 작업 복귀
 - **검증/종료 조건**: typecheck/lint + CodeRabbit 루프(최대 3회) + auto-merge 조건
 
-### "항상 돌아가는 2세션 + watcher 1개"
+### 권장 실행 구성
 
-- Project A 세션과 Project B 세션을 tmux로 켜두고, watcher를 돌려 두면
-  - 요청/완료가 생기는 순간 자동으로 알림이 가서 "컨텍스트 스위칭 비용"이 크게 줄어듭니다.
-
-### 에이전트 팀 작업은 "규칙 주입 + 품질 게이트 + 로그"가 핵심
-
-- 서브에이전트가 늘어날수록 실수가 누적되기 쉽기 때문에
+- tmux에서 Project A 세션, Project B 세션, watcher를 각각 실행
+- 에이전트 팀 작업 시 아래 네 가지가 자동으로 동작:
   - 컨텍스트 주입(inject)
   - 완료 검증(gate)
   - 작업 지속성(idle check)
   - 이벤트 관측(log)
-    네 가지가 워크플로 안정성을 좌우합니다.
