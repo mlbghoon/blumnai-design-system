@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.2.40] - 2026-02-27
+
+### Added
+
+- **Textarea `autoResize`** — 입력 내용에 따라 자동으로 높이 조절, maxRows 없이 무한 확장
+- **StatusDot** (신규 컴포넌트) — 상태 표시 컬러 도트 + 라벨
+  - `color`: `'green' | 'red' | 'orange' | 'gray'`
+  - `label`: 선택적 텍스트 라벨
+  - `size`: `'sm' | 'md'`
+- **EmptyState** (신규 컴포넌트) — 빈 상태 표시
+  - `icon`: IconTypeWithFill 형식 아이콘
+  - `title`, `description`: 텍스트 콘텐츠
+  - `action`: 액션 영역 (보통 Button)
+  - `size`: `'sm' | 'md'`
+- **BarChart `layout`** — 가로 막대 차트 지원
+  - `layout="horizontal"`: 축 교환, 바 radius 방향 전환, 카테고리 라벨 여백 자동 조정
+- **Combobox `highlightSearch`** — 검색어 키워드 하이라이트
+  - 옵션 라벨 및 설명에서 검색어와 일치하는 부분을 굵게 표시
+  - 기본 활성화 (`highlightSearch={true}`)
+- **MonthRangePicker** (신규 컴포넌트) — 월 범위 선택기
+  - 연도 네비게이션 + 4×3 월 그리드
+  - 범위 선택 (시작/끝 하이라이트, 호버 프리뷰)
+  - `disabledFuture`, `minDate`, `maxDate` 제약 조건
+  - `locale`: `'ko' | 'en'` 로케일 지원
+
 ## [0.2.38] - 2026-02-26
 
 ### Added
