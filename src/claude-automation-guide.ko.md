@@ -72,22 +72,21 @@ flowchart LR
 
 `~/.claude/ds-bridge/` 아래 스크립트들이 "2개 프로젝트 동시 운영"을 자동화합니다. (폴더 이름이 `ds-bridge`이지만 역할은 일반적인 Project A↔Project B 브리지입니다.)
 
-> **`ds` / `consumer` 역할명**: 스크립트에서 쓰이는 `ds`와 `consumer`는 **watcher가 tmux pane을 식별하기 위한 라벨**입니다.
-> - `ds` = Project A 세션의 pane (예: blumnai-design-system)
-> - `consumer` = Project B 세션의 pane (예: happytalk-front)
+> **`a` / `b` pane 라벨**: 스크립트에서 쓰이는 `a`와 `b`는 **watcher가 tmux pane을 식별하기 위한 라벨**입니다.
+> - `a` = 첫 번째 프로젝트 세션의 pane
+> - `b` = 두 번째 프로젝트 세션의 pane
 >
 > Bridge는 **양방향**입니다 — 어느 쪽이든 `requests/`에 요청을 만들 수 있고, 상대가 `completed/`로 응답합니다.
 > watcher는 새 요청/완료가 생기면 **양쪽 pane 모두에 알림**을 보내고, 각 세션은 `to` 필드를 확인해 자신에게 해당하는 항목만 처리합니다.
-> 이름은 원래 사용 사례(디자인 시스템↔앱)에서 유래했지만, 어떤 프로젝트 조합이든 pane 라벨만 맞으면 그대로 사용할 수 있습니다.
 
 - **`watcher.sh`**: `requests/`/`completed/` 변화를 감지해 tmux로 **두 세션을 poke**
-  - 주요 설정: `DS_PANE`, `CONSUMER_PANE`, `POLL_INTERVAL`
-  - **pane 식별**: 등록 파일(`.ds-pane`, `.consumer-pane`) 우선 → 자동 탐지는 후보가 1개일 때만
+  - 주요 설정: `PANE_A`, `PANE_B`, `POLL_INTERVAL`
+  - **pane 식별**: 등록 파일(`.a-pane`, `.b-pane`) 우선 → 자동 탐지는 후보가 1개일 때만
   - 여러 `node` 프로세스가 같은 프로젝트 경로에 있으면(팀원 세션 등) 자동 탐지를 거부하고 수동 등록을 요구
 - **`register.sh`**: 현재 tmux 팬에서 실행하여 해당 팬의 Bridge 역할을 등록/해제
-  - `bash ~/.claude/ds-bridge/register.sh ds` — 구현하는 쪽(Project A) 팬 등록
-  - `bash ~/.claude/ds-bridge/register.sh consumer` — 요청하는 쪽(Project B) 팬 등록
-  - `bash ~/.claude/ds-bridge/register.sh unregister ds|consumer|all` — 등록 해제
+  - `bash ~/.claude/ds-bridge/register.sh a` — 첫 번째 프로젝트 팬 등록
+  - `bash ~/.claude/ds-bridge/register.sh b` — 두 번째 프로젝트 팬 등록
+  - `bash ~/.claude/ds-bridge/register.sh unregister a|b|all` — 등록 해제
   - `bash ~/.claude/ds-bridge/register.sh status` — 현재 등록 상태 확인
   - 등록 파일이 존재하면 `plan_review_inject.sh`가 Plan 모드에서 Bridge 인터럽트/복귀 규칙을 자동 주입
 - **`check-requests.sh`**: 양쪽 프로젝트에서 "미처리 요청"이 있는지 주기적으로 체크(쿨다운 포함)
@@ -228,23 +227,20 @@ fi
 
 ### 3-1) pane 등록 (최초 1회, 세션 재시작 시 재등록)
 
-구현하는 쪽(Project A) Claude 세션이 실행 중인 tmux 팬의 **셸**에서:
+각 프로젝트의 Claude 세션이 실행 중인 tmux 팬의 **셸**에서:
 
 ```bash
-bash ~/.claude/ds-bridge/register.sh ds        # ds = 요청을 받아 구현하는 쪽
+bash ~/.claude/ds-bridge/register.sh a   # 첫 번째 프로젝트 pane
+bash ~/.claude/ds-bridge/register.sh b   # 두 번째 프로젝트 pane
 ```
 
-요청하는 쪽(Project B) Claude 세션이 실행 중인 tmux 팬의 **셸**에서:
+`a`/`b`는 watcher가 pane을 식별하는 라벨입니다. 양쪽 모두 요청/응답이 가능합니다.
 
-```bash
-bash ~/.claude/ds-bridge/register.sh consumer   # consumer = 요청을 만들고 결과를 적용하는 쪽
-```
-
-등록하면 `~/.claude/ds-bridge/.ds-pane`과 `.consumer-pane` 파일에 팬 ID가 저장됩니다.
+등록하면 `~/.claude/ds-bridge/.a-pane`과 `.b-pane` 파일에 팬 ID가 저장됩니다.
 watcher는 매 폴링 때 이 파일을 읽고, 팬이 유효한지(tmux 세션 존재 + 경로 일치) 검증합니다.
 유효하지 않으면 자동으로 등록을 제거하고 재등록을 안내합니다.
 
-등록 파일(`.ds-pane`, `.consumer-pane`)은 `plan_review_inject.sh` 훅의 Bridge 감지 신호로도 사용됩니다 — 등록이 있으면 Plan 모드에서 Bridge 인터럽트/복귀 규칙이 자동 주입되고, 해제하면 주입되지 않습니다.
+등록 파일(`.a-pane`, `.b-pane`)은 `plan_review_inject.sh` 훅의 Bridge 감지 신호로도 사용됩니다 — 등록이 있으면 Plan 모드에서 Bridge 인터럽트/복귀 규칙이 자동 주입되고, 해제하면 주입되지 않습니다.
 
 ### 3-2) watcher 실행
 
@@ -260,7 +256,7 @@ bash ~/.claude/ds-bridge/watcher.sh
 
 Watcher는 다음 우선순위로 tmux pane을 식별합니다:
 
-1. **등록 파일 우선**: `.ds-pane`, `.consumer-pane` 파일에 저장된 pane ID를 먼저 사용
+1. **등록 파일 우선**: `.a-pane`, `.b-pane` 파일에 저장된 pane ID를 먼저 사용
 2. **유효성 검증**: 매 폴링마다 pane의 tmux 세션 존재 여부 + 경로 패턴 일치 여부를 확인
 3. **자동 탐지 폴백**: 등록 파일이 없을 때, `node` 프로세스 기반으로 후보가 **정확히 1개**일 때만 자동 선택
 4. **모호한 경우 거부**: 같은 프로젝트 경로에 여러 `node` 프로세스(팀원 세션 등)가 있으면 자동 탐지를 거부하고 수동 등록을 요구
@@ -270,8 +266,8 @@ Watcher는 다음 우선순위로 tmux pane을 식별합니다:
 - watcher는 기본 60초마다 다음을 확인합니다.
   - `requests/*.md` 중 `completed`에 동일 파일명이 없는 항목 → **양쪽 세션에 알림** (각 세션이 `to` 필드 확인)
   - `completed/*.md` 중 `consumed`에 동일 파일명이 없는 항목 → **양쪽 세션에 알림**
-  - 같은 pane 중복 방지: `DS_PANE != CONSUMER_PANE`일 때만 두 번째 poke 실행
-- tmux pane ID는 등록 파일(`.ds-pane`, `.consumer-pane`)로 관리합니다. 등록이 없으면 자동 탐지를 시도하되, 후보가 여러 개이면 거부합니다.
+  - 같은 pane 중복 방지: `PANE_A != PANE_B`일 때만 두 번째 poke 실행
+- tmux pane ID는 등록 파일(`.a-pane`, `.b-pane`)로 관리합니다. 등록이 없으면 자동 탐지를 시도하되, 후보가 여러 개이면 거부합니다.
 - watcher는 시작 시 `.notified-requests`, `.notified-completions`를 초기화하여 "이번 실행 세션 기준"으로 알림 상태를 관리합니다.
 
 ### 3-5) 팁(알림이 과하지 않게)
@@ -284,15 +280,15 @@ Watcher는 다음 우선순위로 tmux pane을 식별합니다:
 
 ```bash
 #!/bin/bash
-# Register/unregister tmux panes as DS bridge roles
+# Register/unregister tmux panes for Bridge watcher
 #
 # Register (run from inside the Claude session's tmux pane):
-#   bash ~/.claude/ds-bridge/register.sh ds
-#   bash ~/.claude/ds-bridge/register.sh consumer
+#   bash ~/.claude/ds-bridge/register.sh a
+#   bash ~/.claude/ds-bridge/register.sh b
 #
 # Unregister:
-#   bash ~/.claude/ds-bridge/register.sh unregister ds
-#   bash ~/.claude/ds-bridge/register.sh unregister consumer
+#   bash ~/.claude/ds-bridge/register.sh unregister a
+#   bash ~/.claude/ds-bridge/register.sh unregister b
 #   bash ~/.claude/ds-bridge/register.sh unregister all
 #
 # Status:
@@ -304,28 +300,28 @@ BRIDGE_DIR="$HOME/.claude/ds-bridge"
 if [ "$1" = "unregister" ]; then
   TARGET="$2"
   case "$TARGET" in
-    ds)
-      if [ -f "$BRIDGE_DIR/.ds-pane" ]; then
-        rm -f "$BRIDGE_DIR/.ds-pane"
-        echo "✅ Unregistered ds pane"
+    a)
+      if [ -f "$BRIDGE_DIR/.a-pane" ]; then
+        rm -f "$BRIDGE_DIR/.a-pane"
+        echo "✅ Unregistered a pane"
       else
-        echo "ℹ️  ds pane was not registered"
+        echo "ℹ️  a pane was not registered"
       fi
       ;;
-    consumer)
-      if [ -f "$BRIDGE_DIR/.consumer-pane" ]; then
-        rm -f "$BRIDGE_DIR/.consumer-pane"
-        echo "✅ Unregistered consumer pane"
+    b)
+      if [ -f "$BRIDGE_DIR/.b-pane" ]; then
+        rm -f "$BRIDGE_DIR/.b-pane"
+        echo "✅ Unregistered b pane"
       else
-        echo "ℹ️  consumer pane was not registered"
+        echo "ℹ️  b pane was not registered"
       fi
       ;;
     all)
-      rm -f "$BRIDGE_DIR/.ds-pane" "$BRIDGE_DIR/.consumer-pane"
+      rm -f "$BRIDGE_DIR/.a-pane" "$BRIDGE_DIR/.b-pane"
       echo "✅ Unregistered all panes"
       ;;
     *)
-      echo "Usage: register.sh unregister <ds|consumer|all>"
+      echo "Usage: register.sh unregister <a|b|all>"
       exit 1
       ;;
   esac
@@ -335,15 +331,15 @@ fi
 # ── Status ────────────────────────────────────────────────────
 if [ "$1" = "status" ]; then
   echo "Bridge registration status:"
-  if [ -f "$BRIDGE_DIR/.ds-pane" ]; then
-    echo "  ds:       $(cat "$BRIDGE_DIR/.ds-pane")"
+  if [ -f "$BRIDGE_DIR/.a-pane" ]; then
+    echo "  a: $(cat "$BRIDGE_DIR/.a-pane")"
   else
-    echo "  ds:       (not registered)"
+    echo "  a: (not registered)"
   fi
-  if [ -f "$BRIDGE_DIR/.consumer-pane" ]; then
-    echo "  consumer: $(cat "$BRIDGE_DIR/.consumer-pane")"
+  if [ -f "$BRIDGE_DIR/.b-pane" ]; then
+    echo "  b: $(cat "$BRIDGE_DIR/.b-pane")"
   else
-    echo "  consumer: (not registered)"
+    echo "  b: (not registered)"
   fi
   exit 0
 fi
@@ -351,13 +347,13 @@ fi
 # ── Register ──────────────────────────────────────────────────
 ROLE="$1"
 
-if [ -z "$ROLE" ] || [[ "$ROLE" != "ds" && "$ROLE" != "consumer" ]]; then
-  echo "Usage: register.sh <ds|consumer>"
-  echo "       register.sh unregister <ds|consumer|all>"
+if [ -z "$ROLE" ] || [[ "$ROLE" != "a" && "$ROLE" != "b" ]]; then
+  echo "Usage: register.sh <a|b>"
+  echo "       register.sh unregister <a|b|all>"
   echo "       register.sh status"
   echo ""
-  echo "  ds        Register this pane as the design system (supplier) session"
-  echo "  consumer  Register this pane as the happytalk-front (consumer) session"
+  echo "  a   First project pane (watcher reads .a-pane)"
+  echo "  b   Second project pane (watcher reads .b-pane)"
   exit 1
 fi
 
@@ -371,18 +367,19 @@ fi
 PANE_PATH=$(tmux display-message -p '#{pane_current_path}' 2>/dev/null)
 
 # Sanity check: verify path matches role
+# <your-project-a>, <your-project-b>를 실제 프로젝트 디렉토리명으로 변경
 case "$ROLE" in
-  ds)
-    if [[ "$PANE_PATH" != *"blumnai-design-system"* ]]; then
-      echo "⚠️  Warning: This pane's path ($PANE_PATH) doesn't look like blumnai-design-system"
+  a)
+    if [[ "$PANE_PATH" != *"<your-project-a>"* ]]; then
+      echo "⚠️  Warning: This pane's path ($PANE_PATH) doesn't match <your-project-a>"
       read -p "Register anyway? [y/N] " -n 1 -r
       echo
       [[ ! $REPLY =~ ^[Yy]$ ]] && exit 1
     fi
     ;;
-  consumer)
-    if [[ "$PANE_PATH" != *"happytalk-front"* ]]; then
-      echo "⚠️  Warning: This pane's path ($PANE_PATH) doesn't look like happytalk-front"
+  b)
+    if [[ "$PANE_PATH" != *"<your-project-b>"* ]]; then
+      echo "⚠️  Warning: This pane's path ($PANE_PATH) doesn't match <your-project-b>"
       read -p "Register anyway? [y/N] " -n 1 -r
       echo
       [[ ! $REPLY =~ ^[Yy]$ ]] && exit 1
@@ -404,12 +401,12 @@ echo "✅ Registered $ROLE pane: $PANE_ID ($PANE_PATH)"
 # Stop:   Ctrl+C
 #
 # Pane registration (run from the correct tmux pane):
-#   bash ~/.claude/ds-bridge/register.sh ds
-#   bash ~/.claude/ds-bridge/register.sh consumer
+#   bash ~/.claude/ds-bridge/register.sh a
+#   bash ~/.claude/ds-bridge/register.sh b
 
 # ── Configuration ──────────────────────────────────────────────
-DS_PANE="${DS_PANE:-}"
-CONSUMER_PANE="${CONSUMER_PANE:-}"
+PANE_A="${PANE_A:-}"
+PANE_B="${PANE_B:-}"
 POLL_INTERVAL="${POLL_INTERVAL:-60}"
 
 BRIDGE_DIR="$HOME/.claude/ds-bridge"
@@ -459,44 +456,44 @@ validate_pane() {
 # Priority: 1) registration files  2) auto-detect (only when unambiguous)
 detect_panes() {
   # --- Validate currently held panes ---
-  if [ -n "$DS_PANE" ] && ! validate_pane "$DS_PANE" "blumnai-design-system"; then
-    log "   ⚠️  DS pane $DS_PANE gone — clearing"
-    DS_PANE=""
+  if [ -n "$PANE_A" ] && ! validate_pane "$PANE_A" "<your-project-a>"; then
+    log "   ⚠️  Pane A $PANE_A gone — clearing"
+    PANE_A=""
   fi
-  if [ -n "$CONSUMER_PANE" ] && ! validate_pane "$CONSUMER_PANE" "happytalk-front"; then
-    log "   ⚠️  Consumer pane $CONSUMER_PANE gone — clearing"
-    CONSUMER_PANE=""
+  if [ -n "$PANE_B" ] && ! validate_pane "$PANE_B" "<your-project-b>"; then
+    log "   ⚠️  Pane B $PANE_B gone — clearing"
+    PANE_B=""
   fi
 
-  [ -n "$DS_PANE" ] && [ -n "$CONSUMER_PANE" ] && return 0
+  [ -n "$PANE_A" ] && [ -n "$PANE_B" ] && return 0
 
   # --- 1. Try registration files ---
-  if [ -z "$DS_PANE" ] && [ -f "$BRIDGE_DIR/.ds-pane" ]; then
+  if [ -z "$PANE_A" ] && [ -f "$BRIDGE_DIR/.a-pane" ]; then
     local reg
-    reg=$(cat "$BRIDGE_DIR/.ds-pane" 2>/dev/null | tr -d '[:space:]')
-    if [ -n "$reg" ] && validate_pane "$reg" "blumnai-design-system"; then
-      DS_PANE="$reg"
-      log "   DS pane (registered): $DS_PANE"
+    reg=$(cat "$BRIDGE_DIR/.a-pane" 2>/dev/null | tr -d '[:space:]')
+    if [ -n "$reg" ] && validate_pane "$reg" "<your-project-a>"; then
+      PANE_A="$reg"
+      log "   Pane A (registered): $PANE_A"
     else
-      log "   ⚠️  Registered DS pane ($reg) is stale — removing"
-      rm -f "$BRIDGE_DIR/.ds-pane"
+      log "   ⚠️  Registered Pane A ($reg) is stale — removing"
+      rm -f "$BRIDGE_DIR/.a-pane"
     fi
   fi
 
-  if [ -z "$CONSUMER_PANE" ] && [ -f "$BRIDGE_DIR/.consumer-pane" ]; then
+  if [ -z "$PANE_B" ] && [ -f "$BRIDGE_DIR/.b-pane" ]; then
     local reg
-    reg=$(cat "$BRIDGE_DIR/.consumer-pane" 2>/dev/null | tr -d '[:space:]')
-    if [ -n "$reg" ] && validate_pane "$reg" "happytalk-front"; then
-      CONSUMER_PANE="$reg"
-      log "   Consumer pane (registered): $CONSUMER_PANE"
+    reg=$(cat "$BRIDGE_DIR/.b-pane" 2>/dev/null | tr -d '[:space:]')
+    if [ -n "$reg" ] && validate_pane "$reg" "<your-project-b>"; then
+      PANE_B="$reg"
+      log "   Pane B (registered): $PANE_B"
     else
-      log "   ⚠️  Registered consumer pane ($reg) is stale — removing"
-      rm -f "$BRIDGE_DIR/.consumer-pane"
+      log "   ⚠️  Registered pane B ($reg) is stale — removing"
+      rm -f "$BRIDGE_DIR/.b-pane"
     fi
   fi
 
   # --- 2. Auto-detect fallback (only when exactly 1 candidate) ---
-  if [ -z "$DS_PANE" ] || [ -z "$CONSUMER_PANE" ]; then
+  if [ -z "$PANE_A" ] || [ -z "$PANE_B" ]; then
     local panes
     panes=$(tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}|#{pane_current_path}|#{pane_current_command}' 2>/dev/null)
 
@@ -505,43 +502,43 @@ detect_panes() {
       return 1
     fi
 
-    local ds_candidates=()
-    local consumer_candidates=()
+    local a_candidates=()
+    local b_candidates=()
 
     while IFS='|' read -r pane_id pane_path pane_cmd; do
       if [ "$pane_cmd" = "node" ]; then
         case "$pane_path" in
-          */blumnai-design-system*)
-            ds_candidates+=("$pane_id")
+          */<your-project-a>*)
+            a_candidates+=("$pane_id")
             ;;
-          */happytalk-front*)
-            consumer_candidates+=("$pane_id")
+          */<your-project-b>*)
+            b_candidates+=("$pane_id")
             ;;
         esac
       fi
     done <<< "$panes"
 
-    if [ -z "$DS_PANE" ]; then
-      if [ ${#ds_candidates[@]} -eq 1 ]; then
-        DS_PANE="${ds_candidates[0]}"
-        log "   DS pane (auto): $DS_PANE"
-      elif [ ${#ds_candidates[@]} -gt 1 ]; then
-        log "   ⚠️  ${#ds_candidates[@]} DS panes found: ${ds_candidates[*]}"
-        log "      → Register the correct one: bash ~/.claude/ds-bridge/register.sh ds"
+    if [ -z "$PANE_A" ]; then
+      if [ ${#a_candidates[@]} -eq 1 ]; then
+        PANE_A="${a_candidates[0]}"
+        log "   Pane A (auto): $PANE_A"
+      elif [ ${#a_candidates[@]} -gt 1 ]; then
+        log "   ⚠️  ${#a_candidates[@]} A panes found: ${a_candidates[*]}"
+        log "      → Register the correct one: bash ~/.claude/ds-bridge/register.sh a"
       else
-        log "   ⚠️  No DS pane found"
+        log "   ⚠️  No A pane found"
       fi
     fi
 
-    if [ -z "$CONSUMER_PANE" ]; then
-      if [ ${#consumer_candidates[@]} -eq 1 ]; then
-        CONSUMER_PANE="${consumer_candidates[0]}"
-        log "   Consumer pane (auto): $CONSUMER_PANE"
-      elif [ ${#consumer_candidates[@]} -gt 1 ]; then
-        log "   ⚠️  ${#consumer_candidates[@]} consumer panes found: ${consumer_candidates[*]}"
-        log "      → Register the correct one: bash ~/.claude/ds-bridge/register.sh consumer"
+    if [ -z "$PANE_B" ]; then
+      if [ ${#b_candidates[@]} -eq 1 ]; then
+        PANE_B="${b_candidates[0]}"
+        log "   Pane B (auto): $PANE_B"
+      elif [ ${#b_candidates[@]} -gt 1 ]; then
+        log "   ⚠️  ${#b_candidates[@]} B panes found: ${b_candidates[*]}"
+        log "      → Register the correct one: bash ~/.claude/ds-bridge/register.sh b"
       else
-        log "   ⚠️  No consumer pane found"
+        log "   ⚠️  No B pane found"
       fi
     fi
   fi
@@ -671,18 +668,18 @@ while true; do
   if has_new_requests; then
     log "📨 New Bridge request(s):"
     list_and_mark_new_requests
-    poke "$DS_PANE" "New items in ~/.claude/ds-bridge/requests/ — check the to: field and process if addressed to you."
-    [ "$DS_PANE" != "$CONSUMER_PANE" ] && \
-      poke "$CONSUMER_PANE" "New items in ~/.claude/ds-bridge/requests/ — check the to: field and process if addressed to you."
+    poke "$PANE_A" "New items in ~/.claude/ds-bridge/requests/ — check the to: field and process if addressed to you."
+    [ "$PANE_A" != "$PANE_B" ] && \
+      poke "$PANE_B" "New items in ~/.claude/ds-bridge/requests/ — check the to: field and process if addressed to you."
   fi
 
   # Completions — poke both panes
   if has_new_completions; then
     log "📦 New Bridge completion(s):"
     list_and_mark_new_completions
-    poke "$DS_PANE" "New items in ~/.claude/ds-bridge/completed/ — check and apply if addressed to you."
-    [ "$DS_PANE" != "$CONSUMER_PANE" ] && \
-      poke "$CONSUMER_PANE" "New items in ~/.claude/ds-bridge/completed/ — check and apply if addressed to you."
+    poke "$PANE_A" "New items in ~/.claude/ds-bridge/completed/ — check and apply if addressed to you."
+    [ "$PANE_A" != "$PANE_B" ] && \
+      poke "$PANE_B" "New items in ~/.claude/ds-bridge/completed/ — check and apply if addressed to you."
   fi
 
   if [ -d "$CONSUMED_DIR" ]; then
@@ -705,7 +702,7 @@ done
 ### 3-8) 트러블슈팅(Watcher)
 
 - **알림이 오지 않는다**
-  - pane 등록이 올바른지 확인합니다: `cat ~/.claude/ds-bridge/.ds-pane` / `cat ~/.claude/ds-bridge/.consumer-pane`
+  - pane 등록이 올바른지 확인합니다: `cat ~/.claude/ds-bridge/.a-pane` / `cat ~/.claude/ds-bridge/.b-pane`
   - 팀원 세션이 여러 개이면 자동 탐지가 실패합니다 → `register.sh`로 수동 등록하세요.
   - watcher는 "tmux가 실행 중"이어야 동작합니다.
 - **알림이 너무 자주 온다**
@@ -951,7 +948,7 @@ fi
 # --- Bridge awareness (only when Bridge is active) ---
 BRIDGE_DIR="$HOME/.claude/ds-bridge"
 
-if [ -f "$BRIDGE_DIR/.ds-pane" ] || [ -f "$BRIDGE_DIR/.consumer-pane" ]; then
+if [ -f "$BRIDGE_DIR/.a-pane" ] || [ -f "$BRIDGE_DIR/.b-pane" ]; then
   cat <<'BRIDGE_CONTEXT'
 
 [DS Bridge Protocol - Active (Bidirectional)]
@@ -1028,7 +1025,7 @@ esac
 
 # --- Bridge awareness (for team subagents) ---
 BRIDGE_DIR="$HOME/.claude/ds-bridge"
-if [ -f "$BRIDGE_DIR/.ds-pane" ] || [ -f "$BRIDGE_DIR/.consumer-pane" ]; then
+if [ -f "$BRIDGE_DIR/.a-pane" ] || [ -f "$BRIDGE_DIR/.b-pane" ]; then
   cat <<'BRIDGE_RULES'
 
 ## Bridge Protocol (ACTIVE — Bidirectional)
@@ -1717,7 +1714,7 @@ exit 0
 
 작업을 단계(Phase)로 나누고, 중간에 상대 프로젝트 변경이 필요하면 **요청을 남긴 뒤 다른 일을 진행** → watcher 알림이 오면 **업데이트 적용 후 복귀**하는 비블로킹 루프입니다. Bridge는 양방향이므로 어느 프로젝트에서든 동일하게 동작합니다.
 
-Bridge가 등록된 상태(`.ds-pane`/`.consumer-pane` 존재)에서 Plan 모드에 진입하면, `plan_review_inject.sh`가 Bridge 인터럽트/복귀 규칙을 자동 주입합니다.
+Bridge가 등록된 상태(`.a-pane`/`.b-pane` 존재)에서 Plan 모드에 진입하면, `plan_review_inject.sh`가 Bridge 인터럽트/복귀 규칙을 자동 주입합니다.
 
 자동 주입되는 항목:
 
