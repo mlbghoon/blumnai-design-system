@@ -332,7 +332,7 @@ chmod +x ~/.claude/hooks/team/*.sh
 - `storybook-story` / `story`: 스토리북 작성 규칙(controls 정책, argTypes 한글 설명, Default만 controls 활성화 등)
 - `figma-save`: Figma 노드 스펙을 저장(`source/`)하는 절차(REST 스크립트 기반)
 - `visual-test`: Playwright 시각 회귀 테스트 실행/판정/리포트 절차
-- `coderabbit-review`: 구현 완료 보고 **전에** 자동 호출 — Push → PR 생성 → CodeRabbit 리뷰 대기(최대 3라운드) → 수정 → 머지
+- `coderabbit-review`: 구현 완료 보고 **전에** 자동 호출 — Push → PR 생성 → **백그라운드 에이전트**가 CodeRabbit 리뷰 폴링(메인 에이전트 블로킹 없음, 최대 3라운드) → 수정 → 머지
 
 효과:
 
@@ -388,7 +388,7 @@ chmod +x ~/.claude/hooks/team/*.sh
 |-------|------|-----------|
 | **1. Pre-flight** | dirty tree, 브랜치 확인, typecheck/lint | `git status`, `npm run typecheck && npm run lint` |
 | **2. Push + PR** | 리모트 push, PR 생성/재사용 | `git push origin HEAD`, `gh pr create --repo ...` |
-| **3. Review loop** | 최대 3라운드 리뷰 수정 | `gh api .../reviews`, `@coderabbitai review` |
+| **3. Review loop** | 백그라운드 에이전트가 폴링 + 최대 3라운드 리뷰 수정 | `Task(run_in_background)`, `gh api .../reviews`, `@coderabbitai review` |
 | **4. Merge + sync** | squash merge → main 동기화 | `gh pr merge --squash`, `git pull origin main` |
 
 ### 안전장치

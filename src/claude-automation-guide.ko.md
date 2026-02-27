@@ -1516,7 +1516,7 @@ print('=' * 60)
 |-------|------|
 | **1. Pre-flight** | dirty tree 확인, 브랜치 확인, typecheck/lint |
 | **2. Push + PR** | 리모트 push, PR 생성/재사용 |
-| **3. Review loop** | 최대 3라운드: CodeRabbit 리뷰 대기 → actionable 코멘트 수집 → 수정 → push → `@coderabbitai review` 재리뷰 트리거 |
+| **3. Review loop** | 최대 3라운드: **백그라운드 에이전트**가 CodeRabbit 리뷰 폴링(메인 에이전트 블로킹 없음) → actionable 코멘트 수집 → 수정 → push → `@coderabbitai review` 재리뷰 트리거 |
 | **4. Merge + sync** | squash merge → main 동기화 |
 
 #### 중단 조건
