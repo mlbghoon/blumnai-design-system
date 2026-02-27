@@ -219,6 +219,11 @@ export interface BarChartProps extends BaseChartProps {
    * 막대 모서리 둥글기 (px)
    */
   barRadius?: number;
+  /**
+   * 차트 방향 (vertical: 세로 막대, horizontal: 가로 막대)
+   * @default 'vertical'
+   */
+  layout?: 'vertical' | 'horizontal';
 }
 
 /**

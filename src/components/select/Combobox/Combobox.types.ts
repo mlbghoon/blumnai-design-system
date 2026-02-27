@@ -152,6 +152,11 @@ export interface ComboboxBaseProps {
    */
   maxHeight?: number | string;
   /**
+   * 검색어와 일치하는 텍스트를 강조 표시
+   * @default true
+   */
+  highlightSearch?: boolean;
+  /**
    * 외부 컨테이너에 적용할 추가 className
    */
   className?: string;
