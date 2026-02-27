@@ -192,29 +192,6 @@ export type {
 } from './components/switch';
 
 // =============================================================================
-// FORM COMPONENTS
-// =============================================================================
-export {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormError,
-  useFormField,
-} from './components/form';
-
-export type {
-  FormProps,
-  FormFieldContextValue,
-  FormItemContextValue,
-  FormItemProps,
-  FormControlProps,
-  FormDescriptionProps,
-  FormErrorProps,
-} from './components/form';
-
-// =============================================================================
 // DIALOGS & OVERLAYS
 // =============================================================================
 export {
