@@ -100,44 +100,44 @@ watcher는 “이미 생성된 파일”을 감지해 세션을 깨우는 역할
 #!/bin/bash
 # Check for pending Bridge requests — both projects (60s 쿨다운)
 
-case “$PWD” in
+case "$PWD" in
   */<your-project-a>*|*/<your-project-b>*) ;;
   *) exit 0 ;;
 esac
 
-LOCK=”$HOME/.claude/ds-bridge/.last-request-check”
+LOCK="$HOME/.claude/ds-bridge/.last-request-check"
 NOW=$(date +%s)
 
-if [ -f “$LOCK” ]; then
-  LAST=$(cat “$LOCK”)
+if [ -f "$LOCK" ]; then
+  LAST=$(cat "$LOCK")
   DIFF=$((NOW - LAST))
-  [ “$DIFF” -lt 60 ] && exit 0
+  [ "$DIFF" -lt 60 ] && exit 0
 fi
 
-echo “$NOW” > “$LOCK”
+echo "$NOW" > "$LOCK"
 
-REQUESTS_DIR=”$HOME/.claude/ds-bridge/requests”
-COMPLETED_DIR=”$HOME/.claude/ds-bridge/completed”
+REQUESTS_DIR="$HOME/.claude/ds-bridge/requests"
+COMPLETED_DIR="$HOME/.claude/ds-bridge/completed"
 
-if [ ! -d “$REQUESTS_DIR” ]; then
-  echo “✅ DS Bridge requests: nothing new”
+if [ ! -d "$REQUESTS_DIR" ]; then
+  echo "✅ DS Bridge requests: nothing new"
   exit 0
 fi
 
-pending=””
-for req in “$REQUESTS_DIR”/*.md; do
-  [ -f “$req” ] || continue
-  basename=$(basename “$req”)
-  if [ ! -f “$COMPLETED_DIR/$basename” ]; then
-    pending=”$pending\n  - $basename”
+pending=""
+for req in "$REQUESTS_DIR"/*.md; do
+  [ -f "$req" ] || continue
+  basename=$(basename "$req")
+  if [ ! -f "$COMPLETED_DIR/$basename" ]; then
+    pending="$pending\n  - $basename"
   fi
 done
 
-if [ -n “$pending” ]; then
-  echo “⚠️ DS Bridge: Pending request(s):$pending”
-  echo “Read the request files in ~/.claude/ds-bridge/requests/ — check the to: field and process if addressed to you.”
+if [ -n "$pending" ]; then
+  echo "⚠️ DS Bridge: Pending request(s):$pending"
+  echo "Read the request files in ~/.claude/ds-bridge/requests/ — check the to: field and process if addressed to you."
 else
-  echo “✅ DS Bridge requests: nothing new”
+  echo "✅ DS Bridge requests: nothing new"
 fi
 ```
 
@@ -147,47 +147,47 @@ fi
 #!/bin/bash
 # Check for Bridge completion notices — both projects (60s 쿨다운)
 
-case “$PWD” in
+case "$PWD" in
   */<your-project-a>*|*/<your-project-b>*) ;;
   *) exit 0 ;;
 esac
 
-LOCK=”$HOME/.claude/ds-bridge/.last-completion-check”
+LOCK="$HOME/.claude/ds-bridge/.last-completion-check"
 NOW=$(date +%s)
 
-if [ -f “$LOCK” ]; then
-  LAST=$(cat “$LOCK”)
+if [ -f "$LOCK" ]; then
+  LAST=$(cat "$LOCK")
   DIFF=$((NOW - LAST))
-  [ “$DIFF” -lt 60 ] && exit 0
+  [ "$DIFF" -lt 60 ] && exit 0
 fi
 
-echo “$NOW” > “$LOCK”
+echo "$NOW" > "$LOCK"
 
-COMPLETED_DIR=”$HOME/.claude/ds-bridge/completed”
-CONSUMED_DIR=”$HOME/.claude/ds-bridge/consumed”
+COMPLETED_DIR="$HOME/.claude/ds-bridge/completed"
+CONSUMED_DIR="$HOME/.claude/ds-bridge/consumed"
 
-mkdir -p “$CONSUMED_DIR”
+mkdir -p "$CONSUMED_DIR"
 
-if [ ! -d “$COMPLETED_DIR” ]; then
-  echo “✅ DS Bridge completions: nothing new”
+if [ ! -d "$COMPLETED_DIR" ]; then
+  echo "✅ DS Bridge completions: nothing new"
   exit 0
 fi
 
-pending=””
-for comp in “$COMPLETED_DIR”/*.md; do
-  [ -f “$comp” ] || continue
-  basename=$(basename “$comp”)
-  if [ ! -f “$CONSUMED_DIR/$basename” ]; then
-    pending=”$pending\n  - $basename”
+pending=""
+for comp in "$COMPLETED_DIR"/*.md; do
+  [ -f "$comp" ] || continue
+  basename=$(basename "$comp")
+  if [ ! -f "$CONSUMED_DIR/$basename" ]; then
+    pending="$pending\n  - $basename"
   fi
 done
 
-if [ -n “$pending” ]; then
-  echo “⚠️ DS Bridge: New completion(s) available:$pending”
-  echo “Read the completion files in ~/.claude/ds-bridge/completed/ — check and apply if addressed to you.”
-  echo “After applying, touch the matching file in ~/.claude/ds-bridge/consumed/ to mark it done.”
+if [ -n "$pending" ]; then
+  echo "⚠️ DS Bridge: New completion(s) available:$pending"
+  echo "Read the completion files in ~/.claude/ds-bridge/completed/ — check and apply if addressed to you."
+  echo "After applying, touch the matching file in ~/.claude/ds-bridge/consumed/ to mark it done."
 else
-  echo “✅ DS Bridge completions: nothing new”
+  echo "✅ DS Bridge completions: nothing new"
 fi
 ```
 
@@ -198,27 +198,27 @@ fi
 # Auto-delete bridge files once consumed (full cycle complete)
 # Runs on both projects — only cleans files with consumed markers
 
-BRIDGE_DIR=”$HOME/.claude/ds-bridge”
-REQUESTS_DIR=”$BRIDGE_DIR/requests”
-COMPLETED_DIR=”$BRIDGE_DIR/completed”
-CONSUMED_DIR=”$BRIDGE_DIR/consumed”
+BRIDGE_DIR="$HOME/.claude/ds-bridge"
+REQUESTS_DIR="$BRIDGE_DIR/requests"
+COMPLETED_DIR="$BRIDGE_DIR/completed"
+CONSUMED_DIR="$BRIDGE_DIR/consumed"
 
-[ -d “$CONSUMED_DIR” ] || exit 0
+[ -d "$CONSUMED_DIR" ] || exit 0
 
 cleaned=0
-for marker in “$CONSUMED_DIR”/*.md; do
-  [ -f “$marker” ] || continue
-  basename=$(basename “$marker”)
+for marker in "$CONSUMED_DIR"/*.md; do
+  [ -f "$marker" ] || continue
+  basename=$(basename "$marker")
 
-  [ -f “$REQUESTS_DIR/$basename” ] && rm “$REQUESTS_DIR/$basename”
-  [ -f “$COMPLETED_DIR/$basename” ] && rm “$COMPLETED_DIR/$basename”
-  rm “$marker”
-  echo “🧹 DS Bridge: Cleaned up $basename”
+  [ -f "$REQUESTS_DIR/$basename" ] && rm "$REQUESTS_DIR/$basename"
+  [ -f "$COMPLETED_DIR/$basename" ] && rm "$COMPLETED_DIR/$basename"
+  rm "$marker"
+  echo "🧹 DS Bridge: Cleaned up $basename"
   cleaned=$((cleaned + 1))
 done
 
-if [ “$cleaned” -eq 0 ]; then
-  echo “🔄 DS Bridge cleanup: nothing to clean”
+if [ "$cleaned" -eq 0 ]; then
+  echo "🔄 DS Bridge cleanup: nothing to clean"
 fi
 ```
 
@@ -1143,7 +1143,7 @@ exit 0
 ```bash
 #!/usr/bin/env bash
 # CodeRabbit review auto-trigger for TaskCompleted events (TEAM mode)
-# Fires ONLY when: leader agent + all tasks done + target project + has unreviewd commits
+# Fires ONLY when: leader agent + all tasks done + target project + has unreviewed commits
 # Dedup: shares marker with Stop hook — only one fires per session
 # Runs AFTER quality_gate.sh in the TaskCompleted hook chain
 
@@ -1225,7 +1225,7 @@ if [ "$INCOMPLETE" != "0" ]; then
   exit 0
 fi
 
-# 6. Has unreviewd commits (company remote behind or missing)
+# 6. Has unreviewed commits (company remote behind or missing)
 PROJECT_ROOT=$(echo "$CWD" | sed 's|\(.*<your-project-name>\).*|\1|')
 HAS_COMPANY=$(cd "$PROJECT_ROOT" && git remote get-url company 2>/dev/null || echo "")
 
@@ -1273,7 +1273,7 @@ exit 0
 #   2. Target project
 #   3. Solo mode (no team — team mode uses TaskCompleted)
 #   4. Shared marker not yet created
-#   5. Has unreviewd commits (ahead of company/main or last tag)
+#   5. Has unreviewed commits (ahead of company/main or last tag)
 #   6. last_assistant_message signals real completion (not mid-conversation)
 
 set -uo pipefail
@@ -1322,7 +1322,7 @@ if [ -f "$MARKER" ]; then
   exit 0
 fi
 
-# 5. Has unreviewd commits
+# 5. Has unreviewed commits
 PROJECT_ROOT=$(echo "$CWD" | sed 's|\(.*<your-project-name>\).*|\1|')
 HAS_COMPANY=$(cd "$PROJECT_ROOT" && git remote get-url company 2>/dev/null || echo "")
 
