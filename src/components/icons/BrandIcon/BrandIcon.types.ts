@@ -11,6 +11,7 @@ export type BrandType =
   | 'airbnb'
   | 'algorand'
   | 'aliexpress'
+  | 'android'
   | 'angular'
   | 'apple'
   | 'apple music'

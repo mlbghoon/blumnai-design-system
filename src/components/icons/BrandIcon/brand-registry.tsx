@@ -30,6 +30,7 @@ const iconLookup: Record<string, [string, string]> = {
   'airbnb': ['brands-a', 'BrandAirbnbIcon'],
   'algorand': ['brands-a', 'BrandAlgorandIcon'],
   'aliexpress': ['brands-a', 'BrandAliExpressIcon'],
+  'android': ['brands-a', 'BrandAndroidIcon'],
   'angular': ['brands-a', 'BrandAngularIcon'],
   'apple': ['brands-a', 'BrandAppleIcon'],
   'apple music': ['brands-a', 'BrandAppleMusicIcon'],

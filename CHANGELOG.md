@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.42] - 2026-02-27
+
+### Added
+
+- **BrandIcon `android`** — Android 로봇(bugdroid) 브랜드 아이콘 추가. `apple`, `windows`와 함께 FA 브랜드 아이콘 완전 대체 가능
+
 ## [0.2.40] - 2026-02-27
 
 ### Added
