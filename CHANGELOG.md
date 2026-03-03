@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.0.0] - 2026-03-03
+
+### Changed
+
+- **패키지 스코프 이관**: `@mlbghoon/blumnai-design-system` → `@blumnai-studio/blumnai-design-system`
+- **GitHub 리포지토리 이관**: `mlbghoon/blumnai-design-system` → `BlumnAI-Studio/blumnai-design-system`
+- **인증 토큰 변경**: `GITHUB_TOKEN_MLBGHOON` → `GITHUB_TOKEN_BLUMNAI`
+- 듀얼 리모트(origin + company) 구조를 단일 리모트(origin → BlumnAI-Studio) 구조로 단순화
+
+### Migration
+
+```bash
+# 1. .npmrc에 새 스코프 추가
+@blumnai-studio:registry=https://npm.pkg.github.com
+
+# 2. 패키지 교체
+npm uninstall @mlbghoon/blumnai-design-system --legacy-peer-deps
+npm install @blumnai-studio/blumnai-design-system@1.0.0 --legacy-peer-deps
+
+# 3. 소스코드 import 경로 일괄 변경
+# @mlbghoon/blumnai-design-system → @blumnai-studio/blumnai-design-system
+```
+
+## [0.2.46] - 2026-03-03
+
+### Deprecated
+
+- **패키지 이관 안내**: `@mlbghoon/blumnai-design-system`은 `@blumnai-studio/blumnai-design-system`으로 이관되었습니다. 이 버전이 `@mlbghoon` 스코프의 마지막 릴리스입니다. 향후 업데이트는 새로운 스코프에서만 제공됩니다.
+
 ## [0.2.42] - 2026-02-27
 
 ### Added

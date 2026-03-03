@@ -18,5 +18,5 @@ Consuming projects experience slow startup when importing the design system.
 
 ### 3. Barrel export loads everything → Subpath exports added ✅
 - Granular `exports` in package.json for subpath imports
-- `import { Button } from '@mlbghoon/blumnai-design-system/button'` now works
+- `import { Button } from '@blumnai-studio/blumnai-design-system/button'` now works
 - Existing barrel import still supported for backward compatibility

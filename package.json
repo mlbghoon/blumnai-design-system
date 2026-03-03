@@ -1,6 +1,6 @@
 {
-  "name": "@mlbghoon/blumnai-design-system",
-  "version": "0.2.44",
+  "name": "@blumnai-studio/blumnai-design-system",
+  "version": "1.0.0",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -702,7 +702,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mlbghoon/blumnai-design-system.git"
+    "url": "https://github.com/BlumnAI-Studio/blumnai-design-system.git"
   },
   "eslintConfig": {
     "extends": [

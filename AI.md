@@ -1,7 +1,7 @@
 # Blumnai Design System — AI & Developer Reference
 
 > Complete component reference for AI agents and developers.
-> Package: `@mlbghoon/blumnai-design-system`
+> Package: `@blumnai-studio/blumnai-design-system`
 >
 > **This is the single source of truth.** Search for `### ComponentName` to jump to any component's props.
 
@@ -29,19 +29,19 @@
 ## Setup
 
 ```bash
-npm install @mlbghoon/blumnai-design-system --legacy-peer-deps
+npm install @blumnai-studio/blumnai-design-system --legacy-peer-deps
 ```
 
 ```tsx
 // 1. Import CSS once in app entry
-import '@mlbghoon/blumnai-design-system/styles';
+import '@blumnai-studio/blumnai-design-system/styles';
 
 // 2. Import components
-import { Button, Input, Select } from '@mlbghoon/blumnai-design-system';
+import { Button, Input, Select } from '@blumnai-studio/blumnai-design-system';
 
 // Or use subpath imports for faster builds
-import { Button } from '@mlbghoon/blumnai-design-system/button';
-import { Input } from '@mlbghoon/blumnai-design-system/input';
+import { Button } from '@blumnai-studio/blumnai-design-system/button';
+import { Input } from '@blumnai-studio/blumnai-design-system/input';
 ```
 
 **Peer Dependencies:**
@@ -303,7 +303,7 @@ Need to show feedback?
 ### Button
 
 ```tsx
-import { Button } from '@mlbghoon/blumnai-design-system';
+import { Button } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -331,7 +331,7 @@ import { Button } from '@mlbghoon/blumnai-design-system';
 ### LinkButton
 
 ```tsx
-import { LinkButton } from '@mlbghoon/blumnai-design-system';
+import { LinkButton } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -350,7 +350,7 @@ import { LinkButton } from '@mlbghoon/blumnai-design-system';
 ### ControlButton
 
 ```tsx
-import { ControlButton } from '@mlbghoon/blumnai-design-system';
+import { ControlButton } from '@blumnai-studio/blumnai-design-system';
 ```
 
 Icon-only button. `aria-label` is required.
@@ -368,7 +368,7 @@ Icon-only button. `aria-label` is required.
 ### ButtonGroup
 
 ```tsx
-import { ButtonGroup } from '@mlbghoon/blumnai-design-system';
+import { ButtonGroup } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -386,7 +386,7 @@ import { ButtonGroup } from '@mlbghoon/blumnai-design-system';
 ### Input
 
 ```tsx
-import { Input } from '@mlbghoon/blumnai-design-system';
+import { Input } from '@blumnai-studio/blumnai-design-system';
 ```
 
 #### Common Props (all variants)
@@ -508,7 +508,7 @@ Input with an attached dropdown select on the leading or trailing side.
 ### Textarea
 
 ```tsx
-import { Textarea } from '@mlbghoon/blumnai-design-system';
+import { Textarea } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -542,7 +542,7 @@ import { Textarea } from '@mlbghoon/blumnai-design-system';
 ### Select
 
 ```tsx
-import { Select } from '@mlbghoon/blumnai-design-system';
+import { Select } from '@blumnai-studio/blumnai-design-system';
 ```
 
 #### Common Props (all variants)
@@ -629,7 +629,7 @@ interface SelectOption {
 ### Combobox
 
 ```tsx
-import { Combobox } from '@mlbghoon/blumnai-design-system';
+import { Combobox } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -676,7 +676,7 @@ interface ComboboxOption {
 ### Checkbox
 
 ```tsx
-import { Checkbox } from '@mlbghoon/blumnai-design-system';
+import { Checkbox } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -694,7 +694,7 @@ import { Checkbox } from '@mlbghoon/blumnai-design-system';
 ### CheckboxList
 
 ```tsx
-import { CheckboxList } from '@mlbghoon/blumnai-design-system';
+import { CheckboxList } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -710,7 +710,7 @@ import { CheckboxList } from '@mlbghoon/blumnai-design-system';
 ### CheckboxCard
 
 ```tsx
-import { CheckboxCard } from '@mlbghoon/blumnai-design-system';
+import { CheckboxCard } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -731,7 +731,7 @@ import { CheckboxCard } from '@mlbghoon/blumnai-design-system';
 ### Switch
 
 ```tsx
-import { Switch } from '@mlbghoon/blumnai-design-system';
+import { Switch } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -749,7 +749,7 @@ import { Switch } from '@mlbghoon/blumnai-design-system';
 ### SwitchList
 
 ```tsx
-import { SwitchList } from '@mlbghoon/blumnai-design-system';
+import { SwitchList } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -767,7 +767,7 @@ import { SwitchList } from '@mlbghoon/blumnai-design-system';
 ### RadioGroup / Radio
 
 ```tsx
-import { RadioGroup, Radio } from '@mlbghoon/blumnai-design-system';
+import { RadioGroup, Radio } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **RadioGroup**: `value`, `onValueChange`, `disabled`, `orientation` (`'horizontal'`|`'vertical'`)
@@ -777,7 +777,7 @@ import { RadioGroup, Radio } from '@mlbghoon/blumnai-design-system';
 ### RadioList
 
 ```tsx
-import { RadioList } from '@mlbghoon/blumnai-design-system';
+import { RadioList } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -795,7 +795,7 @@ import { RadioList } from '@mlbghoon/blumnai-design-system';
 ### RadioCard
 
 ```tsx
-import { RadioCard } from '@mlbghoon/blumnai-design-system';
+import { RadioCard } from '@blumnai-studio/blumnai-design-system';
 ```
 
 Used inside a `RadioGroup`. Each card is one radio option.
@@ -815,7 +815,7 @@ Used inside a `RadioGroup`. Each card is one radio option.
 ### Dialog
 
 ```tsx
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogScrollArea, DialogAction, DialogClose, DialogTrigger } from '@mlbghoon/blumnai-design-system';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogScrollArea, DialogAction, DialogClose, DialogTrigger } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Dialog**: `open`, `onOpenChange`, `defaultOpen`, `modal`
@@ -837,7 +837,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 ### ConfirmDialog
 
 ```tsx
-import { ConfirmDialog } from '@mlbghoon/blumnai-design-system';
+import { ConfirmDialog } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -858,7 +858,7 @@ import { ConfirmDialog } from '@mlbghoon/blumnai-design-system';
 ### AlertDialog
 
 ```tsx
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel, AlertDialogScrollArea } from '@mlbghoon/blumnai-design-system';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel, AlertDialogScrollArea } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Simple usage (SimpleAlertDialog):**
@@ -888,7 +888,7 @@ import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, 
 ### InfoBox
 
 ```tsx
-import { InfoBox } from '@mlbghoon/blumnai-design-system';
+import { InfoBox } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -912,7 +912,7 @@ import { InfoBox } from '@mlbghoon/blumnai-design-system';
 ### Toast
 
 ```tsx
-import { toast } from '@mlbghoon/blumnai-design-system';
+import { toast } from '@blumnai-studio/blumnai-design-system';
 
 // Shorthand methods (recommended)
 toast.success('Saved successfully');
@@ -953,7 +953,7 @@ toast.dismissAll();
 **BlumnaiToaster** (required — add once in root layout):
 
 ```tsx
-import { BlumnaiToaster } from '@mlbghoon/blumnai-design-system';
+import { BlumnaiToaster } from '@blumnai-studio/blumnai-design-system';
 
 // In your root layout (e.g., App.tsx or layout.tsx):
 <BlumnaiToaster />
@@ -969,7 +969,7 @@ import { BlumnaiToaster } from '@mlbghoon/blumnai-design-system';
 ### Tabs
 
 ```tsx
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@mlbghoon/blumnai-design-system';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Tabs**: `value`, `defaultValue`, `onValueChange`, `orientation`
@@ -983,7 +983,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@mlbghoon/blumnai-desi
 ### Table
 
 ```tsx
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFooter, TableCaption } from '@mlbghoon/blumnai-design-system';
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFooter, TableCaption } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1033,8 +1033,8 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFoo
 ### DataGrid
 
 ```tsx
-import { DataGrid } from '@mlbghoon/blumnai-design-system';
-import type { ColumnDef, ColumnOrderState } from '@mlbghoon/blumnai-design-system';
+import { DataGrid } from '@blumnai-studio/blumnai-design-system';
+import type { ColumnDef, ColumnOrderState } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1100,7 +1100,7 @@ const columns: ColumnDef<User>[] = [
 ### Avatar
 
 ```tsx
-import { Avatar, AvatarGroup } from '@mlbghoon/blumnai-design-system';
+import { Avatar, AvatarGroup } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Avatar:**
@@ -1134,7 +1134,7 @@ import { Avatar, AvatarGroup } from '@mlbghoon/blumnai-design-system';
 ### Badge
 
 ```tsx
-import { Badge } from '@mlbghoon/blumnai-design-system';
+import { Badge } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1164,7 +1164,7 @@ import { Badge } from '@mlbghoon/blumnai-design-system';
 ### Progress
 
 ```tsx
-import { Progress, ProgressCircular } from '@mlbghoon/blumnai-design-system';
+import { Progress, ProgressCircular } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Progress**: `value`, `max` (100), `variant` (`'linear'`|`'dashed'`), `color` (ProgressColor, default `'gray'`), `label`, `showValue`, `formatValue`, `caption`, `error`, `success`
@@ -1176,7 +1176,7 @@ import { Progress, ProgressCircular } from '@mlbghoon/blumnai-design-system';
 ### Icon
 
 ```tsx
-import { Icon } from '@mlbghoon/blumnai-design-system';
+import { Icon } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1192,7 +1192,7 @@ import { Icon } from '@mlbghoon/blumnai-design-system';
 ### Slider
 
 ```tsx
-import { Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, DataRangeSliderInput } from '@mlbghoon/blumnai-design-system';
+import { Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, DataRangeSliderInput } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Common base props** (all slider components):
@@ -1224,7 +1224,7 @@ import { Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, Da
 ### TimePicker
 
 ```tsx
-import { TimePicker, TimeRangePicker } from '@mlbghoon/blumnai-design-system';
+import { TimePicker, TimeRangePicker } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **TimePicker** (extends TimeInput props, adds label/popup):
@@ -1283,7 +1283,7 @@ import { TimePicker, TimeRangePicker } from '@mlbghoon/blumnai-design-system';
 ### TimeInput / TimeRangeInput
 
 ```tsx
-import { TimeInput, TimeRangeInput } from '@mlbghoon/blumnai-design-system';
+import { TimeInput, TimeRangeInput } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **TimeInput** (lower-level, no label/popup):
@@ -1311,8 +1311,8 @@ import { TimeInput, TimeRangeInput } from '@mlbghoon/blumnai-design-system';
 ### Sheet / Drawer
 
 ```tsx
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetTrigger, SheetClose } from '@mlbghoon/blumnai-design-system';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerTrigger, DrawerClose } from '@mlbghoon/blumnai-design-system';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetTrigger, SheetClose } from '@blumnai-studio/blumnai-design-system';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerTrigger, DrawerClose } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Sheet**: `open`, `onOpenChange`. **SheetContent**: `side` (`'top'`|`'right'`|`'bottom'`|`'left'`)
@@ -1336,7 +1336,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, Dr
 ### FilterButton
 
 ```tsx
-import { FilterButton } from '@mlbghoon/blumnai-design-system';
+import { FilterButton } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1353,7 +1353,7 @@ import { FilterButton } from '@mlbghoon/blumnai-design-system';
 ### AvatarButton
 
 ```tsx
-import { AvatarButton } from '@mlbghoon/blumnai-design-system';
+import { AvatarButton } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1371,7 +1371,7 @@ import { AvatarButton } from '@mlbghoon/blumnai-design-system';
 ### Carousel
 
 ```tsx
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselIndicators } from '@mlbghoon/blumnai-design-system';
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselIndicators } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Carousel**: `orientation` (`'horizontal'`|`'vertical'`), `opts` (EmblaOptionsType), `plugins` (EmblaPluginType[]), `gap` (number, default `16`), `setApi` ((api) => void)
@@ -1394,7 +1394,7 @@ import Autoplay from 'embla-carousel-autoplay';
 ### InputOTP
 
 ```tsx
-import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@mlbghoon/blumnai-design-system';
+import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Description |
@@ -1408,7 +1408,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@mlbgh
 ### HoverCard
 
 ```tsx
-import { HoverCard, HoverCardTrigger, HoverCardContent, HoverCardArrow } from '@mlbghoon/blumnai-design-system';
+import { HoverCard, HoverCardTrigger, HoverCardContent, HoverCardArrow } from '@blumnai-studio/blumnai-design-system';
 ```
 
 `openDelay` (700ms), `closeDelay` (300ms). **HoverCardContent**: `container?` (HTMLElement), `width?` (number|string — default 256px)
@@ -1418,7 +1418,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent, HoverCardArrow } from '@
 ### NavigationMenu
 
 ```tsx
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuListItem } from '@mlbghoon/blumnai-design-system';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuListItem } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **NavigationMenu**: `value`, `onValueChange`, `orientation` (`'horizontal'`|`'vertical'`)
@@ -1432,7 +1432,7 @@ import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuT
 ### AspectRatio
 
 ```tsx
-import { AspectRatio } from '@mlbghoon/blumnai-design-system';
+import { AspectRatio } from '@blumnai-studio/blumnai-design-system';
 ```
 
 `ratio` (number, e.g. `16/9`, default `1`)
@@ -1440,7 +1440,7 @@ import { AspectRatio } from '@mlbghoon/blumnai-design-system';
 ### Tooltip
 
 ```tsx
-import { TooltipTrigger } from '@mlbghoon/blumnai-design-system';
+import { TooltipTrigger } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1496,7 +1496,7 @@ interface TooltipItemData {
 ### DatePicker / DateRangePicker
 
 ```tsx
-import { DatePicker, DateRangePicker } from '@mlbghoon/blumnai-design-system';
+import { DatePicker, DateRangePicker } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Common Props (both components):**
@@ -1551,7 +1551,7 @@ const presets = [
 ### Calendar
 
 ```tsx
-import { Calendar } from '@mlbghoon/blumnai-design-system';
+import { Calendar } from '@blumnai-studio/blumnai-design-system';
 ```
 
 The underlying calendar used by DatePicker/DateRangePicker. Extends `react-day-picker` props.
@@ -1569,7 +1569,7 @@ The underlying calendar used by DatePicker/DateRangePicker. Extends `react-day-p
 > Chart internals use **Recharts** (`recharts` is a transitive dependency — consumers do not need to install it separately).
 
 ```tsx
-import { BarChart, LineChart, PieChart, DonutChart, ComboChart } from '@mlbghoon/blumnai-design-system';
+import { BarChart, LineChart, PieChart, DonutChart, ComboChart } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Common Props (all charts):**
@@ -1643,7 +1643,7 @@ const config = {
 ### AccordionGroup
 
 ```tsx
-import { AccordionGroup } from '@mlbghoon/blumnai-design-system';
+import { AccordionGroup } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1685,7 +1685,7 @@ import {
   ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem,
   ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent,
   ContextMenuCaption,
-} from '@mlbghoon/blumnai-design-system';
+} from '@blumnai-studio/blumnai-design-system';
 ```
 
 **ContextMenuContent**: `width` (string|number), `container?` (HTMLElement|null — portal target)
@@ -1732,7 +1732,7 @@ import {
 ### FileUpload
 
 ```tsx
-import { FileUploadArea, FileUploadCard } from '@mlbghoon/blumnai-design-system';
+import { FileUploadArea, FileUploadCard } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **FileUploadArea:**
@@ -1773,7 +1773,7 @@ import { FileUploadArea, FileUploadCard } from '@mlbghoon/blumnai-design-system'
 ### Breadcrumbs
 
 ```tsx
-import { Breadcrumbs } from '@mlbghoon/blumnai-design-system';
+import { Breadcrumbs } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1797,7 +1797,7 @@ interface BreadcrumbItem {
 ### Pagination
 
 ```tsx
-import { Pagination } from '@mlbghoon/blumnai-design-system';
+import { Pagination } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1825,7 +1825,7 @@ import { Pagination } from '@mlbghoon/blumnai-design-system';
 ### Card
 
 ```tsx
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardGroup } from '@mlbghoon/blumnai-design-system';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardGroup } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Card**: `variant` (`'default'`|`'outline'`|`'ghost'`), `interactive` (boolean — clickable card with role="button", tabIndex, keyboard support)
@@ -1848,7 +1848,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, 
 ### Chip
 
 ```tsx
-import { Chip } from '@mlbghoon/blumnai-design-system';
+import { Chip } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1867,7 +1867,7 @@ import { Chip } from '@mlbghoon/blumnai-design-system';
 ### Skeleton
 
 ```tsx
-import { Skeleton } from '@mlbghoon/blumnai-design-system';
+import { Skeleton } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1886,7 +1886,7 @@ import { Skeleton } from '@mlbghoon/blumnai-design-system';
 ### Form
 
 ```tsx
-import { Form, FormField, FormControl, FormItem, FormDescription, FormError } from '@mlbghoon/blumnai-design-system';
+import { Form, FormField, FormControl, FormItem, FormDescription, FormError } from '@blumnai-studio/blumnai-design-system';
 ```
 
 Integrates with `react-hook-form` and `zod`. `FormControl` automatically injects error messages into children that support the `error` prop.
@@ -1911,7 +1911,7 @@ import {
   DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent,
   DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem,
   DropdownMenuCaption, DropdownMenuButtonGroup, MenuButton,
-} from '@mlbghoon/blumnai-design-system';
+} from '@blumnai-studio/blumnai-design-system';
 ```
 
 Same compound pattern as ContextMenu. Triggered by click instead of right-click.
@@ -1964,7 +1964,7 @@ Same compound pattern as ContextMenu. Triggered by click instead of right-click.
 ### ScrollArea
 
 ```tsx
-import { ScrollArea } from '@mlbghoon/blumnai-design-system';
+import { ScrollArea } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1981,7 +1981,7 @@ import { ScrollArea } from '@mlbghoon/blumnai-design-system';
 ### Collapsible
 
 ```tsx
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@mlbghoon/blumnai-design-system';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1996,7 +1996,7 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@mlbghoon/b
 ### Divider
 
 ```tsx
-import { Divider } from '@mlbghoon/blumnai-design-system';
+import { Divider } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -2030,7 +2030,7 @@ Wraps react-resizable-panels: `ResizablePanelGroup`, `ResizablePanel`, `Resizabl
 ### Sidebar
 
 ```tsx
-import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarGroup, SidebarHeader, SidebarFooter, SidebarUserbar, SidebarInset } from '@mlbghoon/blumnai-design-system';
+import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarGroup, SidebarHeader, SidebarFooter, SidebarUserbar, SidebarInset } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **SidebarProvider** (wrap your layout — required for sidebar context):
@@ -2092,7 +2092,7 @@ import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem,
 ### Menubar
 
 ```tsx
-import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator } from '@mlbghoon/blumnai-design-system';
+import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **MenubarContent**: `width?` (string|number), `container?` (HTMLElement)
@@ -2129,7 +2129,7 @@ import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, Menu
 ### PopoverContent
 
 ```tsx
-import { Popover, PopoverTrigger, PopoverContent, PopoverScrollArea, PopoverArrow } from '@mlbghoon/blumnai-design-system';
+import { Popover, PopoverTrigger, PopoverContent, PopoverScrollArea, PopoverArrow } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Popover** (root): `open?` (boolean), `onOpenChange?` ((open: boolean) => void), `defaultOpen?` (boolean), `modal?` (boolean)
@@ -2153,7 +2153,7 @@ import { Popover, PopoverTrigger, PopoverContent, PopoverScrollArea, PopoverArro
 import {
   DndContext, Draggable, Droppable, DragHandle, DragOverlay,
   Sortable, SortableItem, useDraggableContext, useSortableItemContext,
-} from '@mlbghoon/blumnai-design-system';
+} from '@blumnai-studio/blumnai-design-system';
 ```
 
 **DndContext** (wraps drag area, provides sensors):
@@ -2241,7 +2241,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Form, FormField, FormControl, Input, Button } from '@mlbghoon/blumnai-design-system';
+import { Form, FormField, FormControl, Input, Button } from '@blumnai-studio/blumnai-design-system';
 
 const loginSchema = z.object({
   email: z.string().email('유효한 이메일을 입력해주세요'),
@@ -2303,7 +2303,7 @@ function LoginForm() {
 ### Confirmation Dialog
 
 ```tsx
-import { ConfirmDialog, Button } from '@mlbghoon/blumnai-design-system';
+import { ConfirmDialog, Button } from '@blumnai-studio/blumnai-design-system';
 import { useState } from 'react';
 
 function DeleteConfirmation() {
@@ -2330,7 +2330,7 @@ function DeleteConfirmation() {
 ### Dialog with Form
 
 ```tsx
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, Button, Input } from '@mlbghoon/blumnai-design-system';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, Button, Input } from '@blumnai-studio/blumnai-design-system';
 import { useState } from 'react';
 
 function EditDialog() {
@@ -2362,7 +2362,7 @@ function EditDialog() {
 ### Toast Notifications
 
 ```tsx
-import { toast } from '@mlbghoon/blumnai-design-system';
+import { toast } from '@blumnai-studio/blumnai-design-system';
 
 toast.success('저장되었습니다');
 toast.error('오류가 발생했습니다');
@@ -2374,7 +2374,7 @@ toast.info('삭제됨', { action: { label: '실행취소', onClick: () => handle
 ### FilterButton with Popover
 
 ```tsx
-import { Popover, PopoverTrigger, PopoverContent, FilterButton, CheckboxList } from '@mlbghoon/blumnai-design-system';
+import { Popover, PopoverTrigger, PopoverContent, FilterButton, CheckboxList } from '@blumnai-studio/blumnai-design-system';
 import { useState } from 'react';
 
 function StatusFilter() {
@@ -2404,8 +2404,8 @@ function StatusFilter() {
 
 ```tsx
 import { useState } from 'react';
-import { DataGrid, CellText, CellBadge, CellAvatar } from '@mlbghoon/blumnai-design-system';
-import type { ColumnDef } from '@mlbghoon/blumnai-design-system';
+import { DataGrid, CellText, CellBadge, CellAvatar } from '@blumnai-studio/blumnai-design-system';
+import type { ColumnDef } from '@blumnai-studio/blumnai-design-system';
 
 interface User {
   id: string;
@@ -2441,7 +2441,7 @@ function UserTable() {
 ### Tabs
 
 ```tsx
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@mlbghoon/blumnai-design-system';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@blumnai-studio/blumnai-design-system';
 
 <Tabs defaultValue="account">
   <TabsList>
@@ -2456,7 +2456,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@mlbghoon/blumnai-desi
 ### Search Input with Clear
 
 ```tsx
-import { Input } from '@mlbghoon/blumnai-design-system';
+import { Input } from '@blumnai-studio/blumnai-design-system';
 import { useState } from 'react';
 
 function SearchInput() {
@@ -2477,7 +2477,7 @@ function SearchInput() {
 ### File Upload
 
 ```tsx
-import { FileUploadArea } from '@mlbghoon/blumnai-design-system';
+import { FileUploadArea } from '@blumnai-studio/blumnai-design-system';
 import { useState } from 'react';
 
 function UploadExample() {
@@ -2496,7 +2496,7 @@ function UploadExample() {
 ### Button Variants
 
 ```tsx
-import { Button } from '@mlbghoon/blumnai-design-system';
+import { Button } from '@blumnai-studio/blumnai-design-system';
 
 <Button buttonStyle="primary">Primary</Button>
 <Button buttonStyle="secondary">Secondary</Button>
@@ -2515,7 +2515,7 @@ import { Button } from '@mlbghoon/blumnai-design-system';
 ### Popover
 
 ```tsx
-import { Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverAnchor, Button } from '@mlbghoon/blumnai-design-system';
+import { Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverAnchor, Button } from '@blumnai-studio/blumnai-design-system';
 
 <Popover>
   <PopoverTrigger asChild>
@@ -2536,7 +2536,7 @@ import { Popover, PopoverTrigger, PopoverContent, PopoverClose, PopoverAnchor, B
 ### Combobox with Creatable
 
 ```tsx
-import { Combobox } from '@mlbghoon/blumnai-design-system';
+import { Combobox } from '@blumnai-studio/blumnai-design-system';
 import { useState } from 'react';
 
 function CreatableCombobox() {
@@ -2570,7 +2570,7 @@ function CreatableCombobox() {
 No built-in async support — manage loading state externally:
 
 ```tsx
-import { Combobox } from '@mlbghoon/blumnai-design-system';
+import { Combobox } from '@blumnai-studio/blumnai-design-system';
 import { useState, useEffect } from 'react';
 
 function AsyncCombobox() {
@@ -2606,7 +2606,7 @@ function AsyncCombobox() {
 import {
   SidebarProvider, Sidebar, SidebarHeader, SidebarContent, SidebarMenu,
   SidebarMenuItem, SidebarFooter, SidebarUserbar, SidebarInset,
-} from '@mlbghoon/blumnai-design-system';
+} from '@blumnai-studio/blumnai-design-system';
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -2648,8 +2648,8 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 
 ```tsx
 import { useState } from 'react';
-import { DataGrid } from '@mlbghoon/blumnai-design-system';
-import type { ColumnDef, SortingState, OnChangeFn } from '@mlbghoon/blumnai-design-system';
+import { DataGrid } from '@blumnai-studio/blumnai-design-system';
+import type { ColumnDef, SortingState, OnChangeFn } from '@blumnai-studio/blumnai-design-system';
 
 const columns: ColumnDef<User>[] = [
   { accessorKey: 'name', header: '이름' },
@@ -2687,8 +2687,8 @@ function ServerTable() {
 
 ```tsx
 import { useState } from 'react';
-import { DataGrid } from '@mlbghoon/blumnai-design-system';
-import type { ColumnDef, ColumnFiltersState } from '@mlbghoon/blumnai-design-system';
+import { DataGrid } from '@blumnai-studio/blumnai-design-system';
+import type { ColumnDef, ColumnFiltersState } from '@blumnai-studio/blumnai-design-system';
 
 function FilterableTable() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -2710,7 +2710,7 @@ function FilterableTable() {
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Form, FormField, FormControl, Input, Button, toast } from '@mlbghoon/blumnai-design-system';
+import { Form, FormField, FormControl, Input, Button, toast } from '@blumnai-studio/blumnai-design-system';
 import { useState } from 'react';
 
 const schema = z.object({ name: z.string().min(1, '필수 항목입니다') });
@@ -2752,7 +2752,7 @@ function AsyncForm() {
 ### Usage
 
 ```tsx
-import { Icon, BrandIcon, FlagIcon, FileIcon, IsometricIcon, CursorIcon } from '@mlbghoon/blumnai-design-system';
+import { Icon, BrandIcon, FlagIcon, FileIcon, IsometricIcon, CursorIcon } from '@blumnai-studio/blumnai-design-system';
 
 <Icon iconType={['system', 'check']} />
 <Icon iconType={['system', 'close']} size={24} />
@@ -2773,7 +2773,7 @@ import { Icon, BrandIcon, FlagIcon, FileIcon, IsometricIcon, CursorIcon } from '
 ### BrandIcon
 
 ```tsx
-import { BrandIcon } from '@mlbghoon/blumnai-design-system';
+import { BrandIcon } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -2790,7 +2790,7 @@ import { BrandIcon } from '@mlbghoon/blumnai-design-system';
 ### FlagIcon
 
 ```tsx
-import { FlagIcon } from '@mlbghoon/blumnai-design-system';
+import { FlagIcon } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -2807,7 +2807,7 @@ import { FlagIcon } from '@mlbghoon/blumnai-design-system';
 ### FileIcon
 
 ```tsx
-import { FileIcon } from '@mlbghoon/blumnai-design-system';
+import { FileIcon } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -2825,7 +2825,7 @@ import { FileIcon } from '@mlbghoon/blumnai-design-system';
 ### IsometricIcon
 
 ```tsx
-import { IsometricIcon } from '@mlbghoon/blumnai-design-system';
+import { IsometricIcon } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -2843,7 +2843,7 @@ import { IsometricIcon } from '@mlbghoon/blumnai-design-system';
 ### CursorIcon
 
 ```tsx
-import { CursorIcon } from '@mlbghoon/blumnai-design-system';
+import { CursorIcon } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -3014,7 +3014,7 @@ type AccordionItemStyle = 'default' | 'soft' | 'ghost' | 'line';
 ### useKeyboardShortcut
 
 ```tsx
-import { useKeyboardShortcut } from '@mlbghoon/blumnai-design-system';
+import { useKeyboardShortcut } from '@blumnai-studio/blumnai-design-system';
 ```
 
 Binds a global keydown listener for keyboard shortcuts.
@@ -3044,7 +3044,7 @@ useKeyboardShortcut('⌘+K', () => {
 ### useIsMobile
 
 ```tsx
-import { useIsMobile } from '@mlbghoon/blumnai-design-system';
+import { useIsMobile } from '@blumnai-studio/blumnai-design-system';
 ```
 
 Returns `true` when the viewport width is less than 768px. Listens to media query changes and updates reactively.
@@ -3061,7 +3061,7 @@ return <Sheet>...</Sheet>;
 ### useSidebar
 
 ```tsx
-import { useSidebar } from '@mlbghoon/blumnai-design-system';
+import { useSidebar } from '@blumnai-studio/blumnai-design-system';
 ```
 
 Returns the sidebar context. Must be used inside a `SidebarProvider`.
@@ -3166,7 +3166,7 @@ Use in chart config: `color: 'var(--chart-1)'`
 
 - All components include `"use client"` directives automatically
 - Components that use browser APIs (tooltips, popovers, dialogs) require a client boundary
-- CSS can be imported in server components: `import '@mlbghoon/blumnai-design-system/styles'`
+- CSS can be imported in server components: `import '@blumnai-studio/blumnai-design-system/styles'`
 
 ---
 
@@ -3187,7 +3187,7 @@ Use in chart config: `color: 'var(--chart-1)'`
 Use the `useIsMobile` hook (768px breakpoint) to adapt layouts:
 
 ```tsx
-import { useIsMobile } from '@mlbghoon/blumnai-design-system';
+import { useIsMobile } from '@blumnai-studio/blumnai-design-system';
 
 function ResponsivePanel({ children }) {
   const isMobile = useIsMobile();

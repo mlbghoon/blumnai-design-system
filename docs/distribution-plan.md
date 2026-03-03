@@ -90,7 +90,7 @@ export default defineConfig(({ mode }) => {
 
 ```json
 {
-  "name": "@mlbghoon/blumnai-design-system",
+  "name": "@blumnai-studio/blumnai-design-system",
   "version": "1.0.0",
   "private": false,
   "type": "module",
@@ -143,7 +143,7 @@ GitHub Packages lets you host npm packages directly in your GitHub repository. F
 
 ```json
 {
-  "name": "@mlbghoon/blumnai-design-system",
+  "name": "@blumnai-studio/blumnai-design-system",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   }
@@ -153,7 +153,7 @@ GitHub Packages lets you host npm packages directly in your GitHub repository. F
 **Step 2: Create `.npmrc` file in project root**
 
 ```ini
-@mlbghoon:registry=https://npm.pkg.github.com
+@blumnai-studio:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
@@ -219,7 +219,7 @@ Replace `YOUR_TOKEN` with the token you just copied.
 Open **Terminal** and run these commands **one at a time**:
 
 ```bash
-echo "@mlbghoon:registry=https://npm.pkg.github.com" >> ~/.npmrc
+echo "@blumnai-studio:registry=https://npm.pkg.github.com" >> ~/.npmrc
 ```
 ```bash
 echo "//npm.pkg.github.com/:_authToken=YOUR_TOKEN" >> ~/.npmrc
@@ -227,7 +227,7 @@ echo "//npm.pkg.github.com/:_authToken=YOUR_TOKEN" >> ~/.npmrc
 
 **Verify:** Run `cat ~/.npmrc` — you should see **exactly these 2 lines**:
 ```
-@mlbghoon:registry=https://npm.pkg.github.com
+@blumnai-studio:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=ghp_xxxx...
 ```
 
@@ -245,7 +245,7 @@ Then run the two `echo` commands above again.
 Open **PowerShell** and run these commands **one at a time**:
 
 ```powershell
-Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "@mlbghoon:registry=https://npm.pkg.github.com"
+Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "@blumnai-studio:registry=https://npm.pkg.github.com"
 ```
 ```powershell
 Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "//npm.pkg.github.com/:_authToken=YOUR_TOKEN"
@@ -253,7 +253,7 @@ Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "//npm.pkg.github.com/:_authT
 
 **Verify:** Run `Get-Content "$env:USERPROFILE\.npmrc"` — you should see **exactly these 2 lines**:
 ```
-@mlbghoon:registry=https://npm.pkg.github.com
+@blumnai-studio:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=ghp_xxxx...
 ```
 
@@ -271,19 +271,19 @@ Then run the two `Add-Content` commands above again.
 
 In your project folder, run:
 ```bash
-npm install @mlbghoon/blumnai-design-system --legacy-peer-deps --legacy-peer-deps
+npm install @blumnai-studio/blumnai-design-system --legacy-peer-deps --legacy-peer-deps
 ```
 
 **4. Import CSS (required, do this once)**
 
 Add this line to your app's entry file (e.g., `main.tsx`, `App.tsx`, `layout.tsx`):
 ```tsx
-import '@mlbghoon/blumnai-design-system/styles';
+import '@blumnai-studio/blumnai-design-system/styles';
 ```
 
 **5. Use components**
 ```tsx
-import { Button, Input } from '@mlbghoon/blumnai-design-system';
+import { Button, Input } from '@blumnai-studio/blumnai-design-system';
 ```
 
 ---
@@ -388,11 +388,11 @@ jobs:
 2. [ ] Share Storybook URL with team
 3. [ ] Document installation instructions for developers:
    ```bash
-   npm install @mlbghoon/blumnai-design-system --legacy-peer-deps
+   npm install @blumnai-studio/blumnai-design-system --legacy-peer-deps
    ```
    ```tsx
-   import { Button, Input } from '@mlbghoon/blumnai-design-system';
-   import '@mlbghoon/blumnai-design-system/styles';
+   import { Button, Input } from '@blumnai-studio/blumnai-design-system';
+   import '@blumnai-studio/blumnai-design-system/styles';
    ```
 
 ### Phase 3: Automation (Optional, Later)
@@ -460,7 +460,7 @@ Both formats coexist in `dist/` with different extensions. The `exports` field t
 ### CSS Compatibility
 ✅ **Universal** - CSS is output as plain `.css` file, works everywhere:
 ```tsx
-import '@mlbghoon/blumnai-design-system/styles';
+import '@blumnai-studio/blumnai-design-system/styles';
 ```
 
 ### TypeScript Versions
@@ -472,11 +472,11 @@ import '@mlbghoon/blumnai-design-system/styles';
 
 ```bash
 # Install
-npm install @mlbghoon/blumnai-design-system --legacy-peer-deps
+npm install @blumnai-studio/blumnai-design-system --legacy-peer-deps
 
 # In code
-import { Button, Input, Checkbox } from '@mlbghoon/blumnai-design-system';
-import '@mlbghoon/blumnai-design-system/styles';
+import { Button, Input, Checkbox } from '@blumnai-studio/blumnai-design-system';
+import '@blumnai-studio/blumnai-design-system/styles';
 
 function App() {
   return <Button style="primary">Click me</Button>;
@@ -503,7 +503,7 @@ function App() {
 Static inline info/callout box with variant colors, indicator bar, icon, optional title, and close button.
 
 ```tsx
-import { InfoBox } from '@mlbghoon/blumnai-design-system';
+import { InfoBox } from '@blumnai-studio/blumnai-design-system';
 
 <InfoBox variant="info" title="Information">
   This is an informational message.
@@ -654,8 +654,8 @@ const columns = [
 
 ```ts
 // New component
-export { InfoBox } from '@mlbghoon/blumnai-design-system';
-export type { InfoBoxProps, InfoBoxVariant } from '@mlbghoon/blumnai-design-system';
+export { InfoBox } from '@blumnai-studio/blumnai-design-system';
+export type { InfoBoxProps, InfoBoxVariant } from '@blumnai-studio/blumnai-design-system';
 
 // New types
 export type {
@@ -663,7 +663,7 @@ export type {
   CheckboxShape,     // 'square' | 'round'
   SwitchSize,        // 'sm' | 'md' | 'lg'
   PaginationSize,    // 'sm' | 'lg'
-} from '@mlbghoon/blumnai-design-system';
+} from '@blumnai-studio/blumnai-design-system';
 
 // InputSize now includes 'xs': 'xs' | 'sm' | 'lg'
 ```
