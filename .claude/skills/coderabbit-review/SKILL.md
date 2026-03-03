@@ -153,8 +153,8 @@ Report in this exact structure:
 Stop and report if ANY of these occur:
 - **Clean review**: 0 actionable comments → proceed to Phase 4
 - **Timeout**: 30 minutes of polling with no review appearing
-- **Conflict**: Merge conflict detected
-- **CI failure**: CI checks are failing
+- **Conflict**: Merge conflict detected (`gh pr view --repo $GH_REPO $PR_NUMBER --json mergeable`)
+- **CI failure**: CI checks are failing (`gh pr checks --repo $GH_REPO $PR_NUMBER`)
 - **Ambiguous feedback**: CodeRabbit comment is unclear and requires human judgment
 
 ---
