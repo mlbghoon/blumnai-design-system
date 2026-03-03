@@ -10,7 +10,7 @@ When used by the main agent directly, follow the same report-only pattern — do
 
 This skill pushes the current branch to the remote, creates a PR, waits for CodeRabbit to review, collects actionable findings, and reports them. When there are 0 actionable comments, it merges and syncs locally.
 
-The agent detects the project from CWD (see agent definition for project detection logic and variable table). All commands below use `$GH_REPO`, `$PR_REMOTE`, `$BASE_BRANCH`, `$QUALITY_CMD` — set by Phase 0 of the agent.
+The agent detects the project from CWD and sets environment variables in its Phase 0 (project detection): `$GH_REPO` (e.g. `BlumnAI-Studio/blumnai-design-system`), `$PR_REMOTE` (e.g. `origin`), `$BASE_BRANCH` (e.g. `main`), `$QUALITY_CMD` (e.g. `npm run typecheck && npm run lint`). All commands below use these variables.
 
 ---
 
@@ -99,7 +99,7 @@ done
 
 if [ -z "$REVIEW" ] || [ "$REVIEW" = "null" ]; then
   echo "Timeout: CodeRabbit review not received within 30 minutes."
-  # Report timeout and stop (per Section 3.5)
+  exit 1
 fi
 ```
 
@@ -215,13 +215,12 @@ When re-spawned after the main agent has applied fixes:
      sleep 30
    done
 
-   if [ "$NEW_REVIEW_ID" = "$OLD_REVIEW_ID" ]; then
+   if [ -z "$NEW_REVIEW_ID" ] || [ "$NEW_REVIEW_ID" = "null" ] || [ "$NEW_REVIEW_ID" = "$OLD_REVIEW_ID" ]; then
      echo "Timeout: no new CodeRabbit review within 30 minutes."
-     # Report timeout and stop (per Section 3.5)
+     exit 1
    fi
    ```
-5. Parse and report (same as Phase 3.2 onward)
-4. Report findings or proceed to merge
+5. Parse and report (same as Phase 3.2 onward), then report findings or proceed to merge
 
 ---
 
