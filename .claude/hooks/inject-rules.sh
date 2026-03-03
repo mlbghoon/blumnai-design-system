@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
+if [ -z "${CLAUDE_PROJECT_DIR:-}" ]; then
+  echo "CLAUDE_PROJECT_DIR not set"
+  exit 1
+fi
+
 TASK_FILE="$CLAUDE_PROJECT_DIR/.claude/active-task"
 
 # Inject autonomy rules

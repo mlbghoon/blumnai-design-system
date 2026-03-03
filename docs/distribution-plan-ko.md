@@ -185,7 +185,7 @@ source ~/.zshrc
 
 **5단계: 게시**
 
-> ⚠️ 이 프로젝트는 `GITHUB_TOKEN_BLUMNAI` 환경 변수를 사용합니다.
+> ⚠️ DS 메인테이너 게시 시 `GITHUB_TOKEN_BLUMNAI` 환경 변수를 사용합니다. 소비자(팀원)는 자신의 `GITHUB_TOKEN`을 사용합니다.
 
 ```bash
 source ~/.zshrc 2>/dev/null; npm publish
@@ -229,7 +229,7 @@ echo "//npm.pkg.github.com/:_authToken=YOUR_TOKEN" >> ~/.npmrc
 ```
 
 **확인:** `cat ~/.npmrc` 실행 후 **정확히 아래 두 줄만** 보이면 성공:
-```
+```text
 @blumnai-studio:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=ghp_xxxx...
 ```

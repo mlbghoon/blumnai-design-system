@@ -126,7 +126,7 @@ Also parse the review body for:
 
 Report in this exact structure:
 
-```
+```markdown
 ## CodeRabbit Review Results
 - Project: {ds|ht}
 - PR: {url}

@@ -271,7 +271,7 @@ Then run the two `Add-Content` commands above again.
 
 In your project folder, run:
 ```bash
-npm install @blumnai-studio/blumnai-design-system --legacy-peer-deps --legacy-peer-deps
+npm install @blumnai-studio/blumnai-design-system --legacy-peer-deps
 ```
 
 **4. Import CSS (required, do this once)**

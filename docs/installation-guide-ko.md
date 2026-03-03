@@ -55,7 +55,7 @@ echo "//npm.pkg.github.com/:_authToken=YOUR_TOKEN" >> ~/.npmrc
 ```
 
 **확인:** `cat ~/.npmrc` 실행 후 **정확히 아래 두 줄만** 보이면 성공:
-```
+```text
 @blumnai-studio:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=ghp_xxxx...
 ```
