@@ -190,16 +190,37 @@ Report:
 
 When re-spawned after the main agent has applied fixes:
 
-1. Post re-review request:
+1. Capture the latest review ID **before** requesting re-review:
    ```bash
-   gh api repos/$GH_REPO/issues/$PR_NUMBER/comments \
-     -f body="@coderabbitai review"
+   OLD_REVIEW_ID=$(gh api repos/$GH_REPO/pulls/$PR_NUMBER/reviews \
+     --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last | .id' 2>/dev/null)
+   OLD_REVIEW_ID=${OLD_REVIEW_ID:-0}
    ```
 2. Push latest changes:
    ```bash
    git push $PR_REMOTE HEAD
    ```
-3. Poll for new review (same as Phase 3)
+3. Post re-review request:
+   ```bash
+   gh api repos/$GH_REPO/issues/$PR_NUMBER/comments \
+     -f body="@coderabbitai review"
+   ```
+4. Poll for a **new** review by comparing IDs (NOT timestamps — macOS `date` can't parse ISO 8601):
+   ```bash
+   for i in $(seq 1 60); do
+     NEW_REVIEW_ID=$(gh api repos/$GH_REPO/pulls/$PR_NUMBER/reviews \
+       --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last | .id' 2>/dev/null)
+     [ -n "$NEW_REVIEW_ID" ] && [ "$NEW_REVIEW_ID" != "null" ] && \
+       [ "$NEW_REVIEW_ID" != "$OLD_REVIEW_ID" ] && break
+     sleep 30
+   done
+
+   if [ "$NEW_REVIEW_ID" = "$OLD_REVIEW_ID" ]; then
+     echo "Timeout: no new CodeRabbit review within 30 minutes."
+     # Report timeout and stop (per Section 3.5)
+   fi
+   ```
+5. Parse and report (same as Phase 3.2 onward)
 4. Report findings or proceed to merge
 
 ---
