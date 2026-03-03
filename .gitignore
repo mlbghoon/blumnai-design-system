@@ -78,3 +78,6 @@ src/icons/svg-source/
 /time-picker
 /toast
 /tooltip
+
+# Claude Code active-task marker and counter (local-only)
+.claude/active-task*

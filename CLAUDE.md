@@ -2,19 +2,15 @@
 
 ## Publishing to GitHub Packages (CRITICAL)
 
-This is the **@mlbghoon** private mirror. The user has two GitHub accounts, so auth tokens must not collide.
-
-- **Package scope**: `@mlbghoon/blumnai-design-system`
+- **Package scope**: `@blumnai-studio/blumnai-design-system`
 - **Registry**: `https://npm.pkg.github.com`
-- **Auth env var**: `GITHUB_TOKEN_MLBGHOON` (NOT `GITHUB_TOKEN` — that's for the other account)
+- **Auth env var**: `GITHUB_TOKEN_BLUMNAI`
 
 **To publish, ALWAYS source env vars first and use this exact command:**
 
 ```bash
 source ~/.zshrc 2>/dev/null; npm publish
 ```
-
-**NEVER use `GITHUB_TOKEN` for this project.** It belongs to the mbisolution account and will fail with 401.
 
 ## Code Quality Verification (CRITICAL)
 
@@ -1051,18 +1047,30 @@ After implementing fixes, verify that related functionality still works. For com
 
 ## DS ↔ Consumer Bridge (Automated Cross-Project Workflow)
 
+Bridge는 **양방향**입니다 — 어느 쪽이든 요청을 만들고 응답을 받을 수 있습니다.
 This DS serves `happytalk-front` at `/Users/ml/Documents/GitHub/MBI/happytalk-front`.
 
 ### Bridge Directory
 
-- `~/.claude/ds-bridge/requests/` — Consumer writes change requests here
-- `~/.claude/ds-bridge/completed/` — DS writes completion notices here after publishing
+- `~/.claude/ds-bridge/requests/` — 변경 요청 (어느 쪽이든 작성 가능)
+- `~/.claude/ds-bridge/completed/` — 완료 통지 (구현한 쪽이 작성)
+- `~/.claude/ds-bridge/consumed/` — 소비 마커 (요청자가 적용 후 작성, cleanup 트리거)
 - `~/.claude/ds-bridge/PROTOCOL.md` — Full protocol documentation
 - `~/.claude/ds-bridge/orchestrator-prompt.md` — Orchestrator prompt for coordinated sessions
 
-### How to Process Requests
+### How to Create Requests (outgoing)
 
-When a request file exists in `~/.claude/ds-bridge/requests/` without a matching completion:
+When this project needs a change in the other project:
+
+1. Write a request file to `~/.claude/ds-bridge/requests/YYYY-MM-DD-<short-title>.md`
+   - Set `to: happytalk-front` and `from: blumnai-design-system`
+2. Continue working on other tasks — do NOT block waiting
+3. The watcher will notify the other project
+4. When a completion arrives in `~/.claude/ds-bridge/completed/`, apply it and write a consumed marker to `~/.claude/ds-bridge/consumed/` with the same filename
+
+### How to Process Requests (incoming)
+
+When a request file exists in `~/.claude/ds-bridge/requests/` addressed to this project, without a matching completion:
 
 1. Read the request file
 2. Implement the requested changes following all DS conventions
@@ -1081,7 +1089,7 @@ When a request file exists in `~/.claude/ds-bridge/requests/` without a matching
 ```markdown
 # Completed: {brief title}
 
-- **version**: 0.2.XX
+- **version**: {version}
 - **request**: {original request filename}
 
 ## What Changed
@@ -1095,7 +1103,7 @@ When a request file exists in `~/.claude/ds-bridge/requests/` without a matching
 
 ## Migration Steps for Consumer
 
-1. `npm install @mlbghoon/blumnai-design-system@0.2.XX --legacy-peer-deps`
+1. `npm install @blumnai-studio/blumnai-design-system@{version} --legacy-peer-deps`
 2. (specific code changes needed)
 
 ## Breaking Changes

@@ -1,12 +1,16 @@
 # CodeRabbit Review Skill
 
-Auto-invoke: before reporting all implementation work is done to the user. Do NOT wait for user request. When you see `[CODERABBIT REVIEW AUTO-TRIGGER]` in your context, invoke this skill immediately.
+This skill is designed for the **coderabbit-reviewer** agent. The agent does NOT modify code — it handles infrastructure (push, PR, polling) and reports findings back to the caller.
+
+When used by the main agent directly, follow the same report-only pattern — do NOT apply fixes inline.
 
 ---
 
 ## Overview
 
-This skill pushes the current branch to the company remote, creates a PR on `mbisolution/blumnai-design-system`, waits for CodeRabbit to review, fixes any actionable findings, and merges when clean. It ensures both remotes (`origin` = mlbghoon, `company` = mbisolution) stay in sync.
+This skill pushes the current branch to the remote, creates a PR, waits for CodeRabbit to review, collects actionable findings, and reports them. When there are 0 actionable comments, it merges and syncs locally.
+
+The agent detects the project from CWD and sets environment variables in its Phase 0 (project detection): `$GH_REPO` (e.g. `BlumnAI-Studio/blumnai-design-system`), `$PR_REMOTE` (e.g. `origin`), `$BASE_BRANCH` (e.g. `main`), `$QUALITY_CMD` (e.g. `npm run typecheck && npm run lint`). All commands below use these variables.
 
 ---
 
@@ -16,53 +20,45 @@ This skill pushes the current branch to the company remote, creates a PR on `mbi
 ```bash
 git status --porcelain
 ```
-If there are uncommitted changes, ask the user whether to commit them before proceeding. Do NOT proceed with a dirty tree.
+If there are uncommitted changes, report back and stop. Do NOT proceed with a dirty tree.
 
-### 1.2 Company remote
-Check if the `company` remote exists:
-```bash
-git remote get-url company 2>/dev/null
-```
-If missing, add it:
-```bash
-SHELL_RC="$HOME/.$(basename "$SHELL")rc"; [ -f "$SHELL_RC" ] && source "$SHELL_RC" 2>/dev/null; git remote add company "https://${GITHUB_TOKEN}@github.com/mbisolution/blumnai-design-system.git"
-```
+### 1.2 Remote setup
+Verify `origin` exists: `git remote get-url origin 2>/dev/null`.
 
 ### 1.3 Branch check
 ```bash
 git rev-parse --abbrev-ref HEAD
 ```
-If on `main`, create a new branch:
+If on the base branch, create a new branch:
 ```bash
 git checkout -b feat/YYYY-MM-DD-description
 ```
 Use the date and a short description derived from recent commit subjects.
 
-### 1.4 Fetch company/main
+### 1.4 Fetch base
 ```bash
-git fetch company main
+git fetch $PR_REMOTE $BASE_BRANCH
 ```
 
 ### 1.5 Quality verification
 ```bash
-npm run typecheck 2>&1 && npm run lint 2>&1
+$QUALITY_CMD
 ```
-Should already be clean from the quality gate, but verify. Fix any issues before proceeding.
+Should already be clean from the quality gate, but verify. Report errors and stop if it fails.
 
 ---
 
 ## Phase 2 — Push + PR
 
-### 2.1 Push to both remotes
+### 2.1 Push to remote
 ```bash
-git push company HEAD
-git push origin HEAD
+git push $PR_REMOTE HEAD
 ```
 
 ### 2.2 Check for existing PR
 ```bash
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-gh pr list --repo mbisolution/blumnai-design-system --head "$BRANCH" --json number,url --jq '.[0]'
+gh pr list --repo $GH_REPO --head "$BRANCH" --json number,url --jq '.[0]'
 ```
 
 ### 2.3 Create or reuse PR
@@ -70,7 +66,7 @@ If no existing PR:
 ```bash
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 PR_TITLE=$(git log -1 --pretty=%s 2>/dev/null || echo "feat: ${BRANCH}")
-gh pr create --repo mbisolution/blumnai-design-system --base main --head "$BRANCH" --title "$PR_TITLE" --body "$(cat <<'EOF'
+gh pr create --repo $GH_REPO --base $BASE_BRANCH --head "$BRANCH" --title "$PR_TITLE" --body "$(cat <<'EOF'
 ## Summary
 - Brief description of changes
 
@@ -85,163 +81,154 @@ EOF
 
 Extract the PR number for subsequent phases.
 
-Report the PR URL to the user.
+Report the PR URL.
 
 ---
 
-## Phase 3 — CodeRabbit Review Loop (max 3 rounds)
+## Phase 3 — Poll + Report
 
-**IMPORTANT**: Do NOT block the main agent with sleep loops. Use a **background agent** to poll for the review, so the main agent can continue working or respond to the user.
-
-### 3.0 Spawn background review watcher
-Use the `Task` tool with `run_in_background: true` to spawn a background agent that handles polling. The background agent should:
-1. Poll for the CodeRabbit review (steps 3.1–3.2 below)
-2. Once found, parse actionable comments (step 3.3)
-3. Collect inline comments if any (step 3.4)
-4. Report back with all findings
-
-While the background agent polls, **tell the user the PR URL and that you're waiting for the review**. You can continue responding to user messages or work on other tasks.
-
-When the background agent reports back:
-- If 0 actionable comments → proceed to Phase 4
-- If actionable comments found → apply fixes (steps 3.5–3.8), then spawn another background agent for re-review
-
-### 3.1 Initial wait (run in background agent)
-Poll every 60 seconds for up to 10 minutes for CodeRabbit's initial review (exit early once review appears):
+### 3.1 Poll for review
+Poll every 30 seconds for up to 30 minutes for CodeRabbit's review (exit early once review appears):
 ```bash
-for i in $(seq 1 10); do
-  REVIEW=$(gh api repos/mbisolution/blumnai-design-system/pulls/PR_NUMBER/reviews \
+for i in $(seq 1 60); do
+  REVIEW=$(gh api repos/$GH_REPO/pulls/$PR_NUMBER/reviews \
     --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last' 2>/dev/null)
   [ -n "$REVIEW" ] && [ "$REVIEW" != "null" ] && break
-  sleep 60
+  sleep 30
 done
+
+if [ -z "$REVIEW" ] || [ "$REVIEW" = "null" ]; then
+  echo "Timeout: CodeRabbit review not received within 30 minutes."
+  exit 1
+fi
 ```
 
 Also check issue comments (CodeRabbit sometimes posts the full review as a comment):
 ```bash
-gh api repos/mbisolution/blumnai-design-system/issues/PR_NUMBER/comments \
+gh api repos/$GH_REPO/issues/$PR_NUMBER/comments \
   --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last | .body' 2>/dev/null
 ```
 
-### 3.2 Extended poll (if not found in 3.1)
-Continue polling every 60 seconds (max 5 more polls):
-```bash
-gh api repos/mbisolution/blumnai-design-system/pulls/PR_NUMBER/reviews \
-  --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last'
-```
-
-### 3.3 Parse actionable comments
+### 3.2 Parse actionable comments
 From the review body, look for the pattern: `Actionable comments posted: N`
 
-- If `N = 0` → PASS. Report to main agent, skip to Phase 4.
-- If `N > 0` → collect comments and report to main agent.
+- If `N = 0` → PASS. Report to caller, proceed to Phase 4.
+- If `N > 0` → collect comments and report to caller.
 
-### 3.4 Collect review comments
+### 3.3 Collect review comments
 Get inline comments:
 ```bash
-gh api repos/mbisolution/blumnai-design-system/pulls/PR_NUMBER/comments \
+gh api repos/$GH_REPO/pulls/$PR_NUMBER/comments \
   --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | .[] | {path: .path, line: .line, body: .body}'
 ```
 
 Also parse the review body for:
 - `Outside diff range` sections
-- `Prompt for AI Agents` blocks (these are HIGH PRIORITY — follow them exactly)
+- `Prompt for AI Agents` blocks (these are HIGH PRIORITY)
 - `제안 수정` (suggested fixes) diffs
 
-### 3.5 Apply fixes (main agent)
-When the background agent reports actionable comments, the main agent applies fixes:
-1. Read the `Prompt for AI Agents` block if present — follow it as the primary instruction
-2. Otherwise, apply the `제안 수정` diff if provided
-3. Otherwise, implement the fix based on the comment description
+### 3.4 Report findings
 
-### 3.6 Verify fixes
-```bash
-npm run typecheck 2>&1 && npm run lint 2>&1
+Report in this exact structure:
+
+```markdown
+## CodeRabbit Review Results
+- Project: {ds|ht}
+- PR: {url}
+- Actionable comments: {count}
+
+### Comment 1
+- File: {path}:{line}
+- Issue: {summary}
+- Suggestion: {CodeRabbit's suggestion}
+- AI Agent Prompt: {if present}
+
+### Comment 2
+...
 ```
 
-### 3.7 Commit and push
-Stage only the files you modified (never use `git add -A` which could stage secrets or unintended files):
-```bash
-git add <specific-files-you-changed>
-git commit -m "$(cat <<'EOF'
-fix: apply CodeRabbit round-N findings
+**Do NOT modify any code files. Report and stop.**
 
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
-EOF
-)"
-git push company HEAD
-git push origin HEAD
-```
-
-### 3.8 Request re-review
-```bash
-gh api repos/mbisolution/blumnai-design-system/issues/PR_NUMBER/comments \
-  -f body="@coderabbitai review"
-```
-Then spawn another background agent to poll for the re-review (same pattern as 3.0–3.2).
-
-### 3.9 Wait for re-review
-Background agent polls every 60 seconds for up to 10 minutes (same pattern as 3.1).
-
-### 3.10 Stop conditions
-Stop the review loop if ANY of these occur:
+### 3.5 Stop conditions
+Stop and report if ANY of these occur:
 - **Clean review**: 0 actionable comments → proceed to Phase 4
-- **Max rounds reached**: 3 rounds completed (extend to 4 only if critical/breaking issues remain)
-- **Conflict**: Merge conflict detected
-- **CI failure**: CI checks are failing
+- **Timeout**: 30 minutes of polling with no review appearing
+- **Conflict**: Merge conflict detected (`gh pr view --repo $GH_REPO $PR_NUMBER --json mergeable`)
+- **CI failure**: CI checks are failing (`gh pr checks --repo $GH_REPO $PR_NUMBER`)
 - **Ambiguous feedback**: CodeRabbit comment is unclear and requires human judgment
-- **Regression**: Fix introduces new issues
-
-Report the reason for stopping to the user.
 
 ---
 
-## Phase 4 — Merge + Dual Sync
+## Phase 4 — Merge + Sync (only when 0 actionable comments)
 
 ### 4.1 Merge the PR
 ```bash
-gh pr merge PR_NUMBER --repo mbisolution/blumnai-design-system --squash --delete-branch
+gh pr merge $PR_NUMBER --repo $GH_REPO --squash --delete-branch
 ```
 
-### 4.2 Clean up stale branch on origin
-The `--delete-branch` only removes the branch on `company`. Delete it on `origin` too:
+### 4.2 Sync base branch locally
 ```bash
-BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
-if [ -n "$BRANCH" ] && [ "$BRANCH" != "main" ]; then
-  git push origin --delete "$BRANCH" 2>/dev/null || true
-fi
+git fetch $PR_REMOTE $BASE_BRANCH
+git checkout $BASE_BRANCH
+git merge $PR_REMOTE/$BASE_BRANCH --ff-only
+```
+If `--ff-only` fails (local base has diverged):
+```bash
+git branch backup-$(date +%s) $BASE_BRANCH 2>/dev/null || true
+git reset --hard $PR_REMOTE/$BASE_BRANCH
 ```
 
-### 4.3 Sync main locally
-```bash
-git fetch company main
-git checkout main
-git merge company/main --ff-only
-```
-If `--ff-only` fails (local main has diverged):
-```bash
-git branch backup-main-$(date +%s) main 2>/dev/null || true
-git reset --hard company/main
-```
-
-### 4.4 Push to origin
-```bash
-git push origin main
-```
-
-### 4.5 Report final status
-Report to the user:
+### 4.3 Report final status
+Report:
 - PR URL
 - Number of CodeRabbit rounds
 - Whether all actionable items were resolved
-- Both remotes are synced
+
+---
+
+## Re-review Mode
+
+When re-spawned after the main agent has applied fixes:
+
+1. Capture the latest review ID **before** requesting re-review:
+   ```bash
+   OLD_REVIEW_ID=$(gh api repos/$GH_REPO/pulls/$PR_NUMBER/reviews \
+     --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last | .id' 2>/dev/null)
+   OLD_REVIEW_ID=${OLD_REVIEW_ID:-0}
+   ```
+2. Push latest changes:
+   ```bash
+   git push $PR_REMOTE HEAD
+   ```
+3. Post re-review request:
+   ```bash
+   gh api repos/$GH_REPO/issues/$PR_NUMBER/comments \
+     -f body="@coderabbitai review"
+   ```
+4. Poll for a **new** review by comparing IDs (NOT timestamps — macOS `date` can't parse ISO 8601):
+   ```bash
+   for i in $(seq 1 60); do
+     NEW_REVIEW_ID=$(gh api repos/$GH_REPO/pulls/$PR_NUMBER/reviews \
+       --jq '[.[] | select(.user.login=="coderabbitai[bot]")] | last | .id' 2>/dev/null)
+     [ -n "$NEW_REVIEW_ID" ] && [ "$NEW_REVIEW_ID" != "null" ] && \
+       [ "$NEW_REVIEW_ID" != "$OLD_REVIEW_ID" ] && break
+     sleep 30
+   done
+
+   if [ -z "$NEW_REVIEW_ID" ] || [ "$NEW_REVIEW_ID" = "null" ] || [ "$NEW_REVIEW_ID" = "$OLD_REVIEW_ID" ]; then
+     echo "Timeout: no new CodeRabbit review within 30 minutes."
+     exit 1
+   fi
+   ```
+5. Parse and report (same as Phase 3.2 onward), then report findings or proceed to merge
 
 ---
 
 ## Important Notes
 
+- **No code modification**: This skill/agent does NOT modify code files. It reports findings for the main agent to fix.
 - **Publishing**: This skill does NOT publish to npm. That is a separate step the user handles.
-- **Token**: The `company` remote uses `${GITHUB_TOKEN}` (mbisolution account). The `origin` remote uses `${GITHUB_TOKEN_MLBGHOON}`.
+- **Tokens (DS)**: `origin` uses `${GITHUB_TOKEN_BLUMNAI}` (BlumnAI-Studio).
+- **Tokens (HT)**: `origin` uses `${GITHUB_TOKEN}` (mbisolution).
 - **Never force push**: Always use regular `git push`, never `--force`.
-- **Commit signing**: Follow the repository's existing commit conventions.
-- **File staging**: Always stage specific files with `git add <file>`. Never use `git add -A` or `git add .`.
+- **File staging (main agent)**: The main agent should stage specific files with `git add <file>`. This skill does not stage or modify files.

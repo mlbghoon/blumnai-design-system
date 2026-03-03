@@ -1,6 +1,6 @@
 {
-  "name": "@mlbghoon/blumnai-design-system",
-  "version": "0.2.43",
+  "name": "@blumnai-studio/blumnai-design-system",
+  "version": "1.0.0",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -144,10 +144,10 @@
         "dist/components/icons/FlagIcon/icons/all.d.ts"
       ],
       "icons/brands": [
-        "dist/components/icons/BrandIcon/icons/all.d.ts"
+        "dist/components/icons/BrandIcon/icons/index.d.ts"
       ],
       "icons/isometric": [
-        "dist/components/icons/IsometricIcon/icons/all.d.ts"
+        "dist/components/icons/IsometricIcon/icons/index.d.ts"
       ],
       "icons/file-icons": [
         "dist/components/icons/FileIcon/icons/all.d.ts"
@@ -405,12 +405,12 @@
       "import": "./dist/components/icons/FlagIcon/icons/all.mjs"
     },
     "./icons/brands": {
-      "types": "./dist/components/icons/BrandIcon/icons/all.d.ts",
-      "import": "./dist/components/icons/BrandIcon/icons/all.mjs"
+      "types": "./dist/components/icons/BrandIcon/icons/index.d.ts",
+      "import": "./dist/components/icons/BrandIcon/icons/index.mjs"
     },
     "./icons/isometric": {
-      "types": "./dist/components/icons/IsometricIcon/icons/all.d.ts",
-      "import": "./dist/components/icons/IsometricIcon/icons/all.mjs"
+      "types": "./dist/components/icons/IsometricIcon/icons/index.d.ts",
+      "import": "./dist/components/icons/IsometricIcon/icons/index.mjs"
     },
     "./icons/file-icons": {
       "types": "./dist/components/icons/FileIcon/icons/all.d.ts",
@@ -702,7 +702,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mlbghoon/blumnai-design-system.git"
+    "url": "https://github.com/BlumnAI-Studio/blumnai-design-system.git"
   },
   "eslintConfig": {
     "extends": [
