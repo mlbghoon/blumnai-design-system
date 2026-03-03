@@ -96,6 +96,11 @@ for i in $(seq 1 60); do
   [ -n "$REVIEW" ] && [ "$REVIEW" != "null" ] && break
   sleep 30
 done
+
+if [ -z "$REVIEW" ] || [ "$REVIEW" = "null" ]; then
+  echo "Timeout: CodeRabbit review not received within 30 minutes."
+  # Report timeout and stop (per Section 3.5)
+fi
 ```
 
 Also check issue comments (CodeRabbit sometimes posts the full review as a comment):
