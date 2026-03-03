@@ -43,12 +43,13 @@ if echo "$LAST_MSG" | grep -qiE "(all (tasks?|work|items?) (are )?(done|complete
 fi
 
 # Block stop — tell Claude what to continue doing
-echo $((COUNT + 1)) > "$COUNTER_FILE"
+NEXT_COUNT=$((COUNT + 1))
+echo "$NEXT_COUNT" > "$COUNTER_FILE"
 
 TASK_DESC=$(cat "$TASK_FILE")
 ESCAPED_DESC=$(echo "$TASK_DESC" | /usr/bin/python3 -c "import json,sys; print(json.dumps(sys.stdin.read().strip())[1:-1])" 2>/dev/null || echo "$TASK_DESC")
 cat <<EOF
-{"decision": "block", "reason": "ACTIVE TASK — do not stop.\n\nTask: ${ESCAPED_DESC}\n\nContinuation ${COUNT}/${MAX_CONTINUATIONS}. Continue working. When ALL work is complete, delete .claude/active-task and stop."}
+{"decision": "block", "reason": "ACTIVE TASK — do not stop.\n\nTask: ${ESCAPED_DESC}\n\nContinuation ${NEXT_COUNT}/${MAX_CONTINUATIONS}. Continue working. When ALL work is complete, delete .claude/active-task and stop."}
 EOF
 
 exit 0

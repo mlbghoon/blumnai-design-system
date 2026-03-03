@@ -252,7 +252,7 @@ Add-Content -Path "$env:USERPROFILE\.npmrc" -Value "//npm.pkg.github.com/:_authT
 ```
 
 **Verify:** Run `Get-Content "$env:USERPROFILE\.npmrc"` — you should see **exactly these 2 lines**:
-```
+```text
 @blumnai-studio:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=ghp_xxxx...
 ```
