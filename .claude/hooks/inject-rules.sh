@@ -30,12 +30,12 @@ if [ -f "$TASK_FILE" ]; then
     echo ""
     echo "STALE TASK MARKER DETECTED (.claude/active-task is $(( AGE_SEC / 3600 )) hours old)."
     echo "This may be from a previous crashed session. Contents:"
-    cat "$TASK_FILE"
+    head -40 "$TASK_FILE"
     echo ""
     echo "If this task is no longer relevant, delete .claude/active-task to clear it."
   else
     echo ""
     echo "Active task marker found. Current task:"
-    cat "$TASK_FILE"
+    head -40 "$TASK_FILE"
   fi
 fi

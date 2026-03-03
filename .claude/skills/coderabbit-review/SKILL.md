@@ -206,4 +206,4 @@ When re-spawned after the main agent has applied fixes:
 - **Tokens (DS)**: `origin` uses `${GITHUB_TOKEN_BLUMNAI}` (BlumnAI-Studio).
 - **Tokens (HT)**: `origin` uses `${GITHUB_TOKEN}` (mbisolution).
 - **Never force push**: Always use regular `git push`, never `--force`.
-- **File staging**: Always stage specific files with `git add <file>`. Never use `git add -A` or `git add .`.
+- **File staging (main agent)**: The main agent should stage specific files with `git add <file>`. This skill does not stage or modify files.

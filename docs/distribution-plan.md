@@ -226,7 +226,7 @@ echo "//npm.pkg.github.com/:_authToken=YOUR_TOKEN" >> ~/.npmrc
 ```
 
 **Verify:** Run `cat ~/.npmrc` — you should see **exactly these 2 lines**:
-```
+```text
 @blumnai-studio:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=ghp_xxxx...
 ```
