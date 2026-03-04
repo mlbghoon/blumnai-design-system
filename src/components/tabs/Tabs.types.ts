@@ -23,6 +23,13 @@ export interface TabsListProps extends ComponentPropsWithoutRef<typeof TabsPrimi
    * @default false
    */
   scrollable?: boolean;
+  /**
+   * 활성 탭의 텍스트 및 언더라인 색상 (underline 변형 전용)
+   *
+   * CSS 색상 값을 직접 지정합니다.
+   * @example activeColor="#5988fe"
+   */
+  activeColor?: string;
 }
 
 export interface TabsTriggerProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {

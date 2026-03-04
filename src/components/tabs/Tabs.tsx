@@ -20,6 +20,7 @@ interface TabsContextValue {
   shape: TabsShape;
   size: TabsSize;
   type: TabsType;
+  activeColor?: string;
 }
 
 const TabsContext = React.createContext<TabsContextValue>({
@@ -52,8 +53,8 @@ const UNDERLINE_LIST_SIZE_STYLES = {
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   TabsListProps
->(({ variant = 'segmented', shape = 'rounded', size = 'sm', type = 'default', scrollable = false, className, children, ...props }, ref) => {
-  const contextValue = React.useMemo(() => ({ variant, shape, size, type }), [variant, shape, size, type]);
+>(({ variant = 'segmented', shape = 'rounded', size = 'sm', type = 'default', scrollable = false, activeColor, className, children, ...props }, ref) => {
+  const contextValue = React.useMemo(() => ({ variant, shape, size, type, activeColor }), [variant, shape, size, type, activeColor]);
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);
   const [canScrollRight, setCanScrollRight] = React.useState(false);
@@ -165,8 +166,8 @@ const ICON_SIZE = {
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
->(({ leadIcon, tailIcon, badge, closable = false, onClose, className, children, value, ...props }, ref) => {
-  const { variant, shape, size, type } = useTabsContext();
+>(({ leadIcon, tailIcon, badge, closable = false, onClose, className, children, value, style, ...props }, ref) => {
+  const { variant, shape, size, type, activeColor } = useTabsContext();
   const iconSize = variant === 'underline' ? ICON_SIZE[size] : 14;
 
   const renderIcon = (icon: IconTypeWithFill | React.ReactNode) => {
@@ -209,6 +210,7 @@ const TabsTrigger = React.forwardRef<
     <TabsPrimitive.Trigger
       ref={ref}
       value={value}
+      style={activeColor ? { ...style, '--tabs-active-color': activeColor } as React.CSSProperties : style}
       className={cn(
         'inline-flex items-center justify-center whitespace-nowrap',
         'font-body size-sm font-medium line-height-leading-5',
@@ -239,8 +241,12 @@ const TabsTrigger = React.forwardRef<
           '[margin-bottom:-1px]',
           'after:absolute after:bottom-0 after:left-0 after:right-0 after:[height:1.5px]',
           'after:bg-transparent',
-          'data-[state=active]:![color:var(--text-default)]',
-          'data-[state=active]:after:[background-color:var(--border-accent)]',
+          activeColor
+            ? 'data-[state=active]:![color:var(--tabs-active-color)]'
+            : 'data-[state=active]:![color:var(--text-default)]',
+          activeColor
+            ? 'data-[state=active]:after:[background-color:var(--tabs-active-color)]'
+            : 'data-[state=active]:after:[background-color:var(--border-accent)]',
         ],
         className
       )}

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.3] - 2026-03-04
+
+### Added
+
+- **Tabs `activeColor` prop**: `TabsList`에 `activeColor` prop 추가. underline 변형에서 활성 탭의 텍스트 및 언더라인 색상을 커스터마이즈 가능 (예: `activeColor="#5988fe"`)
+
 ## [1.0.2] - 2026-03-04
 
 ### Fixed
