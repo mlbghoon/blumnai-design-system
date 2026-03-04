@@ -286,6 +286,27 @@ export const StyleWithShadow: Story = {
 };
 
 // ============================================================================
+// LABEL WEIGHT
+// ============================================================================
+
+/**
+ * 라벨 굵기
+ *
+ * labelWeight prop으로 라벨의 font-weight를 조절합니다.
+ */
+export const LabelWeight: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('normal');
+    return (
+      <RadioGroup value={value} onValueChange={setValue} className="flex flex-col ds-gap-16">
+        <Radio value="medium" label="font-medium (기본)" labelWeight="medium" />
+        <Radio value="normal" label="font-normal (가벼운 텍스트)" labelWeight="normal" />
+      </RadioGroup>
+    );
+  },
+};
+
+// ============================================================================
 // POSITIONS
 // ============================================================================
 
