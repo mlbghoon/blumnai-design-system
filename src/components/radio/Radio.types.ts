@@ -49,4 +49,9 @@ export interface RadioProps
    * @default 'default'
    */
   radioStyle?: RadioStyle;
+  /**
+   * 라벨과 라디오 버튼의 수직 정렬
+   * @default 'start'
+   */
+  align?: 'start' | 'center';
 }

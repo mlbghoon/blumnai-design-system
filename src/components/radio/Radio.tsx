@@ -70,7 +70,7 @@ RadioGroup.displayName = 'RadioGroup';
 const Radio = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
   RadioProps
->(({ className, label, description, radioPosition = 'left', radioStyle = 'default', disabled, value, ...props }, ref) => {
+>(({ className, label, description, radioPosition = 'left', radioStyle = 'default', align = 'start', disabled, value, ...props }, ref) => {
   const context = React.useContext(RadioContext);
   const isChecked = context.value === value;
 
@@ -131,7 +131,8 @@ const Radio = React.forwardRef<
   return (
     <label
       className={cn(
-        'inline-flex items-start ds-gap-10',
+        'inline-flex ds-gap-10',
+        align === 'center' ? 'items-center' : 'items-start',
         radioPosition === 'right' && 'flex-row-reverse',
         disabled ? 'cursor-not-allowed' : 'cursor-pointer'
       )}

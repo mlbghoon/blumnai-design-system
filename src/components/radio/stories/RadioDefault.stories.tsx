@@ -66,6 +66,17 @@ const meta: Meta<RadioProps> = {
         defaultValue: { summary: 'default' },
       },
     },
+    align: {
+      control: 'select',
+      options: ['start', 'center'],
+      description: '라벨과 라디오 버튼의 수직 정렬',
+      table: {
+        type: {
+          summary: "'start' | 'center'",
+        },
+        defaultValue: { summary: 'start' },
+      },
+    },
   },
   decorators: [
     (Story) => (
@@ -97,6 +108,7 @@ export const Default: Story = {
     description: '',
     radioPosition: 'left',
     radioStyle: 'default',
+    align: 'start',
   },
   parameters: {
     controls: { disable: false },
@@ -114,6 +126,7 @@ export const Default: Story = {
           description={description}
           radioPosition={args.radioPosition}
           radioStyle={args.radioStyle}
+          align={args.align}
         />
         <Radio
           value="option2"
@@ -121,6 +134,7 @@ export const Default: Story = {
           label="Option 2"
           radioPosition={args.radioPosition}
           radioStyle={args.radioStyle}
+          align={args.align}
         />
         <Radio
           value="option3"
@@ -128,6 +142,7 @@ export const Default: Story = {
           label="Option 3"
           radioPosition={args.radioPosition}
           radioStyle={args.radioStyle}
+          align={args.align}
         />
       </RadioGroup>
     );
@@ -277,6 +292,35 @@ export const RadioPositions: Story = {
 // ============================================================================
 // INTERACTIVE
 // ============================================================================
+
+/**
+ * 수직 정렬
+ *
+ * align="center"로 라벨이 복잡한 요소(폼 컨트롤 등)일 때 라디오 버튼을 수직 중앙 정렬합니다.
+ */
+export const AlignCenter: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('option1');
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">align=&quot;start&quot; (기본)</p>
+          <RadioGroup value={value} onValueChange={setValue}>
+            <Radio value="option1" align="start" label="짧은 라벨" />
+            <Radio value="option2" align="start" label={<span className="font-body size-sm">여러 줄이 포함된<br />긴 라벨 텍스트</span>} />
+          </RadioGroup>
+        </div>
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">align=&quot;center&quot;</p>
+          <RadioGroup value={value} onValueChange={setValue}>
+            <Radio value="option1" align="center" label="짧은 라벨" />
+            <Radio value="option2" align="center" label={<span className="font-body size-sm">여러 줄이 포함된<br />긴 라벨 텍스트</span>} />
+          </RadioGroup>
+        </div>
+      </div>
+    );
+  },
+};
 
 /**
  * 단일 선택

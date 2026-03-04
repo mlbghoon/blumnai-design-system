@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.4] - 2026-03-04
+
+### Added
+
+- **Radio `align` prop**: `Radio`에 `align` prop 추가 (`'start' | 'center'`). 라벨이 폼 컨트롤 등 복잡한 요소일 때 라디오 버튼을 수직 중앙 정렬 가능
+
 ## [1.0.3] - 2026-03-04
 
 ### Added
