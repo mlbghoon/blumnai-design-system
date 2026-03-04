@@ -402,6 +402,10 @@ export interface LeadDropdownVariantProps extends InputBaseProps, Omit<InputHTML
    * @default 'Select'
    */
   dropdownPlaceholder?: string;
+  /**
+   * 드롭다운 트리거의 고정 너비 (px)
+   */
+  dropdownWidth?: number;
 }
 
 /**
@@ -434,6 +438,10 @@ export interface TailDropdownVariantProps extends InputBaseProps, Omit<InputHTML
    * @default 'Select'
    */
   dropdownPlaceholder?: string;
+  /**
+   * 드롭다운 트리거의 고정 너비 (px)
+   */
+  dropdownWidth?: number;
 }
 
 /**

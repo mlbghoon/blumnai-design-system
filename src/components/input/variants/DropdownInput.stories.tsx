@@ -180,6 +180,13 @@ const meta: Meta<typeof Input> = {
         defaultValue: { summary: 'Select' },
       },
     },
+    dropdownWidth: {
+      control: 'number',
+      description: '드롭다운 트리거의 고정 너비 (px)',
+      table: {
+        type: { summary: 'number' },
+      },
+    },
     autoComplete: {
       control: 'text',
       description: '브라우저 자동완성 설정 (기본값: "off"로 자동완성 비활성화)',
@@ -624,6 +631,57 @@ export const StateSuccess: Story = {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
+    );
+  },
+};
+
+// ============================================================================
+// FIXED DROPDOWN WIDTH
+// ============================================================================
+
+const searchOptions = [
+  { value: 'name', label: '이름' },
+  { value: 'phone', label: '휴대폰번호' },
+  { value: 'email', label: '이메일 주소' },
+];
+
+/**
+ * 고정 너비 드롭다운
+ *
+ * `dropdownWidth` prop으로 드롭다운 트리거의 너비를 고정하여 값 변경 시 레이아웃 시프트를 방지합니다.
+ */
+export const FixedDropdownWidth: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('');
+    const [searchType, setSearchType] = useState('name');
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">dropdownWidth=100 (고정 너비)</p>
+          <Input
+            variant="lead-dropdown"
+            placeholder="검색어를 입력하세요"
+            dropdownOptions={searchOptions}
+            dropdownValue={searchType}
+            onDropdownChange={setSearchType}
+            dropdownWidth={100}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+        </div>
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">dropdownWidth 없음 (자동 너비)</p>
+          <Input
+            variant="lead-dropdown"
+            placeholder="검색어를 입력하세요"
+            dropdownOptions={searchOptions}
+            dropdownValue={searchType}
+            onDropdownChange={setSearchType}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+        </div>
+      </div>
     );
   },
 };

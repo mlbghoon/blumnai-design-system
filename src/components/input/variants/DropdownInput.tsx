@@ -121,6 +121,10 @@ export interface DropdownInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    * @default false
    */
   showCount?: boolean;
+  /**
+   * 드롭다운 트리거의 고정 너비 (px)
+   */
+  dropdownWidth?: number;
 }
 
 /**
@@ -134,6 +138,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
   dropdownValue,
   onDropdownChange,
   dropdownPlaceholder = 'Select',
+  dropdownWidth,
   inputStyle = 'default',
   size = 'sm',
   label,
@@ -375,6 +380,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
           dropdownSizeConfig.triggerPadding,
           disabled && 'cursor-not-allowed opacity-50'
         )}
+        style={dropdownWidth ? { width: dropdownWidth } : undefined}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >

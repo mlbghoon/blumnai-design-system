@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.5] - 2026-03-04
+
+### Added
+
+- **Input `dropdownWidth` prop**: lead-dropdown/tail-dropdown 변형에 `dropdownWidth` prop 추가. 드롭다운 트리거 너비를 고정하여 옵션 변경 시 레이아웃 시프트 방지
+
 ## [1.0.4] - 2026-03-04
 
 ### Added
