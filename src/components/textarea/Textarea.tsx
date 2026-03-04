@@ -227,6 +227,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     'placeholder:transition-opacity placeholder:duration-150',
     'focus:placeholder:opacity-50',
     (hasToolbarContent || useCustomScrollbar || useAutoResize) ? 'resize-none' : RESIZE_CONFIG[resize],
+    showResizeHandle && '[&::-webkit-resizer]:hidden',
     disabled && 'cursor-not-allowed',
     readOnly && 'cursor-default'
   );

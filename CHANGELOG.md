@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.9] - 2026-03-05
+
+### Fixed
+
+- **Button `shrink-0 whitespace-nowrap`**: 버튼이 flex 컨테이너에서 축소되거나 텍스트가 줄바꿈되는 문제 수정. `shrink-0`과 `whitespace-nowrap`을 기본 스타일에 추가
+- **Textarea 중복 리사이즈 핸들**: 커스텀 SVG 그립 아이콘과 브라우저 기본 리사이즈 핸들이 동시에 표시되는 문제 수정. 커스텀 그립이 있을 때 네이티브 핸들을 숨김
+
 ## [1.0.8] - 2026-03-04
 
 ### Fixed
