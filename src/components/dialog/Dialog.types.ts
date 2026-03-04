@@ -38,6 +38,11 @@ export interface DialogContentProps
    * @default false
    */
   fullScreen?: boolean;
+  /**
+   * 오버레이(배경)에 적용할 추가 className
+   * @example overlayClassName="bg-black/50"
+   */
+  overlayClassName?: string;
 }
 
 export type DialogHeaderProps = HTMLAttributes<HTMLDivElement>;
@@ -53,9 +58,13 @@ export interface DialogScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
   maxHeight?: string | number;
 }
 
-export type DialogTitleProps = ComponentPropsWithoutRef<
-  typeof DialogPrimitive.Title
->;
+export interface DialogTitleProps extends ComponentPropsWithoutRef<typeof DialogPrimitive.Title> {
+  /**
+   * 타이틀 font-weight
+   * @default 'semibold'
+   */
+  weight?: 'medium' | 'semibold' | 'bold';
+}
 
 export type DialogDescriptionProps = ComponentPropsWithoutRef<
   typeof DialogPrimitive.Description

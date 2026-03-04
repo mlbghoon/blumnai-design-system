@@ -132,7 +132,7 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const DialogContentInner = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
->(({ className, children, hideCloseButton = false, disableEscapeClose = false, disableOutsideClose = false, width, fullScreen = false, style, onEscapeKeyDown, onPointerDownOutside, onInteractOutside, ...props }, ref) => {
+>(({ className, children, hideCloseButton = false, disableEscapeClose = false, disableOutsideClose = false, width, fullScreen = false, overlayClassName, style, onEscapeKeyDown, onPointerDownOutside, onInteractOutside, ...props }, ref) => {
   const { isPending } = useDialogContext();
 
   const widthStyle = width !== undefined && width !== ''
@@ -146,7 +146,7 @@ const DialogContentInner = React.forwardRef<
 
   return (
     <DialogPortal>
-      <DialogOverlay />
+      <DialogOverlay className={overlayClassName} />
       <DialogPrimitive.Content
         ref={ref}
         onEscapeKeyDown={(e) => {
@@ -245,14 +245,21 @@ const DialogScrollArea = ({ className, maxHeight, children }: DialogScrollAreaPr
 );
 DialogScrollArea.displayName = 'DialogScrollArea';
 
+const TITLE_WEIGHT = {
+  medium: 'font-medium',
+  semibold: 'font-semibold',
+  bold: 'font-bold',
+} as const;
+
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   DialogTitleProps
->(({ className, ...props }, ref) => (
+>(({ className, weight = 'semibold', ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      'font-body size-lg font-semibold line-height-leading-6 letter-spacing-tracking-tight text-default',
+      'font-body size-lg line-height-leading-6 letter-spacing-tracking-tight text-default',
+      TITLE_WEIGHT[weight],
       className
     )}
     {...props}

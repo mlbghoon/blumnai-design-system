@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.7] - 2026-03-04
+
+### Added
+
+- **DialogTitle `weight` prop**: `DialogTitle`에 `weight` prop 추가 (`'medium' | 'semibold' | 'bold'`). 타이틀의 font-weight를 조절 가능
+- **DialogContent `overlayClassName` prop**: `DialogContent`에 `overlayClassName` prop 추가. 오버레이(배경) 스타일을 커스터마이즈 가능 (예: `overlayClassName="bg-black/50"`)
+
 ## [1.0.6] - 2026-03-04
 
 ### Added

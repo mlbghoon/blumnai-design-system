@@ -116,6 +116,14 @@ const meta: Meta<DialogStoryProps> = {
         category: 'DialogContent',
       },
     },
+    overlayClassName: {
+      control: 'text',
+      description: '[DialogContent] 오버레이(배경)에 적용할 추가 className (예: "bg-black/50")',
+      table: {
+        type: { summary: 'string' },
+        category: 'DialogContent',
+      },
+    },
     // DialogScrollArea props
     maxHeight: {
       control: 'text',
@@ -590,6 +598,82 @@ export const AsyncAction: Story = {
             <DialogAction asChild onAction={simulateAsyncSave}>
               <Button buttonStyle="primary">저장</Button>
             </DialogAction>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  },
+};
+
+/**
+ * 타이틀 굵기
+ *
+ * DialogTitle의 weight prop으로 font-weight를 조절합니다.
+ */
+export const TitleWeight: Story = {
+  render: function Render() {
+    return (
+      <div className="flex ds-gap-12">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button buttonStyle="secondary">Medium Weight</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle weight="medium">font-medium 타이틀</DialogTitle>
+              <DialogDescription>weight=&quot;medium&quot; (500)</DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button buttonStyle="secondary">닫기</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button buttonStyle="secondary">Semibold Weight</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle weight="semibold">font-semibold 타이틀</DialogTitle>
+              <DialogDescription>weight=&quot;semibold&quot; (600, 기본)</DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button buttonStyle="secondary">닫기</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+    );
+  },
+};
+
+/**
+ * 커스텀 오버레이
+ *
+ * overlayClassName으로 배경 오버레이의 스타일을 변경합니다.
+ */
+export const CustomOverlay: Story = {
+  render: function Render() {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button buttonStyle="secondary">Dark Overlay Dialog</Button>
+        </DialogTrigger>
+        <DialogContent overlayClassName="bg-black/50">
+          <DialogHeader>
+            <DialogTitle>어두운 배경 오버레이</DialogTitle>
+            <DialogDescription>
+              overlayClassName=&quot;bg-black/50&quot;으로 오버레이 색상을 변경했습니다.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button buttonStyle="secondary">닫기</Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
