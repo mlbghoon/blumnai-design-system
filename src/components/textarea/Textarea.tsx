@@ -215,8 +215,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     readOnly && 'bg-muted cursor-default'
   );
 
-  const showResizeHandle = !hasToolbarContent && !useCustomScrollbar && !useAutoResize && resize !== 'none' && !disabled && !readOnly;
-
   const textareaClassName = cn(
     TEXTAREA_BASE,
     'scrollbar-thin',
@@ -227,7 +225,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     'placeholder:transition-opacity placeholder:duration-150',
     'focus:placeholder:opacity-50',
     (hasToolbarContent || useCustomScrollbar || useAutoResize) ? 'resize-none' : RESIZE_CONFIG[resize],
-    showResizeHandle && '[&::-webkit-resizer]:hidden',
     disabled && 'cursor-not-allowed',
     readOnly && 'cursor-default'
   );
@@ -376,19 +373,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
           </ScrollAreaPrimitive.Root>
         ) : (
           textareaElement
-        )}
-
-        {showResizeHandle && (
-          <div className="absolute bottom-0 right-0 pointer-events-none padding-2 text-hint" aria-hidden="true">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
-              <circle cx="8" cy="2" r="1" />
-              <circle cx="8" cy="5.5" r="1" />
-              <circle cx="8" cy="9" r="1" />
-              <circle cx="4.5" cy="5.5" r="1" />
-              <circle cx="4.5" cy="9" r="1" />
-              <circle cx="1" cy="9" r="1" />
-            </svg>
-          </div>
         )}
 
         {renderToolbar()}
