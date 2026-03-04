@@ -9,3 +9,5 @@ export { CellDateRange } from './CellDateRange';
 export { TableTooltipProvider } from '../components/TableTooltip';
 export { useTableTooltip, useTableTooltipOptional } from '../components/useTableTooltip';
 export type { TableTooltipContextValue } from '../components/TableTooltipContext';
+export { useCellAlign } from '../components/useCellAlign';
+export type { CellAlign } from '../components/DataGridCellContext';

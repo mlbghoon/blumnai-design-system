@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { TooltipTrigger } from '../../tooltip/Tooltip/TooltipTrigger';
 import { Icon } from '../../icons/Icon';
 import { useTableTooltipOptional } from '../components/useTableTooltip';
+import { useCellAlign } from '../components/useCellAlign';
 
 interface CellTextProps {
   value: string | number | null | undefined;
@@ -22,6 +23,7 @@ export function CellText({
   const displayValue = value ?? '-';
   const elementRef = useRef<HTMLSpanElement | HTMLButtonElement>(null);
   const tableTooltip = useTableTooltipOptional();
+  const cellAlign = useCellAlign();
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -74,7 +76,12 @@ export function CellText({
   const content = (
     <span
       ref={elementRef as React.RefObject<HTMLSpanElement>}
-      className={cn('block w-full min-w-[0px] truncate font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default', className)}
+      className={cn(
+        'block w-full min-w-[0px] truncate font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default',
+        cellAlign === 'center' && 'text-center',
+        cellAlign === 'right' && 'text-right',
+        className,
+      )}
       onMouseEnter={useSingletonTooltip ? handleMouseEnter : undefined}
       onMouseLeave={useSingletonTooltip ? handleMouseLeave : undefined}
     >

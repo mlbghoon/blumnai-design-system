@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.1] - 2026-03-04
+
+### Fixed
+
+- **DataGrid CellText 정렬**: `CellText`가 `block w-full`로 셀 전체를 차지해 부모의 `justify-center`/`justify-end`가 시각적으로 적용되지 않던 문제 수정. `text-center`/`text-right`를 CellText 자체에 적용하도록 변경
+- **DataGrid headerAlign**: `ColumnMeta`에 `headerAlign` 속성 추가. 헤더와 셀의 정렬을 독립적으로 설정 가능
+
+### Added
+
+- `DataGridCellContext` — 셀 정렬 정보를 하위 컴포넌트에 전달하는 React Context
+- `useCellAlign` hook — CellText 등 셀 내부 컴포넌트에서 정렬 정보를 읽는 hook
+- `CellAlign` type export
+
 ## [1.0.0] - 2026-03-03
 
 ### Changed

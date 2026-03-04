@@ -1,8 +1,10 @@
+import { useMemo } from 'react';
 import type { Cell } from '@tanstack/react-table';
 import { flexRender } from '@tanstack/react-table';
 
 import { cn } from '@/lib/utils';
 import type { StickyColumnInfo } from '../utils/stickyColumnUtils';
+import { DataGridCellContext, type DataGridCellContextValue } from './DataGridCellContext';
 
 interface DataGridCellProps<T> {
   cell: Cell<T, unknown>;
@@ -15,6 +17,8 @@ interface DataGridCellProps<T> {
 export function DataGridCell<T>({ cell, stickyInfo, isRowSelected, height, colIndex }: DataGridCellProps<T>) {
   const align = cell.column.columnDef.meta?.align ?? 'left';
   const isSticky = !!stickyInfo;
+
+  const cellContextValue = useMemo<DataGridCellContextValue>(() => ({ align }), [align]);
 
   return (
     <div
@@ -37,7 +41,9 @@ export function DataGridCell<T>({ cell, stickyInfo, isRowSelected, height, colIn
         ...(isSticky ? { left: stickyInfo.leftOffset, width: stickyInfo.width } : undefined),
       }}
     >
-      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+      <DataGridCellContext.Provider value={cellContextValue}>
+        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+      </DataGridCellContext.Provider>
     </div>
   );
 }

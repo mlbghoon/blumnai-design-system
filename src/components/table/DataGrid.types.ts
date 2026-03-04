@@ -21,6 +21,10 @@ declare module '@tanstack/react-table' {
      */
     align?: 'left' | 'center' | 'right';
     /**
+     * 헤더 텍스트 정렬 (미지정 시 align 값 사용)
+     */
+    headerAlign?: 'left' | 'center' | 'right';
+    /**
      * 수평 스크롤 시 컬럼 고정 여부
      */
     sticky?: boolean | 'left';
