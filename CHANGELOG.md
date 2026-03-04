@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.2] - 2026-03-04
+
+### Fixed
+
+- **Pagination disabled cursor**: 비활성화된 PaginationNav 버튼의 자식 Icon에 `pointer-events-none` 추가. 소비자 프로젝트의 글로벌 `button { cursor: pointer }` 스타일이 아이콘의 커서를 덮어쓰던 문제 수정
+
 ## [1.0.1] - 2026-03-04
 
 ### Fixed

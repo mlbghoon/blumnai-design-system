@@ -31,7 +31,7 @@ export const PaginationNav = forwardRef<HTMLButtonElement, PaginationNavProps>(
       <Icon
         iconType={iconType}
         size={iconSize}
-        className={cn(disabled ? 'text-hint' : 'text-subtle')}
+        className={cn(disabled ? 'text-hint pointer-events-none' : 'text-subtle')}
       />
     );
 
