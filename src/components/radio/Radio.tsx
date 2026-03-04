@@ -70,7 +70,7 @@ RadioGroup.displayName = 'RadioGroup';
 const Radio = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
   RadioProps
->(({ className, label, description, radioPosition = 'left', radioStyle = 'default', align = 'start', disabled, value, ...props }, ref) => {
+>(({ className, label, description, radioPosition = 'left', radioStyle = 'default', align = 'start', labelWeight = 'medium', disabled, value, ...props }, ref) => {
   const context = React.useContext(RadioContext);
   const isChecked = context.value === value;
 
@@ -144,7 +144,8 @@ const Radio = React.forwardRef<
         {label && (
           <span
             className={cn(
-              'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal font-medium select-none',
+              'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal select-none',
+              labelWeight === 'normal' ? 'font-normal' : 'font-medium',
               disabled ? 'text-hint' : 'text-default'
             )}
           >

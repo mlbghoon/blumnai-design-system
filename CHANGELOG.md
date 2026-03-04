@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.6] - 2026-03-04
+
+### Added
+
+- **Radio `labelWeight` prop**: `Radio`에 `labelWeight` prop 추가 (`'normal' | 'medium'`). 라벨 텍스트의 font-weight를 조절하여 시각적 계층 구조 구현 가능
+
 ## [1.0.5] - 2026-03-04
 
 ### Added

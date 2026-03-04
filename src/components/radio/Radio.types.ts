@@ -54,4 +54,9 @@ export interface RadioProps
    * @default 'start'
    */
   align?: 'start' | 'center';
+  /**
+   * 라벨 텍스트의 font-weight
+   * @default 'medium'
+   */
+  labelWeight?: 'normal' | 'medium';
 }

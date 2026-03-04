@@ -77,6 +77,17 @@ const meta: Meta<RadioProps> = {
         defaultValue: { summary: 'start' },
       },
     },
+    labelWeight: {
+      control: 'select',
+      options: ['normal', 'medium'],
+      description: '라벨 텍스트의 font-weight',
+      table: {
+        type: {
+          summary: "'normal' | 'medium'",
+        },
+        defaultValue: { summary: 'medium' },
+      },
+    },
   },
   decorators: [
     (Story) => (
@@ -109,6 +120,7 @@ export const Default: Story = {
     radioPosition: 'left',
     radioStyle: 'default',
     align: 'start',
+    labelWeight: 'medium',
   },
   parameters: {
     controls: { disable: false },
@@ -127,6 +139,7 @@ export const Default: Story = {
           radioPosition={args.radioPosition}
           radioStyle={args.radioStyle}
           align={args.align}
+          labelWeight={args.labelWeight}
         />
         <Radio
           value="option2"
@@ -135,6 +148,7 @@ export const Default: Story = {
           radioPosition={args.radioPosition}
           radioStyle={args.radioStyle}
           align={args.align}
+          labelWeight={args.labelWeight}
         />
         <Radio
           value="option3"
@@ -143,6 +157,7 @@ export const Default: Story = {
           radioPosition={args.radioPosition}
           radioStyle={args.radioStyle}
           align={args.align}
+          labelWeight={args.labelWeight}
         />
       </RadioGroup>
     );
