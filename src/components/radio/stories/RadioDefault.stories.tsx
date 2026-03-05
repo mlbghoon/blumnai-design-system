@@ -88,6 +88,18 @@ const meta: Meta<RadioProps> = {
         defaultValue: { summary: 'medium' },
       },
     },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: '라디오 크기',
+      table: {
+        type: {
+          summary: 'RadioSize',
+          detail: `'sm' | 'md' | 'lg'`,
+        },
+        defaultValue: { summary: 'sm' },
+      },
+    },
   },
   decorators: [
     (Story) => (
@@ -121,6 +133,7 @@ export const Default: Story = {
     radioStyle: 'default',
     align: 'start',
     labelWeight: 'medium',
+    size: 'sm',
   },
   parameters: {
     controls: { disable: false },
@@ -140,6 +153,7 @@ export const Default: Story = {
           radioStyle={args.radioStyle}
           align={args.align}
           labelWeight={args.labelWeight}
+          size={args.size}
         />
         <Radio
           value="option2"
@@ -149,6 +163,7 @@ export const Default: Story = {
           radioStyle={args.radioStyle}
           align={args.align}
           labelWeight={args.labelWeight}
+          size={args.size}
         />
         <Radio
           value="option3"
@@ -158,6 +173,7 @@ export const Default: Story = {
           radioStyle={args.radioStyle}
           align={args.align}
           labelWeight={args.labelWeight}
+          size={args.size}
         />
       </RadioGroup>
     );
@@ -354,6 +370,24 @@ export const AlignCenter: Story = {
           </RadioGroup>
         </div>
       </div>
+    );
+  },
+};
+
+/**
+ * 크기 변형
+ *
+ * sm (16px), md (20px), lg (24px) 크기를 지원합니다.
+ */
+export const Sizes: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('sm');
+    return (
+      <RadioGroup value={value} onValueChange={setValue} className="flex flex-col ds-gap-16">
+        <Radio value="sm" size="sm" label="Small (16px)" description="기본 크기" />
+        <Radio value="md" size="md" label="Medium (20px)" description="중간 크기" />
+        <Radio value="lg" size="lg" label="Large (24px)" description="큰 크기" />
+      </RadioGroup>
     );
   },
 };

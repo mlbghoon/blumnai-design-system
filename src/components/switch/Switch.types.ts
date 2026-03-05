@@ -56,4 +56,12 @@ export interface SwitchProps
    * @default false
    */
   loading?: boolean;
+  /**
+   * 활성화 시 트랙 내 표시 텍스트
+   */
+  onLabel?: ReactNode;
+  /**
+   * 비활성화 시 트랙 내 표시 텍스트
+   */
+  offLabel?: ReactNode;
 }

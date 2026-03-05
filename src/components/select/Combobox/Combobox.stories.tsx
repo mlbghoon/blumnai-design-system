@@ -182,6 +182,12 @@ const meta: Meta<typeof Combobox> = {
         },
       },
     },
+    filterFunction: {
+      description: '커스텀 필터 함수 — 미지정 시 label + description 기본 검색 사용',
+      table: {
+        type: { summary: '(option: ComboboxOption, query: string) => boolean' },
+      },
+    },
   },
 };
 
@@ -666,6 +672,48 @@ export const WithLabelAndCaption: Story = {
           required
           supportText="Optional"
           caption="Choose your favorite fruit from the list"
+        />
+      </div>
+    );
+  },
+};
+
+const employeeOptions: ComboboxOption[] = [
+  { id: 'emp-001', label: 'John Doe', description: 'john.doe@company.com', badge: 'EMP-001' },
+  { id: 'emp-002', label: 'Jane Smith', description: 'jane.smith@company.com', badge: 'EMP-002' },
+  { id: 'emp-003', label: 'Bob Wilson', description: 'bob.wilson@company.com', badge: 'EMP-003' },
+  { id: 'emp-004', label: 'Alice Brown', description: 'alice.brown@company.com', badge: 'EMP-004' },
+  { id: 'emp-005', label: 'Charlie Davis', description: 'charlie.davis@company.com', badge: 'EMP-005' },
+];
+
+/**
+ * 커스텀 필터 함수
+ *
+ * `filterFunction` prop으로 기본 검색 로직을 대체할 수 있습니다.
+ * 이 예제에서는 이름, 이메일, 사번(ID)으로 검색할 수 있습니다.
+ */
+export const CustomFilter: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string>();
+
+    return (
+      <div className="max-w-sm">
+        <Combobox
+          variant="default"
+          label="Find employee"
+          placeholder="Search by name, email, or ID..."
+          options={employeeOptions}
+          value={value}
+          onChange={setValue}
+          filterFunction={(option, query) => {
+            const q = query.toLowerCase();
+            return (
+              option.label.toLowerCase().includes(q) ||
+              (option.description?.toLowerCase().includes(q) ?? false) ||
+              option.id.toLowerCase().includes(q)
+            );
+          }}
+          caption="Try searching 'emp-003' or 'bob'"
         />
       </div>
     );

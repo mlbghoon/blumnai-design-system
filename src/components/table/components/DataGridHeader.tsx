@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { HeaderGroup, Header, ColumnOrderState } from '@tanstack/react-table';
 import { flexRender as render } from '@tanstack/react-table';
 import { SortableContext, useSortable, horizontalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
@@ -9,6 +9,7 @@ import { Icon } from '../../icons/Icon';
 import { TooltipTrigger } from '../../tooltip';
 import { DndContext } from '../../dnd';
 import type { StickyColumnInfo } from '../utils/stickyColumnUtils';
+import type { ColumnSizingState } from '../DataGrid.types';
 
 interface DataGridHeaderProps<T> {
   headerGroups: HeaderGroup<T>[];
@@ -17,6 +18,9 @@ interface DataGridHeaderProps<T> {
   headerHeight?: string;
   enableColumnReorder?: boolean;
   onColumnOrderChange?: (updater: ColumnOrderState | ((prev: ColumnOrderState) => ColumnOrderState)) => void;
+  enableColumnResize?: boolean;
+  columnSizing?: ColumnSizingState;
+  onColumnSizingChange?: (sizing: ColumnSizingState) => void;
 }
 
 interface DataGridHeaderCellProps<T> {
@@ -24,9 +28,12 @@ interface DataGridHeaderCellProps<T> {
   stickyInfo?: StickyColumnInfo;
   headerHeight?: string;
   colIndex?: number;
+  enableColumnResize?: boolean;
+  onResizeStart?: (columnId: string, startX: number, startWidth: number) => void;
 }
 
-function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: DataGridHeaderCellProps<T>) {
+function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, enableColumnResize, onResizeStart }: DataGridHeaderCellProps<T>) {
+  const cellRef = useRef<HTMLDivElement>(null);
   const canSort = header.column.getCanSort();
   const sortDirection = header.column.getIsSorted();
   const sortIndex = header.column.getSortIndex();
@@ -50,6 +57,7 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: D
 
   return (
     <div
+      ref={cellRef}
       role="columnheader"
       aria-colindex={colIndex}
       className={cn(
@@ -94,6 +102,22 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: D
           )}
         </div>
       )}
+      {enableColumnResize && (
+        <div
+          className={cn(
+            'absolute top-0 right-0 bottom-0 flex items-center cursor-col-resize z-[5]',
+            'width-4 hover:bg-border-darker active:bg-border-strong',
+          )}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            onResizeStart?.(header.column.id, e.clientX, cellRef.current?.offsetWidth ?? 0);
+          }}
+          onClick={(e) => e.stopPropagation()}
+          role="separator"
+          aria-orientation="vertical"
+        />
+      )}
     </div>
   );
 }
@@ -103,12 +127,15 @@ interface SortableHeaderCellProps<T> {
   stickyInfo?: StickyColumnInfo;
   headerHeight?: string;
   colIndex?: number;
+  enableColumnResize?: boolean;
+  onResizeStart?: (columnId: string, startX: number, startWidth: number) => void;
 }
 
 const noAnimateLayoutChanges = () => false;
 
-function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: SortableHeaderCellProps<T>) {
+function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, enableColumnResize, onResizeStart }: SortableHeaderCellProps<T>) {
   const isFixed = !!stickyInfo || header.column.id === 'select';
+  const cellRef = useRef<HTMLDivElement>(null);
 
   const {
     attributes,
@@ -122,6 +149,14 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: S
     disabled: isFixed,
     animateLayoutChanges: noAnimateLayoutChanges,
   });
+
+  const mergedRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      cellRef.current = node;
+      setNodeRef(node);
+    },
+    [setNodeRef]
+  );
 
   const canSort = header.column.getCanSort();
   const sortDirection = header.column.getIsSorted();
@@ -153,7 +188,7 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: S
 
   return (
     <div
-      ref={setNodeRef}
+      ref={mergedRef}
       role="columnheader"
       aria-colindex={colIndex}
       className={cn(
@@ -176,14 +211,19 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: S
             ? 'descending'
             : undefined
       }
-      {...(isFixed ? {} : { ...attributes, ...listeners })}
     >
       {!isFixed && (
-        <Icon
-          iconType={['editor', 'draggable']}
-          size={12}
-          className="shrink-0 text-hint"
-        />
+        <div
+          className="shrink-0 cursor-grab active:cursor-grabbing"
+          {...attributes}
+          {...listeners}
+        >
+          <Icon
+            iconType={['editor', 'draggable']}
+            size={12}
+            className="text-hint"
+          />
+        </div>
       )}
       {headerTooltip ? (
         <TooltipTrigger content={headerTooltip} placement="top">
@@ -204,6 +244,22 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex }: S
           )}
         </div>
       )}
+      {enableColumnResize && (
+        <div
+          className={cn(
+            'absolute top-0 right-0 bottom-0 flex items-center cursor-col-resize z-[5]',
+            'width-4 hover:bg-border-darker active:bg-border-strong',
+          )}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            onResizeStart?.(header.column.id, e.clientX, cellRef.current?.offsetWidth ?? 0);
+          }}
+          onClick={(e) => e.stopPropagation()}
+          role="separator"
+          aria-orientation="vertical"
+        />
+      )}
     </div>
   );
 }
@@ -214,6 +270,8 @@ interface SortableHeaderRowProps<T> {
   stickyColumnPositions: Map<string, StickyColumnInfo>;
   headerHeight?: string;
   onColumnOrderChange: (updater: ColumnOrderState | ((prev: ColumnOrderState) => ColumnOrderState)) => void;
+  enableColumnResize?: boolean;
+  onResizeStart?: (columnId: string, startX: number, startWidth: number) => void;
 }
 
 function SortableHeaderRow<T>({
@@ -222,6 +280,8 @@ function SortableHeaderRow<T>({
   stickyColumnPositions,
   headerHeight,
   onColumnOrderChange,
+  enableColumnResize,
+  onResizeStart,
 }: SortableHeaderRowProps<T>) {
   const columnIds = useMemo(
     () => headerGroup.headers.map((h) => h.column.id),
@@ -253,6 +313,8 @@ function SortableHeaderRow<T>({
               stickyInfo={stickyColumnPositions.get(header.column.id)}
               headerHeight={headerHeight}
               colIndex={index + 1}
+              enableColumnResize={enableColumnResize}
+              onResizeStart={onResizeStart}
             />
           ))}
         </div>
@@ -268,7 +330,55 @@ export function DataGridHeader<T>({
   headerHeight,
   enableColumnReorder,
   onColumnOrderChange,
+  enableColumnResize,
+  columnSizing,
+  onColumnSizingChange,
 }: DataGridHeaderProps<T>) {
+  const [resizeState, setResizeState] = useState<{
+    columnId: string;
+    startX: number;
+    startWidth: number;
+  } | null>(null);
+
+  const columnSizingRef = useRef(columnSizing);
+  useEffect(() => {
+    columnSizingRef.current = columnSizing;
+  }, [columnSizing]);
+
+  useEffect(() => {
+    if (!resizeState) return;
+
+    const handlePointerMove = (e: PointerEvent) => {
+      const delta = e.clientX - resizeState.startX;
+      const newWidth = Math.max(50, resizeState.startWidth + delta);
+      onColumnSizingChange?.({
+        ...columnSizingRef.current,
+        [resizeState.columnId]: newWidth,
+      });
+    };
+
+    const handlePointerUp = () => setResizeState(null);
+
+    document.addEventListener('pointermove', handlePointerMove);
+    document.addEventListener('pointerup', handlePointerUp);
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'col-resize';
+
+    return () => {
+      document.removeEventListener('pointermove', handlePointerMove);
+      document.removeEventListener('pointerup', handlePointerUp);
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+    };
+  }, [resizeState, onColumnSizingChange]);
+
+  const handleResizeStart = useCallback(
+    (columnId: string, startX: number, startWidth: number) => {
+      setResizeState({ columnId, startX, startWidth });
+    },
+    []
+  );
+
   return (
     <div
       role="rowgroup"
@@ -283,6 +393,8 @@ export function DataGridHeader<T>({
             stickyColumnPositions={stickyColumnPositions}
             headerHeight={headerHeight}
             onColumnOrderChange={onColumnOrderChange}
+            enableColumnResize={enableColumnResize}
+            onResizeStart={handleResizeStart}
           />
         ) : (
           <div
@@ -298,6 +410,8 @@ export function DataGridHeader<T>({
                 stickyInfo={stickyColumnPositions.get(header.column.id)}
                 headerHeight={headerHeight}
                 colIndex={index + 1}
+                enableColumnResize={enableColumnResize}
+                onResizeStart={handleResizeStart}
               />
             ))}
           </div>

@@ -85,7 +85,8 @@
 
 | 컴포넌트 | shadcn 사용 이유 | 핵심 기능 |
 |----------|-----------------|-----------|
-| **Select** | 키보드 탐색, 타입어헤드, 스크롤 | Radix Select 기반, 가상화 지원 |
+| **Select** | 키보드 탐색, 타입어헤드, 스크롤 | Radix Select 기반 |
+| **VirtualSelect** | 대량 옵션(1,000+) 가상화 | `@tanstack/react-virtual` 기반, 성능 최적화 |
 | **Combobox** | 검색, 필터링, 비동기 로딩 | 검색 가능한 Select |
 | **Input OTP** | 복사/붙여넣기, 자동 포커스 이동 | input-otp 라이브러리 기반 |
 | **Input** | 유효성 검사, 마스킹, 다양한 variant | 통합된 입력 컴포넌트 |
@@ -184,11 +185,12 @@
 | **Pagination** | ✅ 완료 | numbered, dot, simple variant 지원 |
 | **Divider** | ✅ 완료 | 구분선 |
 | **Table** | ✅ 완료 | compositional 패턴, 페이지네이션, 스크롤/고정 헤더 |
-| **DataGrid** | ✅ 완료 | TanStack Table 기반, 정렬/필터/페이지네이션 자동 관리 |
+| **DataGrid** | ✅ 완료 | TanStack Table 기반, 정렬/필터/페이지네이션/컬럼 리사이즈/컬럼 재정렬 자동 관리 |
 | **Scroll Area** | ✅ 완료 | Radix 기반 커스텀 스크롤바 |
 | **Sheet** | ✅ 완료 | 사이드 패널/드로어 |
 | **Sidebar** | ✅ 완료 | 네비게이션 사이드바, 접힘/펼침 지원 |
 | **Switch** | ✅ 완료 | 토글 스위치 |
+| **Stepper** | ✅ 완료 | 수평/수직, number/icon/dot 인디케이터, 18색상, 클릭 네비게이션 |
 | **Tabs** | ✅ 완료 | pill, segmented, underline 변형 지원 |
 | **Toast** | ✅ 완료 | Sonner 기반 알림 토스트 |
 | **FileInput** | ✅ 완료 | 파일 업로드, 드래그 앤 드롭 지원 |
@@ -297,7 +299,7 @@
 
 ### Phase 5: 남은 컴포넌트 (다음 구현 대상)
 
-1. **Combobox** - 자동완성 입력 (검색 가능한 Select)
+1. ~~**Combobox** - 자동완성 입력 (검색 가능한 Select)~~
 2. **Navigation Menu** - 네비게이션 메뉴
 3. **Resizable** - 리사이즈 패널
 4. **Context Menu** - 우클릭 메뉴
@@ -305,6 +307,7 @@
 6. **Card** - 카드 컴포넌트
 7. **Skeleton** - 로딩 스켈레톤
 8. **Progress** - 진행 표시줄
+9. ~~**VirtualSelect** - 대량 옵션 가상화 Select (`@tanstack/react-virtual` 기반)~~
 
 ---
 

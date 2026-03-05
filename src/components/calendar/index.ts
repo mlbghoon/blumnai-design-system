@@ -21,4 +21,7 @@ export type {
 } from './DatePicker.types';
 
 export { MonthRangePicker } from './MonthRangePicker';
-export type { MonthRangePickerProps, MonthRange } from './MonthRangePicker';
+export type { MonthRangePickerProps, MonthRange, MonthRangePreset } from './MonthRangePicker';
+
+export { MonthPicker } from './MonthPicker';
+export type { MonthPickerProps, MonthPickerPreset } from './MonthPicker';

@@ -105,7 +105,7 @@ const COLOR_OVERRIDE_STYLE: Record<ButtonStyle, string> = {
   ghost: 'bg-transparent [color:var(--btn-text)] border-solid border-[1px] border-transparent hover:[background-color:var(--btn-bg-alpha)] active:[background-color:var(--btn-bg-alpha)] focus-visible:shadow-component-misc-focus',
   ghostMuted: 'bg-transparent [color:var(--btn-text-muted)] border-solid border-[1px] border-transparent hover:[background-color:var(--btn-bg-alpha)] active:[background-color:var(--btn-bg-alpha)] focus-visible:shadow-component-misc-focus',
   soft: '[background-color:var(--btn-bg-subtle)] [color:var(--btn-text)] border-solid border-[1px] border-transparent hover:[background-color:var(--btn-bg-alpha)] active:[background-color:var(--btn-bg-alpha)] focus-visible:shadow-component-misc-focus',
-  dashed: '[background-color:var(--btn-bg-subtle)] [color:var(--btn-text)] border-dashed [border-width:1px] [border-color:var(--border-default)] hover:[background-color:var(--btn-bg-alpha)] active:[background-color:var(--btn-bg-alpha)] focus-visible:shadow-component-misc-focus',
+  dashed: 'bg-state-secondary [color:var(--btn-text)] border-dashed [border-width:1px] [border-color:var(--btn-text)] hover:bg-state-secondary-hover active:bg-state-secondary-press focus-visible:shadow-component-misc-focus',
 };
 
 const COLOR_OVERRIDE_LOADING_STYLE: Record<ButtonStyle, string> = {
@@ -115,7 +115,7 @@ const COLOR_OVERRIDE_LOADING_STYLE: Record<ButtonStyle, string> = {
   ghost: '[background-color:var(--btn-bg-alpha)] [color:var(--btn-text)] border-solid border-[1px] border-transparent cursor-wait',
   ghostMuted: '[background-color:var(--btn-bg-alpha)] [color:var(--btn-text-muted)] border-solid border-[1px] border-transparent cursor-wait',
   soft: '[background-color:var(--btn-bg-subtle)] [color:var(--btn-text)] border-solid border-[1px] border-transparent cursor-wait',
-  dashed: '[background-color:var(--btn-bg-subtle)] [color:var(--btn-text)] border-dashed [border-width:1px] [border-color:var(--border-default)] cursor-wait',
+  dashed: 'bg-state-secondary-loading [color:var(--btn-text)] border-dashed [border-width:1px] [border-color:var(--btn-text)] cursor-wait',
 };
 
 /**

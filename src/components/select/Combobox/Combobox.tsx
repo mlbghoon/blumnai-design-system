@@ -259,6 +259,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       width,
       className,
       highlightSearch = true,
+      filterFunction,
     } = props;
 
     const comboboxId = React.useId();
@@ -399,13 +400,16 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       if (!inputValue.trim()) {
         return options;
       }
+      if (filterFunction) {
+        return options.filter((option) => filterFunction(option, inputValue));
+      }
       const searchLower = inputValue.toLowerCase().trim();
       return options.filter((option) => {
         const label = option.label.toLowerCase();
         const desc = option.description?.toLowerCase() ?? '';
         return label.includes(searchLower) || desc.includes(searchLower);
       });
-    }, [options, inputValue]);
+    }, [options, inputValue, filterFunction]);
 
     const updateScrollButtons = React.useCallback(() => {
       const el = listRef.current;

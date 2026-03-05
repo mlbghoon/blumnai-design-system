@@ -135,6 +135,15 @@ export type {
   TagsComboboxProps,
 } from './components/select/Combobox';
 
+export { VirtualSelect } from './components/virtual-select';
+export type {
+  VirtualSelectProps,
+  VirtualSelectBaseProps,
+  VirtualSelectVariant,
+  SingleVirtualSelectProps,
+  MultiVirtualSelectProps,
+} from './components/virtual-select';
+
 // =============================================================================
 // SELECTION CONTROLS
 // =============================================================================
@@ -169,6 +178,7 @@ export {
 export type {
   RadioProps,
   RadioGroupProps,
+  RadioSize,
   RadioStyle,
   RadioPosition,
   RadioCardProps,
@@ -567,6 +577,7 @@ export type {
 export { DataGrid, useGridKeyboardNav } from './components/table';
 export type {
   DataGridProps,
+  ColumnSizingState,
   ColumnDef,
   TableProps,
   TableHeaderProps,
@@ -691,6 +702,23 @@ export type {
 } from './components/resizable';
 
 // =============================================================================
+// STEPPER
+// =============================================================================
+export { Stepper } from './components/stepper';
+export type {
+  StepperProps,
+  StepItem,
+  StepperOrientation,
+  StepperIndicatorType,
+  StepperSize,
+  StepStatus,
+  StepperColor,
+  StepperHorizontalAlign,
+  StepperVerticalAlign,
+  StepperIndicatorPosition,
+} from './components/stepper';
+
+// =============================================================================
 // SLIDERS
 // =============================================================================
 export {
@@ -706,6 +734,7 @@ export type {
   SliderProps,
   SliderColor,
   SliderBaseProps,
+  SliderOrientationProps,
   SliderRangeProps,
   SliderInputProps,
   SliderRangeInputProps,
@@ -716,7 +745,7 @@ export type {
 // =============================================================================
 // DATE & TIME
 // =============================================================================
-export { Calendar, DatePicker, DateRangePicker, MonthRangePicker } from './components/calendar';
+export { Calendar, DatePicker, DateRangePicker, MonthRangePicker, MonthPicker } from './components/calendar';
 export type {
   CalendarProps,
   CalendarStyle,
@@ -737,6 +766,9 @@ export type {
   DateSegmentPlaceholder,
   MonthRangePickerProps,
   MonthRange,
+  MonthRangePreset,
+  MonthPickerProps,
+  MonthPickerPreset,
 } from './components/calendar';
 
 export {

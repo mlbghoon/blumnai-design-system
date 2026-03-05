@@ -5,17 +5,20 @@ import type { SliderColor } from '../Slider.types';
 
 interface SliderTrackProps extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Track> {
   children?: React.ReactNode;
+  orientation?: 'horizontal' | 'vertical';
 }
 
 const SliderTrack = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Track>,
   SliderTrackProps
->(({ className, children, ...props }, ref) => {
+>(({ className, children, orientation = 'horizontal', ...props }, ref) => {
+  const isVertical = orientation === 'vertical';
   return (
     <SliderPrimitive.Track
       ref={ref}
       className={cn(
-        'relative w-full h-[4px] grow rounded-full bg-basic-gray-alpha-10',
+        'relative grow rounded-full bg-basic-gray-alpha-10',
+        isVertical ? 'h-full w-[4px]' : 'w-full h-[4px]',
         className
       )}
       {...props}
@@ -51,16 +54,23 @@ const RANGE_COLOR_MAP: Record<SliderColor, string> = {
 
 interface SliderRangeFilledProps extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Range> {
   color?: SliderColor;
+  orientation?: 'horizontal' | 'vertical';
 }
 
 const SliderRangeFilled = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Range>,
   SliderRangeFilledProps
->(({ className, color = 'gray', ...props }, ref) => {
+>(({ className, color = 'gray', orientation = 'horizontal', ...props }, ref) => {
+  const isVertical = orientation === 'vertical';
   return (
     <SliderPrimitive.Range
       ref={ref}
-      className={cn('absolute h-full', RANGE_COLOR_MAP[color], className)}
+      className={cn(
+        'absolute',
+        isVertical ? 'w-full' : 'h-full',
+        RANGE_COLOR_MAP[color],
+        className
+      )}
       {...props}
     />
   );

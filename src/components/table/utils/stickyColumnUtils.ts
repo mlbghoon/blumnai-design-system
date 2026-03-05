@@ -14,7 +14,8 @@ function parsePixelWidth(width: string | undefined): number {
 }
 
 export function calculateStickyPositions<T>(
-  columns: ColumnDef<T>[]
+  columns: ColumnDef<T>[],
+  columnSizing?: Record<string, number>
 ): Map<string, StickyColumnInfo> {
   const result = new Map<string, StickyColumnInfo>();
   let cumulativeOffset = 0;
@@ -23,8 +24,8 @@ export function calculateStickyPositions<T>(
     const isSticky = col.meta?.sticky === true || col.meta?.sticky === 'left';
     if (!isSticky) return;
 
-    const width = parsePixelWidth(col.meta?.width);
     const columnId = col.id ?? (col as { accessorKey?: string }).accessorKey ?? `col-${index}`;
+    const width = columnSizing?.[columnId] ?? parsePixelWidth(col.meta?.width);
 
     result.set(columnId, {
       index,

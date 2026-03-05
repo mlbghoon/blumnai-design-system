@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -217,6 +217,9 @@
       ],
       "tooltip": [
         "dist/components/tooltip/index.d.ts"
+      ],
+      "virtual-select": [
+        "dist/components/virtual-select/index.d.ts"
       ],
       "*": [
         "dist/*.d.ts"
@@ -504,6 +507,10 @@
       "types": "./dist/components/tooltip/index.d.ts",
       "import": "./dist/components/tooltip/index.mjs"
     },
+    "./virtual-select": {
+      "types": "./dist/components/virtual-select/index.d.ts",
+      "import": "./dist/components/virtual-select/index.mjs"
+    },
     "./styles": "./dist/blumnai-design-system.css",
     "./*": {
       "types": "./dist/*.d.ts",
@@ -553,6 +560,7 @@
     "time-picker",
     "toast",
     "tooltip",
+    "virtual-select",
     "AI.md",
     "ICONS.md",
     "README.md",
@@ -646,6 +654,7 @@
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tanstack/react-table": "^8.21.3",
+    "@tanstack/react-virtual": "^3.13.19",
     "class-variance-authority": "^0.7.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",

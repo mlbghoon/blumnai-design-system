@@ -80,15 +80,31 @@ export interface SliderBaseProps {
   className?: string;
 }
 
+/**
+ * 슬라이더 방향 Props (Slider, SliderRange 전용)
+ */
+export interface SliderOrientationProps {
+  /**
+   * 슬라이더 방향
+   * @default 'horizontal'
+   */
+  orientation?: 'horizontal' | 'vertical';
+  /**
+   * 세로 모드에서의 높이 (px)
+   * @default 200
+   */
+  height?: number;
+}
+
 type SliderPrimitiveProps = Omit<
   ComponentPropsWithoutRef<typeof SliderPrimitive.Root>,
-  'onChange' | 'value' | 'defaultValue' | 'color'
+  'onChange' | 'value' | 'defaultValue' | 'color' | 'orientation'
 >;
 
 /**
  * Slider 컴포넌트 Props (기본 단일 슬라이더)
  */
-export interface SliderProps extends SliderBaseProps, SliderPrimitiveProps {
+export interface SliderProps extends SliderBaseProps, SliderOrientationProps, SliderPrimitiveProps {
   /**
    * 현재 값
    */
@@ -115,7 +131,7 @@ export interface SliderProps extends SliderBaseProps, SliderPrimitiveProps {
 /**
  * SliderRange 컴포넌트 Props (범위 슬라이더)
  */
-export interface SliderRangeProps extends SliderBaseProps, SliderPrimitiveProps {
+export interface SliderRangeProps extends SliderBaseProps, SliderOrientationProps, SliderPrimitiveProps {
   /**
    * 현재 범위 값 [min, max]
    */

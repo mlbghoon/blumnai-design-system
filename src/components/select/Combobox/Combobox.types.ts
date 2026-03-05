@@ -157,6 +157,11 @@ export interface ComboboxBaseProps {
    */
   highlightSearch?: boolean;
   /**
+   * 커스텀 필터 함수 — 옵션별로 검색어 일치 여부를 판단
+   * 미지정 시 label + description 기본 검색 사용
+   */
+  filterFunction?: (option: ComboboxOption, query: string) => boolean;
+  /**
    * 외부 컨테이너에 적용할 추가 className
    */
   className?: string;

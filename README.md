@@ -131,9 +131,11 @@ import { Button } from '@blumnai-studio/blumnai-design-system/button';
 | `/resizable` | ResizablePanelGroup, ResizablePanel, ResizableHandle |
 | `/scroll-area` | ScrollArea |
 | `/select` | Select, Combobox |
+| `/virtual-select` | VirtualSelect |
 | `/sidebar` | Sidebar, SidebarContent, SidebarMenu |
 | `/skeleton` | Skeleton |
 | `/slider` | Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, DataRangeSliderInput |
+| `/stepper` | Stepper |
 | `/switch` | Switch, SwitchList |
 | `/table` | Table, DataGrid, CellText, CellBadge, CellAvatar, CellProgress, CellLink, CellIcon, CellDate, CellDateRange |
 | `/tabs` | Tabs, TabsList, TabsTrigger, TabsContent |

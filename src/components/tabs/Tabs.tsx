@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 
 import { cn } from '@/lib/utils';
+import { ScrollArea } from '../scroll-area/ScrollArea';
 import { Icon } from '../icons/Icon';
 import { parseIconTypeWithFill } from '../icons/Icon/Icon.types';
 import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
@@ -55,12 +56,12 @@ const TabsList = React.forwardRef<
   TabsListProps
 >(({ variant = 'segmented', shape = 'rounded', size = 'sm', type = 'default', scrollable = false, activeColor, className, children, ...props }, ref) => {
   const contextValue = React.useMemo(() => ({ variant, shape, size, type, activeColor }), [variant, shape, size, type, activeColor]);
-  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const viewportRef = React.useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);
   const [canScrollRight, setCanScrollRight] = React.useState(false);
 
   const checkScroll = React.useCallback(() => {
-    const el = scrollContainerRef.current;
+    const el = viewportRef.current;
     if (!el) return;
     setCanScrollLeft(el.scrollLeft > 0);
     setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
@@ -68,20 +69,16 @@ const TabsList = React.forwardRef<
 
   React.useEffect(() => {
     if (!scrollable) return;
-    const el = scrollContainerRef.current;
+    const el = viewportRef.current;
     if (!el) return;
     checkScroll();
-    el.addEventListener('scroll', checkScroll, { passive: true });
     const observer = new ResizeObserver(checkScroll);
     observer.observe(el);
-    return () => {
-      el.removeEventListener('scroll', checkScroll);
-      observer.disconnect();
-    };
+    return () => { observer.disconnect(); };
   }, [scrollable, checkScroll]);
 
   const scrollBy = React.useCallback((dir: number) => {
-    const el = scrollContainerRef.current;
+    const el = viewportRef.current;
     if (!el) return;
     el.scrollBy({ left: dir * 120, behavior: 'smooth' });
   }, []);
@@ -122,12 +119,14 @@ const TabsList = React.forwardRef<
               <Icon iconType={['arrows', 'arrow-left-s']} size={14} />
             </button>
           )}
-          <div
-            ref={scrollContainerRef}
-            className="overflow-x-auto scrollbar-none flex-1 min-w-0"
+          <ScrollArea
+            orientation="horizontal"
+            viewportRef={viewportRef}
+            onScrollPositionChange={checkScroll}
+            className="flex-1 min-w-0"
           >
             {listElement}
-          </div>
+          </ScrollArea>
           {canScrollRight && (
             <button
               type="button"

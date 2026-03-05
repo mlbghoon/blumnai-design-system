@@ -113,6 +113,12 @@ export const Default: Story = {
   },
 };
 
+/**
+ * 아이템 축소 (DropdownMenu)
+ *
+ * `maxItems`를 설정하면 중간 아이템이 "..."으로 축소됩니다.
+ * "..."을 클릭하면 숨겨진 아이템이 드롭다운 메뉴로 표시됩니다.
+ */
 export const WithMaxItems: Story = {
   args: {
     items: [
@@ -121,6 +127,29 @@ export const WithMaxItems: Story = {
       { label: 'Level 2', href: '/level2' },
       { label: 'Level 3', href: '/level3' },
       { label: 'Level 4', href: '/level4' },
+      { label: 'Current Page' },
+    ],
+    size: 'sm',
+    separator: 'slash',
+    maxItems: 3,
+  },
+};
+
+/**
+ * 깊은 경로 축소
+ *
+ * 8개 이상의 깊은 경로에서 드롭다운 메뉴로 숨겨진 아이템을 확인할 수 있습니다.
+ */
+export const CollapseDropdown: Story = {
+  args: {
+    items: [
+      { label: 'Home', href: '/' },
+      { label: 'Dashboard', href: '/dashboard' },
+      { label: 'Projects', href: '/dashboard/projects' },
+      { label: 'Design System', href: '/dashboard/projects/ds' },
+      { label: 'Components', href: '/dashboard/projects/ds/components' },
+      { label: 'Navigation', href: '/dashboard/projects/ds/components/nav' },
+      { label: 'Breadcrumbs', href: '/dashboard/projects/ds/components/nav/breadcrumbs' },
       { label: 'Current Page' },
     ],
     size: 'sm',

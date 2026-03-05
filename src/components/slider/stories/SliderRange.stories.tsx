@@ -134,6 +134,25 @@ const meta: Meta<SliderRangeProps> = {
         },
       },
     },
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+      description: '슬라이더 방향',
+      table: {
+        type: {
+          summary: "'horizontal' | 'vertical'",
+        },
+        defaultValue: { summary: 'horizontal' },
+      },
+    },
+    height: {
+      control: 'number',
+      description: '세로 모드에서의 높이 (px)',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '200' },
+      },
+    },
   },
 };
 
@@ -157,6 +176,8 @@ export const Default: Story = {
     defaultValue: [25, 75],
     showTicks: false,
     tickCount: 11,
+    orientation: 'horizontal',
+    height: 200,
   },
   parameters: {
     controls: { disable: false },
@@ -164,7 +185,7 @@ export const Default: Story = {
   render: function Render(args) {
     const [value, setValue] = useState<[number, number]>(args.defaultValue || [25, 75]);
     return (
-      <div style={{ width: 320 }}>
+      <div style={{ width: args.orientation === 'vertical' ? undefined : 320 }}>
         <SliderRange
           color={args.color}
           label={args.label}
@@ -175,6 +196,8 @@ export const Default: Story = {
           disabled={args.disabled}
           showTicks={args.showTicks}
           tickCount={args.tickCount}
+          orientation={args.orientation}
+          height={args.height}
           value={value}
           onChange={setValue}
           formatValue={args.formatValue}
@@ -244,6 +267,53 @@ export const Disabled: Story = {
           disabled
         />
       </div>
+    );
+  },
+};
+
+/**
+ * 세로 방향 범위 슬라이더
+ */
+export const Vertical: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<[number, number]>([20, 80]);
+    return (
+      <SliderRange
+        orientation="vertical"
+        height={250}
+        label="Range"
+        showValue
+        value={value}
+        onChange={setValue}
+        color="brand"
+      />
+    );
+  },
+};
+
+/**
+ * 세로 방향 + 눈금
+ */
+export const VerticalWithTicks: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<[number, number]>([200, 800]);
+    return (
+      <SliderRange
+        orientation="vertical"
+        height={250}
+        label="Price"
+        showValue
+        min={0}
+        max={1000}
+        step={10}
+        value={value}
+        onChange={setValue}
+        formatValue={(v) => `$${v}`}
+        showTicks
+        tickCount={6}
+        formatTick={(v) => `$${v}`}
+        color="green"
+      />
     );
   },
 };

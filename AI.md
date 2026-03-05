@@ -69,6 +69,7 @@ import { Input } from '@blumnai-studio/blumnai-design-system/input';
 | Select one option | `Select` | `<Select variant="default" options={[...]} />` |
 | Select multiple | `Select` | `<Select variant="multi-select" options={[...]} />` |
 | Searchable select | `Combobox` | `<Combobox options={[...]} />` |
+| Large option list (1000+) | `VirtualSelect` | `<VirtualSelect variant="single" options={[...]} />` |
 | Yes/No toggle | `Switch` | `<Switch label="Enabled" />` |
 | Checkbox | `Checkbox` | `<Checkbox label="Agree" />` |
 | Radio buttons | `RadioGroup` | `<RadioGroup><Radio value="a" label="A" /></RadioGroup>` |
@@ -106,6 +107,7 @@ import { Input } from '@blumnai-studio/blumnai-design-system/input';
 | Dropdown avatar item | `DropdownMenuAvatar` | `<DropdownMenuAvatar label="프로필" avatarSrc="/img.jpg" />` |
 | Dropdown button | `DropdownMenuButton` | `<DropdownMenuButton label="로그아웃" onClick={...} />` |
 | Slider | `Slider` | `<Slider value={50} onChange={...} />` |
+| Vertical slider | `Slider` | `<Slider orientation="vertical" height={250} value={50} onChange={...} />` |
 | Slider with input | `SliderInput` | `<SliderInput value={50} onChange={...} />` |
 | Range slider | `SliderRange` | `<SliderRange value={[20, 80]} />` |
 | Data range slider | `DataRangeSlider` | `<DataRangeSlider data={data} value={[min, max]} />` |
@@ -142,6 +144,8 @@ import { Input } from '@blumnai-studio/blumnai-design-system/input';
 | `Select variant="avatar"` | Selection with user avatars |
 | `Select variant="tags"` | Selection displayed as tags |
 | `Combobox` | Searchable/filterable select |
+| `VirtualSelect variant="single"` | Virtualized single select for 1000+ options |
+| `VirtualSelect variant="multi"` | Virtualized multi select for 1000+ options |
 | `Checkbox` / `CheckboxList` / `CheckboxCard` | Single, grouped, or card-style checkboxes |
 | `Radio` / `RadioGroup` / `RadioList` / `RadioCard` | Single choice from options |
 | `Switch` / `SwitchList` | Toggle on/off |
@@ -657,6 +661,7 @@ import { Combobox } from '@blumnai-studio/blumnai-design-system';
 | `open` | `boolean` | - | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
 | `maxHeight` | `number \| string` | - | Dropdown max height |
+| `filterFunction` | `(option: ComboboxOption, query: string) => boolean` | - | Custom filter function — overrides default label+description matching |
 
 Tags variant adds: `maxSelections` (number), `maxVisibleTags` (number), `overflowText` (string)
 
@@ -671,6 +676,61 @@ interface ComboboxOption {
   avatarSrc?: string;
   disabled?: boolean;
 }
+```
+
+### VirtualSelect
+
+```tsx
+import { VirtualSelect } from '@blumnai-studio/blumnai-design-system';
+```
+
+Virtualized select for large option lists (1,000+). Only renders visible items using `@tanstack/react-virtual`. Separate component from Select — does not affect Select bundle size.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `'single'` `'multi'` | `'single'` | Selection mode |
+| `options` | `SelectOption[]` | `[]` | Available options (reuses Select's type) |
+| `value` | `string \| string[]` | - | Selected value(s) — `string` for single, `string[]` for multi |
+| `onChange` | `(value) => void` | - | Change callback |
+| `selectStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
+| `size` | `'sm'` `'lg'` | `'sm'` | Size |
+| `label` | `string` | - | Label text |
+| `placeholder` | `string` | - | Placeholder text |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `searchable` | `boolean` | `false` | Enable search filtering |
+| `clearable` | `boolean` | `false` | Show clear button |
+| `loading` | `boolean` | `false` | Loading state |
+| `error` | `boolean \| string` | - | Error state/message |
+| `itemHeight` | `number` | `32` | Item height in px (use 50 for items with descriptions) |
+| `overscan` | `number` | `5` | Number of items rendered outside visible area |
+| `maxHeight` | `number \| string` | `300` | Dropdown max height |
+| `width` | `string \| number` | - | Custom width |
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
+
+Multi variant adds: `maxSelections` (number), `selectedText` (string | function), `showSelectAll` (boolean), `selectAllLabel` (string)
+
+```tsx
+// Single select — 1000 options, instant open
+<VirtualSelect
+  variant="single"
+  label="Country"
+  options={countries}
+  value={value}
+  onChange={setValue}
+  searchable
+/>
+
+// Multi select with select all
+<VirtualSelect
+  variant="multi"
+  label="Users"
+  options={users}
+  value={selectedIds}
+  onChange={setSelectedIds}
+  searchable
+  showSelectAll
+/>
 ```
 
 ### Checkbox
@@ -745,6 +805,8 @@ import { Switch } from '@blumnai-studio/blumnai-design-system';
 | `color` | `'green'` `'blue'` `'red'` `'orange'` `'violet'` `'cyan'` `'pink'` | `'green'` | Active color |
 | `size` | `'sm'` `'md'` `'lg'` | `'sm'` | Switch size (sm=32×20, md=40×24, lg=48×28) |
 | `loading` | `boolean` | `false` | Show loading spinner and disable interaction |
+| `onLabel` | `ReactNode` | - | Text displayed inside track when checked (e.g., "ON"). Track auto-widens when set. |
+| `offLabel` | `ReactNode` | - | Text displayed inside track when unchecked (e.g., "OFF"). Track auto-widens when set. |
 
 ### SwitchList
 
@@ -772,7 +834,7 @@ import { RadioGroup, Radio } from '@blumnai-studio/blumnai-design-system';
 
 **RadioGroup**: `value`, `onValueChange`, `disabled`, `orientation` (`'horizontal'`|`'vertical'`)
 
-**Radio**: `value` (required string), `label?` (ReactNode), `description?` (ReactNode), `disabled?`, `radioPosition?` (`'left'`|`'right'`|`'off'`, default `'left'`), `radioStyle?` (`'default'`|`'with-shadow'`, default `'default'`)
+**Radio**: `value` (required string), `label?` (ReactNode), `description?` (ReactNode), `disabled?`, `size?` (`'sm'`|`'md'`|`'lg'`, default `'sm'`), `radioPosition?` (`'left'`|`'right'`|`'off'`, default `'left'`), `radioStyle?` (`'default'`|`'with-shadow'`, default `'default'`)
 
 ### RadioList
 
@@ -787,6 +849,7 @@ import { RadioList } from '@blumnai-studio/blumnai-design-system';
 | `defaultValue` | `string` | - | Initial value (uncontrolled mode) |
 | `onValueChange` | `(value: string) => void` | - | Value change handler |
 | `listStyle` | `'default'` `'bordered'` | `'default'` | List style |
+| `size` | `'sm'` `'md'` `'lg'` | `'sm'` | Radio size |
 | `radioStyle` | `'default'` `'with-shadow'` | `'with-shadow'` | Radio style |
 | `disabled` | `boolean` | `false` | Disable all radio items |
 
@@ -1034,7 +1097,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFoo
 
 ```tsx
 import { DataGrid } from '@blumnai-studio/blumnai-design-system';
-import type { ColumnDef, ColumnOrderState } from '@blumnai-studio/blumnai-design-system';
+import type { ColumnDef, ColumnOrderState, ColumnSizingState } from '@blumnai-studio/blumnai-design-system';
 ```
 
 | Prop | Type | Default | Description |
@@ -1045,6 +1108,9 @@ import type { ColumnDef, ColumnOrderState } from '@blumnai-studio/blumnai-design
 | `enableColumnReorder` | `boolean` | - | Enable column drag reorder |
 | `columnOrder` | `ColumnOrderState` | - | Controlled column order state |
 | `onColumnOrderChange` | `OnChangeFn<ColumnOrderState>` | - | Column order change callback |
+| `enableColumnResize` | `boolean` | - | Enable column resize by dragging header edges |
+| `columnSizing` | `ColumnSizingState` | - | Controlled column sizing state (`Record<string, number>`) |
+| `onColumnSizingChange` | `(sizing: ColumnSizingState) => void` | - | Column sizing change callback |
 | `sorting` | `SortingState` | - | Controlled sorting state |
 | `onSortingChange` | `OnChangeFn<SortingState>` | - | Sorting change callback |
 | `columnFilters` | `ColumnFiltersState` | - | Controlled filter state |
@@ -1209,9 +1275,9 @@ import { Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, Da
 | `tickCount` | `number` | `11` | Number of ticks |
 | `formatTick` | `(value: number) => string` | - | Tick label formatter |
 
-**Slider**: + `value` (number), `defaultValue`, `onChange`, `showValue`, `formatValue`
+**Slider**: + `value` (number), `defaultValue`, `onChange`, `showValue`, `formatValue`, `orientation` (`'horizontal'`|`'vertical'`, default `'horizontal'`), `height` (number, vertical mode height in px, default `200`)
 
-**SliderRange**: + `value` ([number, number]), `defaultValue`, `onChange`, `showValue`, `formatValue`
+**SliderRange**: + `value` ([number, number]), `defaultValue`, `onChange`, `showValue`, `formatValue`, `orientation` (`'horizontal'`|`'vertical'`, default `'horizontal'`), `height` (number, vertical mode height in px, default `200`)
 
 **SliderInput**: + `value` (number), `defaultValue`, `onChange`, `formatValue`, `suffix`
 
@@ -2704,6 +2770,28 @@ function FilterableTable() {
 }
 ```
 
+### DataGrid with Column Resize
+
+```tsx
+import { useState } from 'react';
+import { DataGrid } from '@blumnai-studio/blumnai-design-system';
+import type { ColumnDef, ColumnSizingState } from '@blumnai-studio/blumnai-design-system';
+
+function ResizableTable() {
+  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
+
+  return (
+    <DataGrid
+      columns={columns}
+      data={data}
+      enableColumnResize
+      columnSizing={columnSizing}
+      onColumnSizingChange={setColumnSizing}
+    />
+  );
+}
+```
+
 ### Form with Async Submit
 
 ```tsx
@@ -3219,6 +3307,7 @@ function ResponsivePanel({ children }) {
 | tags, chips, tokens, keywords | `Input variant="tags"` |
 | textarea, multiline, long text, description | `Textarea` |
 | select, dropdown, picker, choose | `Select` |
+| virtual select, large list, virtualized, 1000 options, performance | `VirtualSelect` |
 | combobox, autocomplete, search select, typeahead | `Combobox` |
 | checkbox, check, tick, toggle, agree | `Checkbox` |
 | checkbox group, checklist, multi select | `CheckboxList` |
@@ -3315,6 +3404,7 @@ function ResponsivePanel({ children }) {
 | `/resizable` | ResizablePanelGroup, ResizablePanel, ResizableHandle |
 | `/scroll-area` | ScrollArea |
 | `/select` | Select, Combobox |
+| `/virtual-select` | VirtualSelect |
 | `/sidebar` | Sidebar, SidebarContent, SidebarMenu |
 | `/skeleton` | Skeleton |
 | `/slider` | Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, DataRangeSliderInput |

@@ -1,6 +1,12 @@
 import type { MouseEvent } from 'react';
-import { forwardRef, useMemo, useState } from 'react';
+import { forwardRef, useMemo } from 'react';
 
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '../../dropdown';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import { cn } from '../../../utils/cn';
@@ -33,17 +39,21 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
   ...props
 }, ref) => {
   const effectiveMaxItems = maxItems && maxItems >= 3 ? maxItems : undefined;
-  const [isExpanded, setIsExpanded] = useState(false);
+
+  const hiddenItems = useMemo(() => {
+    if (!effectiveMaxItems || items.length <= effectiveMaxItems) return [];
+    return items.slice(1, -(effectiveMaxItems - 2));
+  }, [items, effectiveMaxItems]);
 
   const visibleItems = useMemo(() => {
-    if (isExpanded || !effectiveMaxItems || items.length <= effectiveMaxItems) {
+    if (!effectiveMaxItems || items.length <= effectiveMaxItems) {
       return items;
     }
 
     const firstItem = items[0];
     const lastItems = items.slice(-(effectiveMaxItems - 2));
     return [firstItem, { label: ELLIPSIS_MARKER, disabled: true }, ...lastItems] as typeof items;
-  }, [items, effectiveMaxItems, isExpanded]);
+  }, [items, effectiveMaxItems]);
 
   const separatorChar = useMemo(() => {
     switch (separator) {
@@ -125,18 +135,38 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
               className={cn('flex items-center ds-gap-2', sizeClasses)}
             >
               {isEllipsis ? (
-                <button
-                  type="button"
-                  onClick={() => setIsExpanded(true)}
-                  aria-label="Show hidden breadcrumbs"
-                  className={cn(
-                    'flex items-center ds-gap-1 cursor-pointer',
-                    'text-default hover:underline',
-                    'bg-transparent border-none padding-0 font-inherit'
-                  )}
-                >
-                  &hellip;
-                </button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      type="button"
+                      aria-label="Show hidden breadcrumbs"
+                      className={cn(
+                        'flex items-center ds-gap-1 cursor-pointer',
+                        'text-default hover:underline',
+                        'bg-transparent border-none padding-0 font-inherit'
+                      )}
+                    >
+                      &hellip;
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" sideOffset={4}>
+                    {hiddenItems.map((hiddenItem, i) => (
+                      <DropdownMenuItem
+                        key={hiddenItem.href ?? `hidden-${i}`}
+                        disabled={hiddenItem.disabled}
+                        onClick={() => {
+                          if (hiddenItem.onClick) {
+                            hiddenItem.onClick();
+                          } else if (hiddenItem.href) {
+                            window.location.href = hiddenItem.href;
+                          }
+                        }}
+                      >
+                        {hiddenItem.label}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : isClickable && item.href ? (
                 <a
                   href={item.href}

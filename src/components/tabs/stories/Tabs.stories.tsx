@@ -880,3 +880,81 @@ export const WithTailIcon: Story = {
     </div>
   ),
 };
+
+/**
+ * 스크롤 가능한 탭
+ *
+ * scrollable prop을 사용하면 탭이 넘칠 때 좌우 화살표 버튼이 나타납니다.
+ */
+export const Scrollable: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-24">
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">Segmented - Scrollable (300px)</p>
+        <div style={{ width: 300 }}>
+          <Tabs defaultValue="tab1">
+            <TabsList variant="segmented" scrollable>
+              <TabsTrigger value="tab1">Overview</TabsTrigger>
+              <TabsTrigger value="tab2">Analytics</TabsTrigger>
+              <TabsTrigger value="tab3">Reports</TabsTrigger>
+              <TabsTrigger value="tab4">Customers</TabsTrigger>
+              <TabsTrigger value="tab5">Products</TabsTrigger>
+              <TabsTrigger value="tab6">Settings</TabsTrigger>
+              <TabsTrigger value="tab7">Billing</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">Pill - Scrollable (300px)</p>
+        <div style={{ width: 300 }}>
+          <Tabs defaultValue="tab1">
+            <TabsList variant="pill" scrollable>
+              <TabsTrigger value="tab1">Overview</TabsTrigger>
+              <TabsTrigger value="tab2">Analytics</TabsTrigger>
+              <TabsTrigger value="tab3">Reports</TabsTrigger>
+              <TabsTrigger value="tab4">Customers</TabsTrigger>
+              <TabsTrigger value="tab5">Products</TabsTrigger>
+              <TabsTrigger value="tab6">Settings</TabsTrigger>
+              <TabsTrigger value="tab7">Billing</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">Underline - Scrollable (300px)</p>
+        <div style={{ width: 300 }}>
+          <Tabs defaultValue="tab1">
+            <TabsList variant="underline" scrollable>
+              <TabsTrigger value="tab1">Overview</TabsTrigger>
+              <TabsTrigger value="tab2">Analytics</TabsTrigger>
+              <TabsTrigger value="tab3">Reports</TabsTrigger>
+              <TabsTrigger value="tab4">Customers</TabsTrigger>
+              <TabsTrigger value="tab5">Products</TabsTrigger>
+              <TabsTrigger value="tab6">Settings</TabsTrigger>
+              <TabsTrigger value="tab7">Billing</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">Scrollable with Icons + Badges (400px)</p>
+        <div style={{ width: 400 }}>
+          <Tabs defaultValue="tab1">
+            <TabsList variant="segmented" scrollable>
+              <TabsTrigger value="tab1" leadIcon={['buildings', 'home']}>Home</TabsTrigger>
+              <TabsTrigger value="tab2" leadIcon={['user', 'user']} badge={3}>Users</TabsTrigger>
+              <TabsTrigger value="tab3" leadIcon={['business', 'mail']} badge={12}>Messages</TabsTrigger>
+              <TabsTrigger value="tab4" leadIcon={['system', 'settings']}>Settings</TabsTrigger>
+              <TabsTrigger value="tab5" leadIcon={['media', 'notification']} badge="New">Alerts</TabsTrigger>
+              <TabsTrigger value="tab6" leadIcon={['system', 'information']}>Help</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+      </div>
+    </div>
+  ),
+};

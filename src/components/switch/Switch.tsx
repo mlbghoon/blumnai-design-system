@@ -12,6 +12,11 @@ const SWITCH_SIZE_CONFIG = {
     translateOn: 'data-[state=checked]:translate-x-[15px]',
     spinnerSize: 'width-10 height-10',
     labelLineHeight: 'height-20',
+    labeledTrackWidth: 40,
+    labeledTranslateOn: 'data-[state=checked]:translate-x-[23px]',
+    labelWidth: 23,
+    labelFontSize: 10 as number | undefined,
+    labelFontClass: '',
   },
   md: {
     track: 'width-40 height-24',
@@ -20,6 +25,11 @@ const SWITCH_SIZE_CONFIG = {
     translateOn: 'data-[state=checked]:translate-x-[18px]',
     spinnerSize: 'width-14 height-14',
     labelLineHeight: 'height-24',
+    labeledTrackWidth: 52,
+    labeledTranslateOn: 'data-[state=checked]:translate-x-[30px]',
+    labelWidth: 30,
+    labelFontSize: undefined as number | undefined,
+    labelFontClass: 'size-xs',
   },
   lg: {
     track: 'width-48 height-28',
@@ -28,6 +38,11 @@ const SWITCH_SIZE_CONFIG = {
     translateOn: 'data-[state=checked]:translate-x-[22px]',
     spinnerSize: 'width-16 height-16',
     labelLineHeight: 'height-28',
+    labeledTrackWidth: 60,
+    labeledTranslateOn: 'data-[state=checked]:translate-x-[34px]',
+    labelWidth: 34,
+    labelFontSize: undefined as number | undefined,
+    labelFontClass: 'size-xs',
   },
 } as const;
 
@@ -72,19 +87,28 @@ const LoadingSpinner = ({ className }: { className?: string }) => (
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Root>,
   SwitchProps
->(({ className, label, description, switchPosition = 'left', color = 'green', size = 'sm', disabled, loading = false, checked, onCheckedChange, 'aria-describedby': ariaDescribedBy, ...props }, ref) => {
+>(({ className, label, description, switchPosition = 'left', color = 'green', size = 'sm', disabled, loading = false, checked, onCheckedChange, onLabel, offLabel, 'aria-describedby': ariaDescribedBy, ...props }, ref) => {
   const descriptionId = React.useId();
   const [isHovered, setIsHovered] = React.useState(false);
   const isGreen = color === 'green';
   const isDisabled = disabled || loading;
   const sizeConfig = SWITCH_SIZE_CONFIG[size];
+  const hasTrackLabels = !!(onLabel || offLabel);
 
   const getTrackStyle = (): React.CSSProperties | undefined => {
-    if (!checked) return undefined;
-    if (isGreen) return undefined;
-    if (isDisabled) return getActiveStyle(color, true);
-    if (isHovered) return getActiveHoverStyle(color);
-    return getActiveStyle(color, false);
+    const base: React.CSSProperties = {};
+    if (hasTrackLabels) base.width = sizeConfig.labeledTrackWidth;
+    if (checked) {
+      if (!isGreen) {
+        const colorStyle = isDisabled
+          ? getActiveStyle(color, true)
+          : isHovered
+            ? getActiveHoverStyle(color)
+            : getActiveStyle(color, false);
+        if (colorStyle) Object.assign(base, colorStyle);
+      }
+    }
+    return Object.keys(base).length > 0 ? base : undefined;
   };
 
   const switchElement = (
@@ -99,7 +123,7 @@ const Switch = React.forwardRef<
       aria-describedby={[ariaDescribedBy, description ? descriptionId : undefined].filter(Boolean).join(' ') || undefined}
       aria-busy={loading || undefined}
       className={cn(
-        'peer relative inline-flex items-center shrink-0',
+        'peer relative inline-flex items-center shrink-0 overflow-hidden',
         sizeConfig.track,
         'rounded-full cursor-pointer transition-colors',
         'focus-visible:outline-none focus-visible:shadow-component-misc-focus',
@@ -119,18 +143,56 @@ const Switch = React.forwardRef<
           <LoadingSpinner className={sizeConfig.spinnerSize} />
         </span>
       ) : (
-        <SwitchPrimitive.Thumb
-          className={cn(
-            'pointer-events-none block rounded-full',
-            sizeConfig.thumb,
-            'transition-transform duration-200',
-            'motion-reduce:transition-none',
-            isDisabled ? 'bg-switch-handle-disabled' : 'bg-switch-handle',
-            !isDisabled && 'shadow-[0_1px_3px_rgba(0,0,0,0.08),0_1px_2px_-1px_rgba(0,0,0,0.08)]',
-            sizeConfig.translateOff,
-            sizeConfig.translateOn
+        <>
+          <SwitchPrimitive.Thumb
+            className={cn(
+              'pointer-events-none block rounded-full',
+              sizeConfig.thumb,
+              'transition-transform duration-200',
+              'motion-reduce:transition-none',
+              isDisabled ? 'bg-switch-handle-disabled' : 'bg-switch-handle',
+              !isDisabled && 'shadow-[0_1px_3px_rgba(0,0,0,0.08),0_1px_2px_-1px_rgba(0,0,0,0.08)]',
+              sizeConfig.translateOff,
+              hasTrackLabels ? sizeConfig.labeledTranslateOn : sizeConfig.translateOn,
+            )}
+          />
+          {onLabel && (
+            <span
+              className={cn(
+                'absolute left-0 top-0 bottom-0 flex items-center justify-center select-none pointer-events-none',
+                'font-body font-medium text-white transition-opacity duration-150',
+                sizeConfig.labelFontClass,
+                checked ? 'opacity-100' : 'opacity-0',
+              )}
+              style={{
+                width: sizeConfig.labelWidth,
+                fontSize: sizeConfig.labelFontSize,
+                lineHeight: 1,
+              }}
+              aria-hidden="true"
+            >
+              {onLabel}
+            </span>
           )}
-        />
+          {offLabel && (
+            <span
+              className={cn(
+                'absolute right-0 top-0 bottom-0 flex items-center justify-center select-none pointer-events-none',
+                'font-body font-medium text-muted transition-opacity duration-150',
+                sizeConfig.labelFontClass,
+                !checked ? 'opacity-100' : 'opacity-0',
+              )}
+              style={{
+                width: sizeConfig.labelWidth,
+                fontSize: sizeConfig.labelFontSize,
+                lineHeight: 1,
+              }}
+              aria-hidden="true"
+            >
+              {offLabel}
+            </span>
+          )}
+        </>
       )}
     </SwitchPrimitive.Root>
   );

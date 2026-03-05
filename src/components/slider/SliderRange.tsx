@@ -32,6 +32,8 @@ const SliderRange = React.forwardRef<
   showTicks = false,
   tickCount = 11,
   formatTick,
+  orientation = 'horizontal',
+  height = 200,
   ...props
 }, ref) => {
   const [trackedValue, setTrackedValue] = React.useState<[number, number]>(
@@ -39,6 +41,7 @@ const SliderRange = React.forwardRef<
   );
   const internalValue = value ?? trackedValue;
   const formatFn = formatValue ?? String;
+  const isVertical = orientation === 'vertical';
 
   const handleValueChange = React.useCallback((values: number[]) => {
     setTrackedValue([values[0], values[1]]);
@@ -46,7 +49,7 @@ const SliderRange = React.forwardRef<
   }, [onChange]);
 
   return (
-    <div className={cn('w-full', className)}>
+    <div className={cn(isVertical ? 'inline-flex flex-col' : 'w-full', className)}>
       {(label || showValue) && (
         <div className="flex items-center justify-between margin-b-8">
           {label && (
@@ -61,45 +64,55 @@ const SliderRange = React.forwardRef<
           )}
         </div>
       )}
-      <SliderPrimitive.Root
-        ref={ref}
-        className={cn(
-          'relative flex w-full touch-none select-none items-center',
-          'h-[16px] padding-x-8',
-          disabled && 'cursor-not-allowed'
-        )}
-        value={value}
-        defaultValue={defaultValue ?? [min, max]}
-        min={min}
-        max={max}
-        step={step}
-        disabled={disabled}
-        onValueChange={handleValueChange}
-        {...props}
-      >
-        <SliderTrack>
-          <SliderRangeFilled color={color} />
-        </SliderTrack>
-        <SliderThumb
-          disabled={disabled}
-          showTooltip
-          tooltipValue={formatFn(internalValue[0])}
-        />
-        <SliderThumb
-          disabled={disabled}
-          showTooltip
-          tooltipValue={formatFn(internalValue[1])}
-        />
-      </SliderPrimitive.Root>
-      {showTicks && (
-        <SliderTicks
+      <div className={cn(isVertical && 'flex flex-row')}>
+        <SliderPrimitive.Root
+          ref={ref}
+          className={cn(
+            'relative flex touch-none select-none',
+            isVertical
+              ? 'flex-col items-center justify-center w-[16px] padding-y-8'
+              : 'w-full items-center h-[16px] padding-x-8',
+            disabled && 'cursor-not-allowed'
+          )}
+          value={value}
+          defaultValue={defaultValue ?? [min, max]}
           min={min}
           max={max}
           step={step}
-          tickCount={tickCount}
-          formatTick={formatTick}
-        />
-      )}
+          disabled={disabled}
+          orientation={orientation}
+          onValueChange={handleValueChange}
+          {...(isVertical ? { style: { height } } : {})}
+          {...props}
+        >
+          <SliderTrack orientation={orientation}>
+            <SliderRangeFilled color={color} orientation={orientation} />
+          </SliderTrack>
+          <SliderThumb
+            disabled={disabled}
+            showTooltip
+            tooltipValue={formatFn(internalValue[0])}
+            orientation={orientation}
+          />
+          <SliderThumb
+            disabled={disabled}
+            showTooltip
+            tooltipValue={formatFn(internalValue[1])}
+            orientation={orientation}
+          />
+        </SliderPrimitive.Root>
+        {showTicks && (
+          <SliderTicks
+            min={min}
+            max={max}
+            step={step}
+            tickCount={tickCount}
+            formatTick={formatTick}
+            orientation={orientation}
+            height={isVertical ? height : undefined}
+          />
+        )}
+      </div>
     </div>
   );
 });

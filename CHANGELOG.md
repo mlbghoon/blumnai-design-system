@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.0.12] - 2026-03-05
+
+### Added
+
+- **MonthPicker**: 단일 월 선택 컴포넌트. MonthRangePicker와 동일한 UI로 단일 월만 선택. `showQuickPresets` prop으로 빠른 선택 프리셋(이번 달, 지난 달, 3개월 전 등) 지원. `disabledFuture`, `minDate`, `maxDate`, `locale` 등 기존 월 선택 옵션 모두 지원.
+- **MonthRangePicker Quick Presets**: `showQuickPresets` + `presets` props 추가. 기본 프리셋: 최근 3개월, 최근 6개월, 최근 1년, 올해, 작년. DatePicker/DateRangePicker와 동일한 QuickPresets 사이드바 패턴 적용.
+- **Breadcrumb collapse dropdown**: `maxItems`로 축소된 브레드크럼의 "..." 클릭 시 숨겨진 아이템을 DropdownMenu로 표시. 기존 인라인 확장 동작을 드롭다운으로 교체.
+- **Combobox `filterFunction`**: 커스텀 필터 함수 prop 추가. 기본 label+description 매칭 대신 이메일, ID 등 다중 필드 검색 로직을 소비자가 직접 제공 가능. 미지정 시 기존 동작 유지.
+- **Slider/SliderRange Vertical Orientation**: `orientation="vertical"` prop으로 세로 방향 슬라이더 지원. `height` prop으로 세로 높이 지정 (기본 200px). 썸 툴팁이 우측에 표시되고, 눈금(ticks)이 트랙 우측에 배치. Slider와 SliderRange만 지원 (Input/DataRange 변형은 수평 전용).
+- **Radio Size Prop**: `size` prop (`'sm'`|`'md'`|`'lg'`, 기본 `'sm'`)으로 라디오 크기 지원. Checkbox와 동일한 크기 체계: sm=16px, md=20px, lg=24px. 인디케이터 dot과 라벨 래퍼가 비례 확대. RadioList도 `size` prop 지원.
+- **DataGrid Column Resize**: `enableColumnResize` prop으로 컬럼 헤더 경계를 드래그하여 너비를 조절할 수 있는 기능 추가. `columnSizing`/`onColumnSizingChange`로 제어 모드 지원. 최소 너비 50px, fr/minmax 컬럼은 첫 드래그 시 현재 픽셀 너비로 자동 변환. 컬럼 재정렬(`enableColumnReorder`) 및 스티키 컬럼과 호환.
+- **DataGrid FullFeaturedCombination 스토리**: 정렬, 행 선택, 컬럼 재정렬, 컬럼 리사이즈, 고정 컬럼, 페이지네이션을 모두 조합한 풀 기능 스토리를 마지막에 배치. 기존 `ColumnReorderWithStickyColumns`, `ColumnResizeWithReorder` 등 개별 조합 스토리를 통합.
+
+### Fixed
+
+- **DataGrid 클라이언트 사이드 정렬 동작 안 함**: `onSortingChange`를 전달하면 `isServerSide`가 `true`로 판정되어 `getSortedRowModel`이 비활성화되고 `manualSorting: true`가 설정되던 버그 수정. 정렬 아이콘은 변경되지만 실제 데이터가 재정렬되지 않던 문제. `isServerSide` 판정을 `onPageChange` 존재 여부만으로 변경.
+- **DataGrid 컬럼 재정렬 시 드래그 아이콘 분리**: 드래그 리스너를 헤더 셀 전체가 아닌 드래그 아이콘에만 적용하여 클릭(정렬)과 드래그(재정렬)를 분리.
+- **Stepper**: 멀티 스텝 프로세스 인디케이터 컴포넌트. 수평/수직 방향, 3가지 인디케이터 타입(number, icon, dot), 3가지 크기(sm/md/lg), 18가지 색상, 클릭 네비게이션, 에러 상태, 완료 체크 아이콘 지원. 데이터 기반 API(`steps` 배열)로 사용.
+- **Switch `onLabel`/`offLabel`**: 트랙 내부에 ON/OFF 텍스트 라벨 표시. 라벨 사용 시 트랙이 자동으로 확장되어 텍스트 공간 확보 (sm 32→40px, md 40→52px, lg 48→60px). 색맹 사용자 접근성 향상.
+- **VirtualSelect**: 대량 옵션(1,000+)을 가상화하여 렌더링하는 새 컴포넌트. `@tanstack/react-virtual` 기반으로 화면에 보이는 항목만 DOM에 렌더링하여 성능 최적화. 단일/다중 선택, 검색, 전체 선택, 키보드 탐색 지원. 기존 Select 컴포넌트와 동일한 시각적 스타일링 및 DS ScrollArea 적용.
+
 ## [1.0.11] - 2026-03-05
 
 ### Fixed

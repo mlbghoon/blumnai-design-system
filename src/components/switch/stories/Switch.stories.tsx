@@ -87,6 +87,20 @@ const meta: Meta<typeof Switch> = {
         defaultValue: { summary: 'left' },
       },
     },
+    onLabel: {
+      control: 'text',
+      description: '활성화 시 트랙 내 표시 텍스트',
+      table: {
+        type: { summary: 'ReactNode' },
+      },
+    },
+    offLabel: {
+      control: 'text',
+      description: '비활성화 시 트랙 내 표시 텍스트',
+      table: {
+        type: { summary: 'ReactNode' },
+      },
+    },
   },
 };
 
@@ -108,6 +122,8 @@ export const Default: Story = {
     label: '',
     description: '',
     switchPosition: 'left',
+    onLabel: '',
+    offLabel: '',
   },
   parameters: {
     controls: { disable: false },
@@ -119,6 +135,8 @@ export const Default: Story = {
     }, [args.checked]);
     const label = args.label || undefined;
     const description = args.description || undefined;
+    const onLabel = args.onLabel || undefined;
+    const offLabel = args.offLabel || undefined;
     return (
       <Switch
         checked={checked}
@@ -130,6 +148,8 @@ export const Default: Story = {
         label={label}
         description={description}
         switchPosition={args.switchPosition}
+        onLabel={onLabel}
+        offLabel={offLabel}
       />
     );
   },
@@ -304,6 +324,86 @@ export const AllStates: Story = {
             />
           </div>
         </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * 트랙 라벨
+ *
+ * `onLabel`과 `offLabel`로 트랙 내부에 ON/OFF 텍스트를 표시할 수 있습니다.
+ */
+export const WithTrackLabels: Story = {
+  render: function Render() {
+    const [smChecked, setSmChecked] = useState(false);
+    const [mdChecked, setMdChecked] = useState(true);
+    const [lgChecked, setLgChecked] = useState(false);
+
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex items-center ds-gap-16">
+          <Switch
+            size="sm"
+            checked={smChecked}
+            onCheckedChange={setSmChecked}
+            onLabel="ON"
+            offLabel="OFF"
+          />
+          <span className="font-body size-sm text-subtle">Small</span>
+        </div>
+        <div className="flex items-center ds-gap-16">
+          <Switch
+            size="md"
+            checked={mdChecked}
+            onCheckedChange={setMdChecked}
+            onLabel="ON"
+            offLabel="OFF"
+          />
+          <span className="font-body size-sm text-subtle">Medium</span>
+        </div>
+        <div className="flex items-center ds-gap-16">
+          <Switch
+            size="lg"
+            checked={lgChecked}
+            onCheckedChange={setLgChecked}
+            onLabel="ON"
+            offLabel="OFF"
+          />
+          <span className="font-body size-sm text-subtle">Large</span>
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * 트랙 라벨 + 색상
+ *
+ * 다양한 색상과 트랙 라벨을 함께 사용한 예시입니다.
+ */
+export const WithTrackLabelsColors: Story = {
+  render: function Render() {
+    const colors: SwitchColor[] = ['green', 'blue', 'red', 'orange', 'violet', 'cyan', 'pink'];
+    const [states, setStates] = useState<Record<SwitchColor, boolean>>(
+      Object.fromEntries(colors.map((c) => [c, true])) as Record<SwitchColor, boolean>
+    );
+
+    return (
+      <div className="flex flex-col ds-gap-16">
+        {colors.map((color) => (
+          <div key={color} className="flex items-center ds-gap-16">
+            <Switch
+              size="lg"
+              checked={states[color]}
+              onCheckedChange={(checked) => setStates((prev) => ({ ...prev, [color]: checked }))}
+              color={color}
+              onLabel="ON"
+              offLabel="OFF"
+            />
+            <span className="font-body size-sm text-default capitalize">{color}</span>
+          </div>
+        ))}
       </div>
     );
   },

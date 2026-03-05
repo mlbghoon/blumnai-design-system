@@ -1,2 +1,2 @@
 export { MonthRangePicker } from './MonthRangePicker';
-export type { MonthRangePickerProps, MonthRange } from './MonthRangePicker.types';
+export type { MonthRangePickerProps, MonthRange, MonthRangePreset } from './MonthRangePicker.types';

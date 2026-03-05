@@ -1,4 +1,4 @@
-import type { RadioStyle } from './Radio.types';
+import type { RadioSize, RadioStyle } from './Radio.types';
 
 /**
  * RadioList 스타일
@@ -52,6 +52,11 @@ export interface RadioListProps {
    * @default 'default'
    */
   listStyle?: RadioListStyle;
+  /**
+   * 라디오 크기
+   * @default 'sm'
+   */
+  size?: RadioSize;
   /**
    * 라디오 버튼 스타일
    * @default 'with-shadow'

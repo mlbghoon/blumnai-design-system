@@ -143,6 +143,14 @@ false: 선택 불가
         },
       },
     },
+    enableColumnResize: {
+      control: 'boolean',
+      description: '컬럼 크기 조절 활성화 여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
     pagination: {
       control: 'boolean',
       description: '페이지네이션 UI 표시 여부',
@@ -457,6 +465,7 @@ export const Default: Story = {
     rowHeight: '32px',
     maxHeight: undefined,
     minHeight: undefined,
+    enableColumnResize: false,
   },
   render: function Render(args) {
     return (
@@ -476,6 +485,7 @@ export const Default: Story = {
         rowHeight={args.rowHeight}
         maxHeight={args.maxHeight}
         minHeight={args.minHeight}
+        enableColumnResize={args.enableColumnResize}
       />
     );
   },
@@ -1659,83 +1669,6 @@ export const MultipleStickyColumns: Story = {
 };
 
 /**
- * 풀 기능 조합
- *
- * 페이지네이션, 수직 스크롤(maxHeight), 페이지 크기 변경을 함께 사용하는 예시입니다.
- * 실제 사용 사례에서 가장 일반적인 조합입니다.
- *
- * - **maxHeight**: 테이블 높이를 제한하여 수직 스크롤 활성화
- * - **pagination**: 페이지네이션 UI 표시
- * - **limitOptions + onLimitChange**: 페이지 크기 선택 UI 표시
- * - **showItemCount**: 전체 항목 수 표시
- */
-export const FullFeaturedCombination: Story = {
-  render: function Render() {
-    const [limit, setLimit] = useState(10);
-
-    const largeDataset: User[] = Array.from({ length: 50 }, (_, i) => ({
-      id: String(i + 1),
-      name: `사용자 ${i + 1}`,
-      email: `user${i + 1}@example.com`,
-      role: (['admin', 'editor', 'viewer'] as const)[i % 3],
-      status: (['active', 'inactive', 'pending'] as const)[i % 3],
-      progress: Math.floor((i * 17) % 100),
-    }));
-
-    const columns: ColumnDef<User>[] = [
-      {
-        accessorKey: 'name',
-        header: '이름',
-        cell: ({ row }) => <CellText value={row.original.name} />,
-        meta: { width: '120px' },
-      },
-      {
-        accessorKey: 'email',
-        header: '이메일',
-        cell: ({ row }) => <CellText value={row.original.email} tooltip />,
-        meta: { width: '1fr' },
-      },
-      {
-        accessorKey: 'role',
-        header: '역할',
-        cell: ({ row }) => (
-          <CellBadge label={row.original.role} color={roleColorMap[row.original.role]} />
-        ),
-        meta: { width: '100px', align: 'center' },
-      },
-      {
-        accessorKey: 'status',
-        header: '상태',
-        cell: ({ row }) => (
-          <CellBadge label={row.original.status} color={statusColorMap[row.original.status]} />
-        ),
-        meta: { width: '100px', align: 'center' },
-      },
-      {
-        accessorKey: 'progress',
-        header: '진행률',
-        cell: ({ row }) => <CellProgress value={row.original.progress} />,
-        meta: { width: '150px' },
-      },
-    ];
-
-    return (
-      <DataGrid
-        data={largeDataset}
-        columns={columns}
-        getRowId={(row) => row.id}
-        maxHeight="400px"
-        limit={limit}
-        limitOptions={[5, 10, 20, 50]}
-        onLimitChange={setLimit}
-        showItemCount
-        limitOptionLabel={(n) => `${n}개씩 보기`}
-      />
-    );
-  },
-};
-
-/**
  * 컬럼 드래그 재정렬
  *
  * `enableColumnReorder`로 컬럼 헤더를 드래그하여 순서를 변경할 수 있습니다.
@@ -1813,17 +1746,79 @@ export const WithColumnReorder: Story = {
 };
 
 /**
- * 고정 컬럼 + 컬럼 재정렬
+ * 컬럼 크기 조절
  *
- * Sticky 컬럼과 선택 컬럼은 드래그할 수 없습니다.
- * 나머지 컬럼만 드래그하여 순서를 변경할 수 있습니다.
+ * `enableColumnResize`로 컬럼 헤더 경계를 드래그하여 너비를 조절할 수 있습니다.
+ *
+ * - **드래그**: 헤더 오른쪽 경계를 드래그하면 컬럼 너비 변경
+ * - **최소 너비**: 50px 이하로 줄어들지 않음
+ * - **fr/minmax 컬럼**: 첫 드래그 시 현재 픽셀 너비를 기준으로 변환
  */
-export const ColumnReorderWithStickyColumns: Story = {
+export const ColumnResize: Story = {
   render: function Render() {
+    return (
+      <DataGrid
+        columns={baseColumns}
+        data={sampleUsers}
+        enableColumnResize
+        pagination={false}
+        aria-label="Column resize example"
+      />
+    );
+  },
+};
+
+/**
+ * 컬럼 크기 조절 (제어 모드)
+ *
+ * `columnSizing`과 `onColumnSizingChange`로 외부 상태 관리가 가능합니다.
+ * 아래 JSON에서 각 컬럼의 현재 픽셀 너비를 확인할 수 있습니다.
+ */
+export const ControlledColumnResize: Story = {
+  render: function Render() {
+    const [sizing, setSizing] = useState<Record<string, number>>({});
+
+    return (
+      <div className="flex flex-col ds-gap-16">
+        <DataGrid
+          columns={baseColumns}
+          data={sampleUsers}
+          enableColumnResize
+          columnSizing={sizing}
+          onColumnSizingChange={setSizing}
+          pagination={false}
+          aria-label="Controlled resize example"
+        />
+        {Object.keys(sizing).length > 0 && (
+          <pre className="font-code size-xs text-subtle">
+            {JSON.stringify(sizing, null, 2)}
+          </pre>
+        )}
+      </div>
+    );
+  },
+};
+
+/**
+ * 풀 기능 조합
+ *
+ * 정렬, 행 선택, 컬럼 재정렬, 컬럼 리사이즈, 고정 컬럼, 페이지네이션을 모두 사용하는 예시입니다.
+ *
+ * - **정렬**: 컬럼 헤더 클릭 (Shift+클릭으로 다중 정렬)
+ * - **행 선택**: 체크박스로 행 선택
+ * - **컬럼 재정렬**: 헤더를 드래그하여 순서 변경 (고정 컬럼 제외)
+ * - **컬럼 리사이즈**: 헤더 오른쪽 경계를 드래그하여 너비 조절
+ * - **고정 컬럼**: 선택(체크박스)과 이름 컬럼은 스크롤 시 고정
+ * - **페이지네이션**: 페이지 크기 변경 및 페이지 이동
+ */
+export const FullFeaturedCombination: Story = {
+  render: function Render() {
+    const [sorting, setSorting] = useState<SortingState>([]);
     const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+    const [limit, setLimit] = useState(10);
 
-    interface ReorderUser {
+    interface FullUser {
       id: string;
       name: string;
       email: string;
@@ -1832,9 +1827,10 @@ export const ColumnReorderWithStickyColumns: Story = {
       phone: string;
       joinDate: string;
       status: 'active' | 'inactive' | 'pending';
+      progress: number;
     }
 
-    const reorderUsers: ReorderUser[] = Array.from({ length: 10 }, (_, i) => ({
+    const fullUsers: FullUser[] = Array.from({ length: 50 }, (_, i) => ({
       id: String(i + 1),
       name: `사용자 ${i + 1}`,
       email: `user${i + 1}@example.com`,
@@ -1843,9 +1839,10 @@ export const ColumnReorderWithStickyColumns: Story = {
       phone: `010-${String(1000 + i).padStart(4, '0')}-${String(2000 + i).padStart(4, '0')}`,
       joinDate: `2024-${String((i % 12) + 1).padStart(2, '0')}-15`,
       status: (['active', 'inactive', 'pending'] as const)[i % 3],
+      progress: Math.floor((i * 17) % 100),
     }));
 
-    const columns: ColumnDef<ReorderUser>[] = useMemo(
+    const columns: ColumnDef<FullUser>[] = useMemo(
       () => [
         {
           id: 'select',
@@ -1878,24 +1875,28 @@ export const ColumnReorderWithStickyColumns: Story = {
         {
           accessorKey: 'name',
           header: '이름',
+          enableSorting: true,
           cell: ({ row }) => <CellText value={row.original.name} />,
           meta: { width: '100px', sticky: true },
         },
         {
           accessorKey: 'email',
           header: '이메일',
-          cell: ({ row }) => <CellText value={row.original.email} />,
+          enableSorting: true,
+          cell: ({ row }) => <CellText value={row.original.email} tooltip />,
           meta: { width: '180px' },
         },
         {
           accessorKey: 'department',
           header: '부서',
+          enableSorting: true,
           cell: ({ row }) => <CellText value={row.original.department} />,
           meta: { width: '120px' },
         },
         {
           accessorKey: 'position',
           header: '직책',
+          enableSorting: true,
           cell: ({ row }) => <CellText value={row.original.position} />,
           meta: { width: '100px' },
         },
@@ -1908,43 +1909,55 @@ export const ColumnReorderWithStickyColumns: Story = {
         {
           accessorKey: 'joinDate',
           header: '입사일',
+          enableSorting: true,
           cell: ({ row }) => <CellText value={row.original.joinDate} />,
           meta: { width: '120px' },
         },
         {
           accessorKey: 'status',
           header: '상태',
+          enableSorting: true,
           cell: ({ row }) => (
             <CellBadge
               label={row.original.status}
               color={statusColorMap[row.original.status]}
             />
           ),
-          meta: { width: '1fr', align: 'center' },
+          meta: { width: '100px', align: 'center' },
+        },
+        {
+          accessorKey: 'progress',
+          header: '진행률',
+          enableSorting: true,
+          cell: ({ row }) => <CellProgress value={row.original.progress} />,
+          meta: { width: '150px' },
         },
       ],
       []
     );
 
     return (
-      <div className="flex flex-col ds-gap-16">
-        <div className="font-body size-sm text-subtle bg-muted padding-12 rounded-md">
-          선택(체크박스)과 이름(sticky) 컬럼은 고정됩니다. 나머지 컬럼을 드래그하여 순서를 변경하세요.
-        </div>
-        <DataGrid
-          data={reorderUsers}
-          columns={columns}
-          getRowId={(row) => row.id}
-          rowSelection={rowSelection}
-          onRowSelectionChange={setRowSelection}
-          enableRowSelection
-          enableColumnReorder
-          columnOrder={columnOrder}
-          onColumnOrderChange={setColumnOrder}
-          maxHeight="400px"
-          pagination={false}
-        />
-      </div>
+      <DataGrid
+        data={fullUsers}
+        columns={columns}
+        getRowId={(row) => row.id}
+        sorting={sorting}
+        onSortingChange={setSorting}
+        rowSelection={rowSelection}
+        onRowSelectionChange={setRowSelection}
+        enableRowSelection
+        enableColumnReorder
+        columnOrder={columnOrder}
+        onColumnOrderChange={setColumnOrder}
+        enableColumnResize
+        maxHeight="400px"
+        limit={limit}
+        limitOptions={[5, 10, 20, 50]}
+        onLimitChange={setLimit}
+        showItemCount
+        limitOptionLabel={(n) => `${n}개씩 보기`}
+        aria-label="Full featured DataGrid"
+      />
     );
   },
 };

@@ -36,6 +36,8 @@ declare module '@tanstack/react-table' {
   }
 }
 
+export type ColumnSizingState = Record<string, number>;
+
 export interface DataGridProps<T> {
   /**
    * 테이블 데이터 배열
@@ -69,6 +71,24 @@ export interface DataGridProps<T> {
    * 컬럼 순서 변경 콜백
    */
   onColumnOrderChange?: OnChangeFn<ColumnOrderState>;
+
+  // ============================================
+  // Column Resize
+  // ============================================
+  /**
+   * 컬럼 크기 조절 활성화 여부
+   */
+  enableColumnResize?: boolean;
+
+  /**
+   * 컬럼 크기 상태 (컬럼 ID → 픽셀 너비)
+   */
+  columnSizing?: ColumnSizingState;
+
+  /**
+   * 컬럼 크기 변경 콜백
+   */
+  onColumnSizingChange?: (sizing: ColumnSizingState) => void;
 
   // ============================================
   // Sorting

@@ -24,6 +24,7 @@ export type {
 export { DataGrid } from './DataGrid';
 export type {
   DataGridProps,
+  ColumnSizingState,
   ColumnDef,
   SortingState,
   ColumnFiltersState,

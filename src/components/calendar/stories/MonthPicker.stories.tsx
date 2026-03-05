@@ -2,12 +2,11 @@ import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { MonthRangePicker } from '../MonthRangePicker';
-import type { MonthRange } from '../MonthRangePicker';
+import { MonthPicker } from '../MonthPicker';
 
-const meta: Meta<typeof MonthRangePicker> = {
-  title: 'DataEntry/MonthRangePicker',
-  component: MonthRangePicker,
+const meta: Meta<typeof MonthPicker> = {
+  title: 'DataEntry/MonthPicker',
+  component: MonthPicker,
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
@@ -16,16 +15,16 @@ const meta: Meta<typeof MonthRangePicker> = {
   argTypes: {
     value: {
       control: false,
-      description: '선택된 월 범위',
+      description: '선택된 월',
       table: {
-        type: { summary: 'MonthRange' },
+        type: { summary: 'Date' },
       },
     },
     onChange: {
       action: 'changed',
-      description: '월 범위 변경 시 호출되는 콜백',
+      description: '월 변경 시 호출되는 콜백',
       table: {
-        type: { summary: '(range: MonthRange) => void' },
+        type: { summary: '(date: Date) => void' },
       },
     },
     minDate: {
@@ -103,24 +102,24 @@ const meta: Meta<typeof MonthRangePicker> = {
       control: false,
       description: '빠른 선택 프리셋 목록',
       table: {
-        type: { summary: 'MonthRangePreset[]' },
+        type: { summary: 'MonthPickerPreset[]' },
       },
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof MonthRangePicker>;
+type Story = StoryObj<typeof MonthPicker>;
 
 /**
- * 기본 MonthRangePicker
+ * 기본 MonthPicker
  *
  * 이 스토리에서 컴포넌트의 모든 props를 테스트할 수 있습니다.
  */
 export const Default: Story = {
   args: {
-    label: '기간 선택',
-    placeholder: 'YYYY.MM ~ YYYY.MM',
+    label: '월 선택',
+    placeholder: 'YYYY.MM',
     locale: 'ko',
     disabled: false,
     disabledFuture: false,
@@ -130,10 +129,10 @@ export const Default: Story = {
     controls: { disable: false },
   },
   render: function Render(args) {
-    const [value, setValue] = useState<MonthRange>({});
+    const [value, setValue] = useState<Date | undefined>();
     return (
       <div style={{ width: 300 }}>
-        <MonthRangePicker
+        <MonthPicker
           {...args}
           value={value}
           onChange={setValue}
@@ -148,16 +147,32 @@ export const Default: Story = {
  */
 export const WithValue: Story = {
   render: function Render() {
-    const [value, setValue] = useState<MonthRange>({
-      from: new Date(2025, 0, 1),
-      to: new Date(2025, 5, 1),
-    });
+    const [value, setValue] = useState<Date | undefined>(new Date(2025, 2, 1));
     return (
       <div style={{ width: 300 }}>
-        <MonthRangePicker
-          label="기간 선택"
+        <MonthPicker
+          label="월 선택"
           value={value}
           onChange={setValue}
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 빠른 선택 프리셋
+ */
+export const WithQuickPresets: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<Date | undefined>();
+    return (
+      <div style={{ width: 300 }}>
+        <MonthPicker
+          label="월 선택"
+          value={value}
+          onChange={setValue}
+          showQuickPresets
         />
       </div>
     );
@@ -169,11 +184,11 @@ export const WithValue: Story = {
  */
 export const DisabledFuture: Story = {
   render: function Render() {
-    const [value, setValue] = useState<MonthRange>({});
+    const [value, setValue] = useState<Date | undefined>();
     return (
       <div style={{ width: 300 }}>
-        <MonthRangePicker
-          label="기간 선택"
+        <MonthPicker
+          label="월 선택"
           value={value}
           onChange={setValue}
           disabledFuture
@@ -188,14 +203,14 @@ export const DisabledFuture: Story = {
  */
 export const WithError: Story = {
   render: function Render() {
-    const [value, setValue] = useState<MonthRange>({});
+    const [value, setValue] = useState<Date | undefined>();
     return (
       <div style={{ width: 300 }}>
-        <MonthRangePicker
-          label="기간 선택"
+        <MonthPicker
+          label="월 선택"
           value={value}
           onChange={setValue}
-          error="기간을 선택해 주세요"
+          error="월을 선택해 주세요"
         />
       </div>
     );
@@ -208,8 +223,8 @@ export const WithError: Story = {
 export const Disabled: Story = {
   render: () => (
     <div style={{ width: 300 }}>
-      <MonthRangePicker
-        label="기간 선택"
+      <MonthPicker
+        label="월 선택"
         disabled
       />
     </div>
@@ -217,34 +232,15 @@ export const Disabled: Story = {
 };
 
 /**
- * 빠른 선택 프리셋
- */
-export const WithQuickPresets: Story = {
-  render: function Render() {
-    const [value, setValue] = useState<MonthRange>({});
-    return (
-      <div style={{ width: 300 }}>
-        <MonthRangePicker
-          label="기간 선택"
-          value={value}
-          onChange={setValue}
-          showQuickPresets
-        />
-      </div>
-    );
-  },
-};
-
-/**
  * 영문 로케일
  */
 export const EnglishLocale: Story = {
   render: function Render() {
-    const [value, setValue] = useState<MonthRange>({});
+    const [value, setValue] = useState<Date | undefined>();
     return (
       <div style={{ width: 300 }}>
-        <MonthRangePicker
-          label="Period"
+        <MonthPicker
+          label="Month"
           value={value}
           onChange={setValue}
           locale="en"

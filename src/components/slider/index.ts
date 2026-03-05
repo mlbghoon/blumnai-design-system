@@ -8,6 +8,7 @@ export { DataRangeSliderInput } from './DataRangeSliderInput';
 export type {
   SliderColor,
   SliderBaseProps,
+  SliderOrientationProps,
   SliderProps,
   SliderRangeProps,
   DataRangeSliderProps,

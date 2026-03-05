@@ -38,6 +38,9 @@ function DataGridInner<T>(
     enableColumnReorder,
     columnOrder,
     onColumnOrderChange,
+    enableColumnResize,
+    columnSizing: externalColumnSizing,
+    onColumnSizingChange,
     pagination = true,
     page,
     total,
@@ -79,6 +82,8 @@ function DataGridInner<T>(
     handlePageChange,
     handleLimitChange,
     handleColumnOrderChange,
+    columnSizing,
+    handleColumnSizingChange,
     displayData,
   } = useDataGridTable({
     data,
@@ -94,6 +99,9 @@ function DataGridInner<T>(
     enableColumnReorder,
     columnOrder,
     onColumnOrderChange,
+    enableColumnResize,
+    columnSizing: externalColumnSizing,
+    onColumnSizingChange,
     pagination,
     page,
     total,
@@ -111,21 +119,33 @@ function DataGridInner<T>(
   );
 
   const gridTemplateColumns = useMemo(() => {
-    if (enableColumnReorder && orderedHeaders.length > 0) {
-      return orderedHeaders
-        .map((h) => h.column.columnDef.meta?.width ?? '1fr')
-        .join(' ');
-    }
-    return columns.map((col) => col.meta?.width ?? '1fr').join(' ');
-  }, [enableColumnReorder, orderedHeaders, columns]);
+    const cols = enableColumnReorder && orderedHeaders.length > 0
+      ? orderedHeaders.map((h) => ({
+          id: h.column.id,
+          width: h.column.columnDef.meta?.width ?? '1fr',
+        }))
+      : columns.map((col) => ({
+          id: col.id ?? (col as { accessorKey?: string }).accessorKey ?? '',
+          width: col.meta?.width ?? '1fr',
+        }));
+
+    return cols
+      .map((c) =>
+        enableColumnResize && columnSizing[c.id]
+          ? `${columnSizing[c.id]}px`
+          : c.width
+      )
+      .join(' ');
+  }, [enableColumnReorder, orderedHeaders, columns, enableColumnResize, columnSizing]);
 
   const stickyColumnPositions = useMemo(() => {
+    const sizing = enableColumnResize ? columnSizing : undefined;
     if (enableColumnReorder && orderedHeaders.length > 0) {
       const orderedColumnDefs = orderedHeaders.map((h) => h.column.columnDef);
-      return calculateStickyPositions(orderedColumnDefs);
+      return calculateStickyPositions(orderedColumnDefs, sizing);
     }
-    return calculateStickyPositions(columns);
-  }, [enableColumnReorder, orderedHeaders, columns]);
+    return calculateStickyPositions(columns, sizing);
+  }, [enableColumnReorder, orderedHeaders, columns, enableColumnResize, columnSizing]);
 
   const orderedColumns = useMemo(() => {
     if (enableColumnReorder && orderedHeaders.length > 0) {
@@ -185,6 +205,9 @@ function DataGridInner<T>(
             headerHeight={headerHeight}
             enableColumnReorder={enableColumnReorder}
             onColumnOrderChange={handleColumnOrderChange}
+            enableColumnResize={enableColumnResize}
+            columnSizing={columnSizing}
+            onColumnSizingChange={handleColumnSizingChange}
           />
 
           {showErrorState ? (

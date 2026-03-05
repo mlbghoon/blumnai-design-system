@@ -2,6 +2,11 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 
 /**
+ * Radio 크기
+ */
+export type RadioSize = 'sm' | 'md' | 'lg';
+
+/**
  * Radio 스타일
  */
 export type RadioStyle = 'default' | 'with-shadow';
@@ -27,6 +32,11 @@ export interface RadioGroupProps
  */
 export interface RadioProps
   extends Omit<ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>, 'children'> {
+  /**
+   * Radio 크기
+   * @default 'sm'
+   */
+  size?: RadioSize;
   /**
    * Radio value (RadioGroup 내에서 고유해야 함)
    */

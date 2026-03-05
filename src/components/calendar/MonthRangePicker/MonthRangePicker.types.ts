@@ -7,6 +7,14 @@ export interface MonthRange {
 }
 
 /**
+ * MonthRangePreset 타입
+ */
+export interface MonthRangePreset {
+  label: string;
+  getValue: () => MonthRange;
+}
+
+/**
  * MonthRangePicker 컴포넌트 Props
  */
 export interface MonthRangePickerProps {
@@ -62,4 +70,13 @@ export interface MonthRangePickerProps {
    * @default 'YYYY.MM ~ YYYY.MM'
    */
   placeholder?: string;
+  /**
+   * 빠른 선택 프리셋 표시 여부
+   * @default false
+   */
+  showQuickPresets?: boolean;
+  /**
+   * 빠른 선택 프리셋 목록
+   */
+  presets?: MonthRangePreset[];
 }

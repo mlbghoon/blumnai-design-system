@@ -136,6 +136,25 @@ const meta: Meta<SliderProps> = {
         },
       },
     },
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+      description: '슬라이더 방향',
+      table: {
+        type: {
+          summary: "'horizontal' | 'vertical'",
+        },
+        defaultValue: { summary: 'horizontal' },
+      },
+    },
+    height: {
+      control: 'number',
+      description: '세로 모드에서의 높이 (px)',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '200' },
+      },
+    },
   },
 };
 
@@ -159,6 +178,8 @@ export const Default: Story = {
     defaultValue: 50,
     showTicks: false,
     tickCount: 11,
+    orientation: 'horizontal',
+    height: 200,
   },
   parameters: {
     controls: { disable: false },
@@ -166,7 +187,7 @@ export const Default: Story = {
   render: function Render(args) {
     const [value, setValue] = useState(args.defaultValue || 50);
     return (
-      <div style={{ width: 320 }}>
+      <div style={{ width: args.orientation === 'vertical' ? undefined : 320 }}>
         <Slider
           color={args.color}
           label={args.label}
@@ -177,6 +198,8 @@ export const Default: Story = {
           disabled={args.disabled}
           showTicks={args.showTicks}
           tickCount={args.tickCount}
+          orientation={args.orientation}
+          height={args.height}
           value={value}
           onChange={setValue}
           formatValue={args.formatValue}
@@ -278,6 +301,50 @@ export const Colors: Story = {
         <Slider color="red" label="Red" showValue defaultValue={50} />
         <Slider color="violet" label="Violet" showValue defaultValue={50} />
       </div>
+    );
+  },
+};
+
+/**
+ * 세로 방향 슬라이더
+ */
+export const Vertical: Story = {
+  render: function Render() {
+    const [value, setValue] = useState(50);
+    return (
+      <Slider
+        orientation="vertical"
+        height={250}
+        label="Volume"
+        showValue
+        value={value}
+        onChange={setValue}
+        color="brand"
+      />
+    );
+  },
+};
+
+/**
+ * 세로 방향 + 눈금
+ */
+export const VerticalWithTicks: Story = {
+  render: function Render() {
+    const [value, setValue] = useState(50);
+    return (
+      <Slider
+        orientation="vertical"
+        height={250}
+        label="Temperature"
+        showValue
+        value={value}
+        onChange={setValue}
+        formatValue={(v) => `${v}°C`}
+        showTicks
+        tickCount={6}
+        formatTick={(v) => `${v}°`}
+        color="blue"
+      />
     );
   },
 };

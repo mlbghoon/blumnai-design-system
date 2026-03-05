@@ -4,15 +4,21 @@ import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import { cn } from '@/lib/utils';
 import type { RadioGroupProps, RadioProps } from './Radio.types';
 
-export const RadioIndicator = ({ color = 'currentColor' }: { color?: string }) => (
+const RADIO_SIZE_CONFIG = {
+  sm: { box: 'width-16 height-16', indicatorSize: 8, labelLineHeight: 'height-20' },
+  md: { box: 'width-20 height-20', indicatorSize: 10, labelLineHeight: 'height-24' },
+  lg: { box: 'width-24 height-24', indicatorSize: 12, labelLineHeight: 'height-28' },
+} as const;
+
+export const RadioIndicator = ({ color = 'currentColor', size = 8 }: { color?: string; size?: number }) => (
   <svg
-    width="8"
-    height="8"
-    viewBox="0 0 8 8"
+    width={size}
+    height={size}
+    viewBox={`0 0 ${size} ${size}`}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <circle cx="4" cy="4" r="4" fill={color} />
+    <circle cx={size / 2} cy={size / 2} r={size / 2} fill={color} />
   </svg>
 );
 
@@ -70,9 +76,10 @@ RadioGroup.displayName = 'RadioGroup';
 const Radio = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
   RadioProps
->(({ className, label, description, radioPosition = 'left', radioStyle = 'default', align = 'start', labelWeight = 'medium', disabled, value, ...props }, ref) => {
+>(({ className, label, description, radioPosition = 'left', radioStyle = 'default', align = 'start', labelWeight = 'medium', size = 'sm', disabled, value, ...props }, ref) => {
   const context = React.useContext(RadioContext);
   const isChecked = context.value === value;
+  const sizeConfig = RADIO_SIZE_CONFIG[size];
 
   const shadowEffects = radioStyle === 'with-shadow' && !isChecked && !disabled
     ? 'shadow-[inset_0_-1px_0_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04)]'
@@ -89,7 +96,7 @@ const Radio = React.forwardRef<
       disabled={disabled}
       className={cn(
         'peer relative shrink-0 group',
-        'width-16 height-16',
+        sizeConfig.box,
         'rounded-full',
         'overflow-hidden',
         'transition-colors',
@@ -111,14 +118,14 @@ const Radio = React.forwardRef<
         />
       )}
       <RadioGroupPrimitive.Indicator className="absolute flex items-center justify-center" style={{ inset: '1px' }}>
-        <RadioIndicator color={iconColor} />
+        <RadioIndicator color={iconColor} size={sizeConfig.indicatorSize} />
       </RadioGroupPrimitive.Indicator>
       {!disabled && !isChecked && (
         <div
           className="absolute flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
           style={{ inset: '1px' }}
         >
-          <RadioIndicator color="var(--icon-default-disabled)" />
+          <RadioIndicator color="var(--icon-default-disabled)" size={sizeConfig.indicatorSize} />
         </div>
       )}
     </RadioGroupPrimitive.Item>
@@ -137,7 +144,7 @@ const Radio = React.forwardRef<
         disabled ? 'cursor-not-allowed' : 'cursor-pointer'
       )}
     >
-      <div className="height-20 flex items-center shrink-0">
+      <div className={cn(sizeConfig.labelLineHeight, 'flex items-center shrink-0')}>
         {radioElement}
       </div>
       <div className="flex flex-col ds-gap-4">

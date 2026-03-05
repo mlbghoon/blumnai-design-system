@@ -8,11 +8,13 @@ export interface SliderTicksProps {
   step?: number;
   tickCount?: number;
   formatTick?: (value: number) => string;
+  orientation?: 'horizontal' | 'vertical';
+  height?: number;
   className?: string;
 }
 
 const SliderTicks = React.forwardRef<HTMLDivElement, SliderTicksProps>(
-  ({ min, max, step, tickCount = 11, formatTick, className }, ref) => {
+  ({ min, max, step, tickCount = 11, formatTick, orientation = 'horizontal', height, className }, ref) => {
     const ticks = React.useMemo(() => {
       const result: number[] = [];
 
@@ -32,23 +34,41 @@ const SliderTicks = React.forwardRef<HTMLDivElement, SliderTicksProps>(
 
     const formatFn = formatTick ?? ((v: number) => String(v));
     const range = max - min;
+    const isVertical = orientation === 'vertical';
 
     return (
       <div
         ref={ref}
         role="presentation"
         aria-hidden="true"
-        className={cn('relative w-full h-[24px] margin-t-4', className)}
+        className={cn(
+          'relative',
+          isVertical ? 'w-[24px] [margin-left:4px]' : 'w-full h-[24px] margin-t-4',
+          className
+        )}
+        {...(isVertical && height ? { style: { height } } : {})}
       >
         {ticks.map((tick, index) => {
           const percent = ((tick - min) / range) * 100;
           return (
             <div
               key={`${tick}-${index}`}
-              className="absolute flex flex-col items-center ds-gap-4 -translate-x-1/2"
-              style={{ left: `calc(8px + (100% - 16px) * ${percent / 100})` }}
+              className={cn(
+                'absolute flex items-center',
+                isVertical
+                  ? 'flex-row ds-gap-4 translate-y-1/2'
+                  : 'flex-col ds-gap-4 -translate-x-1/2'
+              )}
+              style={
+                isVertical
+                  ? { bottom: `calc(8px + (100% - 16px) * ${percent / 100})` }
+                  : { left: `calc(8px + (100% - 16px) * ${percent / 100})` }
+              }
             >
-              <div className="w-[1px] h-[4px] bg-basic-gray-alpha-10" />
+              <div className={cn(
+                'bg-basic-gray-alpha-10',
+                isVertical ? 'h-[1px] w-[4px]' : 'w-[1px] h-[4px]'
+              )} />
               <span className="font-body size-xs line-height-leading-4 text-muted whitespace-nowrap">
                 {formatFn(tick)}
               </span>

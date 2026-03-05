@@ -6,17 +6,19 @@ interface SliderThumbProps extends React.ComponentPropsWithoutRef<typeof SliderP
   disabled?: boolean;
   showTooltip?: boolean;
   tooltipValue?: string;
+  orientation?: 'horizontal' | 'vertical';
   'aria-label'?: string;
 }
 
 const SliderThumb = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Thumb>,
   SliderThumbProps
->(({ className, disabled, showTooltip, tooltipValue, ...props }, ref) => {
+>(({ className, disabled, showTooltip, tooltipValue, orientation = 'horizontal', ...props }, ref) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const [isFocused, setIsFocused] = React.useState(false);
 
   const showValue = showTooltip && (isHovered || isFocused) && tooltipValue;
+  const isVertical = orientation === 'vertical';
 
   return (
     <SliderPrimitive.Thumb
@@ -41,12 +43,15 @@ const SliderThumb = React.forwardRef<
       {showValue && (
         <div
           className={cn(
-            'absolute left-1/2 -translate-x-1/2 bottom-full margin-b-4',
+            'absolute',
             'bg-inverted rounded-xs',
             'padding-x-4 padding-y-2',
             'font-body size-xs font-medium text-inverted-default',
             'whitespace-nowrap',
-            'pointer-events-none'
+            'pointer-events-none',
+            isVertical
+              ? 'top-1/2 -translate-y-1/2 left-full [margin-left:4px]'
+              : 'left-1/2 -translate-x-1/2 bottom-full margin-b-4'
           )}
         >
           {tooltipValue}

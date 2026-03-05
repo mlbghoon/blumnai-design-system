@@ -7,49 +7,41 @@ import { InputWrapper } from '../../input/shared/InputWrapper';
 import { Icon } from '../../icons/Icon';
 import { QuickPresets } from '../components/QuickPresets';
 import type { QuickPreset } from '../DatePicker.types';
-import type { MonthRangePickerProps, MonthRange, MonthRangePreset } from './MonthRangePicker.types';
+import type { MonthPickerProps, MonthPickerPreset } from './MonthPicker.types';
 
 const MONTHS_KO = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
 const MONTHS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-const formatMonthRange = (range: MonthRange | undefined): string => {
-  if (!range?.from) return '';
-  const fromStr = `${range.from.getFullYear()}.${String(range.from.getMonth() + 1).padStart(2, '0')}`;
-  if (!range.to) return fromStr;
-  const toStr = `${range.to.getFullYear()}.${String(range.to.getMonth() + 1).padStart(2, '0')}`;
-  return `${fromStr} ~ ${toStr}`;
+const formatMonth = (date: Date | undefined): string => {
+  if (!date) return '';
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`;
 };
 
-const getDefaultRangePresets = (): MonthRangePreset[] => {
+const getDefaultPresets = (): MonthPickerPreset[] => {
   const now = new Date();
   const firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   return [
-    { label: '최근 3개월', getValue: () => ({ from: addMonths(firstOfMonth, -2), to: firstOfMonth }) },
-    { label: '최근 6개월', getValue: () => ({ from: addMonths(firstOfMonth, -5), to: firstOfMonth }) },
-    { label: '최근 1년', getValue: () => ({ from: addMonths(firstOfMonth, -11), to: firstOfMonth }) },
-    { label: '올해', getValue: () => ({ from: new Date(now.getFullYear(), 0, 1), to: firstOfMonth }) },
-    { label: '작년', getValue: () => ({ from: new Date(now.getFullYear() - 1, 0, 1), to: new Date(now.getFullYear() - 1, 11, 1) }) },
+    { label: '이번 달', getValue: () => new Date(now.getFullYear(), now.getMonth(), 1) },
+    { label: '지난 달', getValue: () => addMonths(firstOfMonth, -1) },
+    { label: '3개월 전', getValue: () => addMonths(firstOfMonth, -3) },
+    { label: '6개월 전', getValue: () => addMonths(firstOfMonth, -6) },
+    { label: '작년 이번 달', getValue: () => addMonths(firstOfMonth, -12) },
   ];
 };
 
-const findMatchingMonthRangePresetIndex = (
-  presets: MonthRangePreset[],
-  value: MonthRange | undefined,
+const findMatchingMonthPresetIndex = (
+  presets: MonthPickerPreset[],
+  value: Date | undefined,
 ): number => {
-  if (!value?.from) return -1;
+  if (!value) return -1;
+  const ym = value.getFullYear() * 12 + value.getMonth();
   return presets.findIndex((p) => {
     const pv = p.getValue();
-    if (!pv.from) return false;
-    const fromMatch = value.from!.getFullYear() === pv.from.getFullYear()
-      && value.from!.getMonth() === pv.from.getMonth();
-    const toMatch = (!value.to && !pv.to) || (value.to && pv.to
-      && value.to.getFullYear() === pv.to.getFullYear()
-      && value.to.getMonth() === pv.to.getMonth());
-    return fromMatch && toMatch;
+    return pv.getFullYear() * 12 + pv.getMonth() === ym;
   });
 };
 
-export const MonthRangePicker = ({
+export const MonthPicker = ({
   value,
   onChange,
   minDate,
@@ -61,30 +53,27 @@ export const MonthRangePicker = ({
   supportText,
   className,
   disabled = false,
-  placeholder = 'YYYY.MM ~ YYYY.MM',
+  placeholder = 'YYYY.MM',
   showQuickPresets = false,
   presets,
-}: MonthRangePickerProps) => {
+}: MonthPickerProps) => {
   const [open, setOpen] = useState(false);
   const [viewYear, setViewYear] = useState(() => {
-    if (value?.from) return value.from.getFullYear();
+    if (value) return value.getFullYear();
     return new Date().getFullYear();
   });
-  const [selecting, setSelecting] = useState<'from' | 'to'>('from');
-  const [tempRange, setTempRange] = useState<MonthRange>({});
-  const [hoveredMonth, setHoveredMonth] = useState<Date | null>(null);
 
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
 
   const monthNames = locale === 'ko' ? MONTHS_KO : MONTHS_EN;
 
   const activePresets = useMemo(
-    () => (showQuickPresets ? (presets ?? getDefaultRangePresets()) : []),
+    () => (showQuickPresets ? (presets ?? getDefaultPresets()) : []),
     [showQuickPresets, presets],
   );
 
   const selectedPresetIndex = useMemo(
-    () => (showQuickPresets ? findMatchingMonthRangePresetIndex(activePresets, value) : -1),
+    () => (showQuickPresets ? findMatchingMonthPresetIndex(activePresets, value) : -1),
     [showQuickPresets, activePresets, value],
   );
 
@@ -111,91 +100,29 @@ export const MonthRangePicker = ({
     return false;
   }, [disabledFuture, minDate, maxDate]);
 
-  const getDisplayRange = useCallback((): MonthRange => {
-    if (selecting === 'to' && tempRange.from && hoveredMonth) {
-      const from = tempRange.from;
-      if (hoveredMonth < from) {
-        return { from: hoveredMonth, to: from };
-      }
-      return { from, to: hoveredMonth };
-    }
-    return tempRange;
-  }, [selecting, tempRange, hoveredMonth]);
-
-  const isInRange = useCallback((year: number, month: number): boolean => {
-    const range = getDisplayRange();
-    if (!range.from || !range.to) return false;
-    const date = new Date(year, month, 1);
-    return date >= range.from && date <= range.to;
-  }, [getDisplayRange]);
-
-  const isRangeStart = useCallback((year: number, month: number): boolean => {
-    const range = getDisplayRange();
-    if (!range.from) return false;
-    return range.from.getFullYear() === year && range.from.getMonth() === month;
-  }, [getDisplayRange]);
-
-  const isRangeEnd = useCallback((year: number, month: number): boolean => {
-    const range = getDisplayRange();
-    if (!range.to) return false;
-    return range.to.getFullYear() === year && range.to.getMonth() === month;
-  }, [getDisplayRange]);
-
   const handleMonthClick = useCallback((month: number) => {
-    const clickedDate = new Date(viewYear, month, 1);
-
-    if (selecting === 'from') {
-      setTempRange({ from: clickedDate });
-      setSelecting('to');
-      setHoveredMonth(null);
-    } else {
-      const from = tempRange.from;
-      if (!from) {
-        setTempRange({ from: clickedDate });
-        setSelecting('to');
-        return;
-      }
-
-      let newRange: MonthRange;
-      if (clickedDate < from) {
-        newRange = { from: clickedDate, to: from };
-      } else {
-        newRange = { from, to: clickedDate };
-      }
-
-      setTempRange(newRange);
-      onChange?.(newRange);
-      setOpen(false);
-      setSelecting('from');
-      setHoveredMonth(null);
-    }
-  }, [viewYear, selecting, tempRange.from, onChange]);
+    const selected = new Date(viewYear, month, 1);
+    onChange?.(selected);
+    setOpen(false);
+  }, [viewYear, onChange]);
 
   const handlePresetSelect = useCallback((preset: QuickPreset) => {
-    const range = preset.getValue() as MonthRange;
-    setTempRange(range);
-    onChange?.(range);
+    const date = preset.getValue() as Date;
+    onChange?.(date);
     setOpen(false);
-    setSelecting('from');
-    setHoveredMonth(null);
   }, [onChange]);
 
   const handleOpenChange = useCallback((nextOpen: boolean) => {
-    if (nextOpen) {
-      setTempRange(value ?? {});
-      setSelecting(value?.from && !value?.to ? 'to' : 'from');
-      if (value?.from) {
-        setViewYear(value.from.getFullYear());
-      }
-      setHoveredMonth(null);
-    } else {
-      setSelecting('from');
-      setHoveredMonth(null);
+    if (nextOpen && value) {
+      setViewYear(value.getFullYear());
     }
     setOpen(nextOpen);
   }, [value]);
 
-  const displayValue = formatMonthRange(value);
+  const displayValue = formatMonth(value);
+
+  const isSelected = (idx: number) =>
+    value?.getFullYear() === viewYear && value?.getMonth() === idx;
 
   return (
     <InputWrapper
@@ -255,13 +182,13 @@ export const MonthRangePicker = ({
         >
           {showQuickPresets && (
             <QuickPresets
-              presets={activePresets as unknown as QuickPreset[]}
+              presets={activePresets as QuickPreset[]}
               onSelect={handlePresetSelect}
               selectedIndex={selectedPresetIndex}
               disabled={disabled}
             />
           )}
-          <div className={cn('flex flex-col ds-gap-16', showQuickPresets && 'padding-16')} style={{ width: showQuickPresets ? 248 : undefined }}>
+          <div className={cn('flex flex-col ds-gap-16', showQuickPresets && 'padding-16')} style={{ width: 248 }}>
             <div className="flex items-center justify-between">
               <button
                 type="button"
@@ -285,10 +212,7 @@ export const MonthRangePicker = ({
             <div className="grid grid-cols-4 ds-gap-4">
               {monthNames.map((name, idx) => {
                 const monthDisabled = isMonthDisabled(viewYear, idx);
-                const isStart = isRangeStart(viewYear, idx);
-                const isEnd = isRangeEnd(viewYear, idx);
-                const inRange = isInRange(viewYear, idx);
-                const isSelected = isStart || isEnd;
+                const selected = isSelected(idx);
 
                 return (
                   <button
@@ -296,17 +220,11 @@ export const MonthRangePicker = ({
                     type="button"
                     disabled={monthDisabled}
                     onClick={() => handleMonthClick(idx)}
-                    onMouseEnter={() => {
-                      if (selecting === 'to') {
-                        setHoveredMonth(new Date(viewYear, idx, 1));
-                      }
-                    }}
                     className={cn(
                       'height-32 rounded-sm font-body size-xs line-height-leading-4 transition-colors',
                       monthDisabled && 'text-hint cursor-not-allowed',
-                      !monthDisabled && !isSelected && !inRange && 'text-default hover:bg-[var(--bg-state-ghost-hover)] cursor-pointer',
-                      inRange && !isSelected && 'bg-[var(--bg-state-soft)] text-default',
-                      isSelected && 'bg-[var(--bg-state-primary)] text-[var(--text-on-color)] font-medium',
+                      !monthDisabled && !selected && 'text-default hover:bg-[var(--bg-state-ghost-hover)] cursor-pointer',
+                      selected && 'bg-[var(--bg-state-primary)] text-[var(--text-on-color)] font-medium',
                     )}
                   >
                     {name}
@@ -321,4 +239,4 @@ export const MonthRangePicker = ({
   );
 };
 
-MonthRangePicker.displayName = 'MonthRangePicker';
+MonthPicker.displayName = 'MonthPicker';
