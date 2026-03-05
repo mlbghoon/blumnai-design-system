@@ -915,6 +915,8 @@ export type { UseKeyboardShortcutOptions } from './hooks/use-keyboard-shortcut';
 export { parseShortcut } from './hooks/keyboard-shortcut-parser';
 export type { ParsedShortcut } from './hooks/keyboard-shortcut-parser';
 
+export { useMergeRefs } from './hooks/use-merge-refs';
+
 // =============================================================================
 // UTILITIES
 // =============================================================================

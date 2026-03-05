@@ -65,7 +65,7 @@ export const QuickPresets = ({
 
         return (
           <button
-            key={index}
+            key={preset.label}
             ref={(el) => { itemRefs.current[index] = el; }}
             type="button"
             role="option"

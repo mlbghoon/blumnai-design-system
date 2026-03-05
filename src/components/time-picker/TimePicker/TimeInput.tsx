@@ -99,7 +99,6 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
   }, [segments]);
 
   const [activeSegment, setActiveSegment] = useState<TimeSegment | null>(null);
-  const [_isFocused, setIsFocused] = useState(false);
   const [hasInvalidTime, setHasInvalidTime] = useState(false);
 
   const hourRef = useRef<HTMLInputElement>(null);
@@ -288,7 +287,6 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
 
   const handleSegmentFocus = useCallback((segment: TimeSegment) => {
     setActiveSegment(segment);
-    setIsFocused(true);
     onFocus?.();
   }, [onFocus]);
 
@@ -307,7 +305,6 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
       );
       if (!isAnySegmentFocused) {
         setActiveSegment(null);
-        setIsFocused(false);
         onBlur?.();
       }
     }, 0);

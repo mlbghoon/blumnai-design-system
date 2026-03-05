@@ -153,8 +153,8 @@ const CheckboxCard = React.forwardRef<HTMLDivElement, CheckboxCardProps>(
         </div>
       );
 
-      const additionalSections = sections.map((section, index) => (
-        <div key={index} className={sectionClassName}>
+      const additionalSections = sections.map((section) => (
+        <div key={section.title} className={sectionClassName}>
           <div className={getTitleClassName()}>{section.title}</div>
           <div className={getDescriptionClassName()}>{section.description}</div>
         </div>

@@ -176,7 +176,6 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
   useEffect(() => { endPeriodRef.current = endPeriod; }, [endPeriod]);
 
   const [activeSegment, setActiveSegment] = useState<{ part: TimePart; segment: TimeSegment } | null>(null);
-  const [_isFocused, setIsFocused] = useState(false);
   const [hasInvalidTime, setHasInvalidTime] = useState(false);
   const isInputFocused = useRef(false);
 
@@ -382,7 +381,6 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
   const handleSegmentFocus = useCallback((part: TimePart, segment: TimeSegment) => {
     isInputFocused.current = true;
     setActiveSegment({ part, segment });
-    setIsFocused(true);
     onFocus?.();
   }, [onFocus]);
 
@@ -409,7 +407,6 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
       if (!isAnySegmentFocused) {
         isInputFocused.current = false;
         setActiveSegment(null);
-        setIsFocused(false);
         onBlur?.();
       }
     }, 0);

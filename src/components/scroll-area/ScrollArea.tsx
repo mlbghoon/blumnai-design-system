@@ -3,6 +3,7 @@ import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
 import { cn } from '@/lib/utils';
 import { getPixelValue } from '@/lib/css-utils';
+import { useMergeRefs } from '@/hooks/use-merge-refs';
 import type { ScrollAreaProps, ScrollBarProps } from './ScrollArea.types';
 
 const ScrollArea = React.forwardRef<
@@ -26,18 +27,7 @@ const ScrollArea = React.forwardRef<
   const internalViewportRef = React.useRef<HTMLDivElement>(null);
   const rafRef = React.useRef<number>(0);
 
-  const assignRef = React.useCallback((ref: React.Ref<HTMLDivElement | null> | undefined, node: HTMLDivElement | null) => {
-    if (typeof ref === 'function') {
-      ref(node);
-    } else if (ref && typeof ref === 'object') {
-      Object.assign(ref, { current: node });
-    }
-  }, []);
-
-  const mergedViewportRef = React.useCallback((node: HTMLDivElement | null) => {
-    (internalViewportRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
-    assignRef(viewportRefProp, node);
-  }, [viewportRefProp, assignRef]);
+  const mergedViewportRef = useMergeRefs(internalViewportRef, viewportRefProp);
 
   React.useEffect(() => {
     if (!onScrollPositionChange) return;

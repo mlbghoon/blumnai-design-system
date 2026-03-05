@@ -1,11 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
-import { forwardRef, useRef, useCallback } from 'react';
+import { forwardRef, useRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 
 import { cn } from '../../lib/utils';
 import { getPixelValue } from '../../lib/css-utils';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
+import { useMergeRefs } from '../../hooks/use-merge-refs';
 import { renderButtonIcon } from './buttonUtils';
 
 import type { ButtonProps, ButtonIconType, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape, ButtonColor } from './Button.types';
@@ -146,14 +147,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   ...props
 }, ref) => {
   const internalRef = useRef<HTMLButtonElement>(null);
-  const mergeRefs = useCallback(
-    (node: HTMLButtonElement | null) => {
-      internalRef.current = node;
-      if (typeof ref === 'function') ref(node);
-      else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
-    },
-    [ref],
-  );
+  const mergedRef = useMergeRefs(internalRef, ref);
 
   useKeyboardShortcut(
     shortcut,
@@ -265,7 +259,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 
   return (
     <Comp
-      ref={mergeRefs}
+      ref={mergedRef}
       type={asChild ? undefined : type}
       disabled={asChild ? undefined : (disabled || loading)}
       aria-disabled={disabled || loading || undefined}

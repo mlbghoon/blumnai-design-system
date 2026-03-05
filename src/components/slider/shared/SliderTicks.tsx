@@ -44,7 +44,7 @@ const SliderTicks = React.forwardRef<HTMLDivElement, SliderTicksProps>(
           const percent = ((tick - min) / range) * 100;
           return (
             <div
-              key={index}
+              key={`${tick}-${index}`}
               className="absolute flex flex-col items-center ds-gap-4 -translate-x-1/2"
               style={{ left: `calc(8px + (100% - 16px) * ${percent / 100})` }}
             >

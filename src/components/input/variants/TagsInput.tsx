@@ -273,7 +273,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
   const renderTags = (variant: 'inline' | 'stacked') => (
     tags.map((tag, index) => (
       <Tag
-        key={index}
+        key={`${tag}-${index}`}
         label={tag}
         onRemove={() => removeTag(index)}
         disabled={disabled}

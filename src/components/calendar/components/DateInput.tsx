@@ -94,7 +94,6 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
   }, [segments]);
 
   const [activeSegment, setActiveSegment] = useState<DateSegment | null>(null);
-  const [_isFocused, setIsFocused] = useState(false);
   const [hasInvalidDate, setHasInvalidDate] = useState(false);
 
   const dayRef = useRef<HTMLInputElement>(null);
@@ -216,7 +215,6 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
 
   const handleSegmentFocus = useCallback((segment: DateSegment) => {
     setActiveSegment(segment);
-    setIsFocused(true);
     onFocus?.();
   }, [onFocus]);
 
@@ -235,7 +233,6 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
       );
       if (!isAnySegmentFocused) {
         setActiveSegment(null);
-        setIsFocused(false);
         onBlur?.();
       }
     }, 0);

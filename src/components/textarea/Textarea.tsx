@@ -192,6 +192,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   }, [useCustomScrollbar, useAutoResize, value, adjustHeight]);
 
   useEffect(() => {
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!useCustomScrollbar && !useAutoResize) return;
     const textarea = internalRef.current;
     if (!textarea) return;
