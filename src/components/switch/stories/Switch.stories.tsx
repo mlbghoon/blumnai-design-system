@@ -29,6 +29,26 @@ const meta: Meta<typeof Switch> = {
         defaultValue: { summary: 'false' },
       },
     },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: '스위치 크기',
+      table: {
+        type: {
+          summary: 'SwitchSize',
+          detail: `'sm' | 'md' | 'lg'`,
+        },
+        defaultValue: { summary: 'sm' },
+      },
+    },
+    loading: {
+      control: 'boolean',
+      description: '로딩 상태 — 스피너를 표시하고 인터랙션을 비활성화',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
     color: {
       control: 'select',
       options: ['green', 'blue', 'red', 'orange', 'violet', 'cyan', 'pink'],
@@ -82,6 +102,8 @@ export const Default: Story = {
   args: {
     checked: false,
     disabled: false,
+    size: 'sm',
+    loading: false,
     color: 'green',
     label: '',
     description: '',
@@ -102,6 +124,8 @@ export const Default: Story = {
         checked={checked}
         onCheckedChange={setChecked}
         disabled={args.disabled}
+        size={args.size}
+        loading={args.loading}
         color={args.color}
         label={label}
         description={description}

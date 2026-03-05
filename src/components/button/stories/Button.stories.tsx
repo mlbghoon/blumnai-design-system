@@ -56,6 +56,17 @@ const meta: Meta<typeof Button> = {
         },
       },
     },
+    colorOverride: {
+      control: 'select',
+      options: [undefined, 'gray', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'],
+      description: '버튼 색상 오버라이드. 스타일 패턴은 유지하면서 색상만 변경',
+      table: {
+        type: {
+          summary: 'ButtonColor',
+          detail: `'gray' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'`,
+        },
+      },
+    },
     loading: {
       control: 'boolean',
       description: '로딩 상태 표시 여부',
@@ -159,6 +170,7 @@ export const Default: Story = {
     variant: 'default',
     size: 'md',
     shape: 'rounded',
+    colorOverride: undefined,
     leadIcon: ['system', 'add'],
     tailIcon: undefined,
     shortcut: undefined,
@@ -183,6 +195,7 @@ export const Default: Story = {
         variant={args.variant}
         size={args.size}
         shape={args.shape}
+        colorOverride={args.colorOverride}
         leadIcon={leadIcon}
         tailIcon={tailIcon}
         shortcut={args.shortcut || undefined}

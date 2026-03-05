@@ -73,6 +73,30 @@ true: 체크됨
         defaultValue: { summary: 'default' },
       },
     },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: '체크박스 크기',
+      table: {
+        type: {
+          summary: 'CheckboxSize',
+          detail: `'sm' | 'md' | 'lg'`,
+        },
+        defaultValue: { summary: 'sm' },
+      },
+    },
+    shape: {
+      control: 'select',
+      options: ['square', 'round'],
+      description: '체크박스 모양',
+      table: {
+        type: {
+          summary: 'CheckboxShape',
+          detail: `'square' | 'round'`,
+        },
+        defaultValue: { summary: 'square' },
+      },
+    },
     onCheckedChange: {
       action: 'checkedChange',
       description: '체크 상태 변경 콜백',
@@ -110,6 +134,8 @@ export const Default: Story = {
     description: '',
     checkboxPosition: 'left',
     checkboxStyle: 'default',
+    size: 'sm',
+    shape: 'square',
   },
   parameters: {
     controls: { disable: false },
@@ -127,6 +153,8 @@ export const Default: Story = {
         description={description}
         checkboxPosition={args.checkboxPosition}
         checkboxStyle={args.checkboxStyle}
+        size={args.size}
+        shape={args.shape}
       />
     );
   },

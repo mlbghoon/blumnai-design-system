@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.11] - 2026-03-05
+
+### Fixed
+
+- **Button secondary `colorOverride`**: secondary 스타일에서 colorOverride 적용 시 배경색은 유지하고 텍스트/아이콘/보더 색상만 변경되도록 수정
+
+### Improved
+
+- **Storybook 컨트롤 누락 수정**: Button(`colorOverride`), Switch(`size`, `loading`), Checkbox(`size`, `shape`) 컨트롤을 Default 스토리에 추가
+
 ## [1.0.10] - 2026-03-05
 
 ### Fixed
