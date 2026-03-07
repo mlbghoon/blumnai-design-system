@@ -2,6 +2,13 @@
 
 ## [1.0.12] - 2026-03-05
 
+### Improved
+
+- **VirtualSelect 성능 최적화**: 중복 `selectableOptions` 메모 제거, `props`/`multiProps` 객체 대신 개별 값을 useCallback 의존성으로 사용하여 메모이제이션 정상 작동. `optionsMap`(O(1) 조회), `navigableIndexMap`(렌더 루프 내 O(1) 조회) 추가로 대량 옵션 리스트 성능 개선.
+- **Stepper context 메모이제이션**: `contextValue`를 `useMemo`로 감싸서 불필요한 자식 컴포넌트 리렌더 방지.
+- **DataGridHeader 리사이즈 안정성**: `onColumnSizingChange`를 ref로 저장하여 리사이즈 드래그 중 effect 재생성 방지. `useMergeRefs` 훅 적용.
+- **MonthPicker/MonthRangePicker 공통 유틸 추출**: `MONTHS_KO`, `MONTHS_EN`, `formatYearMonth`, `isMonthDisabled`를 `calendar/utils.ts`로 분리하여 코드 중복 제거. MonthRangePicker에서 `getDisplayRange()` 36회 호출을 `useMemo` 1회로 최적화.
+
 ### Added
 
 - **MonthPicker**: 단일 월 선택 컴포넌트. MonthRangePicker와 동일한 UI로 단일 월만 선택. `showQuickPresets` prop으로 빠른 선택 프리셋(이번 달, 지난 달, 3개월 전 등) 지원. `disabledFuture`, `minDate`, `maxDate`, `locale` 등 기존 월 선택 옵션 모두 지원.

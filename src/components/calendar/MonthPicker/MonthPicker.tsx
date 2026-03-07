@@ -6,16 +6,9 @@ import { Popover, PopoverContent, PopoverAnchor } from '../../popover/Popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
 import { Icon } from '../../icons/Icon';
 import { QuickPresets } from '../components/QuickPresets';
+import { MONTHS_KO, MONTHS_EN, formatYearMonth, isMonthDisabled as checkMonthDisabled } from '../utils';
 import type { QuickPreset } from '../DatePicker.types';
 import type { MonthPickerProps, MonthPickerPreset } from './MonthPicker.types';
-
-const MONTHS_KO = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
-const MONTHS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-const formatMonth = (date: Date | undefined): string => {
-  if (!date) return '';
-  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`;
-};
 
 const getDefaultPresets = (): MonthPickerPreset[] => {
   const now = new Date();
@@ -67,6 +60,11 @@ export const MonthPicker = ({
 
   const monthNames = locale === 'ko' ? MONTHS_KO : MONTHS_EN;
 
+  const disabledOpts = useMemo(
+    () => ({ disabledFuture, minDate, maxDate }),
+    [disabledFuture, minDate, maxDate],
+  );
+
   const activePresets = useMemo(
     () => (showQuickPresets ? (presets ?? getDefaultPresets()) : []),
     [showQuickPresets, presets],
@@ -76,29 +74,6 @@ export const MonthPicker = ({
     () => (showQuickPresets ? findMatchingMonthPresetIndex(activePresets, value) : -1),
     [showQuickPresets, activePresets, value],
   );
-
-  const isMonthDisabled = useCallback((year: number, month: number): boolean => {
-    if (disabledFuture) {
-      const now = new Date();
-      if (year > now.getFullYear() || (year === now.getFullYear() && month > now.getMonth())) {
-        return true;
-      }
-    }
-
-    if (minDate) {
-      if (year < minDate.getFullYear() || (year === minDate.getFullYear() && month < minDate.getMonth())) {
-        return true;
-      }
-    }
-
-    if (maxDate) {
-      if (year > maxDate.getFullYear() || (year === maxDate.getFullYear() && month > maxDate.getMonth())) {
-        return true;
-      }
-    }
-
-    return false;
-  }, [disabledFuture, minDate, maxDate]);
 
   const handleMonthClick = useCallback((month: number) => {
     const selected = new Date(viewYear, month, 1);
@@ -119,7 +94,7 @@ export const MonthPicker = ({
     setOpen(nextOpen);
   }, [value]);
 
-  const displayValue = formatMonth(value);
+  const displayValue = value ? formatYearMonth(value) : '';
 
   const isSelected = (idx: number) =>
     value?.getFullYear() === viewYear && value?.getMonth() === idx;
@@ -211,7 +186,7 @@ export const MonthPicker = ({
 
             <div className="grid grid-cols-4 ds-gap-4">
               {monthNames.map((name, idx) => {
-                const monthDisabled = isMonthDisabled(viewYear, idx);
+                const monthDisabled = checkMonthDisabled(viewYear, idx, disabledOpts);
                 const selected = isSelected(idx);
 
                 return (

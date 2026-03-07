@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { Icon } from '../../icons/Icon';
 import { TooltipTrigger } from '../../tooltip';
 import { DndContext } from '../../dnd';
+import { useMergeRefs } from '../../../hooks/use-merge-refs';
 import type { StickyColumnInfo } from '../utils/stickyColumnUtils';
 import type { ColumnSizingState } from '../DataGrid.types';
 
@@ -150,13 +151,7 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
     animateLayoutChanges: noAnimateLayoutChanges,
   });
 
-  const mergedRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      cellRef.current = node;
-      setNodeRef(node);
-    },
-    [setNodeRef]
-  );
+  const mergedRef = useMergeRefs(cellRef, setNodeRef);
 
   const canSort = header.column.getCanSort();
   const sortDirection = header.column.getIsSorted();
@@ -345,13 +340,18 @@ export function DataGridHeader<T>({
     columnSizingRef.current = columnSizing;
   }, [columnSizing]);
 
+  const onColumnSizingChangeRef = useRef(onColumnSizingChange);
+  useEffect(() => {
+    onColumnSizingChangeRef.current = onColumnSizingChange;
+  }, [onColumnSizingChange]);
+
   useEffect(() => {
     if (!resizeState) return;
 
     const handlePointerMove = (e: PointerEvent) => {
       const delta = e.clientX - resizeState.startX;
       const newWidth = Math.max(50, resizeState.startWidth + delta);
-      onColumnSizingChange?.({
+      onColumnSizingChangeRef.current?.({
         ...columnSizingRef.current,
         [resizeState.columnId]: newWidth,
       });
@@ -370,7 +370,7 @@ export function DataGridHeader<T>({
       document.body.style.userSelect = '';
       document.body.style.cursor = '';
     };
-  }, [resizeState, onColumnSizingChange]);
+  }, [resizeState]);
 
   const handleResizeStart = useCallback(
     (columnId: string, startX: number, startWidth: number) => {

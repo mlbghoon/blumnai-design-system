@@ -52,6 +52,12 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
     const multiProps = isMulti ? (props as MultiVirtualSelectProps) : null;
     const selectType = !isMulti && 'selectType' in props ? props.selectType : undefined;
 
+    const singlePropsValue = !isMulti && 'value' in props ? (props.value as string | undefined) : undefined;
+    const singlePropsOnChange = !isMulti && 'onChange' in props ? (props.onChange as ((v: string) => void) | undefined) : undefined;
+    const multiOnChange = multiProps?.onChange;
+    const multiMaxSelections = multiProps?.maxSelections;
+    const multiControlledValue = multiProps?.value;
+
     const selectId = React.useId();
     const triggerRef = React.useRef<HTMLButtonElement>(null);
     const searchInputRef = React.useRef<HTMLInputElement>(null);
@@ -73,9 +79,9 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
     const isOpen = isControlledOpen ? controlledOpen : internalOpen;
 
     const singleValue = !isMulti
-      ? (props.value !== undefined ? props.value : internalSingleValue)
+      ? (singlePropsValue !== undefined ? singlePropsValue : internalSingleValue)
       : '';
-    const controlledMultiValue = isMulti ? multiProps!.value : undefined;
+    const controlledMultiValue = isMulti ? multiControlledValue : undefined;
     const multiValue = React.useMemo(
       () => controlledMultiValue !== undefined ? controlledMultiValue : internalMultiValue,
       [controlledMultiValue, internalMultiValue]
@@ -117,20 +123,15 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       [filteredOptions]
     );
 
-    const effectiveShowSelectAll = isMulti && multiProps?.showSelectAll && !multiProps?.maxSelections;
-
-    const selectableOptions = React.useMemo(
-      () => filteredOptions.filter((o) => !o.disabled),
-      [filteredOptions]
-    );
+    const effectiveShowSelectAll = isMulti && multiProps?.showSelectAll && !multiMaxSelections;
 
     const allSelected = effectiveShowSelectAll
-      && selectableOptions.length > 0
-      && selectableOptions.every((o) => multiValue.includes(o.id));
+      && navigableOptions.length > 0
+      && navigableOptions.every((o) => multiValue.includes(o.id));
 
     const someSelected = effectiveShowSelectAll
       && !allSelected
-      && selectableOptions.some((o) => multiValue.includes(o.id));
+      && navigableOptions.some((o) => multiValue.includes(o.id));
 
     const setOpen = React.useCallback(
       (newOpen: boolean) => {
@@ -145,42 +146,52 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       [disabled, isControlledOpen, onOpenChange]
     );
 
+    const optionsMap = React.useMemo(
+      () => new Map(options.map((o) => [o.id, o])),
+      [options],
+    );
+
+    const navigableIndexMap = React.useMemo(
+      () => new Map(navigableOptions.map((o, i) => [o.id, i])),
+      [navigableOptions],
+    );
+
     const selectSingle = React.useCallback(
       (id: string) => {
         if (disabled) return;
-        const option = options.find((o) => o.id === id);
+        const option = optionsMap.get(id);
         if (!option || option.disabled) return;
 
-        if (props.value === undefined) setInternalSingleValue(id);
-        if (!isMulti && props.onChange) (props.onChange as (v: string) => void)(id);
+        if (singlePropsValue === undefined) setInternalSingleValue(id);
+        singlePropsOnChange?.(id);
         setOpen(false);
       },
-      [disabled, options, props, isMulti, setOpen]
+      [disabled, optionsMap, singlePropsValue, singlePropsOnChange, setOpen]
     );
 
     const toggleMultiValue = React.useCallback(
       (id: string) => {
         if (disabled || !isMulti) return;
-        const option = options.find((o) => o.id === id);
+        const option = optionsMap.get(id);
         if (!option || option.disabled) return;
 
         let newValue: string[];
         if (multiValue.includes(id)) {
           newValue = multiValue.filter((v) => v !== id);
         } else {
-          if (multiProps?.maxSelections && multiValue.length >= multiProps.maxSelections) return;
+          if (multiMaxSelections && multiValue.length >= multiMaxSelections) return;
           newValue = [...multiValue, id];
         }
 
-        if (multiProps!.value === undefined) setInternalMultiValue(newValue);
-        multiProps!.onChange?.(newValue);
+        if (multiControlledValue === undefined) setInternalMultiValue(newValue);
+        multiOnChange?.(newValue);
       },
-      [disabled, isMulti, options, multiValue, multiProps]
+      [disabled, isMulti, optionsMap, multiValue, multiMaxSelections, multiControlledValue, multiOnChange]
     );
 
     const toggleAll = React.useCallback(() => {
       if (disabled || !isMulti) return;
-      const selectableIds = selectableOptions.map((o) => o.id);
+      const selectableIds = navigableOptions.map((o) => o.id);
       let newValue: string[];
       if (allSelected) {
         newValue = multiValue.filter((v) => !selectableIds.includes(v));
@@ -188,23 +199,23 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
         const set = new Set([...multiValue, ...selectableIds]);
         newValue = Array.from(set);
       }
-      if (multiProps!.value === undefined) setInternalMultiValue(newValue);
-      multiProps!.onChange?.(newValue);
-    }, [disabled, isMulti, selectableOptions, allSelected, multiValue, multiProps]);
+      if (multiControlledValue === undefined) setInternalMultiValue(newValue);
+      multiOnChange?.(newValue);
+    }, [disabled, isMulti, navigableOptions, allSelected, multiValue, multiControlledValue, multiOnChange]);
 
     const handleClearAll = React.useCallback(
       (e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
         if (isMulti) {
-          if (multiProps!.value === undefined) setInternalMultiValue([]);
-          multiProps!.onChange?.([]);
+          if (multiControlledValue === undefined) setInternalMultiValue([]);
+          multiOnChange?.([]);
         } else {
-          if (props.value === undefined) setInternalSingleValue('');
-          if (props.onChange) (props.onChange as (v: string) => void)('');
+          if (singlePropsValue === undefined) setInternalSingleValue('');
+          singlePropsOnChange?.('');
         }
       },
-      [isMulti, multiProps, props]
+      [isMulti, multiControlledValue, multiOnChange, singlePropsValue, singlePropsOnChange]
     );
 
     const handleSelect = React.useCallback(
@@ -334,7 +345,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
         return <span className="text-hint">{placeholder}</span>;
       }
 
-      const selectedOpt = options.find((o) => o.id === singleValue);
+      const selectedOpt = optionsMap.get(singleValue);
       if (!selectedOpt) {
         return <span className="text-hint">{placeholder}</span>;
       }
@@ -581,7 +592,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                             const isSelected = isMulti
                               ? multiValue.includes(option.id)
                               : singleValue === option.id;
-                            const navIndex = navigableOptions.findIndex((n) => n.id === option.id);
+                            const navIndex = navigableIndexMap.get(option.id) ?? -1;
                             const isFocused = navIndex >= 0 && navIndex + selectAllOffset === focusedIndex;
 
                             if (renderOption) {

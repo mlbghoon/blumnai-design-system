@@ -1,4 +1,4 @@
-import { forwardRef, createContext, useContext, useCallback } from 'react';
+import { forwardRef, createContext, useContext, useCallback, useMemo } from 'react';
 import { cn } from '../../lib/utils';
 import { Icon } from '../icons/Icon';
 import type { IconType } from '../icons/Icon/Icon.types';
@@ -491,7 +491,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(
     },
     ref,
   ) => {
-    const contextValue: StepperContextValue = {
+    const contextValue = useMemo<StepperContextValue>(() => ({
       orientation,
       indicatorType,
       size,
@@ -503,7 +503,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(
       showCheckOnCompleted,
       onStepClick,
       totalSteps: steps.length,
-    };
+    }), [orientation, indicatorType, size, color, horizontalAlign, verticalAlign, indicatorPosition, clickable, showCheckOnCompleted, onStepClick, steps.length]);
 
     return (
       <StepperContext.Provider value={contextValue}>

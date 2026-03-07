@@ -6,18 +6,15 @@ import { Popover, PopoverContent, PopoverAnchor } from '../../popover/Popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
 import { Icon } from '../../icons/Icon';
 import { QuickPresets } from '../components/QuickPresets';
+import { MONTHS_KO, MONTHS_EN, formatYearMonth, isMonthDisabled as checkMonthDisabled } from '../utils';
 import type { QuickPreset } from '../DatePicker.types';
 import type { MonthRangePickerProps, MonthRange, MonthRangePreset } from './MonthRangePicker.types';
 
-const MONTHS_KO = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
-const MONTHS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
 const formatMonthRange = (range: MonthRange | undefined): string => {
   if (!range?.from) return '';
-  const fromStr = `${range.from.getFullYear()}.${String(range.from.getMonth() + 1).padStart(2, '0')}`;
+  const fromStr = formatYearMonth(range.from);
   if (!range.to) return fromStr;
-  const toStr = `${range.to.getFullYear()}.${String(range.to.getMonth() + 1).padStart(2, '0')}`;
-  return `${fromStr} ~ ${toStr}`;
+  return `${fromStr} ~ ${formatYearMonth(range.to)}`;
 };
 
 const getDefaultRangePresets = (): MonthRangePreset[] => {
@@ -78,6 +75,11 @@ export const MonthRangePicker = ({
 
   const monthNames = locale === 'ko' ? MONTHS_KO : MONTHS_EN;
 
+  const disabledOpts = useMemo(
+    () => ({ disabledFuture, minDate, maxDate }),
+    [disabledFuture, minDate, maxDate],
+  );
+
   const activePresets = useMemo(
     () => (showQuickPresets ? (presets ?? getDefaultRangePresets()) : []),
     [showQuickPresets, presets],
@@ -88,30 +90,7 @@ export const MonthRangePicker = ({
     [showQuickPresets, activePresets, value],
   );
 
-  const isMonthDisabled = useCallback((year: number, month: number): boolean => {
-    if (disabledFuture) {
-      const now = new Date();
-      if (year > now.getFullYear() || (year === now.getFullYear() && month > now.getMonth())) {
-        return true;
-      }
-    }
-
-    if (minDate) {
-      if (year < minDate.getFullYear() || (year === minDate.getFullYear() && month < minDate.getMonth())) {
-        return true;
-      }
-    }
-
-    if (maxDate) {
-      if (year > maxDate.getFullYear() || (year === maxDate.getFullYear() && month > maxDate.getMonth())) {
-        return true;
-      }
-    }
-
-    return false;
-  }, [disabledFuture, minDate, maxDate]);
-
-  const getDisplayRange = useCallback((): MonthRange => {
+  const displayRange = useMemo((): MonthRange => {
     if (selecting === 'to' && tempRange.from && hoveredMonth) {
       const from = tempRange.from;
       if (hoveredMonth < from) {
@@ -121,25 +100,6 @@ export const MonthRangePicker = ({
     }
     return tempRange;
   }, [selecting, tempRange, hoveredMonth]);
-
-  const isInRange = useCallback((year: number, month: number): boolean => {
-    const range = getDisplayRange();
-    if (!range.from || !range.to) return false;
-    const date = new Date(year, month, 1);
-    return date >= range.from && date <= range.to;
-  }, [getDisplayRange]);
-
-  const isRangeStart = useCallback((year: number, month: number): boolean => {
-    const range = getDisplayRange();
-    if (!range.from) return false;
-    return range.from.getFullYear() === year && range.from.getMonth() === month;
-  }, [getDisplayRange]);
-
-  const isRangeEnd = useCallback((year: number, month: number): boolean => {
-    const range = getDisplayRange();
-    if (!range.to) return false;
-    return range.to.getFullYear() === year && range.to.getMonth() === month;
-  }, [getDisplayRange]);
 
   const handleMonthClick = useCallback((month: number) => {
     const clickedDate = new Date(viewYear, month, 1);
@@ -284,10 +244,12 @@ export const MonthRangePicker = ({
 
             <div className="grid grid-cols-4 ds-gap-4">
               {monthNames.map((name, idx) => {
-                const monthDisabled = isMonthDisabled(viewYear, idx);
-                const isStart = isRangeStart(viewYear, idx);
-                const isEnd = isRangeEnd(viewYear, idx);
-                const inRange = isInRange(viewYear, idx);
+                const monthDisabled = checkMonthDisabled(viewYear, idx, disabledOpts);
+                const isStart = displayRange.from?.getFullYear() === viewYear && displayRange.from?.getMonth() === idx;
+                const isEnd = displayRange.to?.getFullYear() === viewYear && displayRange.to?.getMonth() === idx;
+                const inRange = displayRange.from && displayRange.to
+                  && new Date(viewYear, idx, 1) >= displayRange.from
+                  && new Date(viewYear, idx, 1) <= displayRange.to;
                 const isSelected = isStart || isEnd;
 
                 return (
