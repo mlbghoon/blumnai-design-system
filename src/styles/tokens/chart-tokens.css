@@ -18,7 +18,7 @@
   /* Chart axis and grid colors - uses border tokens from Figma */
   --chart-axis: var(--border-default);
   --chart-grid: var(--border-default);
-  --chart-grid-line: var(--border-default);
+  --chart-grid-line: var(--border-darker);
 
   /* Chart tooltip and indicator */
   --chart-indicator: var(--bg-basic-blue-accent);

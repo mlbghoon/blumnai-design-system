@@ -142,8 +142,9 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       <CartesianGrid
         horizontal={isHorizontal ? showYGrid : showXGrid}
         vertical={isHorizontal ? showXGrid : showYGrid}
+        syncWithTicks
         stroke="var(--chart-grid-line)"
-        strokeDasharray=""
+        strokeDasharray="3 3"
       />
       {isHorizontal ? (
         <>

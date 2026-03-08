@@ -101,8 +101,10 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
       <CartesianGrid
         horizontal={showXGrid}
         vertical={showYGrid}
+        syncWithTicks
+        yAxisId="0"
         stroke="var(--chart-grid-line)"
-        strokeDasharray=""
+        strokeDasharray="3 3"
       />
       <XAxis
         dataKey={xAxis.dataKey}

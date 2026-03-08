@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.22] - 2026-03-09
+
+### Fixed
+
+- **Chart 그리드 라인 렌더링 수정**: `strokeDasharray=""` (무효 SVG 값) → `"3 3"` (대시 라인)으로 변경하여 그리드 라인 렌더링. CartesianGrid에 `syncWithTicks` 추가로 Y축 틱과 동기화. ComboChart에 `yAxisId="0"` 추가로 다중 축에서 그리드 라인 정상 표시.
+- **`--chart-grid-line` 토큰 가시성 개선**: `var(--border-default)` (10% 투명도) → `var(--border-darker)` (15% 투명도)로 변경.
+
 ## [1.0.21] - 2026-03-08
 
 ### Fixed
