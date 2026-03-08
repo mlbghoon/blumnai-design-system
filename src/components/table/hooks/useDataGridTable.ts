@@ -78,6 +78,8 @@ export function useDataGridTable<T>(options: UseDataGridTableOptions<T>) {
     preserveDataWhileLoading,
   } = options;
 
+  const isSortingEnabled = externalSorting !== undefined || externalOnSortingChange !== undefined;
+
   const isServerSide = useMemo(() => {
     return onPageChange !== undefined;
   }, [onPageChange]);
@@ -215,6 +217,7 @@ export function useDataGridTable<T>(options: UseDataGridTableOptions<T>) {
     onColumnFiltersChange: handleColumnFiltersChange,
     onRowSelectionChange: handleRowSelectionChange,
     ...(enableColumnReorder ? { onColumnOrderChange: handleColumnOrderChange } : {}),
+    enableSorting: isSortingEnabled,
     enableRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: isServerSide ? undefined : getSortedRowModel(),

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.17] - 2026-03-08
+
+### Improved
+
+- **DataGrid 정렬 아이콘 기본 비활성화**: `sorting` 또는 `onSortingChange` prop이 없으면 모든 컬럼의 정렬 아이콘이 표시되지 않도록 변경. TanStack Table의 `enableSorting: true` 기본값을 오버라이드하여, 정렬 기능을 사용하지 않는 테이블에서 불필요한 정렬 아이콘이 나타나지 않음.
+
 ## [1.0.16] - 2026-03-08
 
 ### Improved
