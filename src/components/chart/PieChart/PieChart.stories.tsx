@@ -267,6 +267,44 @@ export const SmallSize: Story = {
 };
 
 /**
+ * 빈 데이터
+ *
+ * data가 빈 배열일 때 차트가 크래시 없이 빈 영역을 렌더링합니다.
+ */
+export const EmptyData: Story = {
+  args: {
+    data: [],
+    dataKey: 'value',
+    nameKey: 'category',
+    config: defaultConfig,
+    width: 400,
+    height: 400,
+    outerRadius: 150,
+  },
+};
+
+/**
+ * 모든 값이 0
+ *
+ * 모든 슬라이스 값이 0일 때 빈 파이가 렌더링됩니다 (크래시 없음).
+ */
+export const AllZeroValues: Story = {
+  args: {
+    data: [
+      { category: 'Category A', value: 0 },
+      { category: 'Category B', value: 0 },
+      { category: 'Category C', value: 0 },
+    ],
+    dataKey: 'value',
+    nameKey: 'category',
+    config: defaultConfig,
+    width: 400,
+    height: 400,
+    outerRadius: 150,
+  },
+};
+
+/**
  * 접근성 라벨
  *
  * ariaLabel prop을 사용해 스크린 리더에서 차트를 설명합니다.

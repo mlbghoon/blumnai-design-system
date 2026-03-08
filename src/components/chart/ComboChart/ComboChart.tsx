@@ -1,4 +1,4 @@
-import { forwardRef, useCallback } from 'react';
+import { forwardRef, useCallback, useMemo } from 'react';
 import {
   ComposedChart,
   Bar,
@@ -53,6 +53,8 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
     },
     ref
   ) => {
+  const safeData = useMemo(() => data ?? [], [data]);
+
   const { getLabel, getColor } = useChartConfig(config);
   const isDualAxis = Array.isArray(yAxis);
   const primaryAxis = isDualAxis ? yAxis[0] : yAxis;
@@ -67,10 +69,10 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
   const handleChartClick = useCallback((state: MouseHandlerDataParam) => {
     if (!onDataPointClick || state?.activeTooltipIndex == null) return;
     const idx = Number(state.activeTooltipIndex);
-    if (idx >= 0 && idx < data.length) {
-      onDataPointClick(data[idx], idx);
+    if (idx >= 0 && idx < safeData.length) {
+      onDataPointClick(safeData[idx], idx);
     }
-  }, [onDataPointClick, data]);
+  }, [onDataPointClick, safeData]);
 
   const chartAriaLabel = ariaLabel || `Combo chart showing ${[...barSeries.map(s => s.dataKey), ...lineSeries.map(s => s.dataKey)].join(', ')}`;
 
@@ -92,7 +94,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
 
   const chartContent = (
     <ComposedChart
-      data={data}
+      data={safeData}
       margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
       onClick={onDataPointClick ? handleChartClick : undefined}
     >
@@ -200,6 +202,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
           return (
             <Area
               key={series.dataKey}
+              connectNulls
               type={curveType}
               dataKey={series.dataKey}
               yAxisId={yAxisId}
@@ -216,6 +219,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
         return (
           <Line
             key={series.dataKey}
+            connectNulls
             type={curveType}
             dataKey={series.dataKey}
             yAxisId={yAxisId}

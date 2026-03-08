@@ -569,6 +569,95 @@ export const CustomTickCount: Story = {
 };
 
 /**
+ * 빈 데이터
+ *
+ * data가 빈 배열일 때 차트가 크래시 없이 빈 영역을 렌더링합니다.
+ */
+export const EmptyData: Story = {
+  args: {
+    data: [],
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'revenue' },
+    dataKey: 'revenue',
+    config: revenueConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+  },
+};
+
+/**
+ * 모든 값이 0
+ *
+ * 모든 Y축 값이 0일 때 도메인이 [0, 1]로 설정되어 올바르게 렌더링됩니다.
+ */
+export const AllZeroValues: Story = {
+  args: {
+    data: [
+      { month: 'Jan', revenue: 0 },
+      { month: 'Feb', revenue: 0 },
+      { month: 'Mar', revenue: 0 },
+      { month: 'Apr', revenue: 0 },
+      { month: 'May', revenue: 0 },
+      { month: 'Jun', revenue: 0 },
+    ],
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'revenue' },
+    dataKey: 'revenue',
+    config: revenueConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+    showPoints: true,
+  },
+};
+
+/**
+ * 단일 데이터 포인트
+ *
+ * 데이터가 하나만 있을 때도 포인트가 정상적으로 표시됩니다.
+ */
+export const SingleDataPoint: Story = {
+  args: {
+    data: [{ month: 'Jan', revenue: 150 }],
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'revenue' },
+    dataKey: 'revenue',
+    config: revenueConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+    showPoints: true,
+  },
+};
+
+/**
+ * 누락된 Y값 (connectNulls)
+ *
+ * 일부 데이터 포인트에 Y값이 없을 때 connectNulls로 연속 라인을 유지합니다.
+ */
+export const MissingYValues: Story = {
+  args: {
+    data: [
+      { month: 'Jan', revenue: 100 },
+      { month: 'Feb' },
+      { month: 'Mar', revenue: 120 },
+      { month: 'Apr' },
+      { month: 'May', revenue: 200 },
+      { month: 'Jun', revenue: 160 },
+    ] as { month: string; revenue?: number }[],
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'revenue' },
+    dataKey: 'revenue',
+    config: revenueConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+    showPoints: true,
+  },
+};
+
+/**
  * 커스텀 툴팁
  *
  * renderTooltip 콜백으로 완전한 커스텀 툴팁을 렌더링합니다.

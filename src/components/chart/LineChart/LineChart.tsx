@@ -1,4 +1,5 @@
 import { forwardRef, useMemo, useCallback } from 'react';
+
 import {
   LineChart as RLineChart,
   ComposedChart,
@@ -61,6 +62,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     }
   }
 
+  const safeData = useMemo(() => data ?? [], [data]);
+
   const isMultiLine = dataKeys && dataKeys.length > 0;
   const activeKeys = useMemo(() => {
     return isMultiLine ? dataKeys : (dataKey ? [dataKey] : []);
@@ -71,10 +74,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   const handleChartClick = useCallback((state: MouseHandlerDataParam) => {
     if (!onDataPointClick || state?.activeTooltipIndex == null) return;
     const idx = Number(state.activeTooltipIndex);
-    if (idx >= 0 && idx < data.length) {
-      onDataPointClick(data[idx], idx);
+    if (idx >= 0 && idx < safeData.length) {
+      onDataPointClick(safeData[idx], idx);
     }
-  }, [onDataPointClick, data]);
+  }, [onDataPointClick, safeData]);
 
   const chartAriaLabel = ariaLabel || `Line chart showing ${activeKeys.join(', ') || 'data'}`;
   const yDomain = (yAxis.domain === 'auto' || yAxis.domain === undefined)
@@ -87,7 +90,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 
   const chartContent = (
     <ChartComponent
-      data={data}
+      data={safeData}
       margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
       onClick={onDataPointClick ? handleChartClick : undefined}
     >
@@ -134,6 +137,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
           return (
             <Area
               key={key}
+              connectNulls
               type={curveType}
               dataKey={key}
               stroke={color}
@@ -149,6 +153,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
         return (
           <Line
             key={key}
+            connectNulls
             type={curveType}
             dataKey={key}
             stroke={color}

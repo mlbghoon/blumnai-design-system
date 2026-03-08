@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.21] - 2026-03-08
+
+### Fixed
+
+- **Chart 엣지 케이스 강화**: LineChart, ComboChart, PieChart, DonutChart에 `data ?? []` null 가드 추가. `data`가 `null`/`undefined`일 때 크래시 방지.
+- **Line/Area `connectNulls` 추가**: LineChart, ComboChart의 Line/Area 컴포넌트에 `connectNulls` 적용. Y값이 누락된 데이터 포인트가 있을 때 라인이 끊기지 않고 연속 렌더링.
+- **엣지 케이스 스토리 추가**: 모든 차트 타입에 EmptyData, AllZeroValues, SingleDataPoint, MissingYValues 스토리 추가로 엣지 케이스 검증 가능.
+
 ## [1.0.20] - 2026-03-08
 
 ### Fixed

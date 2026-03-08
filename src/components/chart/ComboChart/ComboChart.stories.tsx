@@ -246,6 +246,70 @@ export const LineWithArea: Story = {
 };
 
 /**
+ * 빈 데이터
+ *
+ * data가 빈 배열일 때 차트가 크래시 없이 빈 영역을 렌더링합니다.
+ */
+export const EmptyData: Story = {
+  args: {
+    data: [],
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'sales' },
+    barSeries: [{ dataKey: 'sales', color: 'var(--chart-1)' }],
+    lineSeries: [{ dataKey: 'visitors', color: 'var(--chart-2)', smooth: true }],
+    config: comboConfig,
+    width: 700,
+    height: 400,
+    showXGrid: true,
+  },
+};
+
+/**
+ * 모든 값이 0
+ *
+ * Bar + Line 시리즈 모두 0일 때 도메인이 [0, 1]로 설정되어 올바르게 렌더링됩니다.
+ */
+export const AllZeroValues: Story = {
+  args: {
+    data: [
+      { month: 'Jan', sales: 0, visitors: 0, conversion: 0 },
+      { month: 'Feb', sales: 0, visitors: 0, conversion: 0 },
+      { month: 'Mar', sales: 0, visitors: 0, conversion: 0 },
+      { month: 'Apr', sales: 0, visitors: 0, conversion: 0 },
+    ],
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'sales' },
+    barSeries: [{ dataKey: 'sales', color: 'var(--chart-1)' }],
+    lineSeries: [{ dataKey: 'visitors', color: 'var(--chart-2)', smooth: true }],
+    config: comboConfig,
+    width: 700,
+    height: 400,
+    showXGrid: true,
+    showLegend: true,
+  },
+};
+
+/**
+ * 단일 데이터 포인트
+ *
+ * 데이터가 하나만 있을 때도 Bar와 Line이 정상적으로 표시됩니다.
+ */
+export const SingleDataPoint: Story = {
+  args: {
+    data: [{ month: 'Jan', sales: 100, visitors: 1200, conversion: 8.3 }],
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'sales' },
+    barSeries: [{ dataKey: 'sales', color: 'var(--chart-1)' }],
+    lineSeries: [{ dataKey: 'visitors', color: 'var(--chart-2)', smooth: true }],
+    config: comboConfig,
+    width: 700,
+    height: 400,
+    showXGrid: true,
+    showLegend: true,
+  },
+};
+
+/**
  * 커스텀 툴팁
  */
 export const CustomTooltip: Story = {

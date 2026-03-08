@@ -46,18 +46,19 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
     },
     ref
   ) => {
+  const safeData = useMemo(() => data ?? [], [data]);
   const { getLabel, getColor } = useChartConfig(config);
 
   const colors = useMemo(() => {
-    return data.map((item, index) => {
+    return safeData.map((item, index) => {
       const name = String(item[nameKey] ?? '');
       return getColor(name, index);
     });
-  }, [data, nameKey, getColor]);
+  }, [safeData, nameKey, getColor]);
 
   const totalValue = useMemo(
-    () => data.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
-    [data, dataKey]
+    () => safeData.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
+    [safeData, dataKey]
   );
 
   // Recharts 각도 변환: Recharts는 0 = 12시 방향, 시계 방향이 양수
@@ -66,12 +67,12 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
 
   const svgHeight = isHalf ? outerRadius + 40 : height;
 
-  const chartAriaLabel = ariaLabel || `Pie chart showing ${data.map(d => String(d[nameKey] ?? '')).join(', ')}`;
+  const chartAriaLabel = ariaLabel || `Pie chart showing ${safeData.map(d => String(d[nameKey] ?? '')).join(', ')}`;
 
   const chartContent = (
     <RPieChart>
       <Pie
-        data={data}
+        data={safeData}
         dataKey={dataKey}
         nameKey={nameKey}
         cx="50%"
@@ -83,10 +84,10 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
         stroke="#fff"
         strokeWidth={2}
         onClick={(_data: Record<string, unknown>, idx: number) => {
-          if (onDataPointClick) onDataPointClick(data[idx], idx);
+          if (onDataPointClick) onDataPointClick(safeData[idx], idx);
         }}
       >
-        {data.map((_, index) => (
+        {safeData.map((_, index) => (
           <Cell key={`cell-${index}`} fill={colors[index]} />
         ))}
       </Pie>

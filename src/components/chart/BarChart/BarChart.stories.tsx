@@ -607,6 +607,67 @@ export const CustomTooltip: Story = {
 };
 
 /**
+ * 빈 데이터
+ *
+ * data가 빈 배열일 때 차트가 크래시 없이 빈 영역을 렌더링합니다.
+ */
+export const EmptyData: Story = {
+  args: {
+    data: [],
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'sales' },
+    dataKey: 'sales',
+    config: salesConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+  },
+};
+
+/**
+ * 모든 값이 0
+ *
+ * 모든 Y축 값이 0일 때 도메인이 [0, 1]로 설정되어 올바르게 렌더링됩니다.
+ */
+export const AllZeroValues: Story = {
+  args: {
+    data: [
+      { month: 'Jan', sales: 0 },
+      { month: 'Feb', sales: 0 },
+      { month: 'Mar', sales: 0 },
+      { month: 'Apr', sales: 0 },
+      { month: 'May', sales: 0 },
+      { month: 'Jun', sales: 0 },
+    ],
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'sales' },
+    dataKey: 'sales',
+    config: salesConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+  },
+};
+
+/**
+ * 단일 데이터 포인트
+ *
+ * 데이터가 하나만 있을 때도 막대가 정상적으로 표시됩니다.
+ */
+export const SingleDataPoint: Story = {
+  args: {
+    data: [{ month: 'Jan', sales: 150 }],
+    xAxis: { dataKey: 'month' },
+    yAxis: { dataKey: 'sales' },
+    dataKey: 'sales',
+    config: salesConfig,
+    width: 600,
+    height: 400,
+    showXGrid: true,
+  },
+};
+
+/**
  * 가로 막대 차트
  */
 export const Horizontal: Story = {

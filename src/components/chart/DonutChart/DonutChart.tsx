@@ -51,6 +51,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
     },
     ref
   ) => {
+  const safeData = useMemo(() => data ?? [], [data]);
   const { getLabel, getColor } = useChartConfig(config);
 
   const [hoveredSlice, setHoveredSlice] = useState<{
@@ -59,15 +60,15 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   } | null>(null);
 
   const colors = useMemo(() => {
-    return data.map((item, index) => {
+    return safeData.map((item, index) => {
       const name = String(item[nameKey] ?? '');
       return getColor(name, index);
     });
-  }, [data, nameKey, getColor]);
+  }, [safeData, nameKey, getColor]);
 
   const totalValue = useMemo(
-    () => data.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
-    [data, dataKey]
+    () => safeData.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
+    [safeData, dataKey]
   );
 
   const rStartAngle = isHalf ? 180 : 90 - startAngle;
@@ -78,12 +79,12 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   const displayLabel = showCenterOnHover && hoveredSlice ? hoveredSlice.name : centerLabel;
   const displayValue = showCenterOnHover && hoveredSlice ? String(hoveredSlice.value) : centerValue;
 
-  const chartAriaLabel = ariaLabel || `Donut chart showing ${data.map(d => String(d[nameKey] ?? '')).join(', ')}`;
+  const chartAriaLabel = ariaLabel || `Donut chart showing ${safeData.map(d => String(d[nameKey] ?? '')).join(', ')}`;
 
   const chartContent = (
     <RPieChart>
       <Pie
-        data={data}
+        data={safeData}
         dataKey={dataKey}
         nameKey={nameKey}
         cx="50%"
@@ -97,7 +98,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
         strokeWidth={2}
         onMouseEnter={(_: unknown, index: number) => {
           if (showCenterOnHover) {
-            const item = data[index];
+            const item = safeData[index];
             setHoveredSlice({
               name: getLabel(String(item[nameKey] ?? '')),
               value: Number(item[dataKey] ?? 0),
@@ -108,10 +109,10 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
           if (showCenterOnHover) setHoveredSlice(null);
         }}
         onClick={(_data: Record<string, unknown>, idx: number) => {
-          if (onDataPointClick) onDataPointClick(data[idx], idx);
+          if (onDataPointClick) onDataPointClick(safeData[idx], idx);
         }}
       >
-        {data.map((_, index) => (
+        {safeData.map((_, index) => (
           <Cell key={`cell-${index}`} fill={colors[index]} />
         ))}
       </Pie>
