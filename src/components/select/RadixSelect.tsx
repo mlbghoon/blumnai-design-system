@@ -209,7 +209,7 @@ const SelectContent = React.forwardRef<
         sideOffset={sideOffset}
         collisionPadding={8}
         className={cn(
-          'relative z-[100] min-w-[128px] overflow-y-auto',
+          'relative z-[100] min-w-[128px] overflow-y-auto overflow-x-hidden',
           'bg-card border-default rounded-lg shadow-modal-sm',
           'data-[state=open]:animate-in data-[state=closed]:animate-out',
           'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
@@ -467,7 +467,7 @@ const ExtendedSelectItem = React.forwardRef<
               </span>
             </div>
           ) : (
-            <span className="truncate">{children}</span>
+            <span className="block truncate">{children}</span>
           )}
         </SelectPrimitive.ItemText>
         {renderTrailContent()}

@@ -208,7 +208,7 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
             <div className="flex-1 min-w-0 padding-x-4">
               <span
                 className={cn(
-                  'font-body',
+                  'font-body block',
                   sizeConfig.text,
                   option.disabled ? 'text-hint' : 'text-default',
                   'truncate'
@@ -689,7 +689,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                     'origin-[--radix-popover-content-transform-origin]'
                   )}
                   style={{
-                    minWidth: 'var(--radix-popover-trigger-width)',
+                    width: 'var(--radix-popover-trigger-width)',
                   }}
                 >
                   {filteredOptions.length === 0 ? (

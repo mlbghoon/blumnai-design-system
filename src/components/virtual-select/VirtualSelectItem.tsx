@@ -177,7 +177,7 @@ const VirtualSelectItem = React.memo<VirtualSelectItemProps>(
             <div className="flex-1 min-w-0 padding-x-4">
               <span
                 className={cn(
-                  'font-body',
+                  'font-body block',
                   sizeConfig.text,
                   disabled ? 'text-hint' : 'text-default',
                   'truncate'

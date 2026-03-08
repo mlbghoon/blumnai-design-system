@@ -4,8 +4,7 @@
 
 ### Fixed
 
-- **Select/Combobox/VirtualSelect 드롭다운 너비**: 드롭다운이 트리거 너비에 고정되어 긴 옵션 텍스트가 잘리던 문제 수정. `width` → `minWidth`로 변경하여 드롭다운이 콘텐츠에 맞게 자동 확장 (최대 320px). 트리거 너비는 최소 너비로 유지.
-- **RadixSelect `overflow-x-hidden` 제거**: Content에서 불필요한 `overflow-x-hidden`을 제거하여 드롭다운이 콘텐츠 너비에 맞게 확장 가능하도록 개선.
+- **Select/Combobox/VirtualSelect 옵션 텍스트 ellipsis 미표시**: 체크박스/체크아이콘이 공간을 차지하여 라벨이 밀릴 때, 텍스트가 ellipsis 없이 잘리던 문제 수정. 라벨 `<span>`에 `block` 추가하여 `text-overflow: ellipsis`가 정상 작동하도록 개선.
 
 ## [1.0.12] - 2026-03-05
 

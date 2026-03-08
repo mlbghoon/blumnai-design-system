@@ -182,7 +182,7 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
             <div className="flex-1 min-w-0 padding-x-4">
               <span
                 className={cn(
-                  'font-body',
+                  'font-body block',
                   sizeConfig.text,
                   disabled ? 'text-hint' : 'text-default',
                   'truncate'
@@ -638,7 +638,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   'origin-[--radix-popover-content-transform-origin]'
                 )}
                 style={{
-                  minWidth: 'var(--radix-popover-trigger-width)',
+                  width: 'var(--radix-popover-trigger-width)',
                 }}
               >
                 {searchable && (
