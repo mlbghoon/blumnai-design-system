@@ -501,7 +501,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
         );
       }
 
-      if (selectedOptions.length === 1) {
+      if (selectedOptions.length === 1 && !selectedText) {
         const option = selectedOptions[0];
         if (variant === 'avatar' && option.avatarSrc) {
           return (
@@ -527,7 +527,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       const displayText =
         typeof selectedText === 'function'
           ? selectedText(selectedOptions.length)
-          : selectedText ?? `${selectedOptions.length} selected`;
+          : selectedText ?? (selectedOptions.length === 1 ? selectedOptions[0].label : `${selectedOptions.length} selected`);
 
       return (
         <span className={cn('truncate', disabled ? 'text-hint' : 'text-default')}>

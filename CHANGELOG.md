@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.18] - 2026-03-08
+
+### Fixed
+
+- **MultiSelect `selectedText` 단일 항목 무시 버그**: 1개 항목만 선택되었을 때 `selectedText` 콜백이 호출되지 않고 항상 항목 라벨이 표시되던 문제 수정. `selectedText`가 제공되면 선택 개수와 관계없이 항상 호출됨.
+
 ## [1.0.17] - 2026-03-08
 
 ### Improved
