@@ -77,7 +77,9 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   }, [onDataPointClick, data]);
 
   const chartAriaLabel = ariaLabel || `Line chart showing ${activeKeys.join(', ') || 'data'}`;
-  const yDomain = yAxis.domain === 'auto' ? undefined : yAxis.domain;
+  const yDomain = yAxis.domain === 'auto'
+    ? [0, (dataMax: number) => Math.max(dataMax, 1)] as const
+    : yAxis.domain;
   const tickCount = yAxis.tickCount ?? 5;
   const curveType = smooth ? 'monotone' : 'linear';
 

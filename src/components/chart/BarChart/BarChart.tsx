@@ -87,7 +87,9 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   }
 
   const chartAriaLabel = ariaLabel || `Bar chart showing ${dataKey || (stackedKeys?.join(', ') || 'data')}`;
-  const yDomain = yAxis.domain === 'auto' ? undefined : yAxis.domain;
+  const yDomain = yAxis.domain === 'auto'
+    ? [0, (dataMax: number) => Math.max(dataMax, 1)] as const
+    : yAxis.domain;
   const tickCount = yAxis.tickCount ?? 5;
 
   const renderStackedBar = (

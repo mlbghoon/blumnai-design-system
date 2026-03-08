@@ -74,8 +74,12 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
 
   const chartAriaLabel = ariaLabel || `Combo chart showing ${[...barSeries.map(s => s.dataKey), ...lineSeries.map(s => s.dataKey)].join(', ')}`;
 
-  const primaryDomain = primaryAxis.domain === 'auto' ? undefined : primaryAxis.domain;
-  const secondaryDomain = secondaryAxis?.domain === 'auto' ? undefined : secondaryAxis?.domain;
+  const primaryDomain = primaryAxis.domain === 'auto'
+    ? [0, (dataMax: number) => Math.max(dataMax, 1)] as const
+    : primaryAxis.domain;
+  const secondaryDomain = secondaryAxis?.domain === 'auto'
+    ? [0, (dataMax: number) => Math.max(dataMax, 1)] as const
+    : secondaryAxis?.domain;
 
   const stackGroups = new Map<string, string[]>();
   barSeries.forEach((s) => {
