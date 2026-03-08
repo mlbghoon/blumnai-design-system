@@ -38,6 +38,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         disabled={multiProps.disabled}
         placeholder={multiProps.placeholder}
         leadIcon={multiProps.leadIcon}
+        tailIcon={multiProps.tailIcon}
         options={multiProps.options}
         value={multiProps.value}
         onChange={multiProps.onChange}
@@ -79,6 +80,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         disabled={tagsProps.disabled}
         placeholder={tagsProps.placeholder}
         leadIcon={tagsProps.leadIcon}
+        tailIcon={tagsProps.tailIcon}
         options={tagsProps.options}
         value={tagsProps.value}
         onChange={tagsProps.onChange}
@@ -119,6 +121,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         disabled={avatarProps.disabled}
         placeholder={avatarProps.placeholder}
         leadIcon={avatarProps.leadIcon}
+        tailIcon={avatarProps.tailIcon}
         options={avatarProps.options}
         value={avatarProps.value}
         onChange={avatarProps.onChange}
@@ -156,6 +159,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
       disabled={defaultProps.disabled}
       placeholder={defaultProps.placeholder}
       leadIcon={defaultProps.leadIcon}
+      tailIcon={defaultProps.tailIcon}
       options={defaultProps.options}
       value={defaultProps.value}
       onChange={defaultProps.onChange}

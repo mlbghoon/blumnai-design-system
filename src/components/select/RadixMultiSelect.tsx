@@ -222,6 +222,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       disabled = false,
       placeholder = 'Select...',
       leadIcon,
+      tailIcon,
       options,
       value: controlledValue,
       onChange,
@@ -612,6 +613,19 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                     <Icon iconType={['system', 'close']} size={12} />
                   </span>
                 )}
+
+                {tailIcon && (() => {
+                  const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
+                  return (
+                    <Icon
+                      iconType={iconType}
+                      size={sizeConfig.iconSize}
+                      color={iconColor}
+                      className="flex-shrink-0"
+                      isFill={isFill}
+                    />
+                  );
+                })()}
 
                 <Icon
                   iconType={['arrows', 'expand-up-down']}

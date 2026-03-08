@@ -78,6 +78,7 @@ const SelectTrigger = React.forwardRef<
       selectStyle = 'default',
       state = 'default',
       leadIcon,
+      tailIcon,
       ...props
     },
     ref
@@ -131,6 +132,18 @@ const SelectTrigger = React.forwardRef<
           );
         })()}
         <span className="flex-1 min-w-0">{children}</span>
+        {tailIcon && (() => {
+          const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
+          return (
+            <Icon
+              iconType={iconType}
+              size={sizeConfig.iconSize}
+              color={iconColor}
+              className="flex-shrink-0"
+              isFill={isFill}
+            />
+          );
+        })()}
         <SelectPrimitive.Icon asChild>
           <Icon
             iconType={['arrows', 'expand-up-down']}
@@ -513,6 +526,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       disabled = false,
       placeholder = 'Select...',
       leadIcon,
+      tailIcon,
       options,
       value,
       onChange,
@@ -730,6 +744,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
               selectStyle={selectStyle}
               state={state}
               leadIcon={leadIcon}
+              tailIcon={tailIcon}
             >
               {value ? (
                 renderSelectedValue()

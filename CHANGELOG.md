@@ -1,6 +1,10 @@
 # Changelog
 
-## [1.0.14] - 2026-03-08
+## [1.0.15] - 2026-03-08
+
+### Added
+
+- **Select/Combobox `tailIcon` prop**: 트리거 라벨 뒤, 화살표 앞에 아이콘을 배치하는 `tailIcon` prop 추가. Select (default/avatar/multi-select/tags), Combobox 모든 변형에서 사용 가능. `IconTypeWithFill` 타입.
 
 ### Fixed
 

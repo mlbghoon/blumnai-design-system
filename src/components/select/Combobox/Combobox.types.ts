@@ -162,6 +162,10 @@ export interface ComboboxBaseProps {
    */
   filterFunction?: (option: ComboboxOption, query: string) => boolean;
   /**
+   * 라벨 뒤, 화살표 앞에 표시되는 아이콘
+   */
+  tailIcon?: IconTypeWithFill;
+  /**
    * 외부 컨테이너에 적용할 추가 className
    */
   className?: string;

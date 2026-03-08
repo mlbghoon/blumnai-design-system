@@ -137,6 +137,10 @@ export interface SelectBaseProps {
    */
   leadIcon?: IconTypeWithFill;
   /**
+   * 라벨 뒤, 화살표 앞에 표시되는 아이콘
+   */
+  tailIcon?: IconTypeWithFill;
+  /**
    * 선택 가능한 옵션 목록
    */
   options: SelectOption[];
@@ -349,6 +353,7 @@ export interface SelectTriggerProps
   selectStyle?: SelectStyle;
   state?: 'default' | 'disabled' | 'error' | 'success';
   leadIcon?: IconTypeWithFill;
+  tailIcon?: IconTypeWithFill;
 }
 
 /**

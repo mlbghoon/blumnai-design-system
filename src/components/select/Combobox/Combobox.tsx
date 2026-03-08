@@ -260,6 +260,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       className,
       highlightSearch = true,
       filterFunction,
+      tailIcon,
     } = props;
 
     const comboboxId = React.useId();
@@ -647,6 +648,19 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                     )}
                     id={comboboxId}
                   />
+
+                  {tailIcon && (() => {
+                    const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
+                    return (
+                      <Icon
+                        iconType={iconType}
+                        size={sizeConfig.iconSize}
+                        color={iconColor}
+                        className="flex-shrink-0"
+                        isFill={isFill}
+                      />
+                    );
+                  })()}
 
                   <Icon
                     iconType={['arrows', 'expand-up-down']}
