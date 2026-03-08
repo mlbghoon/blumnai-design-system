@@ -298,7 +298,17 @@ export const DateRangePicker = ({
   cancelLabel = '취소',
 }: DateRangePickerProps) => {
   const [open, setOpen] = useState(false);
-  const [month, setMonth] = useState<Date>(value?.from || new Date());
+  const [month, setMonth] = useState<Date>(() => {
+    const base = value?.from || new Date();
+    if (maxDate && numberOfMonths >= 2) {
+      const baseMonth = base.getFullYear() * 12 + base.getMonth();
+      const maxMonth = maxDate.getFullYear() * 12 + maxDate.getMonth();
+      if (maxMonth <= baseMonth) {
+        return addMonths(base, -1);
+      }
+    }
+    return base;
+  });
   const [selectionPhase, setSelectionPhase] = useState<'idle' | 'selecting-end'>('idle');
   const [stagedValue, setStagedValue] = useState<DateRange | undefined>(value);
   const snapshotRef = useRef<DateRange | undefined>(value);
