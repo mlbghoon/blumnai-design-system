@@ -471,7 +471,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                   'data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
                   'origin-[--radix-popover-content-transform-origin]'
                 )}
-                style={{ width: 'var(--radix-popover-trigger-width)' }}
+                style={{ minWidth: 'var(--radix-popover-trigger-width)' }}
               >
                 {searchable && (
                   <div className="border-b border-default">

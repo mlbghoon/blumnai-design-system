@@ -689,7 +689,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                     'origin-[--radix-popover-content-transform-origin]'
                   )}
                   style={{
-                    width: 'var(--radix-popover-trigger-width)',
+                    minWidth: 'var(--radix-popover-trigger-width)',
                   }}
                 >
                   {filteredOptions.length === 0 ? (

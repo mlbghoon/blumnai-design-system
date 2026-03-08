@@ -638,7 +638,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   'origin-[--radix-popover-content-transform-origin]'
                 )}
                 style={{
-                  width: 'var(--radix-popover-trigger-width)',
+                  minWidth: 'var(--radix-popover-trigger-width)',
                 }}
               >
                 {searchable && (
