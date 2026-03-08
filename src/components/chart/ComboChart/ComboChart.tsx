@@ -74,10 +74,10 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
 
   const chartAriaLabel = ariaLabel || `Combo chart showing ${[...barSeries.map(s => s.dataKey), ...lineSeries.map(s => s.dataKey)].join(', ')}`;
 
-  const primaryDomain = primaryAxis.domain === 'auto'
+  const primaryDomain = (primaryAxis.domain === 'auto' || primaryAxis.domain === undefined)
     ? [0, (dataMax: number) => Math.max(dataMax, 1)] as const
     : primaryAxis.domain;
-  const secondaryDomain = secondaryAxis?.domain === 'auto'
+  const secondaryDomain = (secondaryAxis?.domain === 'auto' || secondaryAxis?.domain === undefined)
     ? [0, (dataMax: number) => Math.max(dataMax, 1)] as const
     : secondaryAxis?.domain;
 

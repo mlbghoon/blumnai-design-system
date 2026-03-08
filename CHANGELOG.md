@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.20] - 2026-03-08
+
+### Fixed
+
+- **Chart y축 도메인 `domain` 미지정 시에도 최소 범위 보장**: 1.0.19의 도메인 수정이 `domain: 'auto'` 명시 시에만 적용되던 문제. `domain`이 `undefined`(미지정)인 경우에도 `[0, max(dataMax, 1)]`로 최소 상한 보장. LineChart, BarChart, ComboChart 모두 적용.
+
 ## [1.0.19] - 2026-03-08
 
 ### Fixed
