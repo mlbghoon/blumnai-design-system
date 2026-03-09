@@ -103,6 +103,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       />
       <XAxis
         dataKey={xAxis.dataKey}
+        padding={{ left: 20, right: 20 }}
         tickFormatter={xAxis.tickFormatter}
         tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
         axisLine={{ stroke: 'var(--chart-axis)' }}
