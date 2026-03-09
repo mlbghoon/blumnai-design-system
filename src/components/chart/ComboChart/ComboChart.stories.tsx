@@ -30,14 +30,14 @@ const meta: Meta<typeof ComboChart> = {
     },
     xAxis: {
       control: 'object',
-      description: 'X축 설정',
+      description: 'X축의 데이터 키, 라벨, 도메인, 틱 포맷터 등을 설정합니다',
       table: {
         type: { summary: 'ChartAxisConfig' },
       },
     },
     yAxis: {
       control: 'object',
-      description: 'Y축 설정 (단일 또는 듀얼 Y축)',
+      description: 'Y축을 설정합니다. 단일 축 또는 배열로 듀얼 Y축을 구성할 수 있습니다',
       table: {
         type: {
           summary: 'ChartAxisConfig | [ChartAxisConfig, ChartAxisConfig]',
@@ -46,7 +46,7 @@ const meta: Meta<typeof ComboChart> = {
     },
     barSeries: {
       control: 'object',
-      description: 'Bar 시리즈 배열',
+      description: '막대 시리즈 배열입니다. 각 시리즈의 데이터 키, 색상, 스택 그룹, 크기, 둥근 모서리 등을 설정합니다',
       table: {
         type: {
           summary: 'ComboBarSeries[]',
@@ -62,7 +62,7 @@ const meta: Meta<typeof ComboChart> = {
     },
     lineSeries: {
       control: 'object',
-      description: 'Line 시리즈 배열',
+      description: '라인 시리즈 배열입니다. 각 시리즈의 데이터 키, 색상, Y축 인덱스, 곡선, 두께, 영역 채우기 등을 설정합니다',
       table: {
         type: {
           summary: 'ComboLineSeries[]',
@@ -79,27 +79,27 @@ const meta: Meta<typeof ComboChart> = {
     },
     width: {
       control: { type: 'number', min: 200, max: 1200, step: 50 },
-      description: '차트 너비 (픽셀)',
+      description: '차트 컨테이너의 너비를 픽셀 단위로 설정합니다',
       table: { type: { summary: 'number' } },
     },
     height: {
       control: { type: 'number', min: 200, max: 800, step: 50 },
-      description: '차트 높이 (픽셀)',
+      description: '차트 컨테이너의 높이를 픽셀 단위로 설정합니다',
       table: { type: { summary: 'number' } },
     },
     showXGrid: {
       control: 'boolean',
-      description: '가로 그리드 라인 표시',
+      description: 'true로 설정하면 Y축 값에 해당하는 가로 그리드 라인을 표시합니다',
       table: { type: { summary: 'boolean' } },
     },
     showYGrid: {
       control: 'boolean',
-      description: '세로 그리드 라인 표시',
+      description: 'true로 설정하면 X축 값에 해당하는 세로 그리드 라인을 표시합니다',
       table: { type: { summary: 'boolean' } },
     },
     showLegend: {
       control: 'boolean',
-      description: '범례 표시',
+      description: 'true로 설정하면 차트 하단에 데이터 시리즈를 구분하는 범례를 표시합니다',
       table: { type: { summary: 'boolean' } },
     },
   },

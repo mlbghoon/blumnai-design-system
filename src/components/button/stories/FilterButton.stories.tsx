@@ -14,7 +14,7 @@ const meta: Meta<typeof FilterButton> = {
     size: {
       control: 'select',
       options: ['xs', 'md', 'lg'],
-      description: '필터 버튼의 크기',
+      description: '필터 버튼의 크기를 설정합니다. xs(작게), md(보통), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'FilterButtonSize',
@@ -25,7 +25,7 @@ const meta: Meta<typeof FilterButton> = {
     shape: {
       control: 'select',
       options: ['rounded', 'pill'],
-      description: '필터 버튼의 모양',
+      description: '필터 버튼의 외곽선 모양을 설정합니다. rounded는 둥근 모서리, pill은 완전히 둥근 알약 형태입니다',
       table: {
         type: {
           summary: 'FilterButtonShape',
@@ -35,7 +35,7 @@ const meta: Meta<typeof FilterButton> = {
     },
     icon: {
       control: 'object',
-      description: '필터 아이콘용 아이콘 타입 튜플',
+      description: '필터 버튼에 표시할 아이콘입니다. 기본값은 필터 아이콘이며, 다른 아이콘으로 변경할 수 있습니다',
       table: {
         type: {
           summary: 'IconType',
@@ -47,21 +47,21 @@ const meta: Meta<typeof FilterButton> = {
     },
     label: {
       control: 'text',
-      description: '필터 버튼의 라벨 텍스트',
+      description: '필터 버튼에 표시되는 라벨 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     selected: {
       control: 'boolean',
-      description: '버튼이 선택되어 있는지 여부',
+      description: 'true로 설정하면 버튼이 선택된 상태로 표시되어 활성화된 필터임을 나타냅니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     disabled: {
       control: 'boolean',
-      description: '버튼이 비활성화되어 있는지 여부',
+      description: 'true로 설정하면 버튼이 비활성화되어 클릭할 수 없고, 시각적으로 흐리게 표시됩니다',
       table: {
         type: { summary: 'boolean' },
       },
@@ -97,7 +97,7 @@ type Story = StoryObj<typeof FilterButton>;
  */
 export const Default: Story = {
   args: {
-    label: 'Filter',
+    label: '필터',
     size: 'md',
     shape: 'rounded',
     icon: ['system', 'filter'],
@@ -117,9 +117,9 @@ export const Default: Story = {
 export const AllSizes: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center">
-      <FilterButton label="Filter" size="xs" />
-      <FilterButton label="Filter" size="md" />
-      <FilterButton label="Filter" size="lg" />
+      <FilterButton label="필터" size="xs" />
+      <FilterButton label="필터" size="md" />
+      <FilterButton label="필터" size="lg" />
     </div>
   ),
 };
@@ -130,8 +130,8 @@ export const AllSizes: Story = {
 export const AllShapes: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center">
-      <FilterButton label="Rounded" shape="rounded" />
-      <FilterButton label="Pill" shape="pill" />
+      <FilterButton label="둥근 모서리" shape="rounded" />
+      <FilterButton label="알약형" shape="pill" />
     </div>
   ),
 };
@@ -142,8 +142,8 @@ export const AllShapes: Story = {
 export const Selected: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center">
-      <FilterButton label="Unselected" selected={false} />
-      <FilterButton label="Selected" selected={true} />
+      <FilterButton label="미선택" selected={false} />
+      <FilterButton label="선택됨" selected={true} />
     </div>
   ),
 };
@@ -156,15 +156,15 @@ export const States: Story = {
     <div className="flex flex-col ds-gap-16">
       <div className="flex flex-wrap ds-gap-12 items-center">
         <span className="text-muted size-sm width-80">Default:</span>
-        <FilterButton label="Normal" />
-        <FilterButton label="Selected" selected />
-        <FilterButton label="Disabled" disabled />
+        <FilterButton label="기본" />
+        <FilterButton label="선택됨" selected />
+        <FilterButton label="비활성화" disabled />
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center">
         <span className="text-muted size-sm width-80">Pill:</span>
         <FilterButton label="Normal" shape="pill" />
-        <FilterButton label="Selected" shape="pill" selected />
-        <FilterButton label="Disabled" shape="pill" disabled />
+        <FilterButton label="선택됨" shape="pill" selected />
+        <FilterButton label="비활성화" shape="pill" disabled />
       </div>
     </div>
   ),
@@ -176,9 +176,9 @@ export const States: Story = {
 export const WithCustomIcon: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center">
-      <FilterButton label="Filter" icon={['system', 'filter']} />
-      <FilterButton label="Settings" icon={['system', 'settings']} />
-      <FilterButton label="Search" icon={['system', 'search']} />
+      <FilterButton label="필터" icon={['system', 'filter']} />
+      <FilterButton label="설정" icon={['system', 'settings']} />
+      <FilterButton label="검색" icon={['system', 'search']} />
     </div>
   ),
 };

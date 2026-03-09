@@ -30,28 +30,28 @@ const meta: Meta<DropdownMenuAvatarProps> = {
   argTypes: {
     label: {
       control: 'text',
-      description: '아이템 라벨',
+      description: '아바타 아이템에 표시되는 텍스트 라벨입니다. 사용자 이름이나 항목명을 설정합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     avatarSrc: {
       control: 'text',
-      description: '아바타 이미지 URL',
+      description: '아바타에 표시할 이미지의 URL입니다. 설정하지 않으면 avatarAlt의 이니셜이 표시됩니다',
       table: {
         type: { summary: 'string' },
       },
     },
     avatarAlt: {
       control: 'text',
-      description: '아바타 대체 텍스트 (이미지가 없을 때 이니셜로 표시)',
+      description: '아바타 이미지의 대체 텍스트입니다. 이미지가 없을 때 첫 글자가 이니셜로 표시됩니다',
       table: {
         type: { summary: 'string' },
       },
     },
     tailIcon: {
       control: 'object',
-      description: '뒤에 표시되는 아이콘',
+      description: '아이템 오른쪽에 표시되는 아이콘입니다. 서브메뉴 화살표나 상태 표시에 주로 사용합니다',
       table: {
         type: {
           summary: 'IconType',
@@ -67,21 +67,21 @@ const meta: Meta<DropdownMenuAvatarProps> = {
     },
     caption: {
       control: 'text',
-      description: '캡션 텍스트',
+      description: '라벨 오른쪽에 표시되는 보조 텍스트입니다. 온라인 상태나 역할 등을 표시합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     shortcut: {
       control: 'text',
-      description: '단축키 표시',
+      description: '아이템 우측에 표시되는 키보드 단축키 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 아이템이 비활성화되어 클릭할 수 없고 흐릿하게 표시됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -90,14 +90,14 @@ const meta: Meta<DropdownMenuAvatarProps> = {
     iconColor: {
       control: 'select',
       options: ['default', 'default-subtle', 'success', 'warning', 'destructive', 'informative'],
-      description: '아이콘 색상',
+      description: '아이콘의 색상입니다. 상태를 시각적으로 나타내는 데 사용합니다 (예: success는 녹색, destructive는 빨간색)',
       table: {
         type: { summary: 'IconColor' },
       },
     },
     onClick: {
       action: 'clicked',
-      description: '클릭 이벤트 핸들러',
+      description: '아이템을 클릭했을 때 호출되는 콜백 함수입니다',
       table: {
         type: { summary: '() => void' },
       },
@@ -143,7 +143,7 @@ export const Default: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Team</Button>
+          <Button buttonStyle="secondary">팀</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>팀원</DropdownMenuLabel>
@@ -185,7 +185,7 @@ export const AvatarWithShortcut: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Switch Account</Button>
+          <Button buttonStyle="secondary">계정 전환</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>계정 전환</DropdownMenuLabel>
@@ -217,7 +217,7 @@ export const AvatarDisabled: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Team Members</Button>
+          <Button buttonStyle="secondary">팀원</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>팀원 선택</DropdownMenuLabel>
@@ -254,7 +254,7 @@ export const Userbar: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Profile</Button>
+          <Button buttonStyle="secondary">프로필</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuUserbar
@@ -282,7 +282,7 @@ export const UserbarWithBadge: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Account</Button>
+          <Button buttonStyle="secondary">계정</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuUserbar
@@ -316,7 +316,7 @@ export const MenuButtonItem: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Settings</Button>
+          <Button buttonStyle="secondary">설정</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>설정</DropdownMenuLabel>
@@ -344,7 +344,7 @@ export const ButtonGroup: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Actions</Button>
+          <Button buttonStyle="secondary">작업</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>작업</DropdownMenuLabel>
@@ -374,7 +374,7 @@ export const Search: Story = {
   render: function Render() {
     const [searchValue, setSearchValue] = useState('');
 
-    const items = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'];
+    const items = ['사과', '바나나', '체리', '대추', '블루베리'];
     const filteredItems = items.filter((item) =>
       item.toLowerCase().includes(searchValue.toLowerCase())
     );
@@ -382,13 +382,13 @@ export const Search: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Search</Button>
+          <Button buttonStyle="secondary">검색</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuSearch
             value={searchValue}
             onChange={setSearchValue}
-            placeholder="Search..."
+            placeholder="검색..."
             autoFocus={false}
           />
           {filteredItems.map((item) => (
@@ -397,7 +397,7 @@ export const Search: Story = {
             </DropdownMenuItem>
           ))}
           {filteredItems.length === 0 && (
-            <DropdownMenuCaption>No results found</DropdownMenuCaption>
+            <DropdownMenuCaption>검색 결과가 없습니다</DropdownMenuCaption>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
@@ -415,7 +415,7 @@ export const Caption: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Workspace</Button>
+          <Button buttonStyle="secondary">워크스페이스</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>워크스페이스</DropdownMenuLabel>
@@ -440,7 +440,7 @@ export const AllVariants: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">All Features</Button>
+          <Button buttonStyle="secondary">모든 기능</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={300}>
           <DropdownMenuUserbar

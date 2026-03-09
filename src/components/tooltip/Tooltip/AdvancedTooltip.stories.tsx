@@ -17,7 +17,7 @@ const meta: Meta<typeof AdvancedTooltip> = {
   argTypes: {
     items: {
       control: 'object',
-      description: '툴팁에 표시할 아이템 배열',
+      description: '툴팁에 표시할 아이템 배열입니다. 각 아이템은 label(제목), item(데이터 항목), divider(구분선), text(일반 텍스트) 중 하나의 타입을 가집니다',
       table: {
         type: {
           summary: 'TooltipItemData[]',
@@ -27,7 +27,7 @@ const meta: Meta<typeof AdvancedTooltip> = {
     },
     minWidth: {
       control: 'number',
-      description: '툴팁의 최소 너비 (픽셀)',
+      description: '툴팁의 최소 너비를 픽셀 단위로 설정합니다. 콘텐츠가 짧더라도 이 너비 이상으로 표시됩니다',
       table: {
         type: { summary: 'number' },
       },
@@ -48,13 +48,13 @@ type Story = StoryObj<typeof AdvancedTooltip>;
 export const Default: Story = {
   args: {
     items: [
-      { type: 'label', label: 'Label', caption: 'Caption' },
+      { type: 'label', label: '제목', caption: '부제목' },
       { type: 'divider' },
-      { type: 'item', label: 'Item 1', caption: 'Description 1', indicatorColor: '#437dfc' },
-      { type: 'item', label: 'Item 2', caption: 'Description 2', indicatorColor: '#4fc660' },
-      { type: 'item', label: 'Item 3', caption: 'Description 3', indicatorColor: '#f38f36' },
+      { type: 'item', label: '항목 1', caption: '설명 1', indicatorColor: '#437dfc' },
+      { type: 'item', label: '항목 2', caption: '설명 2', indicatorColor: '#4fc660' },
+      { type: 'item', label: '항목 3', caption: '설명 3', indicatorColor: '#f38f36' },
       { type: 'divider' },
-      { type: 'text', text: 'The quick brown fox jumps over a lazy dog.' },
+      { type: 'text', text: '다람쥐 헌 쳇바퀴에 타고파.' },
     ] as TooltipItemData[],
     className: '',
   },
@@ -71,7 +71,7 @@ export const WithOnlyLabel: Story = {
   render: () => (
     <AdvancedTooltip
       items={[
-        { type: 'label', label: 'Header', caption: 'Subheader' },
+        { type: 'label', label: '헤더', caption: '서브헤더' },
       ] as TooltipItemData[]}
     />
   ),
@@ -81,11 +81,11 @@ export const WithDividers: Story = {
   render: () => (
     <AdvancedTooltip
       items={[
-        { type: 'label', label: 'Section 1' },
+        { type: 'label', label: '섹션 1' },
         { type: 'divider' },
-        { type: 'item', label: 'Item', caption: 'Caption', indicatorColor: '#437dfc' },
+        { type: 'item', label: '항목', caption: '설명', indicatorColor: '#437dfc' },
         { type: 'divider' },
-        { type: 'text', text: 'Plain text content' },
+        { type: 'text', text: '일반 텍스트 콘텐츠' },
       ] as TooltipItemData[]}
     />
   ),
@@ -95,13 +95,13 @@ export const WithIcons: Story = {
   render: () => (
     <AdvancedTooltip
       items={[
-        { type: 'label', label: 'Actions', caption: 'Available' },
+        { type: 'label', label: '작업', caption: '사용 가능' },
         { type: 'divider' },
-        { type: 'item', label: 'Settings', caption: 'Configure', icon: ['system', 'settings'] },
-        { type: 'item', label: 'Search', caption: 'Find items', icon: ['system', 'search'] },
-        { type: 'item', label: 'Add new', caption: 'Create item', icon: ['system', 'add'] },
+        { type: 'item', label: '설정', caption: '구성하기', icon: ['system', 'settings'] },
+        { type: 'item', label: '검색', caption: '항목 찾기', icon: ['system', 'search'] },
+        { type: 'item', label: '새로 만들기', caption: '항목 생성', icon: ['system', 'add'] },
         { type: 'divider' },
-        { type: 'text', text: 'Select an action to proceed.' },
+        { type: 'text', text: '진행할 작업을 선택하세요.' },
       ] as TooltipItemData[]}
     />
   ),
@@ -114,8 +114,8 @@ export const MinWidth: Story = {
         <AdvancedTooltip
           minWidth={200}
           items={[
-            { type: 'label', label: 'Title' },
-            { type: 'text', text: 'Short text' },
+            { type: 'label', label: '제목' },
+            { type: 'text', text: '짧은 텍스트' },
           ] as TooltipItemData[]}
         />
         <div style={{ fontSize: '10px', marginTop: '8px', color: 'var(--text-muted)' }}>minWidth: 200</div>
@@ -124,8 +124,8 @@ export const MinWidth: Story = {
         <AdvancedTooltip
           minWidth={280}
           items={[
-            { type: 'label', label: 'Title' },
-            { type: 'text', text: 'Short text' },
+            { type: 'label', label: '제목' },
+            { type: 'text', text: '짧은 텍스트' },
           ] as TooltipItemData[]}
         />
         <div style={{ fontSize: '10px', marginTop: '8px', color: 'var(--text-muted)' }}>minWidth: 280</div>
@@ -134,8 +134,8 @@ export const MinWidth: Story = {
         <AdvancedTooltip
           minWidth={360}
           items={[
-            { type: 'label', label: 'Title' },
-            { type: 'text', text: 'Short text' },
+            { type: 'label', label: '제목' },
+            { type: 'text', text: '짧은 텍스트' },
           ] as TooltipItemData[]}
         />
         <div style={{ fontSize: '10px', marginTop: '8px', color: 'var(--text-muted)' }}>minWidth: 360</div>

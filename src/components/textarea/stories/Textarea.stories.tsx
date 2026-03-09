@@ -16,7 +16,7 @@ const meta: Meta<typeof Textarea> = {
     textareaStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '텍스트 영역 스타일 변형',
+      description: '텍스트 영역의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'TextareaStyle',
@@ -28,7 +28,7 @@ const meta: Meta<typeof Textarea> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '텍스트 영역 크기',
+      description: '텍스트 영역의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'TextareaSize',
@@ -39,14 +39,14 @@ const meta: Meta<typeof Textarea> = {
     },
     label: {
       control: 'text',
-      description: '텍스트 영역 위에 표시되는 라벨 텍스트',
+      description: '텍스트 영역 위에 표시되는 제목 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     required: {
       control: 'boolean',
-      description: '필수 입력 여부 (별표 표시)',
+      description: 'true로 설정하면 필수 입력 항목으로 표시되며, 라벨 옆에 필수 표시(*)가 나타납니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -54,14 +54,14 @@ const meta: Meta<typeof Textarea> = {
     },
     supportText: {
       control: 'text',
-      description: '라벨 옆에 표시되는 보조 텍스트',
+      description: '라벨 옆에 표시되는 부가 설명 텍스트입니다. 선택 입력 등의 안내 문구에 사용합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     caption: {
       control: 'text',
-      description: '텍스트 영역 아래에 표시되는 설명 텍스트',
+      description: '텍스트 영역 아래에 표시되는 도움말 텍스트입니다. 사용자에게 입력 방법이나 형식을 안내합니다',
       table: {
         type: { summary: 'string' },
       },
@@ -82,14 +82,14 @@ const meta: Meta<typeof Textarea> = {
     },
     placeholder: {
       control: 'text',
-      description: '플레이스홀더 텍스트',
+      description: '텍스트 영역이 비어있을 때 표시되는 안내 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -97,7 +97,7 @@ const meta: Meta<typeof Textarea> = {
     },
     minRows: {
       control: 'number',
-      description: '최소 행 수',
+      description: '텍스트 영역의 최소 높이를 행 수로 지정합니다. 기본값은 3행입니다',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '3' },
@@ -105,14 +105,14 @@ const meta: Meta<typeof Textarea> = {
     },
     maxRows: {
       control: 'number',
-      description: '최대 행 수',
+      description: '텍스트 영역의 최대 높이를 행 수로 지정합니다. 이 값을 초과하면 스크롤이 생깁니다',
       table: {
         type: { summary: 'number' },
       },
     },
     showCount: {
       control: 'boolean',
-      description: '글자 수 표시 여부',
+      description: 'true로 설정하면 텍스트 영역 우측 하단에 현재 글자 수와 입력할 수 있는 최대 글자 수입니다. showCount와 함께 사용하면 카운터가 표시됩니다가 표시됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -120,7 +120,7 @@ const meta: Meta<typeof Textarea> = {
     },
     maxLength: {
       control: 'number',
-      description: '최대 글자 수',
+      description: '입력할 수 있는 최대 글자 수입니다. showCount와 함께 사용하면 카운터가 표시됩니다',
       table: {
         type: { summary: 'number' },
       },
@@ -128,7 +128,7 @@ const meta: Meta<typeof Textarea> = {
     resize: {
       control: 'select',
       options: ['none', 'vertical', 'horizontal', 'both'],
-      description: '리사이즈 가능 여부',
+      description: '텍스트 영역의 크기 조절 방향을 설정합니다. none(불가), vertical(세로만), horizontal(가로만), both(양방향) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'TextareaResize',
@@ -139,7 +139,7 @@ const meta: Meta<typeof Textarea> = {
     },
     showToolbar: {
       control: 'boolean',
-      description: '툴바 표시 여부',
+      description: 'true로 설정하면 텍스트 영역 하단에 액션 버튼이 있는 툴바가 표시됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -147,7 +147,7 @@ const meta: Meta<typeof Textarea> = {
     },
     toolbarActions: {
       control: false,
-      description: '툴바 왼쪽에 표시할 액션 버튼/칩 목록',
+      description: '툴바 왼쪽에 표시되는 커스텀 액션 버튼 목록입니다. 아이콘, 라벨, 클릭 핸들러를 포함하는 객체 배열로 전달합니다',
       table: {
         type: {
           summary: 'TextareaToolbarAction[]',
@@ -158,28 +158,28 @@ const meta: Meta<typeof Textarea> = {
                               // - ['media', 'image', true] (filled)
   label?: string;             // 라벨 (없으면 아이콘만 표시)
   onClick?: () => void;       // 클릭 핸들러
-  disabled?: boolean;         // 비활성화 여부
+  disabled?: boolean;         // true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다
 }[]`,
         },
       },
     },
     onAttach: {
       action: 'attach',
-      description: '첨부 버튼 클릭 핸들러 (제공 시 + 버튼 표시)',
+      description: '이 함수를 전달하면 툴바에 + 버튼이 표시됩니다. 파일 첨부 등의 용도로 사용합니다',
       table: {
         type: { summary: '() => void' },
       },
     },
     onSubmit: {
       action: 'submit',
-      description: '제출 버튼 클릭 핸들러 (제공 시 ↑ 버튼 표시)',
+      description: '이 함수를 전달하면 툴바에 전송 버튼(↑)이 표시됩니다. 메시지 전송 등의 용도로 사용합니다',
       table: {
         type: { summary: '() => void' },
       },
     },
     submitDisabled: {
       control: 'boolean',
-      description: '제출 버튼 비활성화 여부',
+      description: 'true로 설정하면 전송 버튼이 비활성화됩니다. 입력 내용이 비어있을 때 비활성화하는 용도로 사용합니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -187,7 +187,7 @@ const meta: Meta<typeof Textarea> = {
     },
     onVoiceInput: {
       action: 'voiceInput',
-      description: '음성 입력 버튼 클릭 핸들러 (제공 시 마이크 버튼 표시)',
+      description: '이 함수를 전달하면 툴바에 마이크 버튼이 표시됩니다. 음성 입력 기능에 사용합니다',
       table: {
         type: { summary: '() => void' },
       },
@@ -212,8 +212,8 @@ type Story = StoryObj<typeof Textarea>;
  */
 export const Default: Story = {
   args: {
-    label: 'Description',
-    placeholder: 'Enter description...',
+    label: '설명',
+    placeholder: '설명을 입력하세요...',
     textareaStyle: 'default',
     size: 'sm',
     required: false,
@@ -278,21 +278,21 @@ export const WithToolbar: Story = {
       {
         key: 'image',
         icon: ['media', 'image'],
-        label: 'Create image',
+        label: '이미지 생성',
         onClick: () => console.log('Create image clicked'),
       },
       {
         key: 'research',
         icon: ['system', 'search'],
-        label: 'Deep research',
+        label: '심층 연구',
         onClick: () => console.log('Deep research clicked'),
       },
     ];
 
     return (
       <Textarea
-        label="Ask AI"
-        placeholder="Ask AI anything..."
+        label="AI에게 질문"
+        placeholder="AI에게 무엇이든 물어보세요..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onAttach={() => console.log('Attach clicked')}
@@ -317,7 +317,7 @@ export const SimpleToolbar: Story = {
 
     return (
       <Textarea
-        placeholder="Add prompt..."
+        placeholder="프롬프트를 입력하세요..."
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onAttach={() => console.log('Attach clicked')}
@@ -336,7 +336,7 @@ export const Disabled: Story = {
   render: () => (
     <Textarea
       label="Disabled"
-      placeholder="Cannot edit..."
+      placeholder="편집할 수 없습니다..."
       disabled
     />
   ),
@@ -348,9 +348,9 @@ export const Disabled: Story = {
 export const Error: Story = {
   render: () => (
     <Textarea
-      label="Message"
-      placeholder="Enter message..."
-      error="This field is required"
+      label="메시지"
+      placeholder="메시지를 입력하세요..."
+      error="필수 입력 항목입니다"
     />
   ),
 };
@@ -361,10 +361,10 @@ export const Error: Story = {
 export const Success: Story = {
   render: () => (
     <Textarea
-      label="Bio"
-      placeholder="Tell us about yourself..."
-      success="Looks great!"
-      defaultValue="I'm a software developer with 5 years of experience."
+      label="자기소개"
+      placeholder="자기소개를 입력하세요..."
+      success="좋아 보입니다!"
+      defaultValue="5년 경력의 소프트웨어 개발자입니다."
     />
   ),
 };
@@ -378,8 +378,8 @@ export const WithCount: Story = {
 
     return (
       <Textarea
-        label="Review"
-        placeholder="Write your review..."
+        label="리뷰"
+        placeholder="리뷰를 작성하세요..."
         showCount
         maxLength={500}
         value={value}
@@ -395,8 +395,8 @@ export const WithCount: Story = {
 export const NoResize: Story = {
   render: () => (
     <Textarea
-      label="Comment"
-      placeholder="Fixed size textarea..."
+      label="댓글"
+      placeholder="고정 크기 텍스트 영역..."
       resize="none"
       minRows={4}
     />
@@ -412,13 +412,13 @@ export const LimitedRows: Story = {
 
     return (
       <Textarea
-        label="Notes"
-        placeholder="Limited rows..."
+        label="메모"
+        placeholder="행 수 제한..."
         minRows={2}
         maxRows={5}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        caption="Minimum 2 rows, maximum 5 rows"
+        caption="최소 2행, 최대 5행"
       />
     );
   },
@@ -430,10 +430,10 @@ export const LimitedRows: Story = {
 export const Required: Story = {
   render: () => (
     <Textarea
-      label="Feedback"
-      placeholder="Your feedback is important..."
+      label="피드백"
+      placeholder="피드백을 입력해주세요..."
       required
-      supportText="Optional"
+      supportText="선택 사항"
     />
   ),
 };
@@ -493,8 +493,8 @@ export const AllStates: Story = {
         placeholder="Default state..."
       />
       <Textarea
-        label="Filled"
-        defaultValue="This textarea has content"
+        label="입력됨"
+        defaultValue="이 텍스트 영역에는 내용이 있습니다"
       />
       <Textarea
         label="Disabled"
@@ -504,12 +504,12 @@ export const AllStates: Story = {
       <Textarea
         label="Error"
         placeholder="Error state..."
-        error="Something went wrong"
+        error="오류가 발생했습니다"
       />
       <Textarea
         label="Success"
         placeholder="Success state..."
-        success="Validated successfully"
+        success="성공적으로 검증되었습니다"
       />
     </div>
   ),
@@ -527,7 +527,7 @@ export const ToolbarStyles: Story = {
       {
         key: 'image',
         icon: ['media', 'image'],
-        label: 'Create image',
+        label: '이미지 생성',
         onClick: () => console.log('Create image'),
       },
     ];
@@ -539,7 +539,7 @@ export const ToolbarStyles: Story = {
             key={style}
             textareaStyle={style}
             label={`Toolbar - ${style}`}
-            placeholder="Ask AI anything..."
+            placeholder="AI에게 무엇이든 물어보세요..."
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onAttach={() => console.log('Attach')}

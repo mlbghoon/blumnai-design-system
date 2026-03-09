@@ -14,7 +14,7 @@ const meta: Meta<typeof StatusDot> = {
     color: {
       control: 'select',
       options: ['green', 'red', 'orange', 'gray'],
-      description: '상태 색상',
+      description: '상태를 나타내는 점의 색상을 설정합니다. green(활성), red(오류), orange(경고), gray(비활성) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'StatusDotColor',
@@ -24,7 +24,7 @@ const meta: Meta<typeof StatusDot> = {
     },
     label: {
       control: 'text',
-      description: '상태 라벨',
+      description: '상태 점 옆에 표시되는 텍스트 라벨입니다. 생략하면 점만 표시됩니다',
       table: {
         type: { summary: 'string' },
       },
@@ -32,7 +32,7 @@ const meta: Meta<typeof StatusDot> = {
     size: {
       control: 'select',
       options: ['sm', 'md'],
-      description: '컴포넌트 크기',
+      description: '상태 점과 라벨의 크기를 설정합니다. sm(작게), md(보통) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'StatusDotSize',
@@ -54,7 +54,7 @@ type Story = StoryObj<typeof StatusDot>;
 export const Default: Story = {
   args: {
     color: 'green',
-    label: 'Active',
+    label: '활성',
     size: 'md',
   },
   parameters: {
@@ -68,10 +68,10 @@ export const Default: Story = {
 export const AllColors: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-12">
-      <StatusDot color="green" label="Active" />
-      <StatusDot color="red" label="Error" />
-      <StatusDot color="orange" label="Warning" />
-      <StatusDot color="gray" label="Inactive" />
+      <StatusDot color="green" label="활성" />
+      <StatusDot color="red" label="오류" />
+      <StatusDot color="orange" label="경고" />
+      <StatusDot color="gray" label="비활성" />
     </div>
   ),
 };
@@ -82,8 +82,8 @@ export const AllColors: Story = {
 export const Sizes: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-12">
-      <StatusDot color="green" label="Small" size="sm" />
-      <StatusDot color="green" label="Medium" size="md" />
+      <StatusDot color="green" label="작게" size="sm" />
+      <StatusDot color="green" label="보통" size="md" />
     </div>
   ),
 };

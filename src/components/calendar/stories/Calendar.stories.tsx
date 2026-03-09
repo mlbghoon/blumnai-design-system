@@ -26,7 +26,7 @@ const meta: Meta<CalendarStoryProps> = {
     mode: {
       control: 'select',
       options: ['single', 'multiple', 'range'],
-      description: '선택 모드',
+      description: '날짜 선택 방식을 설정합니다. single(단일 날짜), multiple(여러 날짜), range(날짜 범위) 중 선택할 수 있습니다',
       table: {
         type: { summary: 'Mode', detail: "'single' | 'multiple' | 'range'" },
       },
@@ -48,7 +48,7 @@ const meta: Meta<CalendarStoryProps> = {
     calendarStyle: {
       control: 'select',
       options: ['default', 'bordered'],
-      description: '캘린더 스타일',
+      description: '캘린더의 시각적 스타일을 설정합니다. default는 테두리 없는 기본 스타일, bordered는 테두리가 있는 스타일입니다',
       table: {
         type: { summary: 'CalendarStyle', detail: "'default' | 'bordered'" },
         defaultValue: { summary: 'bordered' },
@@ -57,7 +57,7 @@ const meta: Meta<CalendarStoryProps> = {
     captionLayout: {
       control: 'select',
       options: ['month-centered', 'month-left', 'label', 'dropdown', 'dropdown-months', 'dropdown-years'],
-      description: '월/년 헤더 표시 방식',
+      description: '캘린더 상단의 월/년 표시 방식을 설정합니다. 중앙 정렬, 왼쪽 정렬, 텍스트, 드롭다운 등 다양한 레이아웃을 선택할 수 있습니다',
       table: {
         type: { summary: 'CaptionLayout', detail: "'month-centered' | 'month-left' | 'label' | 'dropdown' | 'dropdown-months' | 'dropdown-years'" },
         defaultValue: { summary: 'month-centered' },
@@ -65,7 +65,7 @@ const meta: Meta<CalendarStoryProps> = {
     },
     showOutsideDays: {
       control: 'boolean',
-      description: '이전/다음 달 날짜 표시 여부',
+      description: 'true로 설정하면 현재 월 외에 이전/다음 달의 날짜도 흐리게 표시합니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -73,7 +73,7 @@ const meta: Meta<CalendarStoryProps> = {
     },
     numberOfMonths: {
       control: 'number',
-      description: '표시할 월 개수',
+      description: '한 번에 표시할 월의 개수입니다. 2 이상으로 설정하면 여러 달이 나란히 표시됩니다',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '1' },
@@ -81,7 +81,7 @@ const meta: Meta<CalendarStoryProps> = {
     },
     disablePastDates: {
       control: 'boolean',
-      description: '오늘 이전 날짜 비활성화',
+      description: 'true로 설정하면 오늘 이전의 모든 날짜가 선택 불가능하게 비활성화됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -89,7 +89,7 @@ const meta: Meta<CalendarStoryProps> = {
     },
     disableFutureDates: {
       control: 'boolean',
-      description: '오늘 이후 날짜 비활성화',
+      description: 'true로 설정하면 오늘 이후의 모든 날짜가 선택 불가능하게 비활성화됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -97,7 +97,7 @@ const meta: Meta<CalendarStoryProps> = {
     },
     disableWeekends: {
       control: 'boolean',
-      description: '주말(토, 일) 비활성화',
+      description: 'true로 설정하면 토요일과 일요일이 선택 불가능하게 비활성화됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -105,7 +105,7 @@ const meta: Meta<CalendarStoryProps> = {
     },
     maxDaysFromToday: {
       control: 'number',
-      description: '오늘부터 선택 가능한 최대 일수 (0 = 제한 없음)',
+      description: '오늘부터 선택 가능한 최대 일수를 설정합니다. 0이면 제한 없이 모든 미래 날짜를 선택할 수 있습니다',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },

@@ -15,7 +15,7 @@ const meta: Meta<ProgressProps> = {
   argTypes: {
     value: {
       control: 'number',
-      description: '현재 진행률 (0-100). undefined면 불확정 상태',
+      description: '현재 진행률을 0부터 100 사이의 숫자로 설정합니다. 값을 지정하지 않으면 진행률을 알 수 없는 불확정(indeterminate) 상태로 표시됩니다',
       table: {
         type: {
           summary: 'number',
@@ -25,7 +25,7 @@ const meta: Meta<ProgressProps> = {
     },
     max: {
       control: 'number',
-      description: '최대값',
+      description: '진행률의 최대값을 설정합니다. 기본값은 100이며, value가 이 값에 도달하면 100% 완료를 나타냅니다',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '100' },
@@ -34,7 +34,7 @@ const meta: Meta<ProgressProps> = {
     variant: {
       control: 'select',
       options: ['linear', 'dashed'],
-      description: '진행 바 변형',
+      description: '진행 바의 모양을 설정합니다. linear(연속된 막대), dashed(세그먼트로 나뉜 막대) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ProgressVariant',
@@ -66,7 +66,7 @@ const meta: Meta<ProgressProps> = {
         'pink',
         'rose',
       ],
-      description: '진행 바 색상',
+      description: '진행 바의 채워진 부분 색상을 설정합니다. 19가지 색상 중 선택할 수 있으며, 기본값은 gray입니다',
       table: {
         type: {
           summary: 'ProgressColor',
@@ -78,21 +78,21 @@ const meta: Meta<ProgressProps> = {
     },
     label: {
       control: 'text',
-      description: '라벨 텍스트',
+      description: '진행 바 왼쪽 상단에 표시되는 라벨 텍스트입니다. 작업의 이름이나 상태를 나타냅니다',
       table: {
         type: { summary: 'string' },
       },
     },
     showValue: {
       control: 'boolean',
-      description: '진행률 표시 여부',
+      description: 'true로 설정하면 진행 바 오른쪽 상단에 현재 진행률 값(예: "60%")이 표시됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
       },
     },
     formatValue: {
-      description: '값 포맷 함수',
+      description: '진행률 값의 표시 형식을 변경하는 함수입니다. 기본 "%"대신 "3/10 tasks" 같은 커스텀 형식을 사용할 수 있습니다',
       table: {
         type: {
           summary: '(value: number) => string',
@@ -102,14 +102,14 @@ const meta: Meta<ProgressProps> = {
     },
     caption: {
       control: 'text',
-      description: '캡션 텍스트 (진행 바 아래)',
+      description: '진행 바 아래에 표시되는 보조 설명 텍스트입니다. 상세한 진행 정보를 제공합니다 (예: "7개 중 3개 파일 업로드됨")',
       table: {
         type: { summary: 'string' },
       },
     },
     error: {
       control: 'text',
-      description: '에러 상태 또는 메시지',
+      description: '에러 상태를 설정합니다. true로 설정하면 에러 스타일만 적용되고, 문자열을 전달하면 빨간색 에러 메시지가 표시됩니다',
       table: {
         type: {
           summary: 'boolean | string',
@@ -119,7 +119,7 @@ const meta: Meta<ProgressProps> = {
     },
     success: {
       control: 'text',
-      description: '성공 상태 또는 메시지',
+      description: '성공 상태를 설정합니다. true로 설정하면 성공 스타일만 적용되고, 문자열을 전달하면 초록색 성공 메시지가 표시됩니다',
       table: {
         type: {
           summary: 'boolean | string',
@@ -144,7 +144,7 @@ export const Default: Story = {
     max: 100,
     variant: 'linear',
     color: 'gray',
-    label: 'Progress',
+    label: '진행률',
     showValue: true,
     caption: '',
     error: '',
@@ -185,9 +185,9 @@ export const Dashed: Story = {
   render: function Render() {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
-        <Progress variant="dashed" label="Step 3 of 10" showValue value={30} />
-        <Progress variant="dashed" label="Step 7 of 10" showValue value={70} />
-        <Progress variant="dashed" label="Complete" showValue value={100} color="green" />
+        <Progress variant="dashed" label="10단계 중 3단계" showValue value={30} />
+        <Progress variant="dashed" label="10단계 중 7단계" showValue value={70} />
+        <Progress variant="dashed" label="완료" showValue value={100} color="green" />
       </div>
     );
   },
@@ -200,9 +200,9 @@ export const WithLabelAndValue: Story = {
   render: function Render() {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
-        <Progress label="Uploading..." showValue value={45} />
-        <Progress label="Processing" showValue value={80} />
-        <Progress label="Complete" showValue value={100} color="green" />
+        <Progress label="업로드 중..." showValue value={45} />
+        <Progress label="처리 중" showValue value={80} />
+        <Progress label="완료" showValue value={100} color="green" />
       </div>
     );
   },
@@ -218,24 +218,24 @@ export const WithCaption: Story = {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
-          label="Uploading files"
+          label="파일 업로드"
           showValue
           value={45}
-          caption="3 of 7 files uploaded"
+          caption="7개 중 3개 파일 업로드됨"
         />
         <Progress
-          label="Storage"
+          label="저장소"
           showValue
           value={75}
-          caption="75GB of 100GB used"
+          caption="100GB 중 75GB 사용됨"
           color="brand"
         />
         <Progress
           variant="dashed"
-          label="Onboarding"
+          label="온보딩"
           showValue
           value={60}
-          caption="Step 6 of 10 completed"
+          caption="10단계 중 6단계 완료"
         />
       </div>
     );
@@ -249,12 +249,12 @@ export const Colors: Story = {
   render: function Render() {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
-        <Progress color="gray" label="Gray (Default)" showValue value={60} />
+        <Progress color="gray" label="Gray (기본)" showValue value={60} />
         <Progress color="brand" label="Brand" showValue value={60} />
-        <Progress color="blue" label="Blue" showValue value={60} />
-        <Progress color="green" label="Green" showValue value={60} />
-        <Progress color="red" label="Red" showValue value={60} />
-        <Progress color="violet" label="Violet" showValue value={60} />
+        <Progress color="blue" label="파란색" showValue value={60} />
+        <Progress color="green" label="초록색" showValue value={60} />
+        <Progress color="red" label="빨간색" showValue value={60} />
+        <Progress color="violet" label="보라색" showValue value={60} />
       </div>
     );
   },
@@ -284,7 +284,7 @@ export const Indeterminate: Story = {
   render: function Render() {
     return (
       <div style={{ width: 320 }}>
-        <Progress label="Loading..." />
+        <Progress label="로딩 중..." />
       </div>
     );
   },
@@ -308,7 +308,7 @@ export const Animated: Story = {
 
     return (
       <div style={{ width: 320 }}>
-        <Progress label="Downloading..." showValue value={value} color="brand" />
+        <Progress label="다운로드 중..." showValue value={value} color="brand" />
       </div>
     );
   },
@@ -322,16 +322,16 @@ export const CustomFormat: Story = {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
-          label="Storage Used"
+          label="저장소 사용량"
           showValue
           value={75}
           formatValue={(v) => `${v}/100GB`}
         />
         <Progress
-          label="Tasks Completed"
+          label="작업 완료"
           showValue
           value={40}
-          formatValue={(v) => `${Math.round((v / 100) * 10)}/10 tasks`}
+          formatValue={(v) => `${Math.round((v / 100) * 10)}/10개 작업`}
         />
       </div>
     );
@@ -347,7 +347,7 @@ export const DashedEmpty: Story = {
   render: function Render() {
     return (
       <div style={{ width: 320 }}>
-        <Progress variant="dashed" label="Not started" showValue value={0} />
+        <Progress variant="dashed" label="시작 전" showValue value={0} />
       </div>
     );
   },
@@ -363,18 +363,18 @@ export const ErrorState: Story = {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
-          label="Uploading..."
+          label="업로드 중..."
           showValue
           value={45}
           color="red"
-          error="Upload failed. Please try again."
+          error="업로드에 실패했습니다. 다시 시도해 주세요."
         />
         <Progress
           variant="dashed"
-          label="Processing"
+          label="처리 중"
           showValue
           value={30}
-          error="Connection lost"
+          error="연결이 끊어졌습니다"
         />
       </div>
     );
@@ -391,19 +391,19 @@ export const SuccessState: Story = {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
-          label="Upload complete"
+          label="업로드 완료"
           showValue
           value={100}
           color="green"
-          success="All files uploaded successfully"
+          success="모든 파일이 성공적으로 업로드되었습니다"
         />
         <Progress
           variant="dashed"
-          label="Complete"
+          label="완료"
           showValue
           value={100}
           color="green"
-          success="10 of 10 steps completed"
+          success="10단계 중 10단계 완료"
         />
       </div>
     );
@@ -421,24 +421,24 @@ export const ErrorAndSuccessStates: Story = {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
-          label="Normal caption"
+          label="일반 캡션"
           showValue
           value={50}
-          caption="Regular gray caption text"
+          caption="기본 회색 캡션 텍스트"
         />
         <Progress
-          label="Success message"
+          label="성공 메시지"
           showValue
           value={100}
           color="green"
-          success="Completed successfully!"
+          success="성공적으로 완료되었습니다!"
         />
         <Progress
-          label="Error message"
+          label="에러 메시지"
           showValue
           value={35}
           color="red"
-          error="Something went wrong"
+          error="문제가 발생했습니다"
         />
       </div>
     );

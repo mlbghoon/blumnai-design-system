@@ -16,7 +16,7 @@ const meta: Meta<typeof Chip> = {
     variant: {
       control: 'select',
       options: ['default', 'iconOnly'],
-      description: '칩 변형',
+      description: '칩의 표시 형태를 설정합니다. default는 아이콘과 텍스트를 함께 표시하고, iconOnly는 아이콘만 표시합니다',
       table: {
         type: {
           summary: 'ChipVariant',
@@ -30,7 +30,7 @@ const meta: Meta<typeof Chip> = {
     style: {
       control: 'select',
       options: ['default', 'soft', 'ghost', 'ghostMuted'],
-      description: '칩 스타일',
+      description: '칩의 시각적 스타일을 설정합니다. default(테두리+흰색 배경), soft(연한 회색 배경), ghost(투명), ghostMuted(흐린 투명) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ChipStyle',
@@ -46,7 +46,7 @@ const meta: Meta<typeof Chip> = {
     shape: {
       control: 'select',
       options: ['rounded', 'pill'],
-      description: '칩 모양',
+      description: '칩의 외곽선 모양을 설정합니다. rounded는 둥근 모서리, pill은 완전히 둥근 알약 형태입니다',
       table: {
         type: {
           summary: 'ChipShape',
@@ -60,7 +60,7 @@ const meta: Meta<typeof Chip> = {
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: '칩 크기',
+      description: '칩의 크기를 설정합니다. sm(작게), md(보통), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ChipSize',
@@ -70,7 +70,7 @@ const meta: Meta<typeof Chip> = {
     },
     icon: {
       control: 'object',
-      description: '아이콘 타입 튜플',
+      description: '칩에 표시할 아이콘입니다. [카테고리, 이름] 형식의 튜플로 지정합니다',
       table: {
         type: {
           summary: 'IconType',
@@ -81,7 +81,7 @@ const meta: Meta<typeof Chip> = {
     },
     selected: {
       control: 'boolean',
-      description: '선택된 상태',
+      description: 'true로 설정하면 칩이 선택된 상태로 표시되어 강조된 스타일이 적용됩니다',
       table: {
         type: {
           summary: 'boolean',
@@ -91,7 +91,7 @@ const meta: Meta<typeof Chip> = {
     color: {
       control: 'select',
       options: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'],
-      description: '칩 색상',
+      description: '칩의 색상 테마를 설정합니다. 18가지 색상 중 선택할 수 있으며, 기본값은 neutral입니다',
       table: {
         type: {
           summary: 'ChipColor',
@@ -101,7 +101,7 @@ const meta: Meta<typeof Chip> = {
     },
     label: {
       control: 'text',
-      description: '표시할 텍스트 라벨',
+      description: '칩에 표시할 텍스트 라벨입니다. default 변형에서 아이콘 옆에 표시됩니다',
       table: {
         type: {
           summary: 'string',
@@ -123,7 +123,7 @@ type Story = StoryObj<typeof Chip>;
  */
 export const Default: Story = {
   args: {
-    label: 'Chip',
+    label: '칩',
     icon: ['system', 'add'],
     variant: 'default',
     style: 'default',
@@ -157,9 +157,9 @@ export const IconOnly: Story = {
 export const Sizes: Story = {
   render: () => (
     <div className="flex items-center ds-gap-4">
-      <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" size="sm" />
-      <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" size="md" />
-      <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" size="lg" />
+      <Chip label="칩" icon={['business', 'at']} variant="default" style="default" size="sm" />
+      <Chip label="칩" icon={['business', 'at']} variant="default" style="default" size="md" />
+      <Chip label="칩" icon={['business', 'at']} variant="default" style="default" size="lg" />
     </div>
   ),
 };
@@ -171,10 +171,10 @@ export const Styles: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-4">
       <div className="flex items-center ds-gap-4">
-        <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" />
-        <Chip label="Chip" icon={['business', 'at']} variant="default" style="soft" />
-        <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghost" />
-        <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghostMuted" />
+        <Chip label="칩" icon={['business', 'at']} variant="default" style="default" />
+        <Chip label="칩" icon={['business', 'at']} variant="default" style="soft" />
+        <Chip label="칩" icon={['business', 'at']} variant="default" style="ghost" />
+        <Chip label="칩" icon={['business', 'at']} variant="default" style="ghostMuted" />
       </div>
       <div className="flex items-center ds-gap-4">
         <Chip icon={['business', 'at']} variant="iconOnly" style="default" />
@@ -192,8 +192,8 @@ export const Styles: Story = {
 export const Shapes: Story = {
   render: () => (
     <div className="flex items-center ds-gap-4">
-      <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" shape="rounded" />
-      <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" shape="pill" />
+      <Chip label="칩" icon={['business', 'at']} variant="default" style="default" shape="rounded" />
+      <Chip label="칩" icon={['business', 'at']} variant="default" style="default" shape="pill" />
     </div>
   ),
 };
@@ -205,10 +205,10 @@ export const Selected: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-4">
       <div className="flex items-center ds-gap-4">
-        <Chip label="Chip" icon={['business', 'at']} variant="default" style="default" selected />
-        <Chip label="Chip" icon={['business', 'at']} variant="default" style="soft" selected />
-        <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghost" selected />
-        <Chip label="Chip" icon={['business', 'at']} variant="default" style="ghostMuted" selected />
+        <Chip label="칩" icon={['business', 'at']} variant="default" style="default" selected />
+        <Chip label="칩" icon={['business', 'at']} variant="default" style="soft" selected />
+        <Chip label="칩" icon={['business', 'at']} variant="default" style="ghost" selected />
+        <Chip label="칩" icon={['business', 'at']} variant="default" style="ghostMuted" selected />
       </div>
       <div className="flex items-center ds-gap-4">
         <Chip icon={['business', 'at']} variant="iconOnly" style="default" selected />

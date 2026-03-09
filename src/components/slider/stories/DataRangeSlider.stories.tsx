@@ -163,7 +163,7 @@ type Story = StoryObj<DataRangeSliderProps>;
 export const Default: Story = {
   args: {
     color: 'gray',
-    label: 'Data Range',
+    label: '데이터 범위',
     separator: '~',
     min: 0,
     max: 100,
@@ -210,7 +210,7 @@ export const PercentageRange: Story = {
     return (
       <div style={{ width: 320 }}>
         <DataRangeSlider
-          label="Coverage"
+          label="커버리지"
           value={value}
           onChange={setValue}
         />
@@ -228,7 +228,7 @@ export const CustomSeparator: Story = {
     return (
       <div style={{ width: 320 }}>
         <DataRangeSlider
-          label="Range"
+          label="범위"
           separator="to"
           value={value}
           onChange={setValue}
@@ -246,7 +246,7 @@ export const Disabled: Story = {
     return (
       <div style={{ width: 320 }}>
         <DataRangeSlider
-          label="Disabled"
+          label="비활성화"
           defaultValue={[25, 75]}
           chartData={sampleChartData}
           disabled
@@ -269,7 +269,7 @@ export const WithChart: Story = {
     return (
       <div style={{ width: 320 }}>
         <DataRangeSlider
-          label="Distribution"
+          label="분포"
           chartData={chartData}
           value={value}
           onChange={setValue}
@@ -288,7 +288,7 @@ export const WithoutChart: Story = {
     return (
       <div style={{ width: 320 }}>
         <DataRangeSlider
-          label="No Chart"
+          label="차트 없음"
           value={value}
           onChange={setValue}
         />

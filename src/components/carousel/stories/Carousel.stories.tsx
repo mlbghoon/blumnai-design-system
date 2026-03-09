@@ -28,7 +28,7 @@ const meta: Meta<typeof Carousel> = {
     orientation: {
       control: 'select',
       options: ['horizontal', 'vertical'],
-      description: '캐러셀 방향',
+      description: '캐러셀의 슬라이드 방향을 설정합니다. horizontal은 가로, vertical은 세로 방향입니다',
       table: {
         type: {
           summary: 'CarouselOrientation',
@@ -39,14 +39,14 @@ const meta: Meta<typeof Carousel> = {
     },
     gap: {
       control: 'number',
-      description: '슬라이드 간 간격 (px)',
+      description: '슬라이드 사이의 간격을 px 단위로 설정합니다. 기본값은 16px입니다',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '16' },
       },
     },
     opts: {
-      description: 'Embla Carousel 옵션. 슬라이드 정렬, 루프, 드래그 동작 등을 설정합니다.',
+      description: 'Embla Carousel의 세부 옵션입니다. 슬라이드 정렬 위치, 무한 루프, 자유 드래그 등의 동작을 제어할 수 있습니다',
       table: {
         type: {
           summary: 'EmblaOptionsType',
@@ -104,7 +104,7 @@ api?.on('select', () => console.log(api.selectedScrollSnap()));`,
     },
     className: {
       control: 'text',
-      description: '추가 CSS 클래스',
+      description: '캐러셀 루트 요소에 추가할 CSS 클래스입니다',
       table: {
         type: { summary: 'string' },
       },
@@ -426,7 +426,7 @@ export const WithApi: Story = {
         </Carousel>
         <div className="padding-y-16 text-center">
           <span className="font-body size-sm text-subtle">
-            Slide {current} of {count}
+            슬라이드 {current} / {count}
           </span>
         </div>
         <div className="flex ds-gap-8 justify-center">
@@ -435,14 +435,14 @@ export const WithApi: Story = {
             onClick={() => api?.scrollTo(0)}
             className="padding-x-12 padding-y-6 bg-subtle rounded-md font-body size-sm text-default hover:bg-muted transition-colors"
           >
-            First
+            처음
           </button>
           <button
             type="button"
             onClick={() => api?.scrollTo(count - 1)}
             className="padding-x-12 padding-y-6 bg-subtle rounded-md font-body size-sm text-default hover:bg-muted transition-colors"
           >
-            Last
+            마지막
           </button>
         </div>
       </div>
@@ -657,7 +657,7 @@ export const AutoPlayWithControls: Story = {
               onClick={toggleAutoplay}
               className="padding-x-12 padding-y-6 bg-subtle rounded-md font-body size-sm text-default hover:bg-muted transition-colors"
             >
-              {isPlaying ? 'Pause' : 'Play'}
+              {isPlaying ? '일시정지' : '재생'}
             </button>
           </div>
         </Carousel>

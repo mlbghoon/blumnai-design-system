@@ -17,7 +17,7 @@ const meta: Meta<CheckboxListProps> = {
     listStyle: {
       control: 'select',
       options: ['default', 'bordered'],
-      description: '리스트 스타일',
+      description: '리스트의 외관 스타일을 설정합니다. default(기본 간격), bordered(구분선 포함) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'CheckboxListStyle',
@@ -29,7 +29,7 @@ const meta: Meta<CheckboxListProps> = {
     checkboxStyle: {
       control: 'select',
       options: ['default', 'with-shadow'],
-      description: '체크박스 스타일',
+      description: '체크박스의 외관 스타일을 설정합니다. default(기본), with-shadow(그림자 효과) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'CheckboxStyle',
@@ -40,7 +40,7 @@ const meta: Meta<CheckboxListProps> = {
     },
     items: {
       control: 'object',
-      description: '체크박스 아이템 목록',
+      description: '체크박스 리스트에 표시할 아이템 배열입니다. 각 아이템은 id, title을 필수로 가지며 description, checked, disabled 등을 설정할 수 있습니다',
       table: {
         type: {
           summary: 'CheckboxListItem[]',
@@ -56,7 +56,7 @@ const meta: Meta<CheckboxListProps> = {
     },
     onItemChange: {
       action: 'itemChange',
-      description: '아이템 체크 상태 변경 콜백',
+      description: '아이템의 체크 상태가 변경될 때 호출되는 콜백 함수입니다. id와 새로운 체크 상태를 인자로 받습니다',
       table: { type: { summary: '(id: string, checked: boolean) => void' } },
     },
   },
@@ -92,9 +92,9 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const [items, setItems] = useState<CheckboxListItem[]>([
-      { id: '1', title: 'Option 1', description: 'Description for option 1', checked: true },
-      { id: '2', title: 'Option 2', description: 'Description for option 2', checked: false },
-      { id: '3', title: 'Option 3', checked: false },
+      { id: '1', title: '옵션 1', description: '옵션 1에 대한 설명', checked: true },
+      { id: '2', title: '옵션 2', description: '옵션 2에 대한 설명', checked: false },
+      { id: '3', title: '옵션 3', checked: false },
     ]);
 
     const handleItemChange = (id: string, checked: boolean) => {
@@ -124,9 +124,9 @@ export const Default: Story = {
 export const StyleDefault: Story = {
   args: {
     items: [
-      { id: '1', title: 'Option 1', description: 'Description text', checked: false },
-      { id: '2', title: 'Option 2', description: 'Description text', checked: true },
-      { id: '3', title: 'Option 3', checked: false },
+      { id: '1', title: '옵션 1', description: '설명 텍스트', checked: false },
+      { id: '2', title: '옵션 2', description: '설명 텍스트', checked: true },
+      { id: '3', title: '옵션 3', checked: false },
     ],
     listStyle: 'default',
   },
@@ -138,9 +138,9 @@ export const StyleDefault: Story = {
 export const StyleBordered: Story = {
   args: {
     items: [
-      { id: '1', title: 'Option 1', description: 'Description text', checked: false },
-      { id: '2', title: 'Option 2', description: 'Description text', checked: true },
-      { id: '3', title: 'Option 3', checked: false },
+      { id: '1', title: '옵션 1', description: '설명 텍스트', checked: false },
+      { id: '2', title: '옵션 2', description: '설명 텍스트', checked: true },
+      { id: '3', title: '옵션 3', checked: false },
     ],
     listStyle: 'bordered',
   },
@@ -156,9 +156,9 @@ export const StyleBordered: Story = {
 export const TitleOnly: Story = {
   args: {
     items: [
-      { id: '1', title: 'Email notifications', checked: true },
-      { id: '2', title: 'Push notifications', checked: false },
-      { id: '3', title: 'SMS notifications', checked: false },
+      { id: '1', title: '이메일 알림', checked: true },
+      { id: '2', title: '푸시 알림', checked: false },
+      { id: '3', title: 'SMS 알림', checked: false },
     ],
   },
 };
@@ -169,9 +169,9 @@ export const TitleOnly: Story = {
 export const WithDescriptions: Story = {
   args: {
     items: [
-      { id: '1', title: 'Email notifications', description: 'Receive updates via email', checked: true },
-      { id: '2', title: 'Push notifications', description: 'Get real-time alerts on your device', checked: false },
-      { id: '3', title: 'SMS notifications', description: 'Receive text messages for important updates', checked: false },
+      { id: '1', title: '이메일 알림', description: '이메일로 업데이트를 수신합니다', checked: true },
+      { id: '2', title: '푸시 알림', description: '기기에서 실시간 알림을 받습니다', checked: false },
+      { id: '3', title: 'SMS 알림', description: '중요한 업데이트를 문자 메시지로 받습니다', checked: false },
     ],
   },
 };
@@ -186,10 +186,10 @@ export const WithDescriptions: Story = {
 export const WithDisabledItems: Story = {
   args: {
     items: [
-      { id: '1', title: 'Available option', checked: false },
-      { id: '2', title: 'Disabled unchecked', checked: false, disabled: true },
-      { id: '3', title: 'Disabled checked', checked: true, disabled: true },
-      { id: '4', title: 'Another available option', checked: true },
+      { id: '1', title: '사용 가능한 옵션', checked: false },
+      { id: '2', title: '비활성화 미선택', checked: false, disabled: true },
+      { id: '3', title: '비활성화 선택됨', checked: true, disabled: true },
+      { id: '4', title: '다른 사용 가능한 옵션', checked: true },
     ],
   },
 };
@@ -206,9 +206,9 @@ export const WithDisabledItems: Story = {
 export const SelectAll: Story = {
   render: function Render() {
     const [items, setItems] = useState<CheckboxListItem[]>([
-      { id: '1', title: 'Option 1', checked: true },
-      { id: '2', title: 'Option 2', checked: false },
-      { id: '3', title: 'Option 3', checked: true },
+      { id: '1', title: '옵션 1', checked: true },
+      { id: '2', title: '옵션 2', checked: false },
+      { id: '3', title: '옵션 3', checked: true },
     ]);
 
     const allChecked = items.every((item) => item.checked);
@@ -235,7 +235,7 @@ export const SelectAll: Story = {
         <Checkbox
           checked={parentState}
           onCheckedChange={handleSelectAll}
-          label="Select All"
+          label="전체 선택"
         />
         <div style={{ marginLeft: '26px' }}>
           <CheckboxList

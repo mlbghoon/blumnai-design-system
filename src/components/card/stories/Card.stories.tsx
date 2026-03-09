@@ -23,7 +23,7 @@ const meta: Meta<typeof Card> = {
     variant: {
       control: 'select',
       options: ['default', 'outline', 'ghost'],
-      description: '카드 스타일 변형',
+      description: '카드의 시각적 스타일을 설정합니다. default(그림자+테두리), outline(테두리만), ghost(배경만) 중 선택할 수 있습니다',
       table: {
         type: { summary: "'default' | 'outline' | 'ghost'" },
         defaultValue: { summary: 'default' },

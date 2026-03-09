@@ -15,7 +15,7 @@ const meta = {
     size: {
       control: 'select',
       options: ['2xs', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'],
-      description: '그룹 내 모든 아바타의 크기',
+      description: '그룹 내 모든 아바타의 크기를 설정합니다. 2xs(가장 작게)부터 3xl(가장 크게)까지 선택할 수 있습니다',
       table: {
         type: {
           summary: 'AvatarSize',
@@ -26,7 +26,7 @@ const meta = {
     stacking: {
       control: 'select',
       options: ['last-on-top', 'first-on-top'],
-      description: '아바타의 겹침 순서',
+      description: '아바타가 겹쳐 표시될 때의 순서를 설정합니다. last-on-top은 마지막 아바타가 위에, first-on-top은 첫 번째 아바타가 위에 표시됩니다',
       table: {
         type: {
           summary: 'AvatarGroupStacking',
@@ -39,7 +39,7 @@ const meta = {
     },
     avatars: {
       control: 'object',
-      description: '아바타 props 배열',
+      description: '그룹에 표시할 아바타 목록입니다. 각 항목에 variant, initials, src 등을 설정할 수 있습니다',
       table: {
         type: {
           summary: 'AvatarProps[]',
@@ -57,7 +57,7 @@ const meta = {
     },
     max: {
       control: 'number',
-      description: '+N 표시 전 표시할 최대 아바타 수',
+      description: '한 번에 표시할 최대 아바타 수입니다. 초과하는 아바타는 "+N" 형태로 요약 표시됩니다',
       table: {
         type: {
           summary: 'number',

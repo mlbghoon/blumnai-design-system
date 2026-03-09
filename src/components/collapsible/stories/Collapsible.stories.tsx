@@ -15,7 +15,7 @@ const meta: Meta<typeof Collapsible> = {
   argTypes: {
     defaultOpen: {
       control: 'boolean',
-      description: '초기 열림 상태',
+      description: 'true로 설정하면 컴포넌트가 초기에 펼쳐진 상태로 렌더링됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -23,7 +23,7 @@ const meta: Meta<typeof Collapsible> = {
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 컴포넌트가 비활성화되어 접거나 펼 수 없습니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -63,7 +63,7 @@ export const Default: Story = {
         className={`w-[300px] ${args.disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         <div className="flex items-center justify-between padding-12 rounded-md border-default">
-          <span className="size-sm font-body font-medium">Toggle Content</span>
+          <span className="size-sm font-body font-medium">콘텐츠 토글</span>
           <CollapsibleTrigger asChild>
             <button
               className={`padding-4 rounded-md hover:bg-muted/50 transition-colors ${args.disabled ? 'pointer-events-none' : ''}`}
@@ -80,8 +80,8 @@ export const Default: Story = {
         <CollapsibleContent>
           <div className="padding-12 margin-t-16 rounded-md border-default bg-muted/30">
             <p className="size-sm font-body text-muted line-height-leading-5">
-              This content can be collapsed and expanded. It animates smoothly
-              when toggling the visibility.
+              이 콘텐츠는 접거나 펼 수 있습니다. 토글 시 부드러운 애니메이션이
+              적용됩니다.
             </p>
           </div>
         </CollapsibleContent>
@@ -107,7 +107,7 @@ export const MultipleItems: Story = {
       >
         <div className="flex items-center justify-between padding-12 rounded-md border-default">
           <span className="size-sm font-body font-medium">
-            @peduarte starred 3 repositories
+            @peduarte가 3개의 저장소에 스타를 눌렀습니다
           </span>
           <CollapsibleTrigger asChild>
             <button className="padding-4 rounded-md hover:bg-muted/50 transition-colors">
@@ -145,7 +145,7 @@ export const DefaultOpen: Story = {
     return (
       <Collapsible defaultOpen className="w-[300px]">
         <div className="flex items-center justify-between padding-12 rounded-md border-default">
-          <span className="size-sm font-body font-medium">Settings</span>
+          <span className="size-sm font-body font-medium">설정</span>
           <CollapsibleTrigger asChild>
             <button className="padding-4 rounded-md hover:bg-muted/50 transition-colors">
               <Icon iconType={['system', 'settings']} size={16} />
@@ -156,15 +156,15 @@ export const DefaultOpen: Story = {
           <div className="flex flex-col ds-gap-8 padding-12 margin-t-16 rounded-md border-default">
             <label className="flex items-center ds-gap-8">
               <input type="checkbox" defaultChecked />
-              <span className="size-sm font-body">Enable notifications</span>
+              <span className="size-sm font-body">알림 활성화</span>
             </label>
             <label className="flex items-center ds-gap-8">
               <input type="checkbox" />
-              <span className="size-sm font-body">Dark mode</span>
+              <span className="size-sm font-body">다크 모드</span>
             </label>
             <label className="flex items-center ds-gap-8">
               <input type="checkbox" defaultChecked />
-              <span className="size-sm font-body">Auto-save</span>
+              <span className="size-sm font-body">자동 저장</span>
             </label>
           </div>
         </CollapsibleContent>

@@ -16,7 +16,7 @@ const meta: Meta<typeof AvatarButton> = {
     buttonStyle: {
       control: 'select',
       options: ['default', 'dashed', 'soft'],
-      description: '아바타 버튼의 스타일 변형',
+      description: '아바타 버튼의 시각적 스타일을 설정합니다. default(기본 테두리), dashed(점선 테두리), soft(부드러운 배경) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'AvatarButtonStyle',
@@ -27,7 +27,7 @@ const meta: Meta<typeof AvatarButton> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '아바타 버튼의 크기',
+      description: '아바타 버튼의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'AvatarButtonSize',
@@ -37,21 +37,21 @@ const meta: Meta<typeof AvatarButton> = {
     },
     avatar: {
       control: 'text',
-      description: '아바타 이미지 URL',
+      description: '아바타에 표시할 이미지의 URL 경로입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     alt: {
       control: 'text',
-      description: '아바타 이미지의 대체 텍스트',
+      description: '아바타 이미지를 불러올 수 없을 때 표시되는 대체 텍스트입니다. 접근성을 위해 제공하는 것이 좋습니다',
       table: {
         type: { summary: 'string' },
       },
     },
     label: {
       control: 'text',
-      description: '아바타 버튼의 라벨 텍스트',
+      description: '아바타 옆에 표시되는 라벨 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
@@ -71,7 +71,7 @@ const meta: Meta<typeof AvatarButton> = {
     },
     disabled: {
       control: 'boolean',
-      description: '버튼 비활성화 여부',
+      description: 'true로 설정하면 버튼이 비활성화되어 클릭할 수 없고, 시각적으로 흐리게 표시됩니다',
       table: {
         type: { summary: 'boolean' },
       },
@@ -115,7 +115,7 @@ type Story = StoryObj<typeof AvatarButton>;
 export const Default: Story = {
   args: {
     avatar: avatarPlaceholderIcon,
-    label: 'Button',
+    label: '버튼',
     buttonStyle: 'default',
     size: 'lg',
     alt: undefined,

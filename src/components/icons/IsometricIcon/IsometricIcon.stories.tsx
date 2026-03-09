@@ -93,7 +93,7 @@ const meta: Meta<typeof IsometricIcon> = {
     iconType: {
       control: 'select',
       options: iconTypeOptions,
-      description: '표시할 아이소메트릭 아이콘 타입',
+      description: '표시할 아이소메트릭 아이콘의 타입을 설정합니다. 150개 이상의 3D 스타일 아이콘 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'IsometricIconType',
@@ -105,7 +105,7 @@ const meta: Meta<typeof IsometricIcon> = {
     view: {
       control: 'select',
       options: ['top', 'left'],
-      description: '아이소메트릭 아이콘의 시점',
+      description: '아이소메트릭 아이콘의 시점을 설정합니다. top(위에서), left(왼쪽에서) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'IsometricView',
@@ -116,7 +116,7 @@ const meta: Meta<typeof IsometricIcon> = {
     },
     size: {
       control: { type: 'number', min: 12, max: 96, step: 4 },
-      description: '아이콘 크기 (픽셀)',
+      description: '아이콘의 크기를 픽셀 단위로 설정합니다. 기본값은 24px입니다',
       table: {
         type: {
           summary: 'number',
@@ -127,7 +127,7 @@ const meta: Meta<typeof IsometricIcon> = {
     fillColor: {
       control: 'select',
       options: fillColorOptions,
-      description: '채우기 색상 토큰',
+      description: '아이콘의 채우기 색상을 설정합니다. --bg-{token} CSS 변수에 매핑되는 디자인 시스템 색상 토큰을 사용합니다',
       table: {
         type: {
           summary: 'IsometricFillColor',
@@ -139,7 +139,7 @@ const meta: Meta<typeof IsometricIcon> = {
     strokeColor: {
       control: 'select',
       options: strokeColorOptions,
-      description: '테두리 색상 토큰',
+      description: '아이콘의 테두리 색상을 설정합니다. --border-{token} CSS 변수에 매핑되는 디자인 시스템 색상 토큰을 사용합니다',
       table: {
         type: {
           summary: 'IsometricStrokeColor',

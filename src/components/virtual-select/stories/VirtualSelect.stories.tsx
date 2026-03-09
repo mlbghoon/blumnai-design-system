@@ -16,7 +16,7 @@ const generateOptionsWithDescription = (count: number): SelectOption[] =>
   Array.from({ length: count }, (_, i) => ({
     id: `option-${i + 1}`,
     label: `Option ${i + 1}`,
-    description: `Description for option ${i + 1}`,
+    description: `옵션 ${i + 1}에 대한 설명`,
   }));
 
 const generateOptionsWithIcons = (count: number): SelectOption[] => {
@@ -51,7 +51,7 @@ const meta: Meta<typeof VirtualSelect> = {
     variant: {
       control: 'select',
       options: ['single', 'multi'],
-      description: '선택 방식 (단일/다중)',
+      description: '선택 방식을 설정합니다. single(단일 선택), multi(다중 선택) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'VirtualSelectVariant',
@@ -62,7 +62,7 @@ const meta: Meta<typeof VirtualSelect> = {
     selectStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '스타일 변형',
+      description: '컴포넌트의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'SelectStyle',
@@ -73,7 +73,7 @@ const meta: Meta<typeof VirtualSelect> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '크기',
+      description: '컴포넌트의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'SelectSize',
@@ -83,52 +83,52 @@ const meta: Meta<typeof VirtualSelect> = {
     },
     label: {
       control: 'text',
-      description: '라벨 텍스트',
+      description: '컴포넌트 위에 표시되는 제목 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
     placeholder: {
       control: 'text',
-      description: '플레이스홀더 텍스트',
+      description: '값이 선택되지 않았을 때 입력 영역에 표시되는 안내 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
       table: { type: { summary: 'boolean' } },
     },
     searchable: {
       control: 'boolean',
-      description: '검색 가능 여부',
+      description: 'true로 설정하면 드롭다운 상단에 검색 입력 필드가 표시되어 옵션을 필터링할 수 있습니다',
       table: { type: { summary: 'boolean' } },
     },
     clearable: {
       control: 'boolean',
-      description: '선택 초기화 버튼 표시 여부',
+      description: 'true로 설정하면 선택된 값을 초기화하는 X 버튼이 표시됩니다',
       table: { type: { summary: 'boolean' } },
     },
     loading: {
       control: 'boolean',
-      description: '로딩 상태',
+      description: 'true로 설정하면 로딩 스피너가 표시됩니다. 데이터를 불러오는 중일 때 사용합니다',
       table: { type: { summary: 'boolean' } },
     },
     error: {
       control: 'text',
-      description: '에러 상태 또는 메시지',
+      description: '에러 메시지를 입력하면 빨간색 테두리와 함께 아래에 에러 메시지가 표시됩니다',
       table: { type: { summary: 'boolean | string' } },
     },
     itemHeight: {
       control: 'number',
-      description: '각 아이템의 높이 (px)',
+      description: '가상 스크롤에서 각 아이템의 높이를 픽셀 단위로 설정합니다. 정확한 높이를 지정해야 스크롤이 올바르게 동작합니다',
       table: { type: { summary: 'number' } },
     },
     overscan: {
       control: 'number',
-      description: '화면 밖에 미리 렌더링할 아이템 수',
+      description: '화면에 보이는 영역 밖에 미리 렌더링할 아이템 수입니다. 값이 클수록 스크롤이 부드럽지만 성능에 영향을 줍니다',
       table: { type: { summary: 'number' } },
     },
     maxHeight: {
       control: 'number',
-      description: '드롭다운 최대 높이 (px)',
+      description: '드롭다운 메뉴의 최대 높이를 픽셀 단위로 설정합니다. 옵션이 많을 경우 스크롤이 생깁니다',
       table: { type: { summary: 'number | string' } },
     },
   },
@@ -148,8 +148,8 @@ export const Default: Story = {
     variant: 'single',
     selectStyle: 'default',
     size: 'sm',
-    label: 'Virtual Select',
-    placeholder: 'Select an option...',
+    label: '가상 선택',
+    placeholder: '옵션을 선택하세요...',
     disabled: false,
     searchable: false,
     clearable: false,
@@ -201,8 +201,8 @@ export const MultiSelect: Story = {
     return (
       <VirtualSelect
         variant="multi"
-        label="Multi Select"
-        placeholder="Select options..."
+        label="다중 선택"
+        placeholder="옵션을 선택하세요..."
         options={options1000}
         value={value}
         onChange={setValue}
@@ -225,8 +225,8 @@ export const Searchable: Story = {
     return (
       <VirtualSelect
         variant="single"
-        label="Searchable"
-        placeholder="Search options..."
+        label="검색 가능"
+        placeholder="옵션 검색..."
         options={options1000}
         value={value}
         onChange={setValue}
@@ -248,8 +248,8 @@ export const WithDescriptions: Story = {
     return (
       <VirtualSelect
         variant="single"
-        label="With Descriptions"
-        placeholder="Select an option..."
+        label="설명 포함"
+        placeholder="옵션을 선택하세요..."
         options={optionsWithDesc500}
         value={value}
         onChange={setValue}
@@ -271,8 +271,8 @@ export const WithIcons: Story = {
     return (
       <VirtualSelect
         variant="single"
-        label="With Icons"
-        placeholder="Select an option..."
+        label="아이콘 포함"
+        placeholder="옵션을 선택하세요..."
         options={optionsWithIcons1000}
         value={value}
         onChange={setValue}
@@ -293,8 +293,8 @@ export const SelectAll: Story = {
     return (
       <VirtualSelect
         variant="multi"
-        label="Select All"
-        placeholder="Select options..."
+        label="전체 선택"
+        placeholder="옵션을 선택하세요..."
         options={generateOptions(100)}
         value={value}
         onChange={setValue}
@@ -319,12 +319,12 @@ export const PerformanceDemo: Story = {
       <div className="flex flex-col ds-gap-24">
         <div>
           <p className="font-body size-sm text-default margin-y-4">
-            VirtualSelect — 5,000 options (virtualized, instant open)
+            VirtualSelect — 5,000개 옵션 (가상화, 즉시 열림)
           </p>
           <VirtualSelect
             variant="single"
-            label="VirtualSelect (5,000)"
-            placeholder="Open instantly..."
+            label="VirtualSelect (5,000개)"
+            placeholder="즉시 열림..."
             options={options5000}
             value={virtualValue}
             onChange={setVirtualValue}
@@ -334,12 +334,12 @@ export const PerformanceDemo: Story = {
         </div>
         <div>
           <p className="font-body size-sm text-default margin-y-4">
-            Regular Select — 5,000 options (all DOM nodes, may lag)
+            일반 Select — 5,000개 옵션 (모든 DOM 노드, 지연 가능)
           </p>
           <Select
             variant="default"
-            label="Select (5,000)"
-            placeholder="May be slow..."
+            label="Select (5,000개)"
+            placeholder="느릴 수 있음..."
             options={options5000}
             value={selectValue}
             onChange={setSelectValue}
@@ -368,7 +368,7 @@ export const Styles: Story = {
         <VirtualSelect
           variant="single"
           selectStyle="default"
-          label="Default Style"
+          label="기본 스타일"
           options={opts}
           value={v1}
           onChange={setV1}
@@ -377,7 +377,7 @@ export const Styles: Story = {
         <VirtualSelect
           variant="single"
           selectStyle="shadow"
-          label="Shadow Style"
+          label="그림자 스타일"
           options={opts}
           value={v2}
           onChange={setV2}
@@ -386,7 +386,7 @@ export const Styles: Story = {
         <VirtualSelect
           variant="single"
           selectStyle="soft"
-          label="Soft Style"
+          label="소프트 스타일"
           options={opts}
           value={v3}
           onChange={setV3}
@@ -404,8 +404,8 @@ export const Disabled: Story = {
   render: () => (
     <VirtualSelect
       variant="single"
-      label="Disabled"
-      placeholder="Cannot interact..."
+      label="비활성화"
+      placeholder="조작할 수 없습니다..."
       options={generateOptions(100)}
       disabled
       width={320}
@@ -422,12 +422,12 @@ export const Error: Story = {
     return (
       <VirtualSelect
         variant="single"
-        label="Error State"
-        placeholder="Select an option..."
+        label="에러 상태"
+        placeholder="옵션을 선택하세요..."
         options={generateOptions(100)}
         value={value}
         onChange={setValue}
-        error="This field is required"
+        error="필수 입력 항목입니다"
         width={320}
       />
     );
@@ -441,8 +441,8 @@ export const Loading: Story = {
   render: () => (
     <VirtualSelect
       variant="single"
-      label="Loading"
-      placeholder="Loading options..."
+      label="로딩"
+      placeholder="옵션 로딩 중..."
       options={[]}
       loading
       width={320}

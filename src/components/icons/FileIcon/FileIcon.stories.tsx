@@ -25,7 +25,7 @@ const meta: Meta<typeof FileIcon> = {
     fileType: {
       control: 'select',
       options: fileVariants,
-      description: '표시할 파일 타입 변형',
+      description: '표시할 파일 아이콘의 타입을 설정합니다. 압축, 코드, 이미지, 음악, PDF, 썸네일, 비디오 등을 선택할 수 있습니다',
       table: {
         type: {
           summary: 'FileVariant',
@@ -36,7 +36,7 @@ const meta: Meta<typeof FileIcon> = {
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: '아이콘 크기',
+      description: '파일 아이콘의 크기를 설정합니다. sm(작게), md(보통), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'FileSize',
@@ -47,7 +47,7 @@ const meta: Meta<typeof FileIcon> = {
     },
     src: {
       control: 'text',
-      description: '썸네일 타입용 이미지 소스 URL',
+      description: '썸네일 파일 타입에서 표시할 이미지의 소스 URL입니다. thumbnail-1:1 및 thumbnail-4:3 타입에만 적용됩니다',
       table: {
         type: {
           summary: 'string',
@@ -124,7 +124,7 @@ export const Thumbnails: Story = {
     return (
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '48px' }}>
         <div>
-          <h4 style={{ marginBottom: '16px', color: 'var(--text-subtle)' }}>1:1 Thumbnail</h4>
+          <h4 style={{ marginBottom: '16px', color: 'var(--text-subtle)' }}>1:1 썸네일</h4>
           <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-end' }}>
             {sizes.map((size) => (
               <div key={size} style={{ textAlign: 'center' }}>
@@ -139,7 +139,7 @@ export const Thumbnails: Story = {
           </div>
         </div>
         <div>
-          <h4 style={{ marginBottom: '16px', color: 'var(--text-subtle)' }}>4:3 Thumbnail</h4>
+          <h4 style={{ marginBottom: '16px', color: 'var(--text-subtle)' }}>4:3 썸네일</h4>
           <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-end' }}>
             {sizes.map((size) => (
               <div key={size} style={{ textAlign: 'center' }}>

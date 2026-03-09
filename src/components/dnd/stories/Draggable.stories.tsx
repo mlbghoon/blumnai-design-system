@@ -194,9 +194,9 @@ export const WithOverlay: Story = {
     const [activeItem, setActiveItem] = useState<DndItem | null>(null);
 
     const items = [
-      { id: 'card-1', title: 'Card 1', color: 'bg-blue-50' },
-      { id: 'card-2', title: 'Card 2', color: 'bg-green-50' },
-      { id: 'card-3', title: 'Card 3', color: 'bg-purple-50' },
+      { id: 'card-1', title: '카드 1', color: 'bg-blue-50' },
+      { id: 'card-2', title: '카드 2', color: 'bg-green-50' },
+      { id: 'card-3', title: '카드 3', color: 'bg-purple-50' },
     ];
 
     return (

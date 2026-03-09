@@ -33,7 +33,7 @@ const meta: Meta<ContextMenuStoryProps> = {
   argTypes: {
     alignOffset: {
       control: 'number',
-      description: '[ContextMenuContent] 정렬 오프셋 (px)',
+      description: '[ContextMenuContent] 컨텍스트 메뉴의 정렬 위치에서 추가 오프셋을 픽셀 단위로 설정합니다',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
@@ -42,7 +42,7 @@ const meta: Meta<ContextMenuStoryProps> = {
     },
     width: {
       control: 'text',
-      description: '[ContextMenuContent] 컨텍스트 메뉴의 커스텀 너비 (예: "200", "300px")',
+      description: '[ContextMenuContent] 컨텍스트 메뉴 패널의 너비를 직접 지정합니다. 숫자 또는 CSS 단위가 포함된 문자열을 사용할 수 있습니다',
       table: {
         type: { summary: 'string | number' },
         category: 'ContextMenuContent',
@@ -84,20 +84,20 @@ export const Default: Story = {
           alignOffset={args.alignOffset}
           width={args.width}
         >
-          <ContextMenuLabel>Actions</ContextMenuLabel>
+          <ContextMenuLabel>작업</ContextMenuLabel>
           <ContextMenuSeparator />
           <ContextMenuItem shortcut="⌘C">
-            Copy
+            복사
           </ContextMenuItem>
           <ContextMenuItem shortcut="⌘V">
-            Paste
+            붙여넣기
           </ContextMenuItem>
           <ContextMenuItem shortcut="⌘X">
-            Cut
+            잘라내기
           </ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuItem shortcut="⌫" destructive>
-            Delete
+            삭제
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
@@ -161,25 +161,25 @@ export const WithCheckboxItems: Story = {
           우클릭하세요
         </ContextMenuTrigger>
         <ContextMenuContent width={200}>
-          <ContextMenuLabel>View</ContextMenuLabel>
+          <ContextMenuLabel>보기</ContextMenuLabel>
           <ContextMenuSeparator />
           <ContextMenuCheckboxItem
             checked={showStatusBar}
             onCheckedChange={setShowStatusBar}
           >
-            Status Bar
+            상태 표시줄
           </ContextMenuCheckboxItem>
           <ContextMenuCheckboxItem
             checked={showActivityBar}
             onCheckedChange={setShowActivityBar}
           >
-            Activity Bar
+            활동 표시줄
           </ContextMenuCheckboxItem>
           <ContextMenuCheckboxItem
             checked={showPanel}
             onCheckedChange={setShowPanel}
           >
-            Panel
+            패널
           </ContextMenuCheckboxItem>
         </ContextMenuContent>
       </ContextMenu>
@@ -202,12 +202,12 @@ export const WithRadioItems: Story = {
           우클릭하세요
         </ContextMenuTrigger>
         <ContextMenuContent width={200}>
-          <ContextMenuLabel>People</ContextMenuLabel>
+          <ContextMenuLabel>담당자</ContextMenuLabel>
           <ContextMenuSeparator />
           <ContextMenuRadioGroup value={person} onValueChange={setPerson}>
-            <ContextMenuRadioItem value="pedro">Pedro Duarte</ContextMenuRadioItem>
-            <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
-            <ContextMenuRadioItem value="john">John Doe</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="pedro">김철수</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="colm">이영희</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="john">박지민</ContextMenuRadioItem>
           </ContextMenuRadioGroup>
         </ContextMenuContent>
       </ContextMenu>
@@ -236,21 +236,21 @@ export const WithSubmenu: Story = {
           </ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuSub>
-            <ContextMenuSubTrigger>More Actions</ContextMenuSubTrigger>
+            <ContextMenuSubTrigger>추가 작업</ContextMenuSubTrigger>
             <ContextMenuSubContent>
-              <ContextMenuItem>Rename</ContextMenuItem>
-              <ContextMenuItem>Duplicate</ContextMenuItem>
-              <ContextMenuItem>Move to...</ContextMenuItem>
+              <ContextMenuItem>이름 변경</ContextMenuItem>
+              <ContextMenuItem>복제</ContextMenuItem>
+              <ContextMenuItem>이동...</ContextMenuItem>
               <ContextMenuSeparator />
-              <ContextMenuItem>Archive</ContextMenuItem>
+              <ContextMenuItem>보관</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSub>
-            <ContextMenuSubTrigger>Share</ContextMenuSubTrigger>
+            <ContextMenuSubTrigger>공유</ContextMenuSubTrigger>
             <ContextMenuSubContent>
-              <ContextMenuItem leadIcon={['business', 'mail']}>Email</ContextMenuItem>
-              <ContextMenuItem leadIcon={['system', 'share']}>Share</ContextMenuItem>
-              <ContextMenuItem leadIcon={['editor', 'link']}>Copy Link</ContextMenuItem>
+              <ContextMenuItem leadIcon={['business', 'mail']}>이메일</ContextMenuItem>
+              <ContextMenuItem leadIcon={['system', 'share']}>공유</ContextMenuItem>
+              <ContextMenuItem leadIcon={['editor', 'link']}>링크 복사</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSeparator />
@@ -278,54 +278,54 @@ export const FileExplorerExample: Story = {
           파일 영역 - 우클릭하세요
         </ContextMenuTrigger>
         <ContextMenuContent width={240}>
-          <ContextMenuLabel>View</ContextMenuLabel>
+          <ContextMenuLabel>보기</ContextMenuLabel>
           <ContextMenuRadioGroup value={viewMode} onValueChange={setViewMode}>
             <ContextMenuRadioItem value="list">
-              List View
+              목록 보기
             </ContextMenuRadioItem>
             <ContextMenuRadioItem value="grid">
-              Grid View
+              격자 보기
             </ContextMenuRadioItem>
             <ContextMenuRadioItem value="column">
-              Column View
+              열 보기
             </ContextMenuRadioItem>
           </ContextMenuRadioGroup>
           <ContextMenuSeparator />
-          <ContextMenuLabel>Sort By</ContextMenuLabel>
+          <ContextMenuLabel>정렬 기준</ContextMenuLabel>
           <ContextMenuSub>
-            <ContextMenuSubTrigger>Name</ContextMenuSubTrigger>
+            <ContextMenuSubTrigger>이름</ContextMenuSubTrigger>
             <ContextMenuSubContent>
-              <ContextMenuItem>A to Z</ContextMenuItem>
-              <ContextMenuItem>Z to A</ContextMenuItem>
+              <ContextMenuItem>가나다순</ContextMenuItem>
+              <ContextMenuItem>역순</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSub>
-            <ContextMenuSubTrigger>Date</ContextMenuSubTrigger>
+            <ContextMenuSubTrigger>날짜</ContextMenuSubTrigger>
             <ContextMenuSubContent>
-              <ContextMenuItem>Newest First</ContextMenuItem>
-              <ContextMenuItem>Oldest First</ContextMenuItem>
+              <ContextMenuItem>최신순</ContextMenuItem>
+              <ContextMenuItem>오래된순</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSub>
-            <ContextMenuSubTrigger>Size</ContextMenuSubTrigger>
+            <ContextMenuSubTrigger>크기</ContextMenuSubTrigger>
             <ContextMenuSubContent>
-              <ContextMenuItem>Largest First</ContextMenuItem>
-              <ContextMenuItem>Smallest First</ContextMenuItem>
+              <ContextMenuItem>큰 순서</ContextMenuItem>
+              <ContextMenuItem>작은 순서</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSeparator />
           <ContextMenuItem leadIcon={['document', 'file-add']} shortcut="⌘N">
-            New File
+            새 파일
           </ContextMenuItem>
           <ContextMenuItem leadIcon={['document', 'folder-add']} shortcut="⇧⌘N">
-            New Folder
+            새 폴더
           </ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuItem leadIcon={['system', 'refresh']}>
-            Refresh
+            새로고침
           </ContextMenuItem>
           <ContextMenuItem leadIcon={['system', 'settings']}>
-            Properties
+            속성
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
@@ -357,45 +357,45 @@ export const TextEditorExample: Story = {
         </ContextMenuTrigger>
         <ContextMenuContent width={220}>
           <ContextMenuItem leadIcon={['design', 'scissors']} shortcut="⌘X">
-            Cut
+            잘라내기
           </ContextMenuItem>
           <ContextMenuItem leadIcon={['document', 'file-copy']} shortcut="⌘C">
-            Copy
+            복사
           </ContextMenuItem>
           <ContextMenuItem leadIcon={['document', 'clipboard']} shortcut="⌘V">
-            Paste
+            붙여넣기
           </ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuItem leadIcon={['editor', 'format-clear']} shortcut="⌘A">
-            Select All
+            전체 선택
           </ContextMenuItem>
           <ContextMenuSeparator />
-          <ContextMenuLabel>Editor Settings</ContextMenuLabel>
+          <ContextMenuLabel>편집기 설정</ContextMenuLabel>
           <ContextMenuCheckboxItem
             checked={wordWrap}
             onCheckedChange={setWordWrap}
           >
-            Word Wrap
+            자동 줄바꿈
           </ContextMenuCheckboxItem>
           <ContextMenuCheckboxItem
             checked={minimap}
             onCheckedChange={setMinimap}
           >
-            Show Minimap
+            미니맵 표시
           </ContextMenuCheckboxItem>
           <ContextMenuCheckboxItem
             checked={lineNumbers}
             onCheckedChange={setLineNumbers}
           >
-            Line Numbers
+            줄 번호
           </ContextMenuCheckboxItem>
           <ContextMenuSeparator />
           <ContextMenuSub>
-            <ContextMenuSubTrigger>Format Document</ContextMenuSubTrigger>
+            <ContextMenuSubTrigger>문서 서식 정리</ContextMenuSubTrigger>
             <ContextMenuSubContent>
               <ContextMenuItem>Prettier</ContextMenuItem>
               <ContextMenuItem>ESLint</ContextMenuItem>
-              <ContextMenuItem>Both</ContextMenuItem>
+              <ContextMenuItem>모두</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
         </ContextMenuContent>

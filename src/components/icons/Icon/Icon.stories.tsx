@@ -52,7 +52,7 @@ const meta: Meta<typeof Icon> = {
     },
     size: {
       control: { type: 'number', min: 12, max: 64, step: 4 },
-      description: '아이콘 크기 (픽셀)',
+      description: '아이콘의 크기를 픽셀 단위로 설정합니다. 기본값은 24px입니다',
       table: {
         type: {
           summary: 'number',
@@ -62,7 +62,7 @@ const meta: Meta<typeof Icon> = {
     },
     isFill: {
       control: 'boolean',
-      description: '채워진 스타일 변형 사용',
+      description: 'true로 설정하면 아이콘을 채워진(fill) 스타일로 표시합니다. 기본값은 선 스타일입니다',
       table: {
         type: {
           summary: 'boolean',
@@ -73,7 +73,7 @@ const meta: Meta<typeof Icon> = {
     color: {
       control: 'select',
       options: iconColorOptions,
-      description: '아이콘 색상 토큰',
+      description: '아이콘의 색상을 설정합니다. 디자인 시스템 색상 토큰 또는 CSS 색상 값을 사용할 수 있습니다',
       table: {
         type: {
           summary: 'IconColor',

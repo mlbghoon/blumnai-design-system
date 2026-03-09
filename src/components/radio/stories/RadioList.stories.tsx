@@ -16,7 +16,7 @@ const meta: Meta<RadioListProps> = {
     listStyle: {
       control: 'select',
       options: ['default', 'bordered'],
-      description: '리스트 스타일',
+      description: '리스트의 외관 스타일을 설정합니다. default(기본 간격), bordered(구분선 포함) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'RadioListStyle',
@@ -28,7 +28,7 @@ const meta: Meta<RadioListProps> = {
     radioStyle: {
       control: 'select',
       options: ['default', 'with-shadow'],
-      description: '라디오 버튼 스타일',
+      description: '라디오 버튼의 외관 스타일을 설정합니다. default(기본), with-shadow(그림자 효과) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'RadioStyle',
@@ -39,7 +39,7 @@ const meta: Meta<RadioListProps> = {
     },
     items: {
       control: 'object',
-      description: '라디오 아이템 목록',
+      description: '라디오 리스트에 표시할 아이템 배열입니다. 각 아이템은 value, title을 필수로 가지며 description, disabled 등을 설정할 수 있습니다',
       table: {
         type: {
           summary: 'RadioListItem[]',
@@ -54,12 +54,12 @@ const meta: Meta<RadioListProps> = {
     },
     value: {
       control: 'text',
-      description: '현재 선택된 값',
+      description: '현재 선택된 라디오 아이템의 value 값입니다. 외부에서 제어할 때 사용합니다',
       table: { type: { summary: 'string' } },
     },
     onValueChange: {
       action: 'valueChange',
-      description: '값 변경 콜백',
+      description: '선택된 값이 변경될 때 호출되는 콜백 함수입니다',
       table: { type: { summary: '(value: string) => void' } },
     },
   },
@@ -97,9 +97,9 @@ export const Default: Story = {
     const [value, setValue] = useState('1');
 
     const items = [
-      { value: '1', title: 'Option 1', description: 'Description for option 1' },
-      { value: '2', title: 'Option 2', description: 'Description for option 2' },
-      { value: '3', title: 'Option 3' },
+      { value: '1', title: '옵션 1', description: '옵션 1에 대한 설명' },
+      { value: '2', title: '옵션 2', description: '옵션 2에 대한 설명' },
+      { value: '3', title: '옵션 3' },
     ];
 
     return (
@@ -127,9 +127,9 @@ export const StyleDefault: Story = {
     return (
       <RadioList
         items={[
-          { value: '1', title: 'Option 1', description: 'Description text' },
-          { value: '2', title: 'Option 2', description: 'Description text' },
-          { value: '3', title: 'Option 3' },
+          { value: '1', title: '옵션 1', description: '설명 텍스트' },
+          { value: '2', title: '옵션 2', description: '설명 텍스트' },
+          { value: '3', title: '옵션 3' },
         ]}
         value={value}
         onValueChange={setValue}
@@ -148,9 +148,9 @@ export const StyleBordered: Story = {
     return (
       <RadioList
         items={[
-          { value: '1', title: 'Option 1', description: 'Description text' },
-          { value: '2', title: 'Option 2', description: 'Description text' },
-          { value: '3', title: 'Option 3' },
+          { value: '1', title: '옵션 1', description: '설명 텍스트' },
+          { value: '2', title: '옵션 2', description: '설명 텍스트' },
+          { value: '3', title: '옵션 3' },
         ]}
         value={value}
         onValueChange={setValue}
@@ -173,9 +173,9 @@ export const TitleOnly: Story = {
     return (
       <RadioList
         items={[
-          { value: 'email', title: 'Email notifications' },
-          { value: 'push', title: 'Push notifications' },
-          { value: 'sms', title: 'SMS notifications' },
+          { value: 'email', title: '이메일 알림' },
+          { value: 'push', title: '푸시 알림' },
+          { value: 'sms', title: 'SMS 알림' },
         ]}
         value={value}
         onValueChange={setValue}
@@ -193,9 +193,9 @@ export const WithDescriptions: Story = {
     return (
       <RadioList
         items={[
-          { value: 'email', title: 'Email notifications', description: 'Receive updates via email' },
-          { value: 'push', title: 'Push notifications', description: 'Get real-time alerts on your device' },
-          { value: 'sms', title: 'SMS notifications', description: 'Receive text messages for important updates' },
+          { value: 'email', title: '이메일 알림', description: '이메일로 업데이트를 수신합니다' },
+          { value: 'push', title: '푸시 알림', description: '기기에서 실시간 알림을 받습니다' },
+          { value: 'sms', title: 'SMS 알림', description: '중요한 업데이트를 문자 메시지로 받습니다' },
         ]}
         value={value}
         onValueChange={setValue}
@@ -217,10 +217,10 @@ export const WithDisabledItems: Story = {
     return (
       <RadioList
         items={[
-          { value: '1', title: 'Available option' },
-          { value: '2', title: 'Disabled unchecked', disabled: true },
-          { value: '3', title: 'Disabled checked', disabled: true },
-          { value: '4', title: 'Another available option' },
+          { value: '1', title: '사용 가능한 옵션' },
+          { value: '2', title: '비활성화 미선택', disabled: true },
+          { value: '3', title: '비활성화 선택됨', disabled: true },
+          { value: '4', title: '다른 사용 가능한 옵션' },
         ]}
         value={value}
         onValueChange={setValue}

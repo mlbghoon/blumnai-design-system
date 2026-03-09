@@ -30,7 +30,7 @@ const meta: Meta<typeof BrandIcon> = {
         'unreal engine', 'v0', 'vercel', 'visa', 'vue', 'webflow', 'whop', 'windows',
         'wordpress', 'xrp', 'youtube',
       ],
-      description: '표시할 브랜드/로고 타입',
+      description: '표시할 브랜드 또는 로고의 타입을 설정합니다. Figma 레이어 이름과 일치하는 브랜드 이름을 사용합니다',
       table: {
         type: {
           summary: 'BrandType',
@@ -41,7 +41,7 @@ const meta: Meta<typeof BrandIcon> = {
     },
     size: {
       control: { type: 'number', min: 12, max: 64, step: 4 },
-      description: '아이콘 크기 (픽셀)',
+      description: '아이콘의 크기를 픽셀 단위로 설정합니다. 기본값은 24px입니다',
       table: {
         type: {
           summary: 'number',

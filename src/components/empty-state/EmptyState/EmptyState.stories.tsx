@@ -14,28 +14,28 @@ const meta: Meta<typeof EmptyState> = {
   argTypes: {
     icon: {
       control: 'object',
-      description: '아이콘 (IconTypeWithFill 형식)',
+      description: '빈 상태 영역 상단에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 전달합니다',
       table: {
         type: { summary: 'IconTypeWithFill' },
       },
     },
     title: {
       control: 'text',
-      description: '제목',
+      description: '빈 상태의 주요 메시지를 나타내는 제목 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     description: {
       control: 'text',
-      description: '설명 텍스트',
+      description: '제목 아래에 표시되는 보조 설명 텍스트입니다. 사용자에게 다음 행동을 안내하는 데 활용합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     action: {
       control: false,
-      description: '액션 영역 (보통 Button)',
+      description: '설명 아래에 표시되는 액션 영역입니다. 주로 Button 컴포넌트를 배치하여 사용자가 새 항목을 추가하는 등의 동작을 유도합니다',
       table: {
         type: { summary: 'ReactNode' },
       },
@@ -43,7 +43,7 @@ const meta: Meta<typeof EmptyState> = {
     size: {
       control: 'select',
       options: ['sm', 'md'],
-      description: '컴포넌트 크기',
+      description: '빈 상태 컴포넌트의 전체 크기를 설정합니다. sm(작게), md(보통) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'EmptyStateSize',

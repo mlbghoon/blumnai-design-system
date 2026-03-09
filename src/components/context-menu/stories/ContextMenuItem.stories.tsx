@@ -23,7 +23,7 @@ const meta: Meta<ContextMenuItemProps> = {
     size: {
       control: 'select',
       options: ['default', 'large'],
-      description: '아이템 크기',
+      description: '메뉴 아이템의 크기입니다. default는 기본 높이, large는 설명 텍스트를 포함할 수 있는 넓은 높이로 표시됩니다',
       table: {
         type: {
           summary: 'ContextMenuItemSize',
@@ -34,7 +34,7 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     destructive: {
       control: 'boolean',
-      description: '위험 동작 스타일',
+      description: 'true로 설정하면 삭제 등 위험한 동작임을 나타내는 빨간색 스타일이 적용됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -42,7 +42,7 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 아이템이 비활성화되어 클릭할 수 없고 흐릿하게 표시됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -50,7 +50,7 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     inset: {
       control: 'boolean',
-      description: '왼쪽 인덴트 (체크박스/라디오 아이템과 정렬용)',
+      description: 'true로 설정하면 왼쪽에 여백이 추가되어 체크박스/라디오 아이템과 수직 정렬됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -58,7 +58,7 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     leadIcon: {
       control: 'object',
-      description: '앞에 표시되는 아이콘',
+      description: '아이템 라벨 앞에 표시되는 아이콘입니다. [카테고리, 아이콘명] 튜플 형식으로 지정합니다',
       table: {
         type: {
           summary: 'IconType',
@@ -75,7 +75,7 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     leadIconFill: {
       control: 'boolean',
-      description: '리드 아이콘 filled 스타일 사용 여부',
+      description: 'true로 설정하면 리드 아이콘이 filled(채워진) 스타일로 렌더링됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -83,7 +83,7 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     tailIcon: {
       control: 'object',
-      description: '뒤에 표시되는 아이콘',
+      description: '아이템 라벨 뒤쪽에 표시되는 아이콘입니다. 서브메뉴 화살표나 외부 링크 표시에 주로 사용됩니다',
       table: {
         type: {
           summary: 'IconType',
@@ -99,7 +99,7 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     tailIconFill: {
       control: 'boolean',
-      description: '테일 아이콘 filled 스타일 사용 여부',
+      description: 'true로 설정하면 테일 아이콘이 filled(채워진) 스타일로 렌더링됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -108,7 +108,7 @@ const meta: Meta<ContextMenuItemProps> = {
     iconColor: {
       control: 'select',
       options: ['default', 'default-subtle', 'success', 'warning', 'destructive', 'informative'],
-      description: '아이콘 색상',
+      description: '리드/테일 아이콘의 색상입니다. 상태를 시각적으로 나타내는 데 사용합니다 (예: success는 녹색, destructive는 빨간색)',
       table: {
         type: { summary: 'IconColor' },
         defaultValue: { summary: 'default-subtle' },
@@ -116,28 +116,28 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     caption: {
       control: 'text',
-      description: '캡션 텍스트 (라벨 옆에 표시)',
+      description: '아이템 라벨 오른쪽에 표시되는 보조 텍스트입니다. 날짜, 상태 등 부가 정보를 표시합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     description: {
       control: 'text',
-      description: '설명 텍스트 (라벨 아래에 표시, large 사이즈에서만)',
+      description: '아이템 라벨 아래에 표시되는 설명 텍스트입니다. large 사이즈에서만 표시되며, 아이템의 기능을 상세히 설명합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     shortcut: {
       control: 'text',
-      description: '단축키 표시',
+      description: '아이템 우측에 표시되는 키보드 단축키 텍스트입니다. 메뉴가 열려 있을 때 해당 키를 누르면 onClick이 실행됩니다',
       table: {
         type: { summary: 'string' },
       },
     },
     onClick: {
       action: 'clicked',
-      description: '클릭 이벤트 핸들러',
+      description: '아이템을 클릭하거나 단축키를 눌렀을 때 호출되는 콜백 함수입니다',
       table: {
         type: { summary: '() => void' },
       },
@@ -424,13 +424,13 @@ export const Destructive: Story = {
         우클릭하세요
       </ContextMenuTrigger>
       <ContextMenuContent width={200}>
-        <ContextMenuItem leadIcon={['design', 'edit']}>Edit</ContextMenuItem>
-        <ContextMenuItem leadIcon={['document', 'file-copy']}>Duplicate</ContextMenuItem>
+        <ContextMenuItem leadIcon={['design', 'edit']}>편집</ContextMenuItem>
+        <ContextMenuItem leadIcon={['document', 'file-copy']}>복제</ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem leadIcon={['business', 'archive']}>Archive</ContextMenuItem>
+        <ContextMenuItem leadIcon={['business', 'archive']}>보관</ContextMenuItem>
         <ContextMenuSeparator />
         <ContextMenuItem destructive leadIcon={['system', 'delete-bin']}>
-          Delete
+          삭제
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
@@ -453,16 +453,16 @@ export const IconColors: Story = {
       <ContextMenuContent width={200}>
         <ContextMenuLabel>아이콘 색상 옵션</ContextMenuLabel>
         <ContextMenuItem leadIcon={['system', 'checkbox-circle']} iconColor="success">
-          Success
+          성공
         </ContextMenuItem>
         <ContextMenuItem leadIcon={['system', 'error-warning']} iconColor="warning">
-          Warning
+          경고
         </ContextMenuItem>
         <ContextMenuItem leadIcon={['system', 'delete-bin']} iconColor="destructive">
-          Destructive
+          위험
         </ContextMenuItem>
         <ContextMenuItem leadIcon={['system', 'information']} iconColor="informative">
-          Informative
+          정보
         </ContextMenuItem>
         <ContextMenuSeparator />
         <ContextMenuItem leadIcon={['system', 'check-double']} iconColor="success" disabled>
@@ -500,29 +500,29 @@ export const KeyboardShortcutBinding: Story = {
             <ContextMenuItem
               leadIcon={['design', 'scissors']}
               shortcut="⌘X"
-              onClick={() => addLog('Cut (⌘X)')}
+              onClick={() => addLog('잘라내기 (⌘X)')}
             >
-              Cut
+              잘라내기
             </ContextMenuItem>
             <ContextMenuItem
               leadIcon={['document', 'file-copy']}
               shortcut="⌘C"
-              onClick={() => addLog('Copy (⌘C)')}
+              onClick={() => addLog('복사 (⌘C)')}
             >
-              Copy
+              복사
             </ContextMenuItem>
             <ContextMenuItem
               leadIcon={['document', 'clipboard']}
               shortcut="⌘V"
-              onClick={() => addLog('Paste (⌘V)')}
+              onClick={() => addLog('붙여넣기 (⌘V)')}
             >
-              Paste
+              붙여넣기
             </ContextMenuItem>
           </ContextMenuContent>
         </ContextMenu>
         {log.length > 0 && (
           <div className="padding-12 bg-subtle rounded-md">
-            <p className="margin-0size-xs text-muted font-medium">Event Log</p>
+            <p className="margin-0size-xs text-muted font-medium">이벤트 로그</p>
             {log.map((entry, i) => (
               <p key={i} className="margin-0size-xs text-subtle">{entry}</p>
             ))}

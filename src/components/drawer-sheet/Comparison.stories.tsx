@@ -87,7 +87,7 @@ export const SideBySide: Story = {
       <div className="flex ds-gap-16 items-center">
         <Drawer>
           <DrawerTrigger asChild>
-            <Button buttonStyle="secondary">Open Drawer</Button>
+            <Button buttonStyle="secondary">Drawer 열기</Button>
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
@@ -113,7 +113,7 @@ export const SideBySide: Story = {
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button buttonStyle="secondary">Open Sheet</Button>
+            <Button buttonStyle="secondary">Sheet 열기</Button>
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>

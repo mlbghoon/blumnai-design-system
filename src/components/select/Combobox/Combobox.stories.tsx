@@ -26,19 +26,19 @@ const iconOptions: ComboboxOption[] = [
 ];
 
 const descriptionOptions: ComboboxOption[] = [
-  { id: 'kr', label: 'South Korea', description: 'Republic of Korea' },
-  { id: 'jp', label: 'Japan', description: 'Land of the Rising Sun' },
-  { id: 'cn', label: 'China', description: 'People\'s Republic of China' },
-  { id: 'us', label: 'United States', description: 'United States of America' },
-  { id: 'uk', label: 'United Kingdom', description: 'Great Britain and Northern Ireland' },
+  { id: 'kr', label: '대한민국', description: '동아시아의 한반도 남부에 위치한 나라' },
+  { id: 'jp', label: '일본', description: '동아시아의 섬나라' },
+  { id: 'cn', label: '중국', description: '동아시아의 대륙 국가' },
+  { id: 'us', label: '미국', description: '북아메리카의 연방 공화국' },
+  { id: 'uk', label: '영국', description: '유럽 서부의 섬나라' },
 ];
 
 const userOptions: ComboboxOption[] = [
-  { id: 'user1', label: 'John Doe', description: 'john@example.com', avatarSrc: 'https://i.pravatar.cc/150?u=john' },
-  { id: 'user2', label: 'Jane Smith', description: 'jane@example.com', avatarSrc: 'https://i.pravatar.cc/150?u=jane' },
-  { id: 'user3', label: 'Bob Wilson', description: 'bob@example.com', avatarSrc: 'https://i.pravatar.cc/150?u=bob' },
-  { id: 'user4', label: 'Alice Brown', description: 'alice@example.com', avatarSrc: 'https://i.pravatar.cc/150?u=alice' },
-  { id: 'user5', label: 'Charlie Davis', description: 'charlie@example.com', avatarSrc: 'https://i.pravatar.cc/150?u=charlie' },
+  { id: 'user1', label: '김민수', description: 'minsu@example.com', avatarSrc: 'https://i.pravatar.cc/150?u=john' },
+  { id: 'user2', label: '이서연', description: 'seoyeon@example.com', avatarSrc: 'https://i.pravatar.cc/150?u=jane' },
+  { id: 'user3', label: '박지훈', description: 'jihun@example.com', avatarSrc: 'https://i.pravatar.cc/150?u=bob' },
+  { id: 'user4', label: '최수진', description: 'sujin@example.com', avatarSrc: 'https://i.pravatar.cc/150?u=alice' },
+  { id: 'user5', label: '정태현', description: 'taehyun@example.com', avatarSrc: 'https://i.pravatar.cc/150?u=charlie' },
 ];
 
 const tagOptions: ComboboxOption[] = [
@@ -66,7 +66,7 @@ const meta: Meta<typeof Combobox> = {
     variant: {
       control: 'select',
       options: ['default', 'avatar', 'tags'],
-      description: 'Combobox 변형',
+      description: 'Combobox 컴포넌트의 변형을 설정합니다. default(기본), avatar(아바타), tags(태그) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ComboboxVariant',
@@ -78,7 +78,7 @@ const meta: Meta<typeof Combobox> = {
     selectStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '스타일 변형',
+      description: '컴포넌트의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ComboboxStyle',
@@ -90,7 +90,7 @@ const meta: Meta<typeof Combobox> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '크기',
+      description: '컴포넌트의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ComboboxSize',
@@ -101,72 +101,72 @@ const meta: Meta<typeof Combobox> = {
     },
     label: {
       control: 'text',
-      description: '라벨 텍스트',
+      description: '컴포넌트 위에 표시되는 제목 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
     required: {
       control: 'boolean',
-      description: '필수 입력 여부',
+      description: 'true로 설정하면 라벨 옆에 필수 표시(*)가 나타납니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     supportText: {
       control: 'text',
-      description: '라벨 옆에 표시되는 보조 텍스트',
+      description: '라벨 오른쪽에 작게 표시되는 추가 안내 텍스트입니다 (예: "선택사항")',
       table: { type: { summary: 'string' } },
     },
     caption: {
       control: 'text',
-      description: 'Combobox 아래에 표시되는 설명 텍스트',
+      description: 'Combobox 아래에 작은 글씨로 표시되는 도움말 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
     placeholder: {
       control: 'text',
-      description: '플레이스홀더 텍스트',
+      description: '값이 선택되지 않았을 때 입력 영역에 표시되는 안내 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     error: {
       control: 'text',
-      description: '에러 상태 또는 메시지',
+      description: '에러 메시지를 입력하면 빨간색 테두리와 함께 아래에 에러 메시지가 표시됩니다',
       table: { type: { summary: 'boolean | string' } },
     },
     success: {
       control: 'text',
-      description: '성공 상태 또는 메시지',
+      description: '성공 메시지를 입력하면 초록색 테두리와 함께 아래에 성공 메시지가 표시됩니다',
       table: { type: { summary: 'boolean | string' } },
     },
     creatable: {
       control: 'boolean',
-      description: '새 항목 생성 가능 여부',
+      description: 'true로 설정하면 검색 결과에 없는 새 항목을 직접 추가할 수 있습니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     emptyStateTitle: {
       control: 'text',
-      description: '빈 상태 제목',
+      description: '검색 결과가 없을 때 표시되는 제목 텍스트입니다',
       table: { type: { summary: 'string' }, defaultValue: { summary: 'No search results' } },
     },
     emptyStateDescription: {
       control: 'text',
-      description: '빈 상태 설명',
+      description: '검색 결과가 없을 때 제목 아래에 표시되는 부가 설명 텍스트입니다',
       table: { type: { summary: 'string' }, defaultValue: { summary: 'Your search did not match any results.' } },
     },
     width: {
       control: 'number',
-      description: '컨테이너 너비',
+      description: '컴포넌트의 가로 너비를 설정합니다. 숫자(px) 또는 문자열(%, rem 등)로 지정할 수 있습니다',
       table: { type: { summary: 'number | string' } },
     },
     maxHeight: {
       control: 'number',
-      description: '드롭다운 최대 높이 (px)',
+      description: '드롭다운 메뉴의 최대 높이를 픽셀 단위로 설정합니다. 옵션이 많을 경우 스크롤이 생깁니다',
       table: { type: { summary: 'number | string' }, defaultValue: { summary: '300' } },
     },
     options: {
       control: 'object',
-      description: '선택 가능한 옵션 목록',
+      description: '드롭다운에 표시될 옵션 배열입니다. 각 옵션은 id, label을 필수로 가지며 description, icon 등을 추가할 수 있습니다',
       table: {
         type: {
           summary: 'ComboboxOption[]',
@@ -279,8 +279,8 @@ export const WithIcons: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="default"
-          label="Navigate to"
-          placeholder="Search pages..."
+          label="이동할 페이지"
+          placeholder="페이지 검색..."
           options={iconOptions}
           value={value}
           onChange={setValue}
@@ -301,8 +301,8 @@ export const WithDescription: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="default"
-          label="Select country"
-          placeholder="Search countries..."
+          label="국가 선택"
+          placeholder="국가 검색..."
           options={descriptionOptions}
           value={value}
           onChange={setValue}
@@ -325,8 +325,8 @@ export const AvatarVariant: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="avatar"
-          label="Assign to"
-          placeholder="Search users..."
+          label="담당자 지정"
+          placeholder="사용자 검색..."
           options={userOptions}
           value={value}
           onChange={setValue}
@@ -349,8 +349,8 @@ export const TagsVariant: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="tags"
-          label="Technologies"
-          placeholder="Search and add..."
+          label="기술 스택"
+          placeholder="검색하여 추가..."
           options={tagOptions}
           value={values}
           onChange={setValues}
@@ -384,8 +384,8 @@ export const Creatable: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="default"
-          label="Select or create fruit"
-          placeholder="Search or type to create..."
+          label="과일 선택 또는 추가"
+          placeholder="검색하거나 입력하여 추가..."
           options={options}
           value={value}
           onChange={setValue}
@@ -421,8 +421,8 @@ export const TagsCreatable: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="tags"
-          label="Select or create technologies"
-          placeholder="Search or type to create..."
+          label="기술 선택 또는 추가"
+          placeholder="검색하거나 입력하여 추가..."
           options={options}
           value={values}
           onChange={setValues}
@@ -445,12 +445,12 @@ export const ErrorState: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="default"
-          label="Select fruit"
-          placeholder="Search fruits..."
+          label="과일 선택"
+          placeholder="과일 검색..."
           options={defaultOptions}
           value={value}
           onChange={setValue}
-          error="Please select a fruit"
+          error="과일을 선택해 주세요"
         />
       </div>
     );
@@ -468,12 +468,12 @@ export const SuccessState: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="default"
-          label="Select fruit"
-          placeholder="Search fruits..."
+          label="과일 선택"
+          placeholder="과일 검색..."
           options={defaultOptions}
           value={value}
           onChange={setValue}
-          success="Great choice!"
+          success="좋은 선택입니다!"
         />
       </div>
     );
@@ -489,8 +489,8 @@ export const Disabled: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="default"
-          label="Select fruit"
-          placeholder="Search fruits..."
+          label="과일 선택"
+          placeholder="과일 검색..."
           options={defaultOptions}
           disabled
         />
@@ -590,8 +590,8 @@ export const AllVariants: Story = {
           <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Default</h3>
           <Combobox
             variant="default"
-            label="Select fruit"
-            placeholder="Search fruits..."
+            label="과일 선택"
+            placeholder="과일 검색..."
             options={defaultOptions}
             value={defaultValue}
             onChange={setDefaultValue}
@@ -602,8 +602,8 @@ export const AllVariants: Story = {
           <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Avatar</h3>
           <Combobox
             variant="avatar"
-            label="Assign to"
-            placeholder="Search users..."
+            label="담당자 지정"
+            placeholder="사용자 검색..."
             options={userOptions}
             value={avatarValue}
             onChange={setAvatarValue}
@@ -614,8 +614,8 @@ export const AllVariants: Story = {
           <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Tags</h3>
           <Combobox
             variant="tags"
-            label="Technologies"
-            placeholder="Search and add..."
+            label="기술 스택"
+            placeholder="검색하여 추가..."
             options={tagOptions}
             value={tagsValue}
             onChange={setTagsValue}
@@ -640,13 +640,13 @@ export const EmptyState: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="default"
-          label="Select fruit"
+          label="과일 선택"
           placeholder="Try searching 'xyz'..."
           options={defaultOptions}
           value={value}
           onChange={setValue}
-          emptyStateTitle="No search results"
-          emptyStateDescription="Your search did not match any results."
+          emptyStateTitle="검색 결과 없음"
+          emptyStateDescription="검색 결과와 일치하는 항목이 없습니다."
         />
       </div>
     );
@@ -664,14 +664,14 @@ export const WithLabelAndCaption: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="default"
-          label="Favorite fruit"
-          placeholder="Search fruits..."
+          label="좋아하는 과일"
+          placeholder="과일 검색..."
           options={defaultOptions}
           value={value}
           onChange={setValue}
           required
-          supportText="Optional"
-          caption="Choose your favorite fruit from the list"
+          supportText="선택사항"
+          caption="목록에서 좋아하는 과일을 선택하세요"
         />
       </div>
     );
@@ -700,8 +700,8 @@ export const CustomFilter: Story = {
       <div className="max-w-sm">
         <Combobox
           variant="default"
-          label="Find employee"
-          placeholder="Search by name, email, or ID..."
+          label="직원 찾기"
+          placeholder="이름, 이메일 또는 사번으로 검색..."
           options={employeeOptions}
           value={value}
           onChange={setValue}
@@ -713,7 +713,7 @@ export const CustomFilter: Story = {
               option.id.toLowerCase().includes(q)
             );
           }}
-          caption="Try searching 'emp-003' or 'bob'"
+          caption="'emp-003' 또는 'bob'으로 검색해 보세요"
         />
       </div>
     );

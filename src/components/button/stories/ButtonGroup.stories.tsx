@@ -15,7 +15,7 @@ const meta: Meta<typeof ButtonGroup> = {
   argTypes: {
     items: {
       control: 'object',
-      description: '버튼 아이템 배열',
+      description: '버튼 그룹에 표시할 아이템 배열입니다. 각 아이템에 라벨, 아이콘, 뱃지 등을 설정할 수 있습니다',
       table: {
         type: {
           summary: 'ButtonGroupItem[]',
@@ -32,7 +32,7 @@ const meta: Meta<typeof ButtonGroup> = {
     size: {
       control: 'select',
       options: ['2xs', 'xs', 'sm', 'md', 'lg'],
-      description: '그룹 내 모든 버튼의 크기',
+      description: '그룹 내 모든 버튼의 크기를 설정합니다. 2xs(가장 작게)부터 lg(크게)까지 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ButtonGroupSize',
@@ -47,9 +47,9 @@ export default meta;
 type Story = StoryObj<typeof ButtonGroup>;
 
 const defaultItems = [
-  { label: 'Small' },
-  { label: 'Medium' },
-  { label: 'Large' },
+  { label: '작게' },
+  { label: '보통' },
+  { label: '크게' },
 ];
 
 /**
@@ -80,7 +80,7 @@ export const Default: Story = {
 export const WithIcons: Story = {
   args: {
     items: [
-      { label: 'Live preview', icon: ['system', 'eye'] },
+      { label: '실시간 미리보기', icon: ['system', 'eye'] },
       { icon: ['system', 'settings'], ariaLabel: 'Settings' },
     ],
     size: 'sm',
@@ -93,7 +93,7 @@ export const WithIcons: Story = {
 export const WithBadge: Story = {
   args: {
     items: [
-      { label: 'Download', icon: ['system', 'download'], badge: '3 MB' },
+      { label: '다운로드', icon: ['system', 'download'], badge: '3 MB' },
       { label: '2K' },
     ],
     size: 'sm',
@@ -106,7 +106,7 @@ export const WithBadge: Story = {
 export const WithTailIcon: Story = {
   args: {
     items: [
-      { label: 'Close issue', icon: ['system', 'close-circle'], tailIcon: ['arrows', 'chevron-down'] },
+      { label: '이슈 닫기', icon: ['system', 'close-circle'], tailIcon: ['arrows', 'chevron-down'] },
       { icon: ['system', 'settings'], ariaLabel: 'Settings' },
     ],
     size: 'sm',

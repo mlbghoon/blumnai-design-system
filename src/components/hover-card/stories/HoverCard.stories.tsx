@@ -44,11 +44,11 @@ export const Default: Story = {
                 @blumnai
               </h4>
               <p className="size-sm font-body text-muted line-height-leading-5">
-                Beautiful design system for building modern web applications.
+                현대적인 웹 애플리케이션을 위한 아름다운 디자인 시스템입니다.
               </p>
               <div className="flex items-center ds-gap-8">
                 <span className="size-xs font-body text-muted">
-                  Joined December 2024
+                  2024년 12월 가입
                 </span>
               </div>
             </div>
@@ -73,22 +73,22 @@ export const ImagePreview: Story = {
             href="#"
             className="size-sm font-body font-medium text-default underline"
           >
-            View Project
+            프로젝트 보기
           </a>
         </HoverCardTrigger>
         <HoverCardContent className="[width:320px]">
           <div className="flex flex-col ds-gap-12">
             <img
               src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop"
-              alt="Project preview"
+              alt="프로젝트 미리보기"
               className="rounded-md w-full [height:128px] object-cover"
             />
             <div className="flex flex-col ds-gap-4">
               <h4 className="size-sm font-body font-semibold line-height-leading-5">
-                Design System Project
+                디자인 시스템 프로젝트
               </h4>
               <p className="size-xs font-body text-muted line-height-leading-4">
-                A comprehensive design system built with React and Tailwind CSS.
+                React와 Tailwind CSS로 제작된 종합 디자인 시스템입니다.
               </p>
             </div>
           </div>
@@ -114,7 +114,7 @@ export const Positions: Story = {
             </button>
           </HoverCardTrigger>
           <HoverCardContent side="top">
-            <p className="size-sm font-body">Content appears on top</p>
+            <p className="size-sm font-body">위쪽에 표시됩니다</p>
           </HoverCardContent>
         </HoverCard>
 
@@ -125,7 +125,7 @@ export const Positions: Story = {
             </button>
           </HoverCardTrigger>
           <HoverCardContent side="bottom">
-            <p className="size-sm font-body">Content appears on bottom</p>
+            <p className="size-sm font-body">아래쪽에 표시됩니다</p>
           </HoverCardContent>
         </HoverCard>
 
@@ -136,7 +136,7 @@ export const Positions: Story = {
             </button>
           </HoverCardTrigger>
           <HoverCardContent side="left">
-            <p className="size-sm font-body">Content appears on left</p>
+            <p className="size-sm font-body">왼쪽에 표시됩니다</p>
           </HoverCardContent>
         </HoverCard>
 
@@ -147,7 +147,7 @@ export const Positions: Story = {
             </button>
           </HoverCardTrigger>
           <HoverCardContent side="right">
-            <p className="size-sm font-body">Content appears on right</p>
+            <p className="size-sm font-body">오른쪽에 표시됩니다</p>
           </HoverCardContent>
         </HoverCard>
       </div>

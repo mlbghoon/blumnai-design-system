@@ -33,7 +33,7 @@ const meta: Meta<DialogStoryProps> = {
     // Dialog (Root) props
     defaultOpen: {
       control: 'boolean',
-      description: '[Dialog] 초기 열림 상태 (비제어 모드)',
+      description: '[Dialog] 처음 렌더링될 때 다이얼로그가 열린 상태로 시작할지 설정합니다. 외부 상태 관리 없이 사용하는 비제어 모드에서 사용합니다',
       table: {
         type: { summary: 'boolean' },
         category: 'Dialog',
@@ -41,7 +41,7 @@ const meta: Meta<DialogStoryProps> = {
     },
     open: {
       control: 'boolean',
-      description: '[Dialog] 열림 상태 (제어 모드)',
+      description: '[Dialog] 다이얼로그의 열림/닫힘 상태를 외부에서 직접 제어합니다. onOpenChange와 함께 사용하여 상태를 관리합니다',
       table: {
         type: { summary: 'boolean' },
         category: 'Dialog',
@@ -49,7 +49,7 @@ const meta: Meta<DialogStoryProps> = {
     },
     onOpenChange: {
       action: 'openChange',
-      description: '[Dialog] 열림 상태 변경 콜백',
+      description: '[Dialog] 다이얼로그가 열리거나 닫힐 때 호출되는 콜백 함수입니다. open prop과 함께 사용하여 상태를 동기화합니다',
       table: {
         type: { summary: '(open: boolean) => void' },
         category: 'Dialog',
@@ -67,7 +67,7 @@ const meta: Meta<DialogStoryProps> = {
     // DialogContent props
     hideCloseButton: {
       control: 'boolean',
-      description: '[DialogContent] 닫기 버튼 숨김 여부',
+      description: '[DialogContent] true로 설정하면 다이얼로그 우측 상단의 X 닫기 버튼이 숨겨집니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -94,7 +94,7 @@ const meta: Meta<DialogStoryProps> = {
     },
     forceMount: {
       control: 'boolean',
-      description: '[DialogContent] 강제 마운트 여부 (애니메이션용)',
+      description: '[DialogContent] true로 설정하면 다이얼로그가 닫혀 있어도 DOM에 유지됩니다. 진입/퇴장 애니메이션 제어 시 사용합니다',
       table: {
         type: { summary: 'boolean' },
         category: 'DialogContent',
@@ -102,7 +102,7 @@ const meta: Meta<DialogStoryProps> = {
     },
     className: {
       control: 'text',
-      description: '[DialogContent] 추가 CSS 클래스',
+      description: '[DialogContent] 다이얼로그 콘텐츠 영역에 추가할 CSS 클래스명입니다',
       table: {
         type: { summary: 'string' },
         category: 'DialogContent',
@@ -182,7 +182,7 @@ export const Default: Story = {
     return (
       <Dialog modal={args.modal}>
         <DialogTrigger asChild>
-          <Button buttonStyle="secondary">Open Dialog</Button>
+          <Button buttonStyle="secondary">다이얼로그 열기</Button>
         </DialogTrigger>
         <DialogContent
           hideCloseButton={args.hideCloseButton}
@@ -192,22 +192,22 @@ export const Default: Story = {
           width={args.width}
         >
           <DialogHeader>
-            <DialogTitle>Dialog Title</DialogTitle>
+            <DialogTitle>다이얼로그 제목</DialogTitle>
             <DialogDescription>
-              Dialog description text goes here.
+              다이얼로그 설명 텍스트입니다.
             </DialogDescription>
           </DialogHeader>
           <DialogScrollArea maxHeight={args.maxHeight}>
             <div className="font-body size-sm text-default">
-              This is the scrollable content area. When maxHeight is set, this area will scroll if the content exceeds the specified height.
+              스크롤 가능한 콘텐츠 영역입니다. maxHeight를 설정하면 콘텐츠가 지정된 높이를 초과할 때 이 영역이 스크롤됩니다.
             </div>
           </DialogScrollArea>
           <DialogFooter>
             <DialogClose asChild>
-              <Button buttonStyle="secondary">Cancel</Button>
+              <Button buttonStyle="secondary">취소</Button>
             </DialogClose>
             <DialogAction asChild onAction={simulateAsyncAction}>
-              <Button>Confirm</Button>
+              <Button>확인</Button>
             </DialogAction>
           </DialogFooter>
         </DialogContent>
@@ -226,7 +226,7 @@ export const WithForm: Story = {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button buttonStyle="secondary">Edit Profile</Button>
+          <Button buttonStyle="secondary">프로필 수정</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -263,7 +263,7 @@ export const Confirmation: Story = {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button buttonStyle="destructive">Delete Item</Button>
+          <Button buttonStyle="destructive">항목 삭제</Button>
         </DialogTrigger>
         <DialogContent className="max-w-md">
           <DialogHeader>
@@ -298,7 +298,7 @@ export const LongContent: Story = {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button buttonStyle="secondary">View Terms</Button>
+          <Button buttonStyle="secondary">약관 보기</Button>
         </DialogTrigger>
         <DialogContent width={600}>
           <DialogHeader>
@@ -429,7 +429,7 @@ export const DisableEscapeClose: Story = {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button buttonStyle="secondary">Open Dialog</Button>
+          <Button buttonStyle="secondary">다이얼로그 열기</Button>
         </DialogTrigger>
         <DialogContent disableEscapeClose>
           <DialogHeader>
@@ -466,10 +466,10 @@ export const Programmatic: Story = {
         </p>
         <div className="flex ds-gap-8">
           <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
-            Open Dialog
+            다이얼로그 열기
           </Button>
           <Button buttonStyle="ghost" onClick={() => alert('다른 작업 수행')}>
-            Other Action
+            다른 작업
           </Button>
         </div>
 
@@ -502,18 +502,18 @@ export const Sizes: Story = {
       <div className="flex ds-gap-16">
         <Dialog>
           <DialogTrigger asChild>
-            <Button buttonStyle="secondary" size="sm">Small</Button>
+            <Button buttonStyle="secondary" size="sm">작은 크기</Button>
           </DialogTrigger>
           <DialogContent className="max-w-sm">
             <DialogHeader>
-              <DialogTitle>Small Dialog</DialogTitle>
+              <DialogTitle>작은 다이얼로그</DialogTitle>
               <DialogDescription>
-                A compact dialog for simple content.
+                간단한 콘텐츠를 위한 컴팩트한 다이얼로그입니다.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
               <DialogClose asChild>
-                <Button>OK</Button>
+                <Button>확인</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>
@@ -521,18 +521,18 @@ export const Sizes: Story = {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button buttonStyle="secondary" size="sm">Medium</Button>
+            <Button buttonStyle="secondary" size="sm">중간 크기</Button>
           </DialogTrigger>
           <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>Medium Dialog</DialogTitle>
+              <DialogTitle>중간 다이얼로그</DialogTitle>
               <DialogDescription>
-                Default size dialog for standard content.
+                기본 크기의 다이얼로그로 일반적인 콘텐츠에 적합합니다.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
               <DialogClose asChild>
-                <Button>OK</Button>
+                <Button>확인</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>
@@ -540,18 +540,18 @@ export const Sizes: Story = {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button buttonStyle="secondary" size="sm">Large</Button>
+            <Button buttonStyle="secondary" size="sm">큰 크기</Button>
           </DialogTrigger>
           <DialogContent className="max-w-xl">
             <DialogHeader>
-              <DialogTitle>Large Dialog</DialogTitle>
+              <DialogTitle>큰 다이얼로그</DialogTitle>
               <DialogDescription>
-                A wider dialog for more complex content that needs more horizontal space.
+                넓은 가로 공간이 필요한 복잡한 콘텐츠를 위한 다이얼로그입니다.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
               <DialogClose asChild>
-                <Button>OK</Button>
+                <Button>확인</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>
@@ -582,7 +582,7 @@ export const AsyncAction: Story = {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button buttonStyle="secondary">Open Async Dialog</Button>
+          <Button buttonStyle="secondary">비동기 다이얼로그 열기</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -661,7 +661,7 @@ export const CustomOverlay: Story = {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button buttonStyle="secondary">Dark Overlay Dialog</Button>
+          <Button buttonStyle="secondary">어두운 오버레이 다이얼로그</Button>
         </DialogTrigger>
         <DialogContent overlayClassName="bg-black/50">
           <DialogHeader>

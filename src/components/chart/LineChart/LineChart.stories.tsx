@@ -42,7 +42,7 @@ const meta: Meta<typeof LineChart> = {
     },
     xAxis: {
       control: 'object',
-      description: 'X축 설정',
+      description: 'X축의 데이터 키, 라벨, 도메인, 틱 포맷터 등을 설정합니다',
       table: {
         type: {
           summary: 'ChartAxisConfig',
@@ -51,7 +51,7 @@ const meta: Meta<typeof LineChart> = {
     },
     yAxis: {
       control: 'object',
-      description: 'Y축 설정',
+      description: 'Y축의 데이터 키, 라벨, 도메인, 틱 포맷터 등을 설정합니다',
       table: {
         type: {
           summary: 'ChartAxisConfig',
@@ -60,14 +60,14 @@ const meta: Meta<typeof LineChart> = {
     },
     dataKey: {
       control: 'text',
-      description: '라인 값의 데이터 키 (단일 라인)',
+      description: '단일 라인을 그릴 때 사용하는 데이터 키입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     dataKeys: {
       control: 'object',
-      description: '여러 라인용 데이터 키 배열',
+      description: '여러 라인을 동시에 표시할 때 사용하는 데이터 키 배열입니다',
       table: {
         type: {
           summary: 'string[]',
@@ -76,63 +76,63 @@ const meta: Meta<typeof LineChart> = {
     },
     width: {
       control: { type: 'number', min: 200, max: 1200, step: 50 },
-      description: '차트 너비 (픽셀)',
+      description: '차트 컨테이너의 너비를 픽셀 단위로 설정합니다',
       table: {
         type: { summary: 'number' },
       },
     },
     height: {
       control: { type: 'number', min: 200, max: 800, step: 50 },
-      description: '차트 높이 (픽셀)',
+      description: '차트 컨테이너의 높이를 픽셀 단위로 설정합니다',
       table: {
         type: { summary: 'number' },
       },
     },
     showArea: {
       control: 'boolean',
-      description: '라인 아래 영역 채우기 표시',
+      description: 'true로 설정하면 라인 아래 영역을 색상으로 채워 면적 차트로 표시합니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     showPoints: {
       control: 'boolean',
-      description: '라인 위에 데이터 포인트 표시',
+      description: 'true로 설정하면 각 데이터 포인트 위치에 점을 표시합니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     strokeWidth: {
       control: { type: 'number', min: 1, max: 10, step: 1 },
-      description: '라인 두께 (픽셀)',
+      description: '라인의 두께를 픽셀 단위로 설정합니다',
       table: {
         type: { summary: 'number' },
       },
     },
     showXGrid: {
       control: 'boolean',
-      description: '가로 그리드 라인 표시 (Y축 값)',
+      description: 'true로 설정하면 Y축 값에 해당하는 가로 그리드 라인을 표시합니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     showYGrid: {
       control: 'boolean',
-      description: '세로 그리드 라인 표시 (X축 값)',
+      description: 'true로 설정하면 X축 값에 해당하는 세로 그리드 라인을 표시합니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     showLegend: {
       control: 'boolean',
-      description: '범례 표시',
+      description: 'true로 설정하면 차트 하단에 데이터 시리즈를 구분하는 범례를 표시합니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     ariaLabel: {
       control: 'text',
-      description: '접근성을 위한 차트 설명',
+      description: '스크린 리더를 위한 차트 설명 텍스트입니다. 접근성을 위해 차트의 내용을 설명합니다',
       table: {
         type: { summary: 'string' },
       },

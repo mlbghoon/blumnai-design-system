@@ -43,33 +43,33 @@ export const Default: Story = {
     return (
       <Menubar>
         <MenubarMenu>
-          <MenubarTrigger>File</MenubarTrigger>
+          <MenubarTrigger>파일</MenubarTrigger>
           <MenubarContent width={220}>
-            <MenubarItem shortcut="⌘N">New File</MenubarItem>
-            <MenubarItem shortcut="⌘O">Open</MenubarItem>
-            <MenubarItem shortcut="⌘S">Save</MenubarItem>
+            <MenubarItem shortcut="⌘N">새 파일</MenubarItem>
+            <MenubarItem shortcut="⌘O">열기</MenubarItem>
+            <MenubarItem shortcut="⌘S">저장</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌘Q">Quit</MenubarItem>
+            <MenubarItem shortcut="⌘Q">종료</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
-          <MenubarTrigger>Edit</MenubarTrigger>
+          <MenubarTrigger>편집</MenubarTrigger>
           <MenubarContent width={220}>
-            <MenubarItem shortcut="⌘Z">Undo</MenubarItem>
-            <MenubarItem shortcut="⇧⌘Z">Redo</MenubarItem>
+            <MenubarItem shortcut="⌘Z">실행 취소</MenubarItem>
+            <MenubarItem shortcut="⇧⌘Z">다시 실행</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌘X">Cut</MenubarItem>
-            <MenubarItem shortcut="⌘C">Copy</MenubarItem>
-            <MenubarItem shortcut="⌘V">Paste</MenubarItem>
+            <MenubarItem shortcut="⌘X">잘라내기</MenubarItem>
+            <MenubarItem shortcut="⌘C">복사</MenubarItem>
+            <MenubarItem shortcut="⌘V">붙여넣기</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
-          <MenubarTrigger>View</MenubarTrigger>
+          <MenubarTrigger>보기</MenubarTrigger>
           <MenubarContent width={200}>
-            <MenubarItem>Zoom In</MenubarItem>
-            <MenubarItem>Zoom Out</MenubarItem>
+            <MenubarItem>확대</MenubarItem>
+            <MenubarItem>축소</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem>Full Screen</MenubarItem>
+            <MenubarItem>전체 화면</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
@@ -87,48 +87,48 @@ export const WithIcons: Story = {
     return (
       <Menubar>
         <MenubarMenu>
-          <MenubarTrigger>File</MenubarTrigger>
+          <MenubarTrigger>파일</MenubarTrigger>
           <MenubarContent width={220}>
             <MenubarItem leadIcon={['document', 'file-add']} shortcut="⌘N">
-              New File
+              새 파일
             </MenubarItem>
             <MenubarItem leadIcon={['document', 'folder-open']} shortcut="⌘O">
-              Open
+              열기
             </MenubarItem>
             <MenubarItem leadIcon={['device', 'save']} shortcut="⌘S">
-              Save
+              저장
             </MenubarItem>
             <MenubarItem leadIcon={['device', 'save']} shortcut="⇧⌘S">
-              Save As...
+              다른 이름으로 저장...
             </MenubarItem>
             <MenubarSeparator />
             <MenubarItem leadIcon={['system', 'close']} shortcut="⌘Q">
-              Quit
+              종료
             </MenubarItem>
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
-          <MenubarTrigger>Edit</MenubarTrigger>
+          <MenubarTrigger>편집</MenubarTrigger>
           <MenubarContent width={220}>
             <MenubarItem leadIcon={['arrows', 'arrow-go-back']} shortcut="⌘Z">
-              Undo
+              실행 취소
             </MenubarItem>
             <MenubarItem leadIcon={['arrows', 'arrow-go-forward']} shortcut="⇧⌘Z">
-              Redo
+              다시 실행
             </MenubarItem>
             <MenubarSeparator />
             <MenubarItem leadIcon={['design', 'scissors']} shortcut="⌘X">
-              Cut
+              잘라내기
             </MenubarItem>
             <MenubarItem leadIcon={['document', 'file-copy']} shortcut="⌘C">
-              Copy
+              복사
             </MenubarItem>
             <MenubarItem leadIcon={['document', 'clipboard']} shortcut="⌘V">
-              Paste
+              붙여넣기
             </MenubarItem>
             <MenubarSeparator />
             <MenubarItem leadIcon={['system', 'delete-bin']} destructive>
-              Delete
+              삭제
             </MenubarItem>
           </MenubarContent>
         </MenubarMenu>
@@ -151,27 +151,27 @@ export const WithCheckboxItems: Story = {
     return (
       <Menubar>
         <MenubarMenu>
-          <MenubarTrigger>View</MenubarTrigger>
+          <MenubarTrigger>보기</MenubarTrigger>
           <MenubarContent width={200}>
-            <MenubarLabel>Appearance</MenubarLabel>
+            <MenubarLabel>화면 구성</MenubarLabel>
             <MenubarSeparator />
             <MenubarCheckboxItem
               checked={showStatusBar}
               onCheckedChange={setShowStatusBar}
             >
-              Status Bar
+              상태 표시줄
             </MenubarCheckboxItem>
             <MenubarCheckboxItem
               checked={showActivityBar}
               onCheckedChange={setShowActivityBar}
             >
-              Activity Bar
+              활동 표시줄
             </MenubarCheckboxItem>
             <MenubarCheckboxItem
               checked={showPanel}
               onCheckedChange={setShowPanel}
             >
-              Panel
+              패널
             </MenubarCheckboxItem>
           </MenubarContent>
         </MenubarMenu>
@@ -192,14 +192,14 @@ export const WithRadioItems: Story = {
     return (
       <Menubar>
         <MenubarMenu>
-          <MenubarTrigger>Settings</MenubarTrigger>
+          <MenubarTrigger>설정</MenubarTrigger>
           <MenubarContent width={180}>
-            <MenubarLabel>Theme</MenubarLabel>
+            <MenubarLabel>테마</MenubarLabel>
             <MenubarSeparator />
             <MenubarRadioGroup value={theme} onValueChange={setTheme}>
-              <MenubarRadioItem value="light">Light</MenubarRadioItem>
-              <MenubarRadioItem value="dark">Dark</MenubarRadioItem>
-              <MenubarRadioItem value="system">System</MenubarRadioItem>
+              <MenubarRadioItem value="light">라이트</MenubarRadioItem>
+              <MenubarRadioItem value="dark">다크</MenubarRadioItem>
+              <MenubarRadioItem value="system">시스템</MenubarRadioItem>
             </MenubarRadioGroup>
           </MenubarContent>
         </MenubarMenu>
@@ -218,30 +218,30 @@ export const WithSubmenu: Story = {
     return (
       <Menubar>
         <MenubarMenu>
-          <MenubarTrigger>File</MenubarTrigger>
+          <MenubarTrigger>파일</MenubarTrigger>
           <MenubarContent width={220}>
-            <MenubarItem shortcut="⌘N">New File</MenubarItem>
-            <MenubarItem shortcut="⌘O">Open</MenubarItem>
+            <MenubarItem shortcut="⌘N">새 파일</MenubarItem>
+            <MenubarItem shortcut="⌘O">열기</MenubarItem>
             <MenubarSeparator />
             <MenubarSub>
-              <MenubarSubTrigger>Open Recent</MenubarSubTrigger>
+              <MenubarSubTrigger>최근 열기</MenubarSubTrigger>
               <MenubarSubContent>
                 <MenubarItem>project-a.tsx</MenubarItem>
                 <MenubarItem>project-b.tsx</MenubarItem>
                 <MenubarItem>settings.json</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem>Clear Recent</MenubarItem>
+                <MenubarItem>최근 항목 지우기</MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
             <MenubarSub>
-              <MenubarSubTrigger>Share</MenubarSubTrigger>
+              <MenubarSubTrigger>공유</MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarItem leadIcon={['business', 'mail']}>Email</MenubarItem>
-                <MenubarItem leadIcon={['editor', 'link']}>Copy Link</MenubarItem>
+                <MenubarItem leadIcon={['business', 'mail']}>이메일</MenubarItem>
+                <MenubarItem leadIcon={['editor', 'link']}>링크 복사</MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌘Q">Quit</MenubarItem>
+            <MenubarItem shortcut="⌘Q">종료</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
@@ -264,107 +264,107 @@ export const FullAppMenubar: Story = {
     return (
       <Menubar>
         <MenubarMenu>
-          <MenubarTrigger>File</MenubarTrigger>
+          <MenubarTrigger>파일</MenubarTrigger>
           <MenubarContent width={220}>
             <MenubarItem leadIcon={['document', 'file-add']} shortcut="⌘N">
-              New File
+              새 파일
             </MenubarItem>
             <MenubarItem leadIcon={['document', 'folder-open']} shortcut="⌘O">
-              Open
+              열기
             </MenubarItem>
             <MenubarSub>
-              <MenubarSubTrigger>Open Recent</MenubarSubTrigger>
+              <MenubarSubTrigger>최근 열기</MenubarSubTrigger>
               <MenubarSubContent>
                 <MenubarItem>index.tsx</MenubarItem>
                 <MenubarItem>App.tsx</MenubarItem>
                 <MenubarItem>styles.css</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem>Clear Recent</MenubarItem>
+                <MenubarItem>최근 항목 지우기</MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
             <MenubarSeparator />
             <MenubarItem leadIcon={['device', 'save']} shortcut="⌘S">
-              Save
+              저장
             </MenubarItem>
-            <MenubarItem shortcut="⇧⌘S">Save As...</MenubarItem>
+            <MenubarItem shortcut="⇧⌘S">다른 이름으로 저장...</MenubarItem>
             <MenubarSeparator />
             <MenubarCheckboxItem
               checked={autoSave}
               onCheckedChange={setAutoSave}
             >
-              Auto Save
+              자동 저장
             </MenubarCheckboxItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌘Q">Quit</MenubarItem>
+            <MenubarItem shortcut="⌘Q">종료</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
-          <MenubarTrigger>Edit</MenubarTrigger>
+          <MenubarTrigger>편집</MenubarTrigger>
           <MenubarContent width={220}>
             <MenubarItem leadIcon={['arrows', 'arrow-go-back']} shortcut="⌘Z">
-              Undo
+              실행 취소
             </MenubarItem>
             <MenubarItem leadIcon={['arrows', 'arrow-go-forward']} shortcut="⇧⌘Z">
-              Redo
+              다시 실행
             </MenubarItem>
             <MenubarSeparator />
             <MenubarItem leadIcon={['design', 'scissors']} shortcut="⌘X">
-              Cut
+              잘라내기
             </MenubarItem>
             <MenubarItem leadIcon={['document', 'file-copy']} shortcut="⌘C">
-              Copy
+              복사
             </MenubarItem>
             <MenubarItem leadIcon={['document', 'clipboard']} shortcut="⌘V">
-              Paste
+              붙여넣기
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌘F">Find</MenubarItem>
-            <MenubarItem shortcut="⌘H">Replace</MenubarItem>
+            <MenubarItem shortcut="⌘F">찾기</MenubarItem>
+            <MenubarItem shortcut="⌘H">바꾸기</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
-          <MenubarTrigger>View</MenubarTrigger>
+          <MenubarTrigger>보기</MenubarTrigger>
           <MenubarContent width={200}>
-            <MenubarLabel>Appearance</MenubarLabel>
+            <MenubarLabel>화면 구성</MenubarLabel>
             <MenubarSeparator />
             <MenubarCheckboxItem
               checked={wordWrap}
               onCheckedChange={setWordWrap}
             >
-              Word Wrap
+              자동 줄바꿈
             </MenubarCheckboxItem>
             <MenubarCheckboxItem
               checked={minimap}
               onCheckedChange={setMinimap}
             >
-              Minimap
+              미니맵
             </MenubarCheckboxItem>
             <MenubarSeparator />
-            <MenubarLabel>Theme</MenubarLabel>
+            <MenubarLabel>테마</MenubarLabel>
             <MenubarRadioGroup value={theme} onValueChange={setTheme}>
-              <MenubarRadioItem value="light">Light</MenubarRadioItem>
-              <MenubarRadioItem value="dark">Dark</MenubarRadioItem>
-              <MenubarRadioItem value="system">System</MenubarRadioItem>
+              <MenubarRadioItem value="light">라이트</MenubarRadioItem>
+              <MenubarRadioItem value="dark">다크</MenubarRadioItem>
+              <MenubarRadioItem value="system">시스템</MenubarRadioItem>
             </MenubarRadioGroup>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌃⌘F">Toggle Fullscreen</MenubarItem>
+            <MenubarItem shortcut="⌃⌘F">전체 화면 전환</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
-          <MenubarTrigger>Help</MenubarTrigger>
+          <MenubarTrigger>도움말</MenubarTrigger>
           <MenubarContent width={180}>
             <MenubarItem leadIcon={['system', 'question']}>
-              Documentation
+              문서
             </MenubarItem>
             <MenubarItem leadIcon={['development', 'bug']}>
-              Report Issue
+              문제 보고
             </MenubarItem>
             <MenubarSeparator />
             <MenubarItem leadIcon={['system', 'information']}>
-              About
+              정보
             </MenubarItem>
           </MenubarContent>
         </MenubarMenu>
@@ -386,31 +386,31 @@ export const CodeEditorMenubar: Story = {
     return (
       <Menubar>
         <MenubarMenu>
-          <MenubarTrigger>File</MenubarTrigger>
+          <MenubarTrigger>파일</MenubarTrigger>
           <MenubarContent width={240}>
             <MenubarItem leadIcon={['document', 'file-add']} shortcut="⌘N">
-              New File
+              새 파일
             </MenubarItem>
             <MenubarItem leadIcon={['document', 'folder-add']} shortcut="⇧⌘N">
-              New Folder
+              새 폴더
             </MenubarItem>
             <MenubarSeparator />
             <MenubarItem leadIcon={['document', 'folder-open']} shortcut="⌘O">
-              Open File...
+              파일 열기...
             </MenubarItem>
-            <MenubarItem shortcut="⌘K ⌘O">Open Folder...</MenubarItem>
+            <MenubarItem shortcut="⌘K ⌘O">폴더 열기...</MenubarItem>
             <MenubarSub>
-              <MenubarSubTrigger>Open Recent</MenubarSubTrigger>
+              <MenubarSubTrigger>최근 열기</MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarLabel>Files</MenubarLabel>
+                <MenubarLabel>파일</MenubarLabel>
                 <MenubarItem>~/projects/app/src/index.tsx</MenubarItem>
                 <MenubarItem>~/projects/lib/utils.ts</MenubarItem>
                 <MenubarSeparator />
-                <MenubarLabel>Folders</MenubarLabel>
+                <MenubarLabel>폴더</MenubarLabel>
                 <MenubarItem>~/projects/app</MenubarItem>
                 <MenubarItem>~/projects/lib</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem>Clear Recently Opened</MenubarItem>
+                <MenubarItem>최근 항목 지우기</MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
             <MenubarSeparator />
@@ -418,74 +418,74 @@ export const CodeEditorMenubar: Story = {
               checked={autoSave}
               onCheckedChange={setAutoSave}
             >
-              Auto Save
+              자동 저장
             </MenubarCheckboxItem>
             <MenubarSeparator />
             <MenubarItem leadIcon={['device', 'save']} shortcut="⌘S">
-              Save
+              저장
             </MenubarItem>
-            <MenubarItem shortcut="⌥⌘S">Save All</MenubarItem>
+            <MenubarItem shortcut="⌥⌘S">모두 저장</MenubarItem>
             <MenubarSeparator />
             <MenubarItem leadIcon={['system', 'close']} shortcut="⌘W">
-              Close Editor
+              에디터 닫기
             </MenubarItem>
-            <MenubarItem shortcut="⌘K W">Close All</MenubarItem>
+            <MenubarItem shortcut="⌘K W">모두 닫기</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
-          <MenubarTrigger>Edit</MenubarTrigger>
+          <MenubarTrigger>편집</MenubarTrigger>
           <MenubarContent width={240}>
-            <MenubarItem shortcut="⌘Z">Undo</MenubarItem>
-            <MenubarItem shortcut="⇧⌘Z">Redo</MenubarItem>
+            <MenubarItem shortcut="⌘Z">실행 취소</MenubarItem>
+            <MenubarItem shortcut="⇧⌘Z">다시 실행</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌘X">Cut</MenubarItem>
-            <MenubarItem shortcut="⌘C">Copy</MenubarItem>
-            <MenubarItem shortcut="⌘V">Paste</MenubarItem>
+            <MenubarItem shortcut="⌘X">잘라내기</MenubarItem>
+            <MenubarItem shortcut="⌘C">복사</MenubarItem>
+            <MenubarItem shortcut="⌘V">붙여넣기</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌘F">Find</MenubarItem>
-            <MenubarItem shortcut="⌥⌘F">Replace</MenubarItem>
+            <MenubarItem shortcut="⌘F">찾기</MenubarItem>
+            <MenubarItem shortcut="⌥⌘F">바꾸기</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⇧⌥F">Format Document</MenubarItem>
+            <MenubarItem shortcut="⇧⌥F">문서 서식 정리</MenubarItem>
             <MenubarCheckboxItem
               checked={formatOnSave}
               onCheckedChange={setFormatOnSave}
             >
-              Format On Save
+              저장 시 서식 정리
             </MenubarCheckboxItem>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
-          <MenubarTrigger>Selection</MenubarTrigger>
+          <MenubarTrigger>선택</MenubarTrigger>
           <MenubarContent width={220}>
-            <MenubarItem shortcut="⌘A">Select All</MenubarItem>
-            <MenubarItem shortcut="⌘L">Expand Line Selection</MenubarItem>
+            <MenubarItem shortcut="⌘A">전체 선택</MenubarItem>
+            <MenubarItem shortcut="⌘L">줄 선택 확장</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌘D">Add Selection to Next Match</MenubarItem>
-            <MenubarItem shortcut="⇧⌘L">Select All Occurrences</MenubarItem>
+            <MenubarItem shortcut="⌘D">다음 일치 항목에 선택 추가</MenubarItem>
+            <MenubarItem shortcut="⇧⌘L">일치 항목 전체 선택</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
-          <MenubarTrigger>Go</MenubarTrigger>
+          <MenubarTrigger>이동</MenubarTrigger>
           <MenubarContent width={240}>
-            <MenubarItem shortcut="⌃G">Go to Line...</MenubarItem>
-            <MenubarItem shortcut="⌘P">Go to File...</MenubarItem>
-            <MenubarItem shortcut="⇧⌘O">Go to Symbol...</MenubarItem>
+            <MenubarItem shortcut="⌃G">줄로 이동...</MenubarItem>
+            <MenubarItem shortcut="⌘P">파일로 이동...</MenubarItem>
+            <MenubarItem shortcut="⇧⌘O">심볼로 이동...</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌃-">Go Back</MenubarItem>
-            <MenubarItem shortcut="⌃⇧-">Go Forward</MenubarItem>
+            <MenubarItem shortcut="⌃-">뒤로 이동</MenubarItem>
+            <MenubarItem shortcut="⌃⇧-">앞으로 이동</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
-          <MenubarTrigger>Terminal</MenubarTrigger>
+          <MenubarTrigger>터미널</MenubarTrigger>
           <MenubarContent width={220}>
-            <MenubarItem shortcut="⌃`">New Terminal</MenubarItem>
-            <MenubarItem>Split Terminal</MenubarItem>
+            <MenubarItem shortcut="⌃`">새 터미널</MenubarItem>
+            <MenubarItem>터미널 분할</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌘K">Clear Terminal</MenubarItem>
+            <MenubarItem shortcut="⌘K">터미널 지우기</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
@@ -502,14 +502,14 @@ export const DisabledItems: Story = {
   render: () => (
     <Menubar>
       <MenubarMenu>
-        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarTrigger>파일</MenubarTrigger>
         <MenubarContent width={200}>
-          <MenubarItem shortcut="⌘N">New File</MenubarItem>
-          <MenubarItem disabled>Open Recent</MenubarItem>
-          <MenubarItem shortcut="⌘S">Save</MenubarItem>
+          <MenubarItem shortcut="⌘N">새 파일</MenubarItem>
+          <MenubarItem disabled>최근 열기</MenubarItem>
+          <MenubarItem shortcut="⌘S">저장</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem disabled>Export</MenubarItem>
-          <MenubarItem shortcut="⌘Q">Quit</MenubarItem>
+          <MenubarItem disabled>내보내기</MenubarItem>
+          <MenubarItem shortcut="⌘Q">종료</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
@@ -564,14 +564,14 @@ export const WithCaptions: Story = {
   render: () => (
     <Menubar>
       <MenubarMenu>
-        <MenubarTrigger>Help</MenubarTrigger>
+        <MenubarTrigger>도움말</MenubarTrigger>
         <MenubarContent width={200}>
-          <MenubarItem caption="v2.0.0">About</MenubarItem>
-          <MenubarItem caption="Latest">Check for Updates</MenubarItem>
+          <MenubarItem caption="v2.0.0">정보</MenubarItem>
+          <MenubarItem caption="최신">업데이트 확인</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem leadIcon={['system', 'question']}>Documentation</MenubarItem>
-          <MenubarItem leadIcon={['development', 'bug']} caption="Beta">
-            Report Issue
+          <MenubarItem leadIcon={['system', 'question']}>문서</MenubarItem>
+          <MenubarItem leadIcon={['development', 'bug']} caption="베타">
+            문제 보고
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>

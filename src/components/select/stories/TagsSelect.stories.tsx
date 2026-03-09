@@ -21,10 +21,10 @@ const colorOptions: SelectOption[] = [
 ];
 
 const categoryOptions: SelectOption[] = [
-  { id: 'frontend', label: 'Frontend', description: 'UI development' },
-  { id: 'backend', label: 'Backend', description: 'Server development' },
-  { id: 'devops', label: 'DevOps', description: 'Infrastructure' },
-  { id: 'design', label: 'Design', description: 'UI/UX design' },
+  { id: 'frontend', label: '프론트엔드', description: 'UI 개발' },
+  { id: 'backend', label: '백엔드', description: '서버 개발' },
+  { id: 'devops', label: 'DevOps', description: '인프라 관리' },
+  { id: 'design', label: '디자인', description: 'UI/UX 디자인' },
 ];
 
 const manyOptions: SelectOption[] = Array.from({ length: 15 }, (_, i) => ({
@@ -44,7 +44,7 @@ const meta: Meta<typeof Select> = {
     variant: {
       control: 'select',
       options: ['tags'],
-      description: 'Select 변형',
+      description: 'Select 컴포넌트의 변형을 설정합니다. 이 스토리에서는 tags 변형만 다룹니다',
       table: {
         type: { summary: 'SelectVariant' },
         defaultValue: { summary: 'tags' },
@@ -53,7 +53,7 @@ const meta: Meta<typeof Select> = {
     selectStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '스타일 변형',
+      description: '컴포넌트의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'SelectStyle',
@@ -64,7 +64,7 @@ const meta: Meta<typeof Select> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '크기',
+      description: '컴포넌트의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'SelectSize',
@@ -74,67 +74,67 @@ const meta: Meta<typeof Select> = {
     },
     label: {
       control: 'text',
-      description: '라벨 텍스트',
+      description: '컴포넌트 위에 표시되는 제목 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
     required: {
       control: 'boolean',
-      description: '필수 입력 여부',
+      description: 'true로 설정하면 라벨 옆에 필수 표시(*)가 나타납니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     supportText: {
       control: 'text',
-      description: '라벨 옆에 표시되는 보조 텍스트',
+      description: '라벨 오른쪽에 작게 표시되는 추가 안내 텍스트입니다 (예: "선택사항")',
       table: { type: { summary: 'string' } },
     },
     caption: {
       control: 'text',
-      description: 'Select 아래에 표시되는 설명 텍스트',
+      description: 'Select 아래에 작은 글씨로 표시되는 도움말 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
     placeholder: {
       control: 'text',
-      description: '플레이스홀더 텍스트',
+      description: '값이 선택되지 않았을 때 입력 영역에 표시되는 안내 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     error: {
       control: 'text',
-      description: '에러 상태 또는 메시지',
+      description: '에러 메시지를 입력하면 빨간색 테두리와 함께 아래에 에러 메시지가 표시됩니다',
       table: { type: { summary: 'boolean | string' } },
     },
     success: {
       control: 'text',
-      description: '성공 상태 또는 메시지',
+      description: '성공 메시지를 입력하면 초록색 테두리와 함께 아래에 성공 메시지가 표시됩니다',
       table: { type: { summary: 'boolean | string' } },
     },
     searchable: {
       control: 'boolean',
-      description: '검색 가능 여부',
+      description: 'true로 설정하면 드롭다운 상단에 검색 입력 필드가 표시되어 옵션을 필터링할 수 있습니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     maxHeight: {
       control: 'number',
-      description: '메뉴 최대 높이 (px)',
+      description: '드롭다운 메뉴의 최대 높이를 픽셀 단위로 설정합니다. 옵션이 많을 경우 스크롤이 생깁니다',
       table: { type: { summary: 'number | string' }, defaultValue: { summary: '300' } },
     },
     maxSelections: {
       control: 'number',
-      description: '최대 선택 개수',
+      description: '선택할 수 있는 옵션의 최대 개수를 제한합니다. 설정하지 않으면 무제한으로 선택할 수 있습니다',
       table: { type: { summary: 'number' } },
     },
     maxVisibleTags: {
       control: 'number',
-      description: '최대 표시 태그 수 (초과 시 +N more 표시)',
+      description: '트리거 영역에 표시할 태그의 최대 개수입니다. 초과하는 태그는 "+N more" 형태로 축소 표시됩니다',
       table: { type: { summary: 'number' } },
     },
     overflowText: {
       control: 'text',
-      description: '오버플로우 텍스트 ({hiddenCount}, {totalCount} 사용 가능)',
+      description: '태그가 최대 표시 수를 초과할 때 보여주는 텍스트입니다. 문자열 또는 함수로 커스터마이징할 수 있습니다',
       table: {
         type: {
           summary: 'string | ((hiddenCount, totalCount) => string)',
@@ -144,12 +144,12 @@ const meta: Meta<typeof Select> = {
     },
     width: {
       control: 'text',
-      description: '컨테이너 너비',
+      description: '컴포넌트의 가로 너비를 설정합니다. 숫자(px) 또는 문자열(%, rem 등)로 지정할 수 있습니다',
       table: { type: { summary: 'number | string' } },
     },
     options: {
       control: 'object',
-      description: '선택 가능한 옵션 목록',
+      description: '드롭다운에 표시될 옵션 배열입니다. 각 옵션은 id, label을 필수로 가지며 description, icon 등을 추가할 수 있습니다',
       table: {
         type: {
           summary: 'SelectOption[]',
@@ -166,12 +166,12 @@ const meta: Meta<typeof Select> = {
     },
     value: {
       control: 'object',
-      description: '현재 선택된 값들',
+      description: '현재 선택된 옵션들의 id 배열입니다. 외부에서 제어할 때 사용합니다',
       table: { type: { summary: 'string[]' } },
     },
     onChange: {
       action: 'changed',
-      description: '선택 변경 시 호출되는 콜백',
+      description: '옵션을 선택하거나 해제할 때 호출되는 함수입니다',
       table: { type: { summary: '(value: string[]) => void' } },
     },
   },
@@ -193,8 +193,8 @@ type Story = StoryObj<typeof Select>;
 export const Default: Story = {
   args: {
     variant: 'tags',
-    label: 'Select tags',
-    placeholder: 'Choose tags...',
+    label: '태그 선택',
+    placeholder: '태그를 선택하세요...',
     options: defaultOptions,
     width: 300,
     selectStyle: 'default',
@@ -202,8 +202,8 @@ export const Default: Story = {
     disabled: false,
     required: false,
     searchable: false,
-    supportText: 'Support text here',
-    caption: 'Caption text here',
+    supportText: '보조 텍스트',
+    caption: '캡션 텍스트',
     error: '',
     success: '',
     maxHeight: 300,
@@ -259,8 +259,8 @@ export const WithPreselected: Story = {
     return (
       <Select
         variant="tags"
-        label="Frameworks"
-        placeholder="Choose frameworks..."
+        label="프레임워크"
+        placeholder="프레임워크 선택..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -279,8 +279,8 @@ export const Searchable: Story = {
     return (
       <Select
         variant="tags"
-        label="Select tags"
-        placeholder="Search and select..."
+        label="태그 선택"
+        placeholder="검색하여 선택..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -300,8 +300,8 @@ export const WithDescriptions: Story = {
     return (
       <Select
         variant="tags"
-        label="Select categories"
-        placeholder="Choose categories..."
+        label="카테고리 선택"
+        placeholder="카테고리를 선택하세요..."
         options={categoryOptions}
         value={value}
         onChange={setValue}
@@ -320,8 +320,8 @@ export const WithScroll: Story = {
     return (
       <Select
         variant="tags"
-        label="Select tags"
-        placeholder="Choose tags..."
+        label="태그 선택"
+        placeholder="태그를 선택하세요..."
         options={manyOptions}
         value={value}
         onChange={setValue}
@@ -346,7 +346,7 @@ export const StateDefault: Story = {
       <Select
         variant="tags"
         label="Default"
-        placeholder="Choose tags..."
+        placeholder="태그를 선택하세요..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -366,7 +366,7 @@ export const StateDisabled: Story = {
       <Select
         variant="tags"
         label="Disabled"
-        placeholder="Choose tags..."
+        placeholder="태그를 선택하세요..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -387,11 +387,11 @@ export const StateError: Story = {
       <Select
         variant="tags"
         label="Error"
-        placeholder="Choose tags..."
+        placeholder="태그를 선택하세요..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
-        error="Please select at least one tag"
+        error="최소 한 개 이상 선택해 주세요"
         width={300}
       />
     );
@@ -408,11 +408,11 @@ export const StateSuccess: Story = {
       <Select
         variant="tags"
         label="Success"
-        placeholder="Choose tags..."
+        placeholder="태그를 선택하세요..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
-        success="Tags selected"
+        success="태그가 선택되었습니다"
         width={300}
       />
     );
@@ -433,8 +433,8 @@ export const StyleDefault: Story = {
       <Select
         variant="tags"
         selectStyle="default"
-        label="Default Style"
-        placeholder="Choose colors..."
+        label="기본 스타일"
+        placeholder="색상을 선택하세요..."
         options={colorOptions}
         value={value}
         onChange={setValue}
@@ -454,8 +454,8 @@ export const StyleShadow: Story = {
       <Select
         variant="tags"
         selectStyle="shadow"
-        label="Shadow Style"
-        placeholder="Choose colors..."
+        label="그림자 스타일"
+        placeholder="색상을 선택하세요..."
         options={colorOptions}
         value={value}
         onChange={setValue}
@@ -475,8 +475,8 @@ export const StyleSoft: Story = {
       <Select
         variant="tags"
         selectStyle="soft"
-        label="Soft Style"
-        placeholder="Choose colors..."
+        label="소프트 스타일"
+        placeholder="색상을 선택하세요..."
         options={colorOptions}
         value={value}
         onChange={setValue}
@@ -501,7 +501,7 @@ export const SizeSmall: Story = {
         variant="tags"
         size="sm"
         label="Small (sm)"
-        placeholder="Choose tags..."
+        placeholder="태그를 선택하세요..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -522,7 +522,7 @@ export const SizeLarge: Story = {
         variant="tags"
         size="lg"
         label="Large (lg)"
-        placeholder="Choose tags..."
+        placeholder="태그를 선택하세요..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -547,8 +547,8 @@ export const MaxSelections: Story = {
     return (
       <Select
         variant="tags"
-        label="Max 3 tags"
-        placeholder="Choose up to 3 tags..."
+        label="최대 3개 태그"
+        placeholder="최대 3개까지 선택..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -574,8 +574,8 @@ export const ManyTags: Story = {
     return (
       <Select
         variant="tags"
-        label="Many tags"
-        placeholder="Choose tags..."
+        label="많은 태그"
+        placeholder="태그를 선택하세요..."
         options={manyOptions}
         value={value}
         onChange={setValue}
@@ -597,8 +597,8 @@ export const TagsOverflow: Story = {
     return (
       <Select
         variant="tags"
-        label="Tags with overflow"
-        placeholder="Choose tags..."
+        label="태그 오버플로우"
+        placeholder="태그를 선택하세요..."
         options={manyOptions}
         value={value}
         onChange={setValue}
@@ -620,8 +620,8 @@ export const CustomOverflowText: Story = {
     return (
       <Select
         variant="tags"
-        label="Custom overflow text"
-        placeholder="Choose tags..."
+        label="커스텀 오버플로우 텍스트"
+        placeholder="태그를 선택하세요..."
         options={manyOptions}
         value={value}
         onChange={setValue}

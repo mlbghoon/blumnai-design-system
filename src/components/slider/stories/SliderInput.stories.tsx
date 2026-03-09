@@ -140,7 +140,7 @@ type Story = StoryObj<SliderInputProps>;
 export const Default: Story = {
   args: {
     color: 'gray',
-    label: 'Volume',
+    label: '볼륨',
     suffix: '%',
     min: 0,
     max: 100,
@@ -184,7 +184,7 @@ export const Percentage: Story = {
     return (
       <div style={{ width: 400 }}>
         <SliderInput
-          label="Opacity"
+          label="불투명도"
           suffix="%"
           value={value}
           onChange={setValue}
@@ -203,7 +203,7 @@ export const Temperature: Story = {
     return (
       <div style={{ width: 400 }}>
         <SliderInput
-          label="Room Temperature"
+          label="실내 온도"
           suffix="°C"
           min={16}
           max={30}
@@ -225,7 +225,7 @@ export const NoSuffix: Story = {
     return (
       <div style={{ width: 400 }}>
         <SliderInput
-          label="Quantity"
+          label="수량"
           min={1}
           max={100}
           value={value}
@@ -244,7 +244,7 @@ export const Disabled: Story = {
     return (
       <div style={{ width: 400 }}>
         <SliderInput
-          label="Disabled"
+          label="비활성화"
           suffix="%"
           defaultValue={50}
           disabled

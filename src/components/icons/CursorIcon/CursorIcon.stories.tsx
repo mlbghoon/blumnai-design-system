@@ -13,7 +13,7 @@ const meta: Meta<typeof CursorIcon> = {
     cursorType: {
       control: 'select',
       options: ['arrow', 'hand-closed', 'hand-open', 'not-allowed', 'pointer', 'text'],
-      description: '표시할 커서 아이콘 타입',
+      description: '표시할 커서 아이콘의 타입을 설정합니다. 화살표, 손, 포인터, 텍스트 등의 커서 모양을 선택할 수 있습니다',
       table: {
         type: {
           summary: 'CursorType',
@@ -23,7 +23,7 @@ const meta: Meta<typeof CursorIcon> = {
     },
     size: {
       control: { type: 'number', min: 12, max: 64, step: 4 },
-      description: '아이콘 크기 (픽셀)',
+      description: '아이콘의 크기를 픽셀 단위로 설정합니다. 기본값은 24px입니다',
       table: {
         type: {
           summary: 'number',

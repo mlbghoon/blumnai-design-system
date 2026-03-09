@@ -48,57 +48,57 @@ export const Default: Story = {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
+            <NavigationMenuTrigger>시작하기</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid ds-gap-8 padding-16 w-[280px]">
                 <NavigationMenuListItem
                   href="/docs"
-                  title="Introduction"
-                  description="Re-usable components built using Radix UI and Tailwind CSS."
+                  title="소개"
+                  description="Radix UI와 Tailwind CSS로 구축된 재사용 가능한 컴포넌트입니다."
                 />
                 <NavigationMenuListItem
                   href="/docs/installation"
-                  title="Installation"
-                  description="How to install dependencies and structure your app."
+                  title="설치"
+                  description="의존성 설치 방법과 앱 구조 설정 방법을 안내합니다."
                 />
                 <NavigationMenuListItem
                   href="/docs/primitives"
-                  title="Typography"
-                  description="Styles for headings, paragraphs, lists, etc."
+                  title="타이포그래피"
+                  description="제목, 단락, 목록 등의 텍스트 스타일입니다."
                 />
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+            <NavigationMenuTrigger>컴포넌트</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[280px] ds-gap-8 padding-16">
                 <NavigationMenuListItem
                   href="/docs/components/button"
-                  title="Button"
-                  description="Interactive button component with multiple variants."
+                  title="버튼"
+                  description="다양한 변형을 지원하는 인터랙티브 버튼 컴포넌트입니다."
                 />
                 <NavigationMenuListItem
                   href="/docs/components/input"
-                  title="Input"
-                  description="Text input field with label and validation support."
+                  title="인풋"
+                  description="라벨과 유효성 검증을 지원하는 텍스트 입력 필드입니다."
                 />
                 <NavigationMenuListItem
                   href="/docs/components/dialog"
-                  title="Dialog"
-                  description="Modal dialog for important content and actions."
+                  title="다이얼로그"
+                  description="중요한 콘텐츠와 작업을 위한 모달 대화상자입니다."
                 />
                 <NavigationMenuListItem
                   href="/docs/components/popover"
-                  title="Popover"
-                  description="Floating content panel anchored to a trigger."
+                  title="팝오버"
+                  description="트리거에 연결된 떠있는 콘텐츠 패널입니다."
                 />
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/docs">
-              Documentation
+              문서
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -118,64 +118,64 @@ export const MegaMenuWithIcons: Story = {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+            <NavigationMenuTrigger>제품</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[280px] ds-gap-8 padding-16">
                 <NavigationMenuListItem
                   href="/products/analytics"
-                  title="Analytics"
-                  description="Track and analyze your website performance."
+                  title="분석"
+                  description="웹사이트 성능을 추적하고 분석합니다."
                   icon={['business', 'line-chart']}
                 />
                 <NavigationMenuListItem
                   href="/products/automation"
-                  title="Automation"
-                  description="Automate your workflows and save time."
+                  title="자동화"
+                  description="워크플로우를 자동화하여 시간을 절약합니다."
                   icon={['system', 'settings']}
                 />
                 <NavigationMenuListItem
                   href="/products/security"
-                  title="Security"
-                  description="Keep your data safe and secure."
+                  title="보안"
+                  description="데이터를 안전하게 보호합니다."
                   icon={['system', 'shield-check']}
                 />
                 <NavigationMenuListItem
                   href="/products/integrations"
-                  title="Integrations"
-                  description="Connect with your favorite tools."
+                  title="연동"
+                  description="자주 사용하는 도구와 연결합니다."
                   icon={['editor', 'link']}
                 />
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
+            <NavigationMenuTrigger>솔루션</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[280px] ds-gap-8 padding-16">
                 <NavigationMenuListItem
                   href="/solutions/startup"
-                  title="For Startups"
-                  description="Scale your business with our startup solutions."
+                  title="스타트업용"
+                  description="스타트업 솔루션으로 비즈니스를 확장합니다."
                   icon={['map', 'rocket']}
                   iconFill
                 />
                 <NavigationMenuListItem
                   href="/solutions/enterprise"
-                  title="For Enterprise"
-                  description="Enterprise-grade solutions for large teams."
+                  title="엔터프라이즈용"
+                  description="대규모 팀을 위한 엔터프라이즈급 솔루션입니다."
                   icon={['buildings', 'building']}
                   iconFill
                 />
                 <NavigationMenuListItem
                   href="/solutions/developers"
-                  title="For Developers"
-                  description="Tools and APIs for developers."
+                  title="개발자용"
+                  description="개발자를 위한 도구와 API입니다."
                   icon={['development', 'code-sslash']}
                 />
                 <NavigationMenuListItem
                   href="/solutions/designers"
-                  title="For Designers"
-                  description="Design tools and resources."
+                  title="디자이너용"
+                  description="디자인 도구와 리소스입니다."
                   icon={['design', 'palette']}
                 />
               </ul>
@@ -183,7 +183,7 @@ export const MegaMenuWithIcons: Story = {
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/pricing">
-              Pricing
+              가격
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -204,22 +204,22 @@ export const SimpleNavigation: Story = {
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
-              Home
+              홈
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/about">
-              About
+              소개
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/services">
-              Services
+              서비스
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/contact">
-              Contact
+              문의
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -240,7 +240,7 @@ export const WithActiveLink: Story = {
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/">
-              Home
+              홈
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
@@ -249,17 +249,17 @@ export const WithActiveLink: Story = {
               href="/about"
               active
             >
-              About
+              소개
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/services">
-              Services
+              서비스
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/contact">
-              Contact
+              문의
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -279,35 +279,35 @@ export const WithIndicator: Story = {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Features</NavigationMenuTrigger>
+            <NavigationMenuTrigger>기능</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[300px] ds-gap-8 padding-16">
                 <NavigationMenuListItem
                   href="/features/speed"
-                  title="Fast Performance"
-                  description="Optimized for speed and efficiency."
+                  title="빠른 성능"
+                  description="속도와 효율성에 최적화되어 있습니다."
                 />
                 <NavigationMenuListItem
                   href="/features/reliable"
-                  title="Reliable"
-                  description="99.9% uptime guaranteed."
+                  title="안정성"
+                  description="99.9% 가동 시간을 보장합니다."
                 />
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+            <NavigationMenuTrigger>리소스</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[300px] ds-gap-8 padding-16">
                 <NavigationMenuListItem
                   href="/resources/docs"
-                  title="Documentation"
-                  description="Comprehensive guides and API references."
+                  title="문서"
+                  description="종합 가이드와 API 레퍼런스입니다."
                 />
                 <NavigationMenuListItem
                   href="/resources/blog"
-                  title="Blog"
-                  description="Latest updates and tutorials."
+                  title="블로그"
+                  description="최신 업데이트와 튜토리얼입니다."
                 />
               </ul>
             </NavigationMenuContent>
@@ -330,7 +330,7 @@ export const CustomContent: Story = {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Company</NavigationMenuTrigger>
+            <NavigationMenuTrigger>회사</NavigationMenuTrigger>
             <NavigationMenuContent>
               <div className="grid ds-gap-12 padding-16 md:w-[400px]">
                 <div className="flex items-center ds-gap-12 padding-12 rounded-md bg-muted/30">
@@ -342,25 +342,25 @@ export const CustomContent: Story = {
                       Blumnai Inc.
                     </div>
                     <div className="size-xs font-body text-muted line-height-leading-4">
-                      Building the future of design systems
+                      디자인 시스템의 미래를 만들어갑니다
                     </div>
                   </div>
                 </div>
                 <ul className="grid ds-gap-8">
                   <NavigationMenuListItem
                     href="/about"
-                    title="About Us"
-                    description="Learn about our mission and team."
+                    title="회사 소개"
+                    description="우리의 미션과 팀에 대해 알아보세요."
                   />
                   <NavigationMenuListItem
                     href="/careers"
-                    title="Careers"
-                    description="Join our growing team."
+                    title="채용"
+                    description="성장하는 팀에 합류하세요."
                   />
                   <NavigationMenuListItem
                     href="/press"
-                    title="Press"
-                    description="News and media resources."
+                    title="보도자료"
+                    description="뉴스와 미디어 리소스입니다."
                   />
                 </ul>
               </div>

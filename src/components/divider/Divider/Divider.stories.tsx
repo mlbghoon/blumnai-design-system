@@ -27,7 +27,7 @@ const meta: Meta<typeof Divider> = {
         'button-center',
         'button-right',
       ],
-      description: '디바이더 타입',
+      description: '디바이더의 표시 형태를 설정합니다. 단순 선, 텍스트/아이콘/버튼을 포함한 선, 그리고 각 요소의 정렬 위치(왼쪽/가운데/오른쪽)를 조합할 수 있습니다',
       table: {
         type: {
           summary: 'DividerType',
@@ -39,7 +39,7 @@ const meta: Meta<typeof Divider> = {
     lineStyle: {
       control: 'select',
       options: ['default', 'dashed'],
-      description: '디바이더 라인 스타일',
+      description: '구분선의 스타일을 설정합니다. default는 실선, dashed는 점선으로 표시됩니다',
       table: {
         type: {
           summary: 'DividerStyle',
@@ -50,14 +50,14 @@ const meta: Meta<typeof Divider> = {
     },
     label: {
       control: 'text',
-      description: '텍스트 라벨 (text-* 타입에서 사용)',
+      description: '구분선 위에 표시할 텍스트입니다. text-left, text-center, text-right 타입에서 사용됩니다',
       table: {
         type: { summary: 'string' },
       },
     },
     icon: {
       control: 'object',
-      description: '아이콘 타입 (icon-* 타입에서 사용)',
+      description: '구분선 위에 표시할 아이콘입니다. icon-left, icon-center, icon-right 타입에서 사용됩니다',
       table: {
         type: {
           summary: 'DividerIconType',
@@ -67,14 +67,14 @@ const meta: Meta<typeof Divider> = {
     },
     buttonLabel: {
       control: 'text',
-      description: '버튼 라벨 (button-* 타입에서 사용)',
+      description: '구분선 내 버튼에 표시할 라벨 텍스트입니다. button-left, button-center, button-right 타입에서 사용됩니다',
       table: {
         type: { summary: 'string' },
       },
     },
     buttonLeadIcon: {
       control: 'object',
-      description: '버튼 앞에 표시되는 아이콘 (button-* 타입에서 사용)',
+      description: '구분선 버튼의 라벨 앞에 표시되는 아이콘입니다. button-* 타입에서 사용됩니다',
       table: {
         type: {
           summary: 'ButtonIconType | ReactNode',
@@ -84,7 +84,7 @@ const meta: Meta<typeof Divider> = {
     },
     buttonTailIcon: {
       control: 'object',
-      description: '버튼 뒤에 표시되는 아이콘 (button-* 타입에서 사용)',
+      description: '구분선 버튼의 라벨 뒤에 표시되는 아이콘입니다. button-* 타입에서 사용됩니다',
       table: {
         type: {
           summary: 'ButtonIconType | ReactNode',
@@ -94,14 +94,14 @@ const meta: Meta<typeof Divider> = {
     },
     buttonBadge: {
       control: 'text',
-      description: '버튼 내 뱃지/단축키 텍스트 (button-* 타입에서 사용)',
+      description: '구분선 버튼 내에 표시할 뱃지 또는 단축키 텍스트입니다. button-* 타입에서 사용됩니다',
       table: {
         type: { summary: 'string' },
       },
     },
     onButtonClick: {
       action: 'buttonClicked',
-      description: '버튼 클릭 핸들러',
+      description: '구분선 내 버튼이 클릭되었을 때 호출되는 콜백 함수입니다',
       table: {
         type: { summary: '() => void' },
       },
@@ -123,8 +123,8 @@ export const Default: Story = {
   args: {
     type: 'default',
     lineStyle: 'default',
-    label: 'Label',
-    buttonLabel: 'Button',
+    label: '라벨',
+    buttonLabel: '버튼',
     buttonLeadIcon: undefined,
     buttonTailIcon: undefined,
     buttonBadge: undefined,
@@ -171,8 +171,8 @@ export const DashedLine: Story = {
 export const TextLeft: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
-      <Divider type="text-left" label="Label" />
-      <Divider type="text-left" label="Label" lineStyle="dashed" />
+      <Divider type="text-left" label="라벨" />
+      <Divider type="text-left" label="라벨" lineStyle="dashed" />
     </div>
   ),
 };
@@ -183,8 +183,8 @@ export const TextLeft: Story = {
 export const TextCenter: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
-      <Divider type="text-center" label="Label" />
-      <Divider type="text-center" label="Label" lineStyle="dashed" />
+      <Divider type="text-center" label="라벨" />
+      <Divider type="text-center" label="라벨" lineStyle="dashed" />
     </div>
   ),
 };
@@ -195,8 +195,8 @@ export const TextCenter: Story = {
 export const TextRight: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
-      <Divider type="text-right" label="Label" />
-      <Divider type="text-right" label="Label" lineStyle="dashed" />
+      <Divider type="text-right" label="라벨" />
+      <Divider type="text-right" label="라벨" lineStyle="dashed" />
     </div>
   ),
 };
@@ -261,8 +261,8 @@ export const IconFilled: Story = {
 export const ButtonLeft: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
-      <Divider type="button-left" buttonLabel="Button" onButtonClick={() => console.log('clicked')} />
-      <Divider type="button-left" buttonLabel="Button" lineStyle="dashed" onButtonClick={() => console.log('clicked')} />
+      <Divider type="button-left" buttonLabel="버튼" onButtonClick={() => console.log('clicked')} />
+      <Divider type="button-left" buttonLabel="버튼" lineStyle="dashed" onButtonClick={() => console.log('clicked')} />
     </div>
   ),
 };
@@ -273,8 +273,8 @@ export const ButtonLeft: Story = {
 export const ButtonCenter: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
-      <Divider type="button-center" buttonLabel="Button" onButtonClick={() => console.log('clicked')} />
-      <Divider type="button-center" buttonLabel="Button" lineStyle="dashed" onButtonClick={() => console.log('clicked')} />
+      <Divider type="button-center" buttonLabel="버튼" onButtonClick={() => console.log('clicked')} />
+      <Divider type="button-center" buttonLabel="버튼" lineStyle="dashed" onButtonClick={() => console.log('clicked')} />
     </div>
   ),
 };
@@ -285,8 +285,8 @@ export const ButtonCenter: Story = {
 export const ButtonRight: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
-      <Divider type="button-right" buttonLabel="Button" onButtonClick={() => console.log('clicked')} />
-      <Divider type="button-right" buttonLabel="Button" lineStyle="dashed" onButtonClick={() => console.log('clicked')} />
+      <Divider type="button-right" buttonLabel="버튼" onButtonClick={() => console.log('clicked')} />
+      <Divider type="button-right" buttonLabel="버튼" lineStyle="dashed" onButtonClick={() => console.log('clicked')} />
     </div>
   ),
 };
@@ -298,37 +298,37 @@ export const ButtonWithFeatures: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
       <div>
-        <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Lead Icon</span>
+        <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>앞 아이콘</span>
         <Divider
           type="button-center"
-          buttonLabel="Button"
+          buttonLabel="버튼"
           buttonLeadIcon={['system', 'add']}
           onButtonClick={() => console.log('clicked')}
         />
       </div>
       <div>
-        <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Tail Icon</span>
+        <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>뒤 아이콘</span>
         <Divider
           type="button-center"
-          buttonLabel="Button"
+          buttonLabel="버튼"
           buttonTailIcon={['arrows', 'chevron-down']}
           onButtonClick={() => console.log('clicked')}
         />
       </div>
       <div>
-        <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Badge</span>
+        <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>뱃지</span>
         <Divider
           type="button-center"
-          buttonLabel="Button"
+          buttonLabel="버튼"
           buttonBadge="⌘K"
           onButtonClick={() => console.log('clicked')}
         />
       </div>
       <div>
-        <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>All Features</span>
+        <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>전체 기능</span>
         <Divider
           type="button-center"
-          buttonLabel="More"
+          buttonLabel="더보기"
           buttonLeadIcon={['system', 'add']}
           buttonTailIcon={['arrows', 'chevron-down']}
           buttonBadge="12"
@@ -351,15 +351,15 @@ export const AllTypesDefault: Story = {
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Text Left</span>
-        <Divider type="text-left" label="Label" />
+        <Divider type="text-left" label="라벨" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Text Center</span>
-        <Divider type="text-center" label="Label" />
+        <Divider type="text-center" label="라벨" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Text Right</span>
-        <Divider type="text-right" label="Label" />
+        <Divider type="text-right" label="라벨" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Icon Left</span>
@@ -375,15 +375,15 @@ export const AllTypesDefault: Story = {
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Button Left</span>
-        <Divider type="button-left" buttonLabel="Button" />
+        <Divider type="button-left" buttonLabel="버튼" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Button Center</span>
-        <Divider type="button-center" buttonLabel="Button" />
+        <Divider type="button-center" buttonLabel="버튼" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Button Right</span>
-        <Divider type="button-right" buttonLabel="Button" />
+        <Divider type="button-right" buttonLabel="버튼" />
       </div>
     </div>
   ),
@@ -401,15 +401,15 @@ export const AllTypesDashed: Story = {
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Text Left</span>
-        <Divider type="text-left" label="Label" lineStyle="dashed" />
+        <Divider type="text-left" label="라벨" lineStyle="dashed" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Text Center</span>
-        <Divider type="text-center" label="Label" lineStyle="dashed" />
+        <Divider type="text-center" label="라벨" lineStyle="dashed" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Text Right</span>
-        <Divider type="text-right" label="Label" lineStyle="dashed" />
+        <Divider type="text-right" label="라벨" lineStyle="dashed" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Icon Left</span>
@@ -425,15 +425,15 @@ export const AllTypesDashed: Story = {
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Button Left</span>
-        <Divider type="button-left" buttonLabel="Button" lineStyle="dashed" />
+        <Divider type="button-left" buttonLabel="버튼" lineStyle="dashed" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Button Center</span>
-        <Divider type="button-center" buttonLabel="Button" lineStyle="dashed" />
+        <Divider type="button-center" buttonLabel="버튼" lineStyle="dashed" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>Button Right</span>
-        <Divider type="button-right" buttonLabel="Button" lineStyle="dashed" />
+        <Divider type="button-right" buttonLabel="버튼" lineStyle="dashed" />
       </div>
     </div>
   ),
@@ -446,11 +446,11 @@ export const CustomContent: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
       <Divider type="text-center">
-        <span style={{ color: 'var(--text-informative)', fontWeight: 600 }}>Custom Content</span>
+        <span style={{ color: 'var(--text-informative)', fontWeight: 600 }}>커스텀 콘텐츠</span>
       </Divider>
       <Divider type="text-center" lineStyle="dashed">
         <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          🎉 Celebration
+          🎉 축하
         </span>
       </Divider>
     </div>

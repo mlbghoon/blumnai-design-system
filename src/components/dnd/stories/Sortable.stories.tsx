@@ -16,14 +16,14 @@ const meta: Meta<typeof Sortable> = {
     strategy: {
       control: 'select',
       options: ['vertical', 'horizontal', 'grid'],
-      description: '정렬 방향',
+      description: '정렬 레이아웃 방향을 설정합니다. vertical(세로), horizontal(가로), grid(격자) 중 선택할 수 있습니다',
       table: {
         type: { summary: 'SortableStrategy', detail: "'vertical' | 'horizontal' | 'grid'" },
       },
     },
     disabled: {
       control: 'boolean',
-      description: '정렬 비활성화 여부',
+      description: '드래그를 통한 정렬 기능의 비활성화 여부를 설정합니다. true일 경우 아이템을 드래그하여 순서를 변경할 수 없습니다',
       table: { type: { summary: 'boolean' } },
     },
   },
@@ -52,10 +52,10 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const [items, setItems] = useState<ListItem[]>([
-      { id: '1', title: 'Item 1' },
-      { id: '2', title: 'Item 2' },
-      { id: '3', title: 'Item 3' },
-      { id: '4', title: 'Item 4' },
+      { id: '1', title: '항목 1' },
+      { id: '2', title: '항목 2' },
+      { id: '3', title: '항목 3' },
+      { id: '4', title: '항목 4' },
     ]);
 
     return (
@@ -89,9 +89,9 @@ export const Default: Story = {
 export const WithHandle: Story = {
   render: function Render() {
     const [items, setItems] = useState<ListItem[]>([
-      { id: '1', title: 'Item 1' },
-      { id: '2', title: 'Item 2' },
-      { id: '3', title: 'Item 3' },
+      { id: '1', title: '항목 1' },
+      { id: '2', title: '항목 2' },
+      { id: '3', title: '항목 3' },
     ]);
 
     return (
@@ -294,9 +294,9 @@ export const ImageGallery: Story = {
 export const RenderProps: Story = {
   render: function Render() {
     const [items, setItems] = useState<ListItem[]>([
-      { id: '1', title: 'Item 1' },
-      { id: '2', title: 'Item 2' },
-      { id: '3', title: 'Item 3' },
+      { id: '1', title: '항목 1' },
+      { id: '2', title: '항목 2' },
+      { id: '3', title: '항목 3' },
     ]);
 
     return (

@@ -14,21 +14,21 @@ const meta: Meta<typeof Pagination> = {
   argTypes: {
     page: {
       control: 'number',
-      description: '현재 페이지 (1-indexed)',
+      description: '현재 활성 페이지 번호입니다. 1부터 시작하며, totalPages 이하의 값을 설정합니다',
       table: {
         type: { summary: 'number' },
       },
     },
     totalPages: {
       control: 'number',
-      description: '전체 페이지 수',
+      description: '전체 페이지 수입니다. 이 값에 따라 페이지 번호 버튼과 ellipsis가 자동으로 계산됩니다',
       table: {
         type: { summary: 'number' },
       },
     },
     onPageChange: {
       action: 'pageChange',
-      description: '페이지 변경 콜백',
+      description: '페이지가 변경될 때 호출되는 콜백 함수입니다. 새로운 페이지 번호를 인자로 전달합니다',
       table: {
         type: { summary: '(page: number) => void' },
       },
@@ -36,7 +36,7 @@ const meta: Meta<typeof Pagination> = {
     variant: {
       control: 'select',
       options: ['numbered', 'dot', 'simple'],
-      description: '페이지네이션 스타일',
+      description: '페이지네이션의 시각적 스타일입니다. numbered(번호 버튼), dot(점 인디케이터), simple(이전/다음 버튼) 중 선택합니다',
       table: {
         type: {
           summary: 'PaginationVariant',
@@ -47,7 +47,7 @@ const meta: Meta<typeof Pagination> = {
     },
     maxVisiblePages: {
       control: 'number',
-      description: '최대 표시할 항목 수 (페이지 번호 + ellipsis 포함, numbered 변형에서만 사용)',
+      description: '한 번에 표시할 최대 항목 수입니다. 페이지 번호와 ellipsis를 포함하며, numbered 변형에서만 적용됩니다',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '7' },
@@ -55,7 +55,7 @@ const meta: Meta<typeof Pagination> = {
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 모든 페이지 버튼이 비활성화되어 클릭할 수 없습니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -63,7 +63,7 @@ const meta: Meta<typeof Pagination> = {
     },
     hideNavButtons: {
       control: 'boolean',
-      description: '이전/다음 버튼 숨김',
+      description: 'true로 설정하면 이전/다음 화살표 버튼을 숨기고 페이지 번호만 표시합니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -71,49 +71,49 @@ const meta: Meta<typeof Pagination> = {
     },
     pageChangeConfirmMessage: {
       control: 'text',
-      description: '페이지 변경 전 확인 메시지 (설정 시 확인 다이얼로그 표시)',
+      description: '페이지 이동 전 표시할 확인 메시지입니다. 설정하면 페이지 변경 시 confirm 다이얼로그가 표시됩니다',
       table: {
         type: { summary: 'string' },
       },
     },
     getPageHref: {
-      description: '라우터 지원을 위한 페이지 href 생성 함수',
+      description: '각 페이지 번호에 대한 href를 생성하는 함수입니다. 설정하면 페이지 버튼이 링크로 렌더링되어 라우터 연동이 가능합니다',
       table: {
         type: { summary: '(page: number) => string' },
       },
     },
     total: {
       control: 'number',
-      description: '전체 항목 수 (simple 변형에서 사용)',
+      description: '전체 데이터 항목 수입니다. simple 변형에서 결과 텍스트 표시에 사용됩니다',
       table: {
         type: { summary: 'number' },
       },
     },
     resultTextFormatter: {
-      description: '결과 텍스트 포맷터 (simple 변형에서 사용)',
+      description: '결과 텍스트를 커스터마이즈하는 포맷터 함수입니다. simple 변형에서 기본 텍스트 대신 사용됩니다',
       table: {
         type: { summary: '(current: number, total: number) => string' },
       },
     },
     prevText: {
       control: 'text',
-      description: '이전 버튼 텍스트 (simple 변형에서 사용)',
+      description: '이전 페이지 버튼에 표시할 텍스트입니다. simple 변형에서만 사용됩니다',
       table: {
         type: { summary: 'string' },
-        defaultValue: { summary: 'Prev' },
+        defaultValue: { summary: '이전' },
       },
     },
     nextText: {
       control: 'text',
-      description: '다음 버튼 텍스트 (simple 변형에서 사용)',
+      description: '다음 페이지 버튼에 표시할 텍스트입니다. simple 변형에서만 사용됩니다',
       table: {
         type: { summary: 'string' },
-        defaultValue: { summary: 'Next' },
+        defaultValue: { summary: '다음' },
       },
     },
     className: {
       control: 'text',
-      description: '추가 CSS 클래스',
+      description: '컴포넌트에 추가할 CSS 클래스명입니다. 외부 스타일 커스터마이즈에 사용합니다',
       table: {
         type: { summary: 'string' },
       },
@@ -142,8 +142,8 @@ export const Default: Story = {
     hideNavButtons: false,
     pageChangeConfirmMessage: '',
     total: 100,
-    prevText: 'Prev',
-    nextText: 'Next',
+    prevText: '이전',
+    nextText: '다음',
   },
   render: function Render(args) {
     const [page, setPage] = useState(args.page || 1);

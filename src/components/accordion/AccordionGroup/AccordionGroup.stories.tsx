@@ -15,7 +15,7 @@ const meta = {
   argTypes: {
     items: {
       control: 'object',
-      description: '아코디언 아이템 데이터 배열',
+      description: '아코디언에 표시할 아이템 목록입니다. 각 아이템은 header(헤더)와 children(내용)을 포함합니다',
       table: {
         type: {
           summary: 'AccordionGroupItem[]',
@@ -31,7 +31,7 @@ const meta = {
     },
     spacing: {
       control: 'number',
-      description: '아이템 사이 간격 (픽셀)',
+      description: '아코디언 아이템 사이의 세로 간격을 픽셀 단위로 설정합니다. 기본값은 8px입니다',
       table: {
         type: {
           summary: 'number',
@@ -42,7 +42,7 @@ const meta = {
     style: {
       control: 'select',
       options: ['default', 'soft', 'ghost', 'line'],
-      description: '모든 아이템에 적용되는 스타일 변형',
+      description: '모든 아이템에 공통으로 적용되는 시각적 스타일입니다. 개별 아이템에서 별도 스타일을 지정하면 해당 아이템만 덮어씁니다',
       table: {
         type: {
           summary: 'AccordionItemStyle',
@@ -57,7 +57,7 @@ const meta = {
     },
     allowMultipleOpen: {
       control: 'boolean',
-      description: '여러 아이템을 동시에 열 수 있도록 허용',
+      description: 'true로 설정하면 여러 아이템을 동시에 펼칠 수 있습니다. false로 설정하면 하나를 열 때 다른 아이템이 자동으로 닫힙니다',
       table: {
         type: {
           summary: 'boolean',
@@ -74,16 +74,16 @@ type Story = StoryObj<typeof meta>;
 
 const sampleItems: AccordionGroupItem[] = [
   {
-    header: 'Can I cancel my subscription at any time?',
-    children: 'Yes, you can cancel your subscription at any time directly from your account settings.',
+    header: '구독을 언제든지 취소할 수 있나요?',
+    children: '네, 계정 설정에서 언제든지 구독을 직접 취소할 수 있습니다.',
   },
   {
-    header: 'What payment methods do you accept?',
-    children: 'We accept all major credit cards, PayPal, and bank transfers. All payments are processed securely.',
+    header: '어떤 결제 수단을 지원하나요?',
+    children: '주요 신용카드, PayPal, 계좌이체를 지원합니다. 모든 결제는 안전하게 처리됩니다.',
   },
   {
-    header: 'How do I update my billing information?',
-    children: 'You can update your billing information at any time by going to Settings > Billing in your account dashboard.',
+    header: '결제 정보는 어떻게 변경하나요?',
+    children: '계정 대시보드의 설정 > 결제 메뉴에서 언제든지 결제 정보를 변경할 수 있습니다.',
   },
 ];
 
@@ -144,17 +144,17 @@ export const GroupWithOpenedItems: Story = {
   args: {
     items: [
       {
-        header: 'First Item (Opened)',
-        children: 'This accordion item is opened by default.',
+        header: '첫 번째 항목 (열림)',
+        children: '이 아코디언 항목은 기본적으로 열려 있습니다.',
         isOpen: true,
       },
       {
-        header: 'Second Item (Closed)',
-        children: 'This accordion item is closed by default.',
+        header: '두 번째 항목 (닫힘)',
+        children: '이 아코디언 항목은 기본적으로 닫혀 있습니다.',
       },
       {
-        header: 'Third Item (Opened)',
-        children: 'This accordion item is also opened by default.',
+        header: '세 번째 항목 (열림)',
+        children: '이 아코디언 항목도 기본적으로 열려 있습니다.',
         isOpen: true,
       },
     ],
@@ -167,17 +167,17 @@ export const GroupWithMixedStates: Story = {
   args: {
     items: [
       {
-        header: 'Normal Accordion',
-        children: 'This is a normal accordion item.',
+        header: '일반 아코디언',
+        children: '일반 상태의 아코디언 항목입니다.',
       },
       {
-        header: 'Opened Accordion',
-        children: 'This accordion item is opened.',
+        header: '열린 아코디언',
+        children: '이 아코디언 항목은 열려 있습니다.',
         isOpen: true,
       },
       {
-        header: 'Disabled Accordion',
-        children: 'This accordion item is disabled.',
+        header: '비활성 아코디언',
+        children: '이 아코디언 항목은 비활성화되어 있습니다.',
         disabled: true,
       },
     ],
@@ -228,22 +228,22 @@ export const GroupAllVariants: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', maxWidth: '800px' }}>
       <div>
-        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>Default Style Group</h3>
+        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>Default 스타일 그룹</h3>
         <AccordionGroup items={sampleItems} spacing={8} style="default" />
       </div>
 
       <div>
-        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>Soft Style Group</h3>
+        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>Soft 스타일 그룹</h3>
         <AccordionGroup items={sampleItems} spacing={8} style="soft" />
       </div>
 
       <div>
-        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>Ghost Style Group</h3>
+        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>Ghost 스타일 그룹</h3>
         <AccordionGroup items={sampleItems} spacing={8} style="ghost" />
       </div>
 
       <div>
-        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>Line Style Group</h3>
+        <h3 style={{ marginBottom: '16px', fontSize: '18px', fontWeight: 600 }}>Line 스타일 그룹</h3>
         <AccordionGroup items={sampleItems} spacing={8} style="line" />
       </div>
     </div>
@@ -254,19 +254,19 @@ export const GroupLongContent: Story = {
   args: {
     items: [
       {
-        header: 'Short Content',
-        children: 'This is a short answer.',
+        header: '짧은 내용',
+        children: '이것은 짧은 답변입니다.',
       },
       {
-        header: 'Long Content',
+        header: '긴 내용',
         children:
-          'This is a much longer answer that contains multiple paragraphs and detailed information. It demonstrates how the accordion handles longer content gracefully. The content area will expand to accommodate all the text, and users can scroll if needed.',
+          '이것은 여러 단락과 상세한 정보를 포함하는 훨씬 더 긴 답변입니다. 아코디언이 긴 콘텐츠를 어떻게 우아하게 처리하는지 보여줍니다. 콘텐츠 영역은 모든 텍스트를 수용하도록 확장되며, 필요한 경우 스크롤할 수 있습니다.',
       },
       {
-        header: 'Very Long Content',
+        header: '매우 긴 내용',
         children: (
           <div>
-            <p>This accordion item contains very long content with multiple paragraphs.</p>
+            <p>이 아코디언 항목은 여러 단락으로 구성된 매우 긴 내용을 포함합니다.</p>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
               dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip

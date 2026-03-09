@@ -55,7 +55,7 @@ const meta: Meta<DrawerStoryProps> = {
     direction: {
       control: 'select',
       options: ['top', 'bottom', 'left', 'right'],
-      description: '[Drawer] 열리는 방향',
+      description: '[Drawer] Drawer가 화면에서 열리는 방향을 설정합니다. top(위), bottom(아래), left(왼쪽), right(오른쪽) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'DrawerDirection',
@@ -67,7 +67,7 @@ const meta: Meta<DrawerStoryProps> = {
     },
     shouldScaleBackground: {
       control: 'boolean',
-      description: '[Drawer] iOS 스타일 배경 축소 효과',
+      description: '[Drawer] true로 설정하면 Drawer가 열릴 때 배경 콘텐츠가 약간 축소되는 iOS 스타일 애니메이션 효과가 적용됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -76,7 +76,7 @@ const meta: Meta<DrawerStoryProps> = {
     },
     defaultOpen: {
       control: 'boolean',
-      description: '[Drawer] 초기 열림 상태 (비제어 모드)',
+      description: '[Drawer] 처음 렌더링될 때 Drawer가 열린 상태로 시작할지 설정합니다. 외부 상태 관리 없이 사용하는 비제어 모드에서 사용합니다',
       table: {
         type: { summary: 'boolean' },
         category: 'Drawer',
@@ -84,7 +84,7 @@ const meta: Meta<DrawerStoryProps> = {
     },
     open: {
       control: 'boolean',
-      description: '[Drawer] 열림 상태 (제어 모드)',
+      description: '[Drawer] Drawer의 열림/닫힘 상태를 외부에서 직접 제어합니다. onOpenChange와 함께 사용하여 상태를 관리합니다',
       table: {
         type: { summary: 'boolean' },
         category: 'Drawer',
@@ -92,7 +92,7 @@ const meta: Meta<DrawerStoryProps> = {
     },
     onOpenChange: {
       action: 'openChange',
-      description: '[Drawer] 열림 상태 변경 콜백',
+      description: '[Drawer] Drawer가 열리거나 닫힐 때 호출되는 콜백 함수입니다. open prop과 함께 사용하여 상태를 동기화합니다',
       table: {
         type: { summary: '(open: boolean) => void' },
         category: 'Drawer',
@@ -122,24 +122,24 @@ export const Default: Story = {
     return (
       <Drawer direction={args.direction} shouldScaleBackground={args.shouldScaleBackground}>
         <DrawerTrigger asChild>
-          <Button buttonStyle="secondary">Open Drawer</Button>
+          <Button buttonStyle="secondary">Drawer 열기</Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Drawer Title</DrawerTitle>
+            <DrawerTitle>Drawer 제목</DrawerTitle>
             <DrawerDescription>
-              Drawer description text goes here. You can swipe down to close.
+              Drawer 설명 텍스트입니다. 아래로 스와이프하여 닫을 수 있습니다.
             </DrawerDescription>
           </DrawerHeader>
           <div className="font-body size-sm text-default padding-x-16 padding-y-16">
-            This is the drawer content area. Drag the handle above to close.
+            Drawer의 콘텐츠 영역입니다. 상단 핸들을 드래그하여 닫을 수 있습니다.
           </div>
           <DrawerFooter>
             <DrawerClose asChild>
-              <Button buttonStyle="secondary">Cancel</Button>
+              <Button buttonStyle="secondary">취소</Button>
             </DrawerClose>
             <DrawerClose asChild>
-              <Button>Confirm</Button>
+              <Button>확인</Button>
             </DrawerClose>
           </DrawerFooter>
         </DrawerContent>
@@ -164,17 +164,17 @@ export const AllDirections: Story = {
           </DrawerTrigger>
           <DrawerContent className={direction === 'left' || direction === 'right' ? 'w-[300px]' : ''}>
             <DrawerHeader>
-              <DrawerTitle>{direction.charAt(0).toUpperCase() + direction.slice(1)} Drawer</DrawerTitle>
+              <DrawerTitle>{direction} 방향 Drawer</DrawerTitle>
               <DrawerDescription>
-                This drawer slides in from the {direction}.
+                이 Drawer는 {direction} 방향에서 슬라이드됩니다.
               </DrawerDescription>
             </DrawerHeader>
             <div className="font-body size-sm text-default padding-x-16 padding-y-16">
-              Content for the {direction} drawer.
+              {direction} 방향 Drawer의 콘텐츠입니다.
             </div>
             <DrawerFooter>
               <DrawerClose asChild>
-                <Button>Close</Button>
+                <Button>닫기</Button>
               </DrawerClose>
             </DrawerFooter>
           </DrawerContent>
@@ -204,7 +204,7 @@ export const ActionSheet: Story = {
     return (
       <Drawer>
         <DrawerTrigger asChild>
-          <Button buttonStyle="secondary">Open Actions</Button>
+          <Button buttonStyle="secondary">작업 메뉴 열기</Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
@@ -270,7 +270,7 @@ export const QuickSettings: Story = {
     return (
       <Drawer>
         <DrawerTrigger asChild>
-          <Button buttonStyle="secondary">Quick Settings</Button>
+          <Button buttonStyle="secondary">빠른 설정 열기</Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
@@ -332,7 +332,7 @@ export const CartPreview: Story = {
     return (
       <Drawer>
         <DrawerTrigger asChild>
-          <Button buttonStyle="secondary">View Cart (3)</Button>
+          <Button buttonStyle="secondary">장바구니 보기 (3)</Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
@@ -411,7 +411,7 @@ export const FilterDrawer: Story = {
     return (
       <Drawer>
         <DrawerTrigger asChild>
-          <Button buttonStyle="secondary">Filter</Button>
+          <Button buttonStyle="secondary">필터 열기</Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
@@ -506,7 +506,7 @@ export const MapLocationDetail: Story = {
     return (
       <Drawer>
         <DrawerTrigger asChild>
-          <Button buttonStyle="secondary">View Location</Button>
+          <Button buttonStyle="secondary">위치 보기</Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
@@ -654,10 +654,10 @@ export const Controlled: Story = {
         </p>
         <div className="flex ds-gap-8">
           <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
-            Open Drawer
+            Drawer 열기
           </Button>
           <Button buttonStyle="ghost" onClick={() => alert('다른 작업 수행')}>
-            Other Action
+            다른 작업
           </Button>
         </div>
 
@@ -701,7 +701,7 @@ export const ScrollableContent: Story = {
     return (
       <Drawer>
         <DrawerTrigger asChild>
-          <Button buttonStyle="secondary">Open Long List</Button>
+          <Button buttonStyle="secondary">긴 목록 열기</Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>

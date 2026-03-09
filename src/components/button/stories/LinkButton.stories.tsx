@@ -14,7 +14,7 @@ const meta: Meta<typeof LinkButton> = {
     linkType: {
       control: 'select',
       options: ['default', 'muted', 'informative'],
-      description: '링크 버튼의 타입',
+      description: '링크 버튼의 시각적 타입을 설정합니다. default(기본 색상), muted(흐린 색상), informative(파란색 강조) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'LinkButtonType',
@@ -25,7 +25,7 @@ const meta: Meta<typeof LinkButton> = {
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: '링크 버튼의 크기',
+      description: '링크 버튼의 크기를 설정합니다. sm(작게), md(보통), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'LinkButtonSize',
@@ -58,21 +58,21 @@ const meta: Meta<typeof LinkButton> = {
     },
     label: {
       control: 'text',
-      description: '링크 버튼의 라벨 텍스트',
+      description: '링크 버튼에 표시되는 라벨 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     href: {
       control: 'text',
-      description: '이동할 URL (anchor로 렌더링됨)',
+      description: '클릭 시 이동할 URL입니다. 설정하면 버튼이 anchor 태그로 렌더링됩니다',
       table: {
         type: { summary: 'string' },
       },
     },
     openInNewTab: {
       control: 'boolean',
-      description: '새 탭에서 링크 열기',
+      description: 'true로 설정하면 링크를 새 브라우저 탭에서 엽니다',
       table: {
         type: { summary: 'boolean' },
       },
@@ -122,7 +122,7 @@ type Story = StoryObj<typeof LinkButton>;
  */
 export const Default: Story = {
   args: {
-    label: 'Preview',
+    label: '미리보기',
     linkType: 'default',
     size: 'md',
     leadIcon: undefined,
@@ -170,9 +170,9 @@ export const AllSizes: Story = {
 export const IconPositions: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center">
-      <LinkButton label="Lead Icon" leadIcon={['system', 'link']} tailIcon={undefined} />
-      <LinkButton label="Tail Icon" tailIcon={['system', 'external-link']} />
-      <LinkButton label="Both Icons" leadIcon={['system', 'link']} tailIcon={['system', 'external-link']} />
+      <LinkButton label="앞 아이콘" leadIcon={['system', 'link']} tailIcon={undefined} />
+      <LinkButton label="뒤 아이콘" tailIcon={['system', 'external-link']} />
+      <LinkButton label="양쪽 아이콘" leadIcon={['system', 'link']} tailIcon={['system', 'external-link']} />
     </div>
   ),
 };
@@ -208,8 +208,8 @@ export const States: Story = {
 export const WithHref: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center">
-      <LinkButton label="Open Link" href="https://example.com" />
-      <LinkButton label="Open in New Tab" href="https://example.com" openInNewTab />
+      <LinkButton label="링크 열기" href="https://example.com" />
+      <LinkButton label="새 탭에서 열기" href="https://example.com" openInNewTab />
     </div>
   ),
 };

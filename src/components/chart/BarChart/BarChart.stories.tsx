@@ -42,7 +42,7 @@ const meta: Meta<typeof BarChart> = {
     },
     xAxis: {
       control: 'object',
-      description: 'X축 설정',
+      description: 'X축의 데이터 키, 라벨, 도메인, 틱 포맷터 등을 설정합니다',
       table: {
         type: {
           summary: 'ChartAxisConfig',
@@ -57,7 +57,7 @@ const meta: Meta<typeof BarChart> = {
     },
     yAxis: {
       control: 'object',
-      description: 'Y축 설정',
+      description: 'Y축의 데이터 키, 라벨, 도메인, 틱 포맷터 등을 설정합니다',
       table: {
         type: {
           summary: 'ChartAxisConfig',
@@ -72,63 +72,63 @@ const meta: Meta<typeof BarChart> = {
     },
     width: {
       control: { type: 'number', min: 200, max: 1200, step: 50 },
-      description: '차트 너비 (픽셀)',
+      description: '차트 컨테이너의 너비를 픽셀 단위로 설정합니다',
       table: {
         type: { summary: 'number' },
       },
     },
     height: {
       control: { type: 'number', min: 200, max: 800, step: 50 },
-      description: '차트 높이 (픽셀)',
+      description: '차트 컨테이너의 높이를 픽셀 단위로 설정합니다',
       table: {
         type: { summary: 'number' },
       },
     },
     barSize: {
       control: { type: 'number', min: 8, max: 80, step: 4 },
-      description: '각 막대의 크기 (픽셀)',
+      description: '각 막대의 너비를 픽셀 단위로 설정합니다',
       table: {
         type: { summary: 'number' },
       },
     },
     gap: {
       control: { type: 'number', min: 0, max: 32, step: 2 },
-      description: '막대 사이 간격 (픽셀)',
+      description: '막대 사이의 간격을 픽셀 단위로 설정합니다',
       table: {
         type: { summary: 'number' },
       },
     },
     showXGrid: {
       control: 'boolean',
-      description: '가로 그리드 라인 표시 (Y축 값)',
+      description: 'true로 설정하면 Y축 값에 해당하는 가로 그리드 라인을 표시합니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     showYGrid: {
       control: 'boolean',
-      description: '세로 그리드 라인 표시 (X축 값)',
+      description: 'true로 설정하면 X축 값에 해당하는 세로 그리드 라인을 표시합니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     showLegend: {
       control: 'boolean',
-      description: '범례 표시',
+      description: 'true로 설정하면 차트 하단에 데이터 시리즈를 구분하는 범례를 표시합니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     ariaLabel: {
       control: 'text',
-      description: '접근성을 위한 차트 설명',
+      description: '스크린 리더를 위한 차트 설명 텍스트입니다. 접근성을 위해 차트의 내용을 설명합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     stacked: {
       control: 'boolean',
-      description: '여러 데이터 시리즈를 누적 막대로 렌더링',
+      description: 'true로 설정하면 여러 데이터 시리즈를 하나의 막대에 누적하여 표시합니다',
       table: {
         type: { summary: 'boolean' },
       },
@@ -136,7 +136,7 @@ const meta: Meta<typeof BarChart> = {
     layout: {
       control: 'select',
       options: ['vertical', 'horizontal'],
-      description: '차트 방향',
+      description: '차트의 방향을 설정합니다. vertical(세로), horizontal(가로) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: `'vertical' | 'horizontal'`,

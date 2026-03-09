@@ -20,7 +20,7 @@ const meta: Meta<ToastContentProps> = {
     variant: {
       control: 'select',
       options: ['default', 'info', 'success', 'warning', 'error'],
-      description: '토스트 변형',
+      description: '토스트의 유형을 설정합니다. default(기본), info(정보), success(성공), warning(경고), error(오류) 중 선택하면 아이콘과 색상이 자동으로 변경됩니다',
       table: {
         type: {
           summary: 'ToastVariant',
@@ -30,14 +30,14 @@ const meta: Meta<ToastContentProps> = {
     },
     message: {
       control: 'text',
-      description: '표시할 메시지',
+      description: '토스트에 표시되는 주요 메시지 텍스트입니다. 사용자에게 알림 내용을 전달합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     label: {
       control: 'text',
-      description: '라벨 텍스트 (기본값: 변형에 따라 자동 설정)',
+      description: '메시지 앞에 굵게 표시되는 라벨 텍스트입니다. 생략하면 변형에 따라 자동으로 설정됩니다 (예: "성공:", "오류:")',
       table: {
         type: { summary: 'string' },
       },
@@ -64,14 +64,14 @@ type Story = StoryObj<ToastContentProps>;
 export const StaticPreview: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-12" style={{ width: 500 }}>
-      <ToastContent variant="default" message="This is a toast message" />
-      <ToastContent variant="info" message="Here is some helpful information for you." />
+      <ToastContent variant="default" message="기본 토스트 메시지입니다" />
+      <ToastContent variant="info" message="참고할 만한 유용한 정보입니다." />
       <ToastContent
         variant="success"
-        message="Your action was successfully completed! You can now proceed to the next step or review the results below. If you have any questions, feel free to reach out to our support team for assistance."
+        message="작업이 성공적으로 완료되었습니다! 다음 단계로 진행하거나 아래 결과를 확인할 수 있습니다. 궁금한 점이 있으시면 지원팀에 문의해 주세요."
       />
-      <ToastContent variant="warning" message="Please review this before continuing." />
-      <ToastContent variant="error" message="Something went wrong. Please try again." />
+      <ToastContent variant="warning" message="계속하기 전에 이 내용을 확인해 주세요." />
+      <ToastContent variant="error" message="문제가 발생했습니다. 다시 시도해 주세요." />
     </div>
   ),
 };
@@ -95,7 +95,7 @@ export const StaticPreview: Story = {
 export const Default: Story = {
   args: {
     variant: 'success',
-    message: 'Your action was successfully completed!',
+    message: '작업이 성공적으로 완료되었습니다!',
     label: undefined,
   },
   parameters: {
@@ -121,7 +121,7 @@ toast.success('Quick message', { duration: 2000 });`,
 
     return (
       <Button buttonStyle="secondary" onClick={() => toastFn(args.message, { label })}>
-        Show Toast
+        토스트 표시
       </Button>
     );
   },
@@ -136,26 +136,26 @@ export const AllVariants: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-12">
       <div className="flex ds-gap-12 flex-wrap">
-        <Button buttonStyle="secondary" onClick={() => toast.default('This is a default message')}>
+        <Button buttonStyle="secondary" onClick={() => toast.default('기본 메시지입니다')}>
           Default
         </Button>
-        <Button buttonStyle="secondary" onClick={() => toast.info('Here is some helpful information for you.')}>
+        <Button buttonStyle="secondary" onClick={() => toast.info('참고할 만한 유용한 정보입니다.')}>
           Info
         </Button>
         <Button
           buttonStyle="secondary"
           onClick={() =>
             toast.success(
-              'Your action was successfully completed! You can now proceed to the next step or review the results below.'
+              '작업이 성공적으로 완료되었습니다! 다음 단계로 진행하거나 아래 결과를 확인할 수 있습니다.'
             )
           }
         >
           Success
         </Button>
-        <Button buttonStyle="secondary" onClick={() => toast.warning('Please review this before continuing.')}>
+        <Button buttonStyle="secondary" onClick={() => toast.warning('계속하기 전에 이 내용을 확인해 주세요.')}>
           Warning
         </Button>
-        <Button buttonStyle="secondary" onClick={() => toast.error('Something went wrong. Please try again.')}>
+        <Button buttonStyle="secondary" onClick={() => toast.error('문제가 발생했습니다. 다시 시도해 주세요.')}>
           Error
         </Button>
       </div>
@@ -174,11 +174,11 @@ export const LongMessage: Story = {
       buttonStyle="secondary"
       onClick={() =>
         toast.success(
-          'Your action was successfully completed! You can now proceed to the next step or review the results below. If you have any questions, feel free to reach out to our support team for assistance.'
+          '작업이 성공적으로 완료되었습니다! 다음 단계로 진행하거나 아래 결과를 확인할 수 있습니다. 궁금한 점이 있으시면 지원팀에 문의해 주세요.'
         )
       }
     >
-      Show Long Message
+      긴 메시지 표시
     </Button>
   ),
 };
@@ -193,12 +193,12 @@ export const CustomLabel: Story = {
     <div className="flex ds-gap-12">
       <Button
         buttonStyle="secondary"
-        onClick={() => toast.success('Your profile has been saved.', { label: 'Saved!' })}
+        onClick={() => toast.success('프로필이 저장되었습니다.', { label: '저장 완료!' })}
       >
-        Custom Label
+        커스텀 라벨
       </Button>
-      <Button buttonStyle="secondary" onClick={() => toast.info('Click here to learn more.', { label: 'Tip:' })}>
-        Tip Label
+      <Button buttonStyle="secondary" onClick={() => toast.info('여기를 클릭하여 자세히 알아보세요.', { label: '팁:' })}>
+        팁 라벨
       </Button>
     </div>
   ),
@@ -212,10 +212,10 @@ export const CustomLabel: Story = {
 export const CustomDuration: Story = {
   render: () => (
     <div className="flex ds-gap-12">
-      <Button buttonStyle="secondary" onClick={() => toast.success('Quick toast!', { duration: 1000 })}>
+      <Button buttonStyle="secondary" onClick={() => toast.success('빠른 토스트!', { duration: 1000 })}>
         1초 후 닫힘
       </Button>
-      <Button buttonStyle="secondary" onClick={() => toast.success('Longer toast!', { duration: 5000 })}>
+      <Button buttonStyle="secondary" onClick={() => toast.success('긴 토스트!', { duration: 5000 })}>
         5초 후 닫힘
       </Button>
     </div>

@@ -27,14 +27,14 @@ const meta: Meta<DropdownMenuLabelProps> = {
   argTypes: {
     caption: {
       control: 'text',
-      description: '라벨 우측에 표시되는 캡션 텍스트',
+      description: '라벨 우측에 표시되는 보조 캡션 텍스트입니다. 아이템 수나 단축키 등의 부가 정보를 표시합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     inset: {
       control: 'boolean',
-      description: '왼쪽 인덴트 적용',
+      description: 'true로 설정하면 라벨에 왼쪽 인덴트가 적용되어 아이콘이 있는 아이템과 수직 정렬됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -102,7 +102,7 @@ export const LabelWithCaption: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Files</Button>
+          <Button buttonStyle="secondary">파일</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel caption="3개">최근 파일</DropdownMenuLabel>
@@ -129,13 +129,13 @@ export const InsetLabel: Story = {
           <Button buttonStyle="secondary">Menu</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={250}>
-          <DropdownMenuLabel inset>Section 1</DropdownMenuLabel>
-          <DropdownMenuItem inset>Item 1</DropdownMenuItem>
-          <DropdownMenuItem inset>Item 2</DropdownMenuItem>
+          <DropdownMenuLabel inset>섹션 1</DropdownMenuLabel>
+          <DropdownMenuItem inset>항목 1</DropdownMenuItem>
+          <DropdownMenuItem inset>항목 2</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuLabel inset>Section 2</DropdownMenuLabel>
-          <DropdownMenuItem inset>Item 3</DropdownMenuItem>
-          <DropdownMenuItem inset>Item 4</DropdownMenuItem>
+          <DropdownMenuLabel inset>섹션 2</DropdownMenuLabel>
+          <DropdownMenuItem inset>항목 3</DropdownMenuItem>
+          <DropdownMenuItem inset>항목 4</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -154,37 +154,37 @@ export const Submenu: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Edit</Button>
+          <Button buttonStyle="secondary">편집</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="[width:224px]">
-          <DropdownMenuItem shortcut="⌘Z">Undo</DropdownMenuItem>
-          <DropdownMenuItem shortcut="⇧⌘Z">Redo</DropdownMenuItem>
+          <DropdownMenuItem shortcut="⌘Z">실행 취소</DropdownMenuItem>
+          <DropdownMenuItem shortcut="⇧⌘Z">다시 실행</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <Icon iconType={['user', 'user']} size={16} />
-              Invite Users
+              사용자 초대
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
               <DropdownMenuItem>
                 <Icon iconType={['business', 'mail']} size={16} />
-                Email
+                이메일
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Icon iconType={['communication', 'message-3']} size={16} />
-                Message
+                메시지
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Icon iconType={['system', 'add']} size={16} />
-                More...
+                더보기...
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuSub>
           <DropdownMenuSeparator />
-          <DropdownMenuItem shortcut="⌘X">Cut</DropdownMenuItem>
-          <DropdownMenuItem shortcut="⌘C">Copy</DropdownMenuItem>
-          <DropdownMenuItem shortcut="⌘V">Paste</DropdownMenuItem>
+          <DropdownMenuItem shortcut="⌘X">잘라내기</DropdownMenuItem>
+          <DropdownMenuItem shortcut="⌘C">복사</DropdownMenuItem>
+          <DropdownMenuItem shortcut="⌘V">붙여넣기</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -199,27 +199,27 @@ export const NestedSubmenu: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Navigation</Button>
+          <Button buttonStyle="secondary">내비게이션</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={200}>
-          <DropdownMenuItem>Home</DropdownMenuItem>
+          <DropdownMenuItem>홈</DropdownMenuItem>
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger>Products</DropdownMenuSubTrigger>
+            <DropdownMenuSubTrigger>제품</DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-              <DropdownMenuItem>Electronics</DropdownMenuItem>
+              <DropdownMenuItem>전자제품</DropdownMenuItem>
               <DropdownMenuSub>
-                <DropdownMenuSubTrigger>Clothing</DropdownMenuSubTrigger>
+                <DropdownMenuSubTrigger>의류</DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
-                  <DropdownMenuItem>Men's</DropdownMenuItem>
-                  <DropdownMenuItem>Women's</DropdownMenuItem>
-                  <DropdownMenuItem>Kids</DropdownMenuItem>
+                  <DropdownMenuItem>남성</DropdownMenuItem>
+                  <DropdownMenuItem>여성</DropdownMenuItem>
+                  <DropdownMenuItem>아동</DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
-              <DropdownMenuItem>Books</DropdownMenuItem>
+              <DropdownMenuItem>도서</DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuSub>
-          <DropdownMenuItem>About</DropdownMenuItem>
-          <DropdownMenuItem>Contact</DropdownMenuItem>
+          <DropdownMenuItem>소개</DropdownMenuItem>
+          <DropdownMenuItem>문의</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -240,7 +240,7 @@ export const MenuGroups: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">Account</Button>
+          <Button buttonStyle="secondary">계정</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={200}>
           <DropdownMenuGroup>
@@ -280,8 +280,8 @@ export const Positions: Story = {
             <Button buttonStyle="secondary" size="sm">Top</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="top">
-            <DropdownMenuItem>Item 1</DropdownMenuItem>
-            <DropdownMenuItem>Item 2</DropdownMenuItem>
+            <DropdownMenuItem>항목 1</DropdownMenuItem>
+            <DropdownMenuItem>항목 2</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -290,8 +290,8 @@ export const Positions: Story = {
             <Button buttonStyle="secondary" size="sm">Right</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="right">
-            <DropdownMenuItem>Item 1</DropdownMenuItem>
-            <DropdownMenuItem>Item 2</DropdownMenuItem>
+            <DropdownMenuItem>항목 1</DropdownMenuItem>
+            <DropdownMenuItem>항목 2</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -300,8 +300,8 @@ export const Positions: Story = {
             <Button buttonStyle="secondary" size="sm">Bottom</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="bottom">
-            <DropdownMenuItem>Item 1</DropdownMenuItem>
-            <DropdownMenuItem>Item 2</DropdownMenuItem>
+            <DropdownMenuItem>항목 1</DropdownMenuItem>
+            <DropdownMenuItem>항목 2</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -310,8 +310,8 @@ export const Positions: Story = {
             <Button buttonStyle="secondary" size="sm">Left</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="left">
-            <DropdownMenuItem>Item 1</DropdownMenuItem>
-            <DropdownMenuItem>Item 2</DropdownMenuItem>
+            <DropdownMenuItem>항목 1</DropdownMenuItem>
+            <DropdownMenuItem>항목 2</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -328,23 +328,23 @@ export const CustomWidth: Story = {
       <div className="flex ds-gap-16">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button buttonStyle="secondary" size="sm">Narrow (150px)</Button>
+            <Button buttonStyle="secondary" size="sm">좁게 (150px)</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent width={150}>
-            <DropdownMenuItem>Item 1</DropdownMenuItem>
-            <DropdownMenuItem>Item 2</DropdownMenuItem>
-            <DropdownMenuItem>Item 3</DropdownMenuItem>
+            <DropdownMenuItem>항목 1</DropdownMenuItem>
+            <DropdownMenuItem>항목 2</DropdownMenuItem>
+            <DropdownMenuItem>항목 3</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button buttonStyle="secondary" size="sm">Wide (300px)</Button>
+            <Button buttonStyle="secondary" size="sm">넓게 (300px)</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent width={300}>
-            <DropdownMenuItem>Item with longer text</DropdownMenuItem>
-            <DropdownMenuItem>Another item</DropdownMenuItem>
-            <DropdownMenuItem>Third item</DropdownMenuItem>
+            <DropdownMenuItem>긴 텍스트가 있는 항목</DropdownMenuItem>
+            <DropdownMenuItem>다른 항목</DropdownMenuItem>
+            <DropdownMenuItem>세 번째 항목</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -15,7 +15,7 @@ const meta: Meta<typeof Skeleton> = {
     variant: {
       control: 'select',
       options: ['default', 'circular', 'text'],
-      description: '스켈레톤 모양',
+      description: '스켈레톤의 모양을 설정합니다. default(둥근 사각형), circular(원형 — 아바타용), text(텍스트 줄 모양) 중 선택할 수 있습니다',
       table: {
         type: { summary: "'default' | 'circular' | 'text'" },
         defaultValue: { summary: 'default' },
@@ -23,14 +23,14 @@ const meta: Meta<typeof Skeleton> = {
     },
     width: {
       control: 'text',
-      description: '너비 (px 또는 CSS 값)',
+      description: '스켈레톤의 너비를 설정합니다. 숫자(px) 또는 CSS 값(예: "100%", "12rem")을 사용할 수 있습니다',
       table: {
         type: { summary: 'string | number' },
       },
     },
     height: {
       control: 'text',
-      description: '높이 (px 또는 CSS 값)',
+      description: '스켈레톤의 높이를 설정합니다. 숫자(px) 또는 CSS 값(예: "100%", "3rem")을 사용할 수 있습니다',
       table: {
         type: { summary: 'string | number' },
       },

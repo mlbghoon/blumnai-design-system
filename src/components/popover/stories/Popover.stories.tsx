@@ -25,7 +25,7 @@ const meta: Meta<PopoverStoryProps> = {
     // Popover (Root) props
     defaultOpen: {
       control: 'boolean',
-      description: '[Popover] 초기 열림 상태 (비제어 모드)',
+      description: '[Popover] 처음 렌더링될 때 팝오버가 열린 상태로 시작할지 설정합니다. 외부 상태 관리 없이 사용하는 비제어 모드에서 사용합니다',
       table: {
         type: { summary: 'boolean' },
         category: 'Popover',
@@ -33,7 +33,7 @@ const meta: Meta<PopoverStoryProps> = {
     },
     open: {
       control: 'boolean',
-      description: '[Popover] 열림 상태 (제어 모드)',
+      description: '[Popover] 팝오버의 열림/닫힘 상태를 외부에서 직접 제어합니다. onOpenChange와 함께 사용하여 상태를 관리합니다',
       table: {
         type: { summary: 'boolean' },
         category: 'Popover',
@@ -41,7 +41,7 @@ const meta: Meta<PopoverStoryProps> = {
     },
     onOpenChange: {
       action: 'openChange',
-      description: '[Popover] 열림 상태 변경 콜백',
+      description: '[Popover] 팝오버가 열리거나 닫힐 때 호출되는 콜백 함수입니다. open prop과 함께 사용하여 상태를 동기화합니다',
       table: {
         type: { summary: '(open: boolean) => void' },
         category: 'Popover',
@@ -60,7 +60,7 @@ const meta: Meta<PopoverStoryProps> = {
     side: {
       control: 'select',
       options: ['top', 'right', 'bottom', 'left'],
-      description: '[PopoverContent] 트리거 기준 표시 방향',
+      description: '[PopoverContent] 트리거 버튼을 기준으로 팝오버가 나타나는 방향을 설정합니다 (top: 위, right: 오른쪽, bottom: 아래, left: 왼쪽)',
       table: {
         type: { summary: "'top' | 'right' | 'bottom' | 'left'" },
         defaultValue: { summary: 'bottom' },
@@ -69,7 +69,7 @@ const meta: Meta<PopoverStoryProps> = {
     },
     sideOffset: {
       control: 'number',
-      description: '[PopoverContent] 트리거와의 간격 (px)',
+      description: '[PopoverContent] 트리거 버튼과 팝오버 사이의 간격을 픽셀 단위로 설정합니다',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '4' },
@@ -79,7 +79,7 @@ const meta: Meta<PopoverStoryProps> = {
     align: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: '[PopoverContent] 트리거 기준 정렬 위치',
+      description: '[PopoverContent] 트리거를 기준으로 팝오버의 정렬 위치를 설정합니다 (start: 시작점, center: 가운데, end: 끝점)',
       table: {
         type: { summary: "'start' | 'center' | 'end'" },
         defaultValue: { summary: 'center' },
@@ -88,7 +88,7 @@ const meta: Meta<PopoverStoryProps> = {
     },
     alignOffset: {
       control: 'number',
-      description: '[PopoverContent] 정렬 오프셋 (px)',
+      description: '[PopoverContent] 정렬 축에서의 추가 오프셋을 픽셀 단위로 설정합니다',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
@@ -97,7 +97,7 @@ const meta: Meta<PopoverStoryProps> = {
     },
     avoidCollisions: {
       control: 'boolean',
-      description: '[PopoverContent] 화면 경계 충돌 회피',
+      description: '[PopoverContent] true로 설정하면 팝오버가 화면 경계를 벗어나지 않도록 자동으로 위치를 조정합니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -106,7 +106,7 @@ const meta: Meta<PopoverStoryProps> = {
     },
     collisionPadding: {
       control: 'number',
-      description: '[PopoverContent] 충돌 감지 여백 (px)',
+      description: '[PopoverContent] 화면 경계와의 충돌을 감지할 때 적용할 여백을 픽셀 단위로 설정합니다',
       table: {
         type: { summary: 'number | Padding' },
         defaultValue: { summary: '0' },
@@ -116,7 +116,7 @@ const meta: Meta<PopoverStoryProps> = {
     sticky: {
       control: 'select',
       options: ['partial', 'always'],
-      description: '[PopoverContent] 정렬 축 고정 동작',
+      description: '[PopoverContent] 스크롤 시 팝오버의 정렬 축 고정 동작을 설정합니다. partial(부분 고정), always(항상 고정) 중 선택할 수 있습니다',
       table: {
         type: { summary: "'partial' | 'always'" },
         defaultValue: { summary: 'partial' },
@@ -125,7 +125,7 @@ const meta: Meta<PopoverStoryProps> = {
     },
     hideWhenDetached: {
       control: 'boolean',
-      description: '[PopoverContent] 트리거가 화면에서 벗어나면 숨김',
+      description: '[PopoverContent] true로 설정하면 트리거 요소가 스크롤로 인해 화면에서 벗어났을 때 팝오버를 자동으로 숨깁니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -134,7 +134,7 @@ const meta: Meta<PopoverStoryProps> = {
     },
     forceMount: {
       control: 'boolean',
-      description: '[PopoverContent] 강제 마운트 여부 (애니메이션용)',
+      description: '[PopoverContent] true로 설정하면 팝오버가 닫혀 있어도 DOM에 유지됩니다. 진입/퇴장 애니메이션 제어 시 사용합니다',
       table: {
         type: { summary: 'boolean' },
         category: 'PopoverContent',
@@ -142,7 +142,7 @@ const meta: Meta<PopoverStoryProps> = {
     },
     className: {
       control: 'text',
-      description: '[PopoverContent] 추가 CSS 클래스',
+      description: '[PopoverContent] 팝오버 콘텐츠 영역에 추가할 CSS 클래스명입니다',
       table: {
         type: { summary: 'string' },
         category: 'PopoverContent',
@@ -199,7 +199,7 @@ export const Default: Story = {
     return (
       <Popover open={open} onOpenChange={setOpen} modal={args.modal}>
         <PopoverTrigger asChild>
-          <Button buttonStyle="secondary" onClick={() => setOpen(true)}>Open Popover</Button>
+          <Button buttonStyle="secondary" onClick={() => setOpen(true)}>팝오버 열기</Button>
         </PopoverTrigger>
         <PopoverContent
           side={args.side}
@@ -213,10 +213,10 @@ export const Default: Story = {
           width={args.width}
         >
           <div className="flex flex-col ds-gap-8">
-            <p className="font-body size-sm font-medium text-default">Popover Content</p>
+            <p className="font-body size-sm font-medium text-default">팝오버 콘텐츠</p>
             <PopoverScrollArea maxHeight={args.maxHeight}>
               <p className="font-body size-sm text-muted">
-                This is a basic popover with some content. When maxHeight is set, this area will scroll if the content exceeds the specified height.
+                기본 팝오버의 콘텐츠입니다. maxHeight를 설정하면 콘텐츠가 지정된 높이를 초과할 때 이 영역이 스크롤됩니다.
               </p>
             </PopoverScrollArea>
           </div>
@@ -237,19 +237,19 @@ export const WithForm: Story = {
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button buttonStyle="secondary" onClick={() => setOpen(true)}>Edit Dimensions</Button>
+          <Button buttonStyle="secondary" onClick={() => setOpen(true)}>크기 편집</Button>
         </PopoverTrigger>
         <PopoverContent className="[width:320px]">
           <div className="flex flex-col ds-gap-16">
             <div className="flex flex-col ds-gap-4">
-              <p className="font-body size-sm font-medium text-default">Dimensions</p>
+              <p className="font-body size-sm font-medium text-default">크기 설정</p>
               <p className="font-body size-xs text-muted">
-                Set the dimensions for the layer.
+                레이어의 크기를 설정합니다.
               </p>
             </div>
             <div className="flex flex-col ds-gap-12">
-              <Input variant="default" label="Width" placeholder="100%" />
-              <Input variant="default" label="Height" placeholder="25px" />
+              <Input variant="default" label="너비" placeholder="100%" />
+              <Input variant="default" label="높이" placeholder="25px" />
             </div>
           </div>
         </PopoverContent>
@@ -277,7 +277,7 @@ export const Positions: Story = {
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenTop(true)}>Top</Button>
           </PopoverTrigger>
           <PopoverContent side="top" className="[width:192px]">
-            <p className="font-body size-sm text-default">Top position</p>
+            <p className="font-body size-sm text-default">위쪽 위치</p>
           </PopoverContent>
         </Popover>
 
@@ -286,7 +286,7 @@ export const Positions: Story = {
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenRight(true)}>Right</Button>
           </PopoverTrigger>
           <PopoverContent side="right" className="[width:192px]">
-            <p className="font-body size-sm text-default">Right position</p>
+            <p className="font-body size-sm text-default">오른쪽 위치</p>
           </PopoverContent>
         </Popover>
 
@@ -295,7 +295,7 @@ export const Positions: Story = {
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenBottom(true)}>Bottom</Button>
           </PopoverTrigger>
           <PopoverContent side="bottom" className="[width:192px]">
-            <p className="font-body size-sm text-default">Bottom position</p>
+            <p className="font-body size-sm text-default">아래쪽 위치</p>
           </PopoverContent>
         </Popover>
 
@@ -304,7 +304,7 @@ export const Positions: Story = {
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenLeft(true)}>Left</Button>
           </PopoverTrigger>
           <PopoverContent side="left" className="[width:192px]">
-            <p className="font-body size-sm text-default">Left position</p>
+            <p className="font-body size-sm text-default">왼쪽 위치</p>
           </PopoverContent>
         </Popover>
       </div>
@@ -330,7 +330,7 @@ export const Alignment: Story = {
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenStart(true)}>Start</Button>
           </PopoverTrigger>
           <PopoverContent align="start" className="[width:192px]">
-            <p className="font-body size-sm text-default">Aligned to start</p>
+            <p className="font-body size-sm text-default">시작점 정렬</p>
           </PopoverContent>
         </Popover>
 
@@ -339,7 +339,7 @@ export const Alignment: Story = {
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenCenter(true)}>Center</Button>
           </PopoverTrigger>
           <PopoverContent align="center" className="[width:192px]">
-            <p className="font-body size-sm text-default">Aligned to center</p>
+            <p className="font-body size-sm text-default">가운데 정렬</p>
           </PopoverContent>
         </Popover>
 
@@ -348,7 +348,7 @@ export const Alignment: Story = {
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenEnd(true)}>End</Button>
           </PopoverTrigger>
           <PopoverContent align="end" className="[width:192px]">
-            <p className="font-body size-sm text-default">Aligned to end</p>
+            <p className="font-body size-sm text-default">끝점 정렬</p>
           </PopoverContent>
         </Popover>
       </div>
@@ -372,9 +372,9 @@ export const WithCloseButton: Story = {
         <PopoverContent className="[width:256px]">
           <div className="flex flex-col ds-gap-12">
             <p className="font-body size-sm text-default">
-              This popover has a close button.
+              이 팝오버에는 닫기 버튼이 있습니다.
             </p>
-            <Button size="sm" onClick={() => setOpen(false)}>Close</Button>
+            <Button size="sm" onClick={() => setOpen(false)}>닫기</Button>
           </div>
         </PopoverContent>
       </Popover>
@@ -399,16 +399,16 @@ export const Programmatic: Story = {
         <div className="flex ds-gap-8">
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-              <Button buttonStyle="secondary" onClick={() => setOpen(true)}>Toggle Popover</Button>
+              <Button buttonStyle="secondary" onClick={() => setOpen(true)}>팝오버 토글</Button>
             </PopoverTrigger>
             <PopoverContent>
               <p className="font-body size-sm text-default">
-                Controlled popover content
+                제어 모드 팝오버 콘텐츠
               </p>
             </PopoverContent>
           </Popover>
           <Button buttonStyle="ghost" onClick={() => setOpen(false)}>
-            Close from outside
+            외부에서 닫기
           </Button>
         </div>
       </div>
@@ -433,7 +433,7 @@ export const CustomWidth: Story = {
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenNarrow(true)}>Narrow</Button>
           </PopoverTrigger>
           <PopoverContent className="[width:192px]">
-            <p className="font-body size-sm text-default">Narrow popover (192px)</p>
+            <p className="font-body size-sm text-default">좁은 팝오버 (192px)</p>
           </PopoverContent>
         </Popover>
 
@@ -442,7 +442,7 @@ export const CustomWidth: Story = {
             <Button buttonStyle="secondary" size="sm" onClick={() => setOpenWide(true)}>Wide</Button>
           </PopoverTrigger>
           <PopoverContent className="[width:384px]">
-            <p className="font-body size-sm text-default">Wide popover (384px)</p>
+            <p className="font-body size-sm text-default">넓은 팝오버 (384px)</p>
           </PopoverContent>
         </Popover>
       </div>

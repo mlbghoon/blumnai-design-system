@@ -14,7 +14,7 @@ const meta: Meta<typeof ControlButton> = {
     buttonStyle: {
       control: 'select',
       options: ['default', 'inverted'],
-      description: '컨트롤 버튼의 스타일 변형',
+      description: '컨트롤 버튼의 시각적 스타일을 설정합니다. default는 밝은 배경, inverted는 어두운 배경에서 사용하는 반전 스타일입니다',
       table: {
         type: {
           summary: 'ControlButtonStyle',
@@ -25,7 +25,7 @@ const meta: Meta<typeof ControlButton> = {
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: '컨트롤 버튼의 크기',
+      description: '컨트롤 버튼의 크기를 설정합니다. sm(작게), md(보통), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ControlButtonSize',
@@ -36,7 +36,7 @@ const meta: Meta<typeof ControlButton> = {
     shape: {
       control: 'select',
       options: ['rounded', 'circle'],
-      description: '컨트롤 버튼의 모양',
+      description: '컨트롤 버튼의 외곽선 모양을 설정합니다. rounded는 둥근 모서리, circle은 완전한 원형입니다',
       table: {
         type: {
           summary: 'ControlButtonShape',
@@ -46,21 +46,21 @@ const meta: Meta<typeof ControlButton> = {
     },
     icon: {
       control: 'object',
-      description: '아이콘 타입 튜플 (필수)',
+      description: '버튼에 표시할 아이콘입니다. [카테고리, 이름] 형식의 튜플로 지정합니다 (필수)',
       table: {
         type: { summary: 'IconType' },
       },
     },
     disabled: {
       control: 'boolean',
-      description: '버튼 비활성화 여부',
+      description: 'true로 설정하면 버튼이 비활성화되어 클릭할 수 없고, 시각적으로 흐리게 표시됩니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     'aria-label': {
       control: 'text',
-      description: '접근성 라벨 (아이콘 전용 버튼에 필수)',
+      description: '스크린 리더를 위한 접근성 라벨입니다. 아이콘 전용 버튼이므로 반드시 제공해야 합니다',
       table: {
         type: { summary: 'string' },
       },

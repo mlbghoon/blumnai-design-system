@@ -29,7 +29,7 @@ const meta: Meta<ResizableStoryProps> = {
     orientation: {
       control: 'select',
       options: ['horizontal', 'vertical'],
-      description: '[ResizablePanelGroup] 패널 방향',
+      description: '[ResizablePanelGroup] 패널의 배치 방향을 설정합니다. horizontal(가로), vertical(세로) 중 선택할 수 있습니다',
       table: {
         type: { summary: "'horizontal' | 'vertical'" },
         defaultValue: { summary: "'horizontal'" },
@@ -38,7 +38,7 @@ const meta: Meta<ResizableStoryProps> = {
     },
     withHandle: {
       control: 'boolean',
-      description: '[ResizableHandle] 핸들 UI 표시 여부',
+      description: '[ResizableHandle] 드래그 핸들 UI의 표시 여부를 설정합니다. true일 경우 시각적인 핸들 표시가 나타납니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -48,7 +48,7 @@ const meta: Meta<ResizableStoryProps> = {
     variant: {
       control: 'select',
       options: ['line', 'pill', 'dots', 'hidden'],
-      description: '[ResizableHandle] 핸들 스타일 변형',
+      description: '[ResizableHandle] 핸들의 시각적 스타일을 설정합니다. line(선), pill(알약), dots(점), hidden(숨김) 중 선택할 수 있습니다',
       table: {
         type: { summary: "'line' | 'pill' | 'dots' | 'hidden'" },
         defaultValue: { summary: "'line'" },
@@ -134,7 +134,7 @@ export const Default: Story = {
             }
           }}
         >
-          <PanelContent>Panel 1</PanelContent>
+          <PanelContent>패널 1</PanelContent>
         </ResizablePanel>
         <ResizableHandle
           withHandle={withHandle}
@@ -155,7 +155,7 @@ export const Default: Story = {
             }
           }}
         >
-          <PanelContent>Panel 2</PanelContent>
+          <PanelContent>패널 2</PanelContent>
         </ResizablePanel>
       </ResizablePanelGroup>
     );
@@ -177,11 +177,11 @@ export const HandleVariants: Story = {
           className="min-h-[120px] max-w-md rounded-lg border-default"
         >
           <ResizablePanel defaultSize={50}>
-            <PanelContent>Panel 1</PanelContent>
+            <PanelContent>패널 1</PanelContent>
           </ResizablePanel>
           <ResizableHandle withHandle variant="line" />
           <ResizablePanel defaultSize={50}>
-            <PanelContent>Panel 2</PanelContent>
+            <PanelContent>패널 2</PanelContent>
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
@@ -193,11 +193,11 @@ export const HandleVariants: Story = {
           className="min-h-[120px] max-w-md rounded-lg border-default"
         >
           <ResizablePanel defaultSize={50}>
-            <PanelContent>Panel 1</PanelContent>
+            <PanelContent>패널 1</PanelContent>
           </ResizablePanel>
           <ResizableHandle withHandle variant="pill" />
           <ResizablePanel defaultSize={50}>
-            <PanelContent>Panel 2</PanelContent>
+            <PanelContent>패널 2</PanelContent>
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
@@ -209,11 +209,11 @@ export const HandleVariants: Story = {
           className="min-h-[120px] max-w-md rounded-lg border-default"
         >
           <ResizablePanel defaultSize={50}>
-            <PanelContent>Panel 1</PanelContent>
+            <PanelContent>패널 1</PanelContent>
           </ResizablePanel>
           <ResizableHandle withHandle variant="dots" />
           <ResizablePanel defaultSize={50}>
-            <PanelContent>Panel 2</PanelContent>
+            <PanelContent>패널 2</PanelContent>
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
@@ -225,11 +225,11 @@ export const HandleVariants: Story = {
           className="min-h-[120px] max-w-md rounded-lg border-default"
         >
           <ResizablePanel defaultSize={50}>
-            <PanelContent>Panel 1</PanelContent>
+            <PanelContent>패널 1</PanelContent>
           </ResizablePanel>
           <ResizableHandle variant="hidden" />
           <ResizablePanel defaultSize={50}>
-            <PanelContent>Panel 2</PanelContent>
+            <PanelContent>패널 2</PanelContent>
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
@@ -249,11 +249,11 @@ export const VerticalLayout: Story = {
       className="min-h-[400px] max-w-md rounded-lg border-default"
     >
       <ResizablePanel defaultSize={30}>
-        <PanelContent>Header Panel</PanelContent>
+        <PanelContent>헤더 패널</PanelContent>
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel defaultSize={70}>
-        <PanelContent>Content Panel</PanelContent>
+        <PanelContent>콘텐츠 패널</PanelContent>
       </ResizablePanel>
     </ResizablePanelGroup>
   ),
@@ -271,11 +271,11 @@ export const WithHandle: Story = {
       className="min-h-[200px] max-w-md rounded-lg border-default"
     >
       <ResizablePanel defaultSize={50}>
-        <PanelContent>Panel 1</PanelContent>
+        <PanelContent>패널 1</PanelContent>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={50}>
-        <PanelContent>Panel 2</PanelContent>
+        <PanelContent>패널 2</PanelContent>
       </ResizablePanel>
     </ResizablePanelGroup>
   ),
@@ -293,15 +293,15 @@ export const ThreePanels: Story = {
       className="min-h-[200px] max-w-2xl rounded-lg border-default"
     >
       <ResizablePanel defaultSize={25} minSize="15%">
-        <PanelContent>Left</PanelContent>
+        <PanelContent>왼쪽</PanelContent>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={50}>
-        <PanelContent>Center</PanelContent>
+        <PanelContent>가운데</PanelContent>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={25} minSize="15%">
-        <PanelContent>Right</PanelContent>
+        <PanelContent>오른쪽</PanelContent>
       </ResizablePanel>
     </ResizablePanelGroup>
   ),
@@ -324,11 +324,11 @@ export const CollapsiblePanel: Story = {
         collapsible
         collapsedSize="0%"
       >
-        <PanelContent>Collapsible</PanelContent>
+        <PanelContent>접을 수 있는 패널</PanelContent>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={70}>
-        <PanelContent>Main Content</PanelContent>
+        <PanelContent>메인 콘텐츠</PanelContent>
       </ResizablePanel>
     </ResizablePanelGroup>
   ),
@@ -346,17 +346,17 @@ export const NestedPanels: Story = {
       className="min-h-[400px] max-w-2xl rounded-lg border-default"
     >
       <ResizablePanel defaultSize={30} minSize="20%">
-        <PanelContent>Sidebar</PanelContent>
+        <PanelContent>사이드바</PanelContent>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={70}>
         <ResizablePanelGroup orientation="vertical">
           <ResizablePanel defaultSize={60}>
-            <PanelContent>Main Content</PanelContent>
+            <PanelContent>메인 콘텐츠</PanelContent>
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={40}>
-            <PanelContent>Bottom Panel</PanelContent>
+            <PanelContent>하단 패널</PanelContent>
           </ResizablePanel>
         </ResizablePanelGroup>
       </ResizablePanel>
@@ -390,7 +390,7 @@ export const WithCollapseButton: Story = {
             setIsCollapsed(size.asPercentage === 0);
           }}
         >
-          <PanelContent>Collapsible Panel</PanelContent>
+          <PanelContent>접기 가능 패널</PanelContent>
         </ResizablePanel>
         <ResizableHandle
           withHandle
@@ -399,7 +399,7 @@ export const WithCollapseButton: Story = {
           isCollapsed={isCollapsed}
         />
         <ResizablePanel defaultSize={70}>
-          <PanelContent>Main Content</PanelContent>
+          <PanelContent>메인 콘텐츠</PanelContent>
         </ResizablePanel>
       </ResizablePanelGroup>
     );
@@ -441,7 +441,7 @@ export const CollapseButtonPositions: Story = {
               collapsedSize="0%"
               onResize={(size) => setTopCollapsed(size.asPercentage === 0)}
             >
-              <PanelContent>Panel</PanelContent>
+              <PanelContent>패널</PanelContent>
             </ResizablePanel>
             <ResizableHandle
               collapseButton="before"
@@ -450,7 +450,7 @@ export const CollapseButtonPositions: Story = {
               isCollapsed={topCollapsed}
             />
             <ResizablePanel defaultSize={70}>
-              <PanelContent>Content</PanelContent>
+              <PanelContent>콘텐츠</PanelContent>
             </ResizablePanel>
           </ResizablePanelGroup>
         </div>
@@ -468,7 +468,7 @@ export const CollapseButtonPositions: Story = {
               collapsedSize="0%"
               onResize={(size) => setCenterCollapsed(size.asPercentage === 0)}
             >
-              <PanelContent>Panel</PanelContent>
+              <PanelContent>패널</PanelContent>
             </ResizablePanel>
             <ResizableHandle
               collapseButton="before"
@@ -477,7 +477,7 @@ export const CollapseButtonPositions: Story = {
               isCollapsed={centerCollapsed}
             />
             <ResizablePanel defaultSize={70}>
-              <PanelContent>Content</PanelContent>
+              <PanelContent>콘텐츠</PanelContent>
             </ResizablePanel>
           </ResizablePanelGroup>
         </div>
@@ -495,7 +495,7 @@ export const CollapseButtonPositions: Story = {
               collapsedSize="0%"
               onResize={(size) => setBottomCollapsed(size.asPercentage === 0)}
             >
-              <PanelContent>Panel</PanelContent>
+              <PanelContent>패널</PanelContent>
             </ResizablePanel>
             <ResizableHandle
               collapseButton="before"
@@ -504,7 +504,7 @@ export const CollapseButtonPositions: Story = {
               isCollapsed={bottomCollapsed}
             />
             <ResizablePanel defaultSize={70}>
-              <PanelContent>Content</PanelContent>
+              <PanelContent>콘텐츠</PanelContent>
             </ResizablePanel>
           </ResizablePanelGroup>
         </div>
@@ -522,7 +522,7 @@ export const CollapseButtonPositions: Story = {
               collapsedSize="0%"
               onResize={(size) => setCustomCollapsed(size.asPercentage === 0)}
             >
-              <PanelContent>Panel</PanelContent>
+              <PanelContent>패널</PanelContent>
             </ResizablePanel>
             <ResizableHandle
               collapseButton="before"
@@ -531,7 +531,7 @@ export const CollapseButtonPositions: Story = {
               isCollapsed={customCollapsed}
             />
             <ResizablePanel defaultSize={70}>
-              <PanelContent>Content</PanelContent>
+              <PanelContent>콘텐츠</PanelContent>
             </ResizablePanel>
           </ResizablePanelGroup>
         </div>
@@ -569,14 +569,14 @@ export const SidebarLayout: Story = {
         >
           <div className="flex h-full flex-col">
             <div className="padding-12 border-b-default">
-              <p className="font-body size-sm font-medium text-default">Navigation</p>
+              <p className="font-body size-sm font-medium text-default">네비게이션</p>
             </div>
             <div className="flex-1 padding-12">
               <ul className="flex flex-col ds-gap-8">
-                <li className="font-body size-sm text-muted hover:text-default cursor-pointer">Dashboard</li>
-                <li className="font-body size-sm text-muted hover:text-default cursor-pointer">Projects</li>
-                <li className="font-body size-sm text-muted hover:text-default cursor-pointer">Settings</li>
-                <li className="font-body size-sm text-muted hover:text-default cursor-pointer">Help</li>
+                <li className="font-body size-sm text-muted hover:text-default cursor-pointer">대시보드</li>
+                <li className="font-body size-sm text-muted hover:text-default cursor-pointer">프로젝트</li>
+                <li className="font-body size-sm text-muted hover:text-default cursor-pointer">설정</li>
+                <li className="font-body size-sm text-muted hover:text-default cursor-pointer">도움말</li>
               </ul>
             </div>
           </div>
@@ -589,7 +589,7 @@ export const SidebarLayout: Story = {
         <ResizablePanel defaultSize={80}>
           <div className="flex h-full flex-col">
             <div className="padding-12 border-b-default">
-              <p className="font-body size-sm font-medium text-default">Content Area</p>
+              <p className="font-body size-sm font-medium text-default">콘텐츠 영역</p>
             </div>
             <div className="flex-1 padding-16">
               <p className="font-body size-sm text-muted">
@@ -616,15 +616,15 @@ export const VerticalWithHandle: Story = {
       className="min-h-[400px] max-w-md rounded-lg border-default"
     >
       <ResizablePanel defaultSize={30}>
-        <PanelContent>Top Panel</PanelContent>
+        <PanelContent>상단 패널</PanelContent>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={40}>
-        <PanelContent>Middle Panel</PanelContent>
+        <PanelContent>중간 패널</PanelContent>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={30}>
-        <PanelContent>Bottom Panel</PanelContent>
+        <PanelContent>하단 패널</PanelContent>
       </ResizablePanel>
     </ResizablePanelGroup>
   ),
@@ -642,11 +642,11 @@ export const WithSizeConstraints: Story = {
       className="min-h-[200px] max-w-md rounded-lg border-default"
     >
       <ResizablePanel defaultSize={30} minSize="20%" maxSize="50%">
-        <PanelContent>Min 20% / Max 50%</PanelContent>
+        <PanelContent>최소 20% / 최대 50%</PanelContent>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={70}>
-        <PanelContent>Flexible</PanelContent>
+        <PanelContent>유동적</PanelContent>
       </ResizablePanel>
     </ResizablePanelGroup>
   ),
@@ -677,7 +677,7 @@ export const VerticalCollapseButton: Story = {
             setIsCollapsed(size.asPercentage === 0);
           }}
         >
-          <PanelContent>Top Panel (Collapsible)</PanelContent>
+          <PanelContent>상단 패널 (접기 가능)</PanelContent>
         </ResizablePanel>
         <ResizableHandle
           withHandle
@@ -686,7 +686,7 @@ export const VerticalCollapseButton: Story = {
           isCollapsed={isCollapsed}
         />
         <ResizablePanel defaultSize={70}>
-          <PanelContent>Bottom Panel</PanelContent>
+          <PanelContent>하단 패널</PanelContent>
         </ResizablePanel>
       </ResizablePanelGroup>
     );

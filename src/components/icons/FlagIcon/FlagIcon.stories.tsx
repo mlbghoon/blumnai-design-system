@@ -276,7 +276,7 @@ const meta: Meta<typeof FlagIcon> = {
     country: {
       control: 'select',
       options: allCountries,
-      description: '국기의 국가 또는 지역 코드',
+      description: '표시할 국기의 국가 또는 지역 코드를 설정합니다. 260개 이상의 국가/지역을 지원합니다',
       table: {
         type: {
           summary: 'CountryCode',
@@ -287,7 +287,7 @@ const meta: Meta<typeof FlagIcon> = {
     },
     size: {
       control: { type: 'number', min: 12, max: 64, step: 4 },
-      description: '아이콘 크기 (픽셀)',
+      description: '국기 아이콘의 크기를 픽셀 단위로 설정합니다. 기본값은 24px입니다',
       table: {
         type: {
           summary: 'number',
@@ -337,18 +337,18 @@ export const Sizes: Story = {
 export const PopularCountries: Story = {
   render: function Render() {
     const countries: { code: CountryCode; name: string }[] = [
-      { code: 'unitedstates', name: 'United States' },
-      { code: 'united kingdom', name: 'United Kingdom' },
-      { code: 'south korea', name: 'South Korea' },
-      { code: 'japan', name: 'Japan' },
-      { code: 'china', name: 'China' },
-      { code: 'germany', name: 'Germany' },
-      { code: 'france', name: 'France' },
-      { code: 'canada', name: 'Canada' },
-      { code: 'australia', name: 'Australia' },
-      { code: 'brazil', name: 'Brazil' },
-      { code: 'india', name: 'India' },
-      { code: 'spain', name: 'Spain' },
+      { code: 'unitedstates', name: '미국' },
+      { code: 'united kingdom', name: '영국' },
+      { code: 'south korea', name: '대한민국' },
+      { code: 'japan', name: '일본' },
+      { code: 'china', name: '중국' },
+      { code: 'germany', name: '독일' },
+      { code: 'france', name: '프랑스' },
+      { code: 'canada', name: '캐나다' },
+      { code: 'australia', name: '호주' },
+      { code: 'brazil', name: '브라질' },
+      { code: 'india', name: '인도' },
+      { code: 'spain', name: '스페인' },
     ];
     return (
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '24px' }}>
@@ -369,9 +369,9 @@ export const PopularCountries: Story = {
 export const Organizations: Story = {
   render: function Render() {
     const orgs: { code: CountryCode; name: string }[] = [
-      { code: 'europeanunion', name: 'European Union' },
-      { code: 'unitednations', name: 'United Nations' },
-      { code: 'nato', name: 'NATO' },
+      { code: 'europeanunion', name: '유럽연합' },
+      { code: 'unitednations', name: '유엔' },
+      { code: 'nato', name: '나토' },
     ];
     return (
       <div style={{ display: 'flex', gap: '32px' }}>

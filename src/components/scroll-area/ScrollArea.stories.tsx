@@ -13,7 +13,7 @@ const meta: Meta<typeof ScrollArea> = {
     orientation: {
       control: 'select',
       options: ['vertical', 'horizontal', 'both'],
-      description: '스크롤 방향',
+      description: '스크롤 방향을 설정합니다. vertical(세로), horizontal(가로), both(양방향) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ScrollAreaOrientation',
@@ -24,14 +24,14 @@ const meta: Meta<typeof ScrollArea> = {
     },
     maxHeight: {
       control: 'text',
-      description: '스크롤 영역의 최대 높이',
+      description: '스크롤 영역의 최대 높이를 설정합니다. 콘텐츠가 이 값을 초과하면 스크롤이 활성화됩니다',
       table: {
         type: { summary: 'string | number' },
       },
     },
     maxWidth: {
       control: 'text',
-      description: '스크롤 영역의 최대 너비',
+      description: '스크롤 영역의 최대 너비를 설정합니다. 콘텐츠가 이 값을 초과하면 가로 스크롤이 활성화됩니다',
       table: {
         type: { summary: 'string | number' },
       },

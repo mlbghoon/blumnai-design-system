@@ -138,7 +138,7 @@ type Story = StoryObj<SliderRangeInputProps>;
 export const Default: Story = {
   args: {
     color: 'gray',
-    label: 'Price Range',
+    label: '가격 범위',
     suffix: '',
     min: 0,
     max: 100,
@@ -182,7 +182,7 @@ export const PriceRange: Story = {
     return (
       <div style={{ width: 500 }}>
         <SliderRangeInput
-          label="Budget"
+          label="예산"
           suffix="$"
           min={0}
           max={1000}
@@ -204,7 +204,7 @@ export const AgeRange: Story = {
     return (
       <div style={{ width: 500 }}>
         <SliderRangeInput
-          label="Target Age"
+          label="대상 연령"
           min={18}
           max={65}
           value={value}
@@ -223,7 +223,7 @@ export const Disabled: Story = {
     return (
       <div style={{ width: 500 }}>
         <SliderRangeInput
-          label="Disabled Range"
+          label="비활성화 범위"
           defaultValue={[30, 70]}
           disabled
         />

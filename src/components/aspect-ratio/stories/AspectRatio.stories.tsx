@@ -36,7 +36,7 @@ const meta: Meta<typeof AspectRatio> = {
   argTypes: {
     ratio: {
       control: 'number',
-      description: '가로 세로 비율 (width / height)',
+      description: '콘텐츠의 가로 세로 비율을 설정합니다. width / height 형식으로 지정하며, 예를 들어 16/9는 와이드 화면 비율입니다',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '1' },

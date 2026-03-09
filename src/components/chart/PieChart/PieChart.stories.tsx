@@ -64,7 +64,7 @@ const meta: Meta<typeof PieChart> = {
     },
     width: {
       control: { type: 'number', min: 200, max: 800, step: 50 },
-      description: '차트 너비 (픽셀)',
+      description: '차트 컨테이너의 너비를 픽셀 단위로 설정합니다',
       table: {
         type: {
           summary: 'number',
@@ -73,7 +73,7 @@ const meta: Meta<typeof PieChart> = {
     },
     height: {
       control: { type: 'number', min: 200, max: 800, step: 50 },
-      description: '차트 높이 (픽셀)',
+      description: '차트 컨테이너의 높이를 픽셀 단위로 설정합니다',
       table: {
         type: {
           summary: 'number',
@@ -82,7 +82,7 @@ const meta: Meta<typeof PieChart> = {
     },
     outerRadius: {
       control: { type: 'number', min: 50, max: 300, step: 10 },
-      description: '파이 차트의 외부 반경',
+      description: '파이 차트의 외부 반지름을 픽셀 단위로 설정합니다. 값이 클수록 차트가 커집니다',
       table: {
         type: {
           summary: 'number',
@@ -91,7 +91,7 @@ const meta: Meta<typeof PieChart> = {
     },
     showLegend: {
       control: 'boolean',
-      description: '차트 범례 표시',
+      description: 'true로 설정하면 차트 하단에 각 슬라이스를 구분하는 범례를 표시합니다',
       table: {
         type: {
           summary: 'boolean',
@@ -100,7 +100,7 @@ const meta: Meta<typeof PieChart> = {
     },
     isHalf: {
       control: 'boolean',
-      description: '차트의 상단 절반만 표시',
+      description: 'true로 설정하면 차트의 상단 절반만 표시하여 반원형 차트를 만듭니다',
       table: {
         type: {
           summary: 'boolean',
@@ -109,7 +109,7 @@ const meta: Meta<typeof PieChart> = {
     },
     ariaLabel: {
       control: 'text',
-      description: '접근성을 위한 차트 설명',
+      description: '스크린 리더를 위한 차트 설명 텍스트입니다. 접근성을 위해 차트의 내용을 설명합니다',
       table: {
         type: { summary: 'string' },
       },
@@ -121,31 +121,31 @@ export default meta;
 type Story = StoryObj<typeof PieChart>;
 
 const defaultData = [
-  { category: 'Category A', value: 30 },
-  { category: 'Category B', value: 45 },
-  { category: 'Category C', value: 25 },
+  { category: '카테고리 A', value: 30 },
+  { category: '카테고리 B', value: 45 },
+  { category: '카테고리 C', value: 25 },
 ];
 
 const multipleData = [
-  { category: 'Category A', value: 25 },
-  { category: 'Category B', value: 30 },
-  { category: 'Category C', value: 20 },
-  { category: 'Category D', value: 15 },
-  { category: 'Category E', value: 10 },
+  { category: '카테고리 A', value: 25 },
+  { category: '카테고리 B', value: 30 },
+  { category: '카테고리 C', value: 20 },
+  { category: '카테고리 D', value: 15 },
+  { category: '카테고리 E', value: 10 },
 ];
 
 const defaultConfig: ChartConfig = {
-  'Category A': { label: 'Category A', color: 'var(--chart-1)' },
-  'Category B': { label: 'Category B', color: 'var(--chart-2)' },
-  'Category C': { label: 'Category C', color: 'var(--chart-3)' },
+  '카테고리 A': { label: '카테고리 A', color: 'var(--chart-1)' },
+  '카테고리 B': { label: '카테고리 B', color: 'var(--chart-2)' },
+  '카테고리 C': { label: '카테고리 C', color: 'var(--chart-3)' },
 };
 
 const multipleConfig: ChartConfig = {
-  'Category A': { label: 'Category A', color: 'var(--chart-1)' },
-  'Category B': { label: 'Category B', color: 'var(--chart-2)' },
-  'Category C': { label: 'Category C', color: 'var(--chart-3)' },
-  'Category D': { label: 'Category D', color: 'var(--chart-4)' },
-  'Category E': { label: 'Category E', color: 'var(--chart-5)' },
+  '카테고리 A': { label: '카테고리 A', color: 'var(--chart-1)' },
+  '카테고리 B': { label: '카테고리 B', color: 'var(--chart-2)' },
+  '카테고리 C': { label: '카테고리 C', color: 'var(--chart-3)' },
+  '카테고리 D': { label: '카테고리 D', color: 'var(--chart-4)' },
+  '카테고리 E': { label: '카테고리 E', color: 'var(--chart-5)' },
 };
 
 /**
@@ -291,9 +291,9 @@ export const EmptyData: Story = {
 export const AllZeroValues: Story = {
   args: {
     data: [
-      { category: 'Category A', value: 0 },
-      { category: 'Category B', value: 0 },
-      { category: 'Category C', value: 0 },
+      { category: '카테고리 A', value: 0 },
+      { category: '카테고리 B', value: 0 },
+      { category: '카테고리 C', value: 0 },
     ],
     dataKey: 'value',
     nameKey: 'category',

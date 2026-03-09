@@ -37,9 +37,9 @@ const lineChartData = [
 ];
 
 const pieChartData = [
-  { category: 'Category A', value: 30 },
-  { category: 'Category B', value: 45 },
-  { category: 'Category C', value: 25 },
+  { category: '카테고리 A', value: 30 },
+  { category: '카테고리 B', value: 45 },
+  { category: '카테고리 C', value: 25 },
 ];
 
 const salesConfig: ChartConfig = {
@@ -51,14 +51,14 @@ const revenueConfig: ChartConfig = {
 };
 
 const pieConfig: ChartConfig = {
-  'Category A': { label: 'Category A', color: 'var(--chart-1)' },
-  'Category B': { label: 'Category B', color: 'var(--chart-2)' },
-  'Category C': { label: 'Category C', color: 'var(--chart-3)' },
+  '카테고리 A': { label: '카테고리 A', color: 'var(--chart-1)' },
+  '카테고리 B': { label: '카테고리 B', color: 'var(--chart-2)' },
+  '카테고리 C': { label: '카테고리 C', color: 'var(--chart-3)' },
 };
 
 const twoConfig: ChartConfig = {
-  'Category A': { label: 'Category A', color: 'var(--chart-2)' },
-  'Category B': { label: 'Category B', color: 'var(--chart-4)' },
+  '카테고리 A': { label: '카테고리 A', color: 'var(--chart-2)' },
+  '카테고리 B': { label: '카테고리 B', color: 'var(--chart-4)' },
 };
 
 export const BarChartDefault: Story = {
@@ -171,7 +171,7 @@ export const DonutChartDefault: Story = {
       height={400}
       innerRadius={80}
       outerRadius={150}
-      centerLabel="Total"
+      centerLabel="합계"
       centerValue="$20,000"
     />
   ),
@@ -217,7 +217,7 @@ export const HalfDonutChart: Story = {
       width={280}
       innerRadius={80}
       outerRadius={140}
-      centerLabel="Label"
+      centerLabel="라벨"
       centerValue="$20,000"
       isHalf
     />
@@ -228,7 +228,7 @@ export const AllCharts: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-32">
       <div>
-        <h3 className="margin-b-16 size-lg font-semibold">Bar Chart</h3>
+        <h3 className="margin-b-16 size-lg font-semibold">막대 차트</h3>
         <BarChart
           data={barChartData}
           xAxis={{ dataKey: 'month' }}
@@ -240,7 +240,7 @@ export const AllCharts: Story = {
         />
       </div>
       <div>
-        <h3 className="margin-b-16 size-lg font-semibold">Line Chart</h3>
+        <h3 className="margin-b-16 size-lg font-semibold">라인 차트</h3>
         <LineChart
           data={lineChartData}
           xAxis={{ dataKey: 'month' }}
@@ -252,7 +252,7 @@ export const AllCharts: Story = {
         />
       </div>
       <div>
-        <h3 className="margin-b-16 size-lg font-semibold">Pie Chart</h3>
+        <h3 className="margin-b-16 size-lg font-semibold">파이 차트</h3>
         <PieChart
           data={pieChartData}
           dataKey="value"
@@ -263,7 +263,7 @@ export const AllCharts: Story = {
         />
       </div>
       <div>
-        <h3 className="margin-b-16 size-lg font-semibold">Donut Chart</h3>
+        <h3 className="margin-b-16 size-lg font-semibold">도넛 차트</h3>
         <DonutChart
           data={pieChartData}
           dataKey="value"

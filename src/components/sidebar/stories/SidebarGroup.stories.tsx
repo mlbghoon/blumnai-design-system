@@ -27,7 +27,7 @@ const meta: Meta<SidebarGroupStoryProps> = {
   argTypes: {
     showLabel: {
       control: 'boolean',
-      description: 'SidebarGroupLabel 표시 여부',
+      description: 'true로 설정하면 그룹 상단에 SidebarGroupLabel이 표시됩니다. false로 설정하면 라벨 없이 메뉴 아이템만 나열됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -35,14 +35,14 @@ const meta: Meta<SidebarGroupStoryProps> = {
     },
     labelText: {
       control: 'text',
-      description: '그룹 라벨 텍스트',
+      description: '그룹 라벨에 표시되는 텍스트입니다. 메뉴 섹션의 카테고리명 등을 입력합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     showAction: {
       control: 'boolean',
-      description: 'SidebarGroupAction 표시 여부',
+      description: 'true로 설정하면 그룹 라벨 옆에 SidebarGroupAction 버튼이 표시됩니다. 항목 추가 등의 액션 버튼을 배치할 때 사용합니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -68,7 +68,7 @@ type Story = StoryObj<SidebarGroupStoryProps>;
 export const Default: Story = {
   args: {
     showLabel: true,
-    labelText: 'Menu',
+    labelText: '메뉴',
     showAction: false,
   },
   parameters: {
@@ -95,18 +95,18 @@ export const Default: Story = {
                 <SidebarMenuItem
                   variant="default"
                   icon={['buildings', 'home']}
-                  label="Dashboard"
+                  label="대시보드"
                   isActive={true}
                 />
                 <SidebarMenuItem
                   variant="default"
                   icon={['business', 'bar-chart']}
-                  label="Analytics"
+                  label="분석"
                 />
                 <SidebarMenuItem
                   variant="default"
                   icon={['system', 'settings']}
-                  label="Settings"
+                  label="설정"
                 />
               </SidebarMenu>
             </SidebarGroupContent>
@@ -128,7 +128,7 @@ export const WithAction: Story = {
       <SidebarProvider defaultOpen={true}>
         <div className="w-[280px] border-default rounded-md">
           <SidebarGroup>
-            <SidebarGroupLabel>Projects</SidebarGroupLabel>
+            <SidebarGroupLabel>프로젝트</SidebarGroupLabel>
             <SidebarGroupAction>
               <Button
                 buttonStyle="ghost"
@@ -142,18 +142,18 @@ export const WithAction: Story = {
                 <SidebarMenuItem
                   variant="default"
                   icon={['document', 'folder']}
-                  label="Project Alpha"
+                  label="프로젝트 알파"
                   badge="3"
                 />
                 <SidebarMenuItem
                   variant="default"
                   icon={['document', 'folder']}
-                  label="Project Beta"
+                  label="프로젝트 베타"
                 />
                 <SidebarMenuItem
                   variant="default"
                   icon={['document', 'folder']}
-                  label="Project Gamma"
+                  label="프로젝트 감마"
                   badge="12"
                 />
               </SidebarMenu>
@@ -176,19 +176,19 @@ export const MultipleGroups: Story = {
       <SidebarProvider defaultOpen={true}>
         <div className="w-[280px] border-default rounded-md">
           <SidebarGroup>
-            <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+            <SidebarGroupLabel>네비게이션</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem
                   variant="default"
                   icon={['buildings', 'home']}
-                  label="Dashboard"
+                  label="대시보드"
                   isActive={true}
                 />
                 <SidebarMenuItem
                   variant="default"
                   icon={['business', 'bar-chart']}
-                  label="Analytics"
+                  label="분석"
                 />
               </SidebarMenu>
             </SidebarGroupContent>
@@ -197,18 +197,18 @@ export const MultipleGroups: Story = {
           <SidebarMenuItem variant="divider" />
 
           <SidebarGroup>
-            <SidebarGroupLabel>Settings</SidebarGroupLabel>
+            <SidebarGroupLabel>설정</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem
                   variant="default"
                   icon={['user', 'user']}
-                  label="Profile"
+                  label="프로필"
                 />
                 <SidebarMenuItem
                   variant="default"
                   icon={['system', 'settings']}
-                  label="Preferences"
+                  label="환경설정"
                 />
               </SidebarMenu>
             </SidebarGroupContent>
@@ -217,18 +217,18 @@ export const MultipleGroups: Story = {
           <SidebarMenuItem variant="divider" />
 
           <SidebarGroup>
-            <SidebarGroupLabel>Support</SidebarGroupLabel>
+            <SidebarGroupLabel>지원</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem
                   variant="default"
                   icon={['system', 'question']}
-                  label="Help"
+                  label="도움말"
                 />
                 <SidebarMenuItem
                   variant="default"
                   icon={['document', 'file']}
-                  label="Documentation"
+                  label="문서"
                 />
               </SidebarMenu>
             </SidebarGroupContent>
@@ -255,18 +255,18 @@ export const WithoutLabel: Story = {
                 <SidebarMenuItem
                   variant="default"
                   icon={['buildings', 'home']}
-                  label="Dashboard"
+                  label="대시보드"
                   isActive={true}
                 />
                 <SidebarMenuItem
                   variant="default"
                   icon={['business', 'bar-chart']}
-                  label="Analytics"
+                  label="분석"
                 />
                 <SidebarMenuItem
                   variant="default"
                   icon={['system', 'settings']}
-                  label="Settings"
+                  label="설정"
                 />
               </SidebarMenu>
             </SidebarGroupContent>

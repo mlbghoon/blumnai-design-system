@@ -15,7 +15,7 @@ const meta: Meta<typeof Button> = {
     buttonStyle: {
       control: 'select',
       options: ['primary', 'secondary', 'destructive', 'ghost', 'ghostMuted', 'soft', 'dashed'],
-      description: '버튼의 스타일 변형',
+      description: '버튼의 시각적 스타일을 설정합니다. primary(강조), secondary(보조), destructive(삭제/위험), ghost(투명), ghostMuted(흐린 투명), soft(부드러운), dashed(점선) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ButtonStyle',
@@ -26,7 +26,7 @@ const meta: Meta<typeof Button> = {
     variant: {
       control: 'select',
       options: ['default', 'iconOnly'],
-      description: '버튼의 변형 타입',
+      description: '버튼의 변형 타입을 설정합니다. default는 텍스트가 포함된 일반 버튼, iconOnly는 아이콘만 표시되는 버튼입니다',
       table: {
         type: {
           summary: 'ButtonVariant',
@@ -37,7 +37,7 @@ const meta: Meta<typeof Button> = {
     size: {
       control: 'select',
       options: ['2xs', 'xs', 'sm', 'md', 'lg'],
-      description: '버튼의 크기',
+      description: '버튼의 크기를 설정합니다. 2xs(가장 작게)부터 lg(크게)까지 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ButtonSize',
@@ -48,7 +48,7 @@ const meta: Meta<typeof Button> = {
     shape: {
       control: 'select',
       options: ['rounded', 'pill'],
-      description: '버튼의 모양',
+      description: '버튼의 외곽선 모양을 설정합니다. rounded는 둥근 모서리, pill은 완전히 둥근 알약 형태입니다',
       table: {
         type: {
           summary: 'ButtonShape',
@@ -69,21 +69,21 @@ const meta: Meta<typeof Button> = {
     },
     loading: {
       control: 'boolean',
-      description: '로딩 상태 표시 여부',
+      description: 'true로 설정하면 버튼에 로딩 스피너가 표시되며, 클릭이 비활성화됩니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     disabled: {
       control: 'boolean',
-      description: '버튼 비활성화 여부',
+      description: 'true로 설정하면 버튼이 비활성화되어 클릭할 수 없고, 시각적으로 흐리게 표시됩니다',
       table: {
         type: { summary: 'boolean' },
       },
     },
     fullWidth: {
       control: 'boolean',
-      description: '버튼이 컨테이너 전체 너비를 차지하는지 여부',
+      description: 'true로 설정하면 버튼이 부모 컨테이너의 전체 너비를 차지합니다',
       table: {
         type: { summary: 'boolean' },
       },
@@ -269,13 +269,13 @@ export const WithIcons: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
       <div className="flex flex-wrap ds-gap-12 items-center">
-        <Button leadIcon={['system', 'delete-bin']}>Delete</Button>
-        <Button tailIcon={['system', 'external-link']}>Preview</Button>
-        <Button leadIcon={['system', 'add']}>Add New</Button>
-        <Button leadIcon={['media', 'volume-mute']}>Mute</Button>
+        <Button leadIcon={['system', 'delete-bin']}>삭제</Button>
+        <Button tailIcon={['system', 'external-link']}>미리보기</Button>
+        <Button leadIcon={['system', 'add']}>새로 추가</Button>
+        <Button leadIcon={['media', 'volume-mute']}>음소거</Button>
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center">
-        <Button leadIcon={['system', 'check']} tailIcon={['arrows', 'arrow-down']}>Confirm</Button>
+        <Button leadIcon={['system', 'check']} tailIcon={['arrows', 'arrow-down']}>확인</Button>
       </div>
     </div>
   ),
@@ -288,18 +288,18 @@ export const WithIcons: Story = {
 export const WithFilledIcons: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <p className="margin-0size-sm text-subtle">Regular icons vs Filled icons (isFill=true)</p>
+      <p className="margin-0size-sm text-subtle">일반 아이콘 vs 채워진 아이콘 (isFill=true)</p>
       <div className="flex flex-wrap ds-gap-12 items-center">
-        <Button leadIcon={['system', 'star']}>Regular</Button>
-        <Button leadIcon={['system', 'star', true]}>Filled</Button>
-        <Button leadIcon={['health', 'heart']}>Regular</Button>
-        <Button leadIcon={['health', 'heart', true]}>Filled</Button>
+        <Button leadIcon={['system', 'star']}>일반</Button>
+        <Button leadIcon={['system', 'star', true]}>채움</Button>
+        <Button leadIcon={['health', 'heart']}>일반</Button>
+        <Button leadIcon={['health', 'heart', true]}>채움</Button>
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center">
-        <Button buttonStyle="secondary" leadIcon={['system', 'settings']}>Regular</Button>
-        <Button buttonStyle="secondary" leadIcon={['system', 'settings', true]}>Filled</Button>
-        <Button buttonStyle="secondary" leadIcon={['business', 'bookmark']}>Regular</Button>
-        <Button buttonStyle="secondary" leadIcon={['business', 'bookmark', true]}>Filled</Button>
+        <Button buttonStyle="secondary" leadIcon={['system', 'settings']}>일반</Button>
+        <Button buttonStyle="secondary" leadIcon={['system', 'settings', true]}>채움</Button>
+        <Button buttonStyle="secondary" leadIcon={['business', 'bookmark']}>일반</Button>
+        <Button buttonStyle="secondary" leadIcon={['business', 'bookmark', true]}>채움</Button>
       </div>
     </div>
   ),
@@ -368,61 +368,61 @@ export const KeyboardShortcutBinding: Story = {
             buttonStyle="secondary"
             leadIcon={['system', 'search']}
             shortcut="/"
-            onClick={() => addLog('Search clicked (shortcut: /)')}
+            onClick={() => addLog('검색 클릭됨 (단축키: /)')}
           >
-            Search
+            검색
           </Button>
           <Button
             buttonStyle="secondary"
             leadIcon={['system', 'add']}
             shortcut="⌘K"
-            onClick={() => addLog('Command palette clicked (shortcut: ⌘K)')}
+            onClick={() => addLog('명령 팔레트 클릭됨 (단축키: ⌘K)')}
           >
-            Command
+            명령
           </Button>
           <Button
             buttonStyle="primary"
             shortcut="⌘J"
-            onClick={() => addLog('Join clicked (shortcut: ⌘J)')}
+            onClick={() => addLog('참여 클릭됨 (단축키: ⌘J)')}
           >
-            Join
+            참여
           </Button>
           <Button
             buttonStyle="secondary"
             shortcut="⌘⇧K"
-            onClick={() => addLog('New panel clicked (shortcut: ⌘⇧K)')}
+            onClick={() => addLog('새 패널 클릭됨 (단축키: ⌘⇧K)')}
           >
-            New Panel
+            새 패널
           </Button>
         </div>
         <div className="flex flex-wrap ds-gap-12 items-center">
           <Button
             buttonStyle="secondary"
             shortcut="Escape"
-            onClick={() => addLog('Cancel clicked (shortcut: Escape)')}
+            onClick={() => addLog('취소 클릭됨 (단축키: Escape)')}
           >
-            Cancel
+            취소
           </Button>
           <Button
             buttonStyle="secondary"
             shortcut="⌘K"
             disabled
-            onClick={() => addLog('This should not fire')}
+            onClick={() => addLog('실행되지 않아야 함')}
           >
-            Disabled (⌘K)
+            비활성화 (⌘K)
           </Button>
           <Button
             buttonStyle="secondary"
             shortcut="⌘K"
             loading
-            onClick={() => addLog('This should not fire')}
+            onClick={() => addLog('실행되지 않아야 함')}
           >
-            Loading (⌘K)
+            로딩 중 (⌘K)
           </Button>
         </div>
         {log.length > 0 && (
           <div className="padding-12 bg-subtle rounded-md">
-            <p className="margin-0size-xs text-muted font-medium">Event Log</p>
+            <p className="margin-0size-xs text-muted font-medium">이벤트 로그</p>
             {log.map((entry, i) => (
               <p key={i} className="margin-0size-xs text-subtle">{entry}</p>
             ))}
@@ -471,27 +471,27 @@ export const LoadingState: Story = {
 
     return (
       <div className="flex flex-col ds-gap-16">
-        <p className="margin-0size-sm text-subtle">Click each button to test loading state</p>
+        <p className="margin-0size-sm text-subtle">각 버튼을 클릭하여 로딩 상태를 테스트하세요</p>
         <div className="flex flex-wrap ds-gap-12 items-center">
           <Button
             loading={loadingStates['textOnly']}
             onClick={() => handleClick('textOnly')}
           >
-            Text OnlyText OnlyText Only
+            텍스트만텍스트만텍스트만
           </Button>
           <Button
             leadIcon={['system', 'add']}
             loading={loadingStates['leadIcon']}
             onClick={() => handleClick('leadIcon')}
           >
-            Lead Icon
+            앞 아이콘
           </Button>
           <Button
             tailIcon={['arrows', 'arrow-down']}
             loading={loadingStates['tailIcon']}
             onClick={() => handleClick('tailIcon')}
           >
-            Tail Icon
+            뒤 아이콘
           </Button>
           <Button
             leadIcon={['system', 'check']}
@@ -499,7 +499,7 @@ export const LoadingState: Story = {
             loading={loadingStates['bothIcons']}
             onClick={() => handleClick('bothIcons')}
           >
-            Both Icons
+            양쪽 아이콘
           </Button>
         </div>
         <div className="flex flex-wrap ds-gap-12 items-center">
@@ -509,7 +509,7 @@ export const LoadingState: Story = {
             loading={loadingStates['shortcut']}
             onClick={() => handleClick('shortcut')}
           >
-            With Shortcut
+            단축키 포함
           </Button>
           <Button
             buttonStyle="secondary"
@@ -518,7 +518,7 @@ export const LoadingState: Story = {
             loading={loadingStates['iconShortcut']}
             onClick={() => handleClick('iconShortcut')}
           >
-            Icon + Shortcut
+            아이콘 + 단축키
           </Button>
         </div>
         <div className="flex flex-wrap ds-gap-12 items-center">
@@ -547,9 +547,9 @@ export const LoadingState: Story = {
 export const CustomWidth: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-12">
-      <Button width={200}>Fixed 200px</Button>
-      <Button width="100%">Full Width (100%)</Button>
-      <Button fullWidth>Full Width (prop)</Button>
+      <Button width={200}>고정 200px</Button>
+      <Button width="100%">전체 너비 (100%)</Button>
+      <Button fullWidth>전체 너비 (prop)</Button>
     </div>
   ),
 };

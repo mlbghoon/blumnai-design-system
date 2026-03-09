@@ -17,7 +17,7 @@ const meta: Meta<TimePickerProps> = {
     timePickerStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '시간 선택기 스타일',
+      description: '시간 선택기의 시각적 스타일을 설정합니다. default(기본), shadow(그림자), soft(부드러운) 중 선택할 수 있습니다',
       table: {
         type: { summary: 'TimePickerStyle', detail: "'default' | 'shadow' | 'soft'" },
         defaultValue: { summary: 'default' },
@@ -26,7 +26,7 @@ const meta: Meta<TimePickerProps> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '시간 선택기 크기',
+      description: '시간 선택기의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: { summary: 'TimePickerSize', detail: "'sm' | 'lg'" },
         defaultValue: { summary: 'sm' },
@@ -35,7 +35,7 @@ const meta: Meta<TimePickerProps> = {
     timeFormat: {
       control: 'select',
       options: ['12h', '24h'],
-      description: '시간 포맷',
+      description: '시간 표시 형식을 설정합니다. 12h(12시간 AM/PM), 24h(24시간) 중 선택할 수 있습니다',
       table: {
         type: { summary: 'TimeFormat', detail: "'12h' | '24h'" },
         defaultValue: { summary: '24h' },
@@ -43,47 +43,47 @@ const meta: Meta<TimePickerProps> = {
     },
     showSeconds: {
       control: 'boolean',
-      description: '초 표시 여부',
+      description: 'true로 설정하면 시, 분 외에 초 단위까지 선택할 수 있습니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     label: {
       control: 'text',
-      description: '라벨 텍스트',
+      description: '입력 필드 위에 표시되는 라벨 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
     required: {
       control: 'boolean',
-      description: '필수 입력 여부',
+      description: 'true로 설정하면 라벨 옆에 필수 표시(*)가 나타납니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     supportText: {
       control: 'text',
-      description: '라벨 옆 보조 텍스트',
+      description: '라벨 오른쪽에 표시되는 보조 텍스트입니다. 선택 사항 안내 등에 사용합니다',
       table: { type: { summary: 'string' } },
     },
     caption: {
       control: 'text',
-      description: '입력 필드 아래 설명 텍스트',
+      description: '입력 필드 아래에 표시되는 설명 텍스트입니다. 사용 안내나 형식 정보를 제공합니다',
       table: { type: { summary: 'string' } },
     },
     error: {
       control: 'text',
-      description: '에러 상태 또는 에러 메시지',
+      description: '에러 상태를 표시합니다. true는 에러 스타일만, 문자열은 에러 메시지를 함께 표시합니다',
       table: { type: { summary: 'boolean | string' } },
     },
     success: {
       control: 'text',
-      description: '성공 상태 또는 성공 메시지',
+      description: '성공 상태를 표시합니다. true는 성공 스타일만, 문자열은 성공 메시지를 함께 표시합니다',
       table: { type: { summary: 'boolean | string' } },
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 시간 선택기가 비활성화되어 클릭이나 입력을 할 수 없습니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     showQuickSelect: {
       control: 'boolean',
-      description: '빠른 선택 표시 여부',
+      description: 'true로 설정하면 자주 사용하는 시간을 빠르게 선택할 수 있는 옵션 목록이 표시됩니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     align: {
@@ -125,7 +125,7 @@ type Story = StoryObj<TimePickerProps>;
  */
 export const Default: Story = {
   args: {
-    label: 'Time',
+    label: '시간',
     timePickerStyle: 'default',
     size: 'sm',
     timeFormat: '24h',
@@ -190,13 +190,13 @@ export const TimeFormats: Story = {
     return (
       <div className="flex flex-col ds-gap-16" style={{ width: 200 }}>
         <TimePicker
-          label="24-hour format"
+          label="24시간 형식"
           timeFormat="24h"
           value={time24}
           onChange={setTime24}
         />
         <TimePicker
-          label="12-hour format"
+          label="12시간 형식"
           timeFormat="12h"
           value={time12}
           onChange={setTime12}
@@ -215,7 +215,7 @@ export const WithSeconds: Story = {
     return (
       <div style={{ width: 220 }}>
         <TimePicker
-          label="Time with seconds"
+          label="초 포함 시간"
           showSeconds
           value={time}
           onChange={setTime}
@@ -235,13 +235,13 @@ export const Sizes: Story = {
     return (
       <div className="flex flex-col ds-gap-16" style={{ width: 200 }}>
         <TimePicker
-          label="Small (sm)"
+          label="작게 (sm)"
           size="sm"
           value={timeSm}
           onChange={setTimeSm}
         />
         <TimePicker
-          label="Large (lg)"
+          label="크게 (lg)"
           size="lg"
           value={timeLg}
           onChange={setTimeLg}
@@ -293,10 +293,10 @@ export const WithLabelAndCaption: Story = {
     return (
       <div style={{ width: 200 }}>
         <TimePicker
-          label="Meeting Time"
+          label="회의 시간"
           required
-          supportText="Required"
-          caption="Select a time for the meeting"
+          supportText="필수"
+          caption="회의 시간을 선택해주세요"
           value={time}
           onChange={setTime}
         />
@@ -314,7 +314,7 @@ export const WithQuickSelect: Story = {
     return (
       <div style={{ width: 200 }}>
         <TimePicker
-          label="Select Time"
+          label="시간 선택"
           showQuickSelect
           value={time}
           onChange={setTime}
@@ -358,7 +358,7 @@ export const Disabled: Story = {
     return (
       <div style={{ width: 200 }}>
         <TimePicker
-          label="Time"
+          label="시간"
           disabled
           value={{ hour: 9, minute: 30 }}
         />
@@ -376,7 +376,7 @@ export const ErrorState: Story = {
     return (
       <div style={{ width: 200 }}>
         <TimePicker
-          label="Time"
+          label="시간"
           error="시간을 선택해주세요"
           value={time}
           onChange={setTime}
@@ -394,7 +394,7 @@ export const SuccessState: Story = {
     return (
       <div style={{ width: 200 }}>
         <TimePicker
-          label="Time"
+          label="시간"
           success="시간이 선택되었습니다"
           value={{ hour: 14, minute: 0 }}
         />
@@ -412,7 +412,7 @@ export const TwelveHourWithSeconds: Story = {
     return (
       <div style={{ width: 240 }}>
         <TimePicker
-          label="Time (12h + seconds)"
+          label="시간 (12시간 + 초)"
           timeFormat="12h"
           showSeconds
           value={time}
@@ -441,7 +441,7 @@ export const Controlled: Story = {
     return (
       <div className="flex flex-col ds-gap-16" style={{ width: 200 }}>
         <TimePicker
-          label="Controlled Time"
+          label="제어 시간"
           value={time}
           onChange={setTime}
         />

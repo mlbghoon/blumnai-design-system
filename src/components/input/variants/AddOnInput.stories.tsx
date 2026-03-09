@@ -15,7 +15,7 @@ const meta: Meta<typeof Input> = {
     variant: {
       control: 'select',
       options: ['addon', 'inline-addon'],
-      description: '입력 필드의 변형 (addon: 분리된, inline-addon: 인라인)',
+      description: '입력 필드의 변형을 설정합니다. addon(애드온이 입력 필드 외부에 분리), inline-addon(애드온이 입력 필드 내부에 표시) 중 선택할 수 있습니다',
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'addon' },
@@ -24,7 +24,7 @@ const meta: Meta<typeof Input> = {
     inputStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '입력 필드의 스타일 변형',
+      description: '입력 필드의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'InputStyle',
@@ -36,7 +36,7 @@ const meta: Meta<typeof Input> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '입력 필드의 크기',
+      description: '입력 필드의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'InputSize',
@@ -47,42 +47,42 @@ const meta: Meta<typeof Input> = {
     },
     label: {
       control: 'text',
-      description: '입력 필드의 라벨',
+      description: '입력 필드 위에 표시되는 제목 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     placeholder: {
       control: 'text',
-      description: '플레이스홀더 텍스트',
+      description: '입력 필드가 비어있을 때 표시되는 안내 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     value: {
       control: 'text',
-      description: '입력 필드 값 (제어 컴포넌트)',
+      description: '입력 필드에 표시되는 현재 값입니다. 외부에서 값을 제어할 때 사용합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     onChange: {
       action: 'changed',
-      description: '입력 값 변경 시 콜백',
+      description: '사용자가 입력 값을 변경할 때마다 호출되는 함수입니다',
       table: {
         type: { summary: '(e: ChangeEvent<HTMLInputElement>) => void' },
       },
     },
     caption: {
       control: 'text',
-      description: '입력 필드 아래 설명 텍스트',
+      description: '입력 필드 아래에 표시되는 도움말 텍스트입니다. 사용자에게 입력 방법이나 형식을 안내합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     required: {
       control: 'boolean',
-      description: '필수 입력 여부',
+      description: 'true로 설정하면 필수 입력 항목으로 표시되며, 라벨 옆에 필수 표시(*)가 나타납니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -90,7 +90,7 @@ const meta: Meta<typeof Input> = {
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -98,49 +98,49 @@ const meta: Meta<typeof Input> = {
     },
     error: {
       control: 'text',
-      description: '에러 상태 또는 메시지',
+      description: '에러 메시지를 입력하면 빨간색 테두리와 함께 아래에 에러 메시지가 표시됩니다. true로 설정하면 에러 스타일만 적용됩니다',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     success: {
       control: 'text',
-      description: '성공 상태 또는 메시지',
+      description: '성공 메시지를 입력하면 초록색 테두리와 함께 아래에 성공 메시지가 표시됩니다. true로 설정하면 성공 스타일만 적용됩니다',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     leadIcon: {
       control: 'object',
-      description: '입력 필드 앞에 표시되는 아이콘',
+      description: '입력 필드 왼쪽에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 지정합니다',
       table: {
         type: { summary: 'IconType' },
       },
     },
     tailIcon: {
       control: 'object',
-      description: '입력 필드 뒤에 표시되는 아이콘',
+      description: '입력 필드 오른쪽에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 지정합니다',
       table: {
         type: { summary: 'IconType' },
       },
     },
     onClear: {
       action: 'cleared',
-      description: '입력 내용 삭제 버튼 클릭 시 콜백',
+      description: '이 함수를 전달하면 입력 필드에 X 버튼이 표시되며, 클릭 시 호출됩니다. 입력 내용을 초기화하는 용도로 사용합니다',
       table: {
         type: { summary: '() => void' },
       },
     },
     prefix: {
       control: 'text',
-      description: '입력 필드 앞에 표시되는 애드온',
+      description: '입력 필드 앞에 표시되는 접두사 텍스트입니다. URL의 "https://" 또는 통화 기호 "$" 등에 사용합니다',
       table: {
         type: { summary: 'ReactNode' },
       },
     },
     suffix: {
       control: 'text',
-      description: '입력 필드 뒤에 표시되는 애드온',
+      description: '입력 필드 뒤에 표시되는 접미사 텍스트입니다. 도메인의 ".com" 또는 단위 "kg" 등에 사용합니다',
       table: {
         type: { summary: 'ReactNode' },
       },
@@ -186,7 +186,7 @@ type Story = StoryObj<typeof Input>;
 export const Default: Story = {
   args: {
     variant: 'addon',
-    label: 'Website',
+    label: '웹사이트',
     placeholder: 'your-site',
     prefix: 'https://',
     suffix: '.com',
@@ -204,7 +204,7 @@ export const Default: Story = {
 export const SeparateAddOn: Story = {
   args: {
     variant: 'addon',
-    label: 'Website',
+    label: '웹사이트',
     placeholder: 'your-site',
     prefix: 'https://',
     suffix: '.com',
@@ -219,7 +219,7 @@ export const SeparateAddOn: Story = {
 export const InlineAddOn: Story = {
   args: {
     variant: 'inline-addon',
-    label: 'Price',
+    label: '가격',
     placeholder: '0.00',
     prefix: '$',
     suffix: 'USD',
@@ -236,7 +236,7 @@ export const InlineAddOn: Story = {
 export const PrefixTwitter: Story = {
   args: {
     variant: 'inline-addon',
-    label: 'Twitter Handle',
+    label: '트위터 핸들',
     placeholder: 'username',
     prefix: '@',
   },
@@ -248,7 +248,7 @@ export const PrefixTwitter: Story = {
 export const PrefixPhone: Story = {
   args: {
     variant: 'addon',
-    label: 'Phone',
+    label: '전화번호',
     placeholder: '555-1234',
     prefix: '+1',
   },
@@ -260,7 +260,7 @@ export const PrefixPhone: Story = {
 export const PrefixHashtag: Story = {
   args: {
     variant: 'inline-addon',
-    label: 'Hashtag',
+    label: '해시태그',
     placeholder: 'topic',
     prefix: '#',
   },
@@ -276,7 +276,7 @@ export const PrefixHashtag: Story = {
 export const SuffixWeight: Story = {
   args: {
     variant: 'inline-addon',
-    label: 'Weight',
+    label: '무게',
     placeholder: '0.0',
     suffix: 'kg',
   },
@@ -288,7 +288,7 @@ export const SuffixWeight: Story = {
 export const SuffixEmail: Story = {
   args: {
     variant: 'addon',
-    label: 'Email',
+    label: '이메일',
     placeholder: 'username',
     suffix: '@company.com',
   },
@@ -300,7 +300,7 @@ export const SuffixEmail: Story = {
 export const SuffixPercent: Story = {
   args: {
     variant: 'inline-addon',
-    label: 'Percentage',
+    label: '퍼센트',
     placeholder: '0',
     suffix: '%',
   },
@@ -318,7 +318,7 @@ export const SuffixPercent: Story = {
 export const WithLeadIcon: Story = {
   args: {
     variant: 'inline-addon',
-    label: 'Price with Icon',
+    label: '가격 (아이콘 포함)',
     placeholder: '0.00',
     prefix: '$',
     suffix: 'USD',
@@ -334,7 +334,7 @@ export const WithLeadIcon: Story = {
 export const WithTailIcon: Story = {
   args: {
     variant: 'addon',
-    label: 'Website with Icon',
+    label: '웹사이트 (아이콘 포함)',
     placeholder: 'your-site',
     prefix: 'https://',
     suffix: '.com',
@@ -488,7 +488,7 @@ export const StateError: Story = {
     placeholder: 'your-site',
     prefix: 'https://',
     suffix: '.com',
-    error: 'Invalid domain',
+    error: '유효하지 않은 도메인입니다',
   },
 };
 
@@ -502,7 +502,7 @@ export const StateSuccess: Story = {
     placeholder: 'your-site',
     prefix: 'https://',
     suffix: '.com',
-    success: 'Domain available',
+    success: '사용 가능한 도메인입니다',
   },
 };
 
@@ -516,7 +516,7 @@ export const StateSuccess: Story = {
 export const CurrencyInput: Story = {
   args: {
     variant: 'inline-addon',
-    label: 'Amount',
+    label: '금액',
     placeholder: '0.00',
     prefix: '$',
     suffix: 'USD',
@@ -542,7 +542,7 @@ export const DomainInput: Story = {
 export const WorkEmail: Story = {
   args: {
     variant: 'addon',
-    label: 'Work Email',
+    label: '회사 이메일',
     placeholder: 'firstname.lastname',
     suffix: '@company.com',
   },
@@ -566,7 +566,7 @@ export const SocialHandle: Story = {
 export const Measurement: Story = {
   args: {
     variant: 'inline-addon',
-    label: 'Width',
+    label: '너비',
     placeholder: '100',
     suffix: 'px',
   },
@@ -578,7 +578,7 @@ export const Measurement: Story = {
 export const Discount: Story = {
   args: {
     variant: 'inline-addon',
-    label: 'Discount',
+    label: '할인율',
     placeholder: '0',
     suffix: '%',
   },

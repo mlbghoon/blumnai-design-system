@@ -318,7 +318,7 @@ const form = useForm({
   },
   argTypes: {
     form: {
-      description: 'react-hook-form의 useForm 반환값',
+      description: 'react-hook-form의 useForm() 훅에서 반환되는 폼 관리 객체입니다. control, handleSubmit, formState 등을 포함합니다',
       table: {
         type: {
           summary: 'UseFormReturn<TFieldValues>',
@@ -337,7 +337,7 @@ const form = useForm({
       },
     },
     onSubmit: {
-      description: '폼 제출 핸들러 - 검증 통과 시에만 호출됨',
+      description: 'Zod 스키마 검증을 통과한 경우에만 호출되는 폼 제출 핸들러입니다. 타입 안전한 폼 값을 인자로 받습니다',
       table: {
         type: {
           summary: '(values: TFieldValues) => void | Promise<void>',
@@ -358,7 +358,7 @@ form.setError('email', {
       },
     },
     children: {
-      description: '폼 컨텐츠',
+      description: '폼 내부에 렌더링되는 자식 요소들입니다. FormField, Button 등의 컴포넌트를 배치합니다',
       table: {
         type: { summary: 'ReactNode' },
       },

@@ -58,7 +58,7 @@ export const KanbanBoard: Story = {
     const [columns, setColumns] = useState<KanbanColumn[]>([
       {
         id: 'todo',
-        title: 'To Do',
+        title: '할 일',
         cards: [
           { id: 'card-1', title: 'API 설계', priority: 'high' },
           { id: 'card-2', title: '문서 작성', priority: 'medium' },
@@ -66,14 +66,14 @@ export const KanbanBoard: Story = {
       },
       {
         id: 'in-progress',
-        title: 'In Progress',
+        title: '진행 중',
         cards: [
           { id: 'card-3', title: '버그 수정', priority: 'high' },
         ],
       },
       {
         id: 'done',
-        title: 'Done',
+        title: '완료',
         cards: [
           { id: 'card-4', title: '코드 리뷰', priority: 'low' },
         ],

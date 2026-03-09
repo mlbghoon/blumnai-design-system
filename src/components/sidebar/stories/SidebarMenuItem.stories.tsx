@@ -30,17 +30,17 @@ const meta: Meta<SidebarMenuItemStoryProps> = {
   argTypes: {
     label: {
       control: 'text',
-      description: '메뉴 아이템 라벨',
+      description: '메뉴 아이템에 표시되는 라벨 텍스트입니다. 메뉴 항목의 이름이나 제목을 입력합니다',
       table: { type: { summary: 'string' } },
     },
     icon: {
       control: 'object',
-      description: '아이콘 (예: ["buildings", "home"]). null로 설정하면 아이콘 없음',
+      description: '메뉴 아이템 앞에 표시되는 아이콘입니다. [카테고리, 아이콘명] 튜플 형식으로 전달하며, null로 설정하면 아이콘이 표시되지 않습니다',
       table: { type: { summary: 'IconType | null' } },
     },
     isActive: {
       control: 'boolean',
-      description: '활성 상태',
+      description: 'true로 설정하면 현재 선택된 메뉴 아이템으로 강조 표시됩니다. 현재 페이지나 활성 항목을 표시할 때 사용합니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -48,7 +48,7 @@ const meta: Meta<SidebarMenuItemStoryProps> = {
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 상태',
+      description: 'true로 설정하면 메뉴 아이템이 비활성화되어 클릭할 수 없으며, 흐릿하게 표시됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -56,13 +56,13 @@ const meta: Meta<SidebarMenuItemStoryProps> = {
     },
     badgeLabel: {
       control: 'text',
-      description: '배지 텍스트 (비어있으면 배지 숨김)',
+      description: '메뉴 아이템 오른쪽에 표시되는 배지 텍스트입니다. 비어있으면 배지가 숨겨집니다',
       table: { type: { summary: 'string' } },
     },
     badgeColor: {
       control: 'select',
       options: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'],
-      description: '배지 색상',
+      description: '배지의 색상을 설정합니다. 18가지 색상 중 선택할 수 있으며, 기본값은 neutral(회색)입니다',
       table: {
         type: { summary: 'BadgeColor' },
         defaultValue: { summary: 'neutral' },
@@ -71,7 +71,7 @@ const meta: Meta<SidebarMenuItemStoryProps> = {
     badgeShape: {
       control: 'select',
       options: ['rounded', 'pill'],
-      description: '배지 모양',
+      description: '배지의 모양을 설정합니다. rounded(둥근 사각형) 또는 pill(타원형) 중 선택합니다',
       table: {
         type: { summary: 'BadgeShape' },
         defaultValue: { summary: 'rounded' },
@@ -79,7 +79,7 @@ const meta: Meta<SidebarMenuItemStoryProps> = {
     },
     badgeBorder: {
       control: 'boolean',
-      description: '배지 테두리',
+      description: 'true로 설정하면 배지에 테두리가 추가됩니다. 배경색과 구분이 필요할 때 사용합니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -87,7 +87,7 @@ const meta: Meta<SidebarMenuItemStoryProps> = {
     },
     shortcut: {
       control: 'text',
-      description: '단축키 표시 (예: ⌘K)',
+      description: '메뉴 아이템 오른쪽에 표시되는 키보드 단축키 텍스트입니다. 전역 keydown 리스너도 자동으로 바인딩됩니다',
       table: { type: { summary: 'string' } },
     },
   },
@@ -140,7 +140,7 @@ const isValidIcon = (icon: unknown): icon is [string, string] => {
  */
 export const Default: Story = {
   args: {
-    label: 'Menu Item',
+    label: '메뉴 항목',
     icon: ['buildings', 'home'],
     isActive: false,
     disabled: false,
@@ -203,30 +203,30 @@ export const AllVariants: Story = {
               <SidebarMenuItem
                 variant="default"
                 icon={['buildings', 'home']}
-                label="Default Item"
+                label="기본 항목"
               />
               <SidebarMenuItem
                 variant="default"
                 icon={['system', 'star']}
-                label="With Badge"
+                label="배지 포함"
                 badge="5"
               />
               <SidebarMenuItem
                 variant="default"
                 icon={['system', 'search']}
-                label="With Shortcut"
+                label="단축키 포함"
                 shortcut="⌘K"
               />
               <SidebarMenuItem
                 variant="default"
                 icon={['system', 'check']}
-                label="Active Item"
+                label="활성 항목"
                 isActive={true}
               />
               <SidebarMenuItem
                 variant="default"
                 icon={['system', 'close']}
-                label="Disabled Item"
+                label="비활성 항목"
                 disabled={true}
               />
             </SidebarMenu>
@@ -237,11 +237,11 @@ export const AllVariants: Story = {
           <div>
             <p className="font-body size-xs text-muted padding-x-8 padding-y-4">Label</p>
             <SidebarMenu>
-              <SidebarMenuItem variant="label" label="Section Header" />
+              <SidebarMenuItem variant="label" label="섹션 헤더" />
               <SidebarMenuItem
                 variant="default"
                 icon={['document', 'file']}
-                label="Item Under Label"
+                label="라벨 하위 항목"
               />
             </SidebarMenu>
           </div>
@@ -254,18 +254,18 @@ export const AllVariants: Story = {
               <SidebarMenuItem
                 variant="avatar"
                 avatarInitials="AB"
-                label="Alice Brown"
+                label="김영희"
               />
               <SidebarMenuItem
                 variant="avatar"
                 avatarInitials="CD"
-                label="Charlie Davis"
+                label="이철수"
                 badge="2"
               />
               <SidebarMenuItem
                 variant="avatar"
                 avatarInitials="EF"
-                label="Eve Fisher"
+                label="박지수"
                 isActive={true}
               />
             </SidebarMenu>
@@ -278,13 +278,13 @@ export const AllVariants: Story = {
             <SidebarMenu>
               <SidebarMenuItem
                 variant="caption"
-                label="Documentation"
-                caption="Learn how to use the app"
+                label="문서"
+                caption="앱 사용법 알아보기"
               />
               <SidebarMenuItem
                 variant="caption"
-                label="Support"
-                caption="Get help from our team"
+                label="지원"
+                caption="팀에게 도움 받기"
               />
             </SidebarMenu>
           </div>
@@ -297,20 +297,20 @@ export const AllVariants: Story = {
               <SidebarMenuItem
                 variant="default"
                 icon={['document', 'folder']}
-                label="Parent Item"
+                label="상위 항목"
               />
               <SidebarMenuItem
                 variant="children"
-                label="Child Item 1"
+                label="하위 항목 1"
               />
               <SidebarMenuItem
                 variant="children"
-                label="Child Item 2"
+                label="하위 항목 2"
                 isActive={true}
               />
               <SidebarMenuItem
                 variant="children"
-                label="Child Item 3"
+                label="하위 항목 3"
               />
             </SidebarMenu>
           </div>
@@ -379,7 +379,7 @@ export const ButtonsVariant: Story = {
             />
           </SidebarMenu>
           <p className="font-body size-xs text-muted padding-8">
-            Hover over menu items to see action icons.
+            메뉴 항목에 호버하면 액션 아이콘이 표시됩니다.
           </p>
         </div>
       </SidebarProvider>
@@ -401,18 +401,18 @@ export const States: Story = {
             <SidebarMenuItem
               variant="default"
               icon={['buildings', 'home']}
-              label="Default State"
+              label="기본 상태"
             />
             <SidebarMenuItem
               variant="default"
               icon={['system', 'check']}
-              label="Active State"
+              label="활성 상태"
               isActive={true}
             />
             <SidebarMenuItem
               variant="default"
               icon={['system', 'close']}
-              label="Disabled State"
+              label="비활성 상태"
               disabled={true}
             />
           </SidebarMenu>
@@ -447,38 +447,38 @@ export const KeyboardShortcutBinding: Story = {
               <SidebarMenuItem
                 variant="default"
                 icon={['buildings', 'home']}
-                label="Home"
+                label="홈"
                 shortcut="⌘1"
-                onClick={() => addLog('Home clicked (⌘1)')}
+                onClick={() => addLog('홈 클릭됨 (⌘1)')}
               />
               <SidebarMenuItem
                 variant="default"
                 icon={['system', 'search']}
-                label="Search"
+                label="검색"
                 shortcut="⌘K"
-                onClick={() => addLog('Search clicked (⌘K)')}
+                onClick={() => addLog('검색 클릭됨 (⌘K)')}
               />
               <SidebarMenuItem
                 variant="default"
                 icon={['system', 'settings']}
-                label="Settings"
+                label="설정"
                 shortcut="⌘,"
-                onClick={() => addLog('Settings clicked (⌘,)')}
+                onClick={() => addLog('설정 클릭됨 (⌘,)')}
               />
               <SidebarMenuItem
                 variant="default"
                 icon={['system', 'close']}
-                label="Disabled"
+                label="비활성"
                 shortcut="⌘D"
                 disabled
-                onClick={() => addLog('Should not fire')}
+                onClick={() => addLog('실행되지 않아야 함')}
               />
             </SidebarMenu>
           </div>
         </SidebarProvider>
         {log.length > 0 && (
           <div className="padding-12 bg-subtle rounded-md">
-            <p className="margin-0size-xs text-muted font-medium">Event Log</p>
+            <p className="margin-0size-xs text-muted font-medium">이벤트 로그</p>
             {log.map((entry, i) => (
               <p key={i} className="margin-0size-xs text-subtle">{entry}</p>
             ))}

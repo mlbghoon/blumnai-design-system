@@ -15,7 +15,7 @@ const meta: Meta<typeof Badge> = {
     variant: {
       control: 'select',
       options: ['default', 'icon', 'image', 'dot'],
-      description: '배지의 변형',
+      description: '배지의 표시 형태를 설정합니다. default(텍스트), icon(아이콘), image(이미지), dot(점 표시) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'BadgeVariant',
@@ -32,7 +32,7 @@ const meta: Meta<typeof Badge> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '배지의 크기',
+      description: '배지의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'BadgeSize',
@@ -44,7 +44,7 @@ const meta: Meta<typeof Badge> = {
     color: {
       control: 'select',
       options: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'],
-      description: '배지의 색상',
+      description: '배지의 색상 테마를 설정합니다. 18가지 색상 중 선택할 수 있으며, 기본값은 neutral입니다',
       table: {
         type: {
           summary: 'BadgeColor',
@@ -56,7 +56,7 @@ const meta: Meta<typeof Badge> = {
     shape: {
       control: 'select',
       options: ['rounded', 'pill'],
-      description: '배지의 모양',
+      description: '배지의 외곽선 모양을 설정합니다. rounded는 둥근 모서리, pill은 완전히 둥근 알약 형태입니다',
       table: {
         type: {
           summary: 'BadgeShape',
@@ -140,7 +140,7 @@ type Story = StoryObj<typeof Badge>;
 export const Default: Story = {
   args: {
     variant: 'default',
-    label: 'A Label',
+    label: '라벨',
     size: 'sm',
     color: 'neutral',
     shape: 'rounded',
@@ -177,7 +177,7 @@ export const Default: Story = {
 export const WithIcon: Story = {
   args: {
     variant: 'icon',
-    label: 'Badge',
+    label: '배지',
     icon: ['business', 'at'],
     size: 'sm',
     color: 'neutral',
@@ -189,7 +189,7 @@ export const WithIcon: Story = {
 export const WithImage: Story = {
   args: {
     variant: 'image',
-    label: 'Badge',
+    label: '배지',
     image: 'https://placehold.co/12',
     size: 'sm',
     color: 'neutral',
@@ -201,7 +201,7 @@ export const WithImage: Story = {
 export const WithDot: Story = {
   args: {
     variant: 'dot',
-    label: 'Badge',
+    label: '배지',
     size: 'sm',
     color: 'neutral',
     shape: 'rounded',
@@ -227,7 +227,7 @@ export const AllColors: Story = {
       {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map((color) => (
         <div key={color} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <span style={{ width: '100px', textTransform: 'capitalize' }}>{color}</span>
-          <Badge variant="default" label="A Label" color={color} size="sm" />
+          <Badge variant="default" label="라벨" color={color} size="sm" />
         </div>
       ))}
     </div>
@@ -238,8 +238,8 @@ export const AllColors: Story = {
 export const AllSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-      <Badge variant="default" label="A Label" size="sm" />
-      <Badge variant="default" label="A Label" size="lg" />
+      <Badge variant="default" label="라벨" size="sm" />
+      <Badge variant="default" label="라벨" size="lg" />
     </div>
   ),
   parameters: { controls: { disable: true } },
@@ -248,8 +248,8 @@ export const AllSizes: Story = {
 export const AllShapes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-      <Badge variant="default" label="A Label" shape="rounded" />
-      <Badge variant="default" label="A Label" shape="pill" />
+      <Badge variant="default" label="라벨" shape="rounded" />
+      <Badge variant="default" label="라벨" shape="pill" />
     </div>
   ),
   parameters: { controls: { disable: true } },

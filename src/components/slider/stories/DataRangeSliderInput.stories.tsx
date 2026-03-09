@@ -154,7 +154,7 @@ type Story = StoryObj<DataRangeSliderInputProps>;
 export const Default: Story = {
   args: {
     color: 'gray',
-    label: 'Data Coverage',
+    label: '데이터 커버리지',
     suffix: '%',
     min: 0,
     max: 100,
@@ -200,7 +200,7 @@ export const PercentageRange: Story = {
     return (
       <div style={{ width: 500 }}>
         <DataRangeSliderInput
-          label="Progress Range"
+          label="진행률 범위"
           suffix="%"
           value={value}
           onChange={setValue}
@@ -219,7 +219,7 @@ export const CoverageRange: Story = {
     return (
       <div style={{ width: 500 }}>
         <DataRangeSliderInput
-          label="Coverage Area"
+          label="커버리지 영역"
           suffix="%"
           value={value}
           onChange={setValue}
@@ -237,7 +237,7 @@ export const Disabled: Story = {
     return (
       <div style={{ width: 500 }}>
         <DataRangeSliderInput
-          label="Disabled"
+          label="비활성화"
           suffix="%"
           defaultValue={[30, 70]}
           chartData={sampleChartData}
@@ -261,7 +261,7 @@ export const WithChart: Story = {
     return (
       <div style={{ width: 500 }}>
         <DataRangeSliderInput
-          label="Distribution"
+          label="분포"
           suffix="%"
           chartData={chartData}
           value={value}
@@ -281,7 +281,7 @@ export const WithoutChart: Story = {
     return (
       <div style={{ width: 500 }}>
         <DataRangeSliderInput
-          label="No Chart"
+          label="차트 없음"
           suffix="%"
           value={value}
           onChange={setValue}

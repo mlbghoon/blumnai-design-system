@@ -29,7 +29,7 @@ const meta: Meta<StoryProps> = {
     datePickerStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '날짜 선택기 스타일',
+      description: '날짜 범위 선택기의 시각적 스타일을 설정합니다. default(기본), shadow(그림자), soft(부드러운) 중 선택할 수 있습니다',
       table: {
         type: { summary: 'DatePickerStyle', detail: "'default' | 'shadow' | 'soft'" },
         defaultValue: { summary: 'default' },
@@ -38,7 +38,7 @@ const meta: Meta<StoryProps> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '날짜 선택기 크기',
+      description: '날짜 범위 선택기의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: { summary: 'DatePickerSize', detail: "'sm' | 'lg'" },
         defaultValue: { summary: 'sm' },
@@ -46,53 +46,53 @@ const meta: Meta<StoryProps> = {
     },
     label: {
       control: 'text',
-      description: '라벨 텍스트',
+      description: '입력 필드 위에 표시되는 라벨 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
     required: {
       control: 'boolean',
-      description: '필수 입력 여부',
+      description: 'true로 설정하면 라벨 옆에 필수 표시(*)가 나타납니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     supportText: {
       control: 'text',
-      description: '라벨 옆 보조 텍스트',
+      description: '라벨 오른쪽에 표시되는 보조 텍스트입니다. 선택 사항 안내 등에 사용합니다',
       table: { type: { summary: 'string' } },
     },
     caption: {
       control: 'text',
-      description: '입력 필드 아래 설명 텍스트',
+      description: '입력 필드 아래에 표시되는 설명 텍스트입니다. 사용 안내나 형식 정보를 제공합니다',
       table: { type: { summary: 'string' } },
     },
     error: {
       control: 'text',
-      description: '에러 상태 또는 에러 메시지',
+      description: '에러 상태를 표시합니다. true는 에러 스타일만, 문자열은 에러 메시지를 함께 표시합니다',
       table: { type: { summary: 'boolean | string' } },
     },
     success: {
       control: 'text',
-      description: '성공 상태 또는 성공 메시지',
+      description: '성공 상태를 표시합니다. true는 성공 스타일만, 문자열은 성공 메시지를 함께 표시합니다',
       table: { type: { summary: 'boolean | string' } },
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 날짜 범위 선택기가 비활성화되어 클릭이나 입력을 할 수 없습니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     showQuickPresets: {
       control: 'boolean',
-      description: '빠른 프리셋 표시 여부',
+      description: 'true로 설정하면 캘린더 옆에 최근 7일, 최근 30일 등 빠른 날짜 범위 선택 버튼이 표시됩니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     numberOfMonths: {
       control: 'number',
-      description: '표시할 월 개수',
+      description: '캘린더에 동시에 표시할 월의 개수를 설정합니다. 기본값은 2입니다',
       table: { type: { summary: 'number' }, defaultValue: { summary: '2' } },
     },
     dateFormat: {
       control: 'select',
       options: ['yyyy.MM.dd', 'yyyy-MM-dd', 'yyyy/MM/dd', 'MM/dd/yyyy', 'dd/MM/yyyy'],
-      description: '날짜 포맷',
+      description: '선택된 날짜의 표시 형식을 설정합니다. yyyy.MM.dd, yyyy-MM-dd 등의 형식을 선택할 수 있습니다',
       table: { type: { summary: 'DateFormat' }, defaultValue: { summary: 'yyyy.MM.dd' } },
     },
     align: {
@@ -182,7 +182,7 @@ type Story = StoryObj<StoryProps>;
  */
 export const Default: Story = {
   args: {
-    label: 'Date Range',
+    label: '날짜 범위',
     datePickerStyle: 'default',
     size: 'sm',
     showQuickPresets: false,
@@ -236,7 +236,7 @@ export const WithQuickPresets: Story = {
     return (
       <div style={{ width: 320 }}>
         <DateRangePicker
-          label="Date Range"
+          label="날짜 범위"
           showQuickPresets
           value={range}
           onChange={setRange}
@@ -255,7 +255,7 @@ export const SingleMonth: Story = {
     return (
       <div style={{ width: 320 }}>
         <DateRangePicker
-          label="Date Range"
+          label="날짜 범위"
           numberOfMonths={1}
           value={range}
           onChange={setRange}
@@ -274,7 +274,7 @@ export const TwoMonths: Story = {
     return (
       <div style={{ width: 320 }}>
         <DateRangePicker
-          label="Date Range"
+          label="날짜 범위"
           numberOfMonths={2}
           value={range}
           onChange={setRange}
@@ -325,7 +325,7 @@ export const WithCustomPresets: Story = {
     return (
       <div style={{ width: 320 }}>
         <DateRangePicker
-          label="Date Range"
+          label="날짜 범위"
           showQuickPresets
           presets={customPresets}
           value={range}
@@ -344,7 +344,7 @@ export const Disabled: Story = {
     return (
       <div style={{ width: 320 }}>
         <DateRangePicker
-          label="Date Range"
+          label="날짜 범위"
           disabled
           value={{ from: new Date(), to: addDays(new Date(), 7) }}
         />
@@ -362,7 +362,7 @@ export const ErrorState: Story = {
     return (
       <div style={{ width: 320 }}>
         <DateRangePicker
-          label="Date Range"
+          label="날짜 범위"
           error="날짜 범위를 선택해주세요"
           value={range}
           onChange={setRange}
@@ -380,7 +380,7 @@ export const SuccessState: Story = {
     return (
       <div style={{ width: 320 }}>
         <DateRangePicker
-          label="Date Range"
+          label="날짜 범위"
           success="날짜 범위가 선택되었습니다"
           value={{ from: new Date(), to: addDays(new Date(), 7) }}
         />
@@ -398,7 +398,7 @@ export const WithMinMaxDates: Story = {
     return (
       <div style={{ width: 320 }}>
         <DateRangePicker
-          label="Date Range"
+          label="날짜 범위"
           caption="오늘부터 60일 이내만 선택 가능"
           minDate={new Date()}
           maxDate={addDays(new Date(), 60)}
@@ -441,7 +441,7 @@ export const WithActions: Story = {
     return (
       <div style={{ width: 320 }}>
         <DateRangePicker
-          label="Date Range"
+          label="날짜 범위"
           showActions
           value={range}
           onChange={setRange}
@@ -464,7 +464,7 @@ export const WithActionsAndPresets: Story = {
     return (
       <div style={{ width: 320 }}>
         <DateRangePicker
-          label="Date Range"
+          label="날짜 범위"
           showActions
           showQuickPresets
           value={range}
@@ -487,7 +487,7 @@ export const Controlled: Story = {
     return (
       <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <DateRangePicker
-          label="Controlled Date Range"
+          label="제어 날짜 범위"
           value={range}
           onChange={setRange}
         />

@@ -16,7 +16,7 @@ const meta: Meta<typeof Input> = {
     variant: {
       control: 'select',
       options: ['password'],
-      description: '입력 필드의 변형',
+      description: '입력 필드의 변형을 설정합니다',
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'password' },
@@ -25,7 +25,7 @@ const meta: Meta<typeof Input> = {
     inputStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '입력 필드의 스타일 변형',
+      description: '입력 필드의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'InputStyle',
@@ -37,7 +37,7 @@ const meta: Meta<typeof Input> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '입력 필드의 크기',
+      description: '입력 필드의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'InputSize',
@@ -48,42 +48,42 @@ const meta: Meta<typeof Input> = {
     },
     label: {
       control: 'text',
-      description: '입력 필드의 라벨',
+      description: '입력 필드 위에 표시되는 제목 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     placeholder: {
       control: 'text',
-      description: '플레이스홀더 텍스트',
+      description: '입력 필드가 비어있을 때 표시되는 안내 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     value: {
       control: 'text',
-      description: '입력 필드 값 (제어 컴포넌트)',
+      description: '입력 필드에 표시되는 현재 값입니다. 외부에서 값을 제어할 때 사용합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     onChange: {
       action: 'changed',
-      description: '입력 값 변경 시 콜백',
+      description: '사용자가 입력 값을 변경할 때마다 호출되는 함수입니다',
       table: {
         type: { summary: '(e: ChangeEvent<HTMLInputElement>) => void' },
       },
     },
     caption: {
       control: 'text',
-      description: '입력 필드 아래 설명 텍스트',
+      description: '입력 필드 아래에 표시되는 도움말 텍스트입니다. 사용자에게 입력 방법이나 형식을 안내합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     required: {
       control: 'boolean',
-      description: '필수 입력 여부',
+      description: 'true로 설정하면 필수 입력 항목으로 표시되며, 라벨 옆에 필수 표시(*)가 나타납니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -91,7 +91,7 @@ const meta: Meta<typeof Input> = {
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -99,28 +99,28 @@ const meta: Meta<typeof Input> = {
     },
     error: {
       control: 'text',
-      description: '에러 상태 또는 메시지',
+      description: '에러 메시지를 입력하면 빨간색 테두리와 함께 아래에 에러 메시지가 표시됩니다. true로 설정하면 에러 스타일만 적용됩니다',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     success: {
       control: 'text',
-      description: '성공 상태 또는 메시지',
+      description: '성공 메시지를 입력하면 초록색 테두리와 함께 아래에 성공 메시지가 표시됩니다. true로 설정하면 성공 스타일만 적용됩니다',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     leadIcon: {
       control: 'object',
-      description: '입력 필드 앞에 표시되는 아이콘',
+      description: '입력 필드 왼쪽에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 지정합니다',
       table: {
         type: { summary: 'IconType' },
       },
     },
     showToggle: {
       control: 'boolean',
-      description: '비밀번호 표시/숨김 토글 버튼 표시 여부',
+      description: 'true로 설정하면 비밀번호를 텍스트로 표시하거나 숨길 수 있는 눈 모양 토글 버튼이 나타납니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -128,7 +128,7 @@ const meta: Meta<typeof Input> = {
     },
     showStrength: {
       control: 'boolean',
-      description: '비밀번호 강도 표시 여부',
+      description: 'true로 설정하면 입력 필드 아래에 비밀번호 강도를 나타내는 컬러 바가 표시됩니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -137,7 +137,7 @@ const meta: Meta<typeof Input> = {
     strength: {
       control: 'select',
       options: ['none', 'low', 'medium', 'high'],
-      description: '비밀번호 강도 값',
+      description: '비밀번호의 강도를 직접 지정합니다. none(없음), low(약함), medium(보통), high(강함) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'PasswordStrength',
@@ -148,7 +148,7 @@ const meta: Meta<typeof Input> = {
     },
     autoCalculateStrength: {
       control: 'boolean',
-      description: '비밀번호 강도 자동 계산 여부',
+      description: 'true로 설정하면 입력된 비밀번호를 기반으로 강도가 자동 계산됩니다. strength prop 대신 사용합니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -156,7 +156,7 @@ const meta: Meta<typeof Input> = {
     },
     onStrengthChange: {
       action: 'strengthChanged',
-      description: '비밀번호 강도 변경 시 콜백',
+      description: '비밀번호 강도가 변경될 때 호출되는 함수입니다. 강도 값(none/low/medium/high)을 인자로 받습니다',
       table: {
         type: { summary: '(strength: PasswordStrength) => void' },
       },
@@ -202,8 +202,8 @@ type Story = StoryObj<typeof Input>;
 export const Default: Story = {
   args: {
     variant: 'password',
-    label: 'Password',
-    placeholder: 'Enter your password',
+    label: '비밀번호',
+    placeholder: '비밀번호를 입력하세요',
   },
   parameters: {
     controls: { disable: false },
@@ -218,8 +218,8 @@ export const Default: Story = {
 export const WithToggle: Story = {
   args: {
     variant: 'password',
-    label: 'Password',
-    placeholder: 'Enter your password',
+    label: '비밀번호',
+    placeholder: '비밀번호를 입력하세요',
     showToggle: true,
   },
 };
@@ -232,8 +232,8 @@ export const WithToggle: Story = {
 export const WithoutToggle: Story = {
   args: {
     variant: 'password',
-    label: 'Password',
-    placeholder: 'Enter your password',
+    label: '비밀번호',
+    placeholder: '비밀번호를 입력하세요',
     showToggle: false,
   },
 };
@@ -250,11 +250,11 @@ export const WithoutToggle: Story = {
 export const WithStrengthAuto: Story = {
   args: {
     variant: 'password',
-    label: 'Create Password',
-    placeholder: 'Enter a strong password',
+    label: '비밀번호 생성',
+    placeholder: '강력한 비밀번호를 입력하세요',
     showStrength: true,
     autoCalculateStrength: true,
-    caption: 'Use 8+ characters with a mix of letters, numbers & symbols',
+    caption: '8자 이상, 영문/숫자/특수문자를 조합하여 입력하세요',
   },
 };
 
@@ -264,8 +264,8 @@ export const WithStrengthAuto: Story = {
 export const StrengthLow: Story = {
   args: {
     variant: 'password',
-    label: 'Weak Password',
-    placeholder: 'Enter password',
+    label: '약한 비밀번호',
+    placeholder: '비밀번호를 입력하세요',
     showStrength: true,
     strength: 'low',
     value: '123',
@@ -278,8 +278,8 @@ export const StrengthLow: Story = {
 export const StrengthMedium: Story = {
   args: {
     variant: 'password',
-    label: 'Medium Password',
-    placeholder: 'Enter password',
+    label: '보통 비밀번호',
+    placeholder: '비밀번호를 입력하세요',
     showStrength: true,
     strength: 'medium',
     value: 'pass123',
@@ -292,8 +292,8 @@ export const StrengthMedium: Story = {
 export const StrengthHigh: Story = {
   args: {
     variant: 'password',
-    label: 'Strong Password',
-    placeholder: 'Enter password',
+    label: '강한 비밀번호',
+    placeholder: '비밀번호를 입력하세요',
     showStrength: true,
     strength: 'high',
     value: 'MyStr0ng!P@ss',
@@ -312,8 +312,8 @@ export const StrengthHigh: Story = {
 export const WithLeadIcon: Story = {
   args: {
     variant: 'password',
-    label: 'Password',
-    placeholder: 'Enter your password',
+    label: '비밀번호',
+    placeholder: '비밀번호를 입력하세요',
     leadIcon: ['system', 'lock'],
     showToggle: true,
   },
@@ -330,7 +330,7 @@ export const SizeSmall: Story = {
   args: {
     variant: 'password',
     label: 'Small',
-    placeholder: 'Enter password',
+    placeholder: '비밀번호를 입력하세요',
     size: 'sm',
     showToggle: true,
   },
@@ -343,7 +343,7 @@ export const SizeLarge: Story = {
   args: {
     variant: 'password',
     label: 'Large',
-    placeholder: 'Enter password',
+    placeholder: '비밀번호를 입력하세요',
     size: 'lg',
     showToggle: true,
   },
@@ -360,7 +360,7 @@ export const StyleDefault: Story = {
   args: {
     variant: 'password',
     label: 'Default Style',
-    placeholder: 'Enter password',
+    placeholder: '비밀번호를 입력하세요',
     inputStyle: 'default',
     showToggle: true,
   },
@@ -373,7 +373,7 @@ export const StyleShadow: Story = {
   args: {
     variant: 'password',
     label: 'Shadow Style',
-    placeholder: 'Enter password',
+    placeholder: '비밀번호를 입력하세요',
     inputStyle: 'shadow',
     showToggle: true,
   },
@@ -386,7 +386,7 @@ export const StyleSoft: Story = {
   args: {
     variant: 'password',
     label: 'Soft Style',
-    placeholder: 'Enter password',
+    placeholder: '비밀번호를 입력하세요',
     inputStyle: 'soft',
     showToggle: true,
   },
@@ -403,7 +403,7 @@ export const StateDefault: Story = {
   args: {
     variant: 'password',
     label: 'Default',
-    placeholder: 'Enter password',
+    placeholder: '비밀번호를 입력하세요',
     showToggle: true,
   },
 };
@@ -415,7 +415,7 @@ export const StateDisabled: Story = {
   args: {
     variant: 'password',
     label: 'Disabled',
-    placeholder: 'Enter password',
+    placeholder: '비밀번호를 입력하세요',
     showToggle: true,
     disabled: true,
     value: 'password',
@@ -429,9 +429,9 @@ export const StateError: Story = {
   args: {
     variant: 'password',
     label: 'Error',
-    placeholder: 'Enter password',
+    placeholder: '비밀번호를 입력하세요',
     showToggle: true,
-    error: 'Password is too weak',
+    error: '비밀번호가 너무 약합니다',
     value: 'password',
   },
 };
@@ -443,9 +443,9 @@ export const StateSuccess: Story = {
   args: {
     variant: 'password',
     label: 'Success',
-    placeholder: 'Enter password',
+    placeholder: '비밀번호를 입력하세요',
     showToggle: true,
-    success: 'Password meets requirements',
+    success: '비밀번호 요건을 충족합니다',
     value: 'StrongP@ss123',
   },
 };
@@ -466,8 +466,8 @@ export const LoginForm: Story = {
       <div className="flex flex-col ds-gap-16 max-w-sm">
         <Input
           variant="password"
-          label="Password"
-          placeholder="Enter your password"
+          label="비밀번호"
+          placeholder="비밀번호를 입력하세요"
           leadIcon={['system', 'lock']}
           showToggle
           value={password}
@@ -491,26 +491,26 @@ export const RegistrationForm: Story = {
       <div className="flex flex-col ds-gap-16 max-w-sm">
         <Input
           variant="password"
-          label="Create Password"
-          placeholder="Enter a strong password"
+          label="비밀번호 생성"
+          placeholder="강력한 비밀번호를 입력하세요"
           leadIcon={['system', 'lock']}
           showToggle
           showStrength
           autoCalculateStrength
-          caption="Use 8+ characters with a mix of letters, numbers & symbols"
+          caption="8자 이상, 영문/숫자/특수문자를 조합하여 입력하세요"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <Input
           variant="password"
-          label="Confirm Password"
-          placeholder="Re-enter your password"
+          label="비밀번호 확인"
+          placeholder="비밀번호를 다시 입력하세요"
           leadIcon={['system', 'lock']}
           showToggle
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          error={confirmPassword && confirmPassword !== password ? 'Passwords do not match' : undefined}
-          success={confirmPassword && confirmPassword === password ? 'Passwords match' : undefined}
+          error={confirmPassword && confirmPassword !== password ? '비밀번호가 일치하지 않습니다' : undefined}
+          success={confirmPassword && confirmPassword === password ? '비밀번호가 일치합니다' : undefined}
         />
       </div>
     );
@@ -530,8 +530,8 @@ export const StrengthCallback: Story = {
       <div className="flex flex-col ds-gap-8">
         <Input
           variant="password"
-          label="Password"
-          placeholder="Enter a password"
+          label="비밀번호"
+          placeholder="비밀번호를 입력하세요"
           showStrength
           autoCalculateStrength
           value={password}
@@ -540,7 +540,7 @@ export const StrengthCallback: Story = {
         />
         {strength !== 'none' && (
           <p className="size-sm text-subtle">
-            Current strength: <strong>{strength}</strong>
+            현재 강도: <strong>{strength}</strong>
           </p>
         )}
       </div>

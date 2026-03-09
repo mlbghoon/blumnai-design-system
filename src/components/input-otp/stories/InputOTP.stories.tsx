@@ -19,14 +19,14 @@ const meta: Meta<typeof InputOTP> = {
   argTypes: {
     maxLength: {
       control: 'number',
-      description: 'OTP 코드의 최대 길이',
+      description: 'OTP 코드의 자릿수를 설정합니다. 예를 들어 6을 설정하면 6자리 코드를 입력받습니다',
       table: {
         type: { summary: 'number' },
       },
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 컴포넌트가 비활성화되어 입력을 할 수 없습니다',
       table: {
         type: { summary: 'boolean' },
       },

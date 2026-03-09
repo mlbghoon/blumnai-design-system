@@ -16,7 +16,7 @@ const meta: Meta<typeof SidebarUserbar> = {
     variant: {
       control: 'select',
       options: ['variant1', 'variant2', 'variant3'],
-      description: '유저바 스타일 변형',
+      description: '유저바의 시각적 스타일을 설정합니다. variant1(컴팩트), variant2(이메일 포함), variant3(기본형) 중 선택합니다',
       table: {
         type: { summary: '"variant1" | "variant2" | "variant3"' },
         defaultValue: { summary: 'variant3' },
@@ -24,27 +24,27 @@ const meta: Meta<typeof SidebarUserbar> = {
     },
     name: {
       control: 'text',
-      description: '사용자 이름',
+      description: '유저바에 표시되는 사용자 이름입니다. variant1에서는 짧은 이름, variant2/3에서는 전체 이름을 사용합니다',
       table: { type: { summary: 'string' } },
     },
     email: {
       control: 'text',
-      description: '사용자 이메일 (variant2 전용)',
+      description: '사용자 이메일 주소입니다. variant2에서만 이름 아래에 표시됩니다',
       table: { type: { summary: 'string' } },
     },
     avatarInitials: {
       control: 'text',
-      description: '아바타 이니셜',
+      description: '아바타에 표시되는 이니셜 텍스트입니다. avatarSrc가 없을 때 대체 표시로 사용됩니다',
       table: { type: { summary: 'string' } },
     },
     avatarSrc: {
       control: 'text',
-      description: '아바타 이미지 URL',
+      description: '아바타에 표시할 이미지의 URL입니다. 설정하면 이니셜 대신 이미지가 표시됩니다',
       table: { type: { summary: 'string' } },
     },
     collapsed: {
       control: 'boolean',
-      description: '축소 상태',
+      description: 'true로 설정하면 사이드바가 축소된 상태의 유저바로 표시됩니다. 아바타만 보이고 이름과 이메일은 숨겨집니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -52,7 +52,7 @@ const meta: Meta<typeof SidebarUserbar> = {
     },
     isOpen: {
       control: 'boolean',
-      description: '드롭다운 열림 상태',
+      description: 'true로 설정하면 드롭다운이 열린 상태로 표시됩니다. 화살표 아이콘이 회전하여 열림 상태를 나타냅니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -232,7 +232,7 @@ export const OpenState: Story = {
           </SidebarProvider>
         </div>
         <p className="font-body size-xs text-muted">
-          Arrow icon rotates when isOpen is true.
+          isOpen이 true일 때 화살표 아이콘이 회전합니다.
         </p>
       </div>
     );

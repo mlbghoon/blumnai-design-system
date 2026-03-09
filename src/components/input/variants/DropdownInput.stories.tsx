@@ -11,10 +11,10 @@ const currencyOptions = [
 ];
 
 const countryOptions = [
-  { value: 'us', label: 'United States' },
-  { value: 'uk', label: 'United Kingdom' },
-  { value: 'ca', label: 'Canada' },
-  { value: 'au', label: 'Australia' },
+  { value: 'us', label: '미국' },
+  { value: 'uk', label: '영국' },
+  { value: 'ca', label: '캐나다' },
+  { value: 'au', label: '호주' },
 ];
 
 const protocolOptions = [
@@ -35,7 +35,7 @@ const meta: Meta<typeof Input> = {
     variant: {
       control: 'select',
       options: ['lead-dropdown', 'tail-dropdown'],
-      description: '입력 필드의 변형 (lead-dropdown: 앞쪽, tail-dropdown: 뒤쪽)',
+      description: '입력 필드의 변형을 설정합니다. lead-dropdown(드롭다운이 입력 필드 앞에 배치), tail-dropdown(드롭다운이 입력 필드 뒤에 배치) 중 선택할 수 있습니다',
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'tail-dropdown' },
@@ -44,7 +44,7 @@ const meta: Meta<typeof Input> = {
     inputStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '입력 필드의 스타일 변형',
+      description: '입력 필드의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'InputStyle',
@@ -56,7 +56,7 @@ const meta: Meta<typeof Input> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '입력 필드의 크기',
+      description: '입력 필드의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'InputSize',
@@ -67,35 +67,35 @@ const meta: Meta<typeof Input> = {
     },
     label: {
       control: 'text',
-      description: '입력 필드의 라벨',
+      description: '입력 필드 위에 표시되는 제목 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     placeholder: {
       control: 'text',
-      description: '플레이스홀더 텍스트',
+      description: '입력 필드가 비어있을 때 표시되는 안내 텍스트입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     value: {
       control: 'text',
-      description: '입력 필드 값 (제어 컴포넌트)',
+      description: '입력 필드에 표시되는 현재 값입니다. 외부에서 값을 제어할 때 사용합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     caption: {
       control: 'text',
-      description: '입력 필드 아래 설명 텍스트',
+      description: '입력 필드 아래에 표시되는 도움말 텍스트입니다. 사용자에게 입력 방법이나 형식을 안내합니다',
       table: {
         type: { summary: 'string' },
       },
     },
     required: {
       control: 'boolean',
-      description: '필수 입력 여부',
+      description: 'true로 설정하면 필수 입력 항목으로 표시되며, 라벨 옆에 필수 표시(*)가 나타납니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -103,7 +103,7 @@ const meta: Meta<typeof Input> = {
     },
     disabled: {
       control: 'boolean',
-      description: '비활성화 여부',
+      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -111,70 +111,70 @@ const meta: Meta<typeof Input> = {
     },
     error: {
       control: 'text',
-      description: '에러 상태 또는 메시지',
+      description: '에러 메시지를 입력하면 빨간색 테두리와 함께 아래에 에러 메시지가 표시됩니다. true로 설정하면 에러 스타일만 적용됩니다',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     success: {
       control: 'text',
-      description: '성공 상태 또는 메시지',
+      description: '성공 메시지를 입력하면 초록색 테두리와 함께 아래에 성공 메시지가 표시됩니다. true로 설정하면 성공 스타일만 적용됩니다',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     leadIcon: {
       control: 'object',
-      description: '입력 필드 앞에 표시되는 아이콘',
+      description: '입력 필드 왼쪽에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 지정합니다',
       table: {
         type: { summary: 'IconType' },
       },
     },
     tailIcon: {
       control: 'object',
-      description: '입력 필드 뒤에 표시되는 아이콘',
+      description: '입력 필드 오른쪽에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 지정합니다',
       table: {
         type: { summary: 'IconType' },
       },
     },
     onChange: {
       action: 'changed',
-      description: '입력 값 변경 시 콜백',
+      description: '사용자가 입력 값을 변경할 때마다 호출되는 함수입니다',
       table: {
         type: { summary: '(e: ChangeEvent<HTMLInputElement>) => void' },
       },
     },
     onClear: {
       action: 'cleared',
-      description: '입력 내용 삭제 버튼 클릭 시 콜백',
+      description: '이 함수를 전달하면 입력 필드에 X 버튼이 표시되며, 클릭 시 호출됩니다. 입력 내용을 초기화하는 용도로 사용합니다',
       table: {
         type: { summary: '() => void' },
       },
     },
     dropdownOptions: {
       control: 'object',
-      description: '드롭다운 옵션 목록',
+      description: '드롭다운에 표시되는 선택 가능한 옵션 목록입니다. { value, label } 형식의 배열로 전달합니다',
       table: {
         type: { summary: 'DropdownOption[]' },
       },
     },
     dropdownValue: {
       control: 'text',
-      description: '선택된 드롭다운 값',
+      description: '현재 드롭다운에서 선택된 값입니다',
       table: {
         type: { summary: 'string' },
       },
     },
     onDropdownChange: {
       action: 'dropdownChanged',
-      description: '드롭다운 선택 변경 시 콜백',
+      description: '드롭다운에서 다른 옵션을 선택했을 때 호출되는 함수입니다',
       table: {
         type: { summary: '(value: string) => void' },
       },
     },
     dropdownPlaceholder: {
       control: 'text',
-      description: '드롭다운 플레이스홀더',
+      description: '드롭다운에 아무 것도 선택되지 않았을 때 표시되는 안내 텍스트입니다',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: 'Select' },
@@ -182,7 +182,7 @@ const meta: Meta<typeof Input> = {
     },
     dropdownWidth: {
       control: 'number',
-      description: '드롭다운 트리거의 고정 너비 (px)',
+      description: '드롭다운 버튼의 너비를 고정합니다. 옵션 텍스트 길이에 따른 레이아웃 변동을 방지할 때 사용합니다',
       table: {
         type: { summary: 'number' },
       },
@@ -228,10 +228,10 @@ type Story = StoryObj<typeof Input>;
 export const Default: Story = {
   args: {
     variant: 'tail-dropdown',
-    label: 'Amount',
+    label: '금액',
     placeholder: '0.00',
     dropdownOptions: currencyOptions,
-    dropdownPlaceholder: 'Currency',
+    dropdownPlaceholder: '통화',
     inputStyle: 'default',
     size: 'sm',
     disabled: false,
@@ -240,7 +240,7 @@ export const Default: Story = {
     const [value, setValue] = useState('');
     const [dropdownValue, setDropdownValue] = useState('usd');
     const dropdownOptions = 'dropdownOptions' in args ? args.dropdownOptions : currencyOptions;
-    const dropdownPlaceholder = 'dropdownPlaceholder' in args ? args.dropdownPlaceholder : 'Currency';
+    const dropdownPlaceholder = 'dropdownPlaceholder' in args ? args.dropdownPlaceholder : '통화';
     return (
       <Input
         variant="tail-dropdown"
@@ -280,10 +280,10 @@ export const TailDropdown: Story = {
     return (
       <Input
         variant="tail-dropdown"
-        label="Amount"
+        label="금액"
         placeholder="0.00"
         dropdownOptions={currencyOptions}
-        dropdownPlaceholder="Currency"
+        dropdownPlaceholder="통화"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         dropdownValue={currency}
@@ -304,10 +304,10 @@ export const LeadDropdown: Story = {
     return (
       <Input
         variant="lead-dropdown"
-        label="Phone Number"
+        label="전화번호"
         placeholder="(555) 123-4567"
         dropdownOptions={countryOptions}
-        dropdownPlaceholder="Country"
+        dropdownPlaceholder="국가"
         dropdownValue={country}
         onDropdownChange={setCountry}
       />
@@ -331,7 +331,7 @@ export const WithLeadIcon: Story = {
     return (
       <Input
         variant="tail-dropdown"
-        label="Price"
+        label="가격"
         placeholder="0.00"
         dropdownOptions={currencyOptions}
         leadIcon={['finance', 'money-dollar-circle']}
@@ -355,8 +355,8 @@ export const WithTailIcon: Story = {
     return (
       <Input
         variant="lead-dropdown"
-        label="Contact"
-        placeholder="Enter phone number"
+        label="연락처"
+        placeholder="전화번호를 입력하세요"
         dropdownOptions={countryOptions}
         tailIcon={['device', 'phone']}
         dropdownValue={country}
@@ -382,7 +382,7 @@ export const WithClearButton: Story = {
     return (
       <Input
         variant="tail-dropdown"
-        label="Amount"
+        label="금액"
         placeholder="0.00"
         dropdownOptions={currencyOptions}
         value={value}
@@ -410,7 +410,7 @@ export const UrlInput: Story = {
     return (
       <Input
         variant="lead-dropdown"
-        label="Website URL"
+        label="웹사이트 URL"
         placeholder="www.example.com"
         dropdownOptions={protocolOptions}
         dropdownValue={protocol}
@@ -601,7 +601,7 @@ export const StateError: Story = {
         variant="tail-dropdown"
         label="Error"
         placeholder="0.00"
-        error="Invalid amount"
+        error="유효하지 않은 금액입니다"
         dropdownOptions={currencyOptions}
         dropdownValue={currency}
         onDropdownChange={setCurrency}
@@ -624,7 +624,7 @@ export const StateSuccess: Story = {
         variant="tail-dropdown"
         label="Success"
         placeholder="0.00"
-        success="Amount valid"
+        success="유효한 금액입니다"
         dropdownOptions={currencyOptions}
         dropdownValue={currency}
         onDropdownChange={setCurrency}
