@@ -15,7 +15,7 @@ const meta: Meta<typeof Input> = {
     variant: {
       control: 'select',
       options: ['quantity', 'quantity-2'],
-      description: '입력 필드의 변형을 설정합니다. quantity(좌우 양쪽에 +/- 버튼 배치), quantity-2(오른쪽에 버튼이 쌓여서 표시되는 컴팩트 형태) 중 선택할 수 있습니다',
+      description: '입력 필드의 변형 (quantity: 양쪽 버튼, quantity-2: 컴팩트)',
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'quantity' },
@@ -24,7 +24,7 @@ const meta: Meta<typeof Input> = {
     inputStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '입력 필드의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
+      description: '입력 필드의 스타일 변형',
       table: {
         type: {
           summary: 'InputStyle',
@@ -36,7 +36,7 @@ const meta: Meta<typeof Input> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '입력 필드의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
+      description: '입력 필드의 크기',
       table: {
         type: {
           summary: 'InputSize',
@@ -47,21 +47,21 @@ const meta: Meta<typeof Input> = {
     },
     label: {
       control: 'text',
-      description: '입력 필드 위에 표시되는 제목 텍스트입니다',
+      description: '입력 필드의 라벨',
       table: {
         type: { summary: 'string' },
       },
     },
     caption: {
       control: 'text',
-      description: '입력 필드 아래에 표시되는 도움말 텍스트입니다. 사용자에게 입력 방법이나 형식을 안내합니다',
+      description: '입력 필드 아래 설명 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     required: {
       control: 'boolean',
-      description: 'true로 설정하면 필수 입력 항목으로 표시되며, 라벨 옆에 필수 표시(*)가 나타납니다',
+      description: '필수 입력 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -69,7 +69,7 @@ const meta: Meta<typeof Input> = {
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
+      description: '비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -77,21 +77,21 @@ const meta: Meta<typeof Input> = {
     },
     error: {
       control: 'text',
-      description: '에러 메시지를 입력하면 빨간색 테두리와 함께 아래에 에러 메시지가 표시됩니다. true로 설정하면 에러 스타일만 적용됩니다',
+      description: '에러 상태 또는 메시지',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     success: {
       control: 'text',
-      description: '성공 메시지를 입력하면 초록색 테두리와 함께 아래에 성공 메시지가 표시됩니다. true로 설정하면 성공 스타일만 적용됩니다',
+      description: '성공 상태 또는 메시지',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     min: {
       control: 'number',
-      description: '입력할 수 있는 최소 숫자 값입니다. 이 값 이하로는 감소할 수 없습니다',
+      description: '최소값',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
@@ -99,14 +99,14 @@ const meta: Meta<typeof Input> = {
     },
     max: {
       control: 'number',
-      description: '입력할 수 있는 최대 숫자 값입니다. 이 값 이상으로는 증가할 수 없습니다',
+      description: '최대값',
       table: {
         type: { summary: 'number' },
       },
     },
     step: {
       control: 'number',
-      description: '+/- 버튼을 클릭할 때마다 변경되는 값의 단위입니다. 기본값은 1입니다',
+      description: '증감 단위',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '1' },
@@ -114,7 +114,7 @@ const meta: Meta<typeof Input> = {
     },
     value: {
       control: 'number',
-      description: '현재 입력 필드에 표시되는 숫자 값입니다',
+      description: '현재 값',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
@@ -122,7 +122,7 @@ const meta: Meta<typeof Input> = {
     },
     onChange: {
       action: 'changed',
-      description: '사용자가 값을 변경할 때 호출되는 함수입니다. 변경된 숫자 값을 인자로 받습니다',
+      description: '값 변경 시 콜백',
       table: {
         type: { summary: '(value: number) => void' },
       },
@@ -267,7 +267,7 @@ export const CustomStep: Story = {
         min={-20}
         max={50}
         step={5}
-        caption="5씩 증감"
+        caption="5씩 증가"
         value={value}
         onChange={setValue}
       />
@@ -290,7 +290,7 @@ export const DecimalValues: Story = {
         min={0}
         max={100}
         step={0.5}
-        caption="0.5kg 단위로 증감"
+        caption="0.5 kg씩 증가"
         value={value}
         onChange={setValue}
       />
@@ -311,7 +311,7 @@ export const SizeSmall: Story = {
     return (
       <Input
         variant="quantity"
-        label="Small"
+        label="작게"
         size="sm"
         min={0}
         max={10}
@@ -331,7 +331,7 @@ export const SizeLarge: Story = {
     return (
       <Input
         variant="quantity"
-        label="Large"
+        label="크게"
         size="lg"
         min={0}
         max={10}
@@ -351,7 +351,7 @@ export const SizeSmallCompact: Story = {
     return (
       <Input
         variant="quantity-2"
-        label="Small Compact"
+        label="작은 컴팩트"
         size="sm"
         min={0}
         max={10}
@@ -371,7 +371,7 @@ export const SizeLargeCompact: Story = {
     return (
       <Input
         variant="quantity-2"
-        label="Large Compact"
+        label="큰 컴팩트"
         size="lg"
         min={0}
         max={10}
@@ -395,7 +395,7 @@ export const StyleDefault: Story = {
     return (
       <Input
         variant="quantity"
-        label="Default Style"
+        label="기본 스타일"
         inputStyle="default"
         min={0}
         max={10}
@@ -415,7 +415,7 @@ export const StyleShadow: Story = {
     return (
       <Input
         variant="quantity"
-        label="Shadow Style"
+        label="그림자 스타일"
         inputStyle="shadow"
         min={0}
         max={10}
@@ -435,7 +435,7 @@ export const StyleSoft: Story = {
     return (
       <Input
         variant="quantity"
-        label="Soft Style"
+        label="부드러운 스타일"
         inputStyle="soft"
         min={0}
         max={10}
@@ -459,7 +459,7 @@ export const StateDefault: Story = {
     return (
       <Input
         variant="quantity"
-        label="Default"
+        label="기본"
         min={0}
         max={10}
         value={value}
@@ -478,7 +478,7 @@ export const StateDisabled: Story = {
     return (
       <Input
         variant="quantity"
-        label="Disabled"
+        label="비활성"
         min={0}
         max={10}
         disabled
@@ -498,10 +498,10 @@ export const StateError: Story = {
     return (
       <Input
         variant="quantity"
-        label="Error"
+        label="오류"
         min={0}
         max={10}
-        error="제한을 초과했습니다"
+        error="한도 초과"
         value={value}
         onChange={setValue}
       />
@@ -518,10 +518,10 @@ export const StateSuccess: Story = {
     return (
       <Input
         variant="quantity"
-        label="Success"
+        label="성공"
         min={0}
         max={10}
-        success="유효한 수량입니다"
+        success="유효한 수량"
         value={value}
         onChange={setValue}
       />
@@ -538,12 +538,12 @@ export const AtMinimum: Story = {
     return (
       <Input
         variant="quantity"
-        label="At Minimum (0)"
+        label="최솟값 (0)"
         min={0}
         max={10}
         value={value}
         onChange={setValue}
-        caption="감소 버튼이 비활성화됩니다"
+        caption="감소 버튼이 비활성화되어야 합니다"
       />
     );
   },
@@ -558,12 +558,12 @@ export const AtMaximum: Story = {
     return (
       <Input
         variant="quantity"
-        label="At Maximum (10)"
+        label="최댓값 (10)"
         min={0}
         max={10}
         value={value}
         onChange={setValue}
-        caption="증가 버튼이 비활성화됩니다"
+        caption="증가 버튼이 비활성화되어야 합니다"
       />
     );
   },

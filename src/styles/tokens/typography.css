@@ -49,12 +49,12 @@
   --line-height-leading-15: 128px;
 
   /* Letter Spacing */
-  --letter-spacing-tracking-tighter: -1.2px;
-  --letter-spacing-tracking-tight: -0.8px;
-  --letter-spacing-tracking-normal: -0.6px;
-  --letter-spacing-tracking-wide: 0.4px;
-  --letter-spacing-tracking-wider: 0.8px;
-  --letter-spacing-tracking-widest: 1.6px;
+  --letter-spacing-tracking-tighter: -0.75px;
+  --letter-spacing-tracking-tight: -0.5px;
+  --letter-spacing-tracking-normal: -0.25px;
+  --letter-spacing-tracking-wide: 0.25px;
+  --letter-spacing-tracking-wider: 0.5px;
+  --letter-spacing-tracking-widest: 0.75px;
 }
 
 /* ============================================
@@ -96,11 +96,11 @@
     --weight-black: 900;
 
     /* Letter Spacing - Mobile (same as desktop, for future updates) */
-    --letter-spacing-tracking-tighter: -1.2px;
-    --letter-spacing-tracking-tight: -0.8px;
-    --letter-spacing-tracking-normal: -0.6px;
-    --letter-spacing-tracking-wide: 0.4px;
-    --letter-spacing-tracking-wider: 0.8px;
-    --letter-spacing-tracking-widest: 1.6px;
+    --letter-spacing-tracking-tighter: -0.75px;
+    --letter-spacing-tracking-tight: -0.5px;
+    --letter-spacing-tracking-normal: -0.25px;
+    --letter-spacing-tracking-wide: 0.25px;
+    --letter-spacing-tracking-wider: 0.5px;
+    --letter-spacing-tracking-widest: 0.75px;
   }
 }

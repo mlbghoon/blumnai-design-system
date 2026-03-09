@@ -249,12 +249,12 @@ interface ImageItem extends DndItem {
 export const ImageGallery: Story = {
   render: function Render() {
     const [images, setImages] = useState<ImageItem[]>([
-      { id: '1', src: 'https://picsum.photos/seed/1/120/120', alt: 'Image 1' },
-      { id: '2', src: 'https://picsum.photos/seed/2/120/120', alt: 'Image 2' },
-      { id: '3', src: 'https://picsum.photos/seed/3/120/120', alt: 'Image 3' },
-      { id: '4', src: 'https://picsum.photos/seed/4/120/120', alt: 'Image 4' },
-      { id: '5', src: 'https://picsum.photos/seed/5/120/120', alt: 'Image 5' },
-      { id: '6', src: 'https://picsum.photos/seed/6/120/120', alt: 'Image 6' },
+      { id: '1', src: 'https://picsum.photos/seed/1/120/120', alt: '이미지 1' },
+      { id: '2', src: 'https://picsum.photos/seed/2/120/120', alt: '이미지 2' },
+      { id: '3', src: 'https://picsum.photos/seed/3/120/120', alt: '이미지 3' },
+      { id: '4', src: 'https://picsum.photos/seed/4/120/120', alt: '이미지 4' },
+      { id: '5', src: 'https://picsum.photos/seed/5/120/120', alt: '이미지 5' },
+      { id: '6', src: 'https://picsum.photos/seed/6/120/120', alt: '이미지 6' },
     ]);
 
     return (

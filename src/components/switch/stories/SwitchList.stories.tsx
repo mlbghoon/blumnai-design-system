@@ -16,7 +16,7 @@ const meta: Meta<typeof SwitchList> = {
     listStyle: {
       control: 'select',
       options: ['default', 'bordered'],
-      description: '리스트의 외관 스타일을 설정합니다. default(기본 간격), bordered(구분선 포함) 중 선택할 수 있습니다',
+      description: '리스트 스타일',
       table: {
         type: {
           summary: 'SwitchListStyle',
@@ -28,7 +28,7 @@ const meta: Meta<typeof SwitchList> = {
     color: {
       control: 'select',
       options: ['green', 'blue', 'red', 'orange', 'violet', 'cyan', 'pink'],
-      description: '스위치의 활성 상태 색상을 설정합니다. green, blue, red, orange, violet, cyan, pink 중 선택할 수 있습니다',
+      description: '스위치 색상',
       table: {
         type: {
           summary: 'SwitchColor',
@@ -38,14 +38,14 @@ const meta: Meta<typeof SwitchList> = {
       },
     },
     items: {
-      description: '스위치 리스트에 표시할 아이템 배열입니다. 각 아이템은 id, title을 필수로 가지며 description, checked, disabled 등을 설정할 수 있습니다',
+      description: '스위치 아이템 목록',
       table: {
         type: { summary: 'SwitchListItem[]' },
       },
     },
     onItemChange: {
       action: 'itemChanged',
-      description: '아이템의 스위치 상태가 변경될 때 호출되는 콜백 함수입니다. id와 새로운 체크 상태를 인자로 받습니다',
+      description: '아이템 체크 상태 변경 핸들러',
       table: {
         type: { summary: '(id: string, checked: boolean) => void' },
       },
@@ -57,9 +57,9 @@ export default meta;
 type Story = StoryObj<typeof SwitchList>;
 
 const defaultItems: SwitchListItem[] = [
-  { id: '1', title: '이메일 알림', description: '이메일로 업데이트를 수신합니다', checked: true },
-  { id: '2', title: '푸시 알림', description: '기기에서 푸시 알림을 받습니다', checked: false },
-  { id: '3', title: 'SMS 알림', description: '문자 메시지를 받습니다', checked: false },
+  { id: '1', title: '이메일 알림', description: '이메일 업데이트 수신', checked: true },
+  { id: '2', title: '푸시 알림', description: '기기에서 푸시 알림 수신', checked: false },
+  { id: '3', title: 'SMS 알림', description: '문자 메시지 수신', checked: false },
 ];
 
 /**
@@ -103,9 +103,9 @@ export const Default: Story = {
 export const DefaultStyle: Story = {
   render: function Render() {
     const [items, setItems] = useState<SwitchListItem[]>([
-      { id: '1', title: '옵션 1', description: '옵션 1에 대한 설명', checked: true },
-      { id: '2', title: '옵션 2', description: '옵션 2에 대한 설명', checked: false },
-      { id: '3', title: '옵션 3', description: '옵션 3에 대한 설명', checked: false },
+      { id: '1', title: '옵션 1', description: '옵션 1 설명', checked: true },
+      { id: '2', title: '옵션 2', description: '옵션 2 설명', checked: false },
+      { id: '3', title: '옵션 3', description: '옵션 3 설명', checked: false },
     ]);
 
     const handleItemChange = (id: string, checked: boolean) => {
@@ -132,9 +132,9 @@ export const DefaultStyle: Story = {
 export const BorderedStyle: Story = {
   render: function Render() {
     const [items, setItems] = useState<SwitchListItem[]>([
-      { id: '1', title: '이메일 알림', description: '이메일로 업데이트를 수신합니다', checked: true },
-      { id: '2', title: '푸시 알림', description: '기기에서 푸시 알림을 받습니다', checked: false },
-      { id: '3', title: 'SMS 알림', description: '문자 메시지를 받습니다', checked: true },
+      { id: '1', title: '이메일 알림', description: '이메일 업데이트 수신', checked: true },
+      { id: '2', title: '푸시 알림', description: '기기에서 푸시 알림 수신', checked: false },
+      { id: '3', title: 'SMS 알림', description: '문자 메시지 수신', checked: true },
     ]);
 
     const handleItemChange = (id: string, checked: boolean) => {
@@ -162,9 +162,9 @@ export const MixedStates: Story = {
   render: function Render() {
     const [items, setItems] = useState<SwitchListItem[]>([
       { id: '1', title: '사용 가능한 옵션', description: '이 옵션은 전환할 수 있습니다', checked: true },
-      { id: '2', title: '비활성화 꺼짐', description: '이 옵션은 비활성화되어 있습니다', checked: false, disabled: true },
+      { id: '2', title: '비활성화 (꺼짐)', description: '이 옵션은 비활성화되어 있습니다', checked: false, disabled: true },
       { id: '3', title: '다른 사용 가능한 옵션', description: '이 옵션도 전환할 수 있습니다', checked: false },
-      { id: '4', title: '비활성화 켜짐', description: '이 옵션은 비활성화되어 있고 켜져 있습니다', checked: true, disabled: true },
+      { id: '4', title: '비활성화 (켜짐)', description: '이 옵션은 비활성화되어 있고 켜져 있습니다', checked: true, disabled: true },
     ]);
 
     const handleItemChange = (id: string, checked: boolean) => {
@@ -192,7 +192,7 @@ export const LabelsOnly: Story = {
   render: function Render() {
     const [items, setItems] = useState<SwitchListItem[]>([
       { id: '1', title: '다크 모드', checked: false },
-      { id: '2', title: '콤팩트 뷰', checked: true },
+      { id: '2', title: '컴팩트 보기', checked: true },
       { id: '3', title: '자동 저장', checked: true },
     ]);
 

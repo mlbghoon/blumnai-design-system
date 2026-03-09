@@ -15,7 +15,7 @@ const meta: Meta<typeof Input> = {
     variant: {
       control: 'select',
       options: ['lead-button', 'tail-button'],
-      description: '입력 필드의 변형을 설정합니다. lead-button(버튼이 입력 필드 앞에 배치), tail-button(버튼이 입력 필드 뒤에 배치) 중 선택할 수 있습니다',
+      description: '입력 필드의 변형 (lead-button: 앞쪽, tail-button: 뒤쪽)',
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'tail-button' },
@@ -24,7 +24,7 @@ const meta: Meta<typeof Input> = {
     inputStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '입력 필드의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
+      description: '입력 필드의 스타일 변형',
       table: {
         type: {
           summary: 'InputStyle',
@@ -36,7 +36,7 @@ const meta: Meta<typeof Input> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '입력 필드의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
+      description: '입력 필드의 크기',
       table: {
         type: {
           summary: 'InputSize',
@@ -47,42 +47,42 @@ const meta: Meta<typeof Input> = {
     },
     label: {
       control: 'text',
-      description: '입력 필드 위에 표시되는 제목 텍스트입니다',
+      description: '입력 필드의 라벨',
       table: {
         type: { summary: 'string' },
       },
     },
     placeholder: {
       control: 'text',
-      description: '입력 필드가 비어있을 때 표시되는 안내 텍스트입니다',
+      description: '플레이스홀더 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     value: {
       control: 'text',
-      description: '입력 필드에 표시되는 현재 값입니다. 외부에서 값을 제어할 때 사용합니다',
+      description: '입력 필드 값 (제어 컴포넌트)',
       table: {
         type: { summary: 'string' },
       },
     },
     onChange: {
       action: 'changed',
-      description: '사용자가 입력 값을 변경할 때마다 호출되는 함수입니다',
+      description: '입력 값 변경 시 콜백',
       table: {
         type: { summary: '(e: ChangeEvent<HTMLInputElement>) => void' },
       },
     },
     caption: {
       control: 'text',
-      description: '입력 필드 아래에 표시되는 도움말 텍스트입니다. 사용자에게 입력 방법이나 형식을 안내합니다',
+      description: '입력 필드 아래 설명 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     required: {
       control: 'boolean',
-      description: 'true로 설정하면 필수 입력 항목으로 표시되며, 라벨 옆에 필수 표시(*)가 나타납니다',
+      description: '필수 입력 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -90,7 +90,7 @@ const meta: Meta<typeof Input> = {
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
+      description: '비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -98,63 +98,63 @@ const meta: Meta<typeof Input> = {
     },
     error: {
       control: 'text',
-      description: '에러 메시지를 입력하면 빨간색 테두리와 함께 아래에 에러 메시지가 표시됩니다. true로 설정하면 에러 스타일만 적용됩니다',
+      description: '에러 상태 또는 메시지',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     success: {
       control: 'text',
-      description: '성공 메시지를 입력하면 초록색 테두리와 함께 아래에 성공 메시지가 표시됩니다. true로 설정하면 성공 스타일만 적용됩니다',
+      description: '성공 상태 또는 메시지',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     leadIcon: {
       control: 'object',
-      description: '입력 필드 왼쪽에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 지정합니다',
+      description: '입력 필드 앞에 표시되는 아이콘',
       table: {
         type: { summary: 'IconType' },
       },
     },
     tailIcon: {
       control: 'object',
-      description: '입력 필드 오른쪽에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 지정합니다',
+      description: '입력 필드 뒤에 표시되는 아이콘',
       table: {
         type: { summary: 'IconType' },
       },
     },
     onClear: {
       action: 'cleared',
-      description: '이 함수를 전달하면 입력 필드에 X 버튼이 표시되며, 클릭 시 호출됩니다. 입력 내용을 초기화하는 용도로 사용합니다',
+      description: '입력 내용 삭제 버튼 클릭 시 콜백',
       table: {
         type: { summary: '() => void' },
       },
     },
     buttonLabel: {
       control: 'text',
-      description: '버튼에 표시되는 텍스트입니다',
+      description: '버튼 라벨',
       table: {
         type: { summary: 'string' },
       },
     },
     buttonLeadIcon: {
       control: 'object',
-      description: '버튼 왼쪽에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 지정합니다',
+      description: '버튼 앞에 표시되는 아이콘',
       table: {
         type: { summary: 'IconType' },
       },
     },
     buttonTailIcon: {
       control: 'object',
-      description: '버튼 오른쪽에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 지정합니다',
+      description: '버튼 뒤에 표시되는 아이콘',
       table: {
         type: { summary: 'IconType' },
       },
     },
     buttonDisabled: {
       control: 'boolean',
-      description: 'true로 설정하면 버튼만 비활성화됩니다. 입력 필드는 여전히 사용할 수 있습니다',
+      description: '버튼 비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -162,7 +162,7 @@ const meta: Meta<typeof Input> = {
     },
     onButtonClick: {
       action: 'buttonClicked',
-      description: '버튼을 클릭했을 때 호출되는 함수입니다',
+      description: '버튼 클릭 시 콜백',
       table: {
         type: { summary: '() => void' },
       },
@@ -358,7 +358,7 @@ export const WithInputBothIcons: Story = {
  */
 export const WithClearButton: Story = {
   render: function Render() {
-    const [value, setValue] = useState('검색어');
+    const [value, setValue] = useState('search term');
     return (
       <Input
         variant="tail-button"
@@ -407,8 +407,8 @@ export const WithClickHandler: Story = {
       <div className="flex flex-col ds-gap-8">
         <Input
           variant="tail-button"
-          label="값 제출"
-          placeholder="내용을 입력하세요..."
+          label="제출 값"
+          placeholder="무언가 입력하세요..."
           buttonLabel="제출"
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -418,7 +418,7 @@ export const WithClickHandler: Story = {
           }}
         />
         {submitted && (
-          <p className="size-sm text-subtle">제출된 값: {submitted}</p>
+          <p className="size-sm text-subtle">제출됨: {submitted}</p>
         )}
       </div>
     );
@@ -435,7 +435,7 @@ export const WithClickHandler: Story = {
 export const SizeSmall: Story = {
   args: {
     variant: 'tail-button',
-    label: 'Small',
+    label: '작게',
     placeholder: '이메일을 입력하세요...',
     size: 'sm',
     buttonLabel: '구독',
@@ -448,7 +448,7 @@ export const SizeSmall: Story = {
 export const SizeLarge: Story = {
   args: {
     variant: 'tail-button',
-    label: 'Large',
+    label: '크게',
     placeholder: '이메일을 입력하세요...',
     size: 'lg',
     buttonLabel: '구독',
@@ -465,7 +465,7 @@ export const SizeLarge: Story = {
 export const StyleDefault: Story = {
   args: {
     variant: 'tail-button',
-    label: 'Default Style',
+    label: '기본 스타일',
     placeholder: '값을 입력하세요...',
     inputStyle: 'default',
     buttonLabel: '제출',
@@ -478,7 +478,7 @@ export const StyleDefault: Story = {
 export const StyleShadow: Story = {
   args: {
     variant: 'tail-button',
-    label: 'Shadow Style',
+    label: '그림자 스타일',
     placeholder: '값을 입력하세요...',
     inputStyle: 'shadow',
     buttonLabel: '제출',
@@ -491,7 +491,7 @@ export const StyleShadow: Story = {
 export const StyleSoft: Story = {
   args: {
     variant: 'tail-button',
-    label: 'Soft Style',
+    label: '부드러운 스타일',
     placeholder: '값을 입력하세요...',
     inputStyle: 'soft',
     buttonLabel: '제출',
@@ -508,7 +508,7 @@ export const StyleSoft: Story = {
 export const StateDefault: Story = {
   args: {
     variant: 'tail-button',
-    label: 'Default',
+    label: '기본',
     placeholder: '값을 입력하세요...',
     buttonLabel: '제출',
   },
@@ -520,7 +520,7 @@ export const StateDefault: Story = {
 export const StateDisabled: Story = {
   args: {
     variant: 'tail-button',
-    label: 'Disabled',
+    label: '비활성',
     placeholder: '값을 입력하세요...',
     buttonLabel: '제출',
     disabled: true,
@@ -533,10 +533,10 @@ export const StateDisabled: Story = {
 export const StateError: Story = {
   args: {
     variant: 'tail-button',
-    label: 'Error',
+    label: '오류',
     placeholder: '값을 입력하세요...',
     buttonLabel: '제출',
-    error: '유효하지 않은 입력입니다',
+    error: '유효하지 않은 입력',
   },
 };
 
@@ -546,10 +546,10 @@ export const StateError: Story = {
 export const StateSuccess: Story = {
   args: {
     variant: 'tail-button',
-    label: 'Success',
+    label: '성공',
     placeholder: '값을 입력하세요...',
     buttonLabel: '제출',
-    success: '유효한 입력입니다',
+    success: '유효한 입력',
   },
 };
 
@@ -577,7 +577,7 @@ export const Search: Story = {
   args: {
     variant: 'tail-button',
     label: '검색',
-    placeholder: '상품 검색...',
+    placeholder: '상품을 검색하세요...',
     buttonLabel: '검색',
     leadIcon: ['system', 'search'],
   },
@@ -590,7 +590,7 @@ export const FileBrowser: Story = {
   args: {
     variant: 'lead-button',
     label: '파일 업로드',
-    placeholder: '파일이 선택되지 않았습니다',
+    placeholder: '선택된 파일 없음',
     buttonLabel: '찾아보기',
     buttonLeadIcon: ['document', 'folder'],
   },

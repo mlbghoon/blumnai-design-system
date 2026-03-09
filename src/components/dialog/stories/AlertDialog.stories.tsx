@@ -16,35 +16,35 @@ const meta: Meta<SimpleAlertDialogProps> = {
   argTypes: {
     open: {
       control: 'boolean',
-      description: '다이얼로그의 열림/닫힘 상태를 제어합니다. onOpenChange와 함께 사용하여 외부에서 상태를 관리합니다',
+      description: '다이얼로그 열림 상태',
       table: {
         type: { summary: 'boolean' },
       },
     },
     onOpenChange: {
       action: 'openChange',
-      description: '다이얼로그가 열리거나 닫힐 때 호출되는 콜백 함수입니다. open prop과 함께 사용하여 상태를 동기화합니다',
+      description: '열림 상태 변경 핸들러',
       table: {
         type: { summary: '(open: boolean) => void' },
       },
     },
     title: {
       control: 'text',
-      description: '다이얼로그 상단에 굵게 표시되는 제목 텍스트입니다. 사용자에게 알림의 핵심 내용을 전달합니다',
+      description: '다이얼로그 제목',
       table: {
         type: { summary: 'string' },
       },
     },
     description: {
       control: 'text',
-      description: '제목 아래에 표시되는 보조 설명 텍스트입니다. 생략할 수 있으며, 알림에 대한 추가 정보를 제공합니다',
+      description: '다이얼로그 설명 (선택)',
       table: {
         type: { summary: 'string' },
       },
     },
     confirmLabel: {
       control: 'text',
-      description: '확인 버튼에 표시되는 텍스트입니다. 기본값은 "확인"이며, 상황에 맞게 변경할 수 있습니다',
+      description: '확인 버튼 텍스트',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '확인' },
@@ -52,14 +52,14 @@ const meta: Meta<SimpleAlertDialogProps> = {
     },
     onConfirm: {
       action: 'confirm',
-      description: '사용자가 확인 버튼을 클릭했을 때 호출되는 콜백 함수입니다',
+      description: '확인 버튼 클릭 핸들러',
       table: {
         type: { summary: '() => void' },
       },
     },
     width: {
       control: 'text',
-      description: '다이얼로그의 너비를 직접 지정합니다. 숫자, px, % 등 다양한 형식을 사용할 수 있습니다 (예: "400", "500px", "80%")',
+      description: '다이얼로그 너비 (예: "400", "500px", "80%")',
       table: {
         type: { summary: 'string | number' },
       },
@@ -92,7 +92,7 @@ export const Default: Story = {
     return (
       <>
         <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
-          알림 다이얼로그 열기
+          AlertDialog 열기
         </Button>
         <SimpleAlertDialog
           open={open}

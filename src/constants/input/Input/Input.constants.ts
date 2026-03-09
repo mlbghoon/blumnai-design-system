@@ -42,15 +42,15 @@ export const SIZE_CONFIG = {
 // Style configurations
 export const STYLE_CONFIG = {
   default: {
-    base: 'bg-input border-darker rounded-md',
+    base: 'bg-input border-darker rounded-sm',
     focus: 'focus-within:border-strong focus-within:shadow-component-input-focus',
   },
   shadow: {
-    base: 'bg-input border-darker rounded-md shadow-component-default',
+    base: 'bg-input border-darker rounded-sm shadow-component-default',
     focus: 'focus-within:border-strong focus-within:shadow-component-input-focus',
   },
   soft: {
-    base: 'bg-input-soft-focusable border-transparent rounded-md',
+    base: 'bg-input-soft-focusable border-transparent rounded-sm',
     focus: 'focus-within:shadow-component-input-focus',
   },
 } as const;

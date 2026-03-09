@@ -54,17 +54,17 @@ export const Default: Story = {
                 <NavigationMenuListItem
                   href="/docs"
                   title="소개"
-                  description="Radix UI와 Tailwind CSS로 구축된 재사용 가능한 컴포넌트입니다."
+                  description="Radix UI와 Tailwind CSS로 만들어진 재사용 가능한 컴포넌트입니다."
                 />
                 <NavigationMenuListItem
                   href="/docs/installation"
                   title="설치"
-                  description="의존성 설치 방법과 앱 구조 설정 방법을 안내합니다."
+                  description="의존성 설치 및 앱 구조 설정 방법입니다."
                 />
                 <NavigationMenuListItem
                   href="/docs/primitives"
                   title="타이포그래피"
-                  description="제목, 단락, 목록 등의 텍스트 스타일입니다."
+                  description="제목, 단락, 목록 등의 스타일입니다."
                 />
               </ul>
             </NavigationMenuContent>
@@ -76,22 +76,22 @@ export const Default: Story = {
                 <NavigationMenuListItem
                   href="/docs/components/button"
                   title="버튼"
-                  description="다양한 변형을 지원하는 인터랙티브 버튼 컴포넌트입니다."
+                  description="다양한 변형이 있는 인터랙티브 버튼 컴포넌트입니다."
                 />
                 <NavigationMenuListItem
                   href="/docs/components/input"
-                  title="인풋"
-                  description="라벨과 유효성 검증을 지원하는 텍스트 입력 필드입니다."
+                  title="입력"
+                  description="라벨 및 유효성 검사를 지원하는 텍스트 입력 필드입니다."
                 />
                 <NavigationMenuListItem
                   href="/docs/components/dialog"
                   title="다이얼로그"
-                  description="중요한 콘텐츠와 작업을 위한 모달 대화상자입니다."
+                  description="중요한 콘텐츠와 액션을 위한 모달 다이얼로그입니다."
                 />
                 <NavigationMenuListItem
                   href="/docs/components/popover"
                   title="팝오버"
-                  description="트리거에 연결된 떠있는 콘텐츠 패널입니다."
+                  description="트리거에 고정된 플로팅 콘텐츠 패널입니다."
                 />
               </ul>
             </NavigationMenuContent>
@@ -130,7 +130,7 @@ export const MegaMenuWithIcons: Story = {
                 <NavigationMenuListItem
                   href="/products/automation"
                   title="자동화"
-                  description="워크플로우를 자동화하여 시간을 절약합니다."
+                  description="워크플로우를 자동화하고 시간을 절약합니다."
                   icon={['system', 'settings']}
                 />
                 <NavigationMenuListItem
@@ -141,8 +141,8 @@ export const MegaMenuWithIcons: Story = {
                 />
                 <NavigationMenuListItem
                   href="/products/integrations"
-                  title="연동"
-                  description="자주 사용하는 도구와 연결합니다."
+                  title="통합"
+                  description="즐겨 사용하는 도구와 연결합니다."
                   icon={['editor', 'link']}
                 />
               </ul>
@@ -154,28 +154,28 @@ export const MegaMenuWithIcons: Story = {
               <ul className="grid w-[280px] ds-gap-8 padding-16">
                 <NavigationMenuListItem
                   href="/solutions/startup"
-                  title="스타트업용"
-                  description="스타트업 솔루션으로 비즈니스를 확장합니다."
+                  title="스타트업"
+                  description="스타트업 솔루션으로 비즈니스를 확장하세요."
                   icon={['map', 'rocket']}
                   iconFill
                 />
                 <NavigationMenuListItem
                   href="/solutions/enterprise"
-                  title="엔터프라이즈용"
+                  title="기업"
                   description="대규모 팀을 위한 엔터프라이즈급 솔루션입니다."
                   icon={['buildings', 'building']}
                   iconFill
                 />
                 <NavigationMenuListItem
                   href="/solutions/developers"
-                  title="개발자용"
-                  description="개발자를 위한 도구와 API입니다."
+                  title="개발자"
+                  description="개발자를 위한 도구 및 API입니다."
                   icon={['development', 'code-sslash']}
                 />
                 <NavigationMenuListItem
                   href="/solutions/designers"
-                  title="디자이너용"
-                  description="디자인 도구와 리소스입니다."
+                  title="디자이너"
+                  description="디자인 도구 및 리소스입니다."
                   icon={['design', 'palette']}
                 />
               </ul>
@@ -219,7 +219,7 @@ export const SimpleNavigation: Story = {
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/contact">
-              문의
+              연락처
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -259,7 +259,7 @@ export const WithActiveLink: Story = {
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()} href="/contact">
-              문의
+              연락처
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -285,11 +285,11 @@ export const WithIndicator: Story = {
                 <NavigationMenuListItem
                   href="/features/speed"
                   title="빠른 성능"
-                  description="속도와 효율성에 최적화되어 있습니다."
+                  description="속도와 효율성을 위해 최적화되었습니다."
                 />
                 <NavigationMenuListItem
                   href="/features/reliable"
-                  title="안정성"
+                  title="안정적"
                   description="99.9% 가동 시간을 보장합니다."
                 />
               </ul>
@@ -302,12 +302,12 @@ export const WithIndicator: Story = {
                 <NavigationMenuListItem
                   href="/resources/docs"
                   title="문서"
-                  description="종합 가이드와 API 레퍼런스입니다."
+                  description="포괄적인 가이드 및 API 레퍼런스입니다."
                 />
                 <NavigationMenuListItem
                   href="/resources/blog"
                   title="블로그"
-                  description="최신 업데이트와 튜토리얼입니다."
+                  description="최신 업데이트 및 튜토리얼입니다."
                 />
               </ul>
             </NavigationMenuContent>
@@ -359,8 +359,8 @@ export const CustomContent: Story = {
                   />
                   <NavigationMenuListItem
                     href="/press"
-                    title="보도자료"
-                    description="뉴스와 미디어 리소스입니다."
+                    title="언론"
+                    description="뉴스 및 미디어 리소스입니다."
                   />
                 </ul>
               </div>

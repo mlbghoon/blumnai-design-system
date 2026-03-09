@@ -33,7 +33,7 @@ const meta: Meta<ContextMenuStoryProps> = {
   argTypes: {
     alignOffset: {
       control: 'number',
-      description: '[ContextMenuContent] 컨텍스트 메뉴의 정렬 위치에서 추가 오프셋을 픽셀 단위로 설정합니다',
+      description: '[ContextMenuContent] 정렬 오프셋 (px)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
@@ -42,7 +42,7 @@ const meta: Meta<ContextMenuStoryProps> = {
     },
     width: {
       control: 'text',
-      description: '[ContextMenuContent] 컨텍스트 메뉴 패널의 너비를 직접 지정합니다. 숫자 또는 CSS 단위가 포함된 문자열을 사용할 수 있습니다',
+      description: '[ContextMenuContent] 컨텍스트 메뉴의 커스텀 너비 (예: "200", "300px")',
       table: {
         type: { summary: 'string | number' },
         category: 'ContextMenuContent',
@@ -84,7 +84,7 @@ export const Default: Story = {
           alignOffset={args.alignOffset}
           width={args.width}
         >
-          <ContextMenuLabel>작업</ContextMenuLabel>
+          <ContextMenuLabel>동작</ContextMenuLabel>
           <ContextMenuSeparator />
           <ContextMenuItem shortcut="⌘C">
             복사
@@ -205,9 +205,9 @@ export const WithRadioItems: Story = {
           <ContextMenuLabel>담당자</ContextMenuLabel>
           <ContextMenuSeparator />
           <ContextMenuRadioGroup value={person} onValueChange={setPerson}>
-            <ContextMenuRadioItem value="pedro">김철수</ContextMenuRadioItem>
-            <ContextMenuRadioItem value="colm">이영희</ContextMenuRadioItem>
-            <ContextMenuRadioItem value="john">박지민</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="pedro">Pedro Duarte</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="john">John Doe</ContextMenuRadioItem>
           </ContextMenuRadioGroup>
         </ContextMenuContent>
       </ContextMenu>
@@ -236,7 +236,7 @@ export const WithSubmenu: Story = {
           </ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuSub>
-            <ContextMenuSubTrigger>추가 작업</ContextMenuSubTrigger>
+            <ContextMenuSubTrigger>더 많은 동작</ContextMenuSubTrigger>
             <ContextMenuSubContent>
               <ContextMenuItem>이름 변경</ContextMenuItem>
               <ContextMenuItem>복제</ContextMenuItem>
@@ -295,8 +295,8 @@ export const FileExplorerExample: Story = {
           <ContextMenuSub>
             <ContextMenuSubTrigger>이름</ContextMenuSubTrigger>
             <ContextMenuSubContent>
-              <ContextMenuItem>가나다순</ContextMenuItem>
-              <ContextMenuItem>역순</ContextMenuItem>
+              <ContextMenuItem>오름차순</ContextMenuItem>
+              <ContextMenuItem>내림차순</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSub>
@@ -309,8 +309,8 @@ export const FileExplorerExample: Story = {
           <ContextMenuSub>
             <ContextMenuSubTrigger>크기</ContextMenuSubTrigger>
             <ContextMenuSubContent>
-              <ContextMenuItem>큰 순서</ContextMenuItem>
-              <ContextMenuItem>작은 순서</ContextMenuItem>
+              <ContextMenuItem>큰 것부터</ContextMenuItem>
+              <ContextMenuItem>작은 것부터</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSeparator />
@@ -322,7 +322,7 @@ export const FileExplorerExample: Story = {
           </ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuItem leadIcon={['system', 'refresh']}>
-            새로고침
+            새로 고침
           </ContextMenuItem>
           <ContextMenuItem leadIcon={['system', 'settings']}>
             속성
@@ -391,7 +391,7 @@ export const TextEditorExample: Story = {
           </ContextMenuCheckboxItem>
           <ContextMenuSeparator />
           <ContextMenuSub>
-            <ContextMenuSubTrigger>문서 서식 정리</ContextMenuSubTrigger>
+            <ContextMenuSubTrigger>문서 형식화</ContextMenuSubTrigger>
             <ContextMenuSubContent>
               <ContextMenuItem>Prettier</ContextMenuItem>
               <ContextMenuItem>ESLint</ContextMenuItem>

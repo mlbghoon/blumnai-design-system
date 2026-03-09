@@ -16,7 +16,7 @@ const meta: Meta<CheckboxProps> = {
     checked: {
       control: 'select',
       options: [false, true, 'indeterminate'],
-      description: '체크박스의 현재 상태입니다. false(체크 안됨), true(체크됨), indeterminate(부분 선택) 중 하나를 설정할 수 있습니다',
+      description: '체크 상태',
       table: {
         type: {
           summary: 'boolean | "indeterminate"',
@@ -29,7 +29,7 @@ true: 체크됨
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 체크박스가 비활성화되어 클릭이나 키보드 입력을 할 수 없습니다',
+      description: '비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -37,14 +37,14 @@ true: 체크됨
     },
     label: {
       control: 'text',
-      description: '체크박스 옆에 표시되는 제목 텍스트입니다. 문자열 또는 ReactNode를 전달할 수 있습니다',
+      description: '라벨 텍스트 (Title)',
       table: {
         type: { summary: 'ReactNode' },
       },
     },
     description: {
       control: 'text',
-      description: '라벨 아래에 표시되는 부가 설명 텍스트입니다. 옵션에 대한 추가 정보를 제공할 때 사용합니다',
+      description: '라벨 아래 설명 텍스트',
       table: {
         type: { summary: 'ReactNode' },
       },
@@ -52,7 +52,7 @@ true: 체크됨
     checkboxPosition: {
       control: 'select',
       options: ['left', 'right'],
-      description: '라벨을 기준으로 체크박스의 위치를 설정합니다. left(왼쪽), right(오른쪽) 중 선택할 수 있습니다',
+      description: '체크박스 위치 (라벨 기준)',
       table: {
         type: {
           summary: 'CheckboxPosition',
@@ -64,7 +64,7 @@ true: 체크됨
     checkboxStyle: {
       control: 'select',
       options: ['default', 'with-shadow'],
-      description: '체크박스의 외관 스타일을 설정합니다. default(기본), with-shadow(그림자 효과) 중 선택할 수 있습니다',
+      description: '스타일 변형',
       table: {
         type: {
           summary: 'CheckboxStyle',
@@ -76,7 +76,7 @@ true: 체크됨
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
-      description: '체크박스의 크기를 설정합니다. sm(16px), md(20px), lg(24px) 중 선택할 수 있습니다',
+      description: '체크박스 크기',
       table: {
         type: {
           summary: 'CheckboxSize',
@@ -88,7 +88,7 @@ true: 체크됨
     shape: {
       control: 'select',
       options: ['square', 'round'],
-      description: '체크박스의 모양을 설정합니다. square(사각형), round(원형) 중 선택할 수 있습니다',
+      description: '체크박스 모양',
       table: {
         type: {
           summary: 'CheckboxShape',
@@ -99,7 +99,7 @@ true: 체크됨
     },
     onCheckedChange: {
       action: 'checkedChange',
-      description: '체크 상태가 변경될 때 호출되는 콜백 함수입니다',
+      description: '체크 상태 변경 콜백',
       table: {
         type: { summary: '(checked: boolean | "indeterminate") => void' },
       },
@@ -204,9 +204,9 @@ export const AllStatesWithDescription: Story = {
         <Checkbox checked="indeterminate" label="제목" description="설명" />
       </div>
       <div className="flex ds-gap-24">
-        <Checkbox disabled checked={false} label="제목" description="설명" />
-        <Checkbox disabled checked={true} label="제목" description="설명" />
-        <Checkbox disabled checked="indeterminate" label="제목" description="설명" />
+        <Checkbox disabled checked={false} label="Title" description="Description" />
+        <Checkbox disabled checked={true} label="Title" description="Description" />
+        <Checkbox disabled checked="indeterminate" label="Title" description="Description" />
       </div>
     </div>
   ),
@@ -222,8 +222,8 @@ export const AllStatesWithDescription: Story = {
 export const CheckedStates: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <Checkbox checked={false} label="미선택" />
-      <Checkbox checked={true} label="선택됨" />
+      <Checkbox checked={false} label="미체크" />
+      <Checkbox checked={true} label="체크됨" />
       <Checkbox checked="indeterminate" label="부분 선택" />
     </div>
   ),
@@ -235,9 +235,9 @@ export const CheckedStates: Story = {
 export const DisabledStates: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <Checkbox disabled checked={false} label="비활성화 미선택" />
-      <Checkbox disabled checked={true} label="비활성화 선택됨" />
-      <Checkbox disabled checked="indeterminate" label="비활성화 부분 선택" />
+      <Checkbox disabled checked={false} label="비활성 미체크" />
+      <Checkbox disabled checked={true} label="비활성 체크됨" />
+      <Checkbox disabled checked="indeterminate" label="비활성 부분 선택" />
     </div>
   ),
 };
@@ -252,8 +252,8 @@ export const DisabledStates: Story = {
 export const StyleDefault: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <Checkbox checked={false} checkboxStyle="default" label="기본 스타일 (미선택)" />
-      <Checkbox checked={true} checkboxStyle="default" label="기본 스타일 (선택됨)" />
+      <Checkbox checked={false} checkboxStyle="default" label="기본 스타일 (미체크)" />
+      <Checkbox checked={true} checkboxStyle="default" label="기본 스타일 (체크됨)" />
     </div>
   ),
 };
@@ -264,8 +264,8 @@ export const StyleDefault: Story = {
 export const StyleWithShadow: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <Checkbox checked={false} checkboxStyle="with-shadow" label="그림자 스타일 (미선택)" />
-      <Checkbox checked={true} checkboxStyle="with-shadow" label="그림자 스타일 (선택됨)" />
+      <Checkbox checked={false} checkboxStyle="with-shadow" label="그림자 스타일 (미체크)" />
+      <Checkbox checked={true} checkboxStyle="with-shadow" label="그림자 스타일 (체크됨)" />
     </div>
   ),
 };
@@ -280,8 +280,8 @@ export const StyleWithShadow: Story = {
 export const CheckboxPositions: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <Checkbox checked={false} checkboxPosition="left" label="체크박스 왼쪽" description="기본 위치" />
-      <Checkbox checked={true} checkboxPosition="right" label="체크박스 오른쪽" description="대체 위치" />
+      <Checkbox checked={false} checkboxPosition="left" label="왼쪽 체크박스" description="기본 위치" />
+      <Checkbox checked={true} checkboxPosition="right" label="오른쪽 체크박스" description="대체 위치" />
     </div>
   ),
 };

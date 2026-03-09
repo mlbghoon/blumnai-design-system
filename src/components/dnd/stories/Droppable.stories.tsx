@@ -313,7 +313,7 @@ export const MultipleZones: Story = {
               overClassName="bg-state-soft"
             >
               <p className="size-sm font-medium text-default font-body [margin-bottom:48px]">
-                {zoneId.replace('zone-', '영역 ')}
+                {zoneId.replace('zone-', '구역 ')}
               </p>
               <div className="flex flex-col ds-gap-8">
                 {items.map((itemId) => (

@@ -466,7 +466,7 @@ export const IconColors: Story = {
         </ContextMenuItem>
         <ContextMenuSeparator />
         <ContextMenuItem leadIcon={['system', 'check-double']} iconColor="success" disabled>
-          Disabled (색상 무시됨)
+          비활성화 (색상 무시됨)
         </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>

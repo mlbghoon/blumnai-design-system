@@ -16,7 +16,7 @@ const meta: Meta<DefaultVariantProps> = {
     inputStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '입력 필드의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
+      description: '입력 필드 스타일 변형',
       table: {
         type: {
           summary: 'InputStyle',
@@ -28,7 +28,7 @@ const meta: Meta<DefaultVariantProps> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '입력 필드의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
+      description: '입력 필드 크기',
       table: {
         type: {
           summary: 'InputSize',
@@ -46,14 +46,14 @@ const meta: Meta<DefaultVariantProps> = {
     },
     placeholder: {
       control: 'text',
-      description: '입력 필드가 비어있을 때 표시되는 안내 텍스트입니다',
+      description: '플레이스홀더 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     required: {
       control: 'boolean',
-      description: 'true로 설정하면 필수 입력 항목으로 표시되며, 라벨 옆에 필수 표시(*)가 나타납니다',
+      description: '필수 입력 여부 (별표 표시)',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -61,7 +61,7 @@ const meta: Meta<DefaultVariantProps> = {
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
+      description: '비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -69,14 +69,14 @@ const meta: Meta<DefaultVariantProps> = {
     },
     supportText: {
       control: 'text',
-      description: '라벨 옆에 표시되는 부가 설명 텍스트입니다. 선택 입력 등의 안내 문구에 사용합니다',
+      description: '라벨 옆에 표시되는 보조 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     caption: {
       control: 'text',
-      description: '입력 필드 아래에 표시되는 도움말 텍스트입니다. 사용자에게 입력 방법이나 형식을 안내합니다',
+      description: '입력 필드 아래에 표시되는 설명 텍스트',
       table: {
         type: { summary: 'string' },
       },
@@ -97,7 +97,7 @@ const meta: Meta<DefaultVariantProps> = {
     },
     showCount: {
       control: 'boolean',
-      description: 'true로 설정하면 입력 필드 우측에 현재 글자 수와 최대 글자 수가 표시됩니다. maxLength와 함께 사용합니다',
+      description: '글자 수 카운터 표시 여부 (maxLength와 함께 사용)',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -105,7 +105,7 @@ const meta: Meta<DefaultVariantProps> = {
     },
     maxLength: {
       control: 'number',
-      description: '입력할 수 있는 최대 글자 수입니다. showCount와 함께 사용하면 카운터가 표시됩니다',
+      description: '최대 글자 수',
       table: {
         type: { summary: 'number' },
       },
@@ -137,7 +137,7 @@ export const Default: Story = {
     inputStyle: 'default',
     size: 'sm',
     label: '라벨',
-    placeholder: '입력해주세요...',
+    placeholder: '플레이스홀더...',
     required: false,
     disabled: false,
     showCount: false,
@@ -216,10 +216,10 @@ export const AllVariants: Story = {
     return (
       <div className="flex flex-col ds-gap-24 max-w-md">
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Default</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">기본</h3>
           <Input
             label="이메일"
-            placeholder="이메일을 입력하세요"
+            placeholder="이메일 입력"
             value={textValue}
             onChange={(e) => setTextValue(e.target.value)}
             onClear={() => setTextValue('')}
@@ -227,7 +227,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Shortcut</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">단축키</h3>
           <Input
             variant="shortcut"
             label="빠른 검색"
@@ -238,29 +238,29 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Tags</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">태그</h3>
           <Input
             variant="tags"
-            label="기술 스택"
-            placeholder="기술을 추가하세요..."
+            label="스킬"
+            placeholder="스킬 추가..."
             tags={tags}
             onTagsChange={setTags}
           />
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Inline Tags</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">인라인 태그</h3>
           <Input
             variant="inline-tags"
             label="기술"
-            placeholder="태그를 추가하세요..."
+            placeholder="태그 추가..."
             tags={inlineTags}
             onTagsChange={setInlineTags}
           />
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Tail Dropdown</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">뒤 드롭다운</h3>
           <Input
             variant="tail-dropdown"
             label="금액"
@@ -274,7 +274,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Lead Dropdown</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">앞 드롭다운</h3>
           <Input
             variant="lead-dropdown"
             label="전화번호"
@@ -286,7 +286,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Quantity</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">수량</h3>
           <Input
             variant="quantity"
             label="수량"
@@ -298,7 +298,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Quantity 2 (Compact)</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">수량 2 (소형)</h3>
           <Input
             variant="quantity-2"
             label="수량"
@@ -310,17 +310,17 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Tail Button</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">뒤 버튼</h3>
           <Input
             variant="tail-button"
             label="뉴스레터"
-            placeholder="이메일을 입력하세요"
+            placeholder="이메일 입력"
             buttonLabel="구독"
           />
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Lead Button</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">앞 버튼</h3>
           <Input
             variant="lead-button"
             label="검색"
@@ -330,7 +330,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Add-on</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">애드온</h3>
           <Input
             variant="addon"
             label="웹사이트"
@@ -341,7 +341,7 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Inline Add-on</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">인라인 애드온</h3>
           <Input
             variant="inline-addon"
             label="가격"
@@ -352,11 +352,11 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">Password</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:32px]">비밀번호</h3>
           <Input
             variant="password"
             label="비밀번호"
-            placeholder="비밀번호를 입력하세요"
+            placeholder="비밀번호 입력"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             showStrength
@@ -385,7 +385,7 @@ export const WithCount: Story = {
       <div className="flex flex-col ds-gap-24 max-w-md">
         <Input
           label="사용자명"
-          placeholder="사용자명을 입력하세요..."
+          placeholder="사용자명 입력..."
           showCount
           maxLength={20}
           value={value}

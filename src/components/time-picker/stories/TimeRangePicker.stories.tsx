@@ -17,7 +17,7 @@ const meta: Meta<TimeRangePickerProps> = {
     timePickerStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '시간 범위 선택기의 시각적 스타일을 설정합니다. default(기본), shadow(그림자), soft(부드러운) 중 선택할 수 있습니다',
+      description: '시간 범위 선택기 스타일',
       table: {
         type: { summary: 'TimePickerStyle', detail: "'default' | 'shadow' | 'soft'" },
         defaultValue: { summary: 'default' },
@@ -26,7 +26,7 @@ const meta: Meta<TimeRangePickerProps> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '시간 범위 선택기의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
+      description: '시간 범위 선택기 크기',
       table: {
         type: { summary: 'TimePickerSize', detail: "'sm' | 'lg'" },
         defaultValue: { summary: 'sm' },
@@ -35,7 +35,7 @@ const meta: Meta<TimeRangePickerProps> = {
     timeFormat: {
       control: 'select',
       options: ['12h', '24h'],
-      description: '시간 표시 형식을 설정합니다. 12h(12시간 AM/PM), 24h(24시간) 중 선택할 수 있습니다',
+      description: '시간 포맷',
       table: {
         type: { summary: 'TimeFormat', detail: "'12h' | '24h'" },
         defaultValue: { summary: '24h' },
@@ -43,47 +43,47 @@ const meta: Meta<TimeRangePickerProps> = {
     },
     showSeconds: {
       control: 'boolean',
-      description: 'true로 설정하면 시, 분 외에 초 단위까지 선택할 수 있습니다',
+      description: '초 표시 여부',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     label: {
       control: 'text',
-      description: '입력 필드 위에 표시되는 라벨 텍스트입니다',
+      description: '라벨 텍스트',
       table: { type: { summary: 'string' } },
     },
     required: {
       control: 'boolean',
-      description: 'true로 설정하면 라벨 옆에 필수 표시(*)가 나타납니다',
+      description: '필수 입력 여부',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     supportText: {
       control: 'text',
-      description: '라벨 오른쪽에 표시되는 보조 텍스트입니다. 선택 사항 안내 등에 사용합니다',
+      description: '라벨 옆 보조 텍스트',
       table: { type: { summary: 'string' } },
     },
     caption: {
       control: 'text',
-      description: '입력 필드 아래에 표시되는 설명 텍스트입니다. 사용 안내나 형식 정보를 제공합니다',
+      description: '입력 필드 아래 설명 텍스트',
       table: { type: { summary: 'string' } },
     },
     error: {
       control: 'text',
-      description: '에러 상태를 표시합니다. true는 에러 스타일만, 문자열은 에러 메시지를 함께 표시합니다',
+      description: '에러 상태 또는 에러 메시지',
       table: { type: { summary: 'boolean | string' } },
     },
     success: {
       control: 'text',
-      description: '성공 상태를 표시합니다. true는 성공 스타일만, 문자열은 성공 메시지를 함께 표시합니다',
+      description: '성공 상태 또는 성공 메시지',
       table: { type: { summary: 'boolean | string' } },
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 시간 범위 선택기가 비활성화되어 클릭이나 입력을 할 수 없습니다',
+      description: '비활성화 여부',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     showQuickSelect: {
       control: 'boolean',
-      description: 'true로 설정하면 자주 사용하는 시간 범위를 빠르게 선택할 수 있는 옵션 목록이 표시됩니다',
+      description: '빠른 선택 표시 여부',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     align: {
@@ -224,7 +224,7 @@ export const WithSeconds: Story = {
     return (
       <div style={{ width: 380 }}>
         <TimeRangePicker
-          label="초 포함 시간 범위"
+          label="시간 범위 (초 포함)"
           showSeconds
           value={range}
           onChange={setRange}
@@ -244,13 +244,13 @@ export const Sizes: Story = {
     return (
       <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <TimeRangePicker
-          label="작게 (sm)"
+          label="소형 (sm)"
           size="sm"
           value={rangeSm}
           onChange={setRangeSm}
         />
         <TimeRangePicker
-          label="크게 (lg)"
+          label="대형 (lg)"
           size="lg"
           value={rangeLg}
           onChange={setRangeLg}
@@ -271,19 +271,19 @@ export const Styles: Story = {
     return (
       <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <TimeRangePicker
-          label="Default"
+          label="기본"
           timePickerStyle="default"
           value={range1}
           onChange={setRange1}
         />
         <TimeRangePicker
-          label="Shadow"
+          label="그림자"
           timePickerStyle="shadow"
           value={range2}
           onChange={setRange2}
         />
         <TimeRangePicker
-          label="Soft"
+          label="소프트"
           timePickerStyle="soft"
           value={range3}
           onChange={setRange3}
@@ -305,7 +305,7 @@ export const WithLabelAndCaption: Story = {
           label="근무 시간"
           required
           supportText="필수"
-          caption="근무 시간을 선택해주세요"
+          caption="근무 시간을 선택하세요"
           value={range}
           onChange={setRange}
         />

@@ -80,19 +80,19 @@ export const Variants: Story = {
       <div className="flex ds-gap-16">
         <Card className="w-[200px]" variant="default">
           <CardHeader>
-            <CardTitle>Default</CardTitle>
+            <CardTitle>기본형</CardTitle>
             <CardDescription>기본 스타일</CardDescription>
           </CardHeader>
         </Card>
         <Card className="w-[200px]" variant="outline">
           <CardHeader>
-            <CardTitle>Outline</CardTitle>
+            <CardTitle>외곽선</CardTitle>
             <CardDescription>테두리만</CardDescription>
           </CardHeader>
         </Card>
         <Card className="w-[200px]" variant="ghost">
           <CardHeader>
-            <CardTitle>Ghost</CardTitle>
+            <CardTitle>고스트</CardTitle>
             <CardDescription>배경만</CardDescription>
           </CardHeader>
         </Card>
@@ -224,7 +224,7 @@ export const ImageCard: Story = {
       <Card className="w-[300px] overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=300&fit=crop"
-          alt="Code"
+          alt="코드"
           className="w-full [height:160px] object-cover"
         />
         <CardHeader>

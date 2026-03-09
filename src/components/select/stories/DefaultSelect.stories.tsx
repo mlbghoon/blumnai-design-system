@@ -5,11 +5,11 @@ import { Select } from '../Select';
 import type { SelectOption } from '../Select.types';
 
 const defaultOptions: SelectOption[] = [
-  { id: '1', label: 'Option 1' },
-  { id: '2', label: 'Option 2' },
-  { id: '3', label: 'Option 3' },
-  { id: '4', label: 'Option 4', disabled: true },
-  { id: '5', label: 'Option 5' },
+  { id: '1', label: '옵션 1' },
+  { id: '2', label: '옵션 2' },
+  { id: '3', label: '옵션 3' },
+  { id: '4', label: '옵션 4', disabled: true },
+  { id: '5', label: '옵션 5' },
 ];
 
 const optionsWithIcons: SelectOption[] = [
@@ -21,13 +21,13 @@ const optionsWithIcons: SelectOption[] = [
 
 const optionsWithDescriptions: SelectOption[] = [
   { id: 'starter', label: '스타터', description: '소규모 프로젝트에 적합', badge: '$9/mo' },
-  { id: 'pro', label: '프로페셔널', description: '성장하는 비즈니스에 적합', badge: '$29/mo' },
-  { id: 'enterprise', label: '엔터프라이즈', description: '대규모 조직에 적합', badge: 'Custom' },
+  { id: 'pro', label: '프로페셔널', description: '성장하는 비즈니스', badge: '$29/mo' },
+  { id: 'enterprise', label: '엔터프라이즈', description: '대규모 조직', badge: '맞춤형' },
 ];
 
 const manyOptions: SelectOption[] = Array.from({ length: 20 }, (_, i) => ({
   id: `option-${i + 1}`,
-  label: `Option ${i + 1}`,
+  label: `옵션 ${i + 1}`,
 }));
 
 const meta: Meta<typeof Select> = {
@@ -42,7 +42,7 @@ const meta: Meta<typeof Select> = {
     variant: {
       control: 'select',
       options: ['default'],
-      description: 'Select 컴포넌트의 변형을 설정합니다. 이 스토리에서는 default 변형만 다룹니다',
+      description: 'Select 변형',
       table: {
         type: { summary: 'SelectVariant' },
         defaultValue: { summary: 'default' },
@@ -51,7 +51,7 @@ const meta: Meta<typeof Select> = {
     selectStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '컴포넌트의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
+      description: '스타일 변형',
       table: {
         type: {
           summary: 'SelectStyle',
@@ -63,7 +63,7 @@ const meta: Meta<typeof Select> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '컴포넌트의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
+      description: '크기',
       table: {
         type: {
           summary: 'SelectSize',
@@ -75,7 +75,7 @@ const meta: Meta<typeof Select> = {
     selectType: {
       control: 'select',
       options: ['default', 'checkbox', 'radio'],
-      description: '선택된 항목의 표시 방식을 설정합니다. default(체크마크), checkbox(체크박스), radio(라디오 버튼) 중 선택할 수 있습니다',
+      description: '선택 표시 타입',
       table: {
         type: {
           summary: 'SelectType',
@@ -86,62 +86,62 @@ const meta: Meta<typeof Select> = {
     },
     label: {
       control: 'text',
-      description: '컴포넌트 위에 표시되는 제목 텍스트입니다',
+      description: '라벨 텍스트',
       table: { type: { summary: 'string' } },
     },
     required: {
       control: 'boolean',
-      description: 'true로 설정하면 라벨 옆에 필수 표시(*)가 나타납니다',
+      description: '필수 입력 여부',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     supportText: {
       control: 'text',
-      description: '라벨 오른쪽에 작게 표시되는 추가 안내 텍스트입니다 (예: "선택사항")',
+      description: '라벨 옆에 표시되는 보조 텍스트',
       table: { type: { summary: 'string' } },
     },
     caption: {
       control: 'text',
-      description: 'Select 아래에 작은 글씨로 표시되는 도움말 텍스트입니다',
+      description: 'Select 아래에 표시되는 설명 텍스트',
       table: { type: { summary: 'string' } },
     },
     placeholder: {
       control: 'text',
-      description: '값이 선택되지 않았을 때 입력 영역에 표시되는 안내 텍스트입니다',
+      description: '플레이스홀더 텍스트',
       table: { type: { summary: 'string' } },
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
+      description: '비활성화 여부',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     error: {
       control: 'text',
-      description: '에러 메시지를 입력하면 빨간색 테두리와 함께 아래에 에러 메시지가 표시됩니다',
+      description: '에러 상태 또는 메시지',
       table: { type: { summary: 'boolean | string' } },
     },
     success: {
       control: 'text',
-      description: '성공 메시지를 입력하면 초록색 테두리와 함께 아래에 성공 메시지가 표시됩니다',
+      description: '성공 상태 또는 메시지',
       table: { type: { summary: 'boolean | string' } },
     },
     searchable: {
       control: 'boolean',
-      description: 'true로 설정하면 드롭다운 상단에 검색 입력 필드가 표시되어 옵션을 필터링할 수 있습니다',
+      description: '검색 가능 여부',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
     maxHeight: {
       control: 'number',
-      description: '드롭다운 메뉴의 최대 높이를 픽셀 단위로 설정합니다. 옵션이 많을 경우 스크롤이 생깁니다',
+      description: '메뉴 최대 높이 (px)',
       table: { type: { summary: 'number | string' }, defaultValue: { summary: '300' } },
     },
     width: {
       control: 'text',
-      description: '컴포넌트의 가로 너비를 설정합니다. 숫자(px) 또는 문자열(%, rem 등)로 지정할 수 있습니다',
+      description: '컨테이너 너비',
       table: { type: { summary: 'number | string' } },
     },
     options: {
       control: 'object',
-      description: '드롭다운에 표시될 옵션 배열입니다. 각 옵션은 id, label을 필수로 가지며 description, icon 등을 추가할 수 있습니다',
+      description: '선택 가능한 옵션 목록',
       table: {
         type: {
           summary: 'SelectOption[]',
@@ -158,12 +158,12 @@ const meta: Meta<typeof Select> = {
     },
     value: {
       control: 'text',
-      description: '현재 선택된 옵션의 id 값입니다. 외부에서 제어할 때 사용합니다',
+      description: '현재 선택된 값',
       table: { type: { summary: 'string' } },
     },
     onChange: {
       action: 'changed',
-      description: '옵션을 선택하거나 해제할 때 호출되는 함수입니다',
+      description: '선택 변경 시 호출되는 콜백',
       table: { type: { summary: '(value: string) => void' } },
     },
   },
@@ -184,8 +184,8 @@ type Story = StoryObj<typeof Select>;
 export const Default: Story = {
   args: {
     variant: 'default',
-    label: '옵션 선택',
-    placeholder: '선택하세요...',
+    label: 'Select an option',
+    placeholder: 'Choose...',
     options: defaultOptions,
     width: 300,
     selectStyle: 'default',
@@ -194,8 +194,8 @@ export const Default: Story = {
     disabled: false,
     required: false,
     searchable: false,
-    supportText: '보조 텍스트',
-    caption: '캡션 텍스트',
+    supportText: 'Support text here',
+    caption: 'Caption text here',
     error: '',
     success: '',
     maxHeight: 300,
@@ -244,8 +244,8 @@ export const WithIcons: Story = {
     return (
       <Select
         variant="default"
-        label="이동할 페이지"
-        placeholder="페이지 선택..."
+        label="Navigate to"
+        placeholder="Select page..."
         options={optionsWithIcons}
         value={value}
         onChange={setValue}
@@ -264,8 +264,8 @@ export const WithDescriptions: Story = {
     return (
       <Select
         variant="default"
-        label="요금제 선택"
-        placeholder="요금제를 선택하세요..."
+        label="Choose a plan"
+        placeholder="Select plan..."
         options={optionsWithDescriptions}
         value={value}
         onChange={setValue}
@@ -284,8 +284,8 @@ export const Searchable: Story = {
     return (
       <Select
         variant="default"
-        label="검색하여 선택"
-        placeholder="검색어를 입력하세요..."
+        label="Search and select"
+        placeholder="Type to search..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -309,8 +309,8 @@ export const StateDefault: Story = {
     return (
       <Select
         variant="default"
-        label="기본"
-        placeholder="선택하세요..."
+        label="Default"
+        placeholder="Choose..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -326,8 +326,8 @@ export const StateDefault: Story = {
 export const StateDisabled: Story = {
   args: {
     variant: 'default',
-    label: '비활성화',
-    placeholder: '선택하세요...',
+    label: 'Disabled',
+    placeholder: 'Choose...',
     options: defaultOptions,
     disabled: true,
     width: 300,
@@ -343,12 +343,12 @@ export const StateError: Story = {
     return (
       <Select
         variant="default"
-        label="에러"
-        placeholder="선택하세요..."
+        label="Error"
+        placeholder="Choose..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
-        error="필수 입력 항목입니다"
+        error="This field is required"
         width={300}
       />
     );
@@ -364,12 +364,12 @@ export const StateSuccess: Story = {
     return (
       <Select
         variant="default"
-        label="성공"
-        placeholder="선택하세요..."
+        label="Success"
+        placeholder="Choose..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
-        success="유효한 선택입니다"
+        success="Valid selection"
         width={300}
       />
     );
@@ -390,7 +390,7 @@ export const StyleDefault: Story = {
       <Select
         variant="default"
         selectStyle="default"
-        label="기본 스타일"
+        label="Default Style"
         placeholder="Choose..."
         options={defaultOptions}
         value={value}
@@ -411,7 +411,7 @@ export const StyleShadow: Story = {
       <Select
         variant="default"
         selectStyle="shadow"
-        label="그림자 스타일"
+        label="Shadow Style"
         placeholder="Choose..."
         options={defaultOptions}
         value={value}
@@ -432,7 +432,7 @@ export const StyleSoft: Story = {
       <Select
         variant="default"
         selectStyle="soft"
-        label="소프트 스타일"
+        label="Soft Style"
         placeholder="Choose..."
         options={defaultOptions}
         value={value}
@@ -503,7 +503,7 @@ export const TypeCheckmark: Story = {
       <Select
         variant="default"
         selectType="default"
-        label="체크마크 타입"
+        label="Checkmark Type"
         placeholder="Choose..."
         options={defaultOptions}
         value={value}
@@ -524,7 +524,7 @@ export const TypeCheckbox: Story = {
       <Select
         variant="default"
         selectType="checkbox"
-        label="체크박스 타입"
+        label="Checkbox Type"
         placeholder="Choose..."
         options={defaultOptions}
         value={value}
@@ -545,7 +545,7 @@ export const TypeRadio: Story = {
       <Select
         variant="default"
         selectType="radio"
-        label="라디오 타입"
+        label="Radio Type"
         placeholder="Choose..."
         options={defaultOptions}
         value={value}
@@ -571,8 +571,8 @@ export const WithScroll: Story = {
     return (
       <Select
         variant="default"
-        label="많은 옵션"
-        placeholder="옵션을 선택하세요..."
+        label="Many Options"
+        placeholder="Select option..."
         options={manyOptions}
         value={value}
         onChange={setValue}
@@ -591,8 +591,8 @@ export const CustomMaxHeight: Story = {
     return (
       <Select
         variant="default"
-        label="커스텀 최대 높이 (200px)"
-        placeholder="옵션을 선택하세요..."
+        label="Custom Max Height (200px)"
+        placeholder="Select option..."
         options={manyOptions}
         value={value}
         onChange={setValue}
@@ -616,7 +616,7 @@ export const NoLabel: Story = {
     return (
       <Select
         variant="default"
-        placeholder="라벨 없음"
+        placeholder="No label"
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -635,9 +635,9 @@ export const Required: Story = {
     return (
       <Select
         variant="default"
-        label="필수 항목"
+        label="Required Field"
         required
-        placeholder="필수 입력 항목입니다..."
+        placeholder="This field is required..."
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -656,9 +656,9 @@ export const WithSupportText: Story = {
     return (
       <Select
         variant="default"
-        label="보조 텍스트 포함"
-        supportText="선택사항"
-        placeholder="보조 텍스트 있음"
+        label="With Support"
+        supportText="Optional"
+        placeholder="Has support text"
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -677,9 +677,9 @@ export const WithCaption: Story = {
     return (
       <Select
         variant="default"
-        label="캡션 포함"
-        caption="도움말 텍스트입니다"
-        placeholder="캡션 있음"
+        label="With Caption"
+        caption="This is helper text"
+        placeholder="Has caption"
         options={defaultOptions}
         value={value}
         onChange={setValue}
@@ -698,9 +698,9 @@ export const WithLeadIcon: Story = {
     return (
       <Select
         variant="default"
-        label="리드 아이콘 포함"
+        label="With Lead Icon"
         leadIcon={['system', 'search']}
-        placeholder="검색..."
+        placeholder="Search..."
         options={defaultOptions}
         value={value}
         onChange={setValue}

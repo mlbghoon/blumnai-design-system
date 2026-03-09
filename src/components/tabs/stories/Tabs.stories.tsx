@@ -33,7 +33,7 @@ const meta: Meta<TabsStoryProps> = {
     // Tabs (Root) props
     defaultValue: {
       control: 'text',
-      description: '[Tabs] 초기 렌더링 시 선택되어 있을 탭의 value입니다. 비제어 모드에서 사용합니다',
+      description: '[Tabs] 기본 선택 탭 (비제어 모드)',
       table: {
         type: { summary: 'string' },
         category: 'Tabs',
@@ -41,7 +41,7 @@ const meta: Meta<TabsStoryProps> = {
     },
     value: {
       control: 'text',
-      description: '[Tabs] 현재 선택된 탭의 value입니다. onValueChange와 함께 사용하여 외부에서 탭 상태를 제어합니다',
+      description: '[Tabs] 선택된 탭 (제어 모드)',
       table: {
         type: { summary: 'string' },
         category: 'Tabs',
@@ -49,7 +49,7 @@ const meta: Meta<TabsStoryProps> = {
     },
     onValueChange: {
       action: 'valueChange',
-      description: '[Tabs] 선택된 탭이 변경될 때 호출되는 콜백 함수입니다. 새로 선택된 탭의 value가 인자로 전달됩니다',
+      description: '[Tabs] 탭 변경 콜백',
       table: {
         type: { summary: '(value: string) => void' },
         category: 'Tabs',
@@ -58,7 +58,7 @@ const meta: Meta<TabsStoryProps> = {
     orientation: {
       control: 'select',
       options: ['horizontal', 'vertical'],
-      description: '[Tabs] 탭의 배치 방향을 설정합니다. horizontal(가로 배치) 또는 vertical(세로 배치)을 선택할 수 있습니다',
+      description: '[Tabs] 탭 방향',
       table: {
         type: { summary: "'horizontal' | 'vertical'" },
         defaultValue: { summary: "'horizontal'" },
@@ -68,7 +68,7 @@ const meta: Meta<TabsStoryProps> = {
     activationMode: {
       control: 'select',
       options: ['automatic', 'manual'],
-      description: '[Tabs] 키보드로 탭을 전환하는 방식을 설정합니다. automatic(포커스 이동 시 자동 활성화) 또는 manual(Enter/Space로 활성화)을 선택합니다',
+      description: '[Tabs] 키보드 활성화 모드',
       table: {
         type: { summary: "'automatic' | 'manual'" },
         defaultValue: { summary: "'automatic'" },
@@ -79,7 +79,7 @@ const meta: Meta<TabsStoryProps> = {
     variant: {
       control: 'select',
       options: ['pill', 'segmented', 'underline'],
-      description: '[TabsList] 탭의 시각적 스타일을 설정합니다. pill(개별 알약 형태), segmented(회색 배경 컨테이너), underline(하단 밑줄) 중 선택합니다',
+      description: '[TabsList] 탭 스타일 변형',
       table: {
         type: { summary: 'TabsVariant', detail: "'pill' | 'segmented' | 'underline'" },
         defaultValue: { summary: "'segmented'" },
@@ -168,7 +168,7 @@ IconTypeWithFill 또는 ReactNode를 사용할 수 있습니다.
     },
     badge: {
       control: 'text',
-      description: '[TabsTrigger] 탭 라벨 옆에 표시되는 배지입니다. 숫자 또는 텍스트를 전달하여 알림 수, 상태 등을 나타낼 수 있습니다',
+      description: '[TabsTrigger] 배지 텍스트/숫자',
       table: {
         type: { summary: 'string | number' },
         category: 'TabsTrigger',
@@ -176,7 +176,7 @@ IconTypeWithFill 또는 ReactNode를 사용할 수 있습니다.
     },
     disabled: {
       control: 'boolean',
-      description: '[TabsTrigger] true로 설정하면 해당 탭이 비활성화되어 클릭하거나 선택할 수 없습니다',
+      description: '[TabsTrigger] 비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         category: 'TabsTrigger',
@@ -228,13 +228,13 @@ export const Default: Story = {
           <TabsTrigger value="tab3">알림</TabsTrigger>
         </TabsList>
         <TabsContent value="tab1" className="font-body size-sm text-default">
-          계정 설정 및 환경설정을 관리합니다.
+          계정 설정 및 환경설정입니다.
         </TabsContent>
         <TabsContent value="tab2" className="font-body size-sm text-default">
-          일반 애플리케이션 설정을 변경합니다.
+          일반 애플리케이션 설정입니다.
         </TabsContent>
         <TabsContent value="tab3" className="font-body size-sm text-default">
-          알림 환경설정을 관리합니다.
+          알림 환경설정입니다.
         </TabsContent>
       </Tabs>
     );
@@ -250,7 +250,7 @@ export const AllVariants: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-24">
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Pill tabs</p>
+        <p className="font-body size-sm text-muted margin-b-8">Pill 탭</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="pill">
             <TabsTrigger value="tab1">개요</TabsTrigger>
@@ -262,7 +262,7 @@ export const AllVariants: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Segmented tabs</p>
+        <p className="font-body size-sm text-muted margin-b-8">Segmented 탭</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented">
             <TabsTrigger value="tab1">개요</TabsTrigger>
@@ -274,7 +274,7 @@ export const AllVariants: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Underline tabs</p>
+        <p className="font-body size-sm text-muted margin-b-8">Underline 탭</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline">
             <TabsTrigger value="tab1">개요</TabsTrigger>
@@ -299,7 +299,7 @@ export const PillVariant: Story = {
       <TabsList variant="pill">
         <TabsTrigger value="tab1">개요</TabsTrigger>
         <TabsTrigger value="tab2">분석</TabsTrigger>
-        <TabsTrigger value="tab3">보고서</TabsTrigger>
+        <TabsTrigger value="tab3">리포트</TabsTrigger>
       </TabsList>
       <TabsContent value="tab1" className="font-body size-sm text-default">
         개요 콘텐츠가 여기에 표시됩니다.
@@ -308,7 +308,7 @@ export const PillVariant: Story = {
         분석 콘텐츠가 여기에 표시됩니다.
       </TabsContent>
       <TabsContent value="tab3" className="font-body size-sm text-default">
-        보고서 콘텐츠가 여기에 표시됩니다.
+        리포트 콘텐츠가 여기에 표시됩니다.
       </TabsContent>
     </Tabs>
   ),
@@ -325,7 +325,7 @@ export const SegmentedVariant: Story = {
       <TabsList variant="segmented">
         <TabsTrigger value="tab1">개요</TabsTrigger>
         <TabsTrigger value="tab2">분석</TabsTrigger>
-        <TabsTrigger value="tab3">보고서</TabsTrigger>
+        <TabsTrigger value="tab3">리포트</TabsTrigger>
       </TabsList>
       <TabsContent value="tab1" className="font-body size-sm text-default">
         개요 콘텐츠가 여기에 표시됩니다.
@@ -334,7 +334,7 @@ export const SegmentedVariant: Story = {
         분석 콘텐츠가 여기에 표시됩니다.
       </TabsContent>
       <TabsContent value="tab3" className="font-body size-sm text-default">
-        보고서 콘텐츠가 여기에 표시됩니다.
+        리포트 콘텐츠가 여기에 표시됩니다.
       </TabsContent>
     </Tabs>
   ),
@@ -351,7 +351,7 @@ export const UnderlineVariant: Story = {
       <TabsList variant="underline">
         <TabsTrigger value="tab1">개요</TabsTrigger>
         <TabsTrigger value="tab2">분석</TabsTrigger>
-        <TabsTrigger value="tab3">보고서</TabsTrigger>
+        <TabsTrigger value="tab3">리포트</TabsTrigger>
       </TabsList>
       <TabsContent value="tab1" className="font-body size-sm text-default">
         개요 콘텐츠가 여기에 표시됩니다.
@@ -360,7 +360,7 @@ export const UnderlineVariant: Story = {
         분석 콘텐츠가 여기에 표시됩니다.
       </TabsContent>
       <TabsContent value="tab3" className="font-body size-sm text-default">
-        보고서 콘텐츠가 여기에 표시됩니다.
+        리포트 콘텐츠가 여기에 표시됩니다.
       </TabsContent>
     </Tabs>
   ),
@@ -375,23 +375,23 @@ export const UnderlineSizes: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-24">
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Underline - Small (40px)</p>
+        <p className="font-body size-sm text-muted margin-b-8">Underline - 소형 (40px)</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline" size="sm">
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-            <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+            <TabsTrigger value="tab1">탭 1</TabsTrigger>
+            <TabsTrigger value="tab2">탭 2</TabsTrigger>
+            <TabsTrigger value="tab3">탭 3</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Underline - Large (48px)</p>
+        <p className="font-body size-sm text-muted margin-b-8">Underline - 대형 (48px)</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline" size="lg">
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-            <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+            <TabsTrigger value="tab1">탭 1</TabsTrigger>
+            <TabsTrigger value="tab2">탭 2</TabsTrigger>
+            <TabsTrigger value="tab3">탭 3</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -424,7 +424,7 @@ export const UnderlineActiveColor: Story = {
           <TabsList variant="underline" activeColor="#e11d48">
             <TabsTrigger value="tab1">개요</TabsTrigger>
             <TabsTrigger value="tab2">분석</TabsTrigger>
-            <TabsTrigger value="tab3">보고서</TabsTrigger>
+            <TabsTrigger value="tab3">리포트</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -435,7 +435,7 @@ export const UnderlineActiveColor: Story = {
           <TabsList variant="underline">
             <TabsTrigger value="tab1">개요</TabsTrigger>
             <TabsTrigger value="tab2">분석</TabsTrigger>
-            <TabsTrigger value="tab3">보고서</TabsTrigger>
+            <TabsTrigger value="tab3">리포트</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -452,7 +452,7 @@ export const WithIcons: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-24">
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Segmented with Icons</p>
+        <p className="font-body size-sm text-muted margin-b-8">Segmented - 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented">
             <TabsTrigger value="tab1" leadIcon={['user', 'user']}>프로필</TabsTrigger>
@@ -463,7 +463,7 @@ export const WithIcons: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Pill with Icons</p>
+        <p className="font-body size-sm text-muted margin-b-8">Pill - 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="pill">
             <TabsTrigger value="tab1" leadIcon={['user', 'user']}>프로필</TabsTrigger>
@@ -474,7 +474,7 @@ export const WithIcons: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Underline with Icons</p>
+        <p className="font-body size-sm text-muted margin-b-8">Underline - 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline">
             <TabsTrigger value="tab1" leadIcon={['user', 'user']}>프로필</TabsTrigger>
@@ -496,7 +496,7 @@ export const WithBadges: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-24">
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Segmented with Badges</p>
+        <p className="font-body size-sm text-muted margin-b-8">Segmented - 배지 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented">
             <TabsTrigger value="tab1" badge={3}>받은편지함</TabsTrigger>
@@ -507,7 +507,7 @@ export const WithBadges: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Pill with Badges</p>
+        <p className="font-body size-sm text-muted margin-b-8">Pill - 배지 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="pill">
             <TabsTrigger value="tab1" badge={3}>받은편지함</TabsTrigger>
@@ -518,7 +518,7 @@ export const WithBadges: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Underline with Badges</p>
+        <p className="font-body size-sm text-muted margin-b-8">Underline - 배지 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline">
             <TabsTrigger value="tab1" badge={3}>받은편지함</TabsTrigger>
@@ -529,11 +529,11 @@ export const WithBadges: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Icons + Badges</p>
+        <p className="font-body size-sm text-muted margin-b-8">아이콘 + 배지</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented">
             <TabsTrigger value="tab1" leadIcon={['business', 'mail']} badge={5}>메시지</TabsTrigger>
-            <TabsTrigger value="tab2" leadIcon={['media', 'notification']} badge="New">업데이트</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={['media', 'notification']} badge="신규">업데이트</TabsTrigger>
             <TabsTrigger value="tab3" leadIcon={['system', 'settings']}>설정</TabsTrigger>
           </TabsList>
         </Tabs>
@@ -551,34 +551,34 @@ export const Disabled: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-24">
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Segmented with Disabled Tab</p>
+        <p className="font-body size-sm text-muted margin-b-8">Segmented - 비활성화 탭 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented">
             <TabsTrigger value="tab1">활성</TabsTrigger>
-            <TabsTrigger value="tab2" disabled>비활성</TabsTrigger>
-            <TabsTrigger value="tab3">사용 가능</TabsTrigger>
+            <TabsTrigger value="tab2" disabled>비활성화</TabsTrigger>
+            <TabsTrigger value="tab3">사용가능</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Pill with Disabled Tab</p>
+        <p className="font-body size-sm text-muted margin-b-8">Pill - 비활성화 탭 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="pill">
             <TabsTrigger value="tab1">활성</TabsTrigger>
-            <TabsTrigger value="tab2" disabled>비활성</TabsTrigger>
-            <TabsTrigger value="tab3">사용 가능</TabsTrigger>
+            <TabsTrigger value="tab2" disabled>비활성화</TabsTrigger>
+            <TabsTrigger value="tab3">사용가능</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Underline with Disabled Tab</p>
+        <p className="font-body size-sm text-muted margin-b-8">Underline - 비활성화 탭 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline">
             <TabsTrigger value="tab1">활성</TabsTrigger>
-            <TabsTrigger value="tab2" disabled>비활성</TabsTrigger>
-            <TabsTrigger value="tab3">사용 가능</TabsTrigger>
+            <TabsTrigger value="tab2" disabled>비활성화</TabsTrigger>
+            <TabsTrigger value="tab3">사용가능</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -595,7 +595,7 @@ export const Vertical: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-24">
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Segmented Vertical</p>
+        <p className="font-body size-sm text-muted margin-b-8">Segmented 세로</p>
         <Tabs defaultValue="tab1" orientation="vertical" className="flex ds-gap-16">
           <TabsList variant="segmented">
             <TabsTrigger value="tab1">일반</TabsTrigger>
@@ -615,7 +615,7 @@ export const Vertical: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Underline Vertical</p>
+        <p className="font-body size-sm text-muted margin-b-8">Underline 세로</p>
         <Tabs defaultValue="tab1" orientation="vertical" className="flex ds-gap-16">
           <TabsList variant="underline">
             <TabsTrigger value="tab1">일반</TabsTrigger>
@@ -704,9 +704,9 @@ export const FixedType: Story = {
         <p className="font-body size-sm text-muted margin-b-8">Segmented - Fixed</p>
         <Tabs defaultValue="tab1" className="w-full">
           <TabsList variant="segmented" type="fixed">
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-            <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+            <TabsTrigger value="tab1">탭 1</TabsTrigger>
+            <TabsTrigger value="tab2">탭 2</TabsTrigger>
+            <TabsTrigger value="tab3">탭 3</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -715,9 +715,9 @@ export const FixedType: Story = {
         <p className="font-body size-sm text-muted margin-b-8">Underline - Fixed</p>
         <Tabs defaultValue="tab1" className="w-full">
           <TabsList variant="underline" type="fixed">
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-            <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+            <TabsTrigger value="tab1">탭 1</TabsTrigger>
+            <TabsTrigger value="tab2">탭 2</TabsTrigger>
+            <TabsTrigger value="tab3">탭 3</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -726,9 +726,9 @@ export const FixedType: Story = {
         <p className="font-body size-sm text-muted margin-b-8">Pill - Fixed</p>
         <Tabs defaultValue="tab1" className="w-full">
           <TabsList variant="pill" type="fixed">
-            <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-            <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-            <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+            <TabsTrigger value="tab1">탭 1</TabsTrigger>
+            <TabsTrigger value="tab2">탭 2</TabsTrigger>
+            <TabsTrigger value="tab3">탭 3</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -747,45 +747,45 @@ export const ShapeComparison: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-24">
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Pill variant + shape=pill (default)</p>
+        <p className="font-body size-sm text-muted margin-b-8">Pill 변형 + shape=pill (기본값)</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="pill" shape="pill">
             <TabsTrigger value="tab1">개요</TabsTrigger>
             <TabsTrigger value="tab2">분석</TabsTrigger>
-            <TabsTrigger value="tab3">보고서</TabsTrigger>
+            <TabsTrigger value="tab3">리포트</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Pill variant + shape=rounded</p>
+        <p className="font-body size-sm text-muted margin-b-8">Pill 변형 + shape=rounded</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="pill" shape="rounded">
             <TabsTrigger value="tab1">개요</TabsTrigger>
             <TabsTrigger value="tab2">분석</TabsTrigger>
-            <TabsTrigger value="tab3">보고서</TabsTrigger>
+            <TabsTrigger value="tab3">리포트</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Segmented variant + shape=rounded (default)</p>
+        <p className="font-body size-sm text-muted margin-b-8">Segmented 변형 + shape=rounded (기본값)</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented" shape="rounded">
             <TabsTrigger value="tab1">개요</TabsTrigger>
             <TabsTrigger value="tab2">분석</TabsTrigger>
-            <TabsTrigger value="tab3">보고서</TabsTrigger>
+            <TabsTrigger value="tab3">리포트</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Segmented variant + shape=pill</p>
+        <p className="font-body size-sm text-muted margin-b-8">Segmented 변형 + shape=pill</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented" shape="pill">
             <TabsTrigger value="tab1">개요</TabsTrigger>
             <TabsTrigger value="tab2">분석</TabsTrigger>
-            <TabsTrigger value="tab3">보고서</TabsTrigger>
+            <TabsTrigger value="tab3">리포트</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -807,7 +807,7 @@ export const WithFilledIcons: Story = {
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented">
             <TabsTrigger value="tab1" leadIcon={['system', 'star']}>기본 별</TabsTrigger>
-            <TabsTrigger value="tab2" leadIcon={['system', 'star', true]}>채워진 별</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={['system', 'star', true]}>Filled 별</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -824,7 +824,7 @@ export const WithFilledIcons: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Underline with Filled Icons</p>
+        <p className="font-body size-sm text-muted margin-b-8">Underline - Filled 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline">
             <TabsTrigger value="tab1" leadIcon={['buildings', 'home', true]}>홈</TabsTrigger>
@@ -846,7 +846,7 @@ export const WithTailIcon: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-24">
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Segmented with Tail Icons</p>
+        <p className="font-body size-sm text-muted margin-b-8">Segmented - Tail 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented">
             <TabsTrigger value="tab1" tailIcon={['arrows', 'arrow-drop-down']}>개요</TabsTrigger>
@@ -857,7 +857,7 @@ export const WithTailIcon: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Pill with Lead + Tail Icons</p>
+        <p className="font-body size-sm text-muted margin-b-8">Pill - Lead + Tail 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="pill">
             <TabsTrigger value="tab1" leadIcon={['user', 'user']} tailIcon={['arrows', 'arrow-drop-down']}>프로필</TabsTrigger>
@@ -868,7 +868,7 @@ export const WithTailIcon: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">Underline with Tail Icons</p>
+        <p className="font-body size-sm text-muted margin-b-8">Underline - Tail 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline">
             <TabsTrigger value="tab1" tailIcon={['system', 'external-link']}>문서</TabsTrigger>
@@ -876,84 +876,6 @@ export const WithTailIcon: Story = {
             <TabsTrigger value="tab3">변경 이력</TabsTrigger>
           </TabsList>
         </Tabs>
-      </div>
-    </div>
-  ),
-};
-
-/**
- * 스크롤 가능한 탭
- *
- * scrollable prop을 사용하면 탭이 넘칠 때 좌우 화살표 버튼이 나타납니다.
- */
-export const Scrollable: Story = {
-  render: () => (
-    <div className="flex flex-col ds-gap-24">
-      <div>
-        <p className="font-body size-sm text-muted margin-b-8">Segmented - Scrollable (300px)</p>
-        <div style={{ width: 300 }}>
-          <Tabs defaultValue="tab1">
-            <TabsList variant="segmented" scrollable>
-              <TabsTrigger value="tab1">개요</TabsTrigger>
-              <TabsTrigger value="tab2">분석</TabsTrigger>
-              <TabsTrigger value="tab3">보고서</TabsTrigger>
-              <TabsTrigger value="tab4">고객</TabsTrigger>
-              <TabsTrigger value="tab5">상품</TabsTrigger>
-              <TabsTrigger value="tab6">설정</TabsTrigger>
-              <TabsTrigger value="tab7">결제</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-      </div>
-
-      <div>
-        <p className="font-body size-sm text-muted margin-b-8">Pill - Scrollable (300px)</p>
-        <div style={{ width: 300 }}>
-          <Tabs defaultValue="tab1">
-            <TabsList variant="pill" scrollable>
-              <TabsTrigger value="tab1">개요</TabsTrigger>
-              <TabsTrigger value="tab2">분석</TabsTrigger>
-              <TabsTrigger value="tab3">보고서</TabsTrigger>
-              <TabsTrigger value="tab4">고객</TabsTrigger>
-              <TabsTrigger value="tab5">상품</TabsTrigger>
-              <TabsTrigger value="tab6">설정</TabsTrigger>
-              <TabsTrigger value="tab7">결제</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-      </div>
-
-      <div>
-        <p className="font-body size-sm text-muted margin-b-8">Underline - Scrollable (300px)</p>
-        <div style={{ width: 300 }}>
-          <Tabs defaultValue="tab1">
-            <TabsList variant="underline" scrollable>
-              <TabsTrigger value="tab1">개요</TabsTrigger>
-              <TabsTrigger value="tab2">분석</TabsTrigger>
-              <TabsTrigger value="tab3">보고서</TabsTrigger>
-              <TabsTrigger value="tab4">고객</TabsTrigger>
-              <TabsTrigger value="tab5">상품</TabsTrigger>
-              <TabsTrigger value="tab6">설정</TabsTrigger>
-              <TabsTrigger value="tab7">결제</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-      </div>
-
-      <div>
-        <p className="font-body size-sm text-muted margin-b-8">Scrollable with Icons + Badges (400px)</p>
-        <div style={{ width: 400 }}>
-          <Tabs defaultValue="tab1">
-            <TabsList variant="segmented" scrollable>
-              <TabsTrigger value="tab1" leadIcon={['buildings', 'home']}>홈</TabsTrigger>
-              <TabsTrigger value="tab2" leadIcon={['user', 'user']} badge={3}>사용자</TabsTrigger>
-              <TabsTrigger value="tab3" leadIcon={['business', 'mail']} badge={12}>메시지</TabsTrigger>
-              <TabsTrigger value="tab4" leadIcon={['system', 'settings']}>설정</TabsTrigger>
-              <TabsTrigger value="tab5" leadIcon={['media', 'notification']} badge="New">알림</TabsTrigger>
-              <TabsTrigger value="tab6" leadIcon={['system', 'information']}>도움말</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
       </div>
     </div>
   ),

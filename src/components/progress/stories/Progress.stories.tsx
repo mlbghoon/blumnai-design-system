@@ -15,7 +15,7 @@ const meta: Meta<ProgressProps> = {
   argTypes: {
     value: {
       control: 'number',
-      description: '현재 진행률을 0부터 100 사이의 숫자로 설정합니다. 값을 지정하지 않으면 진행률을 알 수 없는 불확정(indeterminate) 상태로 표시됩니다',
+      description: '현재 진행률 (0-100). undefined면 불확정 상태',
       table: {
         type: {
           summary: 'number',
@@ -25,7 +25,7 @@ const meta: Meta<ProgressProps> = {
     },
     max: {
       control: 'number',
-      description: '진행률의 최대값을 설정합니다. 기본값은 100이며, value가 이 값에 도달하면 100% 완료를 나타냅니다',
+      description: '최대값',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '100' },
@@ -34,7 +34,7 @@ const meta: Meta<ProgressProps> = {
     variant: {
       control: 'select',
       options: ['linear', 'dashed'],
-      description: '진행 바의 모양을 설정합니다. linear(연속된 막대), dashed(세그먼트로 나뉜 막대) 중 선택할 수 있습니다',
+      description: '진행 바 변형',
       table: {
         type: {
           summary: 'ProgressVariant',
@@ -66,7 +66,7 @@ const meta: Meta<ProgressProps> = {
         'pink',
         'rose',
       ],
-      description: '진행 바의 채워진 부분 색상을 설정합니다. 19가지 색상 중 선택할 수 있으며, 기본값은 gray입니다',
+      description: '진행 바 색상',
       table: {
         type: {
           summary: 'ProgressColor',
@@ -78,21 +78,21 @@ const meta: Meta<ProgressProps> = {
     },
     label: {
       control: 'text',
-      description: '진행 바 왼쪽 상단에 표시되는 라벨 텍스트입니다. 작업의 이름이나 상태를 나타냅니다',
+      description: '라벨 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     showValue: {
       control: 'boolean',
-      description: 'true로 설정하면 진행 바 오른쪽 상단에 현재 진행률 값(예: "60%")이 표시됩니다',
+      description: '진행률 표시 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
       },
     },
     formatValue: {
-      description: '진행률 값의 표시 형식을 변경하는 함수입니다. 기본 "%"대신 "3/10 tasks" 같은 커스텀 형식을 사용할 수 있습니다',
+      description: '값 포맷 함수',
       table: {
         type: {
           summary: '(value: number) => string',
@@ -102,14 +102,14 @@ const meta: Meta<ProgressProps> = {
     },
     caption: {
       control: 'text',
-      description: '진행 바 아래에 표시되는 보조 설명 텍스트입니다. 상세한 진행 정보를 제공합니다 (예: "7개 중 3개 파일 업로드됨")',
+      description: '캡션 텍스트 (진행 바 아래)',
       table: {
         type: { summary: 'string' },
       },
     },
     error: {
       control: 'text',
-      description: '에러 상태를 설정합니다. true로 설정하면 에러 스타일만 적용되고, 문자열을 전달하면 빨간색 에러 메시지가 표시됩니다',
+      description: '에러 상태 또는 메시지',
       table: {
         type: {
           summary: 'boolean | string',
@@ -119,7 +119,7 @@ const meta: Meta<ProgressProps> = {
     },
     success: {
       control: 'text',
-      description: '성공 상태를 설정합니다. true로 설정하면 성공 스타일만 적용되고, 문자열을 전달하면 초록색 성공 메시지가 표시됩니다',
+      description: '성공 상태 또는 메시지',
       table: {
         type: {
           summary: 'boolean | string',
@@ -218,16 +218,16 @@ export const WithCaption: Story = {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
-          label="파일 업로드"
+          label="파일 업로드 중"
           showValue
           value={45}
-          caption="7개 중 3개 파일 업로드됨"
+          caption="3 of 7 files uploaded"
         />
         <Progress
-          label="저장소"
+          label="스토리지"
           showValue
           value={75}
-          caption="100GB 중 75GB 사용됨"
+          caption="75GB of 100GB used"
           color="brand"
         />
         <Progress
@@ -235,7 +235,7 @@ export const WithCaption: Story = {
           label="온보딩"
           showValue
           value={60}
-          caption="10단계 중 6단계 완료"
+          caption="Step 6 of 10 completed"
         />
       </div>
     );
@@ -249,12 +249,12 @@ export const Colors: Story = {
   render: function Render() {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
-        <Progress color="gray" label="Gray (기본)" showValue value={60} />
-        <Progress color="brand" label="Brand" showValue value={60} />
-        <Progress color="blue" label="파란색" showValue value={60} />
-        <Progress color="green" label="초록색" showValue value={60} />
-        <Progress color="red" label="빨간색" showValue value={60} />
-        <Progress color="violet" label="보라색" showValue value={60} />
+        <Progress color="gray" label="회색 (기본)" showValue value={60} />
+        <Progress color="brand" label="브랜드" showValue value={60} />
+        <Progress color="blue" label="파랑" showValue value={60} />
+        <Progress color="green" label="초록" showValue value={60} />
+        <Progress color="red" label="빨강" showValue value={60} />
+        <Progress color="violet" label="보라" showValue value={60} />
       </div>
     );
   },
@@ -322,16 +322,16 @@ export const CustomFormat: Story = {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
         <Progress
-          label="저장소 사용량"
+          label="스토리지 사용량"
           showValue
           value={75}
           formatValue={(v) => `${v}/100GB`}
         />
         <Progress
-          label="작업 완료"
+          label="완료된 작업"
           showValue
           value={40}
-          formatValue={(v) => `${Math.round((v / 100) * 10)}/10개 작업`}
+          formatValue={(v) => `${Math.round((v / 100) * 10)}/10 tasks`}
         />
       </div>
     );
@@ -367,14 +367,14 @@ export const ErrorState: Story = {
           showValue
           value={45}
           color="red"
-          error="업로드에 실패했습니다. 다시 시도해 주세요."
+          error="업로드 실패. 다시 시도하세요."
         />
         <Progress
           variant="dashed"
           label="처리 중"
           showValue
           value={30}
-          error="연결이 끊어졌습니다"
+          error="연결 끊김"
         />
       </div>
     );
@@ -424,7 +424,7 @@ export const ErrorAndSuccessStates: Story = {
           label="일반 캡션"
           showValue
           value={50}
-          caption="기본 회색 캡션 텍스트"
+          caption="일반 회색 캡션 텍스트"
         />
         <Progress
           label="성공 메시지"
@@ -434,7 +434,7 @@ export const ErrorAndSuccessStates: Story = {
           success="성공적으로 완료되었습니다!"
         />
         <Progress
-          label="에러 메시지"
+          label="오류 메시지"
           showValue
           value={35}
           color="red"

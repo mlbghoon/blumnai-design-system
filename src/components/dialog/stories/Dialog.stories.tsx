@@ -33,7 +33,7 @@ const meta: Meta<DialogStoryProps> = {
     // Dialog (Root) props
     defaultOpen: {
       control: 'boolean',
-      description: '[Dialog] 처음 렌더링될 때 다이얼로그가 열린 상태로 시작할지 설정합니다. 외부 상태 관리 없이 사용하는 비제어 모드에서 사용합니다',
+      description: '[Dialog] 초기 열림 상태 (비제어 모드)',
       table: {
         type: { summary: 'boolean' },
         category: 'Dialog',
@@ -41,7 +41,7 @@ const meta: Meta<DialogStoryProps> = {
     },
     open: {
       control: 'boolean',
-      description: '[Dialog] 다이얼로그의 열림/닫힘 상태를 외부에서 직접 제어합니다. onOpenChange와 함께 사용하여 상태를 관리합니다',
+      description: '[Dialog] 열림 상태 (제어 모드)',
       table: {
         type: { summary: 'boolean' },
         category: 'Dialog',
@@ -49,7 +49,7 @@ const meta: Meta<DialogStoryProps> = {
     },
     onOpenChange: {
       action: 'openChange',
-      description: '[Dialog] 다이얼로그가 열리거나 닫힐 때 호출되는 콜백 함수입니다. open prop과 함께 사용하여 상태를 동기화합니다',
+      description: '[Dialog] 열림 상태 변경 콜백',
       table: {
         type: { summary: '(open: boolean) => void' },
         category: 'Dialog',
@@ -67,7 +67,7 @@ const meta: Meta<DialogStoryProps> = {
     // DialogContent props
     hideCloseButton: {
       control: 'boolean',
-      description: '[DialogContent] true로 설정하면 다이얼로그 우측 상단의 X 닫기 버튼이 숨겨집니다',
+      description: '[DialogContent] 닫기 버튼 숨김 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -94,7 +94,7 @@ const meta: Meta<DialogStoryProps> = {
     },
     forceMount: {
       control: 'boolean',
-      description: '[DialogContent] true로 설정하면 다이얼로그가 닫혀 있어도 DOM에 유지됩니다. 진입/퇴장 애니메이션 제어 시 사용합니다',
+      description: '[DialogContent] 강제 마운트 여부 (애니메이션용)',
       table: {
         type: { summary: 'boolean' },
         category: 'DialogContent',
@@ -102,7 +102,7 @@ const meta: Meta<DialogStoryProps> = {
     },
     className: {
       control: 'text',
-      description: '[DialogContent] 다이얼로그 콘텐츠 영역에 추가할 CSS 클래스명입니다',
+      description: '[DialogContent] 추가 CSS 클래스',
       table: {
         type: { summary: 'string' },
         category: 'DialogContent',
@@ -173,7 +173,7 @@ export const Default: Story = {
       if (!args.useAsyncAction) return;
       return new Promise<void>((resolve) => {
         setTimeout(() => {
-          console.log('Action completed!');
+          console.log('작업 완료!');
           resolve();
         }, 2000);
       });
@@ -194,12 +194,12 @@ export const Default: Story = {
           <DialogHeader>
             <DialogTitle>다이얼로그 제목</DialogTitle>
             <DialogDescription>
-              다이얼로그 설명 텍스트입니다.
+              다이얼로그 설명 텍스트가 여기에 들어갑니다.
             </DialogDescription>
           </DialogHeader>
           <DialogScrollArea maxHeight={args.maxHeight}>
             <div className="font-body size-sm text-default">
-              스크롤 가능한 콘텐츠 영역입니다. maxHeight를 설정하면 콘텐츠가 지정된 높이를 초과할 때 이 영역이 스크롤됩니다.
+              스크롤 가능한 콘텐츠 영역입니다. maxHeight가 설정되면 콘텐츠가 지정된 높이를 초과할 때 이 영역이 스크롤됩니다.
             </div>
           </DialogScrollArea>
           <DialogFooter>
@@ -226,7 +226,7 @@ export const WithForm: Story = {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button buttonStyle="secondary">프로필 수정</Button>
+          <Button buttonStyle="secondary">프로필 편집</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -307,32 +307,19 @@ export const LongContent: Story = {
           <DialogScrollArea maxHeight="50vh">
             <div className="flex flex-col ds-gap-16 font-body size-sm text-default">
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
+                본 서비스 이용약관에 동의하시면 서비스를 이용하실 수 있습니다. 이용약관의 내용을 충분히 읽고 이해하신 후 동의해 주시기 바랍니다.
               </p>
               <p>
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                anim id est laborum.
+                회원은 본 서비스를 이용함으로써 본 약관에 동의한 것으로 간주됩니다. 서비스 이용 중 발생하는 모든 행위에 대한 책임은 회원 본인에게 있습니다.
               </p>
               <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis et quasi architecto beatae vitae
-                dicta sunt explicabo.
+                서비스 제공자는 서비스의 내용을 사전 통지 없이 변경하거나 중단할 수 있으며, 이로 인한 손해에 대해 책임을 지지 않습니다.
               </p>
               <p>
-                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
-                aut fugit, sed quia consequuntur magni dolores eos qui ratione
-                voluptatem sequi nesciunt.
+                회원의 개인정보는 개인정보처리방침에 따라 수집 및 이용됩니다. 개인정보는 서비스 제공 목적 외의 용도로 사용되지 않습니다.
               </p>
               <p>
-                Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-                consectetur, adipisci velit, sed quia non numquam eius modi tempora
-                incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+                본 약관은 대한민국 법률에 따라 해석되며, 본 약관과 관련된 분쟁은 관할 법원에서 해결합니다.
               </p>
             </div>
           </DialogScrollArea>
@@ -360,7 +347,7 @@ export const CustomFooter: Story = {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button buttonStyle="secondary">Open</Button>
+          <Button buttonStyle="secondary">열기</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -398,7 +385,7 @@ export const NoCloseButton: Story = {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button buttonStyle="secondary">Open</Button>
+          <Button buttonStyle="secondary">열기</Button>
         </DialogTrigger>
         <DialogContent hideCloseButton>
           <DialogHeader>
@@ -466,7 +453,7 @@ export const Programmatic: Story = {
         </p>
         <div className="flex ds-gap-8">
           <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
-            다이얼로그 열기
+            Open Dialog
           </Button>
           <Button buttonStyle="ghost" onClick={() => alert('다른 작업 수행')}>
             다른 작업
@@ -502,11 +489,11 @@ export const Sizes: Story = {
       <div className="flex ds-gap-16">
         <Dialog>
           <DialogTrigger asChild>
-            <Button buttonStyle="secondary" size="sm">작은 크기</Button>
+            <Button buttonStyle="secondary" size="sm">소형</Button>
           </DialogTrigger>
           <DialogContent className="max-w-sm">
             <DialogHeader>
-              <DialogTitle>작은 다이얼로그</DialogTitle>
+              <DialogTitle>소형 다이얼로그</DialogTitle>
               <DialogDescription>
                 간단한 콘텐츠를 위한 컴팩트한 다이얼로그입니다.
               </DialogDescription>
@@ -521,13 +508,13 @@ export const Sizes: Story = {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button buttonStyle="secondary" size="sm">중간 크기</Button>
+            <Button buttonStyle="secondary" size="sm">중형</Button>
           </DialogTrigger>
           <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>중간 다이얼로그</DialogTitle>
+              <DialogTitle>중형 다이얼로그</DialogTitle>
               <DialogDescription>
-                기본 크기의 다이얼로그로 일반적인 콘텐츠에 적합합니다.
+                표준 콘텐츠를 위한 기본 크기 다이얼로그입니다.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -540,13 +527,13 @@ export const Sizes: Story = {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button buttonStyle="secondary" size="sm">큰 크기</Button>
+            <Button buttonStyle="secondary" size="sm">대형</Button>
           </DialogTrigger>
           <DialogContent className="max-w-xl">
             <DialogHeader>
-              <DialogTitle>큰 다이얼로그</DialogTitle>
+              <DialogTitle>대형 다이얼로그</DialogTitle>
               <DialogDescription>
-                넓은 가로 공간이 필요한 복잡한 콘텐츠를 위한 다이얼로그입니다.
+                더 복잡한 콘텐츠를 위한 넓은 다이얼로그입니다.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -573,7 +560,7 @@ export const AsyncAction: Story = {
     const simulateAsyncSave = () => {
       return new Promise<void>((resolve) => {
         setTimeout(() => {
-          console.log('Saved!');
+          console.log('저장 완료!');
           resolve();
         }, 2000);
       });
@@ -616,7 +603,7 @@ export const TitleWeight: Story = {
       <div className="flex ds-gap-12">
         <Dialog>
           <DialogTrigger asChild>
-            <Button buttonStyle="secondary">Medium Weight</Button>
+            <Button buttonStyle="secondary">중간 굵기</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -632,7 +619,7 @@ export const TitleWeight: Story = {
         </Dialog>
         <Dialog>
           <DialogTrigger asChild>
-            <Button buttonStyle="secondary">Semibold Weight</Button>
+            <Button buttonStyle="secondary">반굵기</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>

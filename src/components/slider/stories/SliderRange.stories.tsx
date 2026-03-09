@@ -167,7 +167,7 @@ type Story = StoryObj<SliderRangeProps>;
 export const Default: Story = {
   args: {
     color: 'gray',
-    label: 'Price Range',
+    label: '가격 범위',
     showValue: true,
     min: 0,
     max: 100,
@@ -216,7 +216,7 @@ export const PriceRange: Story = {
     return (
       <div style={{ width: 320 }}>
         <SliderRange
-          label="Price"
+          label="가격"
           showValue
           min={0}
           max={1000}
@@ -239,7 +239,7 @@ export const TimeRange: Story = {
     return (
       <div style={{ width: 320 }}>
         <SliderRange
-          label="Working Hours"
+          label="근무 시간"
           showValue
           min={0}
           max={24}
@@ -261,7 +261,7 @@ export const Disabled: Story = {
     return (
       <div style={{ width: 320 }}>
         <SliderRange
-          label="Disabled Range"
+          label="비활성화 범위"
           showValue
           defaultValue={[20, 80]}
           disabled

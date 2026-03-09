@@ -68,15 +68,15 @@ export const Variants: Story = {
     return (
       <div className="flex flex-col ds-gap-16 items-start">
         <div className="flex flex-col ds-gap-4">
-          <span className="size-xs font-body text-muted">Default (rounded-md)</span>
+          <span className="size-xs font-body text-muted">기본 (rounded-md)</span>
           <Skeleton variant="default" width={200} height={40} />
         </div>
         <div className="flex flex-col ds-gap-4">
-          <span className="size-xs font-body text-muted">Circular (rounded-full)</span>
+          <span className="size-xs font-body text-muted">원형 (rounded-full)</span>
           <Skeleton variant="circular" width={48} height={48} />
         </div>
         <div className="flex flex-col ds-gap-4">
-          <span className="size-xs font-body text-muted">Text (rounded-sm)</span>
+          <span className="size-xs font-body text-muted">텍스트 (rounded-sm)</span>
           <Skeleton variant="text" width={150} height={16} />
         </div>
       </div>

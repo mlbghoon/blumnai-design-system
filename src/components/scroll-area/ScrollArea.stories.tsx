@@ -58,21 +58,21 @@ type Story = StoryObj<typeof ScrollArea>;
 
 const VerticalContent = () => (
   <div className="padding-16">
-    <p className="size-sm font-body text-default padding-y-4">Item 1</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 2</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 3</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 4</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 5</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 6</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 7</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 8</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 9</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 10</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 11</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 12</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 13</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 14</p>
-    <p className="size-sm font-body text-default padding-y-4">Item 15</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 1</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 2</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 3</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 4</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 5</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 6</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 7</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 8</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 9</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 10</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 11</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 12</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 13</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 14</p>
+    <p className="size-sm font-body text-default padding-y-4">항목 15</p>
   </div>
 );
 

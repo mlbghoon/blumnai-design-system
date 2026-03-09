@@ -16,7 +16,7 @@ const meta: Meta<typeof Input> = {
     variant: {
       control: 'select',
       options: ['tags', 'inline-tags'],
-      description: '입력 필드의 변형을 설정합니다. tags(태그가 입력 필드 내부에 표시), inline-tags(태그가 입력 필드 하단에 표시) 중 선택할 수 있습니다',
+      description: '입력 필드의 변형 (tags: 내부, inline-tags: 하단)',
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'tags' },
@@ -25,7 +25,7 @@ const meta: Meta<typeof Input> = {
     inputStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '입력 필드의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
+      description: '입력 필드의 스타일 변형',
       table: {
         type: {
           summary: 'InputStyle',
@@ -37,7 +37,7 @@ const meta: Meta<typeof Input> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '입력 필드의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
+      description: '입력 필드의 크기',
       table: {
         type: {
           summary: 'InputSize',
@@ -48,42 +48,42 @@ const meta: Meta<typeof Input> = {
     },
     label: {
       control: 'text',
-      description: '입력 필드 위에 표시되는 제목 텍스트입니다',
+      description: '입력 필드의 라벨',
       table: {
         type: { summary: 'string' },
       },
     },
     placeholder: {
       control: 'text',
-      description: '입력 필드가 비어있을 때 표시되는 안내 텍스트입니다',
+      description: '플레이스홀더 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     value: {
       control: 'text',
-      description: '입력 필드에 표시되는 현재 값입니다. 외부에서 값을 제어할 때 사용합니다',
+      description: '입력 필드 값 (제어 컴포넌트)',
       table: {
         type: { summary: 'string' },
       },
     },
     onInputChange: {
       action: 'inputChanged',
-      description: '사용자가 입력 값을 변경할 때마다 호출되는 함수입니다',
+      description: '입력 값 변경 시 콜백',
       table: {
         type: { summary: '(value: string) => void' },
       },
     },
     caption: {
       control: 'text',
-      description: '입력 필드 아래에 표시되는 도움말 텍스트입니다. 사용자에게 입력 방법이나 형식을 안내합니다',
+      description: '입력 필드 아래 설명 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     required: {
       control: 'boolean',
-      description: 'true로 설정하면 필수 입력 항목으로 표시되며, 라벨 옆에 필수 표시(*)가 나타납니다',
+      description: '필수 입력 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -91,7 +91,7 @@ const meta: Meta<typeof Input> = {
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
+      description: '비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -99,28 +99,28 @@ const meta: Meta<typeof Input> = {
     },
     error: {
       control: 'text',
-      description: '에러 메시지를 입력하면 빨간색 테두리와 함께 아래에 에러 메시지가 표시됩니다. true로 설정하면 에러 스타일만 적용됩니다',
+      description: '에러 상태 또는 메시지',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     success: {
       control: 'text',
-      description: '성공 메시지를 입력하면 초록색 테두리와 함께 아래에 성공 메시지가 표시됩니다. true로 설정하면 성공 스타일만 적용됩니다',
+      description: '성공 상태 또는 메시지',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     leadIcon: {
       control: 'object',
-      description: '입력 필드 왼쪽에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 지정합니다',
+      description: '입력 필드 앞에 표시되는 아이콘',
       table: {
         type: { summary: 'IconType' },
       },
     },
     tags: {
       control: 'object',
-      description: '현재 입력된 태그들의 배열입니다. 문자열 배열 형식으로 전달합니다',
+      description: '현재 태그 목록',
       table: {
         type: { summary: 'string[]' },
         defaultValue: { summary: '[]' },
@@ -128,21 +128,21 @@ const meta: Meta<typeof Input> = {
     },
     onTagsChange: {
       action: 'tagsChanged',
-      description: '태그가 추가되거나 삭제될 때 호출되는 함수입니다. 변경된 태그 배열을 인자로 받습니다',
+      description: '태그 목록 변경 시 콜백',
       table: {
         type: { summary: '(tags: string[]) => void' },
       },
     },
     maxTags: {
       control: 'number',
-      description: '입력할 수 있는 최대 태그 개수입니다. 이 개수에 도달하면 더 이상 태그를 추가할 수 없습니다',
+      description: '최대 태그 개수',
       table: {
         type: { summary: 'number' },
       },
     },
     allowDuplicates: {
       control: 'boolean',
-      description: 'true로 설정하면 같은 이름의 태그를 여러 개 추가할 수 있습니다. 기본값은 false(중복 불가)입니다',
+      description: '중복 태그 허용 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -150,7 +150,7 @@ const meta: Meta<typeof Input> = {
     },
     delimiters: {
       control: 'object',
-      description: '태그를 구분하는 키 목록입니다. 기본값은 Enter와 쉼표(,)이며, 해당 키를 누르면 새 태그가 추가됩니다',
+      description: '태그 구분자 키 목록',
       table: {
         type: { summary: 'string[]' },
         defaultValue: { summary: "['Enter', ',']" },
@@ -158,7 +158,7 @@ const meta: Meta<typeof Input> = {
     },
     removable: {
       control: 'boolean',
-      description: 'true로 설정하면 각 태그에 X 버튼이 표시되어 삭제할 수 있습니다. false로 설정하면 태그를 삭제할 수 없습니다',
+      description: '태그 삭제 가능 여부 (닫기 버튼 표시)',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -237,7 +237,7 @@ export const Default: Story = {
   args: {
     variant: 'tags',
     label: '기술 스택',
-    placeholder: '태그를 추가하세요...',
+    placeholder: '태그 추가...',
   },
   parameters: {
     controls: { disable: false },
@@ -256,7 +256,7 @@ export const Tags: Story = {
       <Input
         variant="tags"
         label="태그 (입력 필드 내부)"
-        placeholder="태그를 추가하세요..."
+        placeholder="태그 추가..."
         tags={tags}
         onTagsChange={setTags}
       />
@@ -271,12 +271,12 @@ export const Tags: Story = {
  */
 export const InlineTags: Story = {
   render: function Render() {
-    const [tags, setTags] = useState(['디자인', '개발', '테스팅']);
+    const [tags, setTags] = useState(['디자인', '개발', '테스트']);
     return (
       <Input
         variant="inline-tags"
         label="인라인 태그 (입력 필드 하단)"
-        placeholder="기술을 추가하세요..."
+        placeholder="스킬 추가..."
         tags={tags}
         onTagsChange={setTags}
       />
@@ -295,8 +295,8 @@ export const WithLeadIcon: Story = {
     return (
       <Input
         variant="inline-tags"
-        label="프로그래밍 언어"
-        placeholder="언어를 추가하세요..."
+        label="언어"
+        placeholder="언어 추가..."
         leadIcon={['development', 'code']}
         tags={tags}
         onTagsChange={setTags}
@@ -316,14 +316,14 @@ export const WithLeadIcon: Story = {
  */
 export const MaxTags: Story = {
   render: function Render() {
-    const [tags, setTags] = useState(['하나', '둘', '셋']);
+    const [tags, setTags] = useState(['첫째', '둘째', '셋째']);
     return (
       <Input
         variant="inline-tags"
-        label="태그 제한 (최대 5개)"
-        placeholder="태그를 추가하세요..."
+        label="제한된 태그 (최대 5개)"
+        placeholder="태그 추가..."
         maxTags={5}
-        caption="최대 5개까지 태그를 추가할 수 있습니다"
+        caption="최대 5개의 태그를 추가할 수 있습니다"
         tags={tags}
         onTagsChange={setTags}
       />
@@ -338,14 +338,14 @@ export const MaxTags: Story = {
  */
 export const AllowDuplicates: Story = {
   render: function Render() {
-    const [tags, setTags] = useState(['Tag']);
+    const [tags, setTags] = useState(['태그']);
     return (
       <Input
         variant="inline-tags"
         label="중복 허용"
         placeholder='"태그"를 다시 추가해보세요...'
         allowDuplicates
-        caption="중복 태그를 허용합니다"
+        caption="중복 태그가 허용됩니다"
         tags={tags}
         onTagsChange={setTags}
       />
@@ -365,9 +365,9 @@ export const CustomDelimiters: Story = {
       <Input
         variant="inline-tags"
         label="이메일 주소"
-        placeholder="이메일을 입력하고 Enter 또는 Space를 누르세요..."
+        placeholder="이메일 입력 후 Enter 또는 Space를 누르세요..."
         delimiters={['Enter', ' ']}
-        caption="Enter 또는 Space로 추가"
+        caption="Enter 또는 Space를 눌러 추가하세요"
         tags={tags}
         onTagsChange={setTags}
       />
@@ -384,12 +384,12 @@ export const CustomDelimiters: Story = {
  */
 export const SizeSmall: Story = {
   render: function Render() {
-    const [tags, setTags] = useState(['작은', '태그']);
+    const [tags, setTags] = useState(['작게', '태그']);
     return (
       <Input
         variant="inline-tags"
-        label="Small"
-        placeholder="태그를 추가하세요..."
+        label="작게"
+        placeholder="태그 추가..."
         size="sm"
         tags={tags}
         onTagsChange={setTags}
@@ -403,12 +403,12 @@ export const SizeSmall: Story = {
  */
 export const SizeLarge: Story = {
   render: function Render() {
-    const [tags, setTags] = useState(['큰', '태그']);
+    const [tags, setTags] = useState(['크게', '태그']);
     return (
       <Input
         variant="inline-tags"
-        label="Large"
-        placeholder="태그를 추가하세요..."
+        label="크게"
+        placeholder="태그 추가..."
         size="lg"
         tags={tags}
         onTagsChange={setTags}
@@ -430,8 +430,8 @@ export const StateDefault: Story = {
     return (
       <Input
         variant="inline-tags"
-        label="Default"
-        placeholder="태그를 추가하세요..."
+        label="기본"
+        placeholder="태그 추가..."
         tags={tags}
         onTagsChange={setTags}
       />
@@ -444,12 +444,12 @@ export const StateDefault: Story = {
  */
 export const StateDisabled: Story = {
   render: function Render() {
-    const [tags, setTags] = useState(['비활성화']);
+    const [tags, setTags] = useState(['비활성']);
     return (
       <Input
         variant="inline-tags"
-        label="Disabled"
-        placeholder="태그를 추가하세요..."
+        label="비활성"
+        placeholder="태그 추가..."
         disabled
         tags={tags}
         onTagsChange={setTags}
@@ -463,12 +463,12 @@ export const StateDisabled: Story = {
  */
 export const StateError: Story = {
   render: function Render() {
-    const [tags, setTags] = useState(['에러']);
+    const [tags, setTags] = useState(['오류']);
     return (
       <Input
         variant="inline-tags"
-        label="Error"
-        placeholder="태그를 추가하세요..."
+        label="오류"
+        placeholder="태그 추가..."
         error="최소 3개의 태그가 필요합니다"
         tags={tags}
         onTagsChange={setTags}
@@ -486,9 +486,9 @@ export const StateSuccess: Story = {
     return (
       <Input
         variant="inline-tags"
-        label="Success"
-        placeholder="태그를 추가하세요..."
-        success="태그가 검증되었습니다"
+        label="성공"
+        placeholder="태그 추가..."
+        success="태그가 유효합니다"
         tags={tags}
         onTagsChange={setTags}
       />
@@ -509,7 +509,7 @@ export const Empty: Story = {
         variant="inline-tags"
         label="태그"
         placeholder="입력 후 Enter를 눌러 태그를 추가하세요..."
-        caption="쉼표 또는 Enter로 태그를 구분합니다"
+        caption="쉼표 또는 Enter로 태그를 구분하세요"
         tags={tags}
         onTagsChange={setTags}
       />
@@ -529,7 +529,7 @@ export const NonRemovable: Story = {
       <Input
         variant="tags"
         label="삭제 불가 태그"
-        placeholder="태그를 추가하세요..."
+        placeholder="태그 추가..."
         removable={false}
         tags={tags}
         onTagsChange={() => {}}

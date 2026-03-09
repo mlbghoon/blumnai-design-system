@@ -30,28 +30,28 @@ const meta: Meta<DropdownMenuAvatarProps> = {
   argTypes: {
     label: {
       control: 'text',
-      description: '아바타 아이템에 표시되는 텍스트 라벨입니다. 사용자 이름이나 항목명을 설정합니다',
+      description: '아이템 라벨',
       table: {
         type: { summary: 'string' },
       },
     },
     avatarSrc: {
       control: 'text',
-      description: '아바타에 표시할 이미지의 URL입니다. 설정하지 않으면 avatarAlt의 이니셜이 표시됩니다',
+      description: '아바타 이미지 URL',
       table: {
         type: { summary: 'string' },
       },
     },
     avatarAlt: {
       control: 'text',
-      description: '아바타 이미지의 대체 텍스트입니다. 이미지가 없을 때 첫 글자가 이니셜로 표시됩니다',
+      description: '아바타 대체 텍스트 (이미지가 없을 때 이니셜로 표시)',
       table: {
         type: { summary: 'string' },
       },
     },
     tailIcon: {
       control: 'object',
-      description: '아이템 오른쪽에 표시되는 아이콘입니다. 서브메뉴 화살표나 상태 표시에 주로 사용합니다',
+      description: '뒤에 표시되는 아이콘',
       table: {
         type: {
           summary: 'IconType',
@@ -67,21 +67,21 @@ const meta: Meta<DropdownMenuAvatarProps> = {
     },
     caption: {
       control: 'text',
-      description: '라벨 오른쪽에 표시되는 보조 텍스트입니다. 온라인 상태나 역할 등을 표시합니다',
+      description: '캡션 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     shortcut: {
       control: 'text',
-      description: '아이템 우측에 표시되는 키보드 단축키 텍스트입니다',
+      description: '단축키 표시',
       table: {
         type: { summary: 'string' },
       },
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 아이템이 비활성화되어 클릭할 수 없고 흐릿하게 표시됩니다',
+      description: '비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -90,14 +90,14 @@ const meta: Meta<DropdownMenuAvatarProps> = {
     iconColor: {
       control: 'select',
       options: ['default', 'default-subtle', 'success', 'warning', 'destructive', 'informative'],
-      description: '아이콘의 색상입니다. 상태를 시각적으로 나타내는 데 사용합니다 (예: success는 녹색, destructive는 빨간색)',
+      description: '아이콘 색상',
       table: {
         type: { summary: 'IconColor' },
       },
     },
     onClick: {
       action: 'clicked',
-      description: '아이템을 클릭했을 때 호출되는 콜백 함수입니다',
+      description: '클릭 이벤트 핸들러',
       table: {
         type: { summary: '() => void' },
       },
@@ -156,7 +156,7 @@ export const Default: Story = {
             disabled={args.disabled}
             tailIcon={args.tailIcon}
             iconColor={args.iconColor}
-            onClick={() => console.log('Clicked:', args.label)}
+            onClick={() => console.log('클릭:', args.label)}
           />
           <DropdownMenuAvatar
             label="이영희"
@@ -326,7 +326,7 @@ export const MenuButtonItem: Story = {
           <DropdownMenuButton
             label="새 워크스페이스 만들기"
             leadIcon={['system', 'add']}
-            onClick={() => console.log('Button clicked')}
+            onClick={() => console.log('버튼 클릭')}
           />
         </DropdownMenuContent>
       </DropdownMenu>
@@ -344,7 +344,7 @@ export const ButtonGroup: Story = {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button buttonStyle="secondary">작업</Button>
+          <Button buttonStyle="secondary">동작</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>작업</DropdownMenuLabel>
@@ -374,7 +374,7 @@ export const Search: Story = {
   render: function Render() {
     const [searchValue, setSearchValue] = useState('');
 
-    const items = ['사과', '바나나', '체리', '대추', '블루베리'];
+    const items = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'];
     const filteredItems = items.filter((item) =>
       item.toLowerCase().includes(searchValue.toLowerCase())
     );
@@ -397,7 +397,7 @@ export const Search: Story = {
             </DropdownMenuItem>
           ))}
           {filteredItems.length === 0 && (
-            <DropdownMenuCaption>검색 결과가 없습니다</DropdownMenuCaption>
+            <DropdownMenuCaption>결과 없음</DropdownMenuCaption>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
@@ -448,7 +448,7 @@ export const AllVariants: Story = {
             description="kim@example.com"
             avatarSrc="https://i.pravatar.cc/40?img=7"
             avatarAlt="김철수"
-            badge="Admin"
+            badge="관리자"
             badgeColor="blue"
           />
           <DropdownMenuSeparator />

@@ -16,35 +16,35 @@ const meta: Meta<ConfirmDialogProps> = {
   argTypes: {
     open: {
       control: 'boolean',
-      description: '다이얼로그의 열림/닫힘 상태를 제어합니다. onOpenChange와 함께 사용하여 외부에서 상태를 관리합니다',
+      description: '다이얼로그 열림 상태',
       table: {
         type: { summary: 'boolean' },
       },
     },
     onOpenChange: {
       action: 'openChange',
-      description: '다이얼로그가 열리거나 닫힐 때 호출되는 콜백 함수입니다. open prop과 함께 사용하여 상태를 동기화합니다',
+      description: '열림 상태 변경 핸들러',
       table: {
         type: { summary: '(open: boolean) => void' },
       },
     },
     title: {
       control: 'text',
-      description: '다이얼로그 상단에 굵게 표시되는 제목 텍스트입니다. 사용자에게 확인할 내용을 명확히 전달합니다',
+      description: '다이얼로그 제목',
       table: {
         type: { summary: 'string' },
       },
     },
     description: {
       control: 'text',
-      description: '제목 아래에 표시되는 보조 설명 텍스트입니다. 생략할 수 있으며, 작업의 결과나 주의사항을 안내합니다',
+      description: '다이얼로그 설명 (선택)',
       table: {
         type: { summary: 'string' },
       },
     },
     confirmLabel: {
       control: 'text',
-      description: '확인 버튼에 표시되는 텍스트입니다. 기본값은 "확인"이며, "삭제", "저장" 등 상황에 맞게 변경할 수 있습니다',
+      description: '확인 버튼 텍스트',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '확인' },
@@ -52,7 +52,7 @@ const meta: Meta<ConfirmDialogProps> = {
     },
     cancelLabel: {
       control: 'text',
-      description: '취소 버튼에 표시되는 텍스트입니다. 기본값은 "취소"이며, 상황에 맞게 변경할 수 있습니다',
+      description: '취소 버튼 텍스트',
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '취소' },
@@ -61,7 +61,7 @@ const meta: Meta<ConfirmDialogProps> = {
     variant: {
       control: 'select',
       options: ['default', 'destructive'],
-      description: '확인 버튼의 스타일을 설정합니다. default(기본 파란색), destructive(위험한 작업용 빨간색) 중 선택할 수 있습니다',
+      description: '확인 버튼 스타일',
       table: {
         type: {
           summary: 'ConfirmDialogVariant',
@@ -72,28 +72,28 @@ const meta: Meta<ConfirmDialogProps> = {
     },
     onConfirm: {
       action: 'confirm',
-      description: '사용자가 확인 버튼을 클릭했을 때 호출되는 콜백 함수입니다. Promise를 반환하면 완료될 때까지 로딩 상태가 표시됩니다',
+      description: '확인 버튼 클릭 핸들러 (Promise 지원)',
       table: {
         type: { summary: '() => void | Promise<void>' },
       },
     },
     onCancel: {
       action: 'cancel',
-      description: '사용자가 취소 버튼을 클릭했을 때 호출되는 콜백 함수입니다',
+      description: '취소 버튼 클릭 핸들러',
       table: {
         type: { summary: '() => void' },
       },
     },
     width: {
       control: 'text',
-      description: '다이얼로그의 너비를 직접 지정합니다. 숫자, px, % 등 다양한 형식을 사용할 수 있습니다 (예: "400", "500px", "80%")',
+      description: '다이얼로그 너비 (예: "400", "500px", "80%")',
       table: {
         type: { summary: 'string | number' },
       },
     },
     loading: {
       control: 'boolean',
-      description: 'true로 설정하면 로딩 상태가 되어 확인 버튼이 비활성화되고 로딩 인디케이터가 표시됩니다',
+      description: '로딩 상태 (확인 버튼 비활성화)',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -101,7 +101,7 @@ const meta: Meta<ConfirmDialogProps> = {
     },
     confirmDisabled: {
       control: 'boolean',
-      description: 'true로 설정하면 확인 버튼이 비활성화됩니다. 특정 조건이 충족될 때까지 확인을 막는 데 유용합니다',
+      description: '확인 버튼 비활성화',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -139,7 +139,7 @@ export const Default: Story = {
     return (
       <>
         <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
-          확인 다이얼로그 열기
+          ConfirmDialog 열기
         </Button>
         <ConfirmDialog
           open={open}
@@ -152,8 +152,8 @@ export const Default: Story = {
           width={args.width}
           loading={args.loading}
           confirmDisabled={args.confirmDisabled}
-          onConfirm={() => console.log('Confirmed!')}
-          onCancel={() => console.log('Cancelled!')}
+          onConfirm={() => console.log('확인됨!')}
+          onCancel={() => console.log('취소됨!')}
         />
       </>
     );
@@ -183,7 +183,7 @@ export const Destructive: Story = {
           confirmLabel="계정 삭제"
           cancelLabel="취소"
           variant="destructive"
-          onConfirm={() => console.log('Account deleted!')}
+          onConfirm={() => console.log('계정 삭제됨!')}
         />
       </>
     );
@@ -202,7 +202,7 @@ export const WithAsyncAction: Story = {
 
     const handleConfirm = async () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log('Async action completed!');
+      console.log('비동기 작업 완료!');
     };
 
     return (
@@ -236,17 +236,17 @@ export const CustomLabels: Story = {
     return (
       <>
         <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
-          변경사항 폐기
+          변경사항 취소
         </Button>
         <ConfirmDialog
           open={open}
           onOpenChange={setOpen}
-          title="저장하지 않은 변경사항을 폐기하시겠습니까?"
-          description="저장하지 않은 변경사항이 있습니다. 지금 나가면 변경사항이 사라집니다."
-          confirmLabel="폐기"
+          title="저장되지 않은 변경사항을 취소하시겠습니까?"
+          description="저장되지 않은 변경사항이 있습니다. 지금 나가면 변경사항이 사라집니다."
+          confirmLabel="취소하기"
           cancelLabel="계속 편집"
           variant="destructive"
-          onConfirm={() => console.log('Changes discarded!')}
+          onConfirm={() => console.log('변경사항 취소됨!')}
         />
       </>
     );
@@ -266,7 +266,7 @@ export const AllVariants: Story = {
     return (
       <div className="flex ds-gap-12">
         <Button buttonStyle="primary" onClick={() => setOpenDefault(true)}>
-          Default
+          기본
         </Button>
         <ConfirmDialog
           open={openDefault}
@@ -277,7 +277,7 @@ export const AllVariants: Story = {
         />
 
         <Button buttonStyle="destructive" onClick={() => setOpenDestructive(true)}>
-          Destructive
+          위험
         </Button>
         <ConfirmDialog
           open={openDestructive}

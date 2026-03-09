@@ -42,7 +42,7 @@ const meta: Meta<SidebarStoryProps> = {
   argTypes: {
     open: {
       control: 'boolean',
-      description: 'true로 설정하면 사이드바가 펼쳐진 상태로 표시됩니다. false로 설정하면 축소된 상태로 표시됩니다',
+      description: '열림 상태',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -51,7 +51,7 @@ const meta: Meta<SidebarStoryProps> = {
     side: {
       control: 'select',
       options: ['left', 'right'],
-      description: '사이드바가 화면의 어느 쪽에 위치할지 설정합니다. left(왼쪽) 또는 right(오른쪽) 중 선택합니다',
+      description: '사이드바 위치',
       table: {
         type: { summary: 'Side', detail: '"left" | "right"' },
         defaultValue: { summary: 'left' },
@@ -60,7 +60,7 @@ const meta: Meta<SidebarStoryProps> = {
     variant: {
       control: 'select',
       options: ['sidebar', 'floating', 'inset'],
-      description: '사이드바의 시각적 스타일을 설정합니다. sidebar(기본 고정형), floating(떠있는 형태), inset(내부 삽입형) 중 선택합니다',
+      description: '사이드바 스타일 변형',
       table: {
         type: { summary: 'Variant', detail: '"sidebar" | "floating" | "inset"' },
         defaultValue: { summary: 'sidebar' },
@@ -69,7 +69,7 @@ const meta: Meta<SidebarStoryProps> = {
     collapsible: {
       control: 'select',
       options: ['offcanvas', 'icon', 'none'],
-      description: '사이드바 축소 방식을 설정합니다. offcanvas(화면 밖으로 슬라이드), icon(아이콘만 표시), none(축소 불가) 중 선택합니다',
+      description: '축소 모드',
       table: {
         type: { summary: 'Collapsible', detail: '"offcanvas" | "icon" | "none"' },
         defaultValue: { summary: 'offcanvas' },
@@ -77,7 +77,7 @@ const meta: Meta<SidebarStoryProps> = {
     },
     showRail: {
       control: 'boolean',
-      description: 'true로 설정하면 사이드바 가장자리에 보이지 않는 터치 영역(레일)이 추가됩니다. 호버 시 선이 표시되고 클릭하면 사이드바가 토글됩니다',
+      description: '레일 토글 표시 (가장자리 터치 영역)',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -85,7 +85,7 @@ const meta: Meta<SidebarStoryProps> = {
     },
     showToggleButton: {
       control: 'boolean',
-      description: 'true로 설정하면 사이드바 가장자리에 원형 토글 버튼이 표시됩니다. 호버 시 나타나며 클릭하면 사이드바가 토글됩니다',
+      description: '토글 버튼 표시 (가장자리 원형 버튼)',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -94,7 +94,7 @@ const meta: Meta<SidebarStoryProps> = {
     toggleButtonPosition: {
       control: 'select',
       options: ['top', 'center', 'bottom'],
-      description: '토글 버튼의 세로 위치를 프리셋으로 설정합니다. top(상단), center(중앙), bottom(하단) 중 선택합니다',
+      description: '토글 버튼 위치 (프리셋)',
       table: {
         type: { summary: 'ToggleButtonPosition', detail: '"top" | "center" | "bottom"' },
         defaultValue: { summary: 'center' },
@@ -102,7 +102,7 @@ const meta: Meta<SidebarStoryProps> = {
     },
     toggleButtonOffset: {
       control: 'text',
-      description: '토글 버튼의 세로 위치를 커스텀 값으로 직접 지정합니다. 숫자(px), 퍼센트("50%"), rem("10rem") 등의 값을 사용할 수 있습니다',
+      description: '토글 버튼 커스텀 위치 (예: 100, "50%", "10rem")',
       table: {
         type: { summary: 'number | string' },
       },
@@ -115,8 +115,8 @@ type Story = StoryObj<SidebarStoryProps>;
 
 const menuItems = [
   { icon: ['buildings', 'home'] as const, label: '대시보드', isActive: true },
-  { icon: ['business', 'bar-chart'] as const, label: '분석' },
-  { icon: ['user', 'group'] as const, label: '사용자' },
+  { icon: ['business', 'bar-chart'] as const, label: 'Analytics' },
+  { icon: ['user', 'group'] as const, label: 'Users' },
   { icon: ['system', 'settings'] as const, label: '설정' },
 ];
 
@@ -190,11 +190,11 @@ export const Default: Story = {
       <SidebarInset>
         <header className="flex items-center ds-gap-8 padding-16 border-b-default">
           <SidebarTrigger />
-          <span className="font-body size-sm font-medium">사이드바 데모</span>
+          <span className="font-body size-sm font-medium">Sidebar Demo</span>
         </header>
         <main className="flex-1 padding-16">
           <p className="font-body size-sm text-muted">
-            Cmd+B (또는 Ctrl+B)로 사이드바를 토글할 수 있습니다.
+            Use Cmd+B (or Ctrl+B) to toggle the sidebar.
           </p>
         </main>
       </SidebarInset>
@@ -242,7 +242,7 @@ export const Header: Story = {
           <SidebarSeparator />
           <div className="padding-16">
             <p className="font-body size-xs text-muted">
-              SidebarHeader는 사이드바 상단에 위치합니다.
+              SidebarHeader sits at the top of the sidebar.
             </p>
           </div>
         </div>
@@ -263,7 +263,7 @@ export const Content: Story = {
         <div className="w-[280px] h-[400px] border-default rounded-md flex flex-col">
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>메뉴</SidebarGroupLabel>
+              <SidebarGroupLabel>Menu</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {[...menuItems, ...menuItems, ...menuItems].map((item, i) => (
@@ -297,7 +297,7 @@ export const Footer: Story = {
         <div className="w-[280px] border-default rounded-md">
           <div className="padding-16">
             <p className="font-body size-xs text-muted">
-              메인 콘텐츠 영역...
+              Main content area...
             </p>
           </div>
           <SidebarSeparator />
@@ -306,7 +306,7 @@ export const Footer: Story = {
               <SidebarMenuItem
                 variant="default"
                 icon={['system', 'logout-box']}
-                label="로그아웃"
+                label="Log out"
               />
             </SidebarMenu>
           </SidebarFooter>
@@ -350,12 +350,12 @@ export const Inset: Story = {
         <SidebarInset>
           <header className="flex items-center ds-gap-8 padding-16 border-b-default">
             <SidebarTrigger />
-            <span className="font-body size-sm font-medium">SidebarInset 데모</span>
+            <span className="font-body size-sm font-medium">SidebarInset Demo</span>
           </header>
           <main className="flex-1 padding-16">
             <div className="border-default border-dashed rounded-md padding-24 text-center">
               <p className="font-body size-sm text-muted">
-                SidebarInset은 사이드바 옆의 메인 콘텐츠 영역입니다.
+                SidebarInset is the main content area next to the sidebar.
               </p>
             </div>
           </main>
@@ -399,11 +399,11 @@ export const Trigger: Story = {
         <SidebarInset>
           <header className="flex items-center ds-gap-8 padding-16 border-b-default">
             <SidebarTrigger />
-            <span className="font-body size-sm font-medium">트리거를 클릭하세요!</span>
+            <span className="font-body size-sm font-medium">Click the trigger!</span>
           </header>
           <main className="flex-1 padding-16">
             <p className="font-body size-sm text-muted">
-              SidebarTrigger로 사이드바를 토글합니다. Cmd+B 키보드 단축키도 지원합니다.
+              SidebarTrigger toggles the sidebar. Also supports Cmd+B keyboard shortcut.
             </p>
           </main>
         </SidebarInset>
@@ -447,12 +447,12 @@ export const Rail: Story = {
         <SidebarInset>
           <header className="flex items-center ds-gap-8 padding-16 border-b-default">
             <SidebarTrigger />
-            <span className="font-body size-sm font-medium">가장자리에 호버하세요!</span>
+            <span className="font-body size-sm font-medium">Hover the edge!</span>
           </header>
           <main className="flex-1 padding-16">
             <p className="font-body size-sm text-muted">
-              SidebarRail은 사이드바 가장자리에 클릭/호버 가능한 영역을 추가합니다.
-              사이드바 오른쪽 가장자리에 마우스를 올려보세요.
+              SidebarRail adds a clickable/hoverable edge to toggle the sidebar.
+              Hover over the right edge of the sidebar to see it.
             </p>
           </main>
         </SidebarInset>
@@ -495,13 +495,13 @@ export const ToggleButton: Story = {
         <SidebarInset>
           <header className="flex items-center ds-gap-8 padding-16 border-b-default">
             <SidebarTrigger />
-            <span className="font-body size-sm font-medium">토글 버튼 데모</span>
+            <span className="font-body size-sm font-medium">Toggle Button Demo</span>
           </header>
           <main className="flex-1 padding-16">
             <p className="font-body size-sm text-muted">
-              showToggleButton으로 사이드바 가장자리에 토글 버튼을 추가합니다.
-              toggleButtonPosition은 "top", "center", "bottom" 중 선택할 수 있습니다.
-              toggleButtonOffset으로 커스텀 위치를 지정할 수 있습니다.
+              showToggleButton adds a visible toggle button at the sidebar edge.
+              toggleButtonPosition can be "top", "center", or "bottom".
+              toggleButtonOffset can be used for custom pixel positioning.
             </p>
           </main>
         </SidebarInset>
@@ -553,11 +553,11 @@ export const ToggleButtonCustomIcon: Story = {
         <SidebarInset>
           <header className="flex items-center ds-gap-8 padding-16 border-b-default">
             <SidebarTrigger />
-            <span className="font-body size-sm font-medium">커스텀 토글 아이콘</span>
+            <span className="font-body size-sm font-medium">Custom Toggle Icon</span>
           </header>
           <main className="flex-1 padding-16">
             <p className="font-body size-sm text-muted">
-              toggleButtonIcon prop으로 토글 버튼에 커스텀 React 노드를 제공할 수 있습니다.
+              Use toggleButtonIcon prop to provide a custom React node for the toggle button.
             </p>
           </main>
         </SidebarInset>

@@ -15,7 +15,7 @@ const meta: Meta<typeof Collapsible> = {
   argTypes: {
     defaultOpen: {
       control: 'boolean',
-      description: 'true로 설정하면 컴포넌트가 초기에 펼쳐진 상태로 렌더링됩니다',
+      description: '초기 열림 상태',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -23,7 +23,7 @@ const meta: Meta<typeof Collapsible> = {
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 컴포넌트가 비활성화되어 접거나 펼 수 없습니다',
+      description: '비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -63,7 +63,7 @@ export const Default: Story = {
         className={`w-[300px] ${args.disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
         <div className="flex items-center justify-between padding-12 rounded-md border-default">
-          <span className="size-sm font-body font-medium">콘텐츠 토글</span>
+          <span className="size-sm font-body font-medium">내용 접기/펼치기</span>
           <CollapsibleTrigger asChild>
             <button
               className={`padding-4 rounded-md hover:bg-muted/50 transition-colors ${args.disabled ? 'pointer-events-none' : ''}`}
@@ -80,8 +80,7 @@ export const Default: Story = {
         <CollapsibleContent>
           <div className="padding-12 margin-t-16 rounded-md border-default bg-muted/30">
             <p className="size-sm font-body text-muted line-height-leading-5">
-              이 콘텐츠는 접거나 펼 수 있습니다. 토글 시 부드러운 애니메이션이
-              적용됩니다.
+              이 콘텐츠는 접고 펼 수 있습니다. 가시성을 전환할 때 부드럽게 애니메이션됩니다.
             </p>
           </div>
         </CollapsibleContent>
@@ -107,7 +106,7 @@ export const MultipleItems: Story = {
       >
         <div className="flex items-center justify-between padding-12 rounded-md border-default">
           <span className="size-sm font-body font-medium">
-            @peduarte가 3개의 저장소에 스타를 눌렀습니다
+            @peduarte가 3개의 저장소에 별을 달았습니다
           </span>
           <CollapsibleTrigger asChild>
             <button className="padding-4 rounded-md hover:bg-muted/50 transition-colors">

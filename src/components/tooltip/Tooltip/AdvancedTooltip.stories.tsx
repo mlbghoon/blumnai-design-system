@@ -17,7 +17,7 @@ const meta: Meta<typeof AdvancedTooltip> = {
   argTypes: {
     items: {
       control: 'object',
-      description: '툴팁에 표시할 아이템 배열입니다. 각 아이템은 label(제목), item(데이터 항목), divider(구분선), text(일반 텍스트) 중 하나의 타입을 가집니다',
+      description: '툴팁에 표시할 아이템 배열',
       table: {
         type: {
           summary: 'TooltipItemData[]',
@@ -27,7 +27,7 @@ const meta: Meta<typeof AdvancedTooltip> = {
     },
     minWidth: {
       control: 'number',
-      description: '툴팁의 최소 너비를 픽셀 단위로 설정합니다. 콘텐츠가 짧더라도 이 너비 이상으로 표시됩니다',
+      description: '툴팁의 최소 너비 (픽셀)',
       table: {
         type: { summary: 'number' },
       },
@@ -48,13 +48,13 @@ type Story = StoryObj<typeof AdvancedTooltip>;
 export const Default: Story = {
   args: {
     items: [
-      { type: 'label', label: '제목', caption: '부제목' },
+      { type: 'label', label: '레이블', caption: '캡션' },
       { type: 'divider' },
       { type: 'item', label: '항목 1', caption: '설명 1', indicatorColor: '#437dfc' },
       { type: 'item', label: '항목 2', caption: '설명 2', indicatorColor: '#4fc660' },
       { type: 'item', label: '항목 3', caption: '설명 3', indicatorColor: '#f38f36' },
       { type: 'divider' },
-      { type: 'text', text: '다람쥐 헌 쳇바퀴에 타고파.' },
+      { type: 'text', text: '간단한 텍스트 콘텐츠입니다.' },
     ] as TooltipItemData[],
     className: '',
   },
@@ -83,7 +83,7 @@ export const WithDividers: Story = {
       items={[
         { type: 'label', label: '섹션 1' },
         { type: 'divider' },
-        { type: 'item', label: '항목', caption: '설명', indicatorColor: '#437dfc' },
+        { type: 'item', label: '항목', caption: '캡션', indicatorColor: '#437dfc' },
         { type: 'divider' },
         { type: 'text', text: '일반 텍스트 콘텐츠' },
       ] as TooltipItemData[]}
@@ -95,13 +95,13 @@ export const WithIcons: Story = {
   render: () => (
     <AdvancedTooltip
       items={[
-        { type: 'label', label: '작업', caption: '사용 가능' },
+        { type: 'label', label: '액션', caption: '사용 가능' },
         { type: 'divider' },
         { type: 'item', label: '설정', caption: '구성하기', icon: ['system', 'settings'] },
         { type: 'item', label: '검색', caption: '항목 찾기', icon: ['system', 'search'] },
-        { type: 'item', label: '새로 만들기', caption: '항목 생성', icon: ['system', 'add'] },
+        { type: 'item', label: '새로 추가', caption: '항목 만들기', icon: ['system', 'add'] },
         { type: 'divider' },
-        { type: 'text', text: '진행할 작업을 선택하세요.' },
+        { type: 'text', text: '계속하려면 액션을 선택하세요.' },
       ] as TooltipItemData[]}
     />
   ),

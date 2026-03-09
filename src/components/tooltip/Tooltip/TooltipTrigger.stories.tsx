@@ -15,21 +15,21 @@ const meta: Meta<typeof TooltipTrigger> = {
   argTypes: {
     children: {
       control: false,
-      description: '마우스를 올리면 툴팁이 표시되는 트리거 요소입니다. 버튼, 아이콘 등 React 엘리먼트를 전달합니다',
+      description: '툴팁을 트리거하는 요소',
       table: {
         type: { summary: 'ReactElement' },
       },
     },
     content: {
       control: 'text',
-      description: '툴팁에 표시할 내용입니다. 간단한 텍스트 문자열 또는 AdvancedTooltip 같은 React 컴포넌트를 전달할 수 있습니다',
+      description: '툴팁에 표시할 내용 (문자열 또는 ReactNode)',
       table: {
         type: { summary: 'ReactNode' },
       },
     },
     badge: {
       control: 'text',
-      description: '툴팁 텍스트 옆에 작은 배지로 표시되는 텍스트입니다. 키보드 단축키를 표시할 때 유용합니다 (예: "/")',
+      description: '배지 텍스트 (간단한 Tooltip과 함께 사용)',
       table: {
         type: { summary: 'string' },
       },
@@ -37,7 +37,7 @@ const meta: Meta<typeof TooltipTrigger> = {
     placement: {
       control: 'select',
       options: ['top', 'bottom', 'left', 'right', 'top-start', 'top-end', 'bottom-start', 'bottom-end'],
-      description: '트리거 요소를 기준으로 툴팁이 나타나는 위치를 설정합니다. top(위), bottom(아래), left(왼쪽), right(오른쪽) 및 세부 정렬을 선택할 수 있습니다',
+      description: '툴팁 위치',
       table: {
         type: { summary: 'Placement' },
         defaultValue: { summary: 'top' },
@@ -45,7 +45,7 @@ const meta: Meta<typeof TooltipTrigger> = {
     },
     delay: {
       control: 'number',
-      description: '마우스를 올린 후 툴팁이 나타나기까지의 지연 시간을 밀리초(ms) 단위로 설정합니다',
+      description: '호버 지연 시간 (ms)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '200' },
@@ -53,7 +53,7 @@ const meta: Meta<typeof TooltipTrigger> = {
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 마우스를 올려도 툴팁이 표시되지 않습니다',
+      description: '툴팁 비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -61,7 +61,7 @@ const meta: Meta<typeof TooltipTrigger> = {
     },
     maxWidth: {
       control: 'number',
-      description: '툴팁의 최대 너비를 픽셀 단위로 설정합니다. 기본값은 240px이며, 넓은 콘텐츠가 필요한 경우 값을 늘릴 수 있습니다',
+      description: '툴팁 최대 너비 (px)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '240' },
@@ -92,7 +92,7 @@ export const Default: Story = {
   render: function Render(args) {
     return (
       <TooltipTrigger {...args}>
-        <Button buttonStyle="secondary">마우스를 올려보세요</Button>
+        <Button buttonStyle="secondary">호버하세요</Button>
       </TooltipTrigger>
     );
   },
@@ -118,19 +118,19 @@ export const Placements: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-24 items-center">
       <div className="flex ds-gap-16">
-        <TooltipTrigger content="위쪽 위치" placement="top">
-          <Button buttonStyle="secondary">Top</Button>
+        <TooltipTrigger content="상단 위치" placement="top">
+          <Button buttonStyle="secondary">상단</Button>
         </TooltipTrigger>
-        <TooltipTrigger content="아래쪽 위치" placement="bottom">
-          <Button buttonStyle="secondary">Bottom</Button>
+        <TooltipTrigger content="하단 위치" placement="bottom">
+          <Button buttonStyle="secondary">하단</Button>
         </TooltipTrigger>
       </div>
       <div className="flex ds-gap-16">
-        <TooltipTrigger content="왼쪽 위치" placement="left">
-          <Button buttonStyle="secondary">Left</Button>
+        <TooltipTrigger content="좌측 위치" placement="left">
+          <Button buttonStyle="secondary">좌측</Button>
         </TooltipTrigger>
-        <TooltipTrigger content="오른쪽 위치" placement="right">
-          <Button buttonStyle="secondary">Right</Button>
+        <TooltipTrigger content="우측 위치" placement="right">
+          <Button buttonStyle="secondary">우측</Button>
         </TooltipTrigger>
       </div>
     </div>
@@ -148,7 +148,7 @@ export const WideTooltip: Story = {
       <TooltipTrigger content="기본 너비 툴팁 (240px)" maxWidth={240}>
         <Button buttonStyle="secondary">기본 (240px)</Button>
       </TooltipTrigger>
-      <TooltipTrigger content="테이블 셀용 넓은 툴팁 (400px) — 긴 콘텐츠 표시에 유용합니다" maxWidth={400}>
+      <TooltipTrigger content="테이블 셀용 넓은 툴팁 (400px) — 긴 콘텐츠 표시에 유용합니다." maxWidth={400}>
         <Button buttonStyle="secondary">넓게 (400px)</Button>
       </TooltipTrigger>
     </div>
@@ -166,11 +166,11 @@ export const WithAdvancedContent: Story = {
       content={
         <AdvancedTooltip
           items={[
-            { type: 'label', label: '매출 현황' },
+            { type: 'label', label: '매출 개요' },
             { type: 'divider' },
-            { type: 'item', label: '매출', caption: '₩12,500,000', indicatorColor: '#3b82f6' },
-            { type: 'item', label: '수익', caption: '₩4,200,000', indicatorColor: '#22c55e' },
-            { type: 'item', label: '비용', caption: '₩8,300,000', indicatorColor: '#ef4444' },
+            { type: 'item', label: '매출액', caption: '$12,500', indicatorColor: '#3b82f6' },
+            { type: 'item', label: '순이익', caption: '$4,200', indicatorColor: '#22c55e' },
+            { type: 'item', label: '지출', caption: '$8,300', indicatorColor: '#ef4444' },
           ]}
         />
       }
@@ -185,7 +185,7 @@ export const WithAdvancedContent: Story = {
  */
 export const Disabled: Story = {
   render: () => (
-    <TooltipTrigger content="이 툴팁은 비활성화되었습니다" disabled>
+    <TooltipTrigger content="이 툴팁은 비활성화되어 있습니다." disabled>
       <Button buttonStyle="secondary">비활성화된 툴팁</Button>
     </TooltipTrigger>
   ),
@@ -197,13 +197,13 @@ export const Disabled: Story = {
 export const CustomDelay: Story = {
   render: () => (
     <div className="flex ds-gap-16">
-      <TooltipTrigger content="즉시 (0ms)" delay={0}>
+      <TooltipTrigger content="즉시 표시 (0ms)" delay={0}>
         <Button buttonStyle="secondary">지연 없음</Button>
       </TooltipTrigger>
-      <TooltipTrigger content="기본 (200ms)" delay={200}>
+      <TooltipTrigger content="기본 지연 (200ms)" delay={200}>
         <Button buttonStyle="secondary">기본 지연</Button>
       </TooltipTrigger>
-      <TooltipTrigger content="느리게 (500ms)" delay={500}>
+      <TooltipTrigger content="느린 지연 (500ms)" delay={500}>
         <Button buttonStyle="secondary">느린 지연</Button>
       </TooltipTrigger>
     </div>

@@ -169,7 +169,7 @@ type Story = StoryObj<SliderProps>;
 export const Default: Story = {
   args: {
     color: 'gray',
-    label: 'Volume',
+    label: '볼륨',
     showValue: true,
     min: 0,
     max: 100,
@@ -218,7 +218,7 @@ export const WithLabelAndValue: Story = {
     return (
       <div style={{ width: 320 }}>
         <Slider
-          label="Brightness"
+          label="밝기"
           showValue
           value={value}
           onChange={setValue}
@@ -238,7 +238,7 @@ export const CustomRange: Story = {
     return (
       <div style={{ width: 320 }}>
         <Slider
-          label="Temperature"
+          label="온도"
           showValue
           min={0}
           max={50}
@@ -260,7 +260,7 @@ export const Disabled: Story = {
     return (
       <div style={{ width: 320 }}>
         <Slider
-          label="Disabled Slider"
+          label="비활성화 슬라이더"
           showValue
           defaultValue={50}
           disabled
@@ -294,12 +294,12 @@ export const Colors: Story = {
   render: function Render() {
     return (
       <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
-        <Slider color="gray" label="Gray (Default)" showValue defaultValue={50} />
-        <Slider color="brand" label="Brand" showValue defaultValue={50} />
-        <Slider color="blue" label="Blue" showValue defaultValue={50} />
-        <Slider color="green" label="Green" showValue defaultValue={50} />
-        <Slider color="red" label="Red" showValue defaultValue={50} />
-        <Slider color="violet" label="Violet" showValue defaultValue={50} />
+        <Slider color="gray" label="회색 (기본)" showValue defaultValue={50} />
+        <Slider color="brand" label="브랜드" showValue defaultValue={50} />
+        <Slider color="blue" label="파랑" showValue defaultValue={50} />
+        <Slider color="green" label="초록" showValue defaultValue={50} />
+        <Slider color="red" label="빨강" showValue defaultValue={50} />
+        <Slider color="violet" label="보라" showValue defaultValue={50} />
       </div>
     );
   },

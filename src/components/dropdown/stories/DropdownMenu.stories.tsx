@@ -27,7 +27,7 @@ const meta: Meta<DropdownStoryProps> = {
   argTypes: {
     defaultOpen: {
       control: 'boolean',
-      description: '[DropdownMenu] 초기 열림 상태를 설정합니다. 비제어 모드에서 드롭다운이 처음 렌더링될 때의 열림 여부를 결정합니다',
+      description: '[DropdownMenu] 초기 열림 상태 (비제어 모드)',
       table: {
         type: { summary: 'boolean' },
         category: 'DropdownMenu',
@@ -35,7 +35,7 @@ const meta: Meta<DropdownStoryProps> = {
     },
     open: {
       control: 'boolean',
-      description: '[DropdownMenu] 드롭다운의 열림 상태를 직접 제어합니다. onOpenChange와 함께 사용하여 제어 모드로 동작합니다',
+      description: '[DropdownMenu] 열림 상태 (제어 모드)',
       table: {
         type: { summary: 'boolean' },
         category: 'DropdownMenu',
@@ -43,7 +43,7 @@ const meta: Meta<DropdownStoryProps> = {
     },
     onOpenChange: {
       action: 'openChange',
-      description: '[DropdownMenu] 드롭다운의 열림/닫힘 상태가 변경될 때 호출되는 콜백 함수입니다',
+      description: '[DropdownMenu] 열림 상태 변경 콜백',
       table: {
         type: { summary: '(open: boolean) => void' },
         category: 'DropdownMenu',
@@ -51,7 +51,7 @@ const meta: Meta<DropdownStoryProps> = {
     },
     modal: {
       control: 'boolean',
-      description: '[DropdownMenu] 모달 모드 여부입니다. true이면 드롭다운이 열려 있을 때 외부 요소와의 상호작용이 차단되고 포커스가 트랩됩니다',
+      description: '[DropdownMenu] 모달 모드. true면 포커스 트랩 활성화',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'true' },
@@ -61,7 +61,7 @@ const meta: Meta<DropdownStoryProps> = {
     side: {
       control: 'select',
       options: ['top', 'right', 'bottom', 'left'],
-      description: '[DropdownMenuContent] 트리거 버튼을 기준으로 드롭다운이 표시되는 방향입니다. 공간이 부족하면 자동으로 반대 방향으로 전환됩니다',
+      description: '[DropdownMenuContent] 트리거 기준 표시 방향',
       table: {
         type: { summary: "'top' | 'right' | 'bottom' | 'left'" },
         defaultValue: { summary: 'bottom' },
@@ -70,7 +70,7 @@ const meta: Meta<DropdownStoryProps> = {
     },
     sideOffset: {
       control: 'number',
-      description: '[DropdownMenuContent] 트리거 버튼과 드롭다운 사이의 간격을 픽셀 단위로 설정합니다',
+      description: '[DropdownMenuContent] 트리거와의 간격 (px)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '4' },
@@ -80,7 +80,7 @@ const meta: Meta<DropdownStoryProps> = {
     align: {
       control: 'select',
       options: ['start', 'center', 'end'],
-      description: '[DropdownMenuContent] 트리거 버튼을 기준으로 드롭다운의 정렬 위치입니다. start(시작), center(중앙), end(끝) 중 선택합니다',
+      description: '[DropdownMenuContent] 트리거 기준 정렬 위치',
       table: {
         type: { summary: "'start' | 'center' | 'end'" },
         defaultValue: { summary: 'start' },
@@ -89,7 +89,7 @@ const meta: Meta<DropdownStoryProps> = {
     },
     alignOffset: {
       control: 'number',
-      description: '[DropdownMenuContent] 정렬 위치에서의 추가 오프셋을 픽셀 단위로 설정합니다',
+      description: '[DropdownMenuContent] 정렬 오프셋 (px)',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
@@ -98,7 +98,7 @@ const meta: Meta<DropdownStoryProps> = {
     },
     width: {
       control: 'text',
-      description: '[DropdownMenuContent] 드롭다운 패널의 너비를 직접 지정합니다. 숫자 또는 CSS 단위가 포함된 문자열을 사용할 수 있습니다',
+      description: '[DropdownMenuContent] 드롭다운의 커스텀 너비 (예: "200", "300px")',
       table: {
         type: { summary: 'string | number' },
         category: 'DropdownMenuContent',
@@ -153,7 +153,7 @@ export const Default: Story = {
             프로필
           </DropdownMenuItem>
           <DropdownMenuItem shortcut="⌘B">
-            결제
+            청구
           </DropdownMenuItem>
           <DropdownMenuItem shortcut="⌘S">
             설정

@@ -226,13 +226,13 @@ export const Sizes: Story = {
     return (
       <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <DatePicker
-          label="Small (sm)"
+          label="소형 (sm)"
           size="sm"
           value={dateSm}
           onChange={setDateSm}
         />
         <DatePicker
-          label="Large (lg)"
+          label="대형 (lg)"
           size="lg"
           value={dateLg}
           onChange={setDateLg}
@@ -253,19 +253,19 @@ export const Styles: Story = {
     return (
       <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
         <DatePicker
-          label="Default"
+          label="기본"
           datePickerStyle="default"
           value={date1}
           onChange={setDate1}
         />
         <DatePicker
-          label="Shadow"
+          label="그림자"
           datePickerStyle="shadow"
           value={date2}
           onChange={setDate2}
         />
         <DatePicker
-          label="Soft"
+          label="소프트"
           datePickerStyle="soft"
           value={date3}
           onChange={setDate3}

@@ -474,7 +474,7 @@ export const ImageGallery: Story = {
                 <div className="rounded-lg overflow-hidden">
                   <img
                     src={src}
-                    alt={`Mountain landscape ${index + 1}`}
+                    alt={`산 풍경 ${index + 1}`}
                     className="w-full"
                     style={{ height: 250, objectFit: 'cover' }}
                   />
@@ -754,7 +754,7 @@ export const AllPlugins: Story = {
                 <div className="rounded-lg overflow-hidden">
                   <img
                     src={src}
-                    alt={`Mountain landscape ${index + 1}`}
+                    alt={`산 풍경 ${index + 1}`}
                     className="w-full"
                     style={{ height: 250, objectFit: 'cover' }}
                   />

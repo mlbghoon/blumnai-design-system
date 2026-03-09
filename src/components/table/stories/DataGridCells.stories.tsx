@@ -345,9 +345,9 @@ interface LinkData {
 }
 
 const linkData: LinkData[] = [
-  { id: '1', project: 'Design System', url: 'https://github.com', label: 'GitHub', external: true },
-  { id: '2', project: 'Documentation', url: '/docs', label: '문서 보기', external: false },
-  { id: '3', project: 'API Reference', url: 'https://api.example.com/docs', label: 'API Docs', external: true },
+  { id: '1', project: '디자인 시스템', url: 'https://github.com', label: 'GitHub', external: true },
+  { id: '2', project: '문서', url: '/docs', label: '문서 보기', external: false },
+  { id: '3', project: 'API 레퍼런스', url: 'https://api.example.com/docs', label: 'API 문서', external: true },
 ];
 
 /**
@@ -420,10 +420,10 @@ interface IconData {
 }
 
 const iconData: IconData[] = [
-  { id: '1', filename: 'report.pdf', fileType: 'pdf', status: 'complete' },
-  { id: '2', filename: 'data.xlsx', fileType: 'excel', status: 'pending' },
-  { id: '3', filename: 'image.png', fileType: 'image', status: 'failed' },
-  { id: '4', filename: 'notes.docx', fileType: 'word', status: 'processing' },
+  { id: '1', filename: '보고서.pdf', fileType: 'pdf', status: 'complete' },
+  { id: '2', filename: '데이터.xlsx', fileType: 'excel', status: 'pending' },
+  { id: '3', filename: '이미지.png', fileType: 'image', status: 'failed' },
+  { id: '4', filename: '메모.docx', fileType: 'word', status: 'processing' },
 ];
 
 const fileTypeIconMap: Record<string, { icon: IconTypeWithFill; color: IconColor }> = {

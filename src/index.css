@@ -8,6 +8,11 @@
  * - utilities.css: CSS utility classes
  */
 
+/* SUIT (Korean) - sun-typeface/SUIT */
+@import url('https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css');
+/* Inter (Latin/English) - Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 /* All @import statements first */
 @import "tailwindcss";
 @import "./styles/tokens/fonts.css";
@@ -23,50 +28,6 @@
 /* Dark mode variant for shadcn components */
 @custom-variant dark (&:is(.dark *));
 
-/* ============================================
-   Spoqa Han Sans Neo Font Family
-   License: SIL Open Font License 1.1
-   Note: @font-face must be in root CSS for Vite to bundle fonts
-   ============================================ */
-@font-face {
-  font-family: 'Spoqa Han Sans Neo';
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-  src: url('./assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Thin.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Spoqa Han Sans Neo';
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-  src: url('./assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Light.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Spoqa Han Sans Neo';
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  src: url('./assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Spoqa Han Sans Neo';
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-  src: url('./assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Medium.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Spoqa Han Sans Neo';
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  src: url('./assets/fonts/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff2') format('woff2');
-}
 
 :where(:root) {
   --spacing: 0.25rem;

@@ -276,7 +276,7 @@ const meta: Meta<typeof FlagIcon> = {
     country: {
       control: 'select',
       options: allCountries,
-      description: '표시할 국기의 국가 또는 지역 코드를 설정합니다. 260개 이상의 국가/지역을 지원합니다',
+      description: '국기의 국가 또는 지역 코드',
       table: {
         type: {
           summary: 'CountryCode',
@@ -287,7 +287,7 @@ const meta: Meta<typeof FlagIcon> = {
     },
     size: {
       control: { type: 'number', min: 12, max: 64, step: 4 },
-      description: '국기 아이콘의 크기를 픽셀 단위로 설정합니다. 기본값은 24px입니다',
+      description: '아이콘 크기 (픽셀)',
       table: {
         type: {
           summary: 'number',
@@ -370,8 +370,8 @@ export const Organizations: Story = {
   render: function Render() {
     const orgs: { code: CountryCode; name: string }[] = [
       { code: 'europeanunion', name: '유럽연합' },
-      { code: 'unitednations', name: '유엔' },
-      { code: 'nato', name: '나토' },
+      { code: 'unitednations', name: '국제연합' },
+      { code: 'nato', name: 'NATO' },
     ];
     return (
       <div style={{ display: 'flex', gap: '32px' }}>

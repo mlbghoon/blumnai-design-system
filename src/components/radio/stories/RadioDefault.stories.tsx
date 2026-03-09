@@ -15,14 +15,14 @@ const meta: Meta<RadioProps> = {
   argTypes: {
     value: {
       control: 'text',
-      description: '라디오 버튼의 고유 값입니다. RadioGroup 내에서 각 Radio의 value는 고유해야 합니다',
+      description: 'Radio value (RadioGroup 내에서 고유해야 함)',
       table: {
         type: { summary: 'string' },
       },
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 라디오 버튼이 비활성화되어 클릭이나 키보드 입력을 할 수 없습니다',
+      description: '비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -30,14 +30,14 @@ const meta: Meta<RadioProps> = {
     },
     label: {
       control: 'text',
-      description: '라디오 버튼 옆에 표시되는 제목 텍스트입니다. 문자열 또는 ReactNode를 전달할 수 있습니다',
+      description: '라벨 텍스트 (Title)',
       table: {
         type: { summary: 'ReactNode' },
       },
     },
     description: {
       control: 'text',
-      description: '라벨 아래에 표시되는 부가 설명 텍스트입니다. 옵션에 대한 추가 정보를 제공할 때 사용합니다',
+      description: '라벨 아래 설명 텍스트',
       table: {
         type: { summary: 'ReactNode' },
       },
@@ -45,7 +45,7 @@ const meta: Meta<RadioProps> = {
     radioPosition: {
       control: 'select',
       options: ['left', 'right'],
-      description: '라벨을 기준으로 라디오 버튼의 위치를 설정합니다. left(왼쪽), right(오른쪽) 중 선택할 수 있습니다',
+      description: '라디오 버튼 위치 (라벨 기준)',
       table: {
         type: {
           summary: 'RadioPosition',
@@ -57,7 +57,7 @@ const meta: Meta<RadioProps> = {
     radioStyle: {
       control: 'select',
       options: ['default', 'with-shadow'],
-      description: '라디오 버튼의 외관 스타일을 설정합니다. default(기본), with-shadow(그림자 효과) 중 선택할 수 있습니다',
+      description: '스타일 변형',
       table: {
         type: {
           summary: 'RadioStyle',
@@ -69,7 +69,7 @@ const meta: Meta<RadioProps> = {
     align: {
       control: 'select',
       options: ['start', 'center'],
-      description: '라벨과 라디오 버튼의 수직 정렬을 설정합니다. start(상단 정렬), center(중앙 정렬) 중 선택할 수 있습니다',
+      description: '라벨과 라디오 버튼의 수직 정렬',
       table: {
         type: {
           summary: "'start' | 'center'",
@@ -80,24 +80,12 @@ const meta: Meta<RadioProps> = {
     labelWeight: {
       control: 'select',
       options: ['normal', 'medium'],
-      description: '라벨 텍스트의 굵기를 설정합니다. normal(기본 굵기), medium(중간 굵기) 중 선택할 수 있습니다',
+      description: '라벨 텍스트의 font-weight',
       table: {
         type: {
           summary: "'normal' | 'medium'",
         },
         defaultValue: { summary: 'medium' },
-      },
-    },
-    size: {
-      control: 'select',
-      options: ['sm', 'md', 'lg'],
-      description: '라디오 버튼의 크기를 설정합니다. sm(16px), md(20px), lg(24px) 중 선택할 수 있습니다',
-      table: {
-        type: {
-          summary: 'RadioSize',
-          detail: `'sm' | 'md' | 'lg'`,
-        },
-        defaultValue: { summary: 'sm' },
       },
     },
   },
@@ -133,7 +121,6 @@ export const Default: Story = {
     radioStyle: 'default',
     align: 'start',
     labelWeight: 'medium',
-    size: 'sm',
   },
   parameters: {
     controls: { disable: false },
@@ -153,7 +140,6 @@ export const Default: Story = {
           radioStyle={args.radioStyle}
           align={args.align}
           labelWeight={args.labelWeight}
-          size={args.size}
         />
         <Radio
           value="option2"
@@ -163,7 +149,6 @@ export const Default: Story = {
           radioStyle={args.radioStyle}
           align={args.align}
           labelWeight={args.labelWeight}
-          size={args.size}
         />
         <Radio
           value="option3"
@@ -173,7 +158,6 @@ export const Default: Story = {
           radioStyle={args.radioStyle}
           align={args.align}
           labelWeight={args.labelWeight}
-          size={args.size}
         />
       </RadioGroup>
     );
@@ -245,7 +229,7 @@ export const CheckedStates: Story = {
     const [value, setValue] = useState('checked');
     return (
       <RadioGroup value={value} onValueChange={setValue} className="flex flex-col ds-gap-16">
-        <Radio value="unchecked" label="미선택" />
+        <Radio value="unchecked" label="선택 안 됨" />
         <Radio value="checked" label="선택됨" />
       </RadioGroup>
     );
@@ -260,8 +244,8 @@ export const DisabledStates: Story = {
     const [value, setValue] = useState('disabled-checked');
     return (
       <RadioGroup value={value} onValueChange={setValue} className="flex flex-col ds-gap-16">
-        <Radio value="disabled-unchecked" disabled label="비활성화 미선택" />
-        <Radio value="disabled-checked" disabled label="비활성화 선택됨" />
+        <Radio value="disabled-unchecked" disabled label="비활성 선택 안 됨" />
+        <Radio value="disabled-checked" disabled label="비활성 선택됨" />
       </RadioGroup>
     );
   },
@@ -279,7 +263,7 @@ export const StyleDefault: Story = {
     const [value, setValue] = useState('checked');
     return (
       <RadioGroup value={value} onValueChange={setValue} className="flex flex-col ds-gap-16">
-        <Radio value="unchecked" radioStyle="default" label="기본 스타일 (미선택)" />
+        <Radio value="unchecked" radioStyle="default" label="기본 스타일 (선택 안 됨)" />
         <Radio value="checked" radioStyle="default" label="기본 스타일 (선택됨)" />
       </RadioGroup>
     );
@@ -294,7 +278,7 @@ export const StyleWithShadow: Story = {
     const [value, setValue] = useState('checked');
     return (
       <RadioGroup value={value} onValueChange={setValue} className="flex flex-col ds-gap-16">
-        <Radio value="unchecked" radioStyle="with-shadow" label="그림자 스타일 (미선택)" />
+        <Radio value="unchecked" radioStyle="with-shadow" label="그림자 스타일 (선택 안 됨)" />
         <Radio value="checked" radioStyle="with-shadow" label="그림자 스타일 (선택됨)" />
       </RadioGroup>
     );
@@ -370,24 +354,6 @@ export const AlignCenter: Story = {
           </RadioGroup>
         </div>
       </div>
-    );
-  },
-};
-
-/**
- * 크기 변형
- *
- * sm (16px), md (20px), lg (24px) 크기를 지원합니다.
- */
-export const Sizes: Story = {
-  render: function Render() {
-    const [value, setValue] = useState('sm');
-    return (
-      <RadioGroup value={value} onValueChange={setValue} className="flex flex-col ds-gap-16">
-        <Radio value="sm" size="sm" label="Small (16px)" description="기본 크기" />
-        <Radio value="md" size="md" label="Medium (20px)" description="중간 크기" />
-        <Radio value="lg" size="lg" label="Large (24px)" description="큰 크기" />
-      </RadioGroup>
     );
   },
 };

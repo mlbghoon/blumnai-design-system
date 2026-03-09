@@ -224,7 +224,7 @@ export const WithSubmenu: Story = {
             <MenubarItem shortcut="⌘O">열기</MenubarItem>
             <MenubarSeparator />
             <MenubarSub>
-              <MenubarSubTrigger>최근 열기</MenubarSubTrigger>
+              <MenubarSubTrigger>최근 항목 열기</MenubarSubTrigger>
               <MenubarSubContent>
                 <MenubarItem>project-a.tsx</MenubarItem>
                 <MenubarItem>project-b.tsx</MenubarItem>
@@ -273,7 +273,7 @@ export const FullAppMenubar: Story = {
               열기
             </MenubarItem>
             <MenubarSub>
-              <MenubarSubTrigger>최근 열기</MenubarSubTrigger>
+              <MenubarSubTrigger>최근 항목 열기</MenubarSubTrigger>
               <MenubarSubContent>
                 <MenubarItem>index.tsx</MenubarItem>
                 <MenubarItem>App.tsx</MenubarItem>
@@ -360,7 +360,7 @@ export const FullAppMenubar: Story = {
               문서
             </MenubarItem>
             <MenubarItem leadIcon={['development', 'bug']}>
-              문제 보고
+              문제 신고
             </MenubarItem>
             <MenubarSeparator />
             <MenubarItem leadIcon={['system', 'information']}>
@@ -400,7 +400,7 @@ export const CodeEditorMenubar: Story = {
             </MenubarItem>
             <MenubarItem shortcut="⌘K ⌘O">폴더 열기...</MenubarItem>
             <MenubarSub>
-              <MenubarSubTrigger>최근 열기</MenubarSubTrigger>
+              <MenubarSubTrigger>최근 항목 열기</MenubarSubTrigger>
               <MenubarSubContent>
                 <MenubarLabel>파일</MenubarLabel>
                 <MenubarItem>~/projects/app/src/index.tsx</MenubarItem>
@@ -410,7 +410,7 @@ export const CodeEditorMenubar: Story = {
                 <MenubarItem>~/projects/app</MenubarItem>
                 <MenubarItem>~/projects/lib</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem>최근 항목 지우기</MenubarItem>
+                <MenubarItem>최근 항목 모두 지우기</MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
             <MenubarSeparator />
@@ -427,7 +427,7 @@ export const CodeEditorMenubar: Story = {
             <MenubarItem shortcut="⌥⌘S">모두 저장</MenubarItem>
             <MenubarSeparator />
             <MenubarItem leadIcon={['system', 'close']} shortcut="⌘W">
-              에디터 닫기
+              편집기 닫기
             </MenubarItem>
             <MenubarItem shortcut="⌘K W">모두 닫기</MenubarItem>
           </MenubarContent>
@@ -446,12 +446,12 @@ export const CodeEditorMenubar: Story = {
             <MenubarItem shortcut="⌘F">찾기</MenubarItem>
             <MenubarItem shortcut="⌥⌘F">바꾸기</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⇧⌥F">문서 서식 정리</MenubarItem>
+            <MenubarItem shortcut="⇧⌥F">문서 포맷</MenubarItem>
             <MenubarCheckboxItem
               checked={formatOnSave}
               onCheckedChange={setFormatOnSave}
             >
-              저장 시 서식 정리
+              저장 시 포맷
             </MenubarCheckboxItem>
           </MenubarContent>
         </MenubarMenu>
@@ -463,7 +463,7 @@ export const CodeEditorMenubar: Story = {
             <MenubarItem shortcut="⌘L">줄 선택 확장</MenubarItem>
             <MenubarSeparator />
             <MenubarItem shortcut="⌘D">다음 일치 항목에 선택 추가</MenubarItem>
-            <MenubarItem shortcut="⇧⌘L">일치 항목 전체 선택</MenubarItem>
+            <MenubarItem shortcut="⇧⌘L">모든 일치 항목 선택</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
@@ -472,10 +472,10 @@ export const CodeEditorMenubar: Story = {
           <MenubarContent width={240}>
             <MenubarItem shortcut="⌃G">줄로 이동...</MenubarItem>
             <MenubarItem shortcut="⌘P">파일로 이동...</MenubarItem>
-            <MenubarItem shortcut="⇧⌘O">심볼로 이동...</MenubarItem>
+            <MenubarItem shortcut="⇧⌘O">기호로 이동...</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem shortcut="⌃-">뒤로 이동</MenubarItem>
-            <MenubarItem shortcut="⌃⇧-">앞으로 이동</MenubarItem>
+            <MenubarItem shortcut="⌃-">뒤로</MenubarItem>
+            <MenubarItem shortcut="⌃⇧-">앞으로</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
@@ -505,7 +505,7 @@ export const DisabledItems: Story = {
         <MenubarTrigger>파일</MenubarTrigger>
         <MenubarContent width={200}>
           <MenubarItem shortcut="⌘N">새 파일</MenubarItem>
-          <MenubarItem disabled>최근 열기</MenubarItem>
+          <MenubarItem disabled>최근 항목 열기</MenubarItem>
           <MenubarItem shortcut="⌘S">저장</MenubarItem>
           <MenubarSeparator />
           <MenubarItem disabled>내보내기</MenubarItem>
@@ -525,7 +525,7 @@ export const LargeItems: Story = {
   render: () => (
     <Menubar>
       <MenubarMenu>
-        <MenubarTrigger>Options</MenubarTrigger>
+        <MenubarTrigger>옵션</MenubarTrigger>
         <MenubarContent width={280}>
           <MenubarItem
             size="large"
@@ -567,11 +567,11 @@ export const WithCaptions: Story = {
         <MenubarTrigger>도움말</MenubarTrigger>
         <MenubarContent width={200}>
           <MenubarItem caption="v2.0.0">정보</MenubarItem>
-          <MenubarItem caption="최신">업데이트 확인</MenubarItem>
+          <MenubarItem caption="Latest">업데이트 확인</MenubarItem>
           <MenubarSeparator />
           <MenubarItem leadIcon={['system', 'question']}>문서</MenubarItem>
-          <MenubarItem leadIcon={['development', 'bug']} caption="베타">
-            문제 보고
+          <MenubarItem leadIcon={['development', 'bug']} caption="Beta">
+            문제 신고
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>

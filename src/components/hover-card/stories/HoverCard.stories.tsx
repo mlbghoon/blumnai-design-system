@@ -44,7 +44,7 @@ export const Default: Story = {
                 @blumnai
               </h4>
               <p className="size-sm font-body text-muted line-height-leading-5">
-                현대적인 웹 애플리케이션을 위한 아름다운 디자인 시스템입니다.
+                현대적인 웹 애플리케이션 구축을 위한 아름다운 디자인 시스템입니다.
               </p>
               <div className="flex items-center ds-gap-8">
                 <span className="size-xs font-body text-muted">
@@ -88,7 +88,7 @@ export const ImagePreview: Story = {
                 디자인 시스템 프로젝트
               </h4>
               <p className="size-xs font-body text-muted line-height-leading-4">
-                React와 Tailwind CSS로 제작된 종합 디자인 시스템입니다.
+                React와 Tailwind CSS로 구축된 포괄적인 디자인 시스템입니다.
               </p>
             </div>
           </div>
@@ -110,44 +110,44 @@ export const Positions: Story = {
         <HoverCard>
           <HoverCardTrigger asChild>
             <button className="size-sm font-body padding-x-12 padding-y-6 rounded-md bg-muted">
-              Top
+              상단
             </button>
           </HoverCardTrigger>
           <HoverCardContent side="top">
-            <p className="size-sm font-body">위쪽에 표시됩니다</p>
+            <p className="size-sm font-body">콘텐츠가 상단에 표시됩니다</p>
           </HoverCardContent>
         </HoverCard>
 
         <HoverCard>
           <HoverCardTrigger asChild>
             <button className="size-sm font-body padding-x-12 padding-y-6 rounded-md bg-muted">
-              Bottom
+              하단
             </button>
           </HoverCardTrigger>
           <HoverCardContent side="bottom">
-            <p className="size-sm font-body">아래쪽에 표시됩니다</p>
+            <p className="size-sm font-body">콘텐츠가 하단에 표시됩니다</p>
           </HoverCardContent>
         </HoverCard>
 
         <HoverCard>
           <HoverCardTrigger asChild>
             <button className="size-sm font-body padding-x-12 padding-y-6 rounded-md bg-muted">
-              Left
+              좌측
             </button>
           </HoverCardTrigger>
           <HoverCardContent side="left">
-            <p className="size-sm font-body">왼쪽에 표시됩니다</p>
+            <p className="size-sm font-body">콘텐츠가 좌측에 표시됩니다</p>
           </HoverCardContent>
         </HoverCard>
 
         <HoverCard>
           <HoverCardTrigger asChild>
             <button className="size-sm font-body padding-x-12 padding-y-6 rounded-md bg-muted">
-              Right
+              우측
             </button>
           </HoverCardTrigger>
           <HoverCardContent side="right">
-            <p className="size-sm font-body">오른쪽에 표시됩니다</p>
+            <p className="size-sm font-body">콘텐츠가 우측에 표시됩니다</p>
           </HoverCardContent>
         </HoverCard>
       </div>

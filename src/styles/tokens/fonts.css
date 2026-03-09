@@ -8,8 +8,8 @@
    Font Family Variables
    ============================================ */
 :root {
-  --font-headline: 'Spoqa Han Sans Neo', sans-serif;
-  --font-body: 'Spoqa Han Sans Neo', sans-serif;
+  --font-headline: 'Inter', 'SUIT', sans-serif;
+  --font-body: 'Inter', 'SUIT', sans-serif;
   --font-quote: 'Fraunces', serif;
   --font-code: 'JetBrains Mono', monospace;
 }

@@ -223,11 +223,11 @@ interface FormComponent extends DndItem {
 export const FormBuilder: Story = {
   render: function Render() {
     const palette: FormComponent[] = [
-      { id: 'palette-input', type: 'input', label: 'Input' },
-      { id: 'palette-textarea', type: 'textarea', label: 'Textarea' },
-      { id: 'palette-select', type: 'select', label: 'Select' },
-      { id: 'palette-checkbox', type: 'checkbox', label: 'Checkbox' },
-      { id: 'palette-button', type: 'button', label: 'Button' },
+      { id: 'palette-input', type: 'input', label: '입력' },
+      { id: 'palette-textarea', type: 'textarea', label: '텍스트 영역' },
+      { id: 'palette-select', type: 'select', label: '선택' },
+      { id: 'palette-checkbox', type: 'checkbox', label: '체크박스' },
+      { id: 'palette-button', type: 'button', label: '버튼' },
     ];
 
     const [canvasComponents, setCanvasComponents] = useState<FormComponent[]>([]);
@@ -391,11 +391,11 @@ export const FileUploadZone: Story = {
     const [uploadedFiles, setUploadedFiles] = useState<FileItem[]>([]);
 
     const availableFiles: FileItem[] = [
-      { id: 'file-1', name: 'document.pdf', size: '2.4 MB', type: 'document' },
-      { id: 'file-2', name: 'image.png', size: '1.2 MB', type: 'image' },
-      { id: 'file-3', name: 'report.docx', size: '540 KB', type: 'document' },
-      { id: 'file-4', name: 'photo.jpg', size: '3.1 MB', type: 'image' },
-      { id: 'file-5', name: 'data.csv', size: '128 KB', type: 'other' },
+      { id: 'file-1', name: '문서.pdf', size: '2.4 MB', type: 'document' },
+      { id: 'file-2', name: '이미지.png', size: '1.2 MB', type: 'image' },
+      { id: 'file-3', name: '보고서.docx', size: '540 KB', type: 'document' },
+      { id: 'file-4', name: '사진.jpg', size: '3.1 MB', type: 'image' },
+      { id: 'file-5', name: '데이터.csv', size: '128 KB', type: 'other' },
     ];
 
     const handleDragEnd = (event: DragEndEvent) => {

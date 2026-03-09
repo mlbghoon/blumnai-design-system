@@ -194,7 +194,7 @@ export const WithLabel: Story = {
       <Switch
         checked={checked}
         onCheckedChange={setChecked}
-        label="Enable notifications"
+        label="알림 활성화"
       />
     );
   },
@@ -210,8 +210,8 @@ export const WithDescription: Story = {
       <Switch
         checked={checked}
         onCheckedChange={setChecked}
-        label="Marketing emails"
-        description="Receive emails about new products and features."
+        label="마케팅 이메일"
+        description="새 제품 및 기능에 대한 이메일을 받습니다."
       />
     );
   },
@@ -231,15 +231,15 @@ export const PositionVariants: Story = {
         <Switch
           checked={checked1}
           onCheckedChange={setChecked1}
-          label="Switch on left (default)"
-          description="The switch is positioned on the left side."
+          label="왼쪽 스위치 (기본값)"
+          description="스위치가 왼쪽에 위치합니다."
           switchPosition="left"
         />
         <Switch
           checked={checked2}
           onCheckedChange={setChecked2}
-          label="Switch on right"
-          description="The switch is positioned on the right side."
+          label="오른쪽 스위치"
+          description="스위치가 오른쪽에 위치합니다."
           switchPosition="right"
         />
       </div>
@@ -256,14 +256,14 @@ export const Disabled: Story = {
       <Switch
         checked={false}
         disabled
-        label="Disabled (unchecked)"
-        description="This switch is disabled and unchecked."
+        label="비활성화 (꺼짐)"
+        description="이 스위치는 비활성화되어 있고 꺼져 있습니다."
       />
       <Switch
         checked={true}
         disabled
-        label="Disabled (checked)"
-        description="This switch is disabled and checked."
+        label="비활성화 (켜짐)"
+        description="이 스위치는 비활성화되어 있고 켜져 있습니다."
       />
     </div>
   ),
@@ -286,7 +286,7 @@ export const AllStates: Story = {
     return (
       <div className="flex flex-col ds-gap-24">
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">Default States</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">기본 상태</h3>
           <div className="flex ds-gap-24">
             <Switch
               checked={states.defaultOff}
@@ -300,7 +300,7 @@ export const AllStates: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">Disabled States</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">비활성화 상태</h3>
           <div className="flex ds-gap-24">
             <Switch checked={false} disabled />
             <Switch checked={true} disabled />
@@ -308,19 +308,19 @@ export const AllStates: Story = {
         </div>
 
         <div>
-          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">With Labels</h3>
+          <h3 className="size-sm font-medium text-default [margin-bottom:48px]">라벨 포함</h3>
           <div className="flex flex-col ds-gap-16">
             <Switch
               checked={states.defaultOff}
               onCheckedChange={handleChange('defaultOff')}
-              label="Off state"
-              description="This switch is currently off."
+              label="꺼짐 상태"
+              description="현재 스위치가 꺼져 있습니다."
             />
             <Switch
               checked={states.defaultOn}
               onCheckedChange={handleChange('defaultOn')}
-              label="On state"
-              description="This switch is currently on."
+              label="켜짐 상태"
+              description="현재 스위치가 켜져 있습니다."
             />
           </div>
         </div>

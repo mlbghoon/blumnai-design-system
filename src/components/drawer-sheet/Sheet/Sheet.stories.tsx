@@ -34,7 +34,7 @@ const meta: Meta<SheetStoryProps> = {
     side: {
       control: 'select',
       options: ['top', 'bottom', 'left', 'right'],
-      description: '[SheetContent] 시트가 화면에서 나타나는 방향을 설정합니다. top(위), bottom(아래), left(왼쪽), right(오른쪽) 중 선택할 수 있습니다',
+      description: '[SheetContent] 시트가 나타나는 방향',
       table: {
         type: {
           summary: 'SheetSide',
@@ -46,7 +46,7 @@ const meta: Meta<SheetStoryProps> = {
     },
     defaultOpen: {
       control: 'boolean',
-      description: '[Sheet] 처음 렌더링될 때 시트가 열린 상태로 시작할지 설정합니다. 외부 상태 관리 없이 사용하는 비제어 모드에서 사용합니다',
+      description: '[Sheet] 초기 열림 상태 (비제어 모드)',
       table: {
         type: { summary: 'boolean' },
         category: 'Sheet',
@@ -54,7 +54,7 @@ const meta: Meta<SheetStoryProps> = {
     },
     open: {
       control: 'boolean',
-      description: '[Sheet] 시트의 열림/닫힘 상태를 외부에서 직접 제어합니다. onOpenChange와 함께 사용하여 상태를 관리합니다',
+      description: '[Sheet] 열림 상태 (제어 모드)',
       table: {
         type: { summary: 'boolean' },
         category: 'Sheet',
@@ -62,7 +62,7 @@ const meta: Meta<SheetStoryProps> = {
     },
     onOpenChange: {
       action: 'openChange',
-      description: '[Sheet] 시트가 열리거나 닫힐 때 호출되는 콜백 함수입니다. open prop과 함께 사용하여 상태를 동기화합니다',
+      description: '[Sheet] 열림 상태 변경 콜백',
       table: {
         type: { summary: '(open: boolean) => void' },
         category: 'Sheet',
@@ -97,11 +97,11 @@ export const Default: Story = {
           <SheetHeader>
             <SheetTitle>시트 제목</SheetTitle>
             <SheetDescription>
-              시트 설명 텍스트입니다.
+              시트 설명 텍스트가 여기에 들어갑니다.
             </SheetDescription>
           </SheetHeader>
           <div className="font-body size-sm text-default padding-y-16">
-            시트의 콘텐츠 영역입니다.
+            시트 콘텐츠 영역입니다.
           </div>
           <SheetFooter>
             <SheetClose asChild>
@@ -132,13 +132,13 @@ export const AllSides: Story = {
           </SheetTrigger>
           <SheetContent side={side}>
             <SheetHeader>
-              <SheetTitle>{side} 방향 시트</SheetTitle>
+              <SheetTitle>{side.charAt(0).toUpperCase() + side.slice(1)} 시트</SheetTitle>
               <SheetDescription>
-                이 시트는 {side} 방향에서 슬라이드됩니다.
+                이 시트는 {side} 방향에서 열립니다.
               </SheetDescription>
             </SheetHeader>
             <div className="font-body size-sm text-default padding-y-16">
-              {side} 방향 시트의 콘텐츠입니다.
+              {side} 시트 콘텐츠입니다.
             </div>
             <SheetFooter>
               <SheetClose asChild>
@@ -162,7 +162,7 @@ export const WithForm: Story = {
     return (
       <Sheet>
         <SheetTrigger asChild>
-          <Button buttonStyle="secondary">프로필 수정</Button>
+          <Button buttonStyle="secondary">프로필 편집</Button>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
@@ -211,7 +211,7 @@ export const Navigation: Story = {
         </SheetTrigger>
         <SheetContent side="left">
           <SheetHeader>
-            <SheetTitle>내비게이션</SheetTitle>
+            <SheetTitle>네비게이션</SheetTitle>
           </SheetHeader>
           <nav className="flex flex-col ds-gap-8 padding-y-16">
             {menuItems.map((item) => (
@@ -345,7 +345,7 @@ export const BottomSheet: Story = {
     return (
       <Sheet>
         <SheetTrigger asChild>
-          <Button buttonStyle="secondary">작업 메뉴 열기</Button>
+          <Button buttonStyle="secondary">작업 열기</Button>
         </SheetTrigger>
         <SheetContent side="bottom" className="rounded-t-xl">
           <SheetHeader>

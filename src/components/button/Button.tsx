@@ -23,7 +23,7 @@ const buttonVariants = cva(
         'lg': 'height-40 size-sm line-height-leading-5 padding-x-14 padding-y-10 ds-gap-6',
       },
       shape: {
-        rounded: 'rounded-md',
+        rounded: 'rounded-sm',
         pill: 'rounded-full',
       },
     },

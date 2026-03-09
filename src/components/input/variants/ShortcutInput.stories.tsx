@@ -15,7 +15,7 @@ const meta: Meta<typeof Input> = {
     variant: {
       control: 'select',
       options: ['shortcut'],
-      description: '입력 필드의 변형을 설정합니다',
+      description: '입력 필드의 변형',
       table: {
         type: { summary: 'InputVariant' },
         defaultValue: { summary: 'shortcut' },
@@ -24,7 +24,7 @@ const meta: Meta<typeof Input> = {
     inputStyle: {
       control: 'select',
       options: ['default', 'shadow', 'soft'],
-      description: '입력 필드의 외관 스타일을 설정합니다. default(기본 테두리), shadow(그림자 효과), soft(부드러운 배경) 중 선택할 수 있습니다',
+      description: '입력 필드의 스타일 변형',
       table: {
         type: {
           summary: 'InputStyle',
@@ -36,7 +36,7 @@ const meta: Meta<typeof Input> = {
     size: {
       control: 'select',
       options: ['sm', 'lg'],
-      description: '입력 필드의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
+      description: '입력 필드의 크기',
       table: {
         type: {
           summary: 'InputSize',
@@ -47,42 +47,42 @@ const meta: Meta<typeof Input> = {
     },
     label: {
       control: 'text',
-      description: '입력 필드 위에 표시되는 제목 텍스트입니다',
+      description: '입력 필드의 라벨',
       table: {
         type: { summary: 'string' },
       },
     },
     placeholder: {
       control: 'text',
-      description: '입력 필드가 비어있을 때 표시되는 안내 텍스트입니다',
+      description: '플레이스홀더 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     value: {
       control: 'text',
-      description: '입력 필드에 표시되는 현재 값입니다. 외부에서 값을 제어할 때 사용합니다',
+      description: '입력 필드 값 (제어 컴포넌트)',
       table: {
         type: { summary: 'string' },
       },
     },
     onChange: {
       action: 'changed',
-      description: '사용자가 입력 값을 변경할 때마다 호출되는 함수입니다',
+      description: '입력 값 변경 시 콜백',
       table: {
         type: { summary: '(e: ChangeEvent<HTMLInputElement>) => void' },
       },
     },
     caption: {
       control: 'text',
-      description: '입력 필드 아래에 표시되는 도움말 텍스트입니다. 사용자에게 입력 방법이나 형식을 안내합니다',
+      description: '입력 필드 아래 설명 텍스트',
       table: {
         type: { summary: 'string' },
       },
     },
     required: {
       control: 'boolean',
-      description: 'true로 설정하면 필수 입력 항목으로 표시되며, 라벨 옆에 필수 표시(*)가 나타납니다',
+      description: '필수 입력 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -90,7 +90,7 @@ const meta: Meta<typeof Input> = {
     },
     disabled: {
       control: 'boolean',
-      description: 'true로 설정하면 컴포넌트가 비활성화되어 클릭이나 입력을 할 수 없습니다',
+      description: '비활성화 여부',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -98,28 +98,28 @@ const meta: Meta<typeof Input> = {
     },
     error: {
       control: 'text',
-      description: '에러 메시지를 입력하면 빨간색 테두리와 함께 아래에 에러 메시지가 표시됩니다. true로 설정하면 에러 스타일만 적용됩니다',
+      description: '에러 상태 또는 메시지',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     success: {
       control: 'text',
-      description: '성공 메시지를 입력하면 초록색 테두리와 함께 아래에 성공 메시지가 표시됩니다. true로 설정하면 성공 스타일만 적용됩니다',
+      description: '성공 상태 또는 메시지',
       table: {
         type: { summary: 'boolean | string' },
       },
     },
     leadIcon: {
       control: 'object',
-      description: '입력 필드 왼쪽에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 지정합니다',
+      description: '입력 필드 앞에 표시되는 아이콘',
       table: {
         type: { summary: 'IconType' },
       },
     },
     shortcut: {
       control: 'text',
-      description: '입력 필드 오른쪽에 표시되는 키보드 단축키 텍스트입니다. 단축키를 누르면 입력 필드가 포커스됩니다',
+      description: '단축키 텍스트',
       table: {
         type: { summary: 'string' },
       },
@@ -199,7 +199,7 @@ export const WithLeadIcon: Story = {
 export const StyleDefault: Story = {
   args: {
     variant: 'shortcut',
-    label: 'Default Style',
+    label: '기본 스타일',
     placeholder: '검색...',
     shortcut: '⌘K',
     inputStyle: 'default',
@@ -212,7 +212,7 @@ export const StyleDefault: Story = {
 export const StyleShadow: Story = {
   args: {
     variant: 'shortcut',
-    label: 'Shadow Style',
+    label: '그림자 스타일',
     placeholder: '검색...',
     shortcut: '⌘K',
     inputStyle: 'shadow',
@@ -225,7 +225,7 @@ export const StyleShadow: Story = {
 export const StyleSoft: Story = {
   args: {
     variant: 'shortcut',
-    label: 'Soft Style',
+    label: '부드러운 스타일',
     placeholder: '검색...',
     shortcut: '⌘K',
     inputStyle: 'soft',
@@ -242,7 +242,7 @@ export const StyleSoft: Story = {
 export const SizeSmall: Story = {
   args: {
     variant: 'shortcut',
-    label: 'Small',
+    label: '작게',
     placeholder: '검색...',
     shortcut: '⌘K',
     size: 'sm',
@@ -256,7 +256,7 @@ export const SizeSmall: Story = {
 export const SizeLarge: Story = {
   args: {
     variant: 'shortcut',
-    label: 'Large',
+    label: '크게',
     placeholder: '검색...',
     shortcut: '⌘K',
     size: 'lg',
@@ -274,7 +274,7 @@ export const SizeLarge: Story = {
 export const StateDefault: Story = {
   args: {
     variant: 'shortcut',
-    label: 'Default',
+    label: '기본',
     placeholder: '검색...',
     shortcut: '⌘K',
   },
@@ -286,7 +286,7 @@ export const StateDefault: Story = {
 export const StateDisabled: Story = {
   args: {
     variant: 'shortcut',
-    label: 'Disabled',
+    label: '비활성',
     placeholder: '검색...',
     shortcut: '⌘K',
     disabled: true,
@@ -299,10 +299,10 @@ export const StateDisabled: Story = {
 export const StateError: Story = {
   args: {
     variant: 'shortcut',
-    label: 'Error',
+    label: '오류',
     placeholder: '검색...',
     shortcut: '⌘K',
-    error: '유효하지 않은 검색어입니다',
+    error: '검색어가 유효하지 않습니다',
   },
 };
 
@@ -312,10 +312,10 @@ export const StateError: Story = {
 export const StateSuccess: Story = {
   args: {
     variant: 'shortcut',
-    label: 'Success',
+    label: '성공',
     placeholder: '검색...',
     shortcut: '⌘K',
-    success: '검색 인덱스 완료',
+    success: '검색이 인덱싱되었습니다',
   },
 };
 
@@ -337,7 +337,7 @@ export const KeyboardShortcutBinding: Story = {
         <Input
           variant="shortcut"
           label="명령 팔레트"
-          placeholder="명령어를 입력하세요..."
+          placeholder="명령을 입력하세요..."
           shortcut="⌘K"
           value={value}
           onChange={(e) => setValue(e.target.value)}
