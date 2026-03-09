@@ -76,12 +76,39 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
 
   const chartAriaLabel = ariaLabel || `Combo chart showing ${[...barSeries.map(s => s.dataKey), ...lineSeries.map(s => s.dataKey)].join(', ')}`;
 
-  const primaryDomain = (primaryAxis.domain === 'auto' || primaryAxis.domain === undefined)
-    ? [0, (dataMax: number) => Math.max(dataMax, 1)] as const
-    : primaryAxis.domain;
-  const secondaryDomain = (secondaryAxis?.domain === 'auto' || secondaryAxis?.domain === undefined)
-    ? [0, (dataMax: number) => Math.max(dataMax, 1)] as const
-    : secondaryAxis?.domain;
+  const primaryKeys = useMemo(() => [
+    ...barSeries.map(s => s.dataKey),
+    ...lineSeries.filter(s => (s.yAxisIndex ?? 0) === 0).map(s => s.dataKey),
+  ], [barSeries, lineSeries]);
+
+  const secondaryKeys = useMemo(() =>
+    lineSeries.filter(s => s.yAxisIndex === 1).map(s => s.dataKey),
+  [lineSeries]);
+
+  const primaryDomain = useMemo(() => {
+    if (primaryAxis.domain !== 'auto' && primaryAxis.domain !== undefined) return primaryAxis.domain;
+    const max = safeData.reduce((m, d) => {
+      for (const k of primaryKeys) {
+        const v = Number(d[k] ?? 0);
+        if (v > m) m = v;
+      }
+      return m;
+    }, 0);
+    return [0, Math.max(max, 1)] as [number, number];
+  }, [primaryAxis.domain, safeData, primaryKeys]);
+
+  const secondaryDomain = useMemo(() => {
+    if (!secondaryAxis) return undefined;
+    if (secondaryAxis.domain !== 'auto' && secondaryAxis.domain !== undefined) return secondaryAxis.domain;
+    const max = safeData.reduce((m, d) => {
+      for (const k of secondaryKeys) {
+        const v = Number(d[k] ?? 0);
+        if (v > m) m = v;
+      }
+      return m;
+    }, 0);
+    return [0, Math.max(max, 1)] as [number, number];
+  }, [secondaryAxis, safeData, secondaryKeys]);
 
   const stackGroups = new Map<string, string[]>();
   barSeries.forEach((s) => {
@@ -95,7 +122,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
   const chartContent = (
     <ComposedChart
       data={safeData}
-      margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+      margin={{ top: 20, right: 20, bottom: 24, left: 20 }}
       onClick={onDataPointClick ? handleChartClick : undefined}
     >
       <CartesianGrid
@@ -116,7 +143,9 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
       />
       <YAxis
         yAxisId="0"
+        dataKey={primaryAxis.dataKey}
         domain={primaryDomain}
+        allowDataOverflow
         tickCount={primaryAxis.tickCount ?? 5}
         interval={primaryAxis.interval}
         tickFormatter={primaryAxis.tickFormatter}
@@ -129,14 +158,16 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
         <YAxis
           yAxisId="1"
           orientation="right"
+          dataKey={secondaryAxis.dataKey}
           domain={secondaryDomain}
+          allowDataOverflow
           tickCount={secondaryAxis.tickCount ?? 5}
           interval={secondaryAxis.interval}
           tickFormatter={secondaryAxis.tickFormatter}
-          tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
-          axisLine={{ stroke: 'var(--chart-axis)' }}
+          tick={secondaryAxis.show === false ? false : { fontSize: 12, fill: 'var(--text-muted)' }}
+          axisLine={secondaryAxis.show === false ? false : { stroke: 'var(--chart-axis)' }}
           tickLine={false}
-          hide={secondaryAxis.show === false}
+          width={secondaryAxis.show === false ? 0 : undefined}
         />
       )}
       <Tooltip

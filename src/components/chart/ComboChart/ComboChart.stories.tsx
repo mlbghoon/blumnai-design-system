@@ -310,6 +310,72 @@ export const SingleDataPoint: Story = {
 };
 
 /**
+ * Consumer 재현: 바 전용 + 빈 lineSeries + 전체 0 데이터
+ *
+ * happytalk-front CreateCompleteChart 패턴 재현.
+ */
+export const ConsumerBarsOnly: Story = {
+  args: {
+    data: [
+      { date: '2026-03-01', created: 0, completed: 0 },
+      { date: '2026-03-02', created: 0, completed: 0 },
+      { date: '2026-03-03', created: 0, completed: 0 },
+    ],
+    config: {
+      created: { label: 'Created', color: '#FFA500' },
+      completed: { label: 'Completed', color: '#4B9BFF' },
+    },
+    xAxis: { dataKey: 'date' },
+    yAxis: { dataKey: 'created', domain: 'auto' as const },
+    barSeries: [
+      { dataKey: 'created', color: '#FFA500', barSize: 20, radius: 4 },
+      { dataKey: 'completed', color: '#4B9BFF', barSize: 20, radius: 4 },
+    ],
+    lineSeries: [],
+    showXGrid: true,
+    showLegend: false,
+    responsive: true,
+    height: 280,
+  },
+};
+
+/**
+ * Consumer 재현: 듀얼 Y축 + 스택 바 + 라인 + 전체 0 데이터
+ *
+ * happytalk-front SuccessDurationChart 패턴 재현.
+ */
+export const ConsumerDualAxisAllZero: Story = {
+  args: {
+    data: [
+      { date: '2026-03-01', success: 0, fail: 0, duration: 0 },
+      { date: '2026-03-02', success: 0, fail: 0, duration: 0 },
+      { date: '2026-03-03', success: 0, fail: 0, duration: 0 },
+    ],
+    config: {
+      success: { label: 'Success', color: '#00BA77' },
+      fail: { label: 'Fail', color: '#CECECE' },
+      duration: { label: 'Duration', color: '#404A51' },
+    },
+    xAxis: { dataKey: 'date' },
+    yAxis: [
+      { dataKey: 'success', domain: 'auto' as const },
+      { dataKey: 'duration', show: false, domain: 'auto' as const },
+    ],
+    barSeries: [
+      { dataKey: 'success', color: '#00BA77', stack: 'total', barSize: 20, radius: 4 },
+      { dataKey: 'fail', color: '#CECECE', stack: 'total', barSize: 20, radius: 4 },
+    ],
+    lineSeries: [
+      { dataKey: 'duration', color: '#404A51', yAxisIndex: 1, smooth: true, strokeWidth: 2 },
+    ],
+    showXGrid: true,
+    showLegend: false,
+    responsive: true,
+    height: 280,
+  },
+};
+
+/**
  * 커스텀 툴팁
  */
 export const CustomTooltip: Story = {
