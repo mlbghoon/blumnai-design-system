@@ -179,7 +179,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     disabled && DISABLED_STYLE,
     loading && (hasColorOverride && !disabled ? COLOR_OVERRIDE_LOADING_STYLE[buttonStyle] : LOADING_STYLE[buttonStyle]),
     isIconOnly && iconOnlySizeVariants({ size }),
-    isIconOnly && 'aspect-square padding-0',
+    isIconOnly && 'aspect-square',
     isTextOnlyLoading && 'relative',
     fullWidth && !isIconOnly && 'w-full',
     className
@@ -231,6 +231,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     ...(style || {}),
     ...(widthStyle || {}),
     ...colorVars,
+    ...(isIconOnly ? { padding: 0 } : {}),
   } as React.CSSProperties;
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
