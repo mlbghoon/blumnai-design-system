@@ -39,7 +39,11 @@ export function ChartTooltipAdapter({
     })),
   };
 
-  if (renderTooltip) return <>{renderTooltip(params)}</>;
+  if (renderTooltip) return (
+    <div className="rounded-card-xs padding-4 bg-card shadow-modal-sm">
+      {renderTooltip(params)}
+    </div>
+  );
 
   const tooltipItems: TooltipItemData[] = [
     { type: 'label', label: String(label ?? '') },
@@ -86,7 +90,11 @@ export function PieTooltipAdapter({
 
   const params: PieTooltipParams = { name, value, percent: percent * 100, color };
 
-  if (renderTooltip) return <>{renderTooltip(params)}</>;
+  if (renderTooltip) return (
+    <div className="rounded-card-xs padding-4 bg-card shadow-modal-sm">
+      {renderTooltip(params)}
+    </div>
+  );
 
   const tooltipItems: TooltipItemData[] = [
     { type: 'label', label: getLabel(name) },

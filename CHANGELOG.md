@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.25] - 2026-03-09
+
+### Fixed
+
+- **Chart 커스텀 툴팁 컨테이너 스타일 누락 수정**: `renderTooltip` 사용 시 배경/그림자/테두리 없이 콘텐츠만 표시되는 문제. 커스텀 툴팁 출력을 기본 툴팁과 동일한 컨테이너(`bg-card`, `shadow-modal-sm`, `rounded-card-xs`, `padding-4`)로 감싸도록 수정. `ChartTooltipAdapter`와 `PieTooltipAdapter` 모두 적용.
+
 ## [1.0.24] - 2026-03-09
 
 ### Fixed
