@@ -8,7 +8,7 @@ const meta: Meta<typeof AvatarButton> = {
   title: 'Actions/Button/AvatarButton',
   component: AvatarButton,
   parameters: {
-    layout: 'padded',
+    layout: 'centered',
     controls: { disable: true },
   },
   tags: ['autodocs'],

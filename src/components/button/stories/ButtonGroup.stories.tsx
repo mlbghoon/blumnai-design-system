@@ -8,7 +8,7 @@ const meta: Meta<typeof ButtonGroup> = {
   title: 'Actions/Button/ButtonGroup',
   component: ButtonGroup,
   parameters: {
-    layout: 'padded',
+    layout: 'centered',
     controls: { disable: true },
   },
   tags: ['autodocs'],

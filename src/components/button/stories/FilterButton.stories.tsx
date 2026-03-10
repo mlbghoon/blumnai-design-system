@@ -6,7 +6,7 @@ const meta: Meta<typeof FilterButton> = {
   title: 'Actions/Button/FilterButton',
   component: FilterButton,
   parameters: {
-    layout: 'padded',
+    layout: 'centered',
     controls: { disable: true },
   },
   tags: ['autodocs'],

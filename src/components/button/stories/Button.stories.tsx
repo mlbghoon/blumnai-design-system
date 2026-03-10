@@ -7,7 +7,7 @@ const meta: Meta<typeof Button> = {
   title: 'Actions/Button',
   component: Button,
   parameters: {
-    layout: 'padded',
+    layout: 'centered',
     controls: { disable: true },
   },
   tags: ['autodocs'],

@@ -6,7 +6,7 @@ const meta: Meta<typeof ControlButton> = {
   title: 'Actions/Button/ControlButton',
   component: ControlButton,
   parameters: {
-    layout: 'padded',
+    layout: 'centered',
     controls: { disable: true },
   },
   tags: ['autodocs'],

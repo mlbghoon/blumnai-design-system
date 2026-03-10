@@ -6,7 +6,7 @@ const meta: Meta<typeof LinkButton> = {
   title: 'Actions/Button/LinkButton',
   component: LinkButton,
   parameters: {
-    layout: 'padded',
+    layout: 'centered',
     controls: { disable: true },
   },
   tags: ['autodocs'],
