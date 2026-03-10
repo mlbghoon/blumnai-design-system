@@ -76,6 +76,7 @@ export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
   const containerClassName = cn(
     avatarButtonVariants({ ...(disabled ? {} : { buttonStyle }), size }),
     disabled && DISABLED_STYLE[buttonStyle],
+    !disabled && 'shadow-components-default',
     className
   );
 
