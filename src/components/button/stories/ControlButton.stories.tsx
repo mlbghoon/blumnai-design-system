@@ -112,7 +112,7 @@ export const Default: Story = {
  */
 export const AllSizes: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center padding-16 rounded-md border-default">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 rounded-md border-default">
       <ControlButton icon={['media', 'play']} aria-label="Play" size="sm" />
       <ControlButton icon={['media', 'play']} aria-label="Play" size="md" />
       <ControlButton icon={['media', 'play']} aria-label="Play" size="lg" />
@@ -125,7 +125,7 @@ export const AllSizes: Story = {
  */
 export const AllShapes: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center padding-16 rounded-md border-default">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 rounded-md border-default">
       <ControlButton icon={['media', 'play']} aria-label="Play" shape="rounded" />
       <ControlButton icon={['media', 'play']} aria-label="Play" shape="circle" />
     </div>
@@ -138,13 +138,13 @@ export const AllShapes: Story = {
 export const AllStyles: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <div className="flex flex-wrap ds-gap-12 items-center padding-16 rounded-md border-default">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 rounded-md border-default">
         <span className="text-default size-sm">Default:</span>
         <ControlButton icon={['media', 'play']} aria-label="Play" buttonStyle="default" />
         <ControlButton icon={['media', 'pause']} aria-label="Pause" buttonStyle="default" />
         <ControlButton icon={['media', 'skip-forward']} aria-label="Skip" buttonStyle="default" />
       </div>
-      <div className="flex flex-wrap ds-gap-12 items-center bg-subtle padding-16 rounded-md">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center bg-subtle padding-16 rounded-md">
         <span className="text-white size-sm">Inverted:</span>
         <ControlButton icon={['media', 'play']} aria-label="Play" buttonStyle="inverted" />
         <ControlButton icon={['media', 'pause']} aria-label="Pause" buttonStyle="inverted" />
@@ -159,7 +159,7 @@ export const AllStyles: Story = {
  */
 export const CommonControls: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center padding-16 rounded-md border-default">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 rounded-md border-default">
       <ControlButton icon={['media', 'play']} aria-label="Play" />
       <ControlButton icon={['media', 'pause']} aria-label="Pause" />
       <ControlButton icon={['media', 'skip-forward']} aria-label="Skip forward" />
@@ -175,12 +175,12 @@ export const CommonControls: Story = {
 export const States: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <div className="flex flex-wrap ds-gap-12 items-center padding-16 rounded-md border-default">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 rounded-md border-default">
         <span className="text-default size-sm">Default:</span>
         <ControlButton icon={['media', 'play']} aria-label="Play" />
         <ControlButton icon={['media', 'play']} aria-label="Play" disabled />
       </div>
-      <div className="flex flex-wrap ds-gap-12 items-center bg-subtle padding-16 rounded-md">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center bg-subtle padding-16 rounded-md">
         <span className="text-white size-sm">Inverted:</span>
         <ControlButton icon={['media', 'play']} aria-label="Play" buttonStyle="inverted" />
         <ControlButton icon={['media', 'play']} aria-label="Play" buttonStyle="inverted" disabled />

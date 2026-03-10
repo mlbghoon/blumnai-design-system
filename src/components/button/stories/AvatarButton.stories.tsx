@@ -134,7 +134,7 @@ export const Default: Story = {
  */
 export const AllStyles: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center">
       <AvatarButton avatar={avatarPlaceholderIcon} label="Default" buttonStyle="default" tailIcon={['arrows', 'arrow-down-s']} />
       <AvatarButton avatar={avatarPlaceholderIcon} label="Dashed" buttonStyle="dashed" tailIcon={['arrows', 'arrow-down-s']} />
       <AvatarButton avatar={avatarPlaceholderIcon} label="Soft" buttonStyle="soft" tailIcon={['arrows', 'arrow-down-s']} />
@@ -147,7 +147,7 @@ export const AllStyles: Story = {
  */
 export const AllSizes: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center">
       <AvatarButton avatar={avatarPlaceholderIcon} label="Small" size="sm" tailIcon={['arrows', 'arrow-down-s']} />
       <AvatarButton avatar={avatarPlaceholderIcon} label="Large" size="lg" tailIcon={['arrows', 'arrow-down-s']} />
     </div>
@@ -160,15 +160,15 @@ export const AllSizes: Story = {
 export const States: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <AvatarButton avatar={avatarPlaceholderIcon} label="Default" tailIcon={['arrows', 'arrow-down-s']} />
         <AvatarButton avatar={avatarPlaceholderIcon} label="Disabled" tailIcon={['arrows', 'arrow-down-s']} disabled />
       </div>
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <AvatarButton avatar={avatarPlaceholderIcon} label="Dashed" buttonStyle="dashed" tailIcon={['arrows', 'arrow-down-s']} />
         <AvatarButton avatar={avatarPlaceholderIcon} label="Disabled" buttonStyle="dashed" tailIcon={['arrows', 'arrow-down-s']} disabled />
       </div>
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <AvatarButton avatar={avatarPlaceholderIcon} label="Soft" buttonStyle="soft" tailIcon={['arrows', 'arrow-down-s']} />
         <AvatarButton avatar={avatarPlaceholderIcon} label="Disabled" buttonStyle="soft" tailIcon={['arrows', 'arrow-down-s']} disabled />
       </div>
@@ -181,7 +181,7 @@ export const States: Story = {
  */
 export const WithoutIcon: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center">
       <AvatarButton avatar={avatarPlaceholderIcon} label="No Icon" />
       <AvatarButton avatar={avatarPlaceholderIcon} label="With Icon" tailIcon={['arrows', 'arrow-down-s']} />
     </div>

@@ -116,7 +116,7 @@ export const Default: Story = {
  */
 export const AllSizes: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center">
       <FilterButton label="필터" size="xs" />
       <FilterButton label="필터" size="md" />
       <FilterButton label="필터" size="lg" />
@@ -129,7 +129,7 @@ export const AllSizes: Story = {
  */
 export const AllShapes: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center">
       <FilterButton label="둥근 모서리" shape="rounded" />
       <FilterButton label="알약형" shape="pill" />
     </div>
@@ -141,7 +141,7 @@ export const AllShapes: Story = {
  */
 export const Selected: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center">
       <FilterButton label="미선택" selected={false} />
       <FilterButton label="선택됨" selected={true} />
     </div>
@@ -154,13 +154,13 @@ export const Selected: Story = {
 export const States: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <span className="text-muted size-sm width-80">Default:</span>
         <FilterButton label="기본" />
         <FilterButton label="선택됨" selected />
         <FilterButton label="비활성화" disabled />
       </div>
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <span className="text-muted size-sm width-80">Pill:</span>
         <FilterButton label="Normal" shape="pill" />
         <FilterButton label="선택됨" shape="pill" selected />
@@ -175,7 +175,7 @@ export const States: Story = {
  */
 export const WithCustomIcon: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center">
       <FilterButton label="필터" icon={['system', 'filter']} />
       <FilterButton label="설정" icon={['system', 'settings']} />
       <FilterButton label="검색" icon={['system', 'search']} />

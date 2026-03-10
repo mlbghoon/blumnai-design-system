@@ -118,7 +118,7 @@ export const WithTailIcon: Story = {
  */
 export const Sizes: Story = {
   render: () => (
-    <div className="flex flex-col ds-gap-16">
+    <div className="flex flex-col ds-gap-16 items-center">
       <ButtonGroup items={defaultItems} size="lg" />
       <ButtonGroup items={defaultItems} size="md" />
       <ButtonGroup items={defaultItems} size="sm" />

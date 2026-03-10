@@ -217,7 +217,7 @@ export const Default: Story = {
  */
 export const AllStyles: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center">
       <Button buttonStyle="primary">Primary</Button>
       <Button buttonStyle="secondary">Secondary</Button>
       <Button buttonStyle="destructive">Destructive</Button>
@@ -234,7 +234,7 @@ export const AllStyles: Story = {
  */
 export const AllSizes: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center">
       <Button size="2xs">2XS</Button>
       <Button size="xs">XS</Button>
       <Button size="sm">Small</Button>
@@ -250,11 +250,11 @@ export const AllSizes: Story = {
 export const AllShapes: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-12">
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button shape="rounded">Rounded</Button>
         <Button shape="pill">Pill</Button>
       </div>
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button shape="rounded" buttonStyle="secondary">Rounded</Button>
         <Button shape="pill" buttonStyle="secondary">Pill</Button>
       </div>
@@ -268,13 +268,13 @@ export const AllShapes: Story = {
 export const WithIcons: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button leadIcon={['system', 'delete-bin']}>삭제</Button>
         <Button tailIcon={['system', 'external-link']}>미리보기</Button>
         <Button leadIcon={['system', 'add']}>새로 추가</Button>
         <Button leadIcon={['media', 'volume-mute']}>음소거</Button>
       </div>
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button leadIcon={['system', 'check']} tailIcon={['arrows', 'arrow-down']}>확인</Button>
       </div>
     </div>
@@ -289,13 +289,13 @@ export const WithFilledIcons: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
       <p className="margin-0size-sm text-subtle">일반 아이콘 vs 채워진 아이콘 (isFill=true)</p>
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button leadIcon={['system', 'star']}>일반</Button>
         <Button leadIcon={['system', 'star', true]}>채움</Button>
         <Button leadIcon={['health', 'heart']}>일반</Button>
         <Button leadIcon={['health', 'heart', true]}>채움</Button>
       </div>
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button buttonStyle="secondary" leadIcon={['system', 'settings']}>일반</Button>
         <Button buttonStyle="secondary" leadIcon={['system', 'settings', true]}>채움</Button>
         <Button buttonStyle="secondary" leadIcon={['business', 'bookmark']}>일반</Button>
@@ -310,7 +310,7 @@ export const WithFilledIcons: Story = {
  */
 export const IconOnlyVariant: Story = {
   render: () => (
-    <div className="flex flex-wrap ds-gap-12 items-center">
+    <div className="flex flex-wrap ds-gap-12 items-center justify-center">
       <Button variant="iconOnly" leadIcon={['system', 'settings']} size="2xs" />
       <Button variant="iconOnly" leadIcon={['system', 'settings']} size="xs" />
       <Button variant="iconOnly" leadIcon={['system', 'settings']} size="sm" />
@@ -326,14 +326,14 @@ export const IconOnlyVariant: Story = {
 export const WithShortcut: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button size="2xs" shortcut="/">2XS</Button>
         <Button size="xs" shortcut="/">XS</Button>
         <Button size="sm" shortcut="/">Small</Button>
         <Button size="md" shortcut="/">Medium</Button>
         <Button size="lg" shortcut="/">Large</Button>
       </div>
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button buttonStyle="secondary" size="2xs" shortcut="/">2XS</Button>
         <Button buttonStyle="secondary" size="xs" shortcut="/">XS</Button>
         <Button buttonStyle="secondary" size="sm" shortcut="/">Small</Button>
@@ -363,7 +363,7 @@ export const KeyboardShortcutBinding: Story = {
         <p className="margin-0size-sm text-subtle">
           shortcut prop은 뱃지 표시 + 전역 keydown 리스너를 자동 바인딩합니다.
         </p>
-        <div className="flex flex-wrap ds-gap-12 items-center">
+        <div className="flex flex-wrap ds-gap-12 items-center justify-center">
           <Button
             buttonStyle="secondary"
             leadIcon={['system', 'search']}
@@ -395,7 +395,7 @@ export const KeyboardShortcutBinding: Story = {
             새 패널
           </Button>
         </div>
-        <div className="flex flex-wrap ds-gap-12 items-center">
+        <div className="flex flex-wrap ds-gap-12 items-center justify-center">
           <Button
             buttonStyle="secondary"
             shortcut="Escape"
@@ -439,12 +439,12 @@ export const KeyboardShortcutBinding: Story = {
 export const States: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button>Default</Button>
         <Button disabled>Disabled</Button>
         <Button loading>Loading</Button>
       </div>
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button buttonStyle="secondary">Default</Button>
         <Button buttonStyle="secondary" disabled>Disabled</Button>
         <Button buttonStyle="secondary" loading>Loading</Button>
@@ -472,7 +472,7 @@ export const LoadingState: Story = {
     return (
       <div className="flex flex-col ds-gap-16">
         <p className="margin-0size-sm text-subtle">각 버튼을 클릭하여 로딩 상태를 테스트하세요</p>
-        <div className="flex flex-wrap ds-gap-12 items-center">
+        <div className="flex flex-wrap ds-gap-12 items-center justify-center">
           <Button
             loading={loadingStates['textOnly']}
             onClick={() => handleClick('textOnly')}
@@ -502,7 +502,7 @@ export const LoadingState: Story = {
             양쪽 아이콘
           </Button>
         </div>
-        <div className="flex flex-wrap ds-gap-12 items-center">
+        <div className="flex flex-wrap ds-gap-12 items-center justify-center">
           <Button
             buttonStyle="secondary"
             shortcut="/"
@@ -521,7 +521,7 @@ export const LoadingState: Story = {
             아이콘 + 단축키
           </Button>
         </div>
-        <div className="flex flex-wrap ds-gap-12 items-center">
+        <div className="flex flex-wrap ds-gap-12 items-center justify-center">
           <Button
             variant="iconOnly"
             leadIcon={['system', 'settings']}
@@ -563,7 +563,7 @@ export const AsChild: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-12">
       <p className="margin-0size-sm text-subtle">asChild prop으로 a 태그로 렌더링</p>
-      <div className="flex flex-wrap ds-gap-12 items-center">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button asChild buttonStyle="primary">
           <a href="https://example.com" target="_blank" rel="noopener noreferrer">
             Link as Primary
