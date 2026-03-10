@@ -586,7 +586,7 @@
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
     "preview": "vite preview",
-    "storybook": "NODE_OPTIONS='--max-old-space-size=4096' storybook dev -p 6006",
+    "storybook": "NODE_OPTIONS='--max-old-space-size=8192' storybook dev -p 6006",
     "build-storybook": "NODE_OPTIONS='--max-old-space-size=8192' storybook build",
     "extract:icons": "node scripts/extract-icons-to-svg.mjs",
     "generate:icons": "node scripts/generate-icons.mjs",

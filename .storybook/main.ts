@@ -196,7 +196,11 @@ const config: StorybookConfig = {
     }
     config.server.fs = {
       ...config.server.fs,
-      strict: false, // Allow serving files outside of root
+      strict: false,
+    };
+    config.server.hmr = {
+      ...config.server.hmr,
+      timeout: 60000,
     };
 
     // Performance optimizations
