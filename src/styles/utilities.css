@@ -1574,7 +1574,23 @@ table[data-striped] tbody tr:nth-child(even) {
 }
 
 @utility shadow-components-default {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06), inset 0px -1px 0px rgba(0, 0, 0, 0.08);
+  position: relative;
+  border: 1px solid rgba(39, 39, 42, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    0 1px 2px rgba(0, 0, 0, 0.10);
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: inherit;
+    pointer-events: none;
+  }
 }
 
 @utility shadow-component-focus {
