@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.27] - 2026-03-10
+
+### Performance
+
+- **아이콘 번들 최적화**: Icon 컴포넌트에서 isometric 아이콘 카테고리 분리 (Icon/icons/index.ts에서 제거, generate-icons.mjs EXCLUDED_CATEGORIES에 추가). 소비자가 `<Icon>` 사용 시 3MB isometric 데이터가 로드되지 않음. `<IsometricIcon>`은 별도 경로로 정상 동작.
+- **아이콘 barrel export 제거**: Icon/icons/index.ts의 18개 카테고리 `export *` 제거. 아이콘은 ui-icon-registry.tsx를 통해 카테고리별 온디맨드 로딩. Icon entry point 145KB→0KB 감소. Storybook 시작 속도 개선.
+- **Tooltip 키프레임 CSS 이동**: TooltipTrigger의 런타임 `useEffect` 동적 `<style>` 주입 제거. `@keyframes tooltip-enter`를 src/index.css `@theme inline` 블록으로 이동 (accordion, progress, shimmer와 동일 패턴). SSR 안전, 첫 렌더 시 즉시 사용 가능.
+
+### Fixed
+
+- **Storybook 스토리 버그 수정**: Toast Default 스토리가 5개 변형 대신 단일 컨트롤 가능한 ToastContent 렌더링. ContextMenu width 컨트롤 `control: 'text'`→`control: 'number'`. ContextMenu alignOffset argType 제거 (컨텍스트 메뉴에서 효과 없음). union 타입 표시 수정: container/toastId 등 argType에 `table.type.summary` 추가.
+
 ## [1.0.26] - 2026-03-10
 
 ### Improved

@@ -36,12 +36,13 @@ npm install @blumnai-studio/blumnai-design-system --legacy-peer-deps
 // 1. Import CSS once in app entry
 import '@blumnai-studio/blumnai-design-system/styles';
 
-// 2. Import components
-import { Button, Input, Select } from '@blumnai-studio/blumnai-design-system';
-
-// Or use subpath imports for faster builds
+// 2. Import components (subpath imports recommended for smaller bundles)
 import { Button } from '@blumnai-studio/blumnai-design-system/button';
 import { Input } from '@blumnai-studio/blumnai-design-system/input';
+import { Icon } from '@blumnai-studio/blumnai-design-system/icons/icon';
+
+// Root import also works (but pulls all component metadata)
+import { Button, Input, Select } from '@blumnai-studio/blumnai-design-system';
 ```
 
 **Peer Dependencies:**
@@ -3388,7 +3389,8 @@ function ResponsivePanel({ children }) {
 | `/form` | Form, FormField, FormControl, FormItem, FormDescription, FormError |
 | `/hover-card` | HoverCard, HoverCardTrigger, HoverCardContent |
 | `/icons` | All icons |
-| `/icons/icon` | Icon |
+| `/icons/icon` | Icon (categories lazy-loaded on demand) |
+| `/icons/isometric` | IsometricIcon |
 | `/icons/brand` | BrandIcon |
 | `/icons/flag` | FlagIcon |
 | `/icons/file` | FileIcon |

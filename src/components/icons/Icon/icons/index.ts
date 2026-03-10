@@ -1,20 +1,3 @@
-export * from './arrows';
-export * from './buildings';
-export * from './business';
-export * from './communication';
-export * from './design';
-export * from './development';
-export * from './device';
-export * from './document';
-export * from './editor';
-export * from './finance';
-export * from './food';
-export * from './health & medical';
-export * from './isometricIcon';
-export * from './logos';
-export * from './map';
-export * from './media';
-export * from './others';
-export * from './system';
-export * from './user & faces';
-export * from './weather';
+// Icon components are loaded on-demand via ui-icon-registry.tsx (per-category lazy loading).
+// Do not add barrel exports here — they force all categories into the bundle.
+export {};

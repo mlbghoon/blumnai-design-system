@@ -112,6 +112,14 @@ const meta: Meta<DropdownStoryProps> = {
         category: 'DropdownMenuContent',
       },
     },
+    container: {
+      control: false,
+      description: '[DropdownMenuContent] Portal이 렌더링될 컨테이너 요소',
+      table: {
+        type: { summary: 'HTMLElement | null' },
+        category: 'DropdownMenuContent',
+      },
+    },
     loading: {
       control: 'boolean',
       description: '[DropdownMenuContent] 비동기 데이터 로딩 중 표시 여부',

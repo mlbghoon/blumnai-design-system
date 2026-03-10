@@ -216,16 +216,6 @@ export function TooltipTrigger({
   }, []);
 
   useEffect(() => {
-    const styleId = 'blumnai-tooltip-keyframes';
-    if (!document.getElementById(styleId)) {
-      const style = document.createElement('style');
-      style.id = styleId;
-      style.textContent = '@keyframes tooltip-enter{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}';
-      document.head.appendChild(style);
-    }
-  }, []);
-
-  useEffect(() => {
     return () => {
       if (hoverTimeoutRef.current) {
         clearTimeout(hoverTimeoutRef.current);

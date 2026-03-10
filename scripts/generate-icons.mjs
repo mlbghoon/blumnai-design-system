@@ -216,10 +216,11 @@ function processSVGFile(svgFilePath) {
  * These are excluded from the main generate-icons.mjs script.
  */
 const EXCLUDED_CATEGORIES = new Set([
-  'brands',    // -> BrandIcon/icons/ via generate-brands-icons.mjs
-  'cursors',   // -> CursorIcon/icons/ via generate-cursors-icons.mjs
-  'flags',     // -> FlagIcon/icons/ via generate-flags-icons.mjs
-  'fileIcons', // -> FileIcon/icons/ via generate-file-icons.mjs
+  'brands',        // -> BrandIcon/icons/ via generate-brands-icons.mjs
+  'cursors',       // -> CursorIcon/icons/ via generate-cursors-icons.mjs
+  'flags',         // -> FlagIcon/icons/ via generate-flags-icons.mjs
+  'fileIcons',     // -> FileIcon/icons/ via generate-file-icons.mjs
+  'isometricIcon', // -> IsometricIcon/icons/ via generate-isometric-icons.mjs
 ]);
 
 /**
@@ -337,20 +338,18 @@ function processCategory(category) {
 
 /**
  * Update main index.ts file
- * @param {string[]} categories - Array of category names
+ *
+ * Barrel exports are intentionally removed — icon components are loaded
+ * on-demand via ui-icon-registry.tsx (per-category lazy loading).
+ * Adding `export * from './category'` here would force all categories
+ * into the consumer bundle.
  */
-function updateMainIndex(categories) {
+function updateMainIndex() {
   const indexPath = path.join(ICONS_OUTPUT_DIR, 'index.ts');
 
-  const categoryExports = categories
-    .sort()
-    .map(category => {
-      const categoryPath = `'./${category}'`;
-      return `export * from ${categoryPath};`;
-    })
-    .join('\n');
-
-  const newContent = `${categoryExports}
+  const newContent = `// Icon components are loaded on-demand via ui-icon-registry.tsx (per-category lazy loading).
+// Do not add barrel exports here — they force all categories into the bundle.
+export {};
 `;
 
   fs.writeFileSync(indexPath, newContent, 'utf-8');
@@ -384,9 +383,9 @@ function main() {
     console.log(`   ✅ ${stats.success} generated, ❌ ${stats.failed} failed\n`);
   }
 
-  // Update main index.ts
+  // Update main index.ts (no barrel exports — lazy loading only)
   console.log('📝 Updating main index.ts...');
-  updateMainIndex(allCategories);
+  updateMainIndex();
   console.log('   ✅ Main index.ts updated\n');
 
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');

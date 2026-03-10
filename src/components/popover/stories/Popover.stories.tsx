@@ -156,6 +156,14 @@ const meta: Meta<PopoverStoryProps> = {
         category: 'PopoverContent',
       },
     },
+    container: {
+      control: false,
+      description: '[PopoverContent] Portal이 렌더링될 컨테이너 요소',
+      table: {
+        type: { summary: 'HTMLElement | null' },
+        category: 'PopoverContent',
+      },
+    },
     // PopoverScrollArea props
     maxHeight: {
       control: 'text',

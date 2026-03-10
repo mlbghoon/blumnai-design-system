@@ -26,6 +26,7 @@ const meta: Meta<ToastContentProps> = {
           summary: 'ToastVariant',
           detail: `'default' | 'info' | 'success' | 'warning' | 'error'`,
         },
+        defaultValue: { summary: 'default' },
       },
     },
     message: {
@@ -37,7 +38,7 @@ const meta: Meta<ToastContentProps> = {
     },
     label: {
       control: 'text',
-      description: '라벨 텍스트 (기본값: 변형에 따라 자동 설정)',
+      description: '라벨 텍스트 (기본값: 변형에 따라 자동 설정, 예: "Info:", "Success:"). 콜론 포함 필요 시 직접 입력',
       table: {
         type: { summary: 'string' },
       },
@@ -55,6 +56,13 @@ const meta: Meta<ToastContentProps> = {
         },
       },
     },
+    toastId: {
+      control: 'text',
+      description: '토스트의 고유 ID. 동일 ID로 중복 생성 방지 또는 기존 토스트 업데이트에 사용됩니다',
+      table: {
+        type: { summary: 'string | number' },
+      },
+    },
   },
   decorators: [
     (Story) => (
@@ -70,11 +78,49 @@ export default meta;
 type Story = StoryObj<ToastContentProps>;
 
 /**
- * 정적 미리보기
+ * 기본 Toast
  *
- * 토스트 컴포넌트의 정적 미리보기입니다.
+ * 토스트 컴포넌트의 모든 props를 테스트할 수 있습니다.
+ *
+ * ```tsx
+ * import { toast } from '@blumnai/design-system';
+ *
+ * toast.success('작업이 성공적으로 완료되었습니다!');
+ * toast.error('문제가 발생했습니다.');
+ * toast.info('유용한 정보입니다.');
+ * toast.warning('계속하기 전에 검토하세요.');
+ * toast.default('기본 메시지입니다.');
+ * ```
  */
-export const StaticPreview: Story = {
+export const Default: Story = {
+  args: {
+    variant: 'default',
+    message: '토스트 메시지입니다',
+    label: undefined,
+  },
+  parameters: {
+    controls: { disable: false },
+  },
+  render: function Render(args) {
+    const label = args.label || undefined;
+    return (
+      <div style={{ width: 500 }}>
+        <ToastContent
+          variant={args.variant}
+          message={args.message}
+          label={label}
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 모든 변형 미리보기
+ *
+ * 5가지 토스트 변형: default, info, success, warning, error
+ */
+export const AllVariants: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-12" style={{ width: 500 }}>
       <ToastContent variant="default" message="토스트 메시지입니다" />
@@ -90,88 +136,35 @@ export const StaticPreview: Story = {
 };
 
 /**
- * 기본 Toast
+ * 토스트 트리거
  *
  * 버튼을 클릭하여 각 변형의 토스트를 확인할 수 있습니다.
- * toast 함수를 사용하여 프로그래밍 방식으로 토스트를 표시합니다.
- *
- * ```tsx
- * import { toast } from '@blumnai/design-system';
- *
- * toast.success('Your action was successfully completed!');
- * toast.error('Something went wrong.');
- * toast.info('Here is some information.');
- * toast.warning('Please be careful.');
- * toast.default('Default message.');
- * ```
  */
-export const Default: Story = {
-  args: {
-    variant: 'success',
-    message: '작업이 성공적으로 완료되었습니다!',
-    label: undefined,
-  },
-  parameters: {
-    controls: { disable: false },
-    docs: {
-      source: {
-        code: `import { toast } from '@blumnai/design-system';
-
-// 토스트 표시
-toast.success('작업이 성공적으로 완료되었습니다!');
-
-// 커스텀 라벨
-toast.success('저장됨!', { label: '완료:' });
-
-// 커스텀 지속 시간
-toast.success('짧은 메시지', { duration: 2000 });`,
-      },
-    },
-  },
-  render: function Render(args) {
-    const label = args.label || undefined;
-    const toastFn = toast[args.variant || 'success'];
-
-    return (
-      <Button buttonStyle="secondary" onClick={() => toastFn(args.message, { label })}>
-        토스트 표시
-      </Button>
-    );
-  },
-};
-
-/**
- * 모든 변형
- *
- * 5가지 토스트 변형: default, info, success, warning, error
- */
-export const AllVariants: Story = {
+export const ToastTrigger: Story = {
   render: () => (
-    <div className="flex flex-col ds-gap-12">
-      <div className="flex ds-gap-12 flex-wrap">
-        <Button buttonStyle="secondary" onClick={() => toast.default('토스트 메시지입니다')}>
-          Default
-        </Button>
-        <Button buttonStyle="secondary" onClick={() => toast.info('유용한 정보입니다.')}>
-          Info
-        </Button>
-        <Button
-          buttonStyle="secondary"
-          onClick={() =>
-            toast.success(
-              '작업이 성공적으로 완료되었습니다! 다음 단계로 진행하거나 아래 결과를 확인하세요.'
-            )
-          }
-        >
-          Success
-        </Button>
-        <Button buttonStyle="secondary" onClick={() => toast.warning('계속하기 전에 검토하세요.')}>
-          Warning
-        </Button>
-        <Button buttonStyle="secondary" onClick={() => toast.error('문제가 발생했습니다. 다시 시도하세요.')}>
-          Error
-        </Button>
-      </div>
+    <div className="flex ds-gap-12 flex-wrap">
+      <Button buttonStyle="secondary" onClick={() => toast.default('토스트 메시지입니다')}>
+        Default
+      </Button>
+      <Button buttonStyle="secondary" onClick={() => toast.info('유용한 정보입니다.')}>
+        Info
+      </Button>
+      <Button
+        buttonStyle="secondary"
+        onClick={() =>
+          toast.success(
+            '작업이 성공적으로 완료되었습니다! 다음 단계로 진행하거나 아래 결과를 확인하세요.'
+          )
+        }
+      >
+        Success
+      </Button>
+      <Button buttonStyle="secondary" onClick={() => toast.warning('계속하기 전에 검토하세요.')}>
+        Warning
+      </Button>
+      <Button buttonStyle="secondary" onClick={() => toast.error('문제가 발생했습니다. 다시 시도하세요.')}>
+        Error
+      </Button>
     </div>
   ),
 };

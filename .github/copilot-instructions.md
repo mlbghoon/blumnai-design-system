@@ -22,7 +22,7 @@ This design system uses **custom CSS utility classes**. Never use default Tailwi
 | Padding | `padding-4`, `padding-x-12`, `padding-y-8` | `p-4`, `px-3`, `py-2` |
 | Width | `width-16`, `width-24` | `w-16`, `w-[14px]` |
 | Height | `height-16`, `height-36` | `h-16`, `h-[36px]` |
-| Gap | `gap-8`, `gap-12` | `gap-[8px]` |
+| Gap | `ds-gap-8`, `ds-gap-12` | `gap-8`, `gap-[8px]` |
 
 ### Colors
 

@@ -31,20 +31,19 @@ const meta: Meta<ContextMenuStoryProps> = {
     controls: { disable: true },
   },
   argTypes: {
-    alignOffset: {
+    width: {
       control: 'number',
-      description: '[ContextMenuContent] 정렬 오프셋 (px)',
+      description: '[ContextMenuContent] 컨텍스트 메뉴의 커스텀 너비 (px)',
       table: {
-        type: { summary: 'number' },
-        defaultValue: { summary: '0' },
+        type: { summary: 'string | number' },
         category: 'ContextMenuContent',
       },
     },
-    width: {
-      control: 'text',
-      description: '[ContextMenuContent] 컨텍스트 메뉴의 커스텀 너비 (예: "200", "300px")',
+    container: {
+      control: false,
+      description: '[ContextMenuContent] Portal이 렌더링될 컨테이너 요소',
       table: {
-        type: { summary: 'string | number' },
+        type: { summary: 'HTMLElement | null' },
         category: 'ContextMenuContent',
       },
     },
@@ -68,7 +67,6 @@ type Story = StoryObj<ContextMenuStoryProps>;
  */
 export const Default: Story = {
   args: {
-    alignOffset: 0,
     width: 200,
   },
   parameters: {
@@ -81,7 +79,6 @@ export const Default: Story = {
           우클릭하세요
         </ContextMenuTrigger>
         <ContextMenuContent
-          alignOffset={args.alignOffset}
           width={args.width}
         >
           <ContextMenuLabel>동작</ContextMenuLabel>
