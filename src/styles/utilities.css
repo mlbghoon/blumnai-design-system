@@ -1581,12 +1581,12 @@ table[data-striped] tbody tr:nth-child(even) {
   &::after {
     content: '';
     position: absolute;
-    left: 0;
-    right: 0;
+    left: 4px;
+    right: 4px;
     bottom: -1px;
     height: 1px;
     background: rgba(0, 0, 0, 0.06);
-    border-radius: inherit;
+    border-radius: 1px;
     pointer-events: none;
   }
 }
