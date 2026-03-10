@@ -39,7 +39,7 @@ const STATE_CONFIG = {
   },
   selected: {
     bg: 'bg-input',
-    border: '',
+    border: 'border-default',
     text: 'text-subtle',
     iconColor: 'var(--icon-default-muted)',
   },

@@ -35,9 +35,9 @@ const buttonVariants = cva(
 );
 
 const BUTTON_COLOR_STYLE = {
-  primary: 'bg-state-primary text-white-default hover:bg-state-primary-hover active:bg-state-primary-press focus-visible:shadow-component-focus',
-  secondary: 'bg-state-secondary text-default hover:bg-state-secondary-hover active:bg-state-secondary-press focus-visible:shadow-component-focus',
-  destructive: 'bg-state-destructive text-white-default hover:bg-state-destructive-hover active:bg-state-destructive-press focus-visible:shadow-component-destructive-focus',
+  primary: 'bg-state-primary text-white-default border-solid border-[1px] border-transparent hover:bg-state-primary-hover active:bg-state-primary-press focus-visible:shadow-component-focus',
+  secondary: 'bg-state-secondary text-default border-darker hover:bg-state-secondary-hover active:bg-state-secondary-press focus-visible:shadow-component-focus',
+  destructive: 'bg-state-destructive text-white-default border-solid border-[1px] border-transparent hover:bg-state-destructive-hover active:bg-state-destructive-press focus-visible:shadow-component-destructive-focus',
   ghost: 'bg-state-ghost text-subtle border-solid border-[1px] border-transparent hover:bg-state-ghost-hover active:bg-state-ghost-press focus-visible:shadow-component-misc-focus',
   ghostMuted: 'bg-state-ghost text-muted border-solid border-[1px] border-transparent hover:bg-state-ghost-hover active:bg-state-ghost-press focus-visible:shadow-component-misc-focus',
   soft: 'bg-state-soft text-subtle border-solid border-[1px] border-transparent hover:bg-state-soft-hover active:bg-state-soft-press focus-visible:shadow-component-misc-focus',
@@ -80,9 +80,9 @@ const SHORTCUT_STYLE = {
 const DISABLED_STYLE = 'bg-state-disabled text-hint border-solid border-[1px] border-transparent cursor-not-allowed';
 
 const LOADING_STYLE = {
-  primary: 'bg-state-primary-loading text-white-default cursor-wait',
-  secondary: 'bg-state-secondary-loading text-default cursor-wait',
-  destructive: 'bg-state-destructive-loading text-white-default cursor-wait',
+  primary: 'bg-state-primary-loading text-white-default border-solid border-[1px] border-transparent cursor-wait',
+  secondary: 'bg-state-secondary-loading text-default border-darker cursor-wait',
+  destructive: 'bg-state-destructive-loading text-white-default border-solid border-[1px] border-transparent cursor-wait',
   ghost: 'bg-state-ghost-loading text-subtle border-solid border-[1px] border-transparent cursor-wait',
   ghostMuted: 'bg-state-ghost-loading text-subtle border-solid border-[1px] border-transparent cursor-wait',
   soft: 'bg-state-soft-loading text-subtle border-solid border-[1px] border-transparent cursor-wait',
