@@ -280,6 +280,30 @@ export const WithChart: Story = {
 };
 
 /**
+ * 눈금 표시
+ *
+ * showTicks, tickCount, formatTick prop으로 슬라이더 아래에 눈금을 표시합니다.
+ */
+export const WithTicks: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<[number, number]>([20, 80]);
+    return (
+      <div style={{ width: 320 }}>
+        <DataRangeSlider
+          label="가격 범위"
+          value={value}
+          onChange={setValue}
+          chartData={sampleChartData}
+          showTicks
+          tickCount={6}
+          formatTick={(v) => `${v}%`}
+        />
+      </div>
+    );
+  },
+};
+
+/**
  * 차트 없음
  */
 export const WithoutChart: Story = {

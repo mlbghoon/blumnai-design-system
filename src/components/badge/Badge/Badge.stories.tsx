@@ -9,6 +9,7 @@ const meta: Meta<typeof Badge> = {
   component: Badge,
   parameters: {
     layout: 'centered',
+    controls: { disable: true },
   },
   tags: ['autodocs'],
   argTypes: {

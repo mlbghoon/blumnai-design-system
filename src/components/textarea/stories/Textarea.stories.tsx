@@ -199,6 +199,26 @@ const meta: Meta<typeof Textarea> = {
         type: { summary: 'string | number' },
       },
     },
+    fieldSizing: {
+      control: 'select',
+      options: ['fixed', 'content'],
+      description: 'CSS field-sizing 속성. "content"로 설정하면 입력 내용에 따라 높이가 자동 조정됩니다 (Chrome 123+)',
+      table: {
+        type: {
+          summary: 'FieldSizing',
+          detail: `'content' | 'fixed'`,
+        },
+        defaultValue: { summary: 'fixed' },
+      },
+    },
+    autoResize: {
+      control: 'boolean',
+      description: '입력 내용에 따라 높이가 자동 조절되는 JS 기반 자동 리사이즈. maxRows 설정 없이 제한 없이 늘어납니다',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
   },
 };
 
@@ -228,6 +248,8 @@ export const Default: Story = {
     error: '',
     success: '',
     showToolbar: false,
+    fieldSizing: 'fixed',
+    autoResize: false,
   },
   parameters: {
     controls: { disable: false },
@@ -258,6 +280,8 @@ export const Default: Story = {
         resize={args.resize}
         width={args.width}
         showToolbar={args.showToolbar}
+        fieldSizing={args.fieldSizing}
+        autoResize={args.autoResize}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
@@ -513,6 +537,52 @@ export const AllStates: Story = {
       />
     </div>
   ),
+};
+
+/**
+ * CSS field-sizing 자동 높이
+ *
+ * CSS `field-sizing: content` 속성을 사용하여 입력 내용에 따라 높이가 자동 조정됩니다.
+ * Chrome 123+ 에서 지원됩니다.
+ */
+export const AutoHeight: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('');
+
+    return (
+      <Textarea
+        label="자동 높이 (CSS)"
+        placeholder="내용을 입력하면 높이가 자동 조절됩니다..."
+        fieldSizing="content"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        caption="CSS field-sizing: content (Chrome 123+)"
+      />
+    );
+  },
+};
+
+/**
+ * JS 기반 자동 리사이즈
+ *
+ * autoResize prop으로 JavaScript 기반 자동 높이 조절을 활성화합니다.
+ * 모든 브라우저에서 동작합니다.
+ */
+export const AutoResize: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('');
+
+    return (
+      <Textarea
+        label="자동 리사이즈 (JS)"
+        placeholder="내용을 입력하면 높이가 자동 조절됩니다..."
+        autoResize
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        caption="JavaScript 기반 자동 리사이즈 (모든 브라우저 지원)"
+      />
+    );
+  },
 };
 
 /**

@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { HoverCard, HoverCardTrigger, HoverCardContent } from '../HoverCard';
+import type { HoverCardProps, HoverCardContentProps } from '../HoverCard.types';
 import { Avatar } from '../../avatar/Avatar';
 
-const meta: Meta<typeof HoverCard> = {
+type HoverCardStoryProps = HoverCardProps & HoverCardContentProps;
+
+const meta: Meta<HoverCardStoryProps> = {
   title: 'DataDisplay/HoverCard',
   component: HoverCard,
   tags: ['autodocs'],
@@ -11,10 +14,74 @@ const meta: Meta<typeof HoverCard> = {
     layout: 'centered',
     controls: { disable: true },
   },
+  argTypes: {
+    openDelay: {
+      control: 'number',
+      description: '[HoverCard] 호버 후 카드가 열리기까지의 지연 시간 (ms)',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '700' },
+        category: 'HoverCard',
+      },
+    },
+    closeDelay: {
+      control: 'number',
+      description: '[HoverCard] 마우스가 떠난 후 카드가 닫히기까지의 지연 시간 (ms)',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '300' },
+        category: 'HoverCard',
+      },
+    },
+    side: {
+      control: 'select',
+      options: ['top', 'right', 'bottom', 'left'],
+      description: '[HoverCardContent] 카드가 표시되는 방향',
+      table: {
+        type: {
+          summary: 'Side',
+          detail: `'top' | 'right' | 'bottom' | 'left'`,
+        },
+        defaultValue: { summary: 'bottom' },
+        category: 'HoverCardContent',
+      },
+    },
+    sideOffset: {
+      control: 'number',
+      description: '[HoverCardContent] 트리거와 카드 사이의 간격 (px)',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '4' },
+        category: 'HoverCardContent',
+      },
+    },
+    align: {
+      control: 'select',
+      options: ['start', 'center', 'end'],
+      description: '[HoverCardContent] 트리거 기준 카드의 정렬 위치',
+      table: {
+        type: {
+          summary: 'Align',
+          detail: `'start' | 'center' | 'end'`,
+        },
+        defaultValue: { summary: 'center' },
+        category: 'HoverCardContent',
+      },
+    },
+    width: {
+      control: 'number',
+      description: '[HoverCardContent] 카드의 커스텀 너비 (px). 미설정 시 256px',
+      table: {
+        type: { summary: 'number | string' },
+        defaultValue: { summary: '256' },
+        category: 'HoverCardContent',
+      },
+    },
+  },
 };
 
 export default meta;
-type Story = StoryObj<typeof HoverCard>;
+type Story = StoryObj<HoverCardStoryProps>;
 
 /**
  * 기본 Hover Card
@@ -22,12 +89,20 @@ type Story = StoryObj<typeof HoverCard>;
  * 링크나 요소에 마우스를 올리면 추가 정보를 표시합니다.
  */
 export const Default: Story = {
+  args: {
+    openDelay: 700,
+    closeDelay: 300,
+    side: 'bottom',
+    sideOffset: 4,
+    align: 'center',
+    width: undefined,
+  },
   parameters: {
     controls: { disable: false },
   },
-  render: function Render() {
+  render: function Render(args) {
     return (
-      <HoverCard>
+      <HoverCard openDelay={args.openDelay} closeDelay={args.closeDelay}>
         <HoverCardTrigger asChild>
           <a
             href="#"
@@ -36,7 +111,7 @@ export const Default: Story = {
             @blumnai
           </a>
         </HoverCardTrigger>
-        <HoverCardContent>
+        <HoverCardContent side={args.side} sideOffset={args.sideOffset} align={args.align} width={args.width}>
           <div className="flex ds-gap-16">
             <Avatar size="lg" initials="BL" />
             <div className="flex flex-col ds-gap-4">

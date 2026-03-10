@@ -24,6 +24,20 @@ const meta: Meta<typeof InputOTP> = {
         type: { summary: 'number' },
       },
     },
+    label: {
+      control: 'text',
+      description: 'OTP 입력 위에 표시되는 라벨 텍스트. aria-label이 없으면 접근성 이름으로도 사용됩니다',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    error: {
+      control: 'text',
+      description: '에러 상태 — true면 슬롯에 빨간 테두리 적용, 문자열이면 에러 메시지도 함께 표시합니다',
+      table: {
+        type: { summary: 'boolean | string' },
+      },
+    },
     disabled: {
       control: 'boolean',
       description: 'true로 설정하면 컴포넌트가 비활성화되어 입력을 할 수 없습니다',
@@ -43,12 +57,20 @@ type Story = StoryObj<typeof InputOTP>;
  * 6자리 OTP 코드를 입력받는 컴포넌트입니다.
  */
 export const Default: Story = {
+  args: {
+    maxLength: 6,
+    label: '인증 코드',
+    error: '',
+    disabled: false,
+  },
   parameters: {
     controls: { disable: false },
   },
-  render: function Render() {
+  render: function Render(args) {
+    const error = args.error || undefined;
+
     return (
-      <InputOTP maxLength={6}>
+      <InputOTP maxLength={args.maxLength} label={args.label} error={error} disabled={args.disabled}>
         <InputOTPGroup>
           <InputOTPSlot index={0} />
           <InputOTPSlot index={1} />
@@ -101,6 +123,28 @@ export const FourDigitPIN: Story = {
           <InputOTPSlot index={1} />
           <InputOTPSlot index={2} />
           <InputOTPSlot index={3} />
+        </InputOTPGroup>
+      </InputOTP>
+    );
+  },
+};
+
+/**
+ * 에러 상태
+ *
+ * 잘못된 코드 입력 시 에러 메시지와 함께 빨간 테두리가 표시됩니다.
+ */
+export const Error: Story = {
+  render: function Render() {
+    return (
+      <InputOTP maxLength={6} error="인증 코드가 올바르지 않습니다" label="인증 코드">
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+          <InputOTPSlot index={4} />
+          <InputOTPSlot index={5} />
         </InputOTPGroup>
       </InputOTP>
     );

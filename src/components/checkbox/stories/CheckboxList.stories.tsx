@@ -54,6 +54,13 @@ const meta: Meta<CheckboxListProps> = {
         },
       },
     },
+    name: {
+      control: 'text',
+      description: '체크박스의 HTML form name 속성 (모든 체크박스에 공통 적용)',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
     onItemChange: {
       action: 'itemChange',
       description: '아이템 체크 상태 변경 콜백',
@@ -86,6 +93,7 @@ export const Default: Story = {
   args: {
     listStyle: 'default',
     checkboxStyle: 'with-shadow',
+    name: undefined,
   },
   parameters: {
     controls: { disable: false },
@@ -103,11 +111,14 @@ export const Default: Story = {
       );
     };
 
+    const name = args.name || undefined;
+
     return (
       <CheckboxList
         items={items}
         listStyle={args.listStyle}
         checkboxStyle={args.checkboxStyle}
+        name={name}
         onItemChange={handleItemChange}
       />
     );

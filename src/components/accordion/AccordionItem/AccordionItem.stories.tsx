@@ -9,6 +9,7 @@ const meta = {
   component: AccordionItem,
   parameters: {
     layout: 'padded',
+    controls: { disable: true },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -64,6 +65,24 @@ const meta = {
         },
       },
     },
+    defaultIsOpen: {
+      control: 'boolean',
+      description: '비제어 모드에서 초기 열림 상태를 지정합니다. isOpen이 없을 때 사용됩니다',
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
+    headingLevel: {
+      control: 'select',
+      options: [2, 3, 4, 5, 6],
+      description: '헤더의 WAI-ARIA heading 레벨 (h2~h6). 접근성을 위해 페이지 구조에 맞는 레벨을 선택합니다',
+      table: {
+        type: {
+          summary: '2 | 3 | 4 | 5 | 6',
+        },
+        defaultValue: { summary: '3' },
+      },
+    },
     onToggle: {
       action: 'toggled',
       description: '아코디언이 열리거나 닫힐 때 호출되는 콜백 함수입니다. 현재 열림 상태(isOpen)가 인자로 전달됩니다',
@@ -91,7 +110,12 @@ export const Default: Story = {
     header: '아코디언 항목 제목',
     children: '아코디언 항목의 내용입니다. 어떤 React 노드든 포함할 수 있습니다.',
     style: 'default',
+    defaultIsOpen: false,
+    headingLevel: 3,
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const accordionRef = useRef<HTMLDivElement>(null);
@@ -142,6 +166,32 @@ export const Disabled: Story = {
 };
 
 
+/**
+ * Heading 레벨
+ *
+ * headingLevel prop으로 WAI-ARIA heading 레벨을 지정합니다.
+ */
+export const HeadingLevels: Story = {
+  args: {
+    header: 'Heading 레벨 비교',
+    children: 'Heading 레벨을 비교합니다.',
+    style: 'default',
+  },
+  render: () => (
+    <div className="flex flex-col ds-gap-16" style={{ maxWidth: '600px' }}>
+      <AccordionItem header="headingLevel=2 (h2)" headingLevel={2} style="default">
+        h2 레벨의 아코디언 헤더입니다.
+      </AccordionItem>
+      <AccordionItem header="headingLevel=3 (h3, 기본)" headingLevel={3} style="default">
+        h3 레벨의 아코디언 헤더입니다 (기본값).
+      </AccordionItem>
+      <AccordionItem header="headingLevel=4 (h4)" headingLevel={4} style="default">
+        h4 레벨의 아코디언 헤더입니다.
+      </AccordionItem>
+    </div>
+  ),
+};
+
 export const AllVariants: Story = {
   args: {
     header: '모든 변형',
@@ -149,7 +199,7 @@ export const AllVariants: Story = {
     style: 'default',
   },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '600px' }}>
+    <div className="flex flex-col ds-gap-16" style={{ maxWidth: '600px' }}>
       <AccordionItem header="Default 스타일" style="default">
         테두리와 그림자가 있는 기본 스타일 아코디언입니다.
       </AccordionItem>

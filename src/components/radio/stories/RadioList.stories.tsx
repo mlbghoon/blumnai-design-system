@@ -57,6 +57,26 @@ const meta: Meta<RadioListProps> = {
       description: '현재 선택된 값',
       table: { type: { summary: 'string' } },
     },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: '라디오 버튼 크기',
+      table: {
+        type: {
+          summary: 'RadioSize',
+          detail: `'sm' | 'md' | 'lg'`,
+        },
+        defaultValue: { summary: 'sm' },
+      },
+    },
+    disabled: {
+      control: 'boolean',
+      description: '리스트 전체 비활성화 여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
     onValueChange: {
       action: 'valueChange',
       description: '값 변경 콜백',
@@ -89,6 +109,8 @@ export const Default: Story = {
   args: {
     listStyle: 'default',
     radioStyle: 'with-shadow',
+    size: 'sm',
+    disabled: false,
   },
   parameters: {
     controls: { disable: false },
@@ -109,6 +131,8 @@ export const Default: Story = {
         onValueChange={setValue}
         listStyle={args.listStyle}
         radioStyle={args.radioStyle}
+        size={args.size}
+        disabled={args.disabled}
       />
     );
   },
@@ -255,6 +279,64 @@ export const WithSelectionDisplay: Story = {
           선택됨: {value || '없음'}
         </p>
       </div>
+    );
+  },
+};
+
+/**
+ * 크기 비교
+ *
+ * sm, md, lg 세 가지 크기를 비교합니다.
+ */
+export const Sizes: Story = {
+  render: function Render() {
+    const [value1, setValue1] = useState('1');
+    const [value2, setValue2] = useState('1');
+    const [value3, setValue3] = useState('1');
+
+    const items = [
+      { value: '1', title: '옵션 1' },
+      { value: '2', title: '옵션 2' },
+    ];
+
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">size=&quot;sm&quot;</p>
+          <RadioList items={items} value={value1} onValueChange={setValue1} size="sm" />
+        </div>
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">size=&quot;md&quot;</p>
+          <RadioList items={items} value={value2} onValueChange={setValue2} size="md" />
+        </div>
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">size=&quot;lg&quot;</p>
+          <RadioList items={items} value={value3} onValueChange={setValue3} size="lg" />
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * 전체 비활성화
+ *
+ * disabled prop으로 리스트 전체를 비활성화합니다.
+ */
+export const DisabledList: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('1');
+    return (
+      <RadioList
+        items={[
+          { value: '1', title: '옵션 1', description: '비활성화된 옵션입니다' },
+          { value: '2', title: '옵션 2', description: '비활성화된 옵션입니다' },
+          { value: '3', title: '옵션 3' },
+        ]}
+        value={value}
+        onValueChange={setValue}
+        disabled
+      />
     );
   },
 };

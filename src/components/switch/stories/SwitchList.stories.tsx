@@ -43,6 +43,29 @@ const meta: Meta<typeof SwitchList> = {
         type: { summary: 'SwitchListItem[]' },
       },
     },
+    showToggleAll: {
+      control: 'boolean',
+      description: '리스트 상단에 "전체 토글" 스위치 표시 여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    toggleAllLabel: {
+      control: 'text',
+      description: '"전체 토글" 스위치의 라벨 텍스트',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: '전체 토글' },
+      },
+    },
+    onToggleAll: {
+      action: 'toggleAll',
+      description: '전체 토글 상태 변경 콜백',
+      table: {
+        type: { summary: '(checked: boolean) => void' },
+      },
+    },
     onItemChange: {
       action: 'itemChanged',
       description: '아이템 체크 상태 변경 핸들러',
@@ -71,6 +94,8 @@ export const Default: Story = {
   args: {
     listStyle: 'default',
     color: 'green',
+    showToggleAll: false,
+    toggleAllLabel: undefined,
   },
   parameters: {
     controls: { disable: false },
@@ -84,12 +109,21 @@ export const Default: Story = {
       );
     };
 
+    const handleToggleAll = (checked: boolean) => {
+      setItems((prev) => prev.map((item) => ({ ...item, checked })));
+    };
+
+    const toggleAllLabel = args.toggleAllLabel || undefined;
+
     return (
       <div className="max-w-md">
         <SwitchList
           items={items}
           listStyle={args.listStyle}
           color={args.color}
+          showToggleAll={args.showToggleAll}
+          toggleAllLabel={toggleAllLabel}
+          onToggleAll={handleToggleAll}
           onItemChange={handleItemChange}
         />
       </div>
@@ -178,6 +212,44 @@ export const MixedStates: Story = {
         <SwitchList
           items={items}
           listStyle="bordered"
+          onItemChange={handleItemChange}
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 전체 토글 포함
+ *
+ * showToggleAll prop으로 리스트 상단에 "전체 토글" 스위치를 표시합니다.
+ */
+export const WithToggleAll: Story = {
+  render: function Render() {
+    const [items, setItems] = useState<SwitchListItem[]>([
+      { id: '1', title: '이메일 알림', description: '이메일 업데이트 수신', checked: true },
+      { id: '2', title: '푸시 알림', description: '기기에서 푸시 알림 수신', checked: false },
+      { id: '3', title: 'SMS 알림', description: '문자 메시지 수신', checked: false },
+    ]);
+
+    const handleItemChange = (id: string, checked: boolean) => {
+      setItems((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, checked } : item))
+      );
+    };
+
+    const handleToggleAll = (checked: boolean) => {
+      setItems((prev) => prev.map((item) => ({ ...item, checked })));
+    };
+
+    return (
+      <div className="max-w-md">
+        <SwitchList
+          items={items}
+          listStyle="bordered"
+          showToggleAll
+          toggleAllLabel="모든 알림"
+          onToggleAll={handleToggleAll}
           onItemChange={handleItemChange}
         />
       </div>

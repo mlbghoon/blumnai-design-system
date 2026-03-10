@@ -331,7 +331,7 @@ export const KeyboardShortcutBinding: Story = {
 
     return (
       <div className="flex flex-col ds-gap-16 max-w-sm">
-        <p className="margin-0size-sm text-subtle">
+        <p className="margin-0 size-sm text-subtle">
           ⌘K를 누르면 입력 필드가 포커스됩니다.
         </p>
         <Input

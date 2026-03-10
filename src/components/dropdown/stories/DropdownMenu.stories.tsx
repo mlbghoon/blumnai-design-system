@@ -104,6 +104,23 @@ const meta: Meta<DropdownStoryProps> = {
         category: 'DropdownMenuContent',
       },
     },
+    maxHeight: {
+      control: 'text',
+      description: '[DropdownMenuContent] 드롭다운의 최대 높이. 초과 시 스크롤 표시 (예: 200, "300px")',
+      table: {
+        type: { summary: 'string | number' },
+        category: 'DropdownMenuContent',
+      },
+    },
+    loading: {
+      control: 'boolean',
+      description: '[DropdownMenuContent] 비동기 데이터 로딩 중 표시 여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+        category: 'DropdownMenuContent',
+      },
+    },
   },
   decorators: [
     (Story) => (
@@ -162,6 +179,58 @@ export const Default: Story = {
           <DropdownMenuItem shortcut="⇧⌘Q">
             로그아웃
           </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  },
+};
+
+/**
+ * 최대 높이 제한
+ *
+ * maxHeight prop으로 드롭다운의 최대 높이를 제한하면 스크롤이 표시됩니다.
+ */
+export const WithMaxHeight: Story = {
+  render: function Render() {
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button buttonStyle="secondary">긴 메뉴</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent width={220} maxHeight={200}>
+          <DropdownMenuLabel>전체 메뉴</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>대시보드</DropdownMenuItem>
+          <DropdownMenuItem>프로필</DropdownMenuItem>
+          <DropdownMenuItem>설정</DropdownMenuItem>
+          <DropdownMenuItem>알림</DropdownMenuItem>
+          <DropdownMenuItem>보안</DropdownMenuItem>
+          <DropdownMenuItem>결제</DropdownMenuItem>
+          <DropdownMenuItem>팀 관리</DropdownMenuItem>
+          <DropdownMenuItem>API 키</DropdownMenuItem>
+          <DropdownMenuItem>로그</DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>로그아웃</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  },
+};
+
+/**
+ * 로딩 상태
+ *
+ * loading prop으로 비동기 데이터를 불러오는 동안 로딩 표시를 보여줍니다.
+ */
+export const Loading: Story = {
+  render: function Render() {
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button buttonStyle="secondary">데이터 로딩</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent width={220} loading>
+          <DropdownMenuLabel>목록</DropdownMenuLabel>
         </DropdownMenuContent>
       </DropdownMenu>
     );

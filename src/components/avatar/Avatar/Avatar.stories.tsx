@@ -9,6 +9,7 @@ const meta = {
   component: Avatar,
   parameters: {
     layout: 'centered',
+    controls: { disable: true },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -158,6 +159,9 @@ export const Default: Story = {
     shape: 'circular',
     initials: 'JD',
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const avatarRef = useRef<HTMLDivElement>(null);

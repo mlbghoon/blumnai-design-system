@@ -248,13 +248,46 @@ export const WithoutToggle: Story = {
  * `showStrength`와 `autoCalculateStrength` prop으로 비밀번호 강도를 자동 계산합니다.
  */
 export const WithStrengthAuto: Story = {
-  args: {
-    variant: 'password',
-    label: '비밀번호 만들기',
-    placeholder: '강력한 비밀번호를 입력하세요',
-    showStrength: true,
-    autoCalculateStrength: true,
-    caption: '문자, 숫자, 기호를 혼합하여 8자 이상 사용하세요',
+  render: function Render() {
+    const [password, setPassword] = useState('');
+    const [strength, setStrength] = useState<PasswordStrength>('none');
+
+    const getMissingHints = (pw: string): string[] => {
+      const hints: string[] = [];
+      if (pw.length < 8) hints.push('8자 이상');
+      if (!/[a-z]/.test(pw) || !/[A-Z]/.test(pw)) hints.push('대소문자');
+      if (!/[0-9]/.test(pw)) hints.push('숫자');
+      if (!/[^a-zA-Z0-9]/.test(pw)) hints.push('기호(!@#$ 등)');
+      return hints;
+    };
+
+    const getErrorMessage = (): string | undefined => {
+      if (strength === 'none') return undefined;
+      if (strength === 'high') return undefined;
+      const hints = getMissingHints(password);
+      if (hints.length === 0) return undefined;
+      return `다음 조건을 추가해 주세요: ${hints.join(', ')}`;
+    };
+
+    const error = getErrorMessage();
+    const success = strength === 'high' ? '안전한 비밀번호입니다' : undefined;
+    const caption = strength === 'none' ? '문자, 숫자, 기호를 혼합하여 8자 이상 사용하세요' : undefined;
+
+    return (
+      <Input
+        variant="password"
+        label="비밀번호 만들기"
+        placeholder="강력한 비밀번호를 입력하세요"
+        showStrength
+        autoCalculateStrength
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        onStrengthChange={setStrength}
+        error={error}
+        success={success}
+        caption={caption}
+      />
+    );
   },
 };
 

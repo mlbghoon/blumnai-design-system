@@ -51,12 +51,12 @@ true: 체크됨
     },
     checkboxPosition: {
       control: 'select',
-      options: ['left', 'right'],
+      options: ['left', 'right', 'off'],
       description: '체크박스 위치 (라벨 기준)',
       table: {
         type: {
           summary: 'CheckboxPosition',
-          detail: `'left' | 'right'`,
+          detail: `'left' | 'right' | 'off'`,
         },
         defaultValue: { summary: 'left' },
       },

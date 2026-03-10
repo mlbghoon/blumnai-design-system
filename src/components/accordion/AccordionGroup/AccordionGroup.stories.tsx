@@ -10,6 +10,7 @@ const meta = {
   component: AccordionGroup,
   parameters: {
     layout: 'padded',
+    controls: { disable: true },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -52,6 +53,15 @@ const meta = {
 - soft: 은은한 배경
 - ghost: 최소한의 배경
 - line: 하단 테두리만`,
+        },
+      },
+    },
+    onToggle: {
+      action: 'toggled',
+      description: '아이템이 열리거나 닫힐 때 호출되는 콜백. id와 새 열림 상태(isOpen)가 전달됩니다. 제어 모드에서 사용합니다',
+      table: {
+        type: {
+          summary: '(id: string, isOpen: boolean) => void',
         },
       },
     },
@@ -101,6 +111,9 @@ export const Group: Story = {
     style: 'default',
     allowMultipleOpen: true,
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const groupRef = useRef<HTMLDivElement>(null);

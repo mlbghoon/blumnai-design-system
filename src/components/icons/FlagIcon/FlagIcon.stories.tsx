@@ -272,6 +272,9 @@ const meta: Meta<typeof FlagIcon> = {
   title: 'Icons/FlagIcon',
   component: FlagIcon,
   tags: ['autodocs'],
+  parameters: {
+    controls: { disable: true },
+  },
   argTypes: {
     country: {
       control: 'select',
@@ -313,6 +316,9 @@ export const Default: Story = {
     country: 'unitedstates',
     size: 24,
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);

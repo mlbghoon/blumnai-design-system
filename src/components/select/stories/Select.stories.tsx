@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { ReactNode } from 'react';
 import { useState } from 'react';
 
 import { Select } from '../Select';
@@ -47,6 +48,7 @@ const meta: Meta<typeof Select> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
+    controls: { disable: true },
   },
   argTypes: {
     variant: {
@@ -283,6 +285,63 @@ export const AllVariants: Story = {
           />
         </div>
       </div>
+    );
+  },
+};
+
+// ============================================================================
+// CUSTOM RENDER OPTION
+// ============================================================================
+
+const statusOptions: SelectOption[] = [
+  { id: 'active', label: '활성', description: '현재 사용 중' },
+  { id: 'inactive', label: '비활성', description: '일시 중단됨' },
+  { id: 'pending', label: '대기 중', description: '승인 대기' },
+  { id: 'archived', label: '보관됨', description: '더 이상 사용되지 않음' },
+];
+
+const statusColors: Record<string, string> = {
+  active: 'bg-basic-green-accent',
+  inactive: 'bg-basic-red-accent',
+  pending: 'bg-basic-amber-accent',
+  archived: 'bg-basic-gray-accent',
+};
+
+/**
+ * 커스텀 옵션 렌더링
+ *
+ * `renderOption` prop으로 옵션 아이템을 커스터마이징할 수 있습니다.
+ * 이 예제에서는 상태 표시 점과 함께 옵션을 렌더링합니다.
+ */
+export const CustomRenderOption: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string>();
+
+    const renderOption = (option: SelectOption, isSelected: boolean): ReactNode => (
+      <div className="flex items-center ds-gap-8 w-full">
+        <span className={`inline-block width-8 height-8 rounded-full ${statusColors[option.id] ?? 'bg-basic-gray-accent'} shrink-0`} />
+        <div className="flex flex-col min-w-0">
+          <span className={`size-sm font-body ${isSelected ? 'font-medium' : ''}`}>
+            {option.label}
+          </span>
+          {option.description && (
+            <span className="size-xs text-muted font-body">{option.description}</span>
+          )}
+        </div>
+      </div>
+    );
+
+    return (
+      <Select
+        variant="default"
+        label="상태 선택"
+        placeholder="상태를 선택하세요..."
+        options={statusOptions}
+        value={value}
+        onChange={setValue}
+        renderOption={renderOption}
+        width={300}
+      />
     );
   },
 };

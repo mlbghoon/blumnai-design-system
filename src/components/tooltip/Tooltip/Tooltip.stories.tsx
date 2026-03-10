@@ -43,6 +43,20 @@ const meta: Meta<typeof Tooltip> = {
         },
       },
     },
+    width: {
+      control: 'number',
+      description: '툴팁의 고정 너비 (픽셀). 설정 시 툴팁이 해당 너비로 고정됩니다',
+      table: {
+        type: { summary: 'number' },
+      },
+    },
+    minWidth: {
+      control: 'number',
+      description: '툴팁의 최소 너비 (픽셀). 콘텐츠가 짧아도 최소 너비를 유지합니다',
+      table: {
+        type: { summary: 'number' },
+      },
+    },
   },
 };
 
@@ -60,6 +74,8 @@ export const Default: Story = {
   args: {
     children: '툴팁 텍스트',
     className: '',
+    width: undefined,
+    minWidth: undefined,
   },
   parameters: {
     controls: { disable: false },

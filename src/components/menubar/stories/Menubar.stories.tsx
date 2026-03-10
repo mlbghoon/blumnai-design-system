@@ -39,6 +39,9 @@ type Story = StoryObj<MenubarProps>;
  * MenubarItem의 상세 props는 MenuItem 스토리에서 테스트할 수 있습니다.
  */
 export const Default: Story = {
+  parameters: {
+    controls: { disable: false },
+  },
   render: function Render() {
     return (
       <Menubar>

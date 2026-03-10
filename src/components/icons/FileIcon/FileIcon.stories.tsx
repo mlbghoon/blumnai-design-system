@@ -21,6 +21,9 @@ const meta: Meta<typeof FileIcon> = {
   title: 'Icons/FileIcon',
   component: FileIcon,
   tags: ['autodocs'],
+  parameters: {
+    controls: { disable: true },
+  },
   argTypes: {
     fileType: {
       control: 'select',
@@ -73,6 +76,9 @@ export const Default: Story = {
     fileType: 'default',
     size: 'md',
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);

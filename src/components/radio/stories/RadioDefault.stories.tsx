@@ -44,12 +44,12 @@ const meta: Meta<RadioProps> = {
     },
     radioPosition: {
       control: 'select',
-      options: ['left', 'right'],
+      options: ['left', 'right', 'off'],
       description: '라디오 버튼 위치 (라벨 기준)',
       table: {
         type: {
           summary: 'RadioPosition',
-          detail: `'left' | 'right'`,
+          detail: `'left' | 'right' | 'off'`,
         },
         defaultValue: { summary: 'left' },
       },
@@ -75,6 +75,18 @@ const meta: Meta<RadioProps> = {
           summary: "'start' | 'center'",
         },
         defaultValue: { summary: 'start' },
+      },
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: '라디오 버튼 크기',
+      table: {
+        type: {
+          summary: 'RadioSize',
+          detail: `'sm' | 'md' | 'lg'`,
+        },
+        defaultValue: { summary: 'sm' },
       },
     },
     labelWeight: {
@@ -119,6 +131,7 @@ export const Default: Story = {
     description: '',
     radioPosition: 'left',
     radioStyle: 'default',
+    size: 'sm',
     align: 'start',
     labelWeight: 'medium',
   },
@@ -138,6 +151,7 @@ export const Default: Story = {
           description={description}
           radioPosition={args.radioPosition}
           radioStyle={args.radioStyle}
+          size={args.size}
           align={args.align}
           labelWeight={args.labelWeight}
         />
@@ -147,6 +161,7 @@ export const Default: Story = {
           label="옵션 2"
           radioPosition={args.radioPosition}
           radioStyle={args.radioStyle}
+          size={args.size}
           align={args.align}
           labelWeight={args.labelWeight}
         />
@@ -156,6 +171,7 @@ export const Default: Story = {
           label="옵션 3"
           radioPosition={args.radioPosition}
           radioStyle={args.radioStyle}
+          size={args.size}
           align={args.align}
           labelWeight={args.labelWeight}
         />
@@ -375,6 +391,39 @@ export const SingleSelection: Story = {
           <Radio value="option3" label="옵션 3" />
         </RadioGroup>
         <p className="size-xs text-muted margin-t-32">선택됨: {value || '없음'}</p>
+      </div>
+    );
+  },
+};
+
+/**
+ * 크기 비교
+ *
+ * sm, md, lg 세 가지 크기를 비교합니다.
+ */
+export const Sizes: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('sm');
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">size=&quot;sm&quot;</p>
+          <RadioGroup value={value} onValueChange={setValue}>
+            <Radio value="sm" size="sm" label="소형 라디오" />
+          </RadioGroup>
+        </div>
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">size=&quot;md&quot;</p>
+          <RadioGroup value={value} onValueChange={setValue}>
+            <Radio value="md" size="md" label="중형 라디오" />
+          </RadioGroup>
+        </div>
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">size=&quot;lg&quot;</p>
+          <RadioGroup value={value} onValueChange={setValue}>
+            <Radio value="lg" size="lg" label="대형 라디오" />
+          </RadioGroup>
+        </div>
       </div>
     );
   },

@@ -42,6 +42,19 @@ const meta: Meta<ToastContentProps> = {
         type: { summary: 'string' },
       },
     },
+    action: {
+      control: false,
+      description: '액션 버튼. label과 onClick을 포함하는 객체를 전달하면 토스트 오른쪽에 액션 버튼이 표시됩니다',
+      table: {
+        type: {
+          summary: 'ToastAction',
+          detail: `{
+  label: string;      // 버튼 텍스트
+  onClick: () => void; // 클릭 핸들러
+}`,
+        },
+      },
+    },
   },
   decorators: [
     (Story) => (
@@ -200,6 +213,51 @@ export const CustomLabel: Story = {
       <Button buttonStyle="secondary" onClick={() => toast.info('자세한 내용을 확인하려면 클릭하세요.', { label: '팁:' })}>
         팁 라벨
       </Button>
+    </div>
+  ),
+};
+
+/**
+ * 액션 버튼이 있는 토스트
+ *
+ * action 옵션을 사용하여 토스트에 액션 버튼을 추가합니다.
+ * 사용자가 작업을 취소하거나 추가 동작을 수행할 수 있습니다.
+ */
+export const WithAction: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-12">
+      <div className="flex flex-col ds-gap-8">
+        <span className="font-body size-xs text-muted">정적 미리보기:</span>
+        <div style={{ width: 500 }}>
+          <ToastContent
+            variant="success"
+            message="파일이 삭제되었습니다."
+            action={{ label: '되돌리기', onClick: () => console.log('되돌리기') }}
+          />
+        </div>
+      </div>
+      <div className="flex ds-gap-12">
+        <Button
+          buttonStyle="secondary"
+          onClick={() =>
+            toast.success('파일이 삭제되었습니다.', {
+              action: { label: '되돌리기', onClick: () => console.log('되돌리기 클릭') },
+            })
+          }
+        >
+          삭제 + 되돌리기
+        </Button>
+        <Button
+          buttonStyle="secondary"
+          onClick={() =>
+            toast.info('새 업데이트가 있습니다.', {
+              action: { label: '업데이트', onClick: () => console.log('업데이트 클릭') },
+            })
+          }
+        >
+          업데이트 알림
+        </Button>
+      </div>
     </div>
   ),
 };

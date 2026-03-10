@@ -131,6 +131,16 @@ const meta: Meta<typeof VirtualSelect> = {
       description: '드롭다운 메뉴의 최대 높이를 픽셀 단위로 설정합니다. 옵션이 많을 경우 스크롤이 생깁니다',
       table: { type: { summary: 'number | string' } },
     },
+    success: {
+      control: 'text',
+      description: '성공 메시지를 입력하면 초록색 테두리와 함께 아래에 성공 메시지가 표시됩니다',
+      table: { type: { summary: 'boolean | string' } },
+    },
+    minWidth: {
+      control: 'text',
+      description: '컴포넌트의 최소 가로 너비를 설정합니다. 숫자(px) 또는 문자열(%, rem 등)로 지정할 수 있습니다',
+      table: { type: { summary: 'number | string' } },
+    },
   },
 };
 
@@ -155,9 +165,11 @@ export const Default: Story = {
     clearable: false,
     loading: false,
     error: '',
+    success: '',
     itemHeight: 32,
     overscan: 5,
     maxHeight: 300,
+    minWidth: undefined,
     options: options1000,
   },
   parameters: {
@@ -166,6 +178,8 @@ export const Default: Story = {
   render: function Render(args) {
     const [value, setValue] = useState('');
     const error = args.error || undefined;
+    const success = 'success' in args ? (args.success || undefined) : undefined;
+    const minWidth = 'minWidth' in args ? args.minWidth : undefined;
     return (
       <VirtualSelect
         variant="single"
@@ -178,6 +192,7 @@ export const Default: Story = {
         clearable={args.clearable}
         loading={args.loading}
         error={error}
+        success={success}
         itemHeight={args.itemHeight}
         overscan={args.overscan}
         maxHeight={args.maxHeight}
@@ -185,6 +200,7 @@ export const Default: Story = {
         value={value}
         onChange={setValue}
         width={320}
+        minWidth={minWidth}
       />
     );
   },
@@ -448,4 +464,25 @@ export const Loading: Story = {
       width={320}
     />
   ),
+};
+
+/**
+ * 성공 상태
+ */
+export const Success: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('option-1');
+    return (
+      <VirtualSelect
+        variant="single"
+        label="성공 상태"
+        placeholder="옵션을 선택하세요..."
+        options={generateOptions(100)}
+        value={value}
+        onChange={setValue}
+        success="옵션이 선택되었습니다"
+        width={320}
+      />
+    );
+  },
 };

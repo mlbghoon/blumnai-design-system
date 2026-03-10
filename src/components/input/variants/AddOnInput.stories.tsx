@@ -197,21 +197,6 @@ export const Default: Story = {
 };
 
 /**
- * 분리된 애드온 (입력 필드 외부)
- *
- * `variant="addon"`으로 애드온을 입력 필드 외부에 표시합니다.
- */
-export const SeparateAddOn: Story = {
-  args: {
-    variant: 'addon',
-    label: '웹사이트',
-    placeholder: 'your-site',
-    prefix: 'https://',
-    suffix: '.com',
-  },
-};
-
-/**
  * 인라인 애드온 (입력 필드 내부)
  *
  * `variant="inline-addon"`으로 애드온을 입력 필드 내부에 표시합니다.
@@ -572,14 +557,3 @@ export const Measurement: Story = {
   },
 };
 
-/**
- * 할인율
- */
-export const Discount: Story = {
-  args: {
-    variant: 'inline-addon',
-    label: '할인율',
-    placeholder: '0',
-    suffix: '%',
-  },
-};

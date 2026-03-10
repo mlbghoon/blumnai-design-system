@@ -6,16 +6,17 @@ import { LineChart } from '../LineChart/LineChart';
 import { PieChart } from '../PieChart/PieChart';
 import type { ChartConfig } from './Chart.types';
 
-const meta: Meta<typeof BarChart> = {
+const meta: Meta = {
   title: 'DataDisplay/Chart',
   parameters: {
     layout: 'padded',
+    controls: { disable: true },
   },
   tags: ['autodocs'],
 };
 
 export default meta;
-type Story = StoryObj<typeof BarChart>;
+type Story = StoryObj;
 
 // Sample data
 const barChartData = [
@@ -62,20 +63,9 @@ const twoConfig: ChartConfig = {
 };
 
 export const BarChartDefault: Story = {
-  render: () => (
-    <BarChart
-      data={barChartData}
-      xAxis={{ dataKey: 'month' }}
-      yAxis={{ dataKey: 'sales' }}
-      dataKey="sales"
-      config={salesConfig}
-      width={600}
-      height={400}
-    />
-  ),
-};
-
-export const BarChartMultipleColors: Story = {
+  parameters: {
+    controls: { disable: false },
+  },
   render: () => (
     <BarChart
       data={barChartData}

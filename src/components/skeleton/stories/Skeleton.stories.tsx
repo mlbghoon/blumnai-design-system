@@ -21,6 +21,26 @@ const meta: Meta<typeof Skeleton> = {
         defaultValue: { summary: 'default' },
       },
     },
+    animation: {
+      control: 'select',
+      options: ['pulse', 'wave', 'none'],
+      description: '로딩 애니메이션 스타일. pulse(기본 페이드), wave(시머 효과), none(애니메이션 없음). prefers-reduced-motion을 존중합니다',
+      table: {
+        type: {
+          summary: 'SkeletonAnimation',
+          detail: `'pulse' | 'wave' | 'none'`,
+        },
+        defaultValue: { summary: 'pulse' },
+      },
+    },
+    count: {
+      control: 'number',
+      description: '여러 줄의 스켈레톤을 렌더링합니다. 텍스트 블록 로딩 표시에 유용합니다',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '1' },
+      },
+    },
     width: {
       control: 'text',
       description: '스켈레톤의 너비를 설정합니다. 숫자(px) 또는 CSS 값(예: "100%", "12rem")을 사용할 수 있습니다',
@@ -52,6 +72,8 @@ export const Default: Story = {
   },
   args: {
     variant: 'default',
+    animation: 'pulse',
+    count: 1,
     width: 200,
     height: 20,
   },
@@ -182,6 +204,54 @@ export const TableSkeleton: Story = {
             <Skeleton variant="text" className="height-16 [width:80px]" />
           </div>
         ))}
+      </div>
+    );
+  },
+};
+
+/**
+ * 애니메이션 비교
+ *
+ * pulse, wave, none 3가지 애니메이션 스타일을 비교합니다.
+ */
+export const Animations: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24 items-start">
+        <div className="flex flex-col ds-gap-4">
+          <span className="size-xs font-body text-muted">Pulse (기본)</span>
+          <Skeleton variant="default" animation="pulse" width={200} height={20} />
+        </div>
+        <div className="flex flex-col ds-gap-4">
+          <span className="size-xs font-body text-muted">Wave (시머)</span>
+          <Skeleton variant="default" animation="wave" width={200} height={20} />
+        </div>
+        <div className="flex flex-col ds-gap-4">
+          <span className="size-xs font-body text-muted">None (없음)</span>
+          <Skeleton variant="default" animation="none" width={200} height={20} />
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * 여러 줄 스켈레톤
+ *
+ * count prop으로 여러 줄의 스켈레톤을 한번에 렌더링합니다.
+ */
+export const MultipleLines: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex flex-col ds-gap-4">
+          <span className="size-xs font-body text-muted">count=3</span>
+          <Skeleton variant="text" width={300} height={16} count={3} />
+        </div>
+        <div className="flex flex-col ds-gap-4">
+          <span className="size-xs font-body text-muted">count=5</span>
+          <Skeleton variant="text" width={300} height={16} count={5} />
+        </div>
       </div>
     );
   },

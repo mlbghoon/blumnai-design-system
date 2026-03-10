@@ -10,6 +10,7 @@ interface TabsStoryProps {
   size?: TabsSize;
   type?: TabsType;
   activeColor?: string;
+  scrollable?: boolean;
   orientation?: 'horizontal' | 'vertical';
   activationMode?: 'automatic' | 'manual';
   defaultValue?: string;
@@ -18,7 +19,9 @@ interface TabsStoryProps {
   leadIcon?: TabsTriggerProps['leadIcon'];
   tailIcon?: TabsTriggerProps['tailIcon'];
   badge?: TabsTriggerProps['badge'];
+  closable?: boolean;
   disabled?: boolean;
+  animated?: boolean;
 }
 
 const meta: Meta<TabsStoryProps> = {
@@ -76,6 +79,15 @@ const meta: Meta<TabsStoryProps> = {
       },
     },
     // TabsList props
+    scrollable: {
+      control: 'boolean',
+      description: '[TabsList] 탭이 넘칠 때 스크롤 화살표 버튼 표시',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+        category: 'TabsList',
+      },
+    },
     variant: {
       control: 'select',
       options: ['pill', 'segmented', 'underline'],
@@ -171,6 +183,25 @@ IconTypeWithFill 또는 ReactNode를 사용할 수 있습니다.
       description: '[TabsTrigger] 배지 텍스트/숫자',
       table: {
         type: { summary: 'string | number' },
+        category: 'TabsTrigger',
+      },
+    },
+    // TabsContent props
+    animated: {
+      control: 'boolean',
+      description: '[TabsContent] 패널 전환 애니메이션 활성화',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+        category: 'TabsContent',
+      },
+    },
+    closable: {
+      control: 'boolean',
+      description: '[TabsTrigger] 탭 닫기 버튼 표시 여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
         category: 'TabsTrigger',
       },
     },
@@ -484,6 +515,115 @@ export const WithIcons: Story = {
         </Tabs>
       </div>
     </div>
+  ),
+};
+
+/**
+ * 스크롤 가능한 탭
+ *
+ * scrollable prop으로 탭이 넘칠 때 좌우 스크롤 화살표가 표시됩니다.
+ */
+export const ScrollableTabs: Story = {
+  render: () => (
+    <div style={{ maxWidth: '400px' }}>
+      <Tabs defaultValue="tab1">
+        <TabsList variant="underline" scrollable>
+          <TabsTrigger value="tab1">대시보드</TabsTrigger>
+          <TabsTrigger value="tab2">프로필</TabsTrigger>
+          <TabsTrigger value="tab3">설정</TabsTrigger>
+          <TabsTrigger value="tab4">알림</TabsTrigger>
+          <TabsTrigger value="tab5">보안</TabsTrigger>
+          <TabsTrigger value="tab6">결제</TabsTrigger>
+          <TabsTrigger value="tab7">팀 관리</TabsTrigger>
+          <TabsTrigger value="tab8">API 키</TabsTrigger>
+          <TabsTrigger value="tab9">로그</TabsTrigger>
+        </TabsList>
+        <TabsContent value="tab1" className="font-body size-sm text-default">
+          대시보드 콘텐츠입니다.
+        </TabsContent>
+        <TabsContent value="tab2" className="font-body size-sm text-default">
+          프로필 콘텐츠입니다.
+        </TabsContent>
+        <TabsContent value="tab3" className="font-body size-sm text-default">
+          설정 콘텐츠입니다.
+        </TabsContent>
+      </Tabs>
+    </div>
+  ),
+};
+
+/**
+ * 닫기 가능한 탭
+ *
+ * closable prop으로 탭에 닫기 버튼을 추가합니다.
+ */
+export const ClosableTabs: Story = {
+  render: function Render() {
+    const [tabs, setTabs] = useState([
+      { value: 'tab1', label: '문서 1' },
+      { value: 'tab2', label: '문서 2' },
+      { value: 'tab3', label: '문서 3' },
+      { value: 'tab4', label: '문서 4' },
+    ]);
+    const [activeTab, setActiveTab] = useState('tab1');
+
+    const handleClose = (value: string) => {
+      setTabs((prev) => prev.filter((tab) => tab.value !== value));
+      if (activeTab === value) {
+        const remaining = tabs.filter((tab) => tab.value !== value);
+        if (remaining.length > 0) {
+          setActiveTab(remaining[0].value);
+        }
+      }
+    };
+
+    return (
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList variant="underline">
+          {tabs.map((tab) => (
+            <TabsTrigger
+              key={tab.value}
+              value={tab.value}
+              closable
+              onClose={handleClose}
+            >
+              {tab.label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {tabs.map((tab) => (
+          <TabsContent key={tab.value} value={tab.value} className="font-body size-sm text-default">
+            {tab.label}의 콘텐츠입니다.
+          </TabsContent>
+        ))}
+      </Tabs>
+    );
+  },
+};
+
+/**
+ * 애니메이션 탭
+ *
+ * animated prop으로 탭 콘텐츠 전환 시 애니메이션이 적용됩니다.
+ */
+export const AnimatedTabs: Story = {
+  render: () => (
+    <Tabs defaultValue="tab1">
+      <TabsList variant="segmented">
+        <TabsTrigger value="tab1">첫 번째</TabsTrigger>
+        <TabsTrigger value="tab2">두 번째</TabsTrigger>
+        <TabsTrigger value="tab3">세 번째</TabsTrigger>
+      </TabsList>
+      <TabsContent value="tab1" animated className="font-body size-sm text-default">
+        첫 번째 탭의 콘텐츠입니다. 전환 시 애니메이션이 적용됩니다.
+      </TabsContent>
+      <TabsContent value="tab2" animated className="font-body size-sm text-default">
+        두 번째 탭의 콘텐츠입니다. 전환 시 애니메이션이 적용됩니다.
+      </TabsContent>
+      <TabsContent value="tab3" animated className="font-body size-sm text-default">
+        세 번째 탭의 콘텐츠입니다. 전환 시 애니메이션이 적용됩니다.
+      </TabsContent>
+    </Tabs>
   ),
 };
 

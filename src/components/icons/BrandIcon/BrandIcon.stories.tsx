@@ -9,6 +9,9 @@ const meta: Meta<typeof BrandIcon> = {
   title: 'Icons/BrandIcon',
   component: BrandIcon,
   tags: ['autodocs'],
+  parameters: {
+    controls: { disable: true },
+  },
   argTypes: {
     brandType: {
       control: 'select',
@@ -67,6 +70,9 @@ export const Default: Story = {
     brandType: 'github',
     size: 24,
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);

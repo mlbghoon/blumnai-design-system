@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
 import { Select } from '../Select';
-import type { SelectOption } from '../Select.types';
+import type { SelectOption, SelectOptionGroup } from '../Select.types';
 
 const defaultOptions: SelectOption[] = [
   { id: '1', label: '옵션 1' },
@@ -166,6 +166,39 @@ const meta: Meta<typeof Select> = {
       description: '선택 변경 시 호출되는 콜백',
       table: { type: { summary: '(value: string) => void' } },
     },
+    clearable: {
+      control: 'boolean',
+      description: 'true로 설정하면 선택된 값을 초기화하는 X 버튼이 표시됩니다',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    loading: {
+      control: 'boolean',
+      description: 'true로 설정하면 드롭다운 내에 로딩 스피너가 표시됩니다. 데이터를 불러오는 중일 때 사용합니다',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    tailIcon: {
+      control: 'object',
+      description: '라벨 뒤, 화살표 앞에 표시되는 아이콘입니다',
+      table: { type: { summary: 'IconTypeWithFill' } },
+    },
+    minWidth: {
+      control: 'text',
+      description: '컴포넌트의 최소 가로 너비를 설정합니다. 숫자(px) 또는 문자열(%, rem 등)로 지정할 수 있습니다',
+      table: { type: { summary: 'number | string' } },
+    },
+    optionGroups: {
+      control: 'object',
+      description: '옵션을 그룹별로 구분하여 표시합니다. 각 그룹에 라벨과 옵션 ID 목록을 지정합니다',
+      table: {
+        type: {
+          summary: 'SelectOptionGroup[]',
+          detail: `{
+  label: string;
+  optionIds: string[];
+}[]`,
+        },
+      },
+    },
   },
 };
 
@@ -199,6 +232,10 @@ export const Default: Story = {
     error: '',
     success: '',
     maxHeight: 300,
+    clearable: false,
+    loading: false,
+    tailIcon: undefined,
+    minWidth: undefined,
   },
   parameters: {
     controls: { disable: false },
@@ -210,6 +247,10 @@ export const Default: Story = {
     const error = args.error || undefined;
     const success = args.success || undefined;
     const selectType = 'selectType' in args ? args.selectType : undefined;
+    const clearable = 'clearable' in args ? args.clearable : undefined;
+    const loading = 'loading' in args ? args.loading : undefined;
+    const tailIcon = 'tailIcon' in args ? args.tailIcon : undefined;
+    const minWidth = 'minWidth' in args ? args.minWidth : undefined;
     return (
       <Select
         variant="default"
@@ -217,6 +258,7 @@ export const Default: Story = {
         placeholder={args.placeholder}
         options={args.options}
         width={args.width}
+        minWidth={minWidth}
         selectStyle={args.selectStyle}
         size={args.size}
         selectType={selectType}
@@ -228,6 +270,9 @@ export const Default: Story = {
         error={error}
         success={success}
         maxHeight={args.maxHeight}
+        clearable={clearable}
+        loading={loading}
+        tailIcon={tailIcon}
         value={value}
         onChange={setValue}
       />
@@ -705,6 +750,101 @@ export const WithLeadIcon: Story = {
         value={value}
         onChange={setValue}
         searchable
+        width={300}
+      />
+    );
+  },
+};
+
+// ============================================================================
+// CLEARABLE / LOADING
+// ============================================================================
+
+/**
+ * 초기화 버튼
+ *
+ * `clearable` prop으로 선택된 값을 초기화하는 X 버튼을 표시합니다.
+ */
+export const Clearable: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string>('1');
+    return (
+      <Select
+        variant="default"
+        label="초기화 가능"
+        placeholder="Choose..."
+        options={defaultOptions}
+        value={value}
+        onChange={setValue}
+        clearable
+        width={300}
+      />
+    );
+  },
+};
+
+/**
+ * 로딩 상태
+ *
+ * `loading` prop으로 드롭다운 내에 로딩 스피너를 표시합니다.
+ */
+export const Loading: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string>();
+    return (
+      <Select
+        variant="default"
+        label="로딩 중"
+        placeholder="데이터 불러오는 중..."
+        options={[]}
+        value={value}
+        onChange={setValue}
+        loading
+        width={300}
+      />
+    );
+  },
+};
+
+// ============================================================================
+// OPTION GROUPS
+// ============================================================================
+
+const groupedOptions: SelectOption[] = [
+  { id: 'apple', label: '사과' },
+  { id: 'banana', label: '바나나' },
+  { id: 'grape', label: '포도' },
+  { id: 'carrot', label: '당근' },
+  { id: 'broccoli', label: '브로콜리' },
+  { id: 'spinach', label: '시금치' },
+  { id: 'beef', label: '소고기' },
+  { id: 'chicken', label: '닭고기' },
+  { id: 'salmon', label: '연어' },
+];
+
+const optionGroups: SelectOptionGroup[] = [
+  { label: '과일', optionIds: ['apple', 'banana', 'grape'] },
+  { label: '채소', optionIds: ['carrot', 'broccoli', 'spinach'] },
+  { label: '육류/해산물', optionIds: ['beef', 'chicken', 'salmon'] },
+];
+
+/**
+ * 옵션 그룹
+ *
+ * `optionGroups` prop으로 옵션을 그룹별로 구분하여 표시합니다.
+ */
+export const WithOptionGroups: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string>();
+    return (
+      <Select
+        variant="default"
+        label="식재료 선택"
+        placeholder="식재료를 선택하세요..."
+        options={groupedOptions}
+        optionGroups={optionGroups}
+        value={value}
+        onChange={setValue}
         width={300}
       />
     );

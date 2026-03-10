@@ -67,6 +67,36 @@ const meta: Meta<typeof TooltipTrigger> = {
         defaultValue: { summary: '240' },
       },
     },
+    sideOffset: {
+      control: 'number',
+      description: '메인 축 오프셋 — 트리거와 툴팁 사이의 간격 (px)',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '8' },
+      },
+    },
+    alignOffset: {
+      control: 'number',
+      description: '크로스 축 오프셋 — 정렬 방향으로의 위치 조정 (px)',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '0' },
+      },
+    },
+    width: {
+      control: 'number',
+      description: '툴팁의 고정 너비 (px). 설정 시 툴팁이 해당 너비로 고정됩니다',
+      table: {
+        type: { summary: 'number' },
+      },
+    },
+    minWidth: {
+      control: 'number',
+      description: '툴팁의 최소 너비 (px). 콘텐츠가 짧아도 최소 너비를 유지합니다',
+      table: {
+        type: { summary: 'number' },
+      },
+    },
   },
 };
 
@@ -85,13 +115,27 @@ export const Default: Story = {
     delay: 200,
     disabled: false,
     maxWidth: 240,
+    sideOffset: 8,
+    alignOffset: 0,
+    width: undefined,
+    minWidth: undefined,
   },
   parameters: {
     controls: { disable: false },
   },
   render: function Render(args) {
     return (
-      <TooltipTrigger {...args}>
+      <TooltipTrigger
+        content={args.content}
+        placement={args.placement}
+        delay={args.delay}
+        disabled={args.disabled}
+        maxWidth={args.maxWidth}
+        sideOffset={args.sideOffset}
+        alignOffset={args.alignOffset}
+        width={args.width}
+        minWidth={args.minWidth}
+      >
         <Button buttonStyle="secondary">호버하세요</Button>
       </TooltipTrigger>
     );

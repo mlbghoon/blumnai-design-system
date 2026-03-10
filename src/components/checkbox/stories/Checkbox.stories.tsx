@@ -12,6 +12,7 @@ const meta: Meta<typeof Checkbox> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
+    controls: { disable: true },
   },
   argTypes: {
     checked: {

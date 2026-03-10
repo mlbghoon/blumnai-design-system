@@ -32,6 +32,9 @@ const meta: Meta<typeof Icon> = {
   title: 'Icons/Icon',
   component: Icon,
   tags: ['autodocs'],
+  parameters: {
+    controls: { disable: true },
+  },
   argTypes: {
     iconType: {
       control: { type: 'object' },
@@ -103,6 +106,9 @@ export const Default: Story = {
     iconType: ['system', 'add'],
     size: 24,
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);

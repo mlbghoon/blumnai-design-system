@@ -75,6 +75,14 @@ const meta: Meta<FileUploadStoryProps> = {
         category: 'FileUploadArea',
       },
     },
+    maxFileSize: {
+      control: 'number',
+      description: '[FileUploadArea] 개별 파일 최대 크기 (바이트). 이 크기를 초과하는 파일은 거부됩니다',
+      table: {
+        type: { summary: 'number' },
+        category: 'FileUploadArea',
+      },
+    },
     multiple: {
       control: 'boolean',
       description: '[FileUploadArea] 다중 파일 선택 허용 여부',
@@ -398,6 +406,36 @@ export const FullIntegration: Story = {
             ))}
           </div>
         )}
+      </div>
+    );
+  },
+};
+
+/**
+ * 개별 파일 크기 제한
+ *
+ * maxFileSize prop으로 개별 파일의 최대 크기를 제한합니다.
+ * 초과 시 onValidationError 콜백이 호출됩니다.
+ */
+export const WithMaxFileSize: Story = {
+  render: function Render() {
+    const [errorMsg, setErrorMsg] = useState('');
+
+    return (
+      <div className="flex flex-col ds-gap-12">
+        <FileUploadArea
+          maxFileSize={5242880}
+          description="개별 파일 최대 5MB"
+          width={320}
+          onFilesSelected={(files) => {
+            setErrorMsg('');
+            console.log('선택된 파일:', files);
+          }}
+          onValidationError={(errors) => {
+            setErrorMsg(errors.map((e) => e.message).join(', '));
+          }}
+          error={errorMsg || undefined}
+        />
       </div>
     );
   },

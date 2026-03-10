@@ -9,6 +9,9 @@ const meta: Meta<typeof CursorIcon> = {
   title: 'Icons/CursorIcon',
   component: CursorIcon,
   tags: ['autodocs'],
+  parameters: {
+    controls: { disable: true },
+  },
   argTypes: {
     cursorType: {
       control: 'select',
@@ -49,6 +52,9 @@ export const Default: Story = {
     cursorType: 'arrow',
     size: 24,
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);

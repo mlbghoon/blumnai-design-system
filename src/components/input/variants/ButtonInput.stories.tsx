@@ -218,20 +218,6 @@ export const Default: Story = {
 };
 
 /**
- * 뒤쪽 버튼
- *
- * `variant="tail-button"`로 버튼을 입력 필드 뒤에 배치합니다.
- */
-export const TailButton: Story = {
-  args: {
-    variant: 'tail-button',
-    label: '뉴스레터',
-    placeholder: '이메일을 입력하세요',
-    buttonLabel: '구독',
-  },
-};
-
-/**
  * 앞쪽 버튼
  *
  * `variant="lead-button"`로 버튼을 입력 필드 앞에 배치합니다.
@@ -316,27 +302,11 @@ export const WithInputLeadIcon: Story = {
 };
 
 /**
- * 입력 필드 뒤쪽 아이콘
+ * 입력 필드 앞쪽 아이콘 + 버튼 뒤쪽 아이콘
  *
- * `tailIcon` prop으로 입력 필드 뒤에 아이콘을 추가할 수 있습니다.
- * 버튼 위치와 관계없이 입력 영역 내에 표시됩니다.
+ * `leadIcon`으로 입력 필드 앞에, `buttonTailIcon`으로 버튼 뒤에 아이콘을 추가합니다.
  */
-export const WithInputTailIcon: Story = {
-  args: {
-    variant: 'tail-button',
-    label: '이메일',
-    placeholder: '이메일을 입력하세요...',
-    leadIcon: ['business', 'mail'],
-    buttonLabel: '보내기',
-  },
-};
-
-/**
- * 입력 필드 양쪽 아이콘
- *
- * `leadIcon`과 `tailIcon`을 동시에 사용할 수 있습니다.
- */
-export const WithInputBothIcons: Story = {
+export const WithLeadAndButtonIcons: Story = {
   args: {
     variant: 'tail-button',
     label: '웹사이트',

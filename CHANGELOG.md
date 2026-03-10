@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.0.26] - 2026-03-10
+
+### Improved
+
+- **Storybook 스토리 한국어화**: 전체 104개 스토리 파일의 argTypes description을 비개발자도 이해할 수 있는 상세 한국어로 보강. 영어 예시 데이터(라벨, 설명, 옵션명 등)를 한국어로 변환.
+- **Storybook 성능 개선**: Storybook dev 메모리 한도 4GB→8GB, HMR 타임아웃 30s→60s 설정 추가.
+
+### Fixed
+
+- **ButtonInput 스토리 버그 수정**: `WithInputTailIcon`/`WithInputBothIcons` 스토리에서 존재하지 않는 `tailIcon` prop 사용 → 올바른 `buttonTailIcon` 사용으로 수정. 오해의 소지가 있는 스토리명 변경.
+- **CSS 클래스 오타 수정**: DefaultInput/ShortcutInput의 `KeyboardShortcutBinding` 스토리에서 `"margin-0size-sm"` → `"margin-0 size-sm"` (스페이스 누락).
+- **Chart 개요 페이지 autodocs 수정**: meta `component: BarChart` 제거로 잘못된 props 테이블 방지.
+- **PasswordInput 강도 스토리 개선**: `WithStrengthAuto` 스토리에 상태 연동 추가 (low→에러, medium→에러+부족항목 안내, high→성공).
+- **중복 스토리 제거**: ButtonInput(`TailButton`), AddOnInput(`SeparateAddOn`, `Discount`), Chart(`BarChartMultipleColors`).
+- **Select 임의 색상 제거**: `CustomRenderOption` 스토리의 `bg-[#...]` → DS 시맨틱 `bg-basic-*-accent` 클래스.
+
+### Added
+
+- **누락 스토리 추가**: Select(clearable, loading, optionGroups, renderOption), SwitchList(showToggleAll), Tabs(scrollable, closable, animated), Dialog(fullScreen), Toast(action), Skeleton(animation, count), InputOTP(error, label), Textarea(fieldSizing, autoResize), FileUpload(maxFileSize), Dropdown(maxHeight, loading), Radio(size), Slider(showTicks), Accordion(headingLevel, defaultIsOpen, onToggle), HoverCard/Tooltip argTypes 추가 등.
+- **Controls 컨벤션 정리**: Icon, Badge, Avatar, Accordion, Menubar, Chart, Select, Checkbox 등 ~15개 파일에 `controls: { disable: true }` 메타 설정 + Default 스토리에 `controls: { disable: false }` 추가.
+- **argType 옵션 수정**: CheckboxDefault `checkboxPosition`, RadioDefault `radioPosition`에 누락된 `'off'` 옵션 추가.
+
 ## [1.0.25] - 2026-03-09
 
 ### Fixed

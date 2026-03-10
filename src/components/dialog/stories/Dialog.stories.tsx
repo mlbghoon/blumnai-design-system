@@ -133,6 +133,15 @@ const meta: Meta<DialogStoryProps> = {
         category: 'DialogScrollArea',
       },
     },
+    fullScreen: {
+      control: 'boolean',
+      description: '[DialogContent] 전체 화면 모드. 다이얼로그가 화면 전체를 차지합니다',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+        category: 'DialogContent',
+      },
+    },
     // DialogAction props (for async action demo)
     useAsyncAction: {
       control: 'boolean',
@@ -161,6 +170,7 @@ export const Default: Story = {
     hideCloseButton: false,
     disableEscapeClose: false,
     disableOutsideClose: false,
+    fullScreen: false,
     width: undefined,
     maxHeight: undefined,
     useAsyncAction: false,
@@ -188,6 +198,7 @@ export const Default: Story = {
           hideCloseButton={args.hideCloseButton}
           disableEscapeClose={args.disableEscapeClose}
           disableOutsideClose={args.disableOutsideClose}
+          fullScreen={args.fullScreen}
           className={args.className}
           width={args.width}
         >
@@ -634,6 +645,43 @@ export const TitleWeight: Story = {
           </DialogContent>
         </Dialog>
       </div>
+    );
+  },
+};
+
+/**
+ * 전체 화면 다이얼로그
+ *
+ * fullScreen prop으로 화면 전체를 차지하는 다이얼로그를 표시합니다.
+ * 대시보드 설정, 복잡한 폼 등에서 사용합니다.
+ */
+export const FullScreen: Story = {
+  render: function Render() {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <>
+        <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
+          전체 화면 다이얼로그 열기
+        </Button>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogContent fullScreen>
+            <DialogHeader>
+              <DialogTitle>전체 화면 다이얼로그</DialogTitle>
+              <DialogDescription>
+                화면 전체를 차지하는 다이얼로그입니다. 복잡한 콘텐츠나 설정 화면에 적합합니다.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex-1 flex items-center justify-center font-body size-sm text-muted">
+              전체 화면 콘텐츠 영역
+            </div>
+            <DialogFooter>
+              <Button buttonStyle="secondary" onClick={() => setOpen(false)}>닫기</Button>
+              <Button onClick={() => setOpen(false)}>저장</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </>
     );
   },
 };

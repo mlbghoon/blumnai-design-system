@@ -188,6 +188,16 @@ const meta: Meta<typeof Combobox> = {
         type: { summary: '(option: ComboboxOption, query: string) => boolean' },
       },
     },
+    highlightSearch: {
+      control: 'boolean',
+      description: 'true로 설정하면 검색어와 일치하는 텍스트가 강조 표시됩니다. 기본값은 true입니다',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'true' } },
+    },
+    tailIcon: {
+      control: 'object',
+      description: '라벨 뒤, 화살표 앞에 표시되는 아이콘입니다',
+      table: { type: { summary: 'IconTypeWithFill' } },
+    },
   },
 };
 
@@ -216,6 +226,11 @@ export const Default: Story = {
     error: '',
     success: '',
     maxHeight: 300,
+    width: undefined,
+    emptyStateTitle: '',
+    emptyStateDescription: '',
+    highlightSearch: true,
+    tailIcon: undefined,
   },
   parameters: {
     controls: { disable: false },
@@ -228,6 +243,11 @@ export const Default: Story = {
     const caption = args.caption || undefined;
     const error = args.error || undefined;
     const success = args.success || undefined;
+    const emptyStateTitle = args.emptyStateTitle || undefined;
+    const emptyStateDescription = args.emptyStateDescription || undefined;
+    const width = 'width' in args ? args.width : undefined;
+    const highlightSearch = 'highlightSearch' in args ? args.highlightSearch : undefined;
+    const tailIcon = 'tailIcon' in args ? args.tailIcon : undefined;
 
     const handleCreate = (newValue: string) => {
       const newOption: ComboboxOption = {
@@ -262,6 +282,11 @@ export const Default: Story = {
           error={error}
           success={success}
           maxHeight={args.maxHeight}
+          width={width}
+          emptyStateTitle={emptyStateTitle}
+          emptyStateDescription={emptyStateDescription}
+          highlightSearch={highlightSearch}
+          tailIcon={tailIcon}
         />
       </div>
     );

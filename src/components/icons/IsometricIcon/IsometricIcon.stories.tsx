@@ -89,6 +89,9 @@ const meta: Meta<typeof IsometricIcon> = {
   title: 'Icons/IsometricIcon',
   component: IsometricIcon,
   tags: ['autodocs'],
+  parameters: {
+    controls: { disable: true },
+  },
   argTypes: {
     iconType: {
       control: 'select',
@@ -169,6 +172,9 @@ export const Default: Story = {
     fillColor: 'default',
     strokeColor: 'accent',
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
