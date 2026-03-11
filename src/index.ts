@@ -329,7 +329,7 @@ export { toast, ToastContent, BlumnaiToaster } from './components/toast';
 export type { ToastContentProps, ToastOptions, ToastVariant, BlumnaiToasterProps, ToastAction } from './components/toast';
 
 export { InfoBox } from './components/info-box';
-export type { InfoBoxProps, InfoBoxVariant } from './components/info-box';
+export type { InfoBoxProps, InfoBoxVariant, InfoBoxStyle } from './components/info-box';
 
 export { EmptyState } from './components/empty-state';
 export type { EmptyStateProps, EmptyStateSize } from './components/empty-state';

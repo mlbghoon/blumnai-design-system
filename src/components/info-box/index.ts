@@ -1,2 +1,2 @@
 export { InfoBox } from './InfoBox';
-export type { InfoBoxProps, InfoBoxVariant } from './InfoBox.types';
+export type { InfoBoxProps, InfoBoxVariant, InfoBoxStyle } from './InfoBox.types';

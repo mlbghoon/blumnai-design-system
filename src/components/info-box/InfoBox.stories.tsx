@@ -16,11 +16,23 @@ const meta: Meta<InfoBoxProps> = {
     variant: {
       control: 'select',
       options: ['default', 'info', 'success', 'warning', 'error'],
-      description: '인포박스의 스타일 변형',
+      description: '인포박스의 색상 변형',
       table: {
         type: {
           summary: 'InfoBoxVariant',
           detail: "'default' | 'info' | 'success' | 'warning' | 'error'",
+        },
+        defaultValue: { summary: 'default' },
+      },
+    },
+    styleType: {
+      control: 'select',
+      options: ['default', 'subtle'],
+      description: '외관 스타일. subtle은 인디케이터 바 없이 컴팩트하게 표시',
+      table: {
+        type: {
+          summary: 'InfoBoxStyle',
+          detail: "'default' | 'subtle'",
         },
         defaultValue: { summary: 'default' },
       },
@@ -65,6 +77,22 @@ const meta: Meta<InfoBoxProps> = {
         defaultValue: { summary: 'false' },
       },
     },
+    collapsible: {
+      control: 'boolean',
+      description: '접을 수 있는 상태 (title 필수)',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    defaultOpen: {
+      control: 'boolean',
+      description: 'collapsible일 때 초기 열림 상태',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    },
     onClose: {
       action: 'closed',
       description: '닫기 버튼 클릭 시 호출되는 콜백 함수',
@@ -87,10 +115,13 @@ type Story = StoryObj<InfoBoxProps>;
 export const Default: Story = {
   args: {
     variant: 'default',
+    styleType: 'default',
     title: '',
     children: '참고할 수 있는 안내 메시지입니다.',
     visible: true,
     closable: false,
+    collapsible: false,
+    defaultOpen: true,
   },
   parameters: {
     controls: { disable: false },
@@ -101,10 +132,13 @@ export const Default: Story = {
       <div style={{ width: 400 }}>
         <InfoBox
           variant={args.variant}
+          styleType={args.styleType}
           icon={args.icon}
           title={title}
           visible={args.visible}
           closable={args.closable}
+          collapsible={args.collapsible}
+          defaultOpen={args.defaultOpen}
           onClose={args.onClose}
         >
           {args.children}
@@ -132,6 +166,28 @@ export const AllVariants: Story = {
 };
 
 /**
+ * Subtle 스타일
+ *
+ * `styleType="subtle"`은 인디케이터 바 없이 회색 배경으로 컴팩트하게 표시됩니다.
+ */
+export const Subtle: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-12" style={{ width: 400 }}>
+      <InfoBox styleType="subtle" title="안내">
+        이 기능은 베타 버전입니다. 예상치 못한 동작이 발생할 수 있습니다.
+      </InfoBox>
+      <InfoBox styleType="subtle" title="참고">
+        <ul style={{ margin: 0, paddingLeft: '14px' }}>
+          <li>첫 번째 항목입니다</li>
+          <li>두 번째 항목입니다</li>
+          <li>세 번째 항목입니다</li>
+        </ul>
+      </InfoBox>
+    </div>
+  ),
+};
+
+/**
  * 제목 포함
  *
  * title prop으로 굵은 제목 텍스트를 표시합니다.
@@ -153,10 +209,34 @@ export const WithTitle: Story = {
 };
 
 /**
+ * 접을 수 있는 InfoBox
+ *
+ * `collapsible` prop으로 제목 클릭 시 내용을 접고 펼 수 있습니다.
+ */
+export const Collapsible: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-12" style={{ width: 400 }}>
+      <InfoBox variant="info" title="안내사항" collapsible>
+        <ul style={{ margin: 0, paddingLeft: '14px' }}>
+          <li>첫 번째 항목입니다</li>
+          <li>두 번째 항목입니다</li>
+          <li>세 번째 항목입니다</li>
+        </ul>
+      </InfoBox>
+      <InfoBox variant="warning" title="주의사항" collapsible defaultOpen={false}>
+        접혀 있는 상태로 시작합니다. 클릭하여 펼칠 수 있습니다.
+      </InfoBox>
+      <InfoBox styleType="subtle" title="참고" collapsible>
+        Subtle 스타일의 접을 수 있는 InfoBox입니다.
+      </InfoBox>
+    </div>
+  ),
+};
+
+/**
  * 닫기 버튼
  *
  * closable prop으로 닫기 버튼을 표시합니다.
- * onClose 콜백으로 닫기 동작을 처리합니다.
  */
 export const Closable: Story = {
   render: function Render() {

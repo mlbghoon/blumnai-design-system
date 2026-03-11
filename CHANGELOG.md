@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.32] - 2026-03-11
+
+### Added
+
+- **InfoBox `collapsible` / `defaultOpen` prop**: 제목 클릭으로 내용을 접고 펼 수 있는 기능 추가. 셰브론 아이콘으로 상태 표시.
+- **InfoBox `styleType="subtle"` prop**: 좌측 인디케이터 바 없이 회색 배경으로 컴팩트하게 표시하는 스타일 추가.
+- **InfoBox 스토리 업데이트**: Subtle, Collapsible 스토리 추가. Default 스토리에 새 props 컨트롤 추가.
+
 ## [1.0.31] - 2026-03-11
 
 ### Fixed
