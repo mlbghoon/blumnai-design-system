@@ -74,7 +74,8 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   const rStartAngle = isHalf ? 180 : 90 - startAngle;
   const rEndAngle = isHalf ? 0 : 90 - endAngle;
 
-  const svgHeight = isHalf ? outerRadius + 40 : height;
+  const halfPadding = showLegend ? 80 : 20;
+  const svgHeight = isHalf ? outerRadius + halfPadding : height;
 
   const displayLabel = showCenterOnHover && hoveredSlice ? hoveredSlice.name : centerLabel;
   const displayValue = showCenterOnHover && hoveredSlice ? String(hoveredSlice.value) : centerValue;
