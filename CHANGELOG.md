@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.29] - 2026-03-11
+
+### Added
+
+- **Progress `gradient` prop**: `gradient` prop 추가 (linear variant 전용). CSS 그라디언트 문자열을 지정하면 `color` 대신 커스텀 그라디언트가 적용됩니다.
+  ```tsx
+  <Progress value={65} gradient="linear-gradient(90deg, #f9d508 0%, #74c2fd 100%)" />
+  ```
+
+## [1.0.28] - 2026-03-11
+
+### Fixed
+
+- **반원형 차트 범례 클리핑 수정**: PieChart/DonutChart의 `isHalf + showLegend` 조합에서 차트 상단이 잘리는 문제 수정. `svgHeight` 계산 시 범례 여부에 따라 패딩 동적 조정.
+
 ## [1.0.27] - 2026-03-10
 
 ### Performance

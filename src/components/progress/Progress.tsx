@@ -40,6 +40,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
       max = 100,
       variant = 'linear',
       color = 'gray',
+      gradient,
       label,
       showValue = false,
       formatValue,
@@ -102,11 +103,12 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
             <div
               className={cn(
                 'h-full rounded-full transition-all duration-300',
-                FILL_COLOR_MAP[color],
+                !gradient && FILL_COLOR_MAP[color],
                 isIndeterminate && 'animate-progress-indeterminate'
               )}
               style={{
                 width: isIndeterminate ? '40%' : `${percentage}%`,
+                ...(gradient ? { background: gradient } : {}),
               }}
             />
           )}

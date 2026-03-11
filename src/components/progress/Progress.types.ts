@@ -82,6 +82,12 @@ export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'col
    */
   caption?: string;
   /**
+   * CSS 그라디언트 문자열 (linear variant 전용)
+   * 지정 시 color 대신 그라디언트가 적용됩니다.
+   * @example 'linear-gradient(90deg, #f9d508 0%, #74c2fd 100%)'
+   */
+  gradient?: string;
+  /**
    * 에러 상태 또는 메시지
    */
   error?: boolean | string;

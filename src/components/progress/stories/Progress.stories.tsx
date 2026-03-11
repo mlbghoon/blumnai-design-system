@@ -127,6 +127,16 @@ const meta: Meta<ProgressProps> = {
         },
       },
     },
+    gradient: {
+      control: 'text',
+      description: 'CSS 그라디언트 문자열 (linear variant 전용). 지정 시 color 대신 적용',
+      table: {
+        type: {
+          summary: 'string',
+          detail: "예: 'linear-gradient(90deg, #f9d508 0%, #74c2fd 100%)'",
+        },
+      },
+    },
   },
 };
 
@@ -149,6 +159,7 @@ export const Default: Story = {
     caption: '',
     error: '',
     success: '',
+    gradient: '',
   },
   parameters: {
     controls: { disable: false },
@@ -157,6 +168,7 @@ export const Default: Story = {
     const caption = args.caption || undefined;
     const error = args.error || undefined;
     const success = args.success || undefined;
+    const gradient = args.gradient || undefined;
     return (
       <div style={{ width: 320 }}>
         <Progress
@@ -164,6 +176,7 @@ export const Default: Story = {
           max={args.max}
           variant={args.variant}
           color={args.color}
+          gradient={gradient}
           label={args.label}
           showValue={args.showValue}
           formatValue={args.formatValue}
@@ -439,6 +452,33 @@ export const ErrorAndSuccessStates: Story = {
           value={35}
           color="red"
           error="문제가 발생했습니다"
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 그라디언트
+ *
+ * `gradient` prop으로 CSS 그라디언트를 적용합니다.
+ * 지정 시 `color` 대신 그라디언트가 사용됩니다.
+ */
+export const Gradient: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24" style={{ width: 320 }}>
+        <Progress
+          label="토큰 사용량"
+          showValue
+          value={65}
+          gradient="linear-gradient(90deg, #f9d508 0%, #74c2fd 100%)"
+        />
+        <Progress
+          label="진행률"
+          showValue
+          value={80}
+          gradient="linear-gradient(90deg, #34d399 0%, #3b82f6 100%)"
         />
       </div>
     );
