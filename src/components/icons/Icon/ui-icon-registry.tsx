@@ -2868,3 +2868,29 @@ export function getIconLazy(registryKey: string): LazyExoticComponent<ComponentT
 export function hasIcon(registryKey: string): boolean {
   return registryKey in iconLookup;
 }
+
+/** ComponentName → kebab display name: 'ArrowDownIcon' → 'arrow-down' */
+function toDisplayName(componentName: string): string {
+  return componentName
+    .replace(/Icon$/, '')
+    .replace(/^_/, '')
+    .replace(/([a-z])([A-Z0-9])/g, '$1-$2')
+    .replace(/([0-9])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase();
+}
+
+/** 카테고리별 아이콘 display name 목록 (fill 변형 제외) */
+let _categoryIconNames: Record<string, string[]> | null = null;
+export function getIconNamesByCategory(): Record<string, string[]> {
+  if (_categoryIconNames) return _categoryIconNames;
+  const result: Record<string, string[]> = {};
+  for (const [registryKey, [category, componentName]] of Object.entries(iconLookup)) {
+    if (registryKey.endsWith('fill')) continue;
+    if (!result[category]) result[category] = [];
+    result[category].push(toDisplayName(componentName));
+  }
+  for (const names of Object.values(result)) names.sort();
+  _categoryIconNames = result;
+  return result;
+}

@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.30] - 2026-03-11
+
+### Added
+
+- **InfoBox 스토리 추가**: InfoBox 컴포넌트 Storybook 스토리 추가 (Default, AllVariants, WithTitle, Closable, CustomIcon)
+- **누락된 subpath export 7개 추가**: `accordion`, `aspect-ratio`, `dnd`, `empty-state`, `info-box`, `status-dot`, `stepper` — `package.json`의 `exports`와 `typesVersions`에 추가
+
+### Improved
+
+- **Icon Category 스토리 최적화**: 18개 카테고리를 동시 로드하던 방식에서 탭 선택 시 1개 카테고리만 로드하도록 변경. 카테고리별 전체 아이콘 표시. `getIconNamesByCategory()` 헬퍼 추가.
+
 ## [1.0.29] - 2026-03-11
 
 ### Added

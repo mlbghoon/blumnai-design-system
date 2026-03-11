@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -10,6 +10,12 @@
     "*": {
       ".": [
         "dist/index.d.ts"
+      ],
+      "accordion": [
+        "dist/components/accordion/index.d.ts"
+      ],
+      "aspect-ratio": [
+        "dist/components/aspect-ratio/index.d.ts"
       ],
       "avatar": [
         "dist/components/avatar/index.d.ts"
@@ -56,8 +62,14 @@
       "drawer": [
         "dist/components/drawer-sheet/index.d.ts"
       ],
+      "dnd": [
+        "dist/components/dnd/index.d.ts"
+      ],
       "dropdown": [
         "dist/components/dropdown/index.d.ts"
+      ],
+      "empty-state": [
+        "dist/components/empty-state/index.d.ts"
       ],
       "file-upload": [
         "dist/components/file-upload/index.d.ts"
@@ -67,6 +79,9 @@
       ],
       "hover-card": [
         "dist/components/hover-card/index.d.ts"
+      ],
+      "info-box": [
+        "dist/components/info-box/index.d.ts"
       ],
       "icons": [
         "dist/components/icons/index.d.ts"
@@ -197,6 +212,12 @@
       "slider": [
         "dist/components/slider/index.d.ts"
       ],
+      "status-dot": [
+        "dist/components/status-dot/index.d.ts"
+      ],
+      "stepper": [
+        "dist/components/stepper/index.d.ts"
+      ],
       "switch": [
         "dist/components/switch/index.d.ts"
       ],
@@ -230,6 +251,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
+    },
+    "./accordion": {
+      "types": "./dist/components/accordion/index.d.ts",
+      "import": "./dist/components/accordion/index.mjs"
+    },
+    "./aspect-ratio": {
+      "types": "./dist/components/aspect-ratio/index.d.ts",
+      "import": "./dist/components/aspect-ratio/index.mjs"
     },
     "./avatar": {
       "types": "./dist/components/avatar/index.d.ts",
@@ -291,9 +320,17 @@
       "types": "./dist/components/drawer-sheet/index.d.ts",
       "import": "./dist/components/drawer-sheet/index.mjs"
     },
+    "./dnd": {
+      "types": "./dist/components/dnd/index.d.ts",
+      "import": "./dist/components/dnd/index.mjs"
+    },
     "./dropdown": {
       "types": "./dist/components/dropdown/index.d.ts",
       "import": "./dist/components/dropdown/index.mjs"
+    },
+    "./empty-state": {
+      "types": "./dist/components/empty-state/index.d.ts",
+      "import": "./dist/components/empty-state/index.mjs"
     },
     "./file-upload": {
       "types": "./dist/components/file-upload/index.d.ts",
@@ -306,6 +343,10 @@
     "./hover-card": {
       "types": "./dist/components/hover-card/index.d.ts",
       "import": "./dist/components/hover-card/index.mjs"
+    },
+    "./info-box": {
+      "types": "./dist/components/info-box/index.d.ts",
+      "import": "./dist/components/info-box/index.mjs"
     },
     "./icons": {
       "types": "./dist/components/icons/index.d.ts",
@@ -478,6 +519,14 @@
     "./slider": {
       "types": "./dist/components/slider/index.d.ts",
       "import": "./dist/components/slider/index.mjs"
+    },
+    "./status-dot": {
+      "types": "./dist/components/status-dot/index.d.ts",
+      "import": "./dist/components/status-dot/index.mjs"
+    },
+    "./stepper": {
+      "types": "./dist/components/stepper/index.d.ts",
+      "import": "./dist/components/stepper/index.mjs"
     },
     "./switch": {
       "types": "./dist/components/switch/index.d.ts",

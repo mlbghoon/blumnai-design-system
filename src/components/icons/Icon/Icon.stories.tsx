@@ -1,8 +1,9 @@
-import { useRef } from 'react';
+import { useRef, useState, useMemo } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Icon } from './Icon';
+import { getIconNamesByCategory } from './ui-icon-registry';
 import type { IconCategory, IconType } from './Icon.types';
 
 const iconColorOptions = [
@@ -116,49 +117,71 @@ export const Default: Story = {
   },
 };
 
-const categoryExamples: Record<IconCategory, string[]> = {
-  arrows: ['arrow-down', 'arrow-up', 'arrow-left', 'arrow-right'],
-  buildings: ['building', 'home', 'store', 'hospital'],
-  business: ['briefcase', 'calendar', 'mail', 'bookmark'],
-  communication: ['chat-1', 'chat-2', 'message', 'discuss'],
-  design: ['brush', 'edit', 'palette', 'artboard'],
-  development: ['code', 'terminal', 'bug', 'git-branch'],
-  device: ['computer', 'smartphone', 'tablet', 'tv'],
-  document: ['file', 'folder', 'file-text', 'file-copy'],
-  editor: ['bold', 'italic', 'underline', 'strikethrough'],
-  finance: ['bank-card', 'money-dollar-circle', 'exchange-dollar', 'wallet'],
-  food: ['cake', 'restaurant', 'cup', 'goblet'],
-  health: ['heart-pulse', 'heart', 'capsule', 'first-aid-kit'],
-  map: ['map-pin', 'map', 'compass', 'earth'],
-  media: ['play', 'pause', 'stop', 'volume-up'],
-  others: ['bell', 'lightbulb', 'key', 'umbrella'],
-  system: ['settings', 'search', 'add', 'delete-bin'],
-  user: ['user', 'user-add', 'group', 'team'],
-  weather: ['sun', 'moon', 'cloud-windy', 'cloudy'],
+/** 레지스트리 카테고리 → IconType 카테고리 매핑 */
+const registryCategoryMap: Record<string, IconCategory> = {
+  'arrows': 'arrows',
+  'buildings': 'buildings',
+  'business': 'business',
+  'communication': 'communication',
+  'design': 'design',
+  'development': 'development',
+  'device': 'device',
+  'document': 'document',
+  'editor': 'editor',
+  'finance': 'finance',
+  'food': 'food',
+  'health & medical': 'health',
+  'map': 'map',
+  'media': 'media',
+  'others': 'others',
+  'system': 'system',
+  'user & faces': 'user',
+  'weather': 'weather',
 };
 
 export const Category: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {(Object.entries(categoryExamples) as [IconCategory, string[]][]).map(([category, iconNames]) => (
-        <div key={category} style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-          <div style={{ width: '120px', fontSize: '13px', fontWeight: 500, color: 'var(--text-default)' }}>
-            {category}
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 100px)', gap: '8px' }}>
-            {iconNames.map((iconName) => (
-              <div key={iconName} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Icon iconType={[category, iconName] as IconType} size={20} />
-                <div style={{ fontSize: '11px', color: 'var(--text-subtle)' }}>
-                  {iconName}
-                </div>
-              </div>
-            ))}
-          </div>
+  render: function Render() {
+    const allByCategory = useMemo(() => getIconNamesByCategory(), []);
+    const registryCategories = Object.keys(allByCategory).sort();
+    const [selectedRegistry, setSelectedRegistry] = useState(registryCategories[0]);
+    const iconCategory = registryCategoryMap[selectedRegistry] ?? selectedRegistry as IconCategory;
+    const iconNames = allByCategory[selectedRegistry] ?? [];
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+          {registryCategories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedRegistry(cat)}
+              style={{
+                padding: '4px 10px',
+                fontSize: '12px',
+                fontWeight: selectedRegistry === cat ? 600 : 400,
+                borderRadius: '6px',
+                border: 'none',
+                cursor: 'pointer',
+                background: selectedRegistry === cat ? 'var(--bg-state-primary)' : 'var(--bg-subtle)',
+                color: selectedRegistry === cat ? '#fff' : 'var(--text-default)',
+              }}
+            >
+              {registryCategoryMap[cat] ?? cat} ({allByCategory[cat]?.length ?? 0})
+            </button>
+          ))}
         </div>
-      ))}
-    </div>
-  ),
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, 140px)', gap: '8px' }}>
+          {iconNames.map((iconName) => (
+            <div key={iconName} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Icon iconType={[iconCategory, iconName] as IconType} size={20} />
+              <div style={{ fontSize: '11px', color: 'var(--text-subtle)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {iconName}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  },
   parameters: { controls: { disable: true } },
 };
 
