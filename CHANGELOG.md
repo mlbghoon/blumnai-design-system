@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.31] - 2026-03-11
+
+### Fixed
+
+- **typesVersions 와일드카드 제거**: `"*": ["dist/*.d.ts"]` 패턴이 bare import 경로를 `dist/dist/index.d.ts.d.ts`로 이중 해석하는 문제 수정. 모든 컴포넌트에 명시적 엔트리가 있으므로 와일드카드 불필요.
+
 ## [1.0.30] - 2026-03-11
 
 ### Added
