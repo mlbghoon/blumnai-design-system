@@ -147,6 +147,15 @@ const meta: Meta<StoryProps> = {
       description: '취소 버튼 라벨',
       table: { type: { summary: 'string' }, defaultValue: { summary: '취소' } },
     },
+    triggerVariant: {
+      control: 'select',
+      options: ['default', 'compact'],
+      description: '트리거 변형 (compact: 좁은 컨테이너용 텍스트 표시)',
+      table: {
+        type: { summary: 'DatePickerTriggerVariant', detail: "'default' | 'compact'" },
+        defaultValue: { summary: 'default' },
+      },
+    },
     presets: {
       control: false,
       description: '커스텀 빠른 프리셋 목록 (showQuickPresets와 함께 사용)',
@@ -191,6 +200,7 @@ export const Default: Story = {
     dateFormat: 'yyyy.MM.dd',
     locale: 'ko',
     captionLayout: 'month-centered',
+    triggerVariant: 'default',
     width: 300,
   },
   parameters: {
@@ -219,6 +229,7 @@ export const Default: Story = {
         align={args.align}
         locale={locale}
         captionLayout={args.captionLayout}
+        triggerVariant={args.triggerVariant}
         width={args.width}
         value={range}
         onChange={setRange}
@@ -470,6 +481,67 @@ export const WithActionsAndPresets: Story = {
           value={range}
           onChange={setRange}
         />
+      </div>
+    );
+  },
+};
+
+/**
+ * Compact 트리거
+ *
+ * `triggerVariant="compact"`를 사용하면 좁은 컨테이너에서 날짜 범위를 텍스트로 표시합니다.
+ * 공간이 부족하면 텍스트가 말줄임(...)으로 처리됩니다.
+ */
+export const Compact: Story = {
+  render: function Render() {
+    const [range, setRange] = useState<DateRange | undefined>({
+      from: new Date(),
+      to: addDays(new Date(), 7),
+    });
+    return (
+      <div style={{ width: 200 }}>
+        <DateRangePicker
+          label="기간"
+          triggerVariant="compact"
+          value={range}
+          onChange={setRange}
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * Compact + Select 조합
+ *
+ * 좁은 사이드바에서 Select와 DateRangePicker를 함께 사용하는 예시입니다.
+ */
+export const CompactWithSelect: Story = {
+  render: function Render() {
+    const [range, setRange] = useState<DateRange | undefined>({
+      from: new Date(),
+      to: addDays(new Date(), 7),
+    });
+    return (
+      <div style={{ width: 300, display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+        <div style={{ width: 90, flexShrink: 0 }}>
+          <select
+            className="w-full height-32 padding-x-8 border-darker rounded-sm bg-input font-body size-sm"
+          >
+            <option>전체</option>
+            <option>상담</option>
+            <option>문의</option>
+          </select>
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <DateRangePicker
+            triggerVariant="compact"
+            size="sm"
+            dateFormat="yyyy-MM-dd"
+            value={range}
+            onChange={setRange}
+          />
+        </div>
       </div>
     );
   },

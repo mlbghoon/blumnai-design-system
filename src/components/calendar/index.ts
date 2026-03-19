@@ -9,6 +9,7 @@ export type {
   DatePickerBaseProps,
   DatePickerStyle,
   DatePickerSize,
+  DatePickerTriggerVariant,
   DateFormat,
   QuickPreset,
   DateRange,

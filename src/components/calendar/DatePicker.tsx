@@ -1,16 +1,24 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
-import { addDays, addWeeks, addMonths, startOfDay, endOfDay } from 'date-fns';
+import { addDays, addWeeks, addMonths, startOfDay, endOfDay, format } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 
 import { cn } from '../../utils/cn';
 import { Popover, PopoverContent, PopoverAnchor } from '../popover/Popover';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import { Button } from '../button/Button';
+import { Icon } from '../icons/Icon/Icon';
 import { Calendar } from './Calendar';
 import { DateInput, DateRangeInput, QuickPresets } from './components';
+import {
+  SIZE_CONFIG,
+  STYLE_CONFIG,
+  STATE_CONFIG,
+  INPUT_WRAPPER_BASE,
+} from '../../constants/input/Input/Input.constants';
 import type {
   DatePickerProps,
   DateRangePickerProps,
+  DateFormat,
   QuickPreset,
 } from './DatePicker.types';
 
@@ -258,6 +266,89 @@ export const DatePicker = ({
   );
 };
 
+interface CompactRangeTriggerProps {
+  datePickerStyle: 'default' | 'shadow' | 'soft';
+  size: 'sm' | 'lg';
+  value?: DateRange;
+  disabled: boolean;
+  hasError: boolean;
+  hasSuccess: boolean;
+  isOpen: boolean;
+  dateFormat: DateFormat;
+  onClick: () => void;
+}
+
+const CompactRangeTrigger = ({
+  datePickerStyle,
+  size,
+  value,
+  disabled,
+  hasError,
+  hasSuccess,
+  isOpen,
+  dateFormat,
+  onClick,
+}: CompactRangeTriggerProps) => {
+  const sizeConfig = SIZE_CONFIG[size];
+  const styleConfig = STYLE_CONFIG[datePickerStyle];
+  const state = disabled ? 'disabled' : hasError ? 'error' : hasSuccess ? 'success' : 'default';
+  const stateConfig = STATE_CONFIG[state];
+  const iconColor = disabled ? 'default-disabled' : hasError ? 'destructive' : hasSuccess ? 'success' : 'default-subtle';
+
+  const formatDate = (date: Date | undefined) => {
+    if (!date) return '';
+    return format(date, dateFormat);
+  };
+
+  const displayText = useMemo(() => {
+    if (!value?.from) return '';
+    const fromText = formatDate(value.from);
+    const toText = value.to ? formatDate(value.to) : '';
+    if (!toText) return fromText;
+    return `${fromText} ~ ${toText}`;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value?.from, value?.to, dateFormat]);
+
+  const wrapperClassName = cn(
+    INPUT_WRAPPER_BASE,
+    sizeConfig.container,
+    sizeConfig.paddingWithTailIcon,
+    sizeConfig.gap,
+    styleConfig.base,
+    !disabled && !hasError && !isOpen && styleConfig.focus,
+    state === 'disabled' && STATE_CONFIG.disabled.bg,
+    state === 'error' && 'border-destructive',
+    state === 'success' && 'border-success',
+    isOpen && !hasError && 'border-strong shadow-component-input-focus',
+    disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+  );
+
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      className={wrapperClassName}
+    >
+      <span
+        className={cn(
+          'flex-1 min-w-0 truncate text-left font-body',
+          sizeConfig.text,
+          displayText ? stateConfig.text : 'text-hint',
+        )}
+      >
+        {displayText || dateFormat.toLowerCase()}
+      </span>
+      <Icon
+        iconType={['business', 'calendar']}
+        size={sizeConfig.iconSize}
+        color={iconColor}
+        className="flex-shrink-0"
+      />
+    </button>
+  );
+};
+
 /**
  * 날짜 범위 선택 컴포넌트
  */
@@ -296,6 +387,7 @@ export const DateRangePicker = ({
   showActions = false,
   confirmLabel = '확인',
   cancelLabel = '취소',
+  triggerVariant = 'default',
 }: DateRangePickerProps) => {
   const [open, setOpen] = useState(false);
   const [month, setMonth] = useState<Date>(() => {
@@ -432,18 +524,32 @@ export const DateRangePicker = ({
       <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverAnchor asChild>
           <div>
-            <DateRangeInput
-              datePickerStyle={datePickerStyle}
-              size={size}
-              value={value}
-              onChange={handleInputChange}
-              disabled={disabled}
-              hasError={hasError}
-              hasSuccess={hasSuccess}
-              isOpen={open}
-              dateFormat={dateFormat}
-              onCalendarClick={handleOpenCalendar}
-            />
+            {triggerVariant === 'compact' ? (
+              <CompactRangeTrigger
+                datePickerStyle={datePickerStyle}
+                size={size}
+                value={value}
+                disabled={disabled}
+                hasError={hasError}
+                hasSuccess={hasSuccess}
+                isOpen={open}
+                dateFormat={dateFormat}
+                onClick={handleOpenCalendar}
+              />
+            ) : (
+              <DateRangeInput
+                datePickerStyle={datePickerStyle}
+                size={size}
+                value={value}
+                onChange={handleInputChange}
+                disabled={disabled}
+                hasError={hasError}
+                hasSuccess={hasSuccess}
+                isOpen={open}
+                dateFormat={dateFormat}
+                onCalendarClick={handleOpenCalendar}
+              />
+            )}
           </div>
         </PopoverAnchor>
         <PopoverContent

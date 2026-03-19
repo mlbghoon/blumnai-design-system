@@ -13,6 +13,13 @@ export type DatePickerStyle = 'default' | 'shadow' | 'soft';
 export type DatePickerSize = 'sm' | 'lg';
 
 /**
+ * 트리거 변형
+ * - 'default': 세그먼트 입력 (직접 편집 가능)
+ * - 'compact': 텍스트 표시 (좁은 컨테이너용, 말줄임 지원)
+ */
+export type DatePickerTriggerVariant = 'default' | 'compact';
+
+/**
  * 날짜 포맷 타입
  */
 export type DateFormat = 'yyyy.MM.dd' | 'yyyy-MM-dd' | 'yyyy/MM/dd' | 'MM/dd/yyyy' | 'dd/MM/yyyy';
@@ -129,6 +136,13 @@ export interface DatePickerBaseProps {
    * @default '취소'
    */
   cancelLabel?: string;
+  /**
+   * 트리거 변형
+   * - 'default': 세그먼트 입력 (직접 편집 가능)
+   * - 'compact': 텍스트 표시 (좁은 컨테이너용, 말줄임 지원)
+   * @default 'default'
+   */
+  triggerVariant?: DatePickerTriggerVariant;
 }
 
 /**
