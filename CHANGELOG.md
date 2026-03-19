@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.40] - 2026-03-19
+
+### Added
+
+- **ResizableHandle `lineColor` / `lineWidth` props**: 구분선 색상과 두께를 커스터마이즈할 수 있는 props 추가. CSS 커스텀 프로퍼티를 통해 `::after` pseudo-element에 적용.
+
 ## [1.0.39] - 2026-03-19
 
 ### Fixed

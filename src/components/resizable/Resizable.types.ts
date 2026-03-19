@@ -50,4 +50,13 @@ export interface ResizableHandleProps extends ComponentPropsWithoutRef<typeof Se
    * 접기/펼치기 콜백
    */
   onCollapseChange?: (collapsed: boolean) => void;
+  /**
+   * 구분선 색상 (CSS 색상 값)
+   */
+  lineColor?: string;
+  /**
+   * 구분선 두께 (px)
+   * @default 2
+   */
+  lineWidth?: number;
 }

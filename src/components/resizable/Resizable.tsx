@@ -141,6 +141,8 @@ const ResizableHandle = ({
   panelRef,
   isCollapsed: isCollapsedProp,
   onCollapseChange,
+  lineColor,
+  lineWidth,
   className,
   ...props
 }: ResizableHandleProps) => {
@@ -169,14 +171,26 @@ const ResizableHandle = ({
         'group/handle relative flex items-center justify-center overflow-visible',
         'after:absolute after:transition-colors after:duration-150',
         orientation === 'horizontal'
-          ? 'after:inset-y-0 after:left-1/2 after:w-[2px] after:-translate-x-1/2'
-          : 'after:inset-x-0 after:top-1/2 after:h-[2px] after:-translate-y-1/2',
+          ? cn(
+              'after:inset-y-0 after:left-1/2 after:-translate-x-1/2',
+              lineWidth ? 'after:w-[var(--resizable-line-width)]' : 'after:w-[2px]'
+            )
+          : cn(
+              'after:inset-x-0 after:top-1/2 after:-translate-y-1/2',
+              lineWidth ? 'after:h-[var(--resizable-line-width)]' : 'after:h-[2px]'
+            ),
         'focus-visible:outline-none focus-visible:after:bg-border-highlight',
-        isHidden
-          ? 'after:bg-transparent hover:after:bg-muted active:after:bg-border-darker'
-          : 'after:bg-muted hover:after:bg-border-darker active:after:bg-border-strong',
+        lineColor
+          ? 'after:bg-[var(--resizable-line-color)]'
+          : isHidden
+            ? 'after:bg-transparent hover:after:bg-muted active:after:bg-border-darker'
+            : 'after:bg-muted hover:after:bg-border-darker active:after:bg-border-strong',
         className
       )}
+      style={{
+        ...(lineColor ? { '--resizable-line-color': lineColor } : {}),
+        ...(lineWidth ? { '--resizable-line-width': `${lineWidth}px` } : {}),
+      } as React.CSSProperties}
       {...props}
     >
       {withHandle && variant === 'pill' && (
