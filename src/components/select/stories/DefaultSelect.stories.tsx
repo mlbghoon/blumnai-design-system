@@ -62,12 +62,12 @@ const meta: Meta<typeof Select> = {
     },
     size: {
       control: 'select',
-      options: ['sm', 'lg'],
+      options: ['xs', 'sm', 'lg'],
       description: '크기',
       table: {
         type: {
           summary: 'SelectSize',
-          detail: `'sm' | 'lg'`,
+          detail: `'xs' | 'sm' | 'lg'`,
         },
         defaultValue: { summary: 'sm' },
       },
@@ -491,6 +491,29 @@ export const StyleSoft: Story = {
 // ============================================================================
 // SIZES
 // ============================================================================
+
+/**
+ * Extra Small 크기
+ *
+ * `size="xs"`는 24px 높이로, 좁은 툴바나 사이드바에서 사용합니다.
+ */
+export const SizeExtraSmall: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string>();
+    return (
+      <Select
+        variant="default"
+        size="xs"
+        label="Extra Small (xs)"
+        placeholder="Choose..."
+        options={defaultOptions}
+        value={value}
+        onChange={setValue}
+        width={200}
+      />
+    );
+  },
+};
 
 /**
  * Small 크기

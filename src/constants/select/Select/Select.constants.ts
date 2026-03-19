@@ -3,6 +3,15 @@
  */
 
 export const SIZE_CONFIG = {
+  xs: {
+    container: 'height-24',
+    minHeight: 'min-height-24',
+    padding: 'padding-x-6 padding-y-4',
+    paddingWithLeadIcon: 'padding-x-6 padding-y-4',
+    text: 'size-xs line-height-leading-4',
+    iconSize: 14,
+    gap: 'ds-gap-4',
+  },
   sm: {
     container: 'height-32',
     minHeight: 'min-height-32',

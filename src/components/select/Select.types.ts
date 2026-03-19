@@ -11,7 +11,7 @@ export type SelectStyle = 'default' | 'shadow' | 'soft';
 /**
  * Select 크기 변형
  */
-export type SelectSize = 'sm' | 'lg';
+export type SelectSize = 'xs' | 'sm' | 'lg';
 
 /**
  * Select 변형 타입

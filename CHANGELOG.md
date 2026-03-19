@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.45] - 2026-03-19
+
+### Added
+
+- **Select `size="xs"` (24px)**: 좁은 툴바/사이드바용 초소형 크기 추가. height-24, size-xs, padding-x-6 padding-y-4, 14px 아이콘.
+
 ## [1.0.44] - 2026-03-19
 
 ### Added

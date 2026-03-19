@@ -50,12 +50,12 @@ const meta: Meta<typeof Select> = {
     },
     size: {
       control: 'select',
-      options: ['sm', 'lg'],
-      description: '컴포넌트의 크기를 설정합니다. sm(작게), lg(크게) 중 선택할 수 있습니다',
+      options: ['xs', 'sm', 'lg'],
+      description: '컴포넌트의 크기를 설정합니다. xs(아주 작게), sm(작게), lg(크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'SelectSize',
-          detail: `'sm' | 'lg'`,
+          detail: `'xs' | 'sm' | 'lg'`,
         },
       },
     },
