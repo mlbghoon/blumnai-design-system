@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.39] - 2026-03-19
+
+### Fixed
+
+- **DropdownInput 좁은 컨테이너 레이아웃 수정**: 드롭다운 트리거에 `flex-shrink-0` 추가, 구분선에 `flex-shrink-0` 추가, 입력 영역에 `min-w-0 overflow-hidden` 추가하여 좁은 flex 컨테이너에서 구분선 사라짐/아이콘 넘침 방지.
+
 ## [1.0.38] - 2026-03-19
 
 ### Fixed

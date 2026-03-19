@@ -40,4 +40,4 @@ export const DROPDOWN_SIZE_CONFIG = {
 } as const;
 
 // Divider between dropdown and input (visual separator)
-export const DROPDOWN_DIVIDER = 'w-px bg-divider self-stretch' as const;
+export const DROPDOWN_DIVIDER = 'w-px bg-divider self-stretch flex-shrink-0' as const;

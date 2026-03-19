@@ -358,7 +358,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
 
   // Render dropdown trigger
   const renderDropdownTrigger = () => (
-    <div className="relative">
+    <div className="relative flex-shrink-0">
       <button
         ref={triggerRef}
         type="button"
@@ -450,7 +450,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
         )}
 
         {/* Input Field Container */}
-        <div className={cn('flex-1 flex items-center ds-gap-6', sizeConfig.padding)}>
+        <div className={cn('flex-1 flex items-center ds-gap-6 min-w-0 overflow-hidden', sizeConfig.padding)}>
           {/* Input Field */}
           <input
             ref={ref}
