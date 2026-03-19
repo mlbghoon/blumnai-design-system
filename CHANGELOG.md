@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.36] - 2026-03-19
+
+### Fixed
+
+- **INPUT_WRAPPER_BASE overflow-hidden 제거**: v1.0.34에서 추가된 `overflow-hidden`이 DropdownInput 내부 구분선과 아이콘을 잘라내는 문제 수정. `min-w-0`만으로 flex shrink 충분.
+
 ## [1.0.35] - 2026-03-19
 
 ### Fixed
