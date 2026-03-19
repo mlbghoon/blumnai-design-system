@@ -619,7 +619,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
             textValue={option.label}
             className={cn(
               'flex w-full select-none items-center rounded-sm outline-none',
-              'padding-6',
+              'padding-6 ds-gap-6',
               'hover:bg-[var(--bg-state-ghost-hover)]',
               'data-[highlighted]:bg-[var(--bg-state-ghost-hover)]',
               option.disabled && 'pointer-events-none opacity-50 cursor-not-allowed',
@@ -627,6 +627,15 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
             )}
             disabled={option.disabled}
           >
+            <span className="flex width-20 height-20 items-center justify-center flex-shrink-0">
+              <SelectPrimitive.ItemIndicator>
+                <Icon
+                  iconType={['system', 'check']}
+                  size={16}
+                  color={option.disabled ? 'default-disabled' : 'primary'}
+                />
+              </SelectPrimitive.ItemIndicator>
+            </span>
             <SelectPrimitive.ItemText className="sr-only">{option.label}</SelectPrimitive.ItemText>
             {renderOption(option, isSelected)}
           </SelectPrimitive.Item>
