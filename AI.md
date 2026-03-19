@@ -401,7 +401,8 @@ import { Input } from '@blumnai-studio/blumnai-design-system';
 | `variant` | `'default'` `'password'` `'quantity'` `'quantity-2'` `'tags'` `'inline-tags'` `'addon'` `'inline-addon'` `'shortcut'` `'lead-button'` `'tail-button'` `'lead-dropdown'` `'tail-dropdown'` | `'default'` | Input type |
 | `inputStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `size` | `'xs'` `'sm'` `'lg'` | `'sm'` | Input size (xs=28px, sm=32px, lg=36px) |
-| `label` | `string` | - | Label text |
+| `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
+| `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
 | `placeholder` | `string` | - | Placeholder text |
 | `required` | `boolean` | `false` | Show required indicator |
 | `disabled` | `boolean` | `false` | Disabled state |
@@ -520,7 +521,8 @@ import { Textarea } from '@blumnai-studio/blumnai-design-system';
 |------|------|---------|-------------|
 | `textareaStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `size` | `'sm'` `'lg'` | `'sm'` | Textarea size |
-| `label` | `string` | - | Label text |
+| `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
+| `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
 | `required` | `boolean` | `false` | Show required indicator |
 | `supportText` | `string` | - | Helper text next to label |
 | `caption` | `string` | - | Description below textarea |
@@ -556,9 +558,10 @@ import { Select } from '@blumnai-studio/blumnai-design-system';
 |------|------|---------|-------------|
 | `variant` | `'default'` `'multi-select'` `'avatar'` `'tags'` | `'default'` | Select type |
 | `selectStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
-| `size` | `'sm'` `'lg'` | `'sm'` | Select size |
+| `size` | `'xs'` `'sm'` `'lg'` | `'sm'` | Select size (xs=24px, sm=32px, lg=36px) |
 | `options` | `SelectOption[]` | required | Available options |
-| `label` | `string` | - | Label text |
+| `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
+| `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
 | `placeholder` | `string` | - | Placeholder text |
 | `required` | `boolean` | `false` | Show required indicator |
 | `disabled` | `boolean` | `false` | Disabled state |
@@ -574,7 +577,8 @@ import { Select } from '@blumnai-studio/blumnai-design-system';
 | `open` | `boolean` | - | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
 | `maxHeight` | `number \| string` | `300` | Dropdown max height |
-| `renderOption` | `(option: SelectOption, isSelected: boolean) => ReactNode` | - | Custom option rendering |
+| `renderOption` | `(option: SelectOption, isSelected: boolean) => ReactNode` | - | Custom option rendering (check indicator auto-included) |
+| `renderValue` | `(option: SelectOption) => ReactNode` | - | Custom trigger display for selected value |
 | `minWidth` | `string \| number` | - | Minimum width of select trigger |
 | `clearable` | `boolean` | `false` | Show clear button when value is selected |
 | `loading` | `boolean` | `false` | Show loading spinner in dropdown |
@@ -645,7 +649,8 @@ import { Combobox } from '@blumnai-studio/blumnai-design-system';
 | `onChange` | `(value) => void` | - | Change callback — `string` for default/avatar, `string[]` for tags |
 | `selectStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `size` | `'sm'` `'lg'` | `'sm'` | Size |
-| `label` | `string` | - | Label text |
+| `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
+| `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
 | `placeholder` | `string` | - | Placeholder text |
 | `required` | `boolean` | `false` | Required state |
 | `disabled` | `boolean` | `false` | Disabled state |
@@ -695,7 +700,8 @@ Virtualized select for large option lists (1,000+). Only renders visible items u
 | `onChange` | `(value) => void` | - | Change callback |
 | `selectStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `size` | `'sm'` `'lg'` | `'sm'` | Size |
-| `label` | `string` | - | Label text |
+| `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
+| `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
 | `placeholder` | `string` | - | Placeholder text |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `searchable` | `boolean` | `false` | Enable search filtering |
@@ -898,6 +904,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 
 **DialogTrigger**: Radix Dialog.Trigger primitive (`asChild` supported)
 
+**PortalContainerContext**: DialogContent provides a `PortalContainerContext` so that floating components inside a Dialog (Select dropdowns, Combobox popups, DatePicker calendars, etc.) automatically portal into the Dialog instead of `document.body`. This fixes z-index stacking issues without manual `container` props.
+
 ### ConfirmDialog
 
 ```tsx
@@ -1038,7 +1046,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@blumnai-studio/blumna
 
 **Tabs**: `value`, `defaultValue`, `onValueChange`, `orientation`
 
-**TabsList**: `variant` (`'pill'`|`'segmented'`|`'underline'`), `shape` (`'pill'`|`'rounded'`), `size` (`'sm'`|`'lg'`), `type` (`'default'`|`'fixed'`), `scrollable` (boolean, default `false`)
+**TabsList**: `variant` (`'pill'`|`'segmented'`|`'underline'`), `shape` (`'pill'`|`'rounded'`), `size` (`'sm'`|`'lg'`), `type` (`'default'`|`'fixed'`), `scrollable` (boolean, default `false`), `activeColor` (string, underline variant custom color), `animatedIndicator` (boolean, default `false` — sliding indicator animation for all variants)
 
 **TabsTrigger**: `leadIcon` (`IconTypeWithFill | ReactNode`), `tailIcon` (`IconTypeWithFill | ReactNode`), `badge` (`string | number`), `closable` (boolean, default `false`), `onClose` (`(value: string) => void`)
 
@@ -1307,7 +1315,8 @@ import { TimePicker, TimeRangePicker } from '@blumnai-studio/blumnai-design-syst
 | `timePickerStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `placeholder` | `TimeSegmentPlaceholder` | - | Placeholder `{ hour?, minute?, second? }` |
 | `name` | `string` | - | Form name (renders hidden input) |
-| `label` | `string` | - | Label text |
+| `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
+| `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
 | `required` | `boolean` | `false` | Required indicator |
 | `supportText` | `string` | - | Support text next to label |
 | `caption` | `string` | - | Description below input |
@@ -1333,7 +1342,8 @@ import { TimePicker, TimeRangePicker } from '@blumnai-studio/blumnai-design-syst
 | `timePickerStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `placeholder` | `TimeSegmentPlaceholder` | - | Start/end placeholder |
 | `name` | `string` | - | Form name (`{name}-start`, `{name}-end`) |
-| `label` | `string` | - | Label text |
+| `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
+| `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
 | `required` | `boolean` | `false` | Required indicator |
 | `supportText` | `string` | - | Support text next to label |
 | `caption` | `string` | - | Description below input |
@@ -1572,7 +1582,8 @@ import { DatePicker, DateRangePicker } from '@blumnai-studio/blumnai-design-syst
 |------|------|---------|-------------|
 | `datePickerStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `size` | `'sm'` `'lg'` | `'sm'` | Input size |
-| `label` | `string` | - | Label text |
+| `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
+| `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
 | `required` | `boolean` | `false` | Required indicator |
 | `caption` | `string` | - | Description below input |
 | `error` | `boolean \| string` | - | Error state/message |
@@ -1594,7 +1605,7 @@ import { DatePicker, DateRangePicker } from '@blumnai-studio/blumnai-design-syst
 
 **DatePicker-specific:** `value` (Date), `onChange` ((date: Date | undefined) => void), `presets` (QuickPreset[])
 
-**DateRangePicker-specific:** `value` (DateRange: { from: Date, to: Date }), `onChange`, `numberOfMonths` (default 2), `presets`
+**DateRangePicker-specific:** `value` (DateRange: { from: Date, to: Date }), `onChange`, `numberOfMonths` (default 2), `presets`, `triggerVariant` (`'default'` | `'compact'`, default `'default'` — compact shows date range as inline text, truncated with ellipsis in narrow containers)
 
 ```tsx
 <DatePicker label="Start Date" value={date} onChange={setDate} />
@@ -2044,6 +2055,7 @@ import { ScrollArea } from '@blumnai-studio/blumnai-design-system';
 | `type` | `'hover'` `'scroll'` `'auto'` `'always'` | `'hover'` | Scrollbar visibility mode |
 | `scrollbarSize` | `number` | - | Scrollbar track thickness in px |
 | `offsetScrollbars` | `boolean` | - | Inset content to prevent scrollbar overlap |
+| `fillViewport` | `boolean` | - | Children get `min-height: 100%` to fill viewport |
 
 ### Collapsible
 
@@ -2086,7 +2098,7 @@ Wraps react-resizable-panels: `ResizablePanelGroup`, `ResizablePanel`, `Resizabl
 
 **ResizablePanel**: `defaultSize?` (number %), `minSize?` (number %), `maxSize?` (number %), `collapsible?` (boolean). Extends react-resizable-panels Panel props.
 
-**ResizableHandle**: `withHandle` (boolean), `variant` (`'line'`|`'pill'`|`'dots'`|`'hidden'`), `collapseButton` (`'before'`|`'after'`), `collapseButtonPosition` (`'start'`|`'center'`|`'end'`|number), `panelRef` (RefObject\<PanelImperativeHandle\> — required when using `collapseButton`, controls which panel collapses/expands), `isCollapsed?`, `onCollapseChange?`
+**ResizableHandle**: `withHandle` (boolean), `variant` (`'line'`|`'pill'`|`'dots'`|`'hidden'`), `lineColor` (string — custom handle line color), `lineWidth` (number — custom handle line width in px), `collapseButton` (`'before'`|`'after'`), `collapseButtonPosition` (`'start'`|`'center'`|`'end'`|number), `panelRef` (RefObject\<PanelImperativeHandle\> — required when using `collapseButton`, controls which panel collapses/expands), `isCollapsed?`, `onCollapseChange?`
 
 ### AlertDialog vs ConfirmDialog
 
