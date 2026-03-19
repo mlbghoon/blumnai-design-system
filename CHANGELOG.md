@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.47] - 2026-03-19
+
+### Added
+
+- **Tabs `animatedIndicator` prop**: 모든 탭 변형(Segmented, Pill, Underline)에 슬라이딩 인디케이터 애니메이션 추가. `animatedIndicator` prop으로 활성화하면 탭 전환 시 인디케이터가 0.3s ease 트랜지션으로 부드럽게 이동. MutationObserver로 `data-state` 변경 감지, ResizeObserver로 크기 변경 반영. 초기 렌더링 시 깜빡임 방지.
+- **`label` ReactNode 지원**: Input, Select, Combobox, VirtualSelect, Textarea, DatePicker, TimePicker 등 모든 폼 컴포넌트의 `label` prop이 `string` 뿐만 아니라 `ReactNode`도 지원. 아이콘, 툴팁 등 커스텀 라벨 렌더링 가능.
+- **`labelPosition` prop**: 모든 폼 컴포넌트에 `labelPosition` prop 추가 (`'top'` | `'left'`). `'left'`로 설정하면 라벨이 입력 필드 좌측에 인라인으로 배치됨. 검색/필터 폼의 가로 레이아웃에 유용.
+
 ## [1.0.46] - 2026-03-19
 
 ### Fixed

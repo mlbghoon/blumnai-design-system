@@ -54,6 +54,7 @@ export const MonthRangePicker = ({
   disabledFuture = false,
   locale = 'ko',
   label,
+  labelPosition,
   error,
   supportText,
   className,
@@ -160,6 +161,7 @@ export const MonthRangePicker = ({
   return (
     <InputWrapper
       label={label}
+      labelPosition={labelPosition}
       error={error}
       supportText={supportText}
       className={className}

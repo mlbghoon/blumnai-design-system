@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
 import { Input } from './Input';
+import { Select } from '../select';
+import { Icon } from '../icons/Icon';
 import type { DefaultVariantProps } from './Input.types';
 
 const meta: Meta<DefaultVariantProps> = {
@@ -394,4 +396,68 @@ export const WithCount: Story = {
       </div>
     );
   },
+};
+
+/**
+ * ReactNode 라벨
+ *
+ * label prop에 아이콘이나 커스텀 요소를 포함한 ReactNode를 전달할 수 있습니다.
+ */
+export const ReactNodeLabel: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-24 max-w-md">
+      <Input
+        label={
+          <span className="inline-flex items-center ds-gap-4">
+            비밀번호
+            <Icon iconType={['others', 'lightbulb']} size={14} className="text-muted cursor-pointer" />
+          </span>
+        }
+        placeholder="비밀번호 입력..."
+      />
+
+      <Input
+        label={
+          <span className="inline-flex items-center ds-gap-4">
+            이메일
+            <span className="font-body size-xs text-muted font-normal">(선택)</span>
+          </span>
+        }
+        placeholder="이메일 입력..."
+      />
+    </div>
+  ),
+};
+
+/**
+ * 가로 라벨 (labelPosition="left")
+ *
+ * labelPosition="left"로 라벨을 입력 필드 좌측에 인라인으로 배치합니다.
+ * 검색/필터 폼 등 가로 레이아웃에 유용합니다.
+ */
+export const HorizontalLabel: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-16 max-w-lg">
+      <Input
+        label="이름"
+        labelPosition="left"
+        placeholder="이름 입력..."
+      />
+      <Input
+        label="이메일"
+        labelPosition="left"
+        placeholder="이메일 입력..."
+      />
+      <Select
+        label="구분"
+        labelPosition="left"
+        placeholder="선택..."
+        options={[
+          { id: 'general', label: '일반' },
+          { id: 'vip', label: 'VIP' },
+          { id: 'premium', label: '프리미엄' },
+        ]}
+      />
+    </div>
+  ),
 };

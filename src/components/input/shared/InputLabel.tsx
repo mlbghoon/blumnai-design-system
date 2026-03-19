@@ -21,6 +21,11 @@ export interface InputLabelProps extends HTMLAttributes<HTMLLabelElement> {
    * 라벨 옆에 표시되는 보조 텍스트
    */
   supportText?: string;
+  /**
+   * 수평 레이아웃 여부 (margin-bottom 제거)
+   * @default false
+   */
+  horizontal?: boolean;
 }
 
 /**
@@ -33,11 +38,12 @@ export const InputLabel = ({
   htmlFor,
   required = false,
   supportText,
+  horizontal = false,
   className,
   ...props
 }: InputLabelProps) => {
   return (
-    <div className="flex items-center ds-gap-4 margin-b-4">
+    <div className={cn('flex items-center ds-gap-4', !horizontal && 'margin-b-4', horizontal && 'shrink-0 padding-y-6')}>
       <label
         htmlFor={htmlFor}
         className={cn(LABEL_STYLE, 'select-none', className)}

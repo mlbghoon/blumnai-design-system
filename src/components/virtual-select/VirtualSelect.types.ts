@@ -13,7 +13,8 @@ export type VirtualSelectVariant = 'single' | 'multi';
 export interface VirtualSelectBaseProps {
   selectStyle?: SelectStyle;
   size?: SelectSize;
-  label?: string;
+  label?: ReactNode;
+  labelPosition?: 'top' | 'left';
   required?: boolean;
   supportText?: string;
   caption?: string;

@@ -22,6 +22,61 @@ interface TabsContextValue {
   size: TabsSize;
   type: TabsType;
   activeColor?: string;
+  animatedIndicator?: boolean;
+}
+
+function useTabIndicator(listRef: React.RefObject<HTMLElement | null>, animatedIndicator: boolean) {
+  const [style, setStyle] = React.useState<React.CSSProperties>({});
+  const [ready, setReady] = React.useState(false);
+  const initialRef = React.useRef(true);
+
+  const update = React.useCallback(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const active = list.querySelector<HTMLElement>('[data-state="active"]');
+    if (!active) {
+      setReady(false);
+      return;
+    }
+
+    const listRect = list.getBoundingClientRect();
+    const activeRect = active.getBoundingClientRect();
+
+    setStyle({
+      left: activeRect.left - listRect.left + list.scrollLeft,
+      top: activeRect.top - listRect.top + list.scrollTop,
+      width: activeRect.width,
+      height: activeRect.height,
+    });
+
+    if (initialRef.current) {
+      requestAnimationFrame(() => {
+        setReady(true);
+        initialRef.current = false;
+      });
+    }
+  }, [listRef]);
+
+  React.useEffect(() => {
+    if (!animatedIndicator) return;
+    const list = listRef.current;
+    if (!list) return;
+
+    update();
+
+    const observer = new MutationObserver(update);
+    observer.observe(list, { attributes: true, subtree: true, attributeFilter: ['data-state'] });
+
+    const resizeObserver = new ResizeObserver(update);
+    resizeObserver.observe(list);
+
+    return () => {
+      observer.disconnect();
+      resizeObserver.disconnect();
+    };
+  }, [animatedIndicator, update, listRef]);
+
+  return { style, ready };
 }
 
 const TabsContext = React.createContext<TabsContextValue>({
@@ -54,11 +109,23 @@ const UNDERLINE_LIST_SIZE_STYLES = {
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   TabsListProps
->(({ variant = 'segmented', shape = 'rounded', size = 'sm', type = 'default', scrollable = false, activeColor, className, children, ...props }, ref) => {
-  const contextValue = React.useMemo(() => ({ variant, shape, size, type, activeColor }), [variant, shape, size, type, activeColor]);
+>(({ variant = 'segmented', shape = 'rounded', size = 'sm', type = 'default', scrollable = false, activeColor, animatedIndicator = false, className, children, ...props }, ref) => {
+  const contextValue = React.useMemo(() => ({ variant, shape, size, type, activeColor, animatedIndicator }), [variant, shape, size, type, activeColor, animatedIndicator]);
   const viewportRef = React.useRef<HTMLDivElement>(null);
+  const internalListRef = React.useRef<HTMLElement>(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);
   const [canScrollRight, setCanScrollRight] = React.useState(false);
+
+  const composedListRef = React.useCallback(
+    (node: React.ElementRef<typeof TabsPrimitive.List> | null) => {
+      (internalListRef as React.MutableRefObject<HTMLElement | null>).current = node;
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.MutableRefObject<React.ElementRef<typeof TabsPrimitive.List> | null>).current = node;
+    },
+    [ref],
+  );
+
+  const { style: indicatorStyle, ready: indicatorReady } = useTabIndicator(internalListRef, animatedIndicator);
 
   const checkScroll = React.useCallback(() => {
     const el = viewportRef.current;
@@ -85,11 +152,39 @@ const TabsList = React.forwardRef<
 
   const containerRadiusClass = shape === 'pill' ? 'rounded-full' : 'rounded-md';
 
+  const indicatorElement = animatedIndicator ? (
+    <div
+      aria-hidden
+      className={cn(
+        'absolute pointer-events-none',
+        variant === 'underline' && [
+          '[height:1.5px] bottom-0',
+          activeColor ? undefined : '[background-color:var(--border-accent)]',
+        ],
+        (variant === 'pill' || variant === 'segmented') && [
+          shape === 'pill' ? 'rounded-full' : 'rounded-sm',
+          'border-solid [border-width:1px] [border-color:var(--border-darker)]',
+          '[background-color:var(--bg-state-secondary)]',
+          '[box-shadow:0_-1px_0_0_rgba(0,0,0,0.08)_inset,0_1px_2px_0_rgba(0,0,0,0.05)]',
+        ],
+      )}
+      style={{
+        ...(!indicatorReady ? { opacity: 0 } : {}),
+        ...(indicatorReady ? { transition: 'left 0.3s ease, top 0.3s ease, width 0.3s ease, height 0.3s ease' } : {}),
+        ...(variant === 'underline'
+          ? { left: indicatorStyle.left, width: indicatorStyle.width }
+          : { left: indicatorStyle.left, top: indicatorStyle.top, width: indicatorStyle.width, height: indicatorStyle.height }
+        ),
+        ...(variant === 'underline' && activeColor ? { backgroundColor: activeColor } : {}),
+      }}
+    />
+  ) : null;
+
   const listElement = (
     <TabsPrimitive.List
-      ref={ref}
+      ref={composedListRef}
       className={cn(
-        'inline-flex items-center',
+        'inline-flex items-center relative',
         variant === 'pill' && 'ds-gap-8',
         variant === 'segmented' && ['ds-gap-2 padding-2', containerRadiusClass, 'bg-state-soft'],
         variant === 'underline' && ['border-b-default', UNDERLINE_LIST_SIZE_STYLES[size]],
@@ -102,6 +197,7 @@ const TabsList = React.forwardRef<
       {...props}
     >
       {children}
+      {indicatorElement}
     </TabsPrimitive.List>
   );
 
@@ -166,7 +262,7 @@ const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
 >(({ leadIcon, tailIcon, badge, closable = false, onClose, className, children, value, style, ...props }, ref) => {
-  const { variant, shape, size, type, activeColor } = useTabsContext();
+  const { variant, shape, size, type, activeColor, animatedIndicator } = useTabsContext();
   const iconSize = variant === 'underline' ? ICON_SIZE[size] : 14;
 
   const renderIcon = (icon: IconTypeWithFill | React.ReactNode) => {
@@ -220,16 +316,20 @@ const TabsTrigger = React.forwardRef<
         (variant === 'pill' || variant === 'segmented') && [
           PILL_SEGMENTED_TRIGGER_STYLES,
           shapeClass,
-          'border-solid border-transparent',
-          'border-[1px]',
           'text-muted',
           'hover:text-subtle',
           'focus-visible:[box-shadow:0_0_0_2px_var(--border-highlight-accent)]',
           'data-[state=active]:![color:var(--text-default)]',
-          'data-[state=active]:[border-color:var(--border-darker)]',
-          'data-[state=active]:[background-color:var(--bg-state-secondary)]',
-          'data-[state=active]:[box-shadow:0_-1px_0_0_rgba(0,0,0,0.08)_inset,0_1px_2px_0_rgba(0,0,0,0.05)]',
-          'data-[state=active]:focus-visible:[box-shadow:0_-1px_0_0_rgba(0,0,0,0.08)_inset,0_1px_2px_0_rgba(0,0,0,0.05),0_0_0_2px_var(--border-highlight-accent)]',
+          animatedIndicator
+            ? 'relative z-[1] border-solid border-transparent border-[1px]'
+            : [
+              'border-solid border-transparent',
+              'border-[1px]',
+              'data-[state=active]:[border-color:var(--border-darker)]',
+              'data-[state=active]:[background-color:var(--bg-state-secondary)]',
+              'data-[state=active]:[box-shadow:0_-1px_0_0_rgba(0,0,0,0.08)_inset,0_1px_2px_0_rgba(0,0,0,0.05)]',
+              'data-[state=active]:focus-visible:[box-shadow:0_-1px_0_0_rgba(0,0,0,0.08)_inset,0_1px_2px_0_rgba(0,0,0,0.05),0_0_0_2px_var(--border-highlight-accent)]',
+            ],
         ],
         variant === 'underline' && [
           UNDERLINE_TRIGGER_SIZE_STYLES[size],
@@ -238,14 +338,16 @@ const TabsTrigger = React.forwardRef<
           'hover:text-subtle',
           'relative',
           '[margin-bottom:-1px]',
-          'after:absolute after:bottom-0 after:left-0 after:right-0 after:[height:1.5px]',
-          'after:bg-transparent',
           activeColor
             ? 'data-[state=active]:![color:var(--tabs-active-color)]'
             : 'data-[state=active]:![color:var(--text-default)]',
-          activeColor
-            ? 'data-[state=active]:after:[background-color:var(--tabs-active-color)]'
-            : 'data-[state=active]:after:[background-color:var(--border-accent)]',
+          !animatedIndicator && [
+            'after:absolute after:bottom-0 after:left-0 after:right-0 after:[height:1.5px]',
+            'after:bg-transparent',
+            activeColor
+              ? 'data-[state=active]:after:[background-color:var(--tabs-active-color)]'
+              : 'data-[state=active]:after:[background-color:var(--border-accent)]',
+          ],
         ],
         className
       )}

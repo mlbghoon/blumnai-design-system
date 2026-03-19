@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { Locale } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 import type { CaptionLayout } from './Calendar.types';
@@ -49,7 +50,8 @@ export interface DatePickerBaseProps {
   /**
    * 입력 필드 위에 표시되는 라벨 텍스트
    */
-  label?: string;
+  label?: ReactNode;
+  labelPosition?: 'top' | 'left';
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false

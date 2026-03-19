@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 export interface MonthPickerPreset {
   label: string;
   getValue: () => Date;
@@ -10,7 +11,8 @@ export interface MonthPickerProps {
   maxDate?: Date;
   disabledFuture?: boolean;
   locale?: string;
-  label?: string;
+  label?: ReactNode;
+  labelPosition?: 'top' | 'left';
   error?: boolean | string;
   supportText?: string;
   className?: string;

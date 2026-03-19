@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 /**
  * 시간 포맷 타입
  */
@@ -159,7 +160,8 @@ export interface TimePickerProps extends Omit<TimeInputProps, 'isOpen' | 'onCloc
   /**
    * 라벨 텍스트
    */
-  label?: string;
+  label?: ReactNode;
+  labelPosition?: 'top' | 'left';
   /**
    * 필수 입력 여부
    * @default false
@@ -250,7 +252,8 @@ export interface TimeRangePickerProps {
   /**
    * 라벨 텍스트
    */
-  label?: string;
+  label?: ReactNode;
+  labelPosition?: 'top' | 'left';
   /**
    * 필수 입력 여부
    * @default false

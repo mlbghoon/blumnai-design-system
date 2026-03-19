@@ -47,9 +47,14 @@ export interface InputBaseProps {
    */
   size?: InputSize;
   /**
-   * 입력 필드 위에 표시되는 라벨 텍스트
+   * 입력 필드 위에 표시되는 라벨 (문자열 또는 ReactNode)
    */
-  label?: string;
+  label?: ReactNode;
+  /**
+   * 라벨 위치 (top: 상단, left: 좌측 인라인)
+   * @default 'top'
+   */
+  labelPosition?: 'top' | 'left';
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false

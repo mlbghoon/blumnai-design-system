@@ -529,6 +529,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       size = 'sm',
       selectType = 'default',
       label,
+      labelPosition,
       required = false,
       supportText,
       caption,
@@ -746,6 +747,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
     return (
       <InputWrapper
         label={label}
+      labelPosition={labelPosition}
         inputId={selectId}
         required={required}
         supportText={supportText}

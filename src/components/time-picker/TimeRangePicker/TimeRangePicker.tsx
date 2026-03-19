@@ -63,6 +63,7 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
   name,
   onValidationError,
   label,
+  labelPosition,
   required = false,
   supportText,
   caption,
@@ -125,6 +126,7 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
   return (
     <InputWrapper
       label={label}
+      labelPosition={labelPosition}
       inputId={inputId}
       required={required}
       supportText={supportText}

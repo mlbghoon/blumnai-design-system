@@ -11,6 +11,7 @@ interface TabsStoryProps {
   type?: TabsType;
   activeColor?: string;
   scrollable?: boolean;
+  animatedIndicator?: boolean;
   orientation?: 'horizontal' | 'vertical';
   activationMode?: 'automatic' | 'manual';
   defaultValue?: string;
@@ -136,6 +137,15 @@ const meta: Meta<TabsStoryProps> = {
         category: 'TabsList',
       },
     },
+    animatedIndicator: {
+      control: 'boolean',
+      description: '[TabsList] 활성 탭 인디케이터 슬라이딩 애니메이션 활성화',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+        category: 'TabsList',
+      },
+    },
     // TabsTrigger props
     leadIcon: {
       control: 'object',
@@ -231,6 +241,7 @@ export const Default: Story = {
     size: 'sm',
     type: 'default',
     activeColor: undefined,
+    animatedIndicator: false,
     orientation: 'horizontal',
     activationMode: 'automatic',
   },
@@ -243,6 +254,7 @@ export const Default: Story = {
     const size = args.size ?? 'sm';
     const type = args.type ?? 'default';
     const activeColor = args.activeColor || undefined;
+    const animatedIndicator = args.animatedIndicator ?? false;
     const orientation = args.orientation ?? 'horizontal';
     const activationMode = args.activationMode ?? 'automatic';
 
@@ -253,7 +265,7 @@ export const Default: Story = {
         activationMode={activationMode}
         className={orientation === 'vertical' ? 'flex ds-gap-16' : undefined}
       >
-        <TabsList variant={variant} shape={shape} size={size} type={type} activeColor={activeColor}>
+        <TabsList variant={variant} shape={shape} size={size} type={type} activeColor={activeColor} animatedIndicator={animatedIndicator}>
           <TabsTrigger value="tab1">계정</TabsTrigger>
           <TabsTrigger value="tab2">설정</TabsTrigger>
           <TabsTrigger value="tab3">알림</TabsTrigger>
@@ -604,12 +616,12 @@ export const ClosableTabs: Story = {
 /**
  * 애니메이션 탭
  *
- * animated prop으로 탭 콘텐츠 전환 시 애니메이션이 적용됩니다.
+ * animatedIndicator로 인디케이터 슬라이딩, animated로 콘텐츠 페이드 애니메이션이 적용됩니다.
  */
 export const AnimatedTabs: Story = {
   render: () => (
     <Tabs defaultValue="tab1">
-      <TabsList variant="segmented">
+      <TabsList variant="segmented" animatedIndicator>
         <TabsTrigger value="tab1">첫 번째</TabsTrigger>
         <TabsTrigger value="tab2">두 번째</TabsTrigger>
         <TabsTrigger value="tab3">세 번째</TabsTrigger>
@@ -1014,6 +1026,65 @@ export const WithTailIcon: Story = {
             <TabsTrigger value="tab1" tailIcon={['system', 'external-link']}>문서</TabsTrigger>
             <TabsTrigger value="tab2" tailIcon={['system', 'external-link']}>API 레퍼런스</TabsTrigger>
             <TabsTrigger value="tab3">변경 이력</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * 인디케이터 슬라이딩 애니메이션
+ *
+ * animatedIndicator prop으로 탭 전환 시 인디케이터가 부드럽게 이동합니다.
+ * 모든 변형(Segmented, Pill, Underline)에서 사용할 수 있습니다.
+ */
+export const AnimatedIndicator: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-24">
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">Segmented - 슬라이딩 인디케이터</p>
+        <Tabs defaultValue="tab1">
+          <TabsList variant="segmented" animatedIndicator>
+            <TabsTrigger value="tab1">개요</TabsTrigger>
+            <TabsTrigger value="tab2">상품</TabsTrigger>
+            <TabsTrigger value="tab3">주문</TabsTrigger>
+            <TabsTrigger value="tab4">구독</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">Pill - 슬라이딩 인디케이터</p>
+        <Tabs defaultValue="tab1">
+          <TabsList variant="pill" animatedIndicator>
+            <TabsTrigger value="tab1">개요</TabsTrigger>
+            <TabsTrigger value="tab2">상품</TabsTrigger>
+            <TabsTrigger value="tab3">주문</TabsTrigger>
+            <TabsTrigger value="tab4">구독</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">Underline - 슬라이딩 인디케이터</p>
+        <Tabs defaultValue="tab1">
+          <TabsList variant="underline" animatedIndicator>
+            <TabsTrigger value="tab1">개요</TabsTrigger>
+            <TabsTrigger value="tab2">상품</TabsTrigger>
+            <TabsTrigger value="tab3">주문</TabsTrigger>
+            <TabsTrigger value="tab4">구독</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">Underline + activeColor - 슬라이딩 인디케이터</p>
+        <Tabs defaultValue="tab1">
+          <TabsList variant="underline" animatedIndicator activeColor="#5988fe">
+            <TabsTrigger value="tab1">고객 목록</TabsTrigger>
+            <TabsTrigger value="tab2">상담 내역</TabsTrigger>
+            <TabsTrigger value="tab3">통계</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>

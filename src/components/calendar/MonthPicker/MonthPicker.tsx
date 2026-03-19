@@ -42,6 +42,7 @@ export const MonthPicker = ({
   disabledFuture = false,
   locale = 'ko',
   label,
+  labelPosition,
   error,
   supportText,
   className,
@@ -102,6 +103,7 @@ export const MonthPicker = ({
   return (
     <InputWrapper
       label={label}
+      labelPosition={labelPosition}
       error={error}
       supportText={supportText}
       className={className}

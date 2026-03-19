@@ -11,9 +11,14 @@ export interface InputWrapperProps {
    */
   children: ReactNode;
   /**
-   * 입력 필드 위에 표시되는 라벨 텍스트
+   * 입력 필드 위에 표시되는 라벨 (문자열 또는 ReactNode)
    */
-  label?: string;
+  label?: ReactNode;
+  /**
+   * 라벨 위치 (top: 상단, left: 좌측 인라인)
+   * @default 'top'
+   */
+  labelPosition?: 'top' | 'left';
   /**
    * 입력 필드의 id (라벨 연결용)
    */
@@ -59,6 +64,7 @@ export interface InputWrapperProps {
 export const InputWrapper = ({
   children,
   label,
+  labelPosition = 'top',
   inputId,
   required = false,
   supportText,
@@ -76,32 +82,52 @@ export const InputWrapper = ({
   const captionText = errorText || successText || caption;
   const showCaption = captionText !== undefined && captionText.length > 0;
 
+  const isHorizontal = labelPosition === 'left';
+
+  const labelElement = (label || supportText) ? (
+    <InputLabel
+      htmlFor={inputId}
+      required={required}
+      supportText={supportText}
+      horizontal={isHorizontal}
+    >
+      {label}
+    </InputLabel>
+  ) : null;
+
+  const captionElement = showCaption ? (
+    <InputCaption
+      id={inputId ? `${inputId}-caption` : undefined}
+      error={hasError}
+      success={hasSuccess}
+    >
+      {captionText}
+    </InputCaption>
+  ) : null;
+
+  if (isHorizontal) {
+    return (
+      <div
+        className={cn(INPUT_CONTAINER_BASE, 'flex items-start ds-gap-8', width === undefined && 'w-full', className)}
+        style={width !== undefined ? { width: typeof width === 'number' ? `${width}px` : /^\d+$/.test(width) ? `${width}px` : width } : undefined}
+      >
+        {labelElement}
+        <div className="flex flex-col flex-1 min-w-0">
+          {children}
+          {captionElement}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={cn(INPUT_CONTAINER_BASE, width === undefined && 'w-full', className)}
       style={width !== undefined ? { width: typeof width === 'number' ? `${width}px` : /^\d+$/.test(width) ? `${width}px` : width } : undefined}
     >
-      {(label || supportText) && (
-        <InputLabel
-          htmlFor={inputId}
-          required={required}
-          supportText={supportText}
-        >
-          {label}
-        </InputLabel>
-      )}
-
+      {labelElement}
       {children}
-
-      {showCaption && (
-        <InputCaption
-          id={inputId ? `${inputId}-caption` : undefined}
-          error={hasError}
-          success={hasSuccess}
-        >
-          {captionText}
-        </InputCaption>
-      )}
+      {captionElement}
     </div>
   );
 };

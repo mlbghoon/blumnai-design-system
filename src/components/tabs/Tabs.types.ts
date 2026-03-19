@@ -30,6 +30,13 @@ export interface TabsListProps extends ComponentPropsWithoutRef<typeof TabsPrimi
    * @example activeColor="#5988fe"
    */
   activeColor?: string;
+  /**
+   * 활성 탭 인디케이터 슬라이딩 애니메이션 활성화
+   *
+   * 탭 전환 시 인디케이터가 부드럽게 이동합니다.
+   * @default false
+   */
+  animatedIndicator?: boolean;
 }
 
 export interface TabsTriggerProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {

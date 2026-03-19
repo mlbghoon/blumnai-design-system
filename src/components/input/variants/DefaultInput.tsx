@@ -1,5 +1,5 @@
 import { forwardRef, useRef, useCallback } from 'react';
-import type { InputHTMLAttributes } from 'react';
+import type { InputHTMLAttributes, ReactNode } from 'react';
 
 import { useKeyboardShortcut } from '../../../hooks/use-keyboard-shortcut';
 
@@ -31,7 +31,8 @@ export interface DefaultInputProps extends Omit<InputHTMLAttributes<HTMLInputEle
   /**
    * 입력 필드 위에 표시되는 라벨 텍스트
    */
-  label?: string;
+  label?: ReactNode;
+  labelPosition?: 'top' | 'left';
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false
@@ -94,6 +95,7 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
   inputStyle = 'default',
   size = 'sm',
   label,
+  labelPosition,
   required = false,
   supportText,
   caption,
@@ -193,6 +195,7 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
   return (
     <InputWrapper
       label={label}
+      labelPosition={labelPosition}
       inputId={inputId}
       required={required}
       supportText={supportText}

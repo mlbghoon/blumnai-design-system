@@ -215,6 +215,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       selectStyle = 'default',
       size = 'sm',
       label,
+      labelPosition,
       required = false,
       supportText,
       caption,
@@ -560,6 +561,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
     return (
       <InputWrapper
         label={label}
+      labelPosition={labelPosition}
         inputId={selectId}
         required={required}
         supportText={supportText}
@@ -699,7 +701,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                 <div
                   role="listbox"
                   aria-multiselectable="true"
-                  aria-label={label || 'Options'}
+                  aria-label={typeof label === 'string' ? label : 'Options'}
                   className="padding-y-4 overflow-y-auto overflow-x-hidden"
                   style={{
                     maxHeight:

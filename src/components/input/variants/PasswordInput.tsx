@@ -1,5 +1,5 @@
 import { forwardRef, useState, useCallback, useEffect, useRef } from 'react';
-import type { InputHTMLAttributes } from 'react';
+import type { InputHTMLAttributes, ReactNode } from 'react';
 
 import { cn } from '../../../utils/cn';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
@@ -43,7 +43,8 @@ export interface PasswordInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
   /**
    * 입력 필드 위에 표시되는 라벨 텍스트
    */
-  label?: string;
+  label?: ReactNode;
+  labelPosition?: 'top' | 'left';
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false
@@ -142,6 +143,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
   inputStyle = 'default',
   size = 'sm',
   label,
+  labelPosition,
   required = false,
   supportText,
   caption,
@@ -230,6 +232,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
   return (
     <InputWrapper
       label={label}
+      labelPosition={labelPosition}
       inputId={inputId}
       required={required}
       supportText={supportText}

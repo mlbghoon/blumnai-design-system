@@ -1,5 +1,5 @@
 import { forwardRef, useState, useCallback } from 'react';
-import type { KeyboardEvent } from 'react';
+import type { KeyboardEvent, ReactNode } from 'react';
 import type { InputHTMLAttributes } from 'react';
 
 import { cn } from '../../../utils/cn';
@@ -84,7 +84,8 @@ export interface TagsInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
   /**
    * 입력 필드 위에 표시되는 라벨 텍스트
    */
-  label?: string;
+  label?: ReactNode;
+  labelPosition?: 'top' | 'left';
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false
@@ -187,6 +188,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
   inputStyle = 'default',
   size = 'sm',
   label,
+  labelPosition,
   required = false,
   supportText,
   caption,
@@ -313,6 +315,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
   return (
     <InputWrapper
       label={label}
+      labelPosition={labelPosition}
       inputId={inputId}
       required={required}
       supportText={supportText}

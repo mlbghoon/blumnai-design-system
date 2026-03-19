@@ -60,7 +60,8 @@ export interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaE
   /**
    * 텍스트 영역 위에 표시되는 라벨 텍스트
    */
-  label?: string;
+  label?: ReactNode;
+  labelPosition?: 'top' | 'left';
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false

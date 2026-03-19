@@ -26,6 +26,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       selectStyle = 'default',
       size = 'sm',
       label,
+      labelPosition,
       required = false,
       supportText,
       caption,
@@ -388,6 +389,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
     return (
       <InputWrapper
         label={label}
+      labelPosition={labelPosition}
         inputId={selectId}
         required={required}
         supportText={supportText}
@@ -574,7 +576,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                     <div
                       role="listbox"
                       aria-multiselectable={isMulti || undefined}
-                      aria-label={label || 'Options'}
+                      aria-label={typeof label === 'string' ? label : 'Options'}
                       aria-activedescendant={focusedItemId}
                       className="padding-y-4"
                     >

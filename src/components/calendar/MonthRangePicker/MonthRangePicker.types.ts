@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 /**
  * MonthRange 값 타입
  */
@@ -47,7 +48,8 @@ export interface MonthRangePickerProps {
   /**
    * 입력 필드 위에 표시되는 라벨 텍스트
    */
-  label?: string;
+  label?: ReactNode;
+  labelPosition?: 'top' | 'left';
   /**
    * 에러 상태 - true면 에러 스타일 적용, 문자열이면 캡션으로 에러 메시지 표시
    */

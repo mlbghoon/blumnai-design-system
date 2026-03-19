@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import type { IconColor, IconTypeWithFill } from '../../icons/Icon/Icon.types';
 
 /**
@@ -71,7 +71,8 @@ export interface ComboboxBaseProps {
   /**
    * Combobox 위에 표시되는 라벨 텍스트
    */
-  label?: string;
+  label?: ReactNode;
+  labelPosition?: 'top' | 'left';
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false
