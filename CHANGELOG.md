@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.37] - 2026-03-19
+
+### Added
+
+- **Select `renderValue` prop**: 트리거에 선택된 값을 커스텀 렌더링하는 함수 추가. `renderOption`과 함께 사용하여 드롭다운 옵션과 트리거 표시를 독립적으로 커스터마이즈 가능. default, avatar 변형 지원.
+
 ## [1.0.36] - 2026-03-19
 
 ### Fixed

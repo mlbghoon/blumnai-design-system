@@ -142,6 +142,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         loading={avatarProps.loading}
         optionGroups={avatarProps.optionGroups}
         renderOption={avatarProps.renderOption}
+        renderValue={avatarProps.renderValue}
       />
     );
   }
@@ -182,6 +183,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
       loading={defaultProps.loading}
       optionGroups={defaultProps.optionGroups}
       renderOption={defaultProps.renderOption}
+      renderValue={defaultProps.renderValue}
     />
   );
 });

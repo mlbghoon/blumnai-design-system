@@ -554,6 +554,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       loading = false,
       optionGroups,
       renderOption,
+      renderValue,
     },
     ref
   ) => {
@@ -700,6 +701,10 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
     const renderSelectedValue = () => {
       if (!selectedOption) {
         return placeholder;
+      }
+
+      if (renderValue) {
+        return renderValue(selectedOption);
       }
 
       if (variant === 'avatar' && selectedOption.avatarSrc) {

@@ -203,6 +203,11 @@ export interface SelectBaseProps {
    * 옵션 아이템의 커스텀 렌더링 함수
    */
   renderOption?: (option: SelectOption, isSelected: boolean) => ReactNode;
+  /**
+   * 트리거에 선택된 값을 커스텀 렌더링하는 함수
+   * 미지정 시 선택된 옵션의 label 텍스트 표시
+   */
+  renderValue?: (option: SelectOption) => ReactNode;
 }
 
 /**
