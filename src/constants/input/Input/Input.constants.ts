@@ -105,10 +105,10 @@ export const SHORTCUT_STYLE = {
 } as const;
 
 // Input container base styles
-export const INPUT_CONTAINER_BASE = 'flex flex-col' as const;
+export const INPUT_CONTAINER_BASE = 'flex flex-col min-w-0' as const;
 
 // Input wrapper base styles (the actual input container with border)
-export const INPUT_WRAPPER_BASE = 'flex items-center w-full transition-colors duration-150' as const;
+export const INPUT_WRAPPER_BASE = 'flex items-center w-full min-w-0 overflow-hidden transition-colors duration-150' as const;
 
 // Character count style (matches Textarea COUNT_STYLE)
 export const INPUT_COUNT_STYLE = 'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-muted' as const;

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.34] - 2026-03-19
+
+### Fixed
+
+- **InputWrapper flex shrink 버그 수정**: flex 컨테이너 내에서 Input/Select/DropdownInput이 축소되지 않고 overflow되는 문제 수정. `INPUT_CONTAINER_BASE`에 `min-w-0`, `INPUT_WRAPPER_BASE`에 `min-w-0 overflow-hidden` 추가.
+
 ## [1.0.33] - 2026-03-19
 
 ### Added
