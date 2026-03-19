@@ -21,6 +21,7 @@ const ScrollArea = React.forwardRef<
   scrollbarSize,
   offsetScrollbars,
   dir,
+  fillViewport,
   style,
   ...props
 }, ref) => {
@@ -28,6 +29,16 @@ const ScrollArea = React.forwardRef<
   const rafRef = React.useRef<number>(0);
 
   const mergedViewportRef = useMergeRefs(internalViewportRef, viewportRefProp);
+
+  React.useEffect(() => {
+    if (!fillViewport) return;
+    const viewport = internalViewportRef.current;
+    if (!viewport) return;
+    const wrapper = viewport.firstElementChild as HTMLElement | null;
+    if (wrapper) {
+      wrapper.style.height = '100%';
+    }
+  }, [fillViewport]);
 
   React.useEffect(() => {
     if (!onScrollPositionChange) return;

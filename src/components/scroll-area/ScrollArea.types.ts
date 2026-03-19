@@ -55,6 +55,11 @@ export interface ScrollAreaProps extends ComponentPropsWithoutRef<typeof ScrollA
    */
   dir?: 'ltr' | 'rtl';
   /**
+   * 뷰포트 내부 래퍼에 `height: 100%`를 적용하여
+   * 자식 요소가 `min-height: 100%`로 뷰포트를 채울 수 있게 합니다.
+   */
+  fillViewport?: boolean;
+  /**
    * 스크롤 영역 내용
    */
   children?: ReactNode;

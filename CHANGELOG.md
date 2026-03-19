@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.43] - 2026-03-19
+
+### Added
+
+- **ScrollArea `fillViewport` prop**: 뷰포트 내부 래퍼에 `height: 100%`를 적용하여 자식 요소가 `min-height: 100%`로 뷰포트를 채울 수 있도록 지원. Radix 내부 `display: table` 래퍼의 특성을 활용하여 콘텐츠가 짧을 때는 뷰포트를 채우고 길 때는 자연스럽게 확장.
+
 ## [1.0.42] - 2026-03-19
 
 ### Fixed
