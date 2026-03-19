@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.35] - 2026-03-19
+
+### Fixed
+
+- **Select 트리거 텍스트 말줄임 수정**: 선택된 값이 길 때 ellipsis 없이 잘리던 문제 수정. `SelectTrigger` 내부 값 span에 `truncate` 클래스 추가.
+
 ## [1.0.34] - 2026-03-19
 
 ### Fixed

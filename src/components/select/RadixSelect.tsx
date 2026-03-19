@@ -131,7 +131,7 @@ const SelectTrigger = React.forwardRef<
             />
           );
         })()}
-        <span className="flex-1 min-w-0">{children}</span>
+        <span className="flex-1 min-w-0 truncate">{children}</span>
         {tailIcon && (() => {
           const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
           return (
