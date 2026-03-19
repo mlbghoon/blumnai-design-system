@@ -223,6 +223,45 @@ disabled
 - Components should NOT have a `darkMode` prop
 - Dark mode is handled automatically via CSS variables and themes
 
+### PortalContainerContext (Floating Components in Dialog)
+
+When floating components (Select, Popover, DatePicker, etc.) are used inside a Dialog, they must portal into the Dialog's content element to maintain correct z-index stacking. This is handled automatically via `PortalContainerContext`.
+
+- **Dialog** provides its content element via `<PortalContainerProvider value={contentEl}>`
+- **Floating components** consume it: `const contextContainer = usePortalContainer()`
+- **Portal usage**: `<Portal container={contextContainer ?? undefined}>`
+- No z-index hacks needed — DOM hierarchy handles stacking
+
+```tsx
+import { PortalContainerProvider, usePortalContainer } from "../../utils/PortalContainerContext";
+```
+
+### Form Component Label Props
+
+All form components (Input, Select, Combobox, VirtualSelect, Textarea, DatePicker, TimePicker) share these label-related props via `InputWrapper`:
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `label` | `ReactNode` | — | 라벨 (문자열 또는 ReactNode, 아이콘 포함 가능) |
+| `labelPosition` | `'top' \| 'left'` | `'top'` | 라벨 위치 (top: 상단, left: 좌측 인라인) |
+| `required` | `boolean` | `false` | 필수 표시 (별표) |
+| `supportText` | `string` | — | 라벨 옆 보조 텍스트 |
+| `caption` | `string` | — | 입력 필드 아래 설명 텍스트 |
+
+When adding a new form component variant, always destructure `labelPosition` and pass it to `InputWrapper`:
+
+```tsx
+const MyVariant = ({ label, labelPosition, ...rest }) => (
+  <InputWrapper label={label} labelPosition={labelPosition} ...>
+    {/* input content */}
+  </InputWrapper>
+);
+```
+
+### Tabs animatedIndicator
+
+`TabsList` supports `animatedIndicator` prop for smooth sliding indicator animation across all variants (segmented, pill, underline). Implementation uses `MutationObserver` on `data-state` attribute changes and `ResizeObserver` for layout updates.
+
 ## AspectRatio Usage
 
 When rendering images or media in components, use the `<AspectRatio>` component instead of hardcoded `aspect-[...]` CSS classes or inline width/height styles.
