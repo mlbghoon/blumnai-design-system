@@ -152,6 +152,11 @@ export interface ComboboxBaseProps {
    */
   maxHeight?: number | string;
   /**
+   * 드롭다운 콘텐츠(옵션 목록)의 너비 (숫자는 px, 문자열은 그대로 사용)
+   * 미지정 시 트리거 너비에 맞춰짐
+   */
+  contentWidth?: string | number;
+  /**
    * 검색어와 일치하는 텍스트를 강조 표시
    * @default true
    */

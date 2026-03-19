@@ -256,6 +256,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       open: controlledOpen,
       onOpenChange,
       maxHeight = 300,
+      contentWidth,
       width,
       className,
       highlightSearch = true,
@@ -703,7 +704,9 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                     'origin-[--radix-popover-content-transform-origin]'
                   )}
                   style={{
-                    width: 'var(--radix-popover-trigger-width)',
+                    width: contentWidth
+                      ? typeof contentWidth === 'number' ? `${contentWidth}px` : contentWidth
+                      : 'var(--radix-popover-trigger-width)',
                   }}
                 >
                   {filteredOptions.length === 0 ? (

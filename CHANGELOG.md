@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.33] - 2026-03-19
+
+### Added
+
+- **Select/Combobox `contentWidth` prop**: 드롭다운 콘텐츠(옵션 목록)의 너비를 트리거 너비와 독립적으로 제어하는 `contentWidth` prop 추가. 숫자(px) 또는 문자열(CSS 값) 지원. 모든 Select 변형(default, avatar, multi-select, tags)과 Combobox에 적용.
+
 ## [1.0.32] - 2026-03-11
 
 ### Added

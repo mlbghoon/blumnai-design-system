@@ -208,12 +208,18 @@ SelectScrollDownButton.displayName =
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   SelectContentProps
->(({ className, children, position = 'popper', sideOffset = 4, maxHeight, header, ...props }, ref) => {
+>(({ className, children, position = 'popper', sideOffset = 4, maxHeight, header, contentWidth, ...props }, ref) => {
   const maxHeightValue = maxHeight
     ? typeof maxHeight === 'number'
       ? `${maxHeight}px`
       : maxHeight
     : 'var(--radix-select-content-available-height)';
+
+  const contentWidthValue = contentWidth
+    ? typeof contentWidth === 'number'
+      ? `${contentWidth}px`
+      : contentWidth
+    : undefined;
 
   return (
     <SelectPrimitive.Portal>
@@ -235,7 +241,10 @@ const SelectContent = React.forwardRef<
           className
         )}
         position={position}
-        style={{ maxHeight: maxHeightValue }}
+        style={{
+          maxHeight: maxHeightValue,
+          ...(contentWidthValue ? { width: contentWidthValue, minWidth: contentWidthValue } : {}),
+        }}
         {...props}
       >
         {header && (
@@ -247,7 +256,7 @@ const SelectContent = React.forwardRef<
         <SelectPrimitive.Viewport
           className={cn(
             'padding-4',
-            position === 'popper' && 'w-full min-w-[var(--radix-select-trigger-width)]'
+            position === 'popper' && !contentWidthValue && 'w-full min-w-[var(--radix-select-trigger-width)]'
           )}
         >
           {children}
@@ -537,6 +546,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       searchPlaceholder = 'Search...',
       noResultsText = 'No results found',
       maxHeight = 300,
+      contentWidth,
       width,
       minWidth,
       className,
@@ -764,6 +774,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
             )}
             <SelectContent
               maxHeight={maxHeight}
+              contentWidth={contentWidth}
               header={
                 searchable ? (
                   <div className="border-b border-default">

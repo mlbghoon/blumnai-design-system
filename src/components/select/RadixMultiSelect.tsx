@@ -239,6 +239,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       width,
       minWidth,
       maxHeight = 300,
+      contentWidth,
       className,
       showSelectAll = false,
       selectAllLabel = '전체 선택',
@@ -652,7 +653,9 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   'origin-[--radix-popover-content-transform-origin]'
                 )}
                 style={{
-                  width: 'var(--radix-popover-trigger-width)',
+                  width: contentWidth
+                    ? typeof contentWidth === 'number' ? `${contentWidth}px` : contentWidth
+                    : 'var(--radix-popover-trigger-width)',
                 }}
               >
                 {searchable && (

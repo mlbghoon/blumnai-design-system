@@ -48,6 +48,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         open={multiProps.open}
         onOpenChange={multiProps.onOpenChange}
         maxHeight={multiProps.maxHeight}
+        contentWidth={multiProps.contentWidth}
         width={multiProps.width}
         minWidth={multiProps.minWidth}
         className={multiProps.className}
@@ -90,6 +91,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         open={tagsProps.open}
         onOpenChange={tagsProps.onOpenChange}
         maxHeight={tagsProps.maxHeight}
+        contentWidth={tagsProps.contentWidth}
         width={tagsProps.width}
         minWidth={tagsProps.minWidth}
         className={tagsProps.className}
@@ -132,6 +134,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         open={avatarProps.open}
         onOpenChange={avatarProps.onOpenChange}
         maxHeight={avatarProps.maxHeight}
+        contentWidth={avatarProps.contentWidth}
         width={avatarProps.width}
         minWidth={avatarProps.minWidth}
         className={avatarProps.className}
@@ -170,6 +173,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
       open={defaultProps.open}
       onOpenChange={defaultProps.onOpenChange}
       maxHeight={defaultProps.maxHeight}
+      contentWidth={defaultProps.contentWidth}
       width={defaultProps.width}
       minWidth={defaultProps.minWidth}
       className={defaultProps.className}

@@ -173,6 +173,11 @@ export interface SelectBaseProps {
    */
   maxHeight?: number | string;
   /**
+   * 드롭다운 콘텐츠(옵션 목록)의 너비 (숫자는 px, 문자열은 그대로 사용)
+   * 미지정 시 트리거 너비에 맞춰짐
+   */
+  contentWidth?: string | number;
+  /**
    * 외부 컨테이너에 적용할 추가 className
    */
   className?: string;
@@ -363,6 +368,7 @@ export interface SelectContentProps
   extends ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {
   maxHeight?: number | string;
   header?: ReactNode;
+  contentWidth?: string | number;
 }
 
 /**
