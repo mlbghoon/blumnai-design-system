@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { ScrollArea } from '../scroll-area/ScrollArea';
+import { usePortalContainer } from '../../utils/PortalContainerContext';
 import {
   SIZE_CONFIG,
   STYLE_CONFIG,
@@ -58,6 +59,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
     const multiMaxSelections = multiProps?.maxSelections;
     const multiControlledValue = multiProps?.value;
 
+    const contextContainer = usePortalContainer();
     const selectId = React.useId();
     const triggerRef = React.useRef<HTMLButtonElement>(null);
     const searchInputRef = React.useRef<HTMLInputElement>(null);
@@ -456,7 +458,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
               </button>
             </PopoverPrimitive.Trigger>
 
-            <PopoverPrimitive.Portal>
+            <PopoverPrimitive.Portal container={contextContainer ?? undefined}>
               <PopoverPrimitive.Content
                 align="start"
                 sideOffset={4}

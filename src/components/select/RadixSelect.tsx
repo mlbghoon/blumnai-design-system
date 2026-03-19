@@ -6,6 +6,7 @@ import { InputWrapper } from '../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
+import { usePortalContainer } from '../../utils/PortalContainerContext';
 import type {
   SelectTriggerProps,
   SelectContentProps,
@@ -209,6 +210,7 @@ const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   SelectContentProps
 >(({ className, children, position = 'popper', sideOffset = 4, maxHeight, header, contentWidth, ...props }, ref) => {
+  const contextContainer = usePortalContainer();
   const maxHeightValue = maxHeight
     ? typeof maxHeight === 'number'
       ? `${maxHeight}px`
@@ -222,7 +224,7 @@ const SelectContent = React.forwardRef<
     : undefined;
 
   return (
-    <SelectPrimitive.Portal>
+    <SelectPrimitive.Portal container={contextContainer ?? undefined}>
       <SelectPrimitive.Content
         ref={ref}
         sideOffset={sideOffset}

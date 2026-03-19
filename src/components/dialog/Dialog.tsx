@@ -6,6 +6,7 @@ import { getPixelValue } from '@/lib/css-utils';
 import { Icon } from '../icons/Icon';
 import { buttonVariants } from '../button/Button';
 import { ScrollArea } from '../scroll-area';
+import { PortalContainerProvider } from '../../utils/PortalContainerContext';
 import type {
   DialogProps,
   DialogContentProps,
@@ -134,6 +135,16 @@ const DialogContentInner = React.forwardRef<
   DialogContentProps
 >(({ className, children, hideCloseButton = false, disableEscapeClose = false, disableOutsideClose = false, width, fullScreen = false, overlayClassName, style, onEscapeKeyDown, onPointerDownOutside, onInteractOutside, ...props }, ref) => {
   const { isPending } = useDialogContext();
+  const [contentEl, setContentEl] = React.useState<HTMLElement | null>(null);
+
+  const composedRef = React.useCallback(
+    (node: React.ElementRef<typeof DialogPrimitive.Content> | null) => {
+      setContentEl(node);
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.MutableRefObject<React.ElementRef<typeof DialogPrimitive.Content> | null>).current = node;
+    },
+    [ref],
+  );
 
   const widthStyle = width !== undefined && width !== ''
     ? { width: getPixelValue(width) }
@@ -148,7 +159,7 @@ const DialogContentInner = React.forwardRef<
     <DialogPortal>
       <DialogOverlay className={overlayClassName} />
       <DialogPrimitive.Content
-        ref={ref}
+        ref={composedRef}
         onEscapeKeyDown={(e) => {
           if (disableEscapeClose || isPending) {
             e.preventDefault();
@@ -185,7 +196,9 @@ const DialogContentInner = React.forwardRef<
         style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
         {...props}
       >
-        {children}
+        <PortalContainerProvider value={contentEl}>
+          {children}
+        </PortalContainerProvider>
         {!hideCloseButton && (
           <DialogPrimitive.Close
             disabled={isPending}

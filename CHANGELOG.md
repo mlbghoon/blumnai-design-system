@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.46] - 2026-03-19
+
+### Fixed
+
+- **Select/Popover/Dropdown inside Dialog**: Dialog 내부에서 Select, Popover, DatePicker 등의 드롭다운이 Dialog 오버레이 뒤에 렌더링되어 접근 불가능하던 문제 수정. `PortalContainerContext`를 도입하여 Dialog가 자신의 콘텐츠 요소를 포탈 컨테이너로 제공하고, 하위 플로팅 컴포넌트가 이를 자동으로 사용하도록 변경. z-index 변경 없이 DOM 계층을 올바르게 구성하는 방식으로 해결.
+
 ## [1.0.45] - 2026-03-19
 
 ### Added

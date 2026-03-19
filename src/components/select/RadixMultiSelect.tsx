@@ -6,6 +6,7 @@ import { InputWrapper } from '../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
+import { usePortalContainer } from '../../utils/PortalContainerContext';
 import type {
   RadixMultiSelectProps,
   MultiSelectItemProps,
@@ -250,6 +251,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
     },
     ref
   ) => {
+    const contextContainer = usePortalContainer();
     const selectId = React.useId();
     const triggerRef = React.useRef<HTMLButtonElement>(null);
     const searchInputRef = React.useRef<HTMLInputElement>(null);
@@ -637,7 +639,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
               </button>
             </PopoverPrimitive.Trigger>
 
-            <PopoverPrimitive.Portal>
+            <PopoverPrimitive.Portal container={contextContainer ?? undefined}>
               <PopoverPrimitive.Content
                 align="start"
                 sideOffset={4}

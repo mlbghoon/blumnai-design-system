@@ -4,6 +4,7 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { cn } from '@/lib/utils';
 import { getPixelValue } from '@/lib/css-utils';
 import { ScrollArea } from '../scroll-area';
+import { usePortalContainer } from '../../utils/PortalContainerContext';
 import type {
   PopoverContentProps,
   PopoverScrollAreaProps,
@@ -35,6 +36,7 @@ const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   PopoverContentProps
 >(({ className, align = 'center', sideOffset = 4, width, container, style, ...props }, ref) => {
+  const contextContainer = usePortalContainer();
   const widthStyle = width !== undefined && width !== ''
     ? { width: getPixelValue(width) }
     : undefined;
@@ -45,7 +47,7 @@ const PopoverContent = React.forwardRef<
   };
 
   return (
-    <PopoverPrimitive.Portal container={container}>
+    <PopoverPrimitive.Portal container={container ?? contextContainer ?? undefined}>
       <PopoverPrimitive.Content
         ref={ref}
         align={align}

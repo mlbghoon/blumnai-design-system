@@ -953,3 +953,4 @@ export { useMergeRefs } from './hooks/use-merge-refs';
 // UTILITIES
 // =============================================================================
 export { cn } from './lib/utils';
+export { PortalContainerProvider, usePortalContainer } from './utils/PortalContainerContext';

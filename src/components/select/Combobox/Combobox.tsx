@@ -7,6 +7,7 @@ import { InputWrapper } from '../../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import { Avatar } from '../../avatar/Avatar';
 import { Badge } from '../../badge/Badge';
+import { usePortalContainer } from '../../../utils/PortalContainerContext';
 import {
   SIZE_CONFIG,
   STYLE_CONFIG,
@@ -264,6 +265,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       tailIcon,
     } = props;
 
+    const contextContainer = usePortalContainer();
     const comboboxId = React.useId();
     const inputRef = React.useRef<HTMLInputElement>(null);
     const triggerRef = React.useRef<HTMLDivElement>(null);
@@ -672,7 +674,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                 </div>
               </PopoverPrimitive.Anchor>
 
-              <PopoverPrimitive.Portal>
+              <PopoverPrimitive.Portal container={contextContainer ?? undefined}>
                 <PopoverPrimitive.Content
                   align="start"
                   sideOffset={4}
