@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.41] - 2026-03-19
+
+### Fixed
+
+- **ResizableHandle vertical orientation 0px 높이 수정**: vertical 방향에서 핸들이 0px로 렌더링되던 문제 수정. `min-h-[4px]` 추가.
+
 ## [1.0.40] - 2026-03-19
 
 ### Added

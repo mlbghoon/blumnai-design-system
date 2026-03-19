@@ -169,6 +169,7 @@ const ResizableHandle = ({
     <Separator
       className={cn(
         'group/handle relative flex items-center justify-center overflow-visible',
+        orientation === 'vertical' && 'min-h-[4px]',
         'after:absolute after:transition-colors after:duration-150',
         orientation === 'horizontal'
           ? cn(
