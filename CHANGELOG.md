@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.42] - 2026-03-19
+
+### Fixed
+
+- **ResizableHandle vertical 방향 핸들 미표시 수정**: `after:inset-x-0`이 Tailwind v4에서 `--spacing: initial` 설정 시 CSS를 생성하지 않아 vertical 방향 `::after` 라인이 width 0으로 렌더링되던 문제 수정. `after:left-0 after:right-0`으로 대체. `bg-border-darker`/`bg-border-strong`도 유효하지 않은 Tailwind 유틸리티였으므로 `bg-[var(--border-darker)]`/`bg-[var(--border-strong)]` arbitrary value로 교체.
+
 ## [1.0.41] - 2026-03-19
 
 ### Fixed

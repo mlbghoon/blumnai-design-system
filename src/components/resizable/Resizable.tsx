@@ -177,15 +177,15 @@ const ResizableHandle = ({
               lineWidth ? 'after:w-[var(--resizable-line-width)]' : 'after:w-[2px]'
             )
           : cn(
-              'after:inset-x-0 after:top-1/2 after:-translate-y-1/2',
+              'after:left-0 after:right-0 after:top-1/2 after:-translate-y-1/2',
               lineWidth ? 'after:h-[var(--resizable-line-width)]' : 'after:h-[2px]'
             ),
         'focus-visible:outline-none focus-visible:after:bg-border-highlight',
         lineColor
           ? 'after:bg-[var(--resizable-line-color)]'
           : isHidden
-            ? 'after:bg-transparent hover:after:bg-muted active:after:bg-border-darker'
-            : 'after:bg-muted hover:after:bg-border-darker active:after:bg-border-strong',
+            ? 'after:bg-transparent hover:after:bg-muted active:after:bg-[var(--border-darker)]'
+            : 'after:bg-muted hover:after:bg-[var(--border-darker)] active:after:bg-[var(--border-strong)]',
         className
       )}
       style={{
@@ -199,7 +199,7 @@ const ResizableHandle = ({
           className={cn(
             'z-10 rounded-full',
             orientation === 'horizontal' ? 'width-4 height-32' : 'width-32 height-4',
-            'bg-muted group-hover/handle:bg-border-darker group-active/handle:bg-border-strong',
+            'bg-muted group-hover/handle:bg-[var(--border-darker)] group-active/handle:bg-[var(--border-strong)]',
             'transition-colors duration-150'
           )}
         />
@@ -225,7 +225,7 @@ const ResizableHandle = ({
           className={cn(
             'z-10 rounded-full',
             orientation === 'horizontal' ? 'width-8 height-32' : 'width-32 height-8',
-            'bg-border-darker group-hover/handle:bg-border-strong',
+            'bg-[var(--border-darker)] group-hover/handle:bg-[var(--border-strong)]',
             'transition-colors duration-150'
           )}
         />
