@@ -223,8 +223,8 @@ const ResizableHandle = ({
       {withHandle && variant === 'line' && (
         <div
           className={cn(
-            'z-10 rounded-full',
-            orientation === 'horizontal' ? 'width-8 height-32' : 'width-32 height-8',
+            'z-10 rounded-xs',
+            orientation === 'horizontal' ? 'width-4 height-32' : 'width-32 height-4',
             'bg-[var(--border-darker)] group-hover/handle:bg-[var(--border-strong)]',
             'transition-colors duration-150'
           )}
