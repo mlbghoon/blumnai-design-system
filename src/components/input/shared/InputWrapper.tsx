@@ -108,7 +108,7 @@ export const InputWrapper = ({
   if (isHorizontal) {
     return (
       <div
-        className={cn(INPUT_CONTAINER_BASE, 'flex items-start ds-gap-8', width === undefined && 'w-full', className)}
+        className={cn(INPUT_CONTAINER_BASE, 'flex-row items-start ds-gap-8', width === undefined && 'w-full', className)}
         style={width !== undefined ? { width: typeof width === 'number' ? `${width}px` : /^\d+$/.test(width) ? `${width}px` : width } : undefined}
       >
         {labelElement}
