@@ -44,6 +44,18 @@ const meta: Meta<typeof Textarea> = {
         type: { summary: 'string' },
       },
     },
+    labelPosition: {
+      control: 'select',
+      options: ['top', 'left'],
+      description: '라벨 위치 (top: 상단, left: 좌측 인라인)',
+      table: {
+        type: {
+          summary: 'LabelPosition',
+          detail: `'top' | 'left'`,
+        },
+        defaultValue: { summary: 'top' },
+      },
+    },
     required: {
       control: 'boolean',
       description: '필수 입력 여부 (별표 표시)',
@@ -233,6 +245,7 @@ type Story = StoryObj<typeof Textarea>;
 export const Default: Story = {
   args: {
     label: '설명',
+    labelPosition: 'top',
     placeholder: '설명을 입력하세요...',
     textareaStyle: 'default',
     size: 'sm',
@@ -266,6 +279,7 @@ export const Default: Story = {
         textareaStyle={args.textareaStyle}
         size={args.size}
         label={args.label}
+        labelPosition={args.labelPosition}
         required={args.required}
         supportText={supportText}
         caption={caption}

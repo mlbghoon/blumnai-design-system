@@ -112,6 +112,18 @@ const meta: Meta<DefaultVariantProps> = {
         type: { summary: 'number' },
       },
     },
+    labelPosition: {
+      control: 'select',
+      options: ['top', 'left'],
+      description: '라벨 위치 (top: 상단, left: 좌측 인라인)',
+      table: {
+        type: {
+          summary: 'LabelPosition',
+          detail: `'top' | 'left'`,
+        },
+        defaultValue: { summary: 'top' },
+      },
+    },
     width: {
       control: 'text',
       description: '커스텀 너비 (숫자는 px, 문자열은 그대로 사용)',
@@ -139,6 +151,7 @@ export const Default: Story = {
     inputStyle: 'default',
     size: 'sm',
     label: '라벨',
+    labelPosition: 'top',
     placeholder: '플레이스홀더...',
     required: false,
     disabled: false,
@@ -164,6 +177,7 @@ export const Default: Story = {
         inputStyle={args.inputStyle}
         size={args.size}
         label={args.label}
+        labelPosition={args.labelPosition}
         placeholder={args.placeholder}
         required={args.required}
         disabled={args.disabled}

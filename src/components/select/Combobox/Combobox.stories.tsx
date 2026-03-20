@@ -104,6 +104,18 @@ const meta: Meta<typeof Combobox> = {
       description: '컴포넌트 위에 표시되는 제목 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
+    labelPosition: {
+      control: 'select',
+      options: ['top', 'left'],
+      description: '라벨 위치 (top: 상단, left: 좌측 인라인)',
+      table: {
+        type: {
+          summary: 'LabelPosition',
+          detail: `'top' | 'left'`,
+        },
+        defaultValue: { summary: 'top' },
+      },
+    },
     required: {
       control: 'boolean',
       description: 'true로 설정하면 라벨 옆에 필수 표시(*)가 나타납니다',
@@ -214,6 +226,7 @@ export const Default: Story = {
   args: {
     variant: 'default',
     label: 'Select fruit',
+    labelPosition: 'top',
     placeholder: 'Search fruits...',
     options: defaultOptions,
     selectStyle: 'default',
@@ -267,6 +280,7 @@ export const Default: Story = {
         <Combobox
           variant="default"
           label={args.label}
+          labelPosition={args.labelPosition}
           placeholder={args.placeholder}
           options={options}
           value={value}

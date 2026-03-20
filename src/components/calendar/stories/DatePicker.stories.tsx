@@ -48,6 +48,18 @@ const meta: Meta<StoryProps> = {
       description: '입력 필드 위에 표시되는 라벨 텍스트입니다',
       table: { type: { summary: 'string' } },
     },
+    labelPosition: {
+      control: 'select',
+      options: ['top', 'left'],
+      description: '라벨 위치 (top: 상단, left: 좌측 인라인)',
+      table: {
+        type: {
+          summary: 'LabelPosition',
+          detail: `'top' | 'left'`,
+        },
+        defaultValue: { summary: 'top' },
+      },
+    },
     required: {
       control: 'boolean',
       description: 'true로 설정하면 라벨 옆에 필수 표시(*)가 나타납니다',
@@ -174,6 +186,7 @@ type Story = StoryObj<StoryProps>;
 export const Default: Story = {
   args: {
     label: '날짜',
+    labelPosition: 'top',
     datePickerStyle: 'default',
     size: 'sm',
     showQuickPresets: false,
@@ -192,6 +205,7 @@ export const Default: Story = {
     return (
       <DatePicker
         label={args.label}
+        labelPosition={args.labelPosition}
         datePickerStyle={args.datePickerStyle}
         size={args.size}
         showQuickPresets={args.showQuickPresets}

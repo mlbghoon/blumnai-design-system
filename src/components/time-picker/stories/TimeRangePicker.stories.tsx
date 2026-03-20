@@ -51,6 +51,18 @@ const meta: Meta<TimeRangePickerProps> = {
       description: '라벨 텍스트',
       table: { type: { summary: 'string' } },
     },
+    labelPosition: {
+      control: 'select',
+      options: ['top', 'left'],
+      description: '라벨 위치 (top: 상단, left: 좌측 인라인)',
+      table: {
+        type: {
+          summary: 'LabelPosition',
+          detail: `'top' | 'left'`,
+        },
+        defaultValue: { summary: 'top' },
+      },
+    },
     required: {
       control: 'boolean',
       description: '필수 입력 여부',
@@ -126,6 +138,7 @@ type Story = StoryObj<TimeRangePickerProps>;
 export const Default: Story = {
   args: {
     label: '시간 범위',
+    labelPosition: 'top',
     timePickerStyle: 'default',
     size: 'sm',
     timeFormat: '24h',
@@ -141,6 +154,7 @@ export const Default: Story = {
     return (
       <TimeRangePicker
         label={args.label}
+        labelPosition={args.labelPosition}
         timePickerStyle={args.timePickerStyle}
         size={args.size}
         timeFormat={args.timeFormat}
