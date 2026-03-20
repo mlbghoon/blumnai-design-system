@@ -68,6 +68,7 @@ export const Default: Story = {
     title: '검색 결과가 없습니다',
     description: '다른 키워드로 다시 검색해 보세요.',
     size: 'md',
+    action: undefined,
   },
   parameters: {
     controls: { disable: false },

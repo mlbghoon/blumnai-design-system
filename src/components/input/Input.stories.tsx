@@ -169,6 +169,7 @@ export const Default: Story = {
     caption: '',
     error: '',
     success: '',
+    width: undefined,
   },
   parameters: {
     controls: { disable: false },

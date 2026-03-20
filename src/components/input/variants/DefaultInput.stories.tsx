@@ -179,11 +179,57 @@ type Story = StoryObj<typeof Input>;
 export const Default: Story = {
   args: {
     variant: 'default',
+    inputStyle: 'default',
+    size: 'sm',
     label: '이메일',
     placeholder: '이메일을 입력하세요',
+    required: false,
+    disabled: false,
+    supportText: '',
+    caption: '',
+    error: '',
+    success: '',
+    leadIcon: undefined,
+    tailIcon: undefined,
+    autoComplete: undefined,
+    width: undefined,
+    className: undefined,
   },
   parameters: {
     controls: { disable: false },
+  },
+  render: function Render(args) {
+    const [value, setValue] = useState('');
+    const supportText = args.supportText || undefined;
+    const caption = args.caption || undefined;
+    const error = args.error || undefined;
+    const success = args.success || undefined;
+    const leadIcon = 'leadIcon' in args ? args.leadIcon : undefined;
+    const tailIcon = 'tailIcon' in args ? args.tailIcon : undefined;
+    const autoComplete = 'autoComplete' in args ? args.autoComplete : undefined;
+    return (
+      <Input
+        variant="default"
+        inputStyle={args.inputStyle}
+        size={args.size}
+        label={args.label}
+        placeholder={args.placeholder}
+        required={args.required}
+        disabled={args.disabled}
+        supportText={supportText}
+        caption={caption}
+        error={error}
+        success={success}
+        leadIcon={leadIcon}
+        tailIcon={tailIcon}
+        autoComplete={autoComplete}
+        width={args.width}
+        className={args.className}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onClear={() => setValue('')}
+      />
+    );
   },
 };
 

@@ -111,6 +111,7 @@ type Story = StoryObj<typeof TooltipTrigger>;
 export const Default: Story = {
   args: {
     content: '툴팁 텍스트',
+    badge: undefined,
     placement: 'top',
     delay: 200,
     disabled: false,
@@ -127,6 +128,7 @@ export const Default: Story = {
     return (
       <TooltipTrigger
         content={args.content}
+        badge={args.badge}
         placement={args.placement}
         delay={args.delay}
         disabled={args.disabled}

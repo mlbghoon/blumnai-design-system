@@ -223,6 +223,13 @@ export const Default: Story = {
     captionLayout: 'month-centered',
     triggerVariant: 'default',
     width: 300,
+    required: false,
+    supportText: '',
+    caption: '',
+    error: '',
+    success: '',
+    disabled: false,
+    align: 'start',
   },
   parameters: {
     controls: { disable: false },

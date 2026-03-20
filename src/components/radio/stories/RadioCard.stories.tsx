@@ -120,11 +120,11 @@ export const Default: Story = {
     controls: { disable: false },
   },
   render: function Render(args) {
-    const [value, setValue] = useState('card1');
+    const [value, setValue] = useState(args.value);
     return (
       <RadioGroup value={value} onValueChange={setValue} className="flex flex-col ds-gap-12">
         <RadioCard
-          value="card1"
+          value={args.value}
           title={args.title}
           description={args.description}
           layout={args.layout}

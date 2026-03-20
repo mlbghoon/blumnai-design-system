@@ -234,13 +234,28 @@ export const Default: Story = {
     dropdownPlaceholder: '통화',
     inputStyle: 'default',
     size: 'sm',
+    required: false,
     disabled: false,
+    caption: '',
+    error: '',
+    success: '',
+    leadIcon: undefined,
+    dropdownWidth: undefined,
+    autoComplete: undefined,
+    width: undefined,
+    className: undefined,
   },
   render: function Render(args) {
     const [value, setValue] = useState('');
     const [dropdownValue, setDropdownValue] = useState('usd');
     const dropdownOptions = 'dropdownOptions' in args ? args.dropdownOptions : currencyOptions;
     const dropdownPlaceholder = 'dropdownPlaceholder' in args ? args.dropdownPlaceholder : '통화';
+    const dropdownWidth = 'dropdownWidth' in args ? args.dropdownWidth : undefined;
+    const caption = args.caption || undefined;
+    const error = args.error || undefined;
+    const success = args.success || undefined;
+    const leadIcon = 'leadIcon' in args ? args.leadIcon : undefined;
+    const autoComplete = 'autoComplete' in args ? args.autoComplete : undefined;
     return (
       <Input
         variant="tail-dropdown"
@@ -248,16 +263,21 @@ export const Default: Story = {
         placeholder={args.placeholder}
         dropdownOptions={dropdownOptions}
         dropdownPlaceholder={dropdownPlaceholder}
+        dropdownWidth={dropdownWidth}
         inputStyle={args.inputStyle}
         size={args.size}
         disabled={args.disabled}
         required={args.required}
-        supportText={args.supportText}
-        caption={args.caption}
-        error={args.error}
-        success={args.success}
+        caption={caption}
+        error={error}
+        success={success}
+        leadIcon={leadIcon}
+        autoComplete={autoComplete}
+        width={args.width}
+        className={args.className}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        onClear={() => setValue('')}
         dropdownValue={dropdownValue}
         onDropdownChange={setDropdownValue}
       />

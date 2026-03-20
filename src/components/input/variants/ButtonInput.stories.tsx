@@ -208,12 +208,63 @@ type Story = StoryObj<typeof Input>;
 export const Default: Story = {
   args: {
     variant: 'tail-button',
+    inputStyle: 'default',
+    size: 'sm',
     label: '뉴스레터',
     placeholder: '이메일을 입력하세요',
     buttonLabel: '구독',
+    required: false,
+    disabled: false,
+    caption: '',
+    error: '',
+    success: '',
+    leadIcon: undefined,
+    buttonLeadIcon: undefined,
+    buttonTailIcon: undefined,
+    buttonDisabled: false,
+    autoComplete: undefined,
+    width: undefined,
+    className: undefined,
   },
   parameters: {
     controls: { disable: false },
+  },
+  render: function Render(args) {
+    const [value, setValue] = useState('');
+    const caption = args.caption || undefined;
+    const error = args.error || undefined;
+    const success = args.success || undefined;
+    const buttonLabel = 'buttonLabel' in args ? args.buttonLabel : '구독';
+    const buttonLeadIcon = 'buttonLeadIcon' in args ? args.buttonLeadIcon : undefined;
+    const buttonTailIcon = 'buttonTailIcon' in args ? args.buttonTailIcon : undefined;
+    const buttonDisabled = 'buttonDisabled' in args ? args.buttonDisabled : false;
+    const leadIcon = 'leadIcon' in args ? args.leadIcon : undefined;
+    const autoComplete = 'autoComplete' in args ? args.autoComplete : undefined;
+    return (
+      <Input
+        variant="tail-button"
+        inputStyle={args.inputStyle}
+        size={args.size}
+        label={args.label}
+        placeholder={args.placeholder}
+        required={args.required}
+        disabled={args.disabled}
+        caption={caption}
+        error={error}
+        success={success}
+        leadIcon={leadIcon}
+        buttonLabel={buttonLabel}
+        buttonLeadIcon={buttonLeadIcon}
+        buttonTailIcon={buttonTailIcon}
+        buttonDisabled={buttonDisabled}
+        autoComplete={autoComplete}
+        width={args.width}
+        className={args.className}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onClear={() => setValue('')}
+      />
+    );
   },
 };
 

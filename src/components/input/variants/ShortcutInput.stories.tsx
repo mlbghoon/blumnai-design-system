@@ -165,12 +165,53 @@ type Story = StoryObj<typeof Input>;
 export const Default: Story = {
   args: {
     variant: 'shortcut',
+    inputStyle: 'default',
+    size: 'sm',
     label: '빠른 검색',
     placeholder: '검색...',
     shortcut: '⌘K',
+    required: false,
+    disabled: false,
+    caption: '',
+    error: '',
+    success: '',
+    leadIcon: undefined,
+    autoComplete: undefined,
+    width: undefined,
+    className: undefined,
   },
   parameters: {
     controls: { disable: false },
+  },
+  render: function Render(args) {
+    const [value, setValue] = useState('');
+    const caption = args.caption || undefined;
+    const error = args.error || undefined;
+    const success = args.success || undefined;
+    const shortcut = 'shortcut' in args ? (args.shortcut as string) : '⌘K';
+    const leadIcon = 'leadIcon' in args ? args.leadIcon : undefined;
+    const autoComplete = 'autoComplete' in args ? args.autoComplete : undefined;
+    return (
+      <Input
+        variant="shortcut"
+        inputStyle={args.inputStyle}
+        size={args.size}
+        label={args.label}
+        placeholder={args.placeholder}
+        required={args.required}
+        disabled={args.disabled}
+        caption={caption}
+        error={error}
+        success={success}
+        leadIcon={leadIcon}
+        shortcut={shortcut}
+        autoComplete={autoComplete}
+        width={args.width}
+        className={args.className}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+    );
   },
 };
 

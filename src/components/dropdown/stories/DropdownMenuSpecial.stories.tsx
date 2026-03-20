@@ -132,6 +132,8 @@ export const Default: Story = {
     caption: '온라인',
     shortcut: '',
     disabled: false,
+    tailIcon: undefined,
+    iconColor: undefined,
   },
   parameters: {
     controls: { disable: false },

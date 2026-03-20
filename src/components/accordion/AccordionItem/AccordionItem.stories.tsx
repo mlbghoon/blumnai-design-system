@@ -110,6 +110,8 @@ export const Default: Story = {
     header: '아코디언 항목 제목',
     children: '아코디언 항목의 내용입니다. 어떤 React 노드든 포함할 수 있습니다.',
     style: 'default',
+    isOpen: false,
+    disabled: false,
     defaultIsOpen: false,
     headingLevel: 3,
     className: '',

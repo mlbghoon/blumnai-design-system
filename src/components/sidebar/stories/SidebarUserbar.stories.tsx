@@ -73,7 +73,9 @@ export const Default: Story = {
   args: {
     variant: 'variant3',
     name: 'John Doe',
+    email: '',
     avatarInitials: 'JD',
+    avatarSrc: undefined,
     collapsed: false,
     isOpen: false,
   },

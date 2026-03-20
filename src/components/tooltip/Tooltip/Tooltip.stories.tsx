@@ -73,6 +73,8 @@ type Story = StoryObj<typeof Tooltip>;
 export const Default: Story = {
   args: {
     children: '툴팁 텍스트',
+    badge: undefined,
+    maxWidth: undefined,
     className: '',
     width: undefined,
     minWidth: undefined,

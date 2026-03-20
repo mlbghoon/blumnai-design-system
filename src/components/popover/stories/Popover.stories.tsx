@@ -194,7 +194,10 @@ export const Default: Story = {
     alignOffset: 0,
     avoidCollisions: true,
     sticky: 'partial',
+    collisionPadding: undefined,
     hideWhenDetached: false,
+    forceMount: undefined,
+    className: '',
     width: undefined,
     maxHeight: undefined,
   },
@@ -215,8 +218,10 @@ export const Default: Story = {
           align={args.align}
           alignOffset={args.alignOffset}
           avoidCollisions={args.avoidCollisions}
+          collisionPadding={args.collisionPadding}
           sticky={args.sticky}
           hideWhenDetached={args.hideWhenDetached}
+          forceMount={args.forceMount}
           className={args.className}
           width={args.width}
         >

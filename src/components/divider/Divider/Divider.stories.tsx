@@ -124,6 +124,7 @@ export const Default: Story = {
     type: 'default',
     lineStyle: 'default',
     label: '라벨',
+    icon: undefined,
     buttonLabel: '버튼',
     buttonLeadIcon: undefined,
     buttonTailIcon: undefined,

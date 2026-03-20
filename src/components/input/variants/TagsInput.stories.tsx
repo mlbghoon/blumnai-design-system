@@ -211,6 +211,9 @@ export const Default: Story = {
     const allowDuplicates = 'allowDuplicates' in args ? args.allowDuplicates : undefined;
     const delimiters = 'delimiters' in args ? args.delimiters : undefined;
     const removable = 'removable' in args ? args.removable : undefined;
+    const caption = args.caption || undefined;
+    const error = args.error || undefined;
+    const success = args.success || undefined;
     return (
       <Input
         variant="tags"
@@ -219,16 +222,18 @@ export const Default: Story = {
         label={args.label}
         placeholder={args.placeholder}
         required={args.required}
-        supportText={args.supportText}
-        caption={args.caption}
-        error={args.error}
-        success={args.success}
+        caption={caption}
+        error={error}
+        success={success}
         disabled={args.disabled}
         leadIcon={leadIcon}
         maxTags={maxTags}
         allowDuplicates={allowDuplicates}
         delimiters={delimiters}
         removable={removable}
+        autoComplete={args.autoComplete}
+        width={args.width}
+        className={args.className}
         tags={tags}
         onTagsChange={setTags}
       />
@@ -236,8 +241,22 @@ export const Default: Story = {
   },
   args: {
     variant: 'tags',
+    inputStyle: 'default',
+    size: 'sm',
     label: '기술 스택',
     placeholder: '태그 추가...',
+    required: false,
+    disabled: false,
+    caption: '',
+    error: '',
+    success: '',
+    leadIcon: undefined,
+    maxTags: undefined,
+    allowDuplicates: false,
+    removable: true,
+    autoComplete: undefined,
+    width: undefined,
+    className: undefined,
   },
   parameters: {
     controls: { disable: false },

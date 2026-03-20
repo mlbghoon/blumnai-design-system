@@ -139,13 +139,13 @@ export const Default: Story = {
     controls: { disable: false },
   },
   render: function Render(args) {
-    const [value, setValue] = useState('option1');
+    const [value, setValue] = useState(args.value);
     const description = args.description || undefined;
 
     return (
       <RadioGroup value={value} onValueChange={setValue}>
         <Radio
-          value="option1"
+          value={args.value}
           disabled={args.disabled}
           label={args.label}
           description={description}

@@ -171,6 +171,9 @@ export const Default: Story = {
     const min = 'min' in args && typeof args.min === 'number' ? args.min : 0;
     const max = 'max' in args && typeof args.max === 'number' ? args.max : 10;
     const step = 'step' in args && typeof args.step === 'number' ? args.step : 1;
+    const caption = args.caption || undefined;
+    const error = args.error || undefined;
+    const success = args.success || undefined;
     return (
       <Input
         variant="quantity"
@@ -178,14 +181,16 @@ export const Default: Story = {
         size={args.size}
         label={args.label}
         required={args.required}
-        supportText={args.supportText}
-        caption={args.caption}
-        error={args.error}
-        success={args.success}
+        caption={caption}
+        error={error}
+        success={success}
         disabled={args.disabled}
         min={min}
         max={max}
         step={step}
+        autoComplete={args.autoComplete}
+        width={args.width}
+        className={args.className}
         value={value}
         onChange={setValue}
       />
@@ -193,10 +198,20 @@ export const Default: Story = {
   },
   args: {
     variant: 'quantity',
+    inputStyle: 'default',
+    size: 'sm',
     label: '수량',
     min: 0,
     max: 10,
     step: 1,
+    required: false,
+    disabled: false,
+    caption: '',
+    error: '',
+    success: '',
+    autoComplete: undefined,
+    width: undefined,
+    className: undefined,
   },
   parameters: {
     controls: { disable: false },

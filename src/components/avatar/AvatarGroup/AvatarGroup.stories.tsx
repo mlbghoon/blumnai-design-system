@@ -9,6 +9,7 @@ const meta = {
   component: AvatarGroup,
   parameters: {
     layout: 'centered',
+    controls: { disable: true },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -90,7 +91,11 @@ export const Default: Story = {
     size: 'md',
     stacking: 'last-on-top',
     avatars: sampleAvatars,
+    max: undefined,
     className: '',
+  },
+  parameters: {
+    controls: { disable: false },
   },
   render: function Render(args) {
     const groupRef = useRef<HTMLDivElement>(null);

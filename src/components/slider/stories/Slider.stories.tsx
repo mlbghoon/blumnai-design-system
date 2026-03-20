@@ -180,6 +180,8 @@ export const Default: Story = {
     tickCount: 11,
     orientation: 'horizontal',
     height: 200,
+    formatValue: undefined,
+    formatTick: undefined,
   },
   parameters: {
     controls: { disable: false },

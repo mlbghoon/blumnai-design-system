@@ -203,6 +203,13 @@ export const Default: Story = {
     locale: 'ko',
     captionLayout: 'month-centered',
     width: 300,
+    required: false,
+    supportText: '',
+    caption: '',
+    error: '',
+    success: '',
+    disabled: false,
+    align: 'start',
   },
   parameters: {
     controls: { disable: false },

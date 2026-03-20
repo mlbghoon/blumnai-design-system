@@ -269,6 +269,8 @@ export const Default: Story = {
     error: '',
     success: '',
     showToolbar: false,
+    width: undefined,
+    submitDisabled: false,
     fieldSizing: 'fixed',
     autoResize: false,
   },
@@ -301,8 +303,9 @@ export const Default: Story = {
         showCount={args.showCount}
         maxLength={args.maxLength}
         resize={args.resize}
-        width={args.width}
         showToolbar={args.showToolbar}
+        width={args.width}
+        submitDisabled={args.submitDisabled}
         fieldSizing={args.fieldSizing}
         autoResize={args.autoResize}
         value={value}

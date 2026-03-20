@@ -86,6 +86,10 @@ type Story = StoryObj<typeof Checkbox>;
  */
 export const AllVariants: Story = {
   args: {
+    checked: false,
+    label: 'Label',
+    description: '',
+    checkboxPosition: 'left',
     checkboxStyle: 'default',
     disabled: false,
   },
@@ -114,8 +118,9 @@ export const AllVariants: Story = {
           <Checkbox
             checked={basicChecked}
             onCheckedChange={(checked) => setBasicChecked(checked === true)}
-            label="제목"
-            description="설명"
+            label={args.label}
+            description={args.description || undefined}
+            checkboxPosition={args.checkboxPosition}
             checkboxStyle={args.checkboxStyle}
             disabled={args.disabled}
           />

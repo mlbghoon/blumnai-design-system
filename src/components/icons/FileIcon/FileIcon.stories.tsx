@@ -76,6 +76,7 @@ export const Default: Story = {
     fileType: 'default',
     size: 'md',
     className: '',
+    src: undefined,
   },
   parameters: {
     controls: { disable: false },

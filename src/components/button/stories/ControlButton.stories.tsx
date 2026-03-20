@@ -101,6 +101,8 @@ export const Default: Story = {
     buttonStyle: 'default',
     size: 'md',
     shape: 'rounded',
+    disabled: false,
+    asChild: false,
   },
   parameters: {
     controls: { disable: false },

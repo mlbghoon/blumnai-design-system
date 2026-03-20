@@ -155,6 +155,8 @@ export const Default: Story = {
     align: 'start',
     alignOffset: 0,
     width: 200,
+    maxHeight: undefined,
+    loading: false,
   },
   parameters: {
     controls: { disable: false },
@@ -171,6 +173,8 @@ export const Default: Story = {
           align={args.align}
           alignOffset={args.alignOffset}
           width={args.width}
+          maxHeight={args.maxHeight}
+          loading={args.loading}
         >
           <DropdownMenuLabel>내 계정</DropdownMenuLabel>
           <DropdownMenuSeparator />

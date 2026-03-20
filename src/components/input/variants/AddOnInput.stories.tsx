@@ -186,13 +186,60 @@ type Story = StoryObj<typeof Input>;
 export const Default: Story = {
   args: {
     variant: 'addon',
+    inputStyle: 'default',
+    size: 'sm',
     label: '웹사이트',
     placeholder: 'your-site',
     prefix: 'https://',
     suffix: '.com',
+    required: false,
+    disabled: false,
+    caption: '',
+    error: '',
+    success: '',
+    leadIcon: undefined,
+    tailIcon: undefined,
+    autoComplete: undefined,
+    width: undefined,
+    className: undefined,
   },
   parameters: {
     controls: { disable: false },
+  },
+  render: function Render(args) {
+    const [value, setValue] = useState('');
+    const caption = args.caption || undefined;
+    const error = args.error || undefined;
+    const success = args.success || undefined;
+    const prefix = 'prefix' in args ? args.prefix : 'https://';
+    const suffix = 'suffix' in args ? args.suffix : '.com';
+    const leadIcon = 'leadIcon' in args ? args.leadIcon : undefined;
+    const tailIcon = 'tailIcon' in args ? args.tailIcon : undefined;
+    const autoComplete = 'autoComplete' in args ? args.autoComplete : undefined;
+    return (
+      <Input
+        variant="addon"
+        inputStyle={args.inputStyle}
+        size={args.size}
+        label={args.label}
+        placeholder={args.placeholder}
+        required={args.required}
+        disabled={args.disabled}
+        caption={caption}
+        error={error}
+        success={success}
+        leadIcon={leadIcon}
+        tailIcon={tailIcon}
+        prefix={prefix}
+        suffix={suffix}
+        autoComplete={autoComplete}
+        width={args.width}
+        className={args.className}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onClear={() => setValue('')}
+      />
+    );
   },
 };
 

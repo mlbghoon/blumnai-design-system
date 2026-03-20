@@ -102,6 +102,7 @@ export const Default: Story = {
     items: sampleItems,
     size: 'sm',
     separator: 'slash',
+    maxItems: undefined,
     className: '',
   },
   parameters: {

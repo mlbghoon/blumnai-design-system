@@ -160,6 +160,26 @@ const meta: Meta<typeof VirtualSelect> = {
       description: '컴포넌트의 최소 가로 너비를 설정합니다. 숫자(px) 또는 문자열(%, rem 등)로 지정할 수 있습니다',
       table: { type: { summary: 'number | string' } },
     },
+    required: {
+      control: 'boolean',
+      description: '필수 입력 여부',
+      table: { type: { summary: 'boolean' } },
+    },
+    supportText: {
+      control: 'text',
+      description: '라벨 옆에 표시되는 보조 텍스트',
+      table: { type: { summary: 'string' } },
+    },
+    caption: {
+      control: 'text',
+      description: '입력 필드 아래에 표시되는 설명 텍스트',
+      table: { type: { summary: 'string' } },
+    },
+    width: {
+      control: 'text',
+      description: '커스텀 너비',
+      table: { type: { summary: 'string | number' } },
+    },
   },
 };
 
@@ -191,6 +211,10 @@ export const Default: Story = {
     overscan: 5,
     maxHeight: 300,
     minWidth: undefined,
+    required: false,
+    supportText: '',
+    caption: '',
+    width: 320,
     options: options1000,
   },
   parameters: {
@@ -201,6 +225,8 @@ export const Default: Story = {
     const error = args.error || undefined;
     const success = 'success' in args ? (args.success || undefined) : undefined;
     const minWidth = 'minWidth' in args ? args.minWidth : undefined;
+    const supportText = args.supportText || undefined;
+    const caption = args.caption || undefined;
     return (
       <VirtualSelect
         variant="single"
@@ -209,6 +235,9 @@ export const Default: Story = {
         label={args.label}
         labelPosition={args.labelPosition}
         labelWidth={args.labelWidth}
+        required={args.required}
+        supportText={supportText}
+        caption={caption}
         placeholder={args.placeholder}
         disabled={args.disabled}
         searchable={args.searchable}
@@ -222,7 +251,7 @@ export const Default: Story = {
         options={args.options!}
         value={value}
         onChange={setValue}
-        width={320}
+        width={args.width}
         minWidth={minWidth}
       />
     );

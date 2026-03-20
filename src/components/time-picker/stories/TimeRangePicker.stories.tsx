@@ -153,6 +153,13 @@ export const Default: Story = {
     showSeconds: false,
     showQuickSelect: false,
     width: 320,
+    required: false,
+    supportText: '',
+    caption: '',
+    error: '',
+    success: '',
+    disabled: false,
+    align: 'start',
   },
   parameters: {
     controls: { disable: false },

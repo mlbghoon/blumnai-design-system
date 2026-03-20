@@ -97,6 +97,7 @@ export const Default: Story = {
     variant: 'default',
     message: '토스트 메시지입니다',
     label: undefined,
+    toastId: undefined,
   },
   parameters: {
     controls: { disable: false },

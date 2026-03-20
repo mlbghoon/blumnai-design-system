@@ -202,11 +202,62 @@ type Story = StoryObj<typeof Input>;
 export const Default: Story = {
   args: {
     variant: 'password',
+    inputStyle: 'default',
+    size: 'sm',
     label: '비밀번호',
     placeholder: '비밀번호를 입력하세요',
+    required: false,
+    disabled: false,
+    caption: '',
+    error: '',
+    success: '',
+    leadIcon: undefined,
+    showToggle: true,
+    showStrength: false,
+    strength: undefined,
+    autoCalculateStrength: false,
+    autoComplete: undefined,
+    width: undefined,
+    className: undefined,
   },
   parameters: {
     controls: { disable: false },
+  },
+  render: function Render(args) {
+    const [value, setValue] = useState('');
+    const caption = args.caption || undefined;
+    const error = args.error || undefined;
+    const success = args.success || undefined;
+    const showToggle = 'showToggle' in args ? args.showToggle : true;
+    const showStrength = 'showStrength' in args ? args.showStrength : false;
+    const strength = 'strength' in args ? args.strength : undefined;
+    const autoCalculateStrength = 'autoCalculateStrength' in args ? args.autoCalculateStrength : false;
+    const leadIcon = 'leadIcon' in args ? args.leadIcon : undefined;
+    const autoComplete = 'autoComplete' in args ? args.autoComplete : undefined;
+    return (
+      <Input
+        variant="password"
+        inputStyle={args.inputStyle}
+        size={args.size}
+        label={args.label}
+        placeholder={args.placeholder}
+        required={args.required}
+        disabled={args.disabled}
+        caption={caption}
+        error={error}
+        success={success}
+        leadIcon={leadIcon}
+        showToggle={showToggle}
+        showStrength={showStrength}
+        strength={strength as PasswordStrength}
+        autoCalculateStrength={autoCalculateStrength}
+        autoComplete={autoComplete}
+        width={args.width}
+        className={args.className}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+    );
   },
 };
 

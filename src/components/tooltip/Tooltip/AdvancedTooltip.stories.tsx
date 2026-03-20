@@ -56,6 +56,7 @@ export const Default: Story = {
       { type: 'divider' },
       { type: 'text', text: '간단한 텍스트 콘텐츠입니다.' },
     ] as TooltipItemData[],
+    minWidth: undefined,
     className: '',
   },
   parameters: {

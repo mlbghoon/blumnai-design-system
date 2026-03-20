@@ -257,6 +257,7 @@ export const Default: Story = {
     loading: false,
     tailIcon: undefined,
     minWidth: undefined,
+    optionGroups: undefined,
   },
   parameters: {
     controls: { disable: false },
@@ -272,6 +273,7 @@ export const Default: Story = {
     const loading = 'loading' in args ? args.loading : undefined;
     const tailIcon = 'tailIcon' in args ? args.tailIcon : undefined;
     const minWidth = 'minWidth' in args ? args.minWidth : undefined;
+    const optionGroups = 'optionGroups' in args ? args.optionGroups : undefined;
     return (
       <Select
         variant="default"
@@ -296,6 +298,7 @@ export const Default: Story = {
         clearable={clearable}
         loading={loading}
         tailIcon={tailIcon}
+        optionGroups={optionGroups}
         value={value}
         onChange={setValue}
       />

@@ -171,6 +171,9 @@ export const Default: Story = {
     disableEscapeClose: false,
     disableOutsideClose: false,
     fullScreen: false,
+    forceMount: undefined,
+    className: '',
+    overlayClassName: '',
     width: undefined,
     maxHeight: undefined,
     useAsyncAction: false,
@@ -199,7 +202,9 @@ export const Default: Story = {
           disableEscapeClose={args.disableEscapeClose}
           disableOutsideClose={args.disableOutsideClose}
           fullScreen={args.fullScreen}
+          forceMount={args.forceMount}
           className={args.className}
+          overlayClassName={args.overlayClassName}
           width={args.width}
         >
           <DialogHeader>
