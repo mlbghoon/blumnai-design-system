@@ -295,6 +295,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
         <div className={TOOLBAR_ACTIONS_CONTAINER}>
           {toolbarTrailing}
 
+          {showCount && maxLength && (
+            <span className={COUNT_STYLE} aria-live="polite">
+              {currentLength}/{maxLength}
+            </span>
+          )}
+
           {onVoiceInput && (
             <button
               type="button"

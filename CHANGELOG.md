@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.49] - 2026-03-20
+
+### Fixed
+
+- **Textarea `showCount` + toolbar 통합**: `showCount`와 `showToolbar`(또는 `onAttach`/`onSubmit` 등)를 함께 사용할 때, 글자 수가 별도 div 대신 툴바 우측에 표시되도록 수정. 기존에는 툴바가 있으면 카운트가 숨겨졌으나, 이제 툴바 trailing 영역에 자연스럽게 렌더링됨.
+
 ## [1.0.48] - 2026-03-20
 
 ### Added

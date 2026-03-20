@@ -535,7 +535,7 @@ import { Textarea } from '@blumnai-studio/blumnai-design-system';
 | `minRows` | `number` | `3` | Minimum visible text rows |
 | `maxRows` | `number` | - | Maximum visible text rows |
 | `resize` | `'none'` `'vertical'` `'horizontal'` `'both'` | `'vertical'` | Resize behavior |
-| `showCount` | `boolean` | `false` | Show character count |
+| `showCount` | `boolean` | `false` | Show character count. When toolbar is visible, count renders inside toolbar's right side instead of a separate div |
 | `maxLength` | `number` | - | Maximum characters |
 | `showToolbar` | `boolean` | `false` | Show toolbar below textarea |
 | `toolbarActions` | `TextareaToolbarAction[]` | - | Custom toolbar actions (left side) |

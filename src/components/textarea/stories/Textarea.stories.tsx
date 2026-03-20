@@ -377,6 +377,32 @@ export const SimpleToolbar: Story = {
 };
 
 /**
+ * 툴바 + 글자 수 표시
+ *
+ * showToolbar와 showCount를 함께 사용하면 글자 수가 툴바 우측에 표시됩니다.
+ */
+export const ToolbarWithCount: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('');
+
+    return (
+      <Textarea
+        label="메시지"
+        placeholder="메시지를 입력하세요..."
+        showCount
+        maxLength={200}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onAttach={() => console.log('Attach clicked')}
+        onSubmit={() => console.log('Submit:', value)}
+        submitDisabled={value.length === 0}
+        minRows={3}
+      />
+    );
+  },
+};
+
+/**
  * 비활성화 상태
  */
 export const Disabled: Story = {
