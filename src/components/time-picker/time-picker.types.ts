@@ -162,6 +162,7 @@ export interface TimePickerProps extends Omit<TimeInputProps, 'isOpen' | 'onCloc
    */
   label?: ReactNode;
   labelPosition?: 'top' | 'left';
+  labelWidth?: string | number;
   /**
    * 필수 입력 여부
    * @default false
@@ -254,6 +255,7 @@ export interface TimeRangePickerProps {
    */
   label?: ReactNode;
   labelPosition?: 'top' | 'left';
+  labelWidth?: string | number;
   /**
    * 필수 입력 여부
    * @default false

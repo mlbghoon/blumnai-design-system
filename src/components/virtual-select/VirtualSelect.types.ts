@@ -15,6 +15,7 @@ export interface VirtualSelectBaseProps {
   size?: SelectSize;
   label?: ReactNode;
   labelPosition?: 'top' | 'left';
+  labelWidth?: string | number;
   required?: boolean;
   supportText?: string;
   caption?: string;

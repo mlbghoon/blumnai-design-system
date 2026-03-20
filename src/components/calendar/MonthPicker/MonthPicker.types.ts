@@ -13,6 +13,7 @@ export interface MonthPickerProps {
   locale?: string;
   label?: ReactNode;
   labelPosition?: 'top' | 'left';
+  labelWidth?: string | number;
   error?: boolean | string;
   supportText?: string;
   className?: string;

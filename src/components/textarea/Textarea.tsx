@@ -32,6 +32,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   size = 'sm',
   label,
   labelPosition,
+      labelWidth,
   required = false,
   supportText,
   caption,
@@ -357,6 +358,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     <InputWrapper
       label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
       inputId={textareaId}
       required={required}
       supportText={supportText}

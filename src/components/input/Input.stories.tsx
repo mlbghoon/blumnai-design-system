@@ -124,6 +124,13 @@ const meta: Meta<DefaultVariantProps> = {
         defaultValue: { summary: 'top' },
       },
     },
+    labelWidth: {
+      control: 'text',
+      description: '라벨 너비 (labelPosition="left"일 때 사용, 여러 필드 정렬용)',
+      table: {
+        type: { summary: 'string | number', detail: '예: 100, "120px", "8rem"' },
+      },
+    },
     width: {
       control: 'text',
       description: '커스텀 너비 (숫자는 px, 문자열은 그대로 사용)',
@@ -152,6 +159,7 @@ export const Default: Story = {
     size: 'sm',
     label: '라벨',
     labelPosition: 'top',
+    labelWidth: undefined,
     placeholder: '플레이스홀더...',
     required: false,
     disabled: false,
@@ -178,6 +186,7 @@ export const Default: Story = {
         size={args.size}
         label={args.label}
         labelPosition={args.labelPosition}
+        labelWidth={args.labelWidth}
         placeholder={args.placeholder}
         required={args.required}
         disabled={args.disabled}
@@ -447,7 +456,7 @@ export const ReactNodeLabel: Story = {
  * 가로 라벨 (labelPosition="left")
  *
  * labelPosition="left"로 라벨을 입력 필드 좌측에 인라인으로 배치합니다.
- * 검색/필터 폼 등 가로 레이아웃에 유용합니다.
+ * labelWidth로 라벨 너비를 고정하면 여러 필드의 라벨을 정렬할 수 있습니다.
  */
 export const HorizontalLabel: Story = {
   render: () => (
@@ -455,16 +464,19 @@ export const HorizontalLabel: Story = {
       <Input
         label="이름"
         labelPosition="left"
+        labelWidth={80}
         placeholder="이름 입력..."
       />
       <Input
         label="이메일"
         labelPosition="left"
+        labelWidth={80}
         placeholder="이메일 입력..."
       />
       <Select
         label="구분"
         labelPosition="left"
+        labelWidth={80}
         placeholder="선택..."
         options={[
           { id: 'general', label: '일반' },

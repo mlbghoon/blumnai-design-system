@@ -30,6 +30,8 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         selectStyle={multiProps.selectStyle}
         size={multiProps.size}
         label={multiProps.label}
+        labelPosition={multiProps.labelPosition}
+        labelWidth={multiProps.labelWidth}
         required={multiProps.required}
         supportText={multiProps.supportText}
         caption={multiProps.caption}
@@ -73,6 +75,8 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         selectStyle={tagsProps.selectStyle}
         size={tagsProps.size}
         label={tagsProps.label}
+        labelPosition={tagsProps.labelPosition}
+        labelWidth={tagsProps.labelWidth}
         required={tagsProps.required}
         supportText={tagsProps.supportText}
         caption={tagsProps.caption}
@@ -115,6 +119,8 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
         selectStyle={avatarProps.selectStyle}
         size={avatarProps.size}
         label={avatarProps.label}
+        labelPosition={avatarProps.labelPosition}
+        labelWidth={avatarProps.labelWidth}
         required={avatarProps.required}
         supportText={avatarProps.supportText}
         caption={avatarProps.caption}
@@ -155,6 +161,8 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
       selectStyle={defaultProps.selectStyle}
       size={defaultProps.size}
       label={defaultProps.label}
+      labelPosition={defaultProps.labelPosition}
+      labelWidth={defaultProps.labelWidth}
       required={defaultProps.required}
       supportText={defaultProps.supportText}
       caption={defaultProps.caption}

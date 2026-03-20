@@ -20,6 +20,11 @@ export interface InputWrapperProps {
    */
   labelPosition?: 'top' | 'left';
   /**
+   * 라벨 너비 (labelPosition='left'일 때 사용, 여러 필드 정렬용)
+   * 숫자는 px, 문자열은 그대로 사용
+   */
+  labelWidth?: string | number;
+  /**
    * 입력 필드의 id (라벨 연결용)
    */
   inputId?: string;
@@ -65,6 +70,7 @@ export const InputWrapper = ({
   children,
   label,
   labelPosition = 'top',
+  labelWidth,
   inputId,
   required = false,
   supportText,
@@ -90,6 +96,7 @@ export const InputWrapper = ({
       required={required}
       supportText={supportText}
       horizontal={isHorizontal}
+      labelWidth={isHorizontal ? labelWidth : undefined}
     >
       {label}
     </InputLabel>

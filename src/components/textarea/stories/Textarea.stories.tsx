@@ -56,6 +56,13 @@ const meta: Meta<typeof Textarea> = {
         defaultValue: { summary: 'top' },
       },
     },
+    labelWidth: {
+      control: 'text',
+      description: '라벨 너비 (labelPosition="left"일 때 사용, 여러 필드 정렬용)',
+      table: {
+        type: { summary: 'string | number', detail: '예: 100, "120px", "8rem"' },
+      },
+    },
     required: {
       control: 'boolean',
       description: '필수 입력 여부 (별표 표시)',
@@ -246,6 +253,7 @@ export const Default: Story = {
   args: {
     label: '설명',
     labelPosition: 'top',
+    labelWidth: undefined,
     placeholder: '설명을 입력하세요...',
     textareaStyle: 'default',
     size: 'sm',
@@ -280,6 +288,7 @@ export const Default: Story = {
         size={args.size}
         label={args.label}
         labelPosition={args.labelPosition}
+        labelWidth={args.labelWidth}
         required={args.required}
         supportText={supportText}
         caption={caption}

@@ -33,6 +33,7 @@ export interface DefaultInputProps extends Omit<InputHTMLAttributes<HTMLInputEle
    */
   label?: ReactNode;
   labelPosition?: 'top' | 'left';
+  labelWidth?: string | number;
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false
@@ -96,6 +97,7 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
   size = 'sm',
   label,
   labelPosition,
+  labelWidth,
   required = false,
   supportText,
   caption,
@@ -196,6 +198,7 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
     <InputWrapper
       label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
       inputId={inputId}
       required={required}
       supportText={supportText}

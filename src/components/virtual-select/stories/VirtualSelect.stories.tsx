@@ -98,6 +98,13 @@ const meta: Meta<typeof VirtualSelect> = {
         defaultValue: { summary: 'top' },
       },
     },
+    labelWidth: {
+      control: 'text',
+      description: '라벨 너비 (labelPosition="left"일 때 사용, 여러 필드 정렬용)',
+      table: {
+        type: { summary: 'string | number', detail: '예: 100, "120px", "8rem"' },
+      },
+    },
     placeholder: {
       control: 'text',
       description: '값이 선택되지 않았을 때 입력 영역에 표시되는 안내 텍스트입니다',
@@ -172,6 +179,7 @@ export const Default: Story = {
     size: 'sm',
     label: '가상 선택',
     labelPosition: 'top',
+    labelWidth: undefined,
     placeholder: '옵션을 선택하세요...',
     disabled: false,
     searchable: false,
@@ -200,6 +208,7 @@ export const Default: Story = {
         size={args.size}
         label={args.label}
         labelPosition={args.labelPosition}
+        labelWidth={args.labelWidth}
         placeholder={args.placeholder}
         disabled={args.disabled}
         searchable={args.searchable}

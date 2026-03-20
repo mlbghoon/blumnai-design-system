@@ -63,6 +63,13 @@ const meta: Meta<TimePickerProps> = {
         defaultValue: { summary: 'top' },
       },
     },
+    labelWidth: {
+      control: 'text',
+      description: '라벨 너비 (labelPosition="left"일 때 사용, 여러 필드 정렬용)',
+      table: {
+        type: { summary: 'string | number', detail: '예: 100, "120px", "8rem"' },
+      },
+    },
     required: {
       control: 'boolean',
       description: '필수 입력 여부',
@@ -139,6 +146,7 @@ export const Default: Story = {
   args: {
     label: '시간',
     labelPosition: 'top',
+    labelWidth: undefined,
     timePickerStyle: 'default',
     size: 'sm',
     timeFormat: '24h',
@@ -155,6 +163,7 @@ export const Default: Story = {
       <TimePicker
         label={args.label}
         labelPosition={args.labelPosition}
+        labelWidth={args.labelWidth}
         timePickerStyle={args.timePickerStyle}
         size={args.size}
         timeFormat={args.timeFormat}

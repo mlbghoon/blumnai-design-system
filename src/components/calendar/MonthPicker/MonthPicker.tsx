@@ -43,6 +43,7 @@ export const MonthPicker = ({
   locale = 'ko',
   label,
   labelPosition,
+      labelWidth,
   error,
   supportText,
   className,
@@ -104,6 +105,7 @@ export const MonthPicker = ({
     <InputWrapper
       label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
       error={error}
       supportText={supportText}
       className={className}

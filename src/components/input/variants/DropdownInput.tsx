@@ -57,6 +57,7 @@ export interface DropdownInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    */
   label?: ReactNode;
   labelPosition?: 'top' | 'left';
+  labelWidth?: string | number;
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false
@@ -144,6 +145,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
   size = 'sm',
   label,
   labelPosition,
+  labelWidth,
   required = false,
   supportText,
   caption,
@@ -415,6 +417,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
     <InputWrapper
       label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
       inputId={inputId}
       required={required}
       supportText={supportText}

@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.48] - 2026-03-20
+
+### Added
+
+- **`labelWidth` prop**: 모든 폼 컴포넌트에 `labelWidth` prop 추가 (`string | number`). `labelPosition="left"`일 때 라벨 너비를 고정하여 여러 가로 폼 필드의 라벨을 정렬할 수 있음. 숫자는 px, 문자열은 CSS 값으로 사용 (예: `100`, `"120px"`, `"8rem"`).
+
+### Fixed
+
+- **Select `labelPosition` 미전달 수정**: `Select.tsx` 래퍼가 `labelPosition`을 내부 컴포넌트에 전달하지 않던 버그 수정. 모든 variant(default, avatar, multi-select, tags)에서 `labelPosition`과 `labelWidth` 정상 전달.
+
 ## [1.0.47] - 2026-03-19
 
 ### Added

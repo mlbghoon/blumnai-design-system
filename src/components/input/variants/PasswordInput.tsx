@@ -45,6 +45,7 @@ export interface PasswordInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    */
   label?: ReactNode;
   labelPosition?: 'top' | 'left';
+  labelWidth?: string | number;
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false
@@ -144,6 +145,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
   size = 'sm',
   label,
   labelPosition,
+  labelWidth,
   required = false,
   supportText,
   caption,
@@ -233,6 +235,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
     <InputWrapper
       label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
       inputId={inputId}
       required={required}
       supportText={supportText}

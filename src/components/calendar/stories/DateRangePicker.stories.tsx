@@ -61,6 +61,13 @@ const meta: Meta<StoryProps> = {
         defaultValue: { summary: 'top' },
       },
     },
+    labelWidth: {
+      control: 'text',
+      description: '라벨 너비 (labelPosition="left"일 때 사용, 여러 필드 정렬용)',
+      table: {
+        type: { summary: 'string | number', detail: '예: 100, "120px", "8rem"' },
+      },
+    },
     required: {
       control: 'boolean',
       description: '필수 입력 여부',
@@ -205,6 +212,7 @@ export const Default: Story = {
   args: {
     label: '날짜 범위',
     labelPosition: 'top',
+    labelWidth: undefined,
     datePickerStyle: 'default',
     size: 'sm',
     showQuickPresets: false,
@@ -226,6 +234,7 @@ export const Default: Story = {
       <DateRangePicker
         label={args.label}
         labelPosition={args.labelPosition}
+        labelWidth={args.labelWidth}
         datePickerStyle={args.datePickerStyle}
         size={args.size}
         showQuickPresets={args.showQuickPresets}

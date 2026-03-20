@@ -60,6 +60,13 @@ const meta: Meta<StoryProps> = {
         defaultValue: { summary: 'top' },
       },
     },
+    labelWidth: {
+      control: 'text',
+      description: '라벨 너비 (labelPosition="left"일 때 사용, 여러 필드 정렬용)',
+      table: {
+        type: { summary: 'string | number', detail: '예: 100, "120px", "8rem"' },
+      },
+    },
     required: {
       control: 'boolean',
       description: 'true로 설정하면 라벨 옆에 필수 표시(*)가 나타납니다',
@@ -187,6 +194,7 @@ export const Default: Story = {
   args: {
     label: '날짜',
     labelPosition: 'top',
+    labelWidth: undefined,
     datePickerStyle: 'default',
     size: 'sm',
     showQuickPresets: false,
@@ -206,6 +214,7 @@ export const Default: Story = {
       <DatePicker
         label={args.label}
         labelPosition={args.labelPosition}
+        labelWidth={args.labelWidth}
         datePickerStyle={args.datePickerStyle}
         size={args.size}
         showQuickPresets={args.showQuickPresets}

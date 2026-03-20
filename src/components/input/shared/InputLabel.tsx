@@ -26,6 +26,11 @@ export interface InputLabelProps extends HTMLAttributes<HTMLLabelElement> {
    * @default false
    */
   horizontal?: boolean;
+  /**
+   * 라벨 너비 (horizontal=true일 때 사용, 여러 필드 정렬용)
+   * 숫자는 px, 문자열은 그대로 사용
+   */
+  labelWidth?: string | number;
 }
 
 /**
@@ -39,11 +44,19 @@ export const InputLabel = ({
   required = false,
   supportText,
   horizontal = false,
+  labelWidth,
   className,
   ...props
 }: InputLabelProps) => {
+  const widthStyle = horizontal && labelWidth !== undefined
+    ? { width: typeof labelWidth === 'number' ? `${labelWidth}px` : /^\d+$/.test(labelWidth) ? `${labelWidth}px` : labelWidth }
+    : undefined;
+
   return (
-    <div className={cn('flex items-center ds-gap-4', !horizontal && 'margin-b-4', horizontal && 'shrink-0 padding-y-6')}>
+    <div
+      className={cn('flex items-center ds-gap-4', !horizontal && 'margin-b-4', horizontal && 'shrink-0 padding-y-6')}
+      style={widthStyle}
+    >
       <label
         htmlFor={htmlFor}
         className={cn(LABEL_STYLE, 'select-none', className)}

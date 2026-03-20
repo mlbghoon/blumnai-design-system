@@ -88,6 +88,13 @@ const meta: Meta<typeof Select> = {
         defaultValue: { summary: 'top' },
       },
     },
+    labelWidth: {
+      control: 'text',
+      description: '라벨 너비 (labelPosition="left"일 때 사용, 여러 필드 정렬용)',
+      table: {
+        type: { summary: 'string | number', detail: '예: 100, "120px", "8rem"' },
+      },
+    },
     required: {
       control: 'boolean',
       description: 'true로 설정하면 라벨 옆에 필수 표시(*)가 나타납니다',
@@ -220,6 +227,7 @@ export const Default: Story = {
     variant: 'multi-select',
     label: '옵션 선택',
     labelPosition: 'top',
+    labelWidth: undefined,
     placeholder: '옵션을 선택하세요...',
     options: defaultOptions,
     width: 300,
@@ -260,6 +268,7 @@ export const Default: Story = {
         variant="multi-select"
         label={args.label}
         labelPosition={args.labelPosition}
+        labelWidth={args.labelWidth}
         placeholder={args.placeholder}
         options={args.options}
         width={args.width}

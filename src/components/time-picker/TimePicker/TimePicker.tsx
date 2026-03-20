@@ -45,6 +45,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
   name,
   label,
   labelPosition,
+      labelWidth,
   required = false,
   supportText,
   caption,
@@ -97,6 +98,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
     <InputWrapper
       label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
       inputId={inputId}
       required={required}
       supportText={supportText}

@@ -403,6 +403,7 @@ import { Input } from '@blumnai-studio/blumnai-design-system';
 | `size` | `'xs'` `'sm'` `'lg'` | `'sm'` | Input size (xs=28px, sm=32px, lg=36px) |
 | `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
 | `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
+| `labelWidth` | `string \| number` | - | Label width when `labelPosition="left"` (number=px, string=CSS value). Use to align multiple horizontal fields |
 | `placeholder` | `string` | - | Placeholder text |
 | `required` | `boolean` | `false` | Show required indicator |
 | `disabled` | `boolean` | `false` | Disabled state |
@@ -523,6 +524,7 @@ import { Textarea } from '@blumnai-studio/blumnai-design-system';
 | `size` | `'sm'` `'lg'` | `'sm'` | Textarea size |
 | `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
 | `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
+| `labelWidth` | `string \| number` | - | Label width when `labelPosition="left"` (number=px, string=CSS value). Use to align multiple horizontal fields |
 | `required` | `boolean` | `false` | Show required indicator |
 | `supportText` | `string` | - | Helper text next to label |
 | `caption` | `string` | - | Description below textarea |
@@ -562,6 +564,7 @@ import { Select } from '@blumnai-studio/blumnai-design-system';
 | `options` | `SelectOption[]` | required | Available options |
 | `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
 | `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
+| `labelWidth` | `string \| number` | - | Label width when `labelPosition="left"` (number=px, string=CSS value). Use to align multiple horizontal fields |
 | `placeholder` | `string` | - | Placeholder text |
 | `required` | `boolean` | `false` | Show required indicator |
 | `disabled` | `boolean` | `false` | Disabled state |
@@ -651,6 +654,7 @@ import { Combobox } from '@blumnai-studio/blumnai-design-system';
 | `size` | `'sm'` `'lg'` | `'sm'` | Size |
 | `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
 | `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
+| `labelWidth` | `string \| number` | - | Label width when `labelPosition="left"` (number=px, string=CSS value). Use to align multiple horizontal fields |
 | `placeholder` | `string` | - | Placeholder text |
 | `required` | `boolean` | `false` | Required state |
 | `disabled` | `boolean` | `false` | Disabled state |
@@ -702,6 +706,7 @@ Virtualized select for large option lists (1,000+). Only renders visible items u
 | `size` | `'sm'` `'lg'` | `'sm'` | Size |
 | `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
 | `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
+| `labelWidth` | `string \| number` | - | Label width when `labelPosition="left"` (number=px, string=CSS value). Use to align multiple horizontal fields |
 | `placeholder` | `string` | - | Placeholder text |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `searchable` | `boolean` | `false` | Enable search filtering |
@@ -1317,6 +1322,7 @@ import { TimePicker, TimeRangePicker } from '@blumnai-studio/blumnai-design-syst
 | `name` | `string` | - | Form name (renders hidden input) |
 | `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
 | `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
+| `labelWidth` | `string \| number` | - | Label width when `labelPosition="left"` (number=px, string=CSS value). Use to align multiple horizontal fields |
 | `required` | `boolean` | `false` | Required indicator |
 | `supportText` | `string` | - | Support text next to label |
 | `caption` | `string` | - | Description below input |
@@ -1344,6 +1350,7 @@ import { TimePicker, TimeRangePicker } from '@blumnai-studio/blumnai-design-syst
 | `name` | `string` | - | Form name (`{name}-start`, `{name}-end`) |
 | `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
 | `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
+| `labelWidth` | `string \| number` | - | Label width when `labelPosition="left"` (number=px, string=CSS value). Use to align multiple horizontal fields |
 | `required` | `boolean` | `false` | Required indicator |
 | `supportText` | `string` | - | Support text next to label |
 | `caption` | `string` | - | Description below input |
@@ -1584,6 +1591,7 @@ import { DatePicker, DateRangePicker } from '@blumnai-studio/blumnai-design-syst
 | `size` | `'sm'` `'lg'` | `'sm'` | Input size |
 | `label` | `ReactNode` | - | Label (string or ReactNode with icons, etc.) |
 | `labelPosition` | `'top' \| 'left'` | `'top'` | Label position (top: above, left: inline) |
+| `labelWidth` | `string \| number` | - | Label width when `labelPosition="left"` (number=px, string=CSS value). Use to align multiple horizontal fields |
 | `required` | `boolean` | `false` | Required indicator |
 | `caption` | `string` | - | Description below input |
 | `error` | `boolean \| string` | - | Error state/message |

@@ -27,6 +27,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       size = 'sm',
       label,
       labelPosition,
+      labelWidth,
       required = false,
       supportText,
       caption,
@@ -390,6 +391,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       <InputWrapper
         label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
         inputId={selectId}
         required={required}
         supportText={supportText}

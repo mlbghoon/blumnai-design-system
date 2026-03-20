@@ -84,6 +84,7 @@ export const DatePicker = ({
   size = 'sm',
   label,
   labelPosition,
+      labelWidth,
   required = false,
   supportText,
   caption,
@@ -200,6 +201,7 @@ export const DatePicker = ({
     <InputWrapper
       label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
       required={required}
       supportText={supportText}
       caption={caption}
@@ -367,6 +369,7 @@ export const DateRangePicker = ({
   size = 'sm',
   label,
   labelPosition,
+      labelWidth,
   required = false,
   supportText,
   caption,
@@ -517,6 +520,7 @@ export const DateRangePicker = ({
     <InputWrapper
       label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
       required={required}
       supportText={supportText}
       caption={caption}

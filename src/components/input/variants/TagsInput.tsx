@@ -86,6 +86,7 @@ export interface TagsInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
    */
   label?: ReactNode;
   labelPosition?: 'top' | 'left';
+  labelWidth?: string | number;
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false
@@ -189,6 +190,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
   size = 'sm',
   label,
   labelPosition,
+  labelWidth,
   required = false,
   supportText,
   caption,
@@ -316,6 +318,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
     <InputWrapper
       label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
       inputId={inputId}
       required={required}
       supportText={supportText}

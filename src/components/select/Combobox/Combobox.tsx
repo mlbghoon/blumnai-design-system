@@ -242,6 +242,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       size = 'sm',
       label,
       labelPosition,
+      labelWidth,
       required = false,
       supportText,
       caption,
@@ -556,6 +557,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       <InputWrapper
         label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
         inputId={comboboxId}
         required={required}
         supportText={supportText}

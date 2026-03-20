@@ -216,6 +216,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       size = 'sm',
       label,
       labelPosition,
+      labelWidth,
       required = false,
       supportText,
       caption,
@@ -562,6 +563,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       <InputWrapper
         label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
         inputId={selectId}
         required={required}
         supportText={supportText}

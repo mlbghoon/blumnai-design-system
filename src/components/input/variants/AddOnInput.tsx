@@ -36,6 +36,7 @@ export interface AddOnInputProps extends Omit<InputHTMLAttributes<HTMLInputEleme
    */
   label?: ReactNode;
   labelPosition?: 'top' | 'left';
+  labelWidth?: string | number;
   /**
    * 필수 입력 여부 (별표 표시)
    * @default false
@@ -108,6 +109,7 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
   size = 'sm',
   label,
   labelPosition,
+  labelWidth,
   required = false,
   supportText,
   caption,
@@ -203,6 +205,7 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
       <InputWrapper
         label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
         inputId={inputId}
         required={required}
         supportText={supportText}
@@ -323,6 +326,7 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
     <InputWrapper
       label={label}
       labelPosition={labelPosition}
+      labelWidth={labelWidth}
       inputId={inputId}
       required={required}
       supportText={supportText}

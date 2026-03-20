@@ -74,6 +74,11 @@ export interface ComboboxBaseProps {
   label?: ReactNode;
   labelPosition?: 'top' | 'left';
   /**
+   * 라벨 너비 (labelPosition='left'일 때 사용, 여러 필드 정렬용)
+   * 숫자는 px, 문자열은 그대로 사용
+   */
+  labelWidth?: string | number;
+  /**
    * 필수 입력 여부 (별표 표시)
    * @default false
    */
