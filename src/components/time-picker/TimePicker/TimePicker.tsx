@@ -9,10 +9,10 @@ import type { TimePickerProps, TimeValue, QuickSelectOption } from '../time-pick
 const getDefaultQuickOptions = (): QuickSelectOption[] => {
   const now = new Date();
   return [
-  { label: 'Now', value: { hour: now.getHours(), minute: now.getMinutes() } },
-  { label: '9:00 AM', value: { hour: 9, minute: 0 } },
-  { label: '12:00 PM', value: { hour: 12, minute: 0 } },
-  { label: '5:00 PM', value: { hour: 17, minute: 0 } },
+  { label: '현재', value: { hour: now.getHours(), minute: now.getMinutes() } },
+  { label: '오전 9:00', value: { hour: 9, minute: 0 } },
+  { label: '오후 12:00', value: { hour: 12, minute: 0 } },
+  { label: '오후 5:00', value: { hour: 17, minute: 0 } },
 ];
 };
 

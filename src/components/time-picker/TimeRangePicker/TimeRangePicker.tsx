@@ -10,19 +10,19 @@ import type { TimeRangePickerProps, TimeRange, TimeValue, QuickRangeSelectOption
 
 const DEFAULT_QUICK_OPTIONS: QuickRangeSelectOption[] = [
   {
-    label: 'Morning',
+    label: '오전',
     value: { start: { hour: 9, minute: 0 }, end: { hour: 12, minute: 0 } },
   },
   {
-    label: 'Afternoon',
+    label: '오후',
     value: { start: { hour: 13, minute: 0 }, end: { hour: 17, minute: 0 } },
   },
   {
-    label: 'Business Hours',
+    label: '업무시간',
     value: { start: { hour: 9, minute: 0 }, end: { hour: 18, minute: 0 } },
   },
   {
-    label: 'Full Day',
+    label: '하루종일',
     value: { start: { hour: 0, minute: 0 }, end: { hour: 23, minute: 59 } },
   },
 ];

@@ -30,7 +30,7 @@ export const TimeColumn = memo(function TimeColumn({
     if (selectedValue === undefined) return;
     const frame = requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        selectedRef.current?.scrollIntoView({ block: 'nearest' });
+        selectedRef.current?.scrollIntoView({ block: 'center' });
       });
     });
     return () => cancelAnimationFrame(frame);

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.52] - 2026-03-21
+
+### Fixed
+
+- **TimePicker/TimeRangePicker 한국어 레이블**: 컬럼 헤더를 한국어로 변경 (Hour→시, Min→분, Sec→초, AM/PM→오전/오후). 기본 빠른선택 옵션도 한국어로 변경 (Now→현재, Morning→오전, Business Hours→업무시간 등).
+- **TimePicker 스크롤 중앙 정렬**: 팝오버 열릴 때 선택된 항목이 스크롤 영역 중앙에 위치하도록 변경 (`block: 'nearest'` → `block: 'center'`).
+
 ## [1.0.51] - 2026-03-21
 
 ### Added

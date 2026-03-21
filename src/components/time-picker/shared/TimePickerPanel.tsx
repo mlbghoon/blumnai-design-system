@@ -119,14 +119,14 @@ export function TimePickerPanel({
     <div className={cn('flex flex-col ds-gap-8', className)}>
       <div className="flex ds-gap-4">
         <TimeColumn
-          label="Hour"
+          label="시"
           items={hourItems}
           selectedValue={displayHour}
           onSelect={handleHourSelect}
           disabled={disabled}
         />
         <TimeColumn
-          label="Min"
+          label="분"
           items={minuteItems}
           selectedValue={currentMinute}
           onSelect={handleMinuteSelect}
@@ -134,7 +134,7 @@ export function TimePickerPanel({
         />
         {showSeconds && (
           <TimeColumn
-            label="Sec"
+            label="초"
             items={secondItems}
             selectedValue={currentSecond}
             onSelect={handleSecondSelect}
@@ -144,7 +144,7 @@ export function TimePickerPanel({
         {is12h && (
           <div className="flex flex-col ds-gap-4">
             <span className="size-xs text-muted font-medium font-body text-center padding-y-2">
-              AM/PM
+              오전/오후
             </span>
             <div className="flex flex-col ds-gap-2">
               {(['AM', 'PM'] as const).map((p) => (
