@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.0.51] - 2026-03-21
+
+### Added
+
+- **TimePicker/TimeRangePicker 스크롤 컬럼 팝오버**: 시계 아이콘 클릭 시 항상 스크롤 가능한 컬럼 피커(시, 분, 선택적 초, 선택적 AM/PM) 팝오버가 열림. 기존에는 `showQuickSelect` 활성화 시에만 동작했으나, 이제 항상 컬럼 피커가 표시됨. `showQuickSelect` 활성화 시 컬럼 아래에 빠른 선택 버튼도 함께 표시.
+- **TimeRangePicker 탭 UI**: 컬럼 피커 팝오버에 "시작/종료" 탭(Segmented 변형) 추가. 각 탭에서 독립적으로 시간 선택 가능.
+- **TimePickerPanel/TimeColumn 공유 컴포넌트**: 내부 공유 모듈(`shared/`) 추출. `TimeColumn`은 `React.memo` 래핑, `ScrollArea` 기반 스크롤, 선택 항목 자동 스크롤 지원.
+- **TabsList `gap` prop**: underline 변형 전용 탭 간격 설정 (px 단위). 미설정 시 size 기반 기본값 사용 (sm: 12px, lg: 16px).
+
+### Changed
+
+- **Tabs underline `size="lg"` 폰트 크기**: underline 변형에서 `size="lg"` 사용 시 트리거 폰트가 `size-sm`(14px)에서 `size-md`(16px)로 변경.
+
+### Refactored
+
+- **TimePicker 유틸리티 통합**: `TimeInput.tsx`와 `TimeRangeInput.tsx`에서 중복된 9개 유틸리티 함수를 `shared/time-utils.ts`로 추출. 코드 중복 제거.
+
 ## [1.0.50] - 2026-03-21
 
 ### Added

@@ -23,6 +23,7 @@ interface TabsContextValue {
   type: TabsType;
   activeColor?: string;
   animatedIndicator?: boolean;
+  gap?: number;
 }
 
 function useTabIndicator(listRef: React.RefObject<HTMLElement | null>, animatedIndicator: boolean) {
@@ -109,8 +110,8 @@ const UNDERLINE_LIST_SIZE_STYLES = {
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   TabsListProps
->(({ variant = 'segmented', shape = 'rounded', size = 'sm', type = 'default', scrollable = false, activeColor, animatedIndicator = false, className, children, ...props }, ref) => {
-  const contextValue = React.useMemo(() => ({ variant, shape, size, type, activeColor, animatedIndicator }), [variant, shape, size, type, activeColor, animatedIndicator]);
+>(({ variant = 'segmented', shape = 'rounded', size = 'sm', type = 'default', scrollable = false, gap, activeColor, animatedIndicator = false, className, children, ...props }, ref) => {
+  const contextValue = React.useMemo(() => ({ variant, shape, size, type, activeColor, animatedIndicator, gap }), [variant, shape, size, type, activeColor, animatedIndicator, gap]);
   const viewportRef = React.useRef<HTMLDivElement>(null);
   const internalListRef = React.useRef<HTMLElement>(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);
@@ -180,6 +181,10 @@ const TabsList = React.forwardRef<
     />
   ) : null;
 
+  const listStyle = variant === 'underline' && gap !== undefined
+    ? { ...props.style, gap: `${gap}px` }
+    : props.style;
+
   const listElement = (
     <TabsPrimitive.List
       ref={composedListRef}
@@ -187,7 +192,7 @@ const TabsList = React.forwardRef<
         'inline-flex items-center relative',
         variant === 'pill' && 'ds-gap-8',
         variant === 'segmented' && ['ds-gap-2 padding-2', containerRadiusClass, 'bg-state-soft'],
-        variant === 'underline' && ['border-b-default', UNDERLINE_LIST_SIZE_STYLES[size]],
+        variant === 'underline' && ['border-b-default', gap === undefined && UNDERLINE_LIST_SIZE_STYLES[size]],
         type === 'fixed' && 'w-full',
         'data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start',
         variant === 'underline' && 'data-[orientation=vertical]:border-b-0 data-[orientation=vertical]:border-r-default',
@@ -195,6 +200,7 @@ const TabsList = React.forwardRef<
         className
       )}
       {...props}
+      style={listStyle}
     >
       {children}
       {indicatorElement}
@@ -308,7 +314,10 @@ const TabsTrigger = React.forwardRef<
       style={activeColor ? { ...style, '--tabs-active-color': activeColor } as React.CSSProperties : style}
       className={cn(
         'inline-flex items-center justify-center whitespace-nowrap',
-        'font-body size-sm font-medium line-height-leading-5',
+        'font-body font-medium',
+        variant === 'underline' && size === 'lg'
+          ? 'size-md line-height-leading-6'
+          : 'size-sm line-height-leading-5',
         'transition-all duration-150',
         'focus-visible:outline-none',
         'disabled:pointer-events-none disabled:opacity-50',

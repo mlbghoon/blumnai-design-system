@@ -1,8 +1,9 @@
-import { useState, useCallback, useId, forwardRef } from 'react';
-import { cn } from '../../../utils/cn';
+import { useState, useCallback, useMemo, useId, forwardRef } from 'react';
 import { Popover, PopoverContent, PopoverAnchor } from '../../popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
 import { TimeInput } from './TimeInput';
+import { TimePickerPanel } from '../shared/TimePickerPanel';
+import { formatTimeValue } from '../shared/time-utils';
 import type { TimePickerProps, TimeValue, QuickSelectOption } from '../time-picker.types';
 
 const getDefaultQuickOptions = (): QuickSelectOption[] => {
@@ -13,30 +14,6 @@ const getDefaultQuickOptions = (): QuickSelectOption[] => {
   { label: '12:00 PM', value: { hour: 12, minute: 0 } },
   { label: '5:00 PM', value: { hour: 17, minute: 0 } },
 ];
-};
-
-/**
- * TimePicker 컴포넌트
- *
- * 12시간/24시간 형식을 지원하는 시간 선택 컴포넌트입니다.
- *
- * @example
- * <TimePicker value={time} onChange={setTime} timeFormat="24h" label="시간 선택" />
- */
-const formatTimeValue = (v: TimeValue | undefined, showSeconds: boolean): string => {
-  if (!v) return '';
-  const h = String(v.hour).padStart(2, '0');
-  const m = String(v.minute).padStart(2, '0');
-  if (showSeconds && v.second !== undefined) {
-    const s = String(v.second).padStart(2, '0');
-    return `${h}:${m}:${s}`;
-  }
-  return `${h}:${m}`;
-};
-
-const isTimeEqual = (a: TimeValue | undefined, b: TimeValue): boolean => {
-  if (!a) return false;
-  return a.hour === b.hour && a.minute === b.minute && (a.second ?? 0) === (b.second ?? 0);
 };
 
 export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
@@ -72,10 +49,10 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
   const hasSuccess = success === true || (typeof success === 'string' && success.length > 0);
 
   const handleClockClick = useCallback(() => {
-    if (!disabled && showQuickSelect) {
+    if (!disabled) {
       setIsOpen(prev => !prev);
     }
-  }, [disabled, showQuickSelect]);
+  }, [disabled]);
 
   const handleOpenChange = useCallback((open: boolean) => {
     if (!disabled) {
@@ -92,7 +69,14 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
     onChange?.(newValue);
   }, [onChange]);
 
-  const options = quickSelectOptions || getDefaultQuickOptions();
+  const handlePanelChange = useCallback((newValue: TimeValue) => {
+    onChange?.(newValue);
+  }, [onChange]);
+
+  const options = useMemo(
+    () => quickSelectOptions || getDefaultQuickOptions(),
+    [quickSelectOptions]
+  );
 
   return (
     <InputWrapper
@@ -111,7 +95,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
       {name && (
         <input type="hidden" name={name} value={formatTimeValue(value, showSeconds)} />
       )}
-      <Popover open={isOpen && showQuickSelect} onOpenChange={handleOpenChange}>
+      <Popover open={isOpen} onOpenChange={handleOpenChange}>
         <PopoverAnchor asChild>
           <TimeInput
             ref={ref}
@@ -132,38 +116,22 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
           />
         </PopoverAnchor>
 
-        {showQuickSelect && (
-          <PopoverContent
-            align={align}
-            sideOffset={4}
-            className="w-auto padding-8"
-          >
-            <div className="flex flex-wrap ds-gap-6">
-              {options.map((option, index) => {
-                const isSelected = isTimeEqual(value, option.value);
-                return (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => handleQuickSelect(option)}
-                    aria-pressed={isSelected}
-                    className={cn(
-                      'padding-x-10 padding-y-6 rounded-md',
-                      'font-body size-sm line-height-leading-5',
-                      isSelected
-                        ? 'bg-state-soft text-basic-blue-strong'
-                        : 'bg-state-ghost hover:bg-state-ghost-hover text-default',
-                      'transition-colors duration-150',
-                      'cursor-pointer border-0'
-                    )}
-                  >
-                    {option.label}
-                  </button>
-                );
-              })}
-            </div>
-          </PopoverContent>
-        )}
+        <PopoverContent
+          align={align}
+          sideOffset={4}
+          className="w-auto padding-8"
+        >
+          <TimePickerPanel
+            value={value}
+            onChange={handlePanelChange}
+            timeFormat={timeFormat}
+            showSeconds={showSeconds}
+            showQuickSelect={showQuickSelect}
+            quickSelectOptions={options}
+            onQuickSelect={handleQuickSelect}
+            disabled={disabled}
+          />
+        </PopoverContent>
       </Popover>
     </InputWrapper>
   );

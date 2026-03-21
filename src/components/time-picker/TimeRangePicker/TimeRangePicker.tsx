@@ -1,8 +1,11 @@
-import { useState, useCallback, useEffect, useId, forwardRef } from 'react';
+import { useState, useCallback, useEffect, useMemo, useId, forwardRef } from 'react';
 import { cn } from '../../../utils/cn';
 import { Popover, PopoverContent, PopoverAnchor } from '../../popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../tabs';
 import { TimeRangeInput } from './TimeRangeInput';
+import { TimePickerPanel } from '../shared/TimePickerPanel';
+import { formatTimeValue } from '../shared/time-utils';
 import type { TimeRangePickerProps, TimeRange, TimeValue, QuickRangeSelectOption } from '../time-picker.types';
 
 const DEFAULT_QUICK_OPTIONS: QuickRangeSelectOption[] = [
@@ -23,25 +26,6 @@ const DEFAULT_QUICK_OPTIONS: QuickRangeSelectOption[] = [
     value: { start: { hour: 0, minute: 0 }, end: { hour: 23, minute: 59 } },
   },
 ];
-
-/**
- * TimeRangePicker 컴포넌트
- *
- * 시작~종료 시간 범위를 선택하는 컴포넌트입니다. 빠른 선택 옵션을 지원합니다.
- *
- * @example
- * <TimeRangePicker value={range} onChange={setRange} showQuickSelect />
- */
-const formatTimeValue = (v: TimeValue | undefined, showSeconds: boolean): string => {
-  if (!v) return '';
-  const h = String(v.hour).padStart(2, '0');
-  const m = String(v.minute).padStart(2, '0');
-  if (showSeconds) {
-    const s = String(v.second ?? 0).padStart(2, '0');
-    return `${h}:${m}:${s}`;
-  }
-  return `${h}:${m}`;
-};
 
 const timeToSeconds = (v: TimeValue): number =>
   v.hour * 3600 + v.minute * 60 + (v.second ?? 0);
@@ -85,16 +69,17 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
   onBlur,
 }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>('start');
   const inputId = useId();
 
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
   const hasSuccess = success === true || (typeof success === 'string' && success.length > 0);
 
   const handleClockClick = useCallback(() => {
-    if (!disabled && showQuickSelect) {
+    if (!disabled) {
       setIsOpen(prev => !prev);
     }
-  }, [disabled, showQuickSelect]);
+  }, [disabled]);
 
   const handleOpenChange = useCallback((open: boolean) => {
     if (!disabled) {
@@ -111,6 +96,14 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
     onChange?.(newValue);
   }, [onChange]);
 
+  const handleStartChange = useCallback((newStart: TimeValue) => {
+    onChange?.({ start: newStart, end: value?.end });
+  }, [onChange, value?.end]);
+
+  const handleEndChange = useCallback((newEnd: TimeValue) => {
+    onChange?.({ start: value?.start, end: newEnd });
+  }, [onChange, value?.start]);
+
   useEffect(() => {
     if (onValidationError) {
       if (value?.start && value?.end) {
@@ -122,7 +115,10 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
     }
   }, [value, onValidationError]);
 
-  const options = quickSelectOptions || DEFAULT_QUICK_OPTIONS;
+  const options = useMemo(
+    () => quickSelectOptions || DEFAULT_QUICK_OPTIONS,
+    [quickSelectOptions]
+  );
 
   return (
     <InputWrapper
@@ -144,7 +140,7 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
           <input type="hidden" name={`${name}-end`} value={formatTimeValue(value?.end, showSeconds)} />
         </>
       )}
-      <Popover open={isOpen && showQuickSelect} onOpenChange={handleOpenChange}>
+      <Popover open={isOpen} onOpenChange={handleOpenChange}>
         <PopoverAnchor asChild>
           <TimeRangeInput
             ref={ref}
@@ -165,13 +161,37 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
           />
         </PopoverAnchor>
 
-        {showQuickSelect && (
-          <PopoverContent
-            align={align}
-            sideOffset={4}
-            className="w-auto padding-8"
-          >
-            <div className="flex flex-wrap ds-gap-6">
+        <PopoverContent
+          align={align}
+          sideOffset={4}
+          className="w-auto padding-8"
+        >
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList variant="segmented" size="sm">
+              <TabsTrigger value="start">시작</TabsTrigger>
+              <TabsTrigger value="end">종료</TabsTrigger>
+            </TabsList>
+            <TabsContent value="start">
+              <TimePickerPanel
+                value={value?.start}
+                onChange={handleStartChange}
+                timeFormat={timeFormat}
+                showSeconds={showSeconds}
+                disabled={disabled}
+              />
+            </TabsContent>
+            <TabsContent value="end">
+              <TimePickerPanel
+                value={value?.end}
+                onChange={handleEndChange}
+                timeFormat={timeFormat}
+                showSeconds={showSeconds}
+                disabled={disabled}
+              />
+            </TabsContent>
+          </Tabs>
+          {showQuickSelect && (
+            <div className="flex flex-wrap ds-gap-6 margin-t-8 padding-t-8 border-t border-default">
               {options.map((option, index) => {
                 const isSelected = isRangeEqual(value, option.value);
                 return (
@@ -195,8 +215,8 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
                 );
               })}
             </div>
-          </PopoverContent>
-        )}
+          )}
+        </PopoverContent>
       </Popover>
     </InputWrapper>
   );

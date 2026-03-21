@@ -7,62 +7,17 @@ import {
   STATE_CONFIG,
   INPUT_WRAPPER_BASE,
 } from 'constants/input/Input/Input.constants';
-import type { TimeInputProps, TimeSegment, TimeFormat, TimeValue } from '../time-picker.types';
-
-const SEGMENT_PLACEHOLDERS: Record<TimeSegment, string> = {
-  hour: 'hh',
-  minute: 'mm',
-  second: 'ss',
-};
-
-const SEGMENT_MAX_LENGTH: Record<TimeSegment, number> = {
-  hour: 2,
-  minute: 2,
-  second: 2,
-};
-
-const getSegmentMax = (segment: TimeSegment, format: TimeFormat): number => {
-  switch (segment) {
-    case 'hour':
-      return format === '24h' ? 23 : 12;
-    case 'minute':
-    case 'second':
-      return 59;
-  }
-};
-
-const getSegmentMin = (segment: TimeSegment, format: TimeFormat): number => {
-  if (segment === 'hour' && format === '12h') return 1;
-  return 0;
-};
-
-const validateSegment = (segment: TimeSegment, value: string, format: TimeFormat): boolean => {
-  const num = parseInt(value, 10);
-  if (isNaN(num)) return false;
-
-  const min = getSegmentMin(segment, format);
-  const max = getSegmentMax(segment, format);
-  return num >= min && num <= max;
-};
-
-const padSegment = (value: string): string => {
-  if (!value) return '';
-  return value.padStart(2, '0');
-};
-
-const convert24To12Hour = (hour24: number): { hour12: number; period: 'AM' | 'PM' } => {
-  if (hour24 === 0) return { hour12: 12, period: 'AM' };
-  if (hour24 === 12) return { hour12: 12, period: 'PM' };
-  if (hour24 > 12) return { hour12: hour24 - 12, period: 'PM' };
-  return { hour12: hour24, period: 'AM' };
-};
-
-const convert12To24Hour = (hour12: number, period: 'AM' | 'PM'): number => {
-  if (period === 'AM') {
-    return hour12 === 12 ? 0 : hour12;
-  }
-  return hour12 === 12 ? 12 : hour12 + 12;
-};
+import {
+  SEGMENT_PLACEHOLDERS,
+  SEGMENT_MAX_LENGTH,
+  getSegmentMax,
+  getSegmentMin,
+  validateSegment,
+  padSegment,
+  convert24To12Hour,
+  convert12To24Hour,
+} from '../shared/time-utils';
+import type { TimeInputProps, TimeSegment, TimeValue } from '../time-picker.types';
 
 export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
   value,

@@ -72,6 +72,21 @@ export interface QuickRangeSelectOption {
 }
 
 /**
+ * TimePickerPanel 컴포넌트 Props
+ */
+export interface TimePickerPanelProps {
+  value?: TimeValue;
+  onChange: (value: TimeValue) => void;
+  timeFormat?: TimeFormat;
+  showSeconds?: boolean;
+  showQuickSelect?: boolean;
+  quickSelectOptions?: QuickSelectOption[];
+  onQuickSelect?: (option: QuickSelectOption) => void;
+  disabled?: boolean;
+  className?: string;
+}
+
+/**
  * TimeInput 컴포넌트 Props
  */
 export interface TimeInputProps {

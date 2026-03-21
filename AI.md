@@ -1051,7 +1051,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@blumnai-studio/blumna
 
 **Tabs**: `value`, `defaultValue`, `onValueChange`, `orientation`
 
-**TabsList**: `variant` (`'pill'`|`'segmented'`|`'underline'`), `shape` (`'pill'`|`'rounded'`), `size` (`'sm'`|`'lg'`), `type` (`'default'`|`'fixed'`), `scrollable` (boolean, default `false`), `activeColor` (string, underline variant custom color), `animatedIndicator` (boolean, default `false` — sliding indicator animation for all variants)
+**TabsList**: `variant` (`'pill'`|`'segmented'`|`'underline'`), `shape` (`'pill'`|`'rounded'`), `size` (`'sm'`|`'lg'`), `type` (`'default'`|`'fixed'`), `scrollable` (boolean, default `false`), `gap` (number, underline variant gap in px — overrides size-based default; sm=12, lg=16), `activeColor` (string, underline variant custom color), `animatedIndicator` (boolean, default `false` — sliding indicator animation for all variants)
+
+> **Underline font size**: `size="sm"` → `size-sm` (14px), `size="lg"` → `size-md` (16px)
 
 **TabsTrigger**: `leadIcon` (`IconTypeWithFill | ReactNode`), `tailIcon` (`IconTypeWithFill | ReactNode`), `badge` (`string | number`), `closable` (boolean, default `false`), `onClose` (`(value: string) => void`)
 
@@ -1308,6 +1310,8 @@ import { TimePicker, TimeRangePicker } from '@blumnai-studio/blumnai-design-syst
 ```
 
 **TimePicker** (extends TimeInput props, adds label/popup):
+
+> **Clock icon popover**: Clicking the clock icon always opens a scrollable column picker (hour, minute, optional second, optional AM/PM). When `showQuickSelect` is true, quick select buttons appear below the columns. `TimeRangePicker` shows Start/End tabs with a column picker per tab.
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
