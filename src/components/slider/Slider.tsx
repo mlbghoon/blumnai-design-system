@@ -36,6 +36,7 @@ const Slider = React.forwardRef<
   height = 200,
   ...props
 }, ref) => {
+  const labelId = React.useId();
   const [trackedValue, setTrackedValue] = React.useState(value ?? defaultValue ?? min);
   const internalValue = value ?? trackedValue;
   const displayValue = formatValue
@@ -53,7 +54,7 @@ const Slider = React.forwardRef<
       {(label || showValue) && (
         <div className="flex items-center justify-between margin-b-8">
           {label && (
-            <label className="font-body size-sm line-height-leading-5 font-medium text-default">
+            <label id={labelId} className="font-body size-sm line-height-leading-5 font-medium text-default">
               {label}
             </label>
           )}
@@ -67,6 +68,7 @@ const Slider = React.forwardRef<
       <div className={cn(isVertical && 'flex flex-row')}>
         <SliderPrimitive.Root
           ref={ref}
+          aria-labelledby={label ? labelId : undefined}
           className={cn(
             'relative flex touch-none select-none',
             isVertical

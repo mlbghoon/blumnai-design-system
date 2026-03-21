@@ -136,7 +136,7 @@ const DefaultMenuItem = forwardRef<HTMLButtonElement, SidebarMenuItemDefaultProp
             <>
               <span className="flex-1 truncate">{label}</span>
               {shortcut && (
-                <span className={cn('inline-flex items-center justify-center leading-none', SHORTCUT_CLASSES, SHORTCUT_STYLE)}>
+                <span className={cn('inline-flex items-center justify-center line-height-leading-none', SHORTCUT_CLASSES, SHORTCUT_STYLE)}>
                   {shortcut}
                 </span>
               )}

@@ -1711,6 +1711,10 @@ table[data-striped] tbody tr:nth-child(even) {
 /* ============================================
    Line Height Utilities
    ============================================ */
+.line-height-leading-none {
+  line-height: var(--line-height-leading-none);
+}
+
 .line-height-leading-3 {
   line-height: var(--line-height-leading-3);
 }

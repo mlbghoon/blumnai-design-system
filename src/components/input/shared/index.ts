@@ -8,6 +8,9 @@ export type { InputLabelProps } from './InputLabel';
 export { InputCaption } from './InputCaption';
 export type { InputCaptionProps } from './InputCaption';
 
+// Context
+export { InputContextProvider, useInputContext } from './InputContext';
+
 // Shared hooks
 export { useInputState } from './useInputState';
 export type { UseInputStateOptions, UseInputStateReturn } from './useInputState';

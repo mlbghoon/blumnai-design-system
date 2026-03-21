@@ -235,6 +235,7 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
           autoComplete="off"
           aria-invalid={hasError}
           aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
+          aria-required={required || undefined}
           onKeyDown={handleKeyDown}
           {...props}
         />

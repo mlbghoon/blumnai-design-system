@@ -219,7 +219,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
         ? cn(SHORTCUT_STYLE.light, '[color:var(--btn-text)]')
         : SHORTCUT_STYLE.light;
     return (
-      <span className={cn('inline-flex items-center justify-center leading-none', shortcutClasses, shortcutColorStyle)}>
+      <span className={cn('inline-flex items-center justify-center line-height-leading-none', shortcutClasses, shortcutColorStyle)}>
         {shortcut}
       </span>
     );

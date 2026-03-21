@@ -34,6 +34,7 @@
   --weight-black: 900;
 
   /* Line Height - Desktop */
+  --line-height-leading-none: 1;
   --line-height-leading-3: 12px;
   --line-height-leading-4: 16px;
   --line-height-leading-5: 20px;

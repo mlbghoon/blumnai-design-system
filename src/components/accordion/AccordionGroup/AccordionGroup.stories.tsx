@@ -100,6 +100,35 @@ const sampleItems: AccordionGroupItem[] = [
 /**
  * 기본 AccordionGroup
  *
+ * 이 스토리에서 컴포넌트의 모든 props를 테스트할 수 있습니다.
+ */
+export const Default: Story = {
+  args: {
+    items: sampleItems,
+    spacing: 8,
+    style: 'default',
+    allowMultipleOpen: true,
+    className: '',
+  },
+  parameters: {
+    controls: { disable: false },
+  },
+  render: function Render(args) {
+    return (
+      <AccordionGroup
+        items={args.items}
+        spacing={args.spacing}
+        style={args.style}
+        allowMultipleOpen={args.allowMultipleOpen}
+        className={args.className}
+      />
+    );
+  },
+};
+
+/**
+ * ref 지원 AccordionGroup
+ *
  * AccordionGroup 컴포넌트는 `ref`와 `className` prop을 지원합니다.
  * - `ref`: DOM 요소에 직접 접근 가능
  * - `className`: 커스텀 스타일 클래스 추가 가능

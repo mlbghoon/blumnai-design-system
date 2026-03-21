@@ -370,6 +370,59 @@ export default meta;
 type Story = StoryObj<FormProps>;
 
 // ============================================================================
+// DEFAULT EXAMPLE
+// ============================================================================
+
+const defaultSchema = z.object({
+  email: z.string().email('유효한 이메일을 입력해주세요'),
+});
+
+type DefaultFormValues = z.infer<typeof defaultSchema>;
+
+/**
+ * 기본 폼
+ *
+ * 이 스토리에서 Form 컴포넌트의 기본 사용법을 확인할 수 있습니다.
+ */
+export const Default: Story = {
+  parameters: {
+    controls: { disable: false },
+  },
+  render: function Render() {
+    const form = useForm<DefaultFormValues>({
+      resolver: zodResolver(defaultSchema),
+      defaultValues: { email: '' },
+    });
+
+    const onSubmit = (values: DefaultFormValues) => {
+      console.log('Form submitted:', values);
+    };
+
+    return (
+      <Form form={form} onSubmit={onSubmit} className="flex flex-col ds-gap-16 max-w-sm">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormControl>
+              <Input
+                variant="default"
+                label="이메일"
+                placeholder="example@email.com"
+                {...field}
+              />
+            </FormControl>
+          )}
+        />
+        <Button type="submit" buttonStyle="primary" size="lg" fullWidth>
+          제출
+        </Button>
+      </Form>
+    );
+  },
+};
+
+// ============================================================================
 // LOGIN FORM EXAMPLE
 // ============================================================================
 

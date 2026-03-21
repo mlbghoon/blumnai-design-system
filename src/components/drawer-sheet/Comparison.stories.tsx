@@ -69,6 +69,56 @@ export default meta;
 type Story = StoryObj;
 
 /**
+ * 기본 비교
+ *
+ * 이 스토리에서 Drawer와 Sheet의 기본 동작을 비교할 수 있습니다.
+ */
+export const Default: Story = {
+  parameters: {
+    controls: { disable: false },
+  },
+  render: function Render() {
+    return (
+      <div className="flex ds-gap-16 items-center">
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button buttonStyle="secondary">드로어 열기</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>드로어</DrawerTitle>
+              <DrawerDescription>하단에서 올라오는 드로어입니다.</DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button fullWidth>닫기</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button buttonStyle="secondary">시트 열기</Button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>시트</SheetTitle>
+              <SheetDescription>오른쪽에서 슬라이드되는 시트입니다.</SheetDescription>
+            </SheetHeader>
+            <SheetFooter>
+              <SheetClose asChild>
+                <Button fullWidth>닫기</Button>
+              </SheetClose>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+      </div>
+    );
+  },
+};
+
+/**
  * Drawer vs Sheet 직접 비교
  *
  * 같은 콘텐츠를 Drawer와 Sheet로 열어서 차이점을 직접 확인해보세요.

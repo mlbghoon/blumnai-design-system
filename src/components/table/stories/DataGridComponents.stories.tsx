@@ -22,6 +22,28 @@ const meta: Meta = {
 export default meta;
 
 // ============================================
+// Default
+// ============================================
+
+/**
+ * 기본 컴포넌트 예제
+ *
+ * 이 스토리에서 DataGrid 내부 컴포넌트의 기본 상태를 확인할 수 있습니다.
+ */
+export const Default: StoryObj = {
+  parameters: {
+    controls: { disable: false },
+  },
+  render: function Render() {
+    return (
+      <div className="border-default rounded-md overflow-hidden">
+        <DataGridEmpty />
+      </div>
+    );
+  },
+};
+
+// ============================================
 // DataGridLoading
 // ============================================
 

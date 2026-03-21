@@ -36,6 +36,74 @@ export default meta;
 type Story = StoryObj<FormProps>;
 
 // ============================================================================
+// DEFAULT EXAMPLE
+// ============================================================================
+
+const defaultSignupSchema = z.object({
+  email: z.string().email('유효한 이메일을 입력해주세요'),
+  password: z.string().min(8, '비밀번호는 8자 이상이어야 합니다'),
+});
+
+type DefaultSignupFormValues = z.infer<typeof defaultSignupSchema>;
+
+/**
+ * 기본 회원가입 폼
+ *
+ * 이 스토리에서 가장 간단한 형태의 회원가입 폼을 확인할 수 있습니다.
+ */
+export const Default: Story = {
+  parameters: {
+    controls: { disable: false },
+  },
+  render: function Render() {
+    const form = useForm<DefaultSignupFormValues>({
+      resolver: zodResolver(defaultSignupSchema),
+      defaultValues: { email: '', password: '' },
+    });
+
+    const onSubmit = (values: DefaultSignupFormValues) => {
+      console.log('Signup submitted:', values);
+    };
+
+    return (
+      <Form form={form} onSubmit={onSubmit} className="flex flex-col ds-gap-16 max-w-sm">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormControl>
+              <Input
+                variant="default"
+                label="이메일"
+                placeholder="example@email.com"
+                {...field}
+              />
+            </FormControl>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormControl>
+              <Input
+                variant="password"
+                label="비밀번호"
+                placeholder="8자 이상 입력하세요"
+                {...field}
+              />
+            </FormControl>
+          )}
+        />
+        <Button type="submit" buttonStyle="primary" size="lg" fullWidth>
+          가입하기
+        </Button>
+      </Form>
+    );
+  },
+};
+
+// ============================================================================
 // SINGLE COLUMN SIGNUP FORM
 // ============================================================================
 

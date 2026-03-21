@@ -167,6 +167,65 @@ export default meta;
 type Story = StoryObj<typeof Select>;
 
 /**
+ * 기본 Select
+ *
+ * 이 스토리에서 컴포넌트의 모든 props를 테스트할 수 있습니다.
+ */
+export const Default: Story = {
+  args: {
+    variant: 'default',
+    selectStyle: 'default',
+    size: 'sm',
+    label: '옵션 선택',
+    placeholder: '선택하세요...',
+    disabled: false,
+    required: false,
+    searchable: false,
+    supportText: '',
+    caption: '',
+    error: '',
+    success: '',
+    maxHeight: 300,
+    options: defaultOptions,
+  },
+  parameters: {
+    controls: { disable: false },
+  },
+  render: function Render(args) {
+    const [value, setValue] = useState<string>();
+
+    const variant = 'variant' in args ? args.variant : 'default';
+    const supportText = args.supportText || undefined;
+    const caption = args.caption || undefined;
+    const error = args.error || undefined;
+    const success = args.success || undefined;
+
+    return (
+      <div className="max-w-sm">
+        <Select
+          variant={variant as 'default'}
+          label={args.label}
+          placeholder={args.placeholder}
+          options={args.options}
+          value={value}
+          onChange={setValue}
+          selectStyle={args.selectStyle}
+          size={args.size}
+          disabled={args.disabled}
+          required={args.required}
+          searchable={args.searchable}
+          supportText={supportText}
+          caption={caption}
+          error={error}
+          success={success}
+          maxHeight={args.maxHeight}
+        />
+      </div>
+    );
+  },
+};
+
+/**
  * 모든 변형 비교
  *
  * 4가지 Select 변형을 한눈에 비교합니다.

@@ -80,6 +80,41 @@ export default meta;
 type Story = StoryObj<typeof Checkbox>;
 
 /**
+ * 기본 Checkbox
+ *
+ * 이 스토리에서 컴포넌트의 모든 props를 테스트할 수 있습니다.
+ */
+export const Default: Story = {
+  args: {
+    checked: false,
+    label: 'Label',
+    description: '',
+    checkboxPosition: 'left',
+    checkboxStyle: 'default',
+    disabled: false,
+  },
+  parameters: {
+    controls: { disable: false },
+  },
+  render: function Render(args) {
+    const [checked, setChecked] = useState(false);
+    const description = args.description || undefined;
+
+    return (
+      <Checkbox
+        checked={checked}
+        onCheckedChange={(val) => setChecked(val === true)}
+        label={args.label}
+        description={description}
+        checkboxPosition={args.checkboxPosition}
+        checkboxStyle={args.checkboxStyle}
+        disabled={args.disabled}
+      />
+    );
+  },
+};
+
+/**
  * 모든 변형 비교
  *
  * Checkbox, CheckboxCard, CheckboxList 3가지 변형을 한눈에 비교합니다.

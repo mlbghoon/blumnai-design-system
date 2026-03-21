@@ -775,6 +775,8 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
               state={state}
               leadIcon={leadIcon}
               tailIcon={tailIcon}
+              aria-describedby={caption || error || success ? `${selectId}-caption` : undefined}
+              aria-required={required || undefined}
             >
               {value ? (
                 renderSelectedValue()

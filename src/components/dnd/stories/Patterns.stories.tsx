@@ -31,6 +31,44 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
+/**
+ * 기본 DnD 패턴
+ *
+ * 이 스토리에서 가장 기본적인 드래그 앤 드롭 정렬을 확인할 수 있습니다.
+ * 항목을 드래그하여 순서를 변경할 수 있습니다.
+ */
+export const Default: Story = {
+  parameters: {
+    controls: { disable: false },
+  },
+  render: function Render() {
+    const [items, setItems] = useState([
+      { id: '1', title: '항목 1' },
+      { id: '2', title: '항목 2' },
+      { id: '3', title: '항목 3' },
+      { id: '4', title: '항목 4' },
+      { id: '5', title: '항목 5' },
+    ]);
+
+    return (
+      <div className="w-[320px]">
+        <Sortable items={items} onReorder={setItems}>
+          <div className="flex flex-col ds-gap-8">
+            {items.map((item) => (
+              <SortableItem key={item.id} id={item.id} handle>
+                <div className="flex items-center ds-gap-8 padding-12 bg-card border-default rounded-lg">
+                  <DragHandle />
+                  <span className="size-sm font-body">{item.title}</span>
+                </div>
+              </SortableItem>
+            ))}
+          </div>
+        </Sortable>
+      </div>
+    );
+  },
+};
+
 // ============================================================================
 // Kanban Board
 // ============================================================================

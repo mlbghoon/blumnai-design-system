@@ -104,14 +104,14 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   return (
     <div ref={ref} className={containerClassName} style={combinedStyle} {...props}>
       {parsedIcon && (
-        <span className={`inline-flex items-center shrink-0 leading-none margin-${size !== 'sm' ? '1' : '2'}`}>
+        <span className={`inline-flex items-center shrink-0 line-height-leading-none margin-${size !== 'sm' ? '1' : '2'}`}>
           <Icon iconType={parsedIcon.iconType} size={iconSize} color={getIconColor(color)} isFill={parsedIcon.isFill} />
         </span>
       )}
 
       {variant === 'image' && (
         <span
-          className="inline-flex items-center shrink-0 overflow-hidden rounded-full leading-none border-darker"
+          className="inline-flex items-center shrink-0 overflow-hidden rounded-full line-height-leading-none border-darker"
           style={{
             width: `${iconSize}px`,
             height: `${iconSize}px`,
@@ -128,7 +128,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
 
       {variant === 'dot' && (
         <span
-          className={`inline-flex items-center shrink-0 rounded-full leading-none margin-${size !== 'sm' ? '4' : '5'}`}
+          className={`inline-flex items-center shrink-0 rounded-full line-height-leading-none margin-${size !== 'sm' ? '4' : '5'}`}
           style={{
             width: `${iconSize - 6}px`,
             height: `${iconSize - 6}px`,
@@ -137,7 +137,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
         />
       )}
 
-      {(variant === 'default' || label) && <span className={`shrink-0 leading-none padding-l-${variant === 'dot' || variant === 'icon' ? '2' : '4'} padding-r-4`}>{label}</span>}
+      {(variant === 'default' || label) && <span className={`shrink-0 line-height-leading-none padding-l-${variant === 'dot' || variant === 'icon' ? '2' : '4'} padding-r-4`}>{label}</span>}
 
       {closeIcon && (
         <button

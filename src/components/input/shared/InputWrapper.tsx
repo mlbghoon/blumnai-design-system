@@ -1,9 +1,11 @@
+import { useId } from 'react';
 import type { ReactNode } from 'react';
 
 import { cn } from '../../../utils/cn';
 import { INPUT_CONTAINER_BASE } from 'constants/input/Input/Input.constants';
 import { InputLabel } from './InputLabel';
 import { InputCaption } from './InputCaption';
+import { InputContextProvider } from './InputContext';
 
 export interface InputWrapperProps {
   /**
@@ -80,6 +82,8 @@ export const InputWrapper = ({
   width,
   className,
 }: InputWrapperProps) => {
+  const wrapperId = useId();
+
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
   const hasSuccess = success === true || (typeof success === 'string' && success.length > 0);
 
@@ -87,6 +91,10 @@ export const InputWrapper = ({
   const successText = typeof success === 'string' && success.length > 0 ? success : undefined;
   const captionText = errorText || successText || caption;
   const showCaption = captionText !== undefined && captionText.length > 0;
+
+  const descBaseId = inputId || wrapperId;
+  const captionElId = showCaption ? `${descBaseId}-caption` : undefined;
+  const contextValue = { captionId: captionElId, errorId: errorText ? captionElId : undefined, required };
 
   const isHorizontal = labelPosition === 'left';
 
@@ -104,7 +112,7 @@ export const InputWrapper = ({
 
   const captionElement = showCaption ? (
     <InputCaption
-      id={inputId ? `${inputId}-caption` : undefined}
+      id={captionElId}
       error={hasError}
       success={hasSuccess}
     >
@@ -114,28 +122,32 @@ export const InputWrapper = ({
 
   if (isHorizontal) {
     return (
-      <div
-        className={cn(INPUT_CONTAINER_BASE, 'flex-row items-start ds-gap-8', width === undefined && 'w-full', className)}
-        style={width !== undefined ? { width: typeof width === 'number' ? `${width}px` : /^\d+$/.test(width) ? `${width}px` : width } : undefined}
-      >
-        {labelElement}
-        <div className="flex flex-col flex-1 min-w-0">
-          {children}
-          {captionElement}
+      <InputContextProvider value={contextValue}>
+        <div
+          className={cn(INPUT_CONTAINER_BASE, 'flex-row items-start ds-gap-8', width === undefined && 'w-full', className)}
+          style={width !== undefined ? { width: typeof width === 'number' ? `${width}px` : /^\d+$/.test(width) ? `${width}px` : width } : undefined}
+        >
+          {labelElement}
+          <div className="flex flex-col flex-1 min-w-0">
+            {children}
+            {captionElement}
+          </div>
         </div>
-      </div>
+      </InputContextProvider>
     );
   }
 
   return (
-    <div
-      className={cn(INPUT_CONTAINER_BASE, width === undefined && 'w-full', className)}
-      style={width !== undefined ? { width: typeof width === 'number' ? `${width}px` : /^\d+$/.test(width) ? `${width}px` : width } : undefined}
-    >
-      {labelElement}
-      {children}
-      {captionElement}
-    </div>
+    <InputContextProvider value={contextValue}>
+      <div
+        className={cn(INPUT_CONTAINER_BASE, width === undefined && 'w-full', className)}
+        style={width !== undefined ? { width: typeof width === 'number' ? `${width}px` : /^\d+$/.test(width) ? `${width}px` : width } : undefined}
+      >
+        {labelElement}
+        {children}
+        {captionElement}
+      </div>
+    </InputContextProvider>
   );
 };
 

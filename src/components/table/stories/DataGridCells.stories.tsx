@@ -39,6 +39,70 @@ const meta: Meta = {
 export default meta;
 
 // ============================================
+// Default
+// ============================================
+
+interface DefaultCellData {
+  id: string;
+  name: string;
+  email: string;
+  status: string;
+}
+
+const defaultCellData: DefaultCellData[] = [
+  { id: '1', name: '홍길동', email: 'hong@example.com', status: 'active' },
+  { id: '2', name: '김철수', email: 'kim@example.com', status: 'inactive' },
+  { id: '3', name: '이영희', email: 'lee@example.com', status: 'active' },
+];
+
+/**
+ * 기본 셀 예제
+ *
+ * 이 스토리에서 DataGrid 셀 컴포넌트의 기본 사용법을 확인할 수 있습니다.
+ */
+export const Default: StoryObj = {
+  parameters: {
+    controls: { disable: false },
+  },
+  render: function Render() {
+    const columns: ColumnDef<DefaultCellData>[] = [
+      {
+        accessorKey: 'name',
+        header: '이름',
+        cell: ({ row }) => <CellText value={row.original.name} />,
+        meta: { width: '1fr' },
+      },
+      {
+        accessorKey: 'email',
+        header: '이메일',
+        cell: ({ row }) => <CellText value={row.original.email} copyable />,
+        meta: { width: '1fr' },
+      },
+      {
+        accessorKey: 'status',
+        header: '상태',
+        cell: ({ row }) => (
+          <CellBadge
+            label={row.original.status === 'active' ? '활성' : '비활성'}
+            color={row.original.status === 'active' ? 'green' : 'neutral'}
+          />
+        ),
+        meta: { width: '100px', align: 'center' },
+      },
+    ];
+
+    return (
+      <DataGrid
+        data={defaultCellData}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+      />
+    );
+  },
+};
+
+// ============================================
 // CellText
 // ============================================
 

@@ -274,6 +274,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
           autoComplete="current-password"
           aria-invalid={hasError}
           aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
+          aria-required={required || undefined}
           {...props}
         />
 

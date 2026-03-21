@@ -353,6 +353,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       defaultValue={defaultValue}
       aria-invalid={hasError}
       aria-describedby={caption || error || success ? `${textareaId}-caption` : undefined}
+      aria-required={required || undefined}
       onInput={handleInput}
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}

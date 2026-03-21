@@ -3201,7 +3201,7 @@ The design system provides custom utility classes. **Do not use default Tailwind
 | Category | Classes | Examples |
 |----------|---------|---------|
 | Font size | `size-xs`, `size-sm`, `size-md`, `size-lg`, `size-xl`, `size-2xl` | `size-sm` |
-| Line height | `line-height-leading-3` through `line-height-leading-10` | `line-height-leading-5` |
+| Line height | `line-height-leading-none`, `line-height-leading-3` through `line-height-leading-10` | `line-height-leading-5` |
 | Letter spacing | `letter-spacing-tracking-tighter`, `...tight`, `...normal`, `...wide` | `letter-spacing-tracking-normal` |
 | Font family | `font-body`, `font-headline`, `font-quote`, `font-code` | `font-body` |
 | Padding | `padding-0` through `padding-24`, `padding-x-*`, `padding-y-*` | `padding-x-12 padding-y-8` |
@@ -3219,7 +3219,7 @@ The design system provides custom utility classes. **Do not use default Tailwind
 
 **Font size**: `size-xs`=12px, `size-sm`=14px, `size-md`=16px, `size-lg`=18px, `size-xl`=20px, `size-2xl`=24px, `size-3xl`=30px, `size-4xl`=36px, `size-5xl`=48px, `size-6xl`=60px, `size-7xl`=72px, `size-8xl`=96px, `size-9xl`=128px
 
-**Line height**: `line-height-leading-3`=12px, `-4`=16px, `-5`=20px, `-6`=24px, `-7`=28px, `-8`=32px, `-9`=36px, `-10`=40px
+**Line height**: `line-height-leading-none`=1 (relative), `line-height-leading-3`=12px, `-4`=16px, `-5`=20px, `-6`=24px, `-7`=28px, `-8`=32px, `-9`=36px, `-10`=40px
 
 **Letter spacing**: `letter-spacing-tracking-tighter`=-1.2px, `tracking-tight`=-0.8px, `tracking-normal`=-0.6px, `tracking-wide`=0.4px
 
@@ -3232,6 +3232,9 @@ The design system provides custom utility classes. **Do not use default Tailwind
 - Focus is automatically trapped and managed in `Dialog`, `AlertDialog`, `Sheet`, `Drawer`, and `Popover`
 - `ContextMenu` and `DropdownMenu` support full arrow-key navigation
 - Screen reader support via semantic HTML and `aria-label`/`aria-describedby` where needed
+- **Form components** (Input, Textarea, Select, MultiSelect) automatically connect `aria-describedby` to caption/error text and set `aria-required` on required fields
+- **Slider** connects label to control via `aria-labelledby` when `label` prop is provided
+- **InputContext** (`useInputContext()`): Available inside `InputWrapper` children for accessing `captionId`, `errorId`, and `required` state. Optional — returns `undefined` when no provider exists.
 
 ---
 
@@ -3388,6 +3391,7 @@ function ResponsivePanel({ children }) {
 
 | Subpath | Components |
 |---------|------------|
+| `/accordion` | AccordionGroup, AccordionItem |
 | `/avatar` | Avatar, AvatarGroup |
 | `/badge` | Badge |
 | `/breadcrumbs` | Breadcrumbs |

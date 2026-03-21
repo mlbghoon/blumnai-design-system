@@ -62,10 +62,31 @@ const twoConfig: ChartConfig = {
   '카테고리 B': { label: '카테고리 B', color: 'var(--chart-4)' },
 };
 
-export const BarChartDefault: Story = {
+/**
+ * 기본 차트
+ *
+ * 이 스토리에서 기본적인 막대 차트를 확인할 수 있습니다.
+ */
+export const Default: Story = {
   parameters: {
     controls: { disable: false },
   },
+  render: function Render() {
+    return (
+      <BarChart
+        data={barChartData}
+        xAxis={{ dataKey: 'month' }}
+        yAxis={{ dataKey: 'sales' }}
+        dataKey="sales"
+        config={salesConfig}
+        width={600}
+        height={400}
+      />
+    );
+  },
+};
+
+export const BarChartDefault: Story = {
   render: () => (
     <BarChart
       data={barChartData}

@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.0.50] - 2026-03-21
+
+### Added
+
+- **`line-height-leading-none` 유틸리티**: `line-height: 1` (상대값) 토큰 및 CSS 유틸리티 클래스 추가. Badge, Button 단축키, Sidebar 메뉴 단축키 등 아이콘/텍스트 컨테이너에 사용.
+- **`InputContext`**: `InputWrapper`가 제공하는 React Context 추가 (`useInputContext()` 훅). InputWrapper 내부의 깊은 자식 컴포넌트가 `captionId`, `errorId`, `required` 상태를 참조할 수 있도록 지원. Provider 없이 사용해도 안전 (`undefined` 반환).
+- **Accordion 루트 `index.ts`**: `AccordionGroup`, `AccordionItem` 및 타입을 단일 진입점에서 re-export. `import { AccordionGroup, AccordionItem } from '…/accordion'` 가능.
+- **Storybook Default 스토리 10개 추가**: AccordionGroup, Chart, Checkbox, DnD Patterns, DrawerSheet Comparison, Form, SignupForm, Select, DataGridCells, DataGridComponents에 인터랙티브 Default 스토리 추가.
+
+### Fixed
+
+- **Select/MultiSelect `aria-describedby` 누락 수정**: `RadixSelect`와 `RadixMultiSelect` 트리거에 `aria-describedby` 추가. 캡션/에러 텍스트를 스크린 리더가 읽을 수 있도록 수정 (WCAG 1.3.1).
+- **Select/MultiSelect `aria-required` 누락 수정**: 필수 Select 필드에 `aria-required` 속성 추가 (WCAG 3.3.2).
+- **Slider `aria-labelledby` 누락 수정**: Slider 라벨과 컨트롤을 `aria-labelledby`로 연결. 스크린 리더가 라벨을 읽을 수 있도록 수정 (WCAG 1.3.1).
+- **Input/Password/Textarea `aria-required` 추가**: 필수 입력 필드에 명시적 `aria-required` 속성 추가.
+- **`leading-none` DS 위반 수정**: Badge (4곳), Button (1곳), SidebarMenuItem (1곳)에서 Tailwind `leading-none`을 DS `line-height-leading-none`으로 교체. 타이포그래피 100% DS 준수 달성.
+- **InputWrapper 캡션 ID 일관성**: InputWrapper가 `useId()`로 안정적인 ID를 생성하여 캡션/에러 요소에 `id` 부여. 기존 `inputId` 기반 패턴과 호환.
+
 ## [1.0.49] - 2026-03-20
 
 ### Fixed
