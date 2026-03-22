@@ -67,25 +67,7 @@ const DrawerContent = React.forwardRef<
         )}
         {...props}
       >
-        {(direction === "bottom" || direction === "top") && (
-          <div
-            className={cn(
-              "mx-auto height-8 w-[100px] rounded-full bg-muted",
-              direction === "bottom" && "margin-t-16",
-              direction === "top" && "margin-b-16 mt-auto order-last"
-            )}
-          />
-        )}
-        {(direction === "left" || direction === "right") && (
-          <div
-            className={cn(
-              "my-auto width-8 h-[100px] rounded-full bg-muted",
-              direction === "left" && "ml-auto margin-r-16",
-              direction === "right" && "mr-auto [margin-left:16px]"
-            )}
-          />
-        )}
-        <DrawerPrimitive.Close className="absolute [right:20px] [top:20px] rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
+        <DrawerPrimitive.Close className="absolute [right:16px] [top:16px] rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
           <Icon iconType={['system', 'close']} size={16} />
           <span className="sr-only">Close</span>
         </DrawerPrimitive.Close>
@@ -101,7 +83,7 @@ const DrawerHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("grid ds-gap-6 padding-16 text-center sm:text-left", className)}
+    className={cn("grid ds-gap-6 padding-16 [padding-top:24px] [padding-right:48px] text-center sm:text-left", className)}
     {...props}
   />
 )

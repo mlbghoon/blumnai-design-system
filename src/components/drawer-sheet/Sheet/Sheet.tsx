@@ -65,7 +65,7 @@ const SheetContent = React.forwardRef<
       onOpenAutoFocus={onOpenAutoFocus}
       {...props}
     >
-      <SheetPrimitive.Close className="absolute [right:20px] [top:20px] rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+      <SheetPrimitive.Close className="absolute [right:16px] [top:16px] rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
         <Icon iconType={['system', 'close']} size={16} />
         <span className="sr-only">Close</span>
       </SheetPrimitive.Close>
@@ -81,7 +81,7 @@ const SheetHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "flex flex-col ds-gap-8 text-center sm:text-left",
+      "flex flex-col ds-gap-8 [padding-right:32px] text-center sm:text-left",
       className
     )}
     {...props}

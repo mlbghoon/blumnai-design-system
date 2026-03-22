@@ -1051,7 +1051,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@blumnai-studio/blumna
 
 **Tabs**: `value`, `defaultValue`, `onValueChange`, `orientation`
 
-**TabsList**: `variant` (`'pill'`|`'segmented'`|`'underline'`), `shape` (`'pill'`|`'rounded'`), `size` (`'sm'`|`'lg'`), `type` (`'default'`|`'fixed'`), `scrollable` (boolean, default `false`), `gap` (number, underline variant gap in px — overrides size-based default; sm=12, lg=16), `activeColor` (string, underline variant custom color), `animatedIndicator` (boolean, default `false` — sliding indicator animation for all variants)
+**TabsList**: `variant` (`'pill'`|`'segmented'`|`'underline'`), `shape` (`'pill'`|`'rounded'`), `size` (`'sm'`|`'lg'`), `type` (`'default'`|`'fixed'`), `scrollable` (boolean, default `false`), `gap` (number, underline variant gap in px — overrides size-based default; sm=12, lg=16), `activeColor` (string, underline variant — sets both text and underline color), `activeTextColor` (string, underline variant — text color only, overrides activeColor), `activeUnderlineColor` (string, underline variant — underline color only, overrides activeColor), `animatedIndicator` (boolean, default `false` — sliding indicator animation for all variants)
 
 > **Underline font size**: `size="sm"` → `size-sm` (14px), `size="lg"` → `size-md` (16px)
 
@@ -1311,7 +1311,7 @@ import { TimePicker, TimeRangePicker } from '@blumnai-studio/blumnai-design-syst
 
 **TimePicker** (extends TimeInput props, adds label/popup):
 
-> **Clock icon popover**: Clicking the clock icon always opens a scrollable column picker (hour, minute, optional second, optional AM/PM). When `showQuickSelect` is true, quick select buttons appear below the columns. `TimeRangePicker` shows Start/End tabs with a column picker per tab.
+> **Clock icon popover**: Clicking the clock icon always opens a scrollable column picker (hour, minute, optional second, optional AM/PM). When `showQuickSelect` is true, quick select buttons appear on the left sidebar (matching DatePicker pattern). `TimeRangePicker` shows start/end panels side-by-side with a vertical divider. Use `showActions` for cancel/apply buttons, `minuteStep`/`secondStep` for interval control.
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
@@ -1336,6 +1336,9 @@ import { TimePicker, TimeRangePicker } from '@blumnai-studio/blumnai-design-syst
 | `showQuickSelect` | `boolean` | `false` | Show quick select options |
 | `quickSelectOptions` | `QuickSelectOption[]` | - | Quick select option list |
 | `align` | `'start'` `'center'` `'end'` | `'start'` | Popover alignment |
+| `showActions` | `boolean` | `false` | Show cancel/apply buttons in popover |
+| `minuteStep` | `number` | `1` | Minute interval (e.g., 5 → 0,5,10,...55) |
+| `secondStep` | `number` | `1` | Second interval |
 | `onFocus` | `() => void` | - | Focus callback |
 | `onBlur` | `() => void` | - | Blur callback |
 
@@ -1364,6 +1367,9 @@ import { TimePicker, TimeRangePicker } from '@blumnai-studio/blumnai-design-syst
 | `showQuickSelect` | `boolean` | `false` | Show quick select options |
 | `quickSelectOptions` | `QuickRangeSelectOption[]` | - | Quick range select option list |
 | `align` | `'start'` `'center'` `'end'` | `'start'` | Popover alignment |
+| `showActions` | `boolean` | `false` | Show cancel/apply buttons in popover |
+| `minuteStep` | `number` | `1` | Minute interval (e.g., 5 → 0,5,10,...55) |
+| `secondStep` | `number` | `1` | Second interval |
 | `onValidationError` | `(error: 'invalid-range' \| null) => void` | - | Validation error callback |
 | `onFocus` | `() => void` | - | Focus callback |
 | `onBlur` | `() => void` | - | Blur callback |

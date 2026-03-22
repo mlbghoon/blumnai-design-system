@@ -202,8 +202,8 @@ export const MonthPicker = ({
                     className={cn(
                       'height-32 rounded-sm font-body size-xs line-height-leading-4 transition-colors',
                       monthDisabled && 'text-hint cursor-not-allowed',
-                      !monthDisabled && !selected && 'text-default hover:bg-[var(--bg-state-ghost-hover)] cursor-pointer',
-                      selected && 'bg-[var(--bg-state-primary)] text-[var(--text-on-color)] font-medium',
+                      !monthDisabled && !selected && 'text-default hover:bg-state-ghost-hover cursor-pointer',
+                      selected && 'bg-state-primary text-white-default font-medium',
                     )}
                   >
                     {name}

@@ -10,6 +10,8 @@ interface TabsStoryProps {
   size?: TabsSize;
   type?: TabsType;
   activeColor?: string;
+  activeTextColor?: string;
+  activeUnderlineColor?: string;
   scrollable?: boolean;
   animatedIndicator?: boolean;
   orientation?: 'horizontal' | 'vertical';
@@ -137,6 +139,22 @@ const meta: Meta<TabsStoryProps> = {
         category: 'TabsList',
       },
     },
+    activeTextColor: {
+      control: 'color',
+      description: '[TabsList] 활성 탭의 텍스트 색상 (activeColor보다 우선, underline 변형 전용)',
+      table: {
+        type: { summary: 'string' },
+        category: 'TabsList',
+      },
+    },
+    activeUnderlineColor: {
+      control: 'color',
+      description: '[TabsList] 활성 탭의 언더라인 색상 (activeColor보다 우선, underline 변형 전용)',
+      table: {
+        type: { summary: 'string' },
+        category: 'TabsList',
+      },
+    },
     animatedIndicator: {
       control: 'boolean',
       description: '[TabsList] 활성 탭 인디케이터 슬라이딩 애니메이션 활성화',
@@ -241,6 +259,8 @@ export const Default: Story = {
     size: 'sm',
     type: 'default',
     activeColor: undefined,
+    activeTextColor: undefined,
+    activeUnderlineColor: undefined,
     animatedIndicator: false,
     orientation: 'horizontal',
     activationMode: 'automatic',
@@ -254,6 +274,8 @@ export const Default: Story = {
     const size = args.size ?? 'sm';
     const type = args.type ?? 'default';
     const activeColor = args.activeColor || undefined;
+    const activeTextColor = args.activeTextColor || undefined;
+    const activeUnderlineColor = args.activeUnderlineColor || undefined;
     const animatedIndicator = args.animatedIndicator ?? false;
     const orientation = args.orientation ?? 'horizontal';
     const activationMode = args.activationMode ?? 'automatic';
@@ -265,7 +287,7 @@ export const Default: Story = {
         activationMode={activationMode}
         className={orientation === 'vertical' ? 'flex ds-gap-16' : undefined}
       >
-        <TabsList variant={variant} shape={shape} size={size} type={type} activeColor={activeColor} animatedIndicator={animatedIndicator}>
+        <TabsList variant={variant} shape={shape} size={size} type={type} activeColor={activeColor} activeTextColor={activeTextColor} activeUnderlineColor={activeUnderlineColor} animatedIndicator={animatedIndicator}>
           <TabsTrigger value="tab1">계정</TabsTrigger>
           <TabsTrigger value="tab2">설정</TabsTrigger>
           <TabsTrigger value="tab3">알림</TabsTrigger>
@@ -445,13 +467,14 @@ export const UnderlineSizes: Story = {
 /**
  * Underline 커스텀 색상
  *
- * activeColor prop으로 활성 탭의 텍스트와 언더라인 색상을 변경할 수 있습니다.
+ * activeColor로 텍스트와 언더라인을 동일 색상으로 설정하거나,
+ * activeTextColor와 activeUnderlineColor로 개별 제어할 수 있습니다.
  */
 export const UnderlineActiveColor: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-24">
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">activeColor=&quot;#5988fe&quot;</p>
+        <p className="font-body size-sm text-muted margin-b-8">activeColor=&quot;#5988fe&quot; (텍스트+언더라인 동일)</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline" activeColor="#5988fe">
             <TabsTrigger value="tab1">고객 목록</TabsTrigger>
@@ -462,9 +485,20 @@ export const UnderlineActiveColor: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">activeColor=&quot;#e11d48&quot;</p>
+        <p className="font-body size-sm text-muted margin-b-8">activeTextColor=&quot;#333&quot; activeUnderlineColor=&quot;#5988fe&quot; (개별 제어)</p>
         <Tabs defaultValue="tab1">
-          <TabsList variant="underline" activeColor="#e11d48">
+          <TabsList variant="underline" activeTextColor="#333" activeUnderlineColor="#5988fe">
+            <TabsTrigger value="tab1">고객 목록</TabsTrigger>
+            <TabsTrigger value="tab2">상담 내역</TabsTrigger>
+            <TabsTrigger value="tab3">통계</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">activeTextColor=&quot;#e11d48&quot; activeUnderlineColor=&quot;#facc15&quot;</p>
+        <Tabs defaultValue="tab1">
+          <TabsList variant="underline" activeTextColor="#e11d48" activeUnderlineColor="#facc15">
             <TabsTrigger value="tab1">개요</TabsTrigger>
             <TabsTrigger value="tab2">분석</TabsTrigger>
             <TabsTrigger value="tab3">리포트</TabsTrigger>
@@ -473,7 +507,7 @@ export const UnderlineActiveColor: Story = {
       </div>
 
       <div>
-        <p className="font-body size-sm text-muted margin-b-8">기본 (activeColor 없음)</p>
+        <p className="font-body size-sm text-muted margin-b-8">기본 (색상 미지정)</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline">
             <TabsTrigger value="tab1">개요</TabsTrigger>

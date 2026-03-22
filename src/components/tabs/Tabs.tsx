@@ -22,6 +22,8 @@ interface TabsContextValue {
   size: TabsSize;
   type: TabsType;
   activeColor?: string;
+  activeTextColor?: string;
+  activeUnderlineColor?: string;
   animatedIndicator?: boolean;
   gap?: number;
 }
@@ -110,8 +112,8 @@ const UNDERLINE_LIST_SIZE_STYLES = {
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   TabsListProps
->(({ variant = 'segmented', shape = 'rounded', size = 'sm', type = 'default', scrollable = false, gap, activeColor, animatedIndicator = false, className, children, ...props }, ref) => {
-  const contextValue = React.useMemo(() => ({ variant, shape, size, type, activeColor, animatedIndicator, gap }), [variant, shape, size, type, activeColor, animatedIndicator, gap]);
+>(({ variant = 'segmented', shape = 'rounded', size = 'sm', type = 'default', scrollable = false, gap, activeColor, activeTextColor, activeUnderlineColor, animatedIndicator = false, className, children, ...props }, ref) => {
+  const contextValue = React.useMemo(() => ({ variant, shape, size, type, activeColor, activeTextColor, activeUnderlineColor, animatedIndicator, gap }), [variant, shape, size, type, activeColor, activeTextColor, activeUnderlineColor, animatedIndicator, gap]);
   const viewportRef = React.useRef<HTMLDivElement>(null);
   const internalListRef = React.useRef<HTMLElement>(null);
   const [canScrollLeft, setCanScrollLeft] = React.useState(false);
@@ -160,7 +162,7 @@ const TabsList = React.forwardRef<
         'absolute pointer-events-none',
         variant === 'underline' && [
           '[height:1.5px] bottom-0',
-          activeColor ? undefined : '[background-color:var(--border-accent)]',
+          (activeUnderlineColor || activeColor) ? undefined : '[background-color:var(--border-accent)]',
         ],
         (variant === 'pill' || variant === 'segmented') && [
           shape === 'pill' ? 'rounded-full' : 'rounded-sm',
@@ -176,7 +178,7 @@ const TabsList = React.forwardRef<
           ? { left: indicatorStyle.left, width: indicatorStyle.width }
           : { left: indicatorStyle.left, top: indicatorStyle.top, width: indicatorStyle.width, height: indicatorStyle.height }
         ),
-        ...(variant === 'underline' && activeColor ? { backgroundColor: activeColor } : {}),
+        ...(variant === 'underline' && (activeUnderlineColor || activeColor) ? { backgroundColor: activeUnderlineColor ?? activeColor } : {}),
       }}
     />
   ) : null;
@@ -268,7 +270,7 @@ const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
 >(({ leadIcon, tailIcon, badge, closable = false, onClose, className, children, value, style, ...props }, ref) => {
-  const { variant, shape, size, type, activeColor, animatedIndicator } = useTabsContext();
+  const { variant, shape, size, type, activeColor, activeTextColor, activeUnderlineColor, animatedIndicator } = useTabsContext();
   const iconSize = variant === 'underline' ? ICON_SIZE[size] : 14;
 
   const renderIcon = (icon: IconTypeWithFill | React.ReactNode) => {
@@ -311,7 +313,11 @@ const TabsTrigger = React.forwardRef<
     <TabsPrimitive.Trigger
       ref={ref}
       value={value}
-      style={activeColor ? { ...style, '--tabs-active-color': activeColor } as React.CSSProperties : style}
+      style={(activeColor || activeTextColor || activeUnderlineColor) ? {
+        ...style,
+        '--tabs-active-text-color': activeTextColor ?? activeColor,
+        '--tabs-active-underline-color': activeUnderlineColor ?? activeColor,
+      } as React.CSSProperties : style}
       className={cn(
         'inline-flex items-center justify-center whitespace-nowrap',
         'font-body font-medium',
@@ -347,14 +353,14 @@ const TabsTrigger = React.forwardRef<
           'hover:text-subtle',
           'relative',
           '[margin-bottom:-1px]',
-          activeColor
-            ? 'data-[state=active]:![color:var(--tabs-active-color)]'
+          (activeTextColor || activeColor)
+            ? 'data-[state=active]:![color:var(--tabs-active-text-color)]'
             : 'data-[state=active]:![color:var(--text-default)]',
           !animatedIndicator && [
             'after:absolute after:bottom-0 after:left-0 after:right-0 after:[height:1.5px]',
             'after:bg-transparent',
-            activeColor
-              ? 'data-[state=active]:after:[background-color:var(--tabs-active-color)]'
+            (activeUnderlineColor || activeColor)
+              ? 'data-[state=active]:after:[background-color:var(--tabs-active-underline-color)]'
               : 'data-[state=active]:after:[background-color:var(--border-accent)]',
           ],
         ],

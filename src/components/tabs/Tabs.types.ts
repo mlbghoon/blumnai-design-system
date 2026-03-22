@@ -33,10 +33,25 @@ export interface TabsListProps extends ComponentPropsWithoutRef<typeof TabsPrimi
   /**
    * 활성 탭의 텍스트 및 언더라인 색상 (underline 변형 전용)
    *
-   * CSS 색상 값을 직접 지정합니다.
+   * 텍스트와 언더라인 모두 동일한 색상으로 설정합니다.
+   * 개별 제어가 필요하면 activeTextColor, activeUnderlineColor를 사용하세요.
    * @example activeColor="#5988fe"
    */
   activeColor?: string;
+  /**
+   * 활성 탭의 텍스트 색상 (underline 변형 전용)
+   *
+   * activeColor보다 우선 적용됩니다.
+   * @example activeTextColor="#333"
+   */
+  activeTextColor?: string;
+  /**
+   * 활성 탭의 언더라인 색상 (underline 변형 전용)
+   *
+   * activeColor보다 우선 적용됩니다.
+   * @example activeUnderlineColor="#5988fe"
+   */
+  activeUnderlineColor?: string;
   /**
    * 활성 탭 인디케이터 슬라이딩 애니메이션 활성화
    *

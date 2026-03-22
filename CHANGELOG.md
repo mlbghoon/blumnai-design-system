@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.0.54] - 2026-03-22
+
+### Added
+
+- **TimePicker/TimeRangePicker `showActions` prop**: 취소/적용 버튼 표시 옵션 추가. 활성화 시 draft 상태로 변경 사항을 버퍼링하고, 적용 클릭 시에만 값이 반영됨.
+- **TimePicker/TimeRangePicker `minuteStep`/`secondStep` props**: 분/초 간격 제어. 예: `minuteStep={5}` → 0, 5, 10, ..., 55.
+- **TabsList `activeTextColor`/`activeUnderlineColor` props**: underline 변형에서 활성 탭의 텍스트 색상과 언더라인 색상을 개별 제어 가능. 기존 `activeColor`(둘 다 동시 설정)도 하위 호환 유지.
+
+### Changed
+
+- **TimeRangePicker 레이아웃**: 탭 UI를 제거하고 시작/종료 패널을 나란히(side-by-side) 표시하는 레이아웃으로 변경.
+- **TimePicker/TimeRangePicker 프리셋 위치**: 빠른 선택 버튼을 하단에서 좌측 사이드바로 이동 (DatePicker와 동일한 패턴).
+- **TimePicker/TimeRangePicker 팝오버 패딩**: `![padding:0]`으로 PopoverContent 기본 패딩을 정확히 오버라이드 (DatePicker와 동일).
+
+### Fixed
+
+- **MonthPicker/MonthRangePicker 선택 월 텍스트 색상**: 존재하지 않는 `--text-on-color` CSS 변수를 `text-white-default`로 교체.
+- **TimePicker/TimeRangePicker 액션 버튼 CSS**: 불필요한 `border-t` 제거, 적용 버튼 텍스트 `text-white` → `text-white-default`.
+- **Drawer 드래그 핸들 제거**: 모든 방향(상/하/좌/우)의 드래그 핸들 바 제거.
+- **Drawer/Sheet 닫기 버튼 위치**: `right:20px/top:20px` → `right:16px/top:16px`으로 조정. DrawerHeader에 `padding-right:48px`, SheetHeader에 `padding-right:32px` 추가하여 닫기 버튼과 제목 겹침 방지.
+- **Drawer 제목 위치**: DrawerHeader `padding-top:24px`로 제목을 아래로 이동.
+
 ## [1.0.52] - 2026-03-21
 
 ### Fixed
