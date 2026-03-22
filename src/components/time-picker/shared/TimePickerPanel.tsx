@@ -15,6 +15,8 @@ export function TimePickerPanel({
   onQuickSelect,
   disabled,
   className,
+  minuteStep = 1,
+  secondStep = 1,
 }: TimePickerPanelProps) {
   const is12h = timeFormat === '12h';
 
@@ -31,25 +33,22 @@ export function TimePickerPanel({
     }));
   }, [is12h]);
 
-  const minuteItems = useMemo<TimeColumnItem[]>(
-    () =>
-      Array.from({ length: 60 }, (_, i) => ({
-        value: i,
-        label: String(i).padStart(2, '0'),
-      })),
-    []
-  );
+  const minuteItems = useMemo<TimeColumnItem[]>(() => {
+    const items: TimeColumnItem[] = [];
+    for (let i = 0; i < 60; i += minuteStep) {
+      items.push({ value: i, label: String(i).padStart(2, '0') });
+    }
+    return items;
+  }, [minuteStep]);
 
-  const secondItems = useMemo<TimeColumnItem[]>(
-    () =>
-      showSeconds
-        ? Array.from({ length: 60 }, (_, i) => ({
-            value: i,
-            label: String(i).padStart(2, '0'),
-          }))
-        : [],
-    [showSeconds]
-  );
+  const secondItems = useMemo<TimeColumnItem[]>(() => {
+    if (!showSeconds) return [];
+    const items: TimeColumnItem[] = [];
+    for (let i = 0; i < 60; i += secondStep) {
+      items.push({ value: i, label: String(i).padStart(2, '0') });
+    }
+    return items;
+  }, [showSeconds, secondStep]);
 
   const currentHour24 = value?.hour;
   const currentMinute = value?.minute;

@@ -84,6 +84,10 @@ export interface TimePickerPanelProps {
   onQuickSelect?: (option: QuickSelectOption) => void;
   disabled?: boolean;
   className?: string;
+  /** 분 간격 (기본 1). 예: 5 → 0,5,10,...55 / 10 → 0,10,20,...50 */
+  minuteStep?: number;
+  /** 초 간격 (기본 1) */
+  secondStep?: number;
 }
 
 /**
@@ -217,6 +221,19 @@ export interface TimePickerProps extends Omit<TimeInputProps, 'isOpen' | 'onCloc
    * @default 'start'
    */
   align?: 'start' | 'center' | 'end';
+  /**
+   * 취소/적용 버튼 표시 여부
+   * @default false
+   */
+  showActions?: boolean;
+  /**
+   * 분 간격 (기본 1). 예: 5 → 0,5,10,...55
+   */
+  minuteStep?: number;
+  /**
+   * 초 간격 (기본 1)
+   */
+  secondStep?: number;
 }
 
 /**
@@ -310,6 +327,19 @@ export interface TimeRangePickerProps {
    * @default 'start'
    */
   align?: 'start' | 'center' | 'end';
+  /**
+   * 취소/적용 버튼 표시 여부
+   * @default false
+   */
+  showActions?: boolean;
+  /**
+   * 분 간격 (기본 1). 예: 5 → 0,5,10,...55
+   */
+  minuteStep?: number;
+  /**
+   * 초 간격 (기본 1)
+   */
+  secondStep?: number;
   /**
    * 시작/종료 플레이스홀더
    */

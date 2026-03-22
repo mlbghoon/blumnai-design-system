@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect, useMemo, useId, forwardRef } from 're
 import { cn } from '../../../utils/cn';
 import { Popover, PopoverContent, PopoverAnchor } from '../../popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../tabs';
 import { TimeRangeInput } from './TimeRangeInput';
 import { TimePickerPanel } from '../shared/TimePickerPanel';
 import { formatTimeValue } from '../shared/time-utils';
@@ -64,12 +63,15 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
   showQuickSelect = false,
   quickSelectOptions,
   align = 'start',
+  showActions = false,
+  minuteStep,
+  secondStep,
   className,
   onFocus,
   onBlur,
 }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<string>('start');
+  const [draft, setDraft] = useState<TimeRange | undefined>(value);
   const inputId = useId();
 
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
@@ -77,9 +79,10 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
 
   const handleClockClick = useCallback(() => {
     if (!disabled) {
+      setDraft(value);
       setIsOpen(prev => !prev);
     }
-  }, [disabled]);
+  }, [disabled, value]);
 
   const handleOpenChange = useCallback((open: boolean) => {
     if (!disabled) {
@@ -88,21 +91,42 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
   }, [disabled]);
 
   const handleQuickSelect = useCallback((option: QuickRangeSelectOption) => {
-    onChange?.(option.value);
-    setIsOpen(false);
-  }, [onChange]);
+    if (showActions) {
+      setDraft(option.value);
+    } else {
+      onChange?.(option.value);
+      setIsOpen(false);
+    }
+  }, [onChange, showActions]);
 
   const handleInputChange = useCallback((newValue: TimeRange | undefined) => {
     onChange?.(newValue);
   }, [onChange]);
 
   const handleStartChange = useCallback((newStart: TimeValue) => {
-    onChange?.({ start: newStart, end: value?.end });
-  }, [onChange, value?.end]);
+    if (showActions) {
+      setDraft(prev => ({ start: newStart, end: prev?.end }));
+    } else {
+      onChange?.({ start: newStart, end: value?.end });
+    }
+  }, [onChange, value?.end, showActions]);
 
   const handleEndChange = useCallback((newEnd: TimeValue) => {
-    onChange?.({ start: value?.start, end: newEnd });
-  }, [onChange, value?.start]);
+    if (showActions) {
+      setDraft(prev => ({ start: prev?.start, end: newEnd }));
+    } else {
+      onChange?.({ start: value?.start, end: newEnd });
+    }
+  }, [onChange, value?.start, showActions]);
+
+  const handleApply = useCallback(() => {
+    onChange?.(draft);
+    setIsOpen(false);
+  }, [onChange, draft]);
+
+  const handleCancel = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
   useEffect(() => {
     if (onValidationError) {
@@ -119,6 +143,9 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
     () => quickSelectOptions || DEFAULT_QUICK_OPTIONS,
     [quickSelectOptions]
   );
+
+  const panelStartValue = showActions ? draft?.start : value?.start;
+  const panelEndValue = showActions ? draft?.end : value?.end;
 
   return (
     <InputWrapper
@@ -164,58 +191,97 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
         <PopoverContent
           align={align}
           sideOffset={4}
-          className="w-auto padding-8"
+          className="w-auto ![padding:0] overflow-hidden"
         >
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList variant="segmented" size="sm">
-              <TabsTrigger value="start">시작</TabsTrigger>
-              <TabsTrigger value="end">종료</TabsTrigger>
-            </TabsList>
-            <TabsContent value="start">
-              <TimePickerPanel
-                value={value?.start}
-                onChange={handleStartChange}
-                timeFormat={timeFormat}
-                showSeconds={showSeconds}
-                disabled={disabled}
-              />
-            </TabsContent>
-            <TabsContent value="end">
-              <TimePickerPanel
-                value={value?.end}
-                onChange={handleEndChange}
-                timeFormat={timeFormat}
-                showSeconds={showSeconds}
-                disabled={disabled}
-              />
-            </TabsContent>
-          </Tabs>
-          {showQuickSelect && (
-            <div className="flex flex-wrap ds-gap-6 margin-t-8 padding-t-8 border-t border-default">
-              {options.map((option, index) => {
-                const isSelected = isRangeEqual(value, option.value);
-                return (
+          <div className="flex">
+            {showQuickSelect && (
+              <div className="flex flex-col ds-gap-4 padding-8 border-r-default">
+                {options.map((option, index) => {
+                  const compareValue = showActions ? draft : value;
+                  const isSelected = isRangeEqual(compareValue, option.value);
+                  return (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => handleQuickSelect(option)}
+                      aria-pressed={isSelected}
+                      className={cn(
+                        'padding-x-8 padding-y-4 rounded-xs text-left whitespace-nowrap',
+                        'font-body size-sm line-height-leading-5 font-medium',
+                        'transition-colors',
+                        isSelected
+                          ? 'bg-state-brand text-white-default hover:bg-state-brand-hover cursor-pointer'
+                          : 'text-subtle hover:bg-state-ghost-hover cursor-pointer',
+                        'border-0'
+                      )}
+                      style={{ height: '28px' }}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+            <div className="flex flex-col ds-gap-8 padding-8">
+              <div className="flex ds-gap-12">
+                <div className="flex flex-col ds-gap-4">
+                  <span className="size-xs text-muted font-medium font-body">시작</span>
+                  <TimePickerPanel
+                    value={panelStartValue}
+                    onChange={handleStartChange}
+                    timeFormat={timeFormat}
+                    showSeconds={showSeconds}
+                    disabled={disabled}
+                    minuteStep={minuteStep}
+                    secondStep={secondStep}
+                  />
+                </div>
+                <div className="self-stretch border-r-default" />
+                <div className="flex flex-col ds-gap-4">
+                  <span className="size-xs text-muted font-medium font-body">종료</span>
+                  <TimePickerPanel
+                    value={panelEndValue}
+                    onChange={handleEndChange}
+                    timeFormat={timeFormat}
+                    showSeconds={showSeconds}
+                    disabled={disabled}
+                    minuteStep={minuteStep}
+                    secondStep={secondStep}
+                  />
+                </div>
+              </div>
+              {showActions && (
+                <div className="flex justify-end ds-gap-8 padding-t-8">
                   <button
-                    key={index}
                     type="button"
-                    onClick={() => handleQuickSelect(option)}
-                    aria-pressed={isSelected}
+                    onClick={handleCancel}
                     className={cn(
-                      'padding-x-10 padding-y-6 rounded-md',
-                      'font-body size-sm line-height-leading-5',
-                      isSelected
-                        ? 'bg-state-soft text-basic-blue-strong'
-                        : 'bg-state-ghost hover:bg-state-ghost-hover text-default',
+                      'padding-x-12 padding-y-6 rounded-md',
+                      'font-body size-sm line-height-leading-5 font-medium',
+                      'text-default hover:bg-state-ghost-hover',
                       'transition-colors duration-150',
                       'cursor-pointer border-0'
                     )}
                   >
-                    {option.label}
+                    취소
                   </button>
-                );
-              })}
+                  <button
+                    type="button"
+                    onClick={handleApply}
+                    className={cn(
+                      'padding-x-12 padding-y-6 rounded-md',
+                      'font-body size-sm line-height-leading-5 font-medium',
+                      'bg-state-primary text-white-default hover:bg-state-primary-hover',
+                      'transition-colors duration-150',
+                      'cursor-pointer border-0'
+                    )}
+                  >
+                    적용
+                  </button>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </PopoverContent>
       </Popover>
     </InputWrapper>

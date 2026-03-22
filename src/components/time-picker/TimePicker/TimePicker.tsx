@@ -1,9 +1,10 @@
 import { useState, useCallback, useMemo, useId, forwardRef } from 'react';
+import { cn } from '../../../utils/cn';
 import { Popover, PopoverContent, PopoverAnchor } from '../../popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
 import { TimeInput } from './TimeInput';
 import { TimePickerPanel } from '../shared/TimePickerPanel';
-import { formatTimeValue } from '../shared/time-utils';
+import { formatTimeValue, isTimeEqual } from '../shared/time-utils';
 import type { TimePickerProps, TimeValue, QuickSelectOption } from '../time-picker.types';
 
 const getDefaultQuickOptions = (): QuickSelectOption[] => {
@@ -38,11 +39,15 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
   showQuickSelect = false,
   quickSelectOptions,
   align = 'start',
+  showActions = false,
+  minuteStep,
+  secondStep,
   className,
   onFocus,
   onBlur,
 }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [draft, setDraft] = useState<TimeValue | undefined>(value);
   const inputId = useId();
 
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
@@ -50,9 +55,10 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
 
   const handleClockClick = useCallback(() => {
     if (!disabled) {
+      setDraft(value);
       setIsOpen(prev => !prev);
     }
-  }, [disabled]);
+  }, [disabled, value]);
 
   const handleOpenChange = useCallback((open: boolean) => {
     if (!disabled) {
@@ -61,22 +67,41 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
   }, [disabled]);
 
   const handleQuickSelect = useCallback((option: QuickSelectOption) => {
-    onChange?.(option.value);
-    setIsOpen(false);
-  }, [onChange]);
+    if (showActions) {
+      setDraft(option.value);
+    } else {
+      onChange?.(option.value);
+      setIsOpen(false);
+    }
+  }, [onChange, showActions]);
 
   const handleInputChange = useCallback((newValue: TimeValue | undefined) => {
     onChange?.(newValue);
   }, [onChange]);
 
   const handlePanelChange = useCallback((newValue: TimeValue) => {
-    onChange?.(newValue);
-  }, [onChange]);
+    if (showActions) {
+      setDraft(newValue);
+    } else {
+      onChange?.(newValue);
+    }
+  }, [onChange, showActions]);
+
+  const handleApply = useCallback(() => {
+    onChange?.(draft);
+    setIsOpen(false);
+  }, [onChange, draft]);
+
+  const handleCancel = useCallback(() => {
+    setIsOpen(false);
+  }, []);
 
   const options = useMemo(
     () => quickSelectOptions || getDefaultQuickOptions(),
     [quickSelectOptions]
   );
+
+  const panelValue = showActions ? draft : value;
 
   return (
     <InputWrapper
@@ -119,18 +144,79 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
         <PopoverContent
           align={align}
           sideOffset={4}
-          className="w-auto padding-8"
+          className="w-auto ![padding:0] overflow-hidden"
         >
-          <TimePickerPanel
-            value={value}
-            onChange={handlePanelChange}
-            timeFormat={timeFormat}
-            showSeconds={showSeconds}
-            showQuickSelect={showQuickSelect}
-            quickSelectOptions={options}
-            onQuickSelect={handleQuickSelect}
-            disabled={disabled}
-          />
+          <div className="flex">
+            {showQuickSelect && (
+              <div className="flex flex-col ds-gap-4 padding-8 border-r-default">
+                {options.map((option, index) => {
+                  const compareValue = showActions ? draft : value;
+                  const isSelected = isTimeEqual(compareValue, option.value);
+                  return (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => handleQuickSelect(option)}
+                      aria-pressed={isSelected}
+                      className={cn(
+                        'padding-x-8 padding-y-4 rounded-xs text-left whitespace-nowrap',
+                        'font-body size-sm line-height-leading-5 font-medium',
+                        'transition-colors',
+                        isSelected
+                          ? 'bg-state-brand text-white-default hover:bg-state-brand-hover cursor-pointer'
+                          : 'text-subtle hover:bg-state-ghost-hover cursor-pointer',
+                        'border-0'
+                      )}
+                      style={{ height: '28px' }}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+            <div className="flex flex-col ds-gap-8 padding-8">
+              <TimePickerPanel
+                value={panelValue}
+                onChange={handlePanelChange}
+                timeFormat={timeFormat}
+                showSeconds={showSeconds}
+                disabled={disabled}
+                minuteStep={minuteStep}
+                secondStep={secondStep}
+              />
+              {showActions && (
+                <div className="flex justify-end ds-gap-8 padding-t-8">
+                  <button
+                    type="button"
+                    onClick={handleCancel}
+                    className={cn(
+                      'padding-x-12 padding-y-6 rounded-md',
+                      'font-body size-sm line-height-leading-5 font-medium',
+                      'text-default hover:bg-state-ghost-hover',
+                      'transition-colors duration-150',
+                      'cursor-pointer border-0'
+                    )}
+                  >
+                    취소
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleApply}
+                    className={cn(
+                      'padding-x-12 padding-y-6 rounded-md',
+                      'font-body size-sm line-height-leading-5 font-medium',
+                      'bg-state-primary text-white-default hover:bg-state-primary-hover',
+                      'transition-colors duration-150',
+                      'cursor-pointer border-0'
+                    )}
+                  >
+                    적용
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </PopoverContent>
       </Popover>
     </InputWrapper>

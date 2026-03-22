@@ -131,6 +131,21 @@ const meta: Meta<TimeRangePickerProps> = {
         },
       },
     },
+    showActions: {
+      control: 'boolean',
+      description: '취소/적용 버튼 표시 여부',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    minuteStep: {
+      control: 'number',
+      description: '분 간격 (기본 1). 예: 5 → 0,5,10,...55',
+      table: { type: { summary: 'number' }, defaultValue: { summary: '1' } },
+    },
+    secondStep: {
+      control: 'number',
+      description: '초 간격 (기본 1)',
+      table: { type: { summary: 'number' }, defaultValue: { summary: '1' } },
+    },
   },
 };
 
@@ -152,6 +167,9 @@ export const Default: Story = {
     timeFormat: '24h',
     showSeconds: false,
     showQuickSelect: false,
+    showActions: false,
+    minuteStep: 1,
+    secondStep: 1,
     width: 320,
     required: false,
     supportText: '',
@@ -176,6 +194,9 @@ export const Default: Story = {
         timeFormat={args.timeFormat}
         showSeconds={args.showSeconds}
         showQuickSelect={args.showQuickSelect}
+        showActions={args.showActions}
+        minuteStep={args.minuteStep}
+        secondStep={args.secondStep}
         required={args.required}
         supportText={args.supportText}
         caption={args.caption}
@@ -475,6 +496,81 @@ export const TwelveHourWithSeconds: Story = {
           label="시간 범위 (12시간 + 초)"
           timeFormat="12h"
           showSeconds
+          value={range}
+          onChange={setRange}
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 취소/적용 버튼
+ *
+ * `showActions`를 사용하면 팝오버에 취소/적용 버튼이 표시됩니다.
+ * 적용을 클릭해야 값이 변경됩니다.
+ */
+export const WithActions: Story = {
+  render: function Render() {
+    const [range, setRange] = useState<TimeRange | undefined>({
+      start: { hour: 9, minute: 0 },
+      end: { hour: 17, minute: 0 },
+    });
+    return (
+      <div style={{ width: 320 }}>
+        <TimeRangePicker
+          label="시간 범위"
+          showActions
+          value={range}
+          onChange={setRange}
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 분 간격 설정
+ *
+ * `minuteStep`을 사용하여 분 선택을 5분/10분/15분 단위로 제한할 수 있습니다.
+ */
+export const MinuteStep: Story = {
+  render: function Render() {
+    const [range1, setRange1] = useState<TimeRange | undefined>();
+    const [range2, setRange2] = useState<TimeRange | undefined>();
+    return (
+      <div className="flex flex-col ds-gap-16" style={{ width: 320 }}>
+        <TimeRangePicker
+          label="5분 간격"
+          minuteStep={5}
+          value={range1}
+          onChange={setRange1}
+        />
+        <TimeRangePicker
+          label="15분 간격"
+          minuteStep={15}
+          value={range2}
+          onChange={setRange2}
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 빠른 선택 + 취소/적용
+ *
+ * `showQuickSelect`와 `showActions`를 함께 사용하는 예시입니다.
+ */
+export const QuickSelectWithActions: Story = {
+  render: function Render() {
+    const [range, setRange] = useState<TimeRange | undefined>();
+    return (
+      <div style={{ width: 320 }}>
+        <TimeRangePicker
+          label="시간 범위"
+          showQuickSelect
+          showActions
           value={range}
           onChange={setRange}
         />
