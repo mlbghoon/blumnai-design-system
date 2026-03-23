@@ -83,6 +83,11 @@ export interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childr
    */
   imageAlt?: string;
   /**
+   * 닫기 아이콘 색상 (closeIcon=true일 때만 적용).
+   * 미지정 시 badge color와 동일한 색상 사용.
+   */
+  closeColor?: BadgeColor;
+  /**
    * If true, disables the close icon button (only used when closeIcon=true).
    * @default false
    */

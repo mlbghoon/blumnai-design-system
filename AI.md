@@ -1255,7 +1255,10 @@ import { Badge } from '@blumnai-studio/blumnai-design-system';
 | `icon` | `IconTypeWithFill` | - | Icon (for `variant="icon"`) |
 | `image` | `string` | - | Image URL (for `variant="image"`) |
 | `imageAlt` | `string` | `''` | Alt text for image (for `variant="image"`) |
+| `closeColor` | `BadgeColor` | badge `color` | Close icon color (when `closeIcon=true`) |
 | `closeDisabled` | `boolean` | `false` | Disable close button (when `closeIcon=true`) |
+
+**Note:** `onClick`이 전달되면 자동으로 `cursor: pointer` 적용 (Badge, Avatar, AvatarGroup, StatusDot 공통).
 
 ```tsx
 <Badge label="Active" color="green" />

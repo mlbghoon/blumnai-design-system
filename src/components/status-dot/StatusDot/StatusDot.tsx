@@ -16,11 +16,12 @@ const SIZE_MAP: Record<StatusDotSize, string> = {
 };
 
 export const StatusDot = forwardRef<HTMLSpanElement, StatusDotProps>(
-  ({ color = 'green', label, size = 'md', className, ...props }, ref) => {
+  ({ color = 'green', label, size = 'md', onClick, className, ...props }, ref) => {
     return (
       <span
         ref={ref}
-        className={cn('inline-flex items-center ds-gap-6', className)}
+        className={cn('inline-flex items-center ds-gap-6', onClick && 'cursor-pointer', className)}
+        onClick={onClick}
         {...props}
       >
         <span

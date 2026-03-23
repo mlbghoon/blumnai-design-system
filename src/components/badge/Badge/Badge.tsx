@@ -53,12 +53,14 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   shape = 'rounded',
   border = false,
   closeIcon = false,
+  closeColor,
   closeDisabled = false,
   label,
   icon,
   image,
   imageAlt,
   onClose,
+  onClick,
   className,
   style,
   ...props
@@ -69,6 +71,10 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
       'relative inline-flex items-center justify-center',
       'font-["Spoqa_Han_Sans_Neo",sans-serif] font-medium select-none whitespace-nowrap',
     ];
+
+    if (onClick) {
+      classes.push('cursor-pointer');
+    }
 
     if (size === 'sm') {
       classes.push('min-height-20 padding-y-2 padding-x-2 size-xs line-height-leading-4 letter-spacing-tracking-normal');
@@ -93,7 +99,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
     }
 
     return cn(...classes);
-  }, [size, shape, color, border, className]);
+  }, [size, shape, color, border, onClick, className]);
 
   const iconSize = size === 'sm' ? 12 : 14;
 
@@ -102,7 +108,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
   const combinedStyle = { color: getTextColor(color), ...style };
 
   return (
-    <div ref={ref} className={containerClassName} style={combinedStyle} {...props}>
+    <div ref={ref} className={containerClassName} style={combinedStyle} onClick={onClick} {...props}>
       {parsedIcon && (
         <span className={`inline-flex items-center shrink-0 line-height-leading-none margin-${size !== 'sm' ? '1' : '2'}`}>
           <Icon iconType={parsedIcon.iconType} size={iconSize} color={getIconColor(color)} isFill={parsedIcon.isFill} />
@@ -151,7 +157,7 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
           aria-disabled={closeDisabled}
           aria-label="Close badge"
         >
-          <Icon iconType={['system', 'close']} size={iconSize} color={getIconColor(color)} />
+          <Icon iconType={['system', 'close']} size={iconSize} color={getIconColor(closeColor ?? color)} />
         </button>
       )}
     </div>

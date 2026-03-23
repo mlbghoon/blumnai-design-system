@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.56] - 2026-03-23
+
+### Added
+
+- **Badge `closeColor` prop**: 닫기 아이콘의 색상을 badge 색상과 별도로 지정 가능. 예: `<Badge color="blue" closeIcon closeColor="neutral" />`
+- **onClick 시 cursor-pointer 자동 적용**: Badge, Avatar, AvatarGroup, StatusDot — `onClick` prop이 전달되면 자동으로 `cursor: pointer` 스타일 적용.
+
 ## [1.0.55] - 2026-03-23
 
 ### Fixed

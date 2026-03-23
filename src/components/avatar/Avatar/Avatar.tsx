@@ -58,6 +58,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
       onError: onErrorProp,
       onLoad: onLoadProp,
       className,
+      onClick,
       ...props
     },
     ref
@@ -86,8 +87,8 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
 
   // Container classes
   const containerClasses = useMemo(
-    () => cn(CONTAINER_BASE_CLASSES, CONTAINER_SIZE_CLASSES[size], className),
-    [size, className]
+    () => cn(CONTAINER_BASE_CLASSES, CONTAINER_SIZE_CLASSES[size], onClick && 'cursor-pointer', className),
+    [size, onClick, className]
   );
 
   // Ring wrapper classes
@@ -159,7 +160,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
   }, [variant, color]);
 
   return (
-    <div ref={ref} className={containerClasses} {...props}>
+    <div ref={ref} className={containerClasses} onClick={onClick} {...props}>
       {/* Ring element - centered, conditional - matching Figma structure */}
       {ring && (
         <div className={ringWrapperClasses}>

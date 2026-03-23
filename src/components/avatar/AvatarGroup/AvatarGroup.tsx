@@ -21,6 +21,7 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
       stacking = 'last-on-top',
       avatars,
       max,
+      onClick,
       className,
       ...props
     },
@@ -54,7 +55,7 @@ export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
   const overlaySize = overlaySizes[size];
 
   return (
-    <div ref={ref} className={cn('relative inline-flex items-center shrink-0', className)} {...props}>
+    <div ref={ref} className={cn('relative inline-flex items-center shrink-0', onClick && 'cursor-pointer', className)} onClick={onClick} {...props}>
       {visibleAvatars.map((avatarProps, index) => {
         const zIndex = getZIndex(index, visibleAvatars.length);
 
