@@ -627,7 +627,7 @@ import { Select } from '@blumnai-studio/blumnai-design-system';
 
 ```ts
 interface SelectOption {
-  id: string;
+  id: string;        // '' (empty string) is safely handled — see note below
   label: string;
   description?: string;
   leadIcon?: IconTypeWithFill;
@@ -637,6 +637,29 @@ interface SelectOption {
   disabled?: boolean;
 }
 ```
+
+#### Empty String Value Handling
+
+Options with `id: ''` are fully supported. The DS internally maps empty strings to a sentinel value to avoid Radix UI crashes, and maps them back in `onChange`. This works transparently:
+
+```tsx
+// ✅ This just works — no filtering or workarounds needed
+<Select
+  options={[
+    { id: '', label: '전체' },       // renders as a normal selectable option
+    { id: 'option1', label: 'One' },
+    { id: 'option2', label: 'Two' },
+  ]}
+  value=""              // treated as selecting the { id: '' } option
+  onChange={setValue}    // receives '' when the empty option is selected
+/>
+```
+
+- `value=""` → selects the option with `id: ''`
+- `value={undefined}` → shows placeholder (no selection)
+- `onChange` receives `''` (original empty string), not the internal sentinel
+- `defaultValue=""` is also safely handled
+- `renderOption` and `renderValue` callbacks receive the original option with `id: ''`
 
 ### Combobox
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.55] - 2026-03-23
+
+### Fixed
+
+- **Select 빈 문자열 value 처리**: `id: ''`인 옵션이 있어도 Radix 런타임 에러 없이 정상 동작. 내부적으로 sentinel 값으로 매핑하여 `value=""`, `defaultValue=""`, `options: [{ id: '', label: '전체' }]` 패턴을 안전하게 지원. `onChange` 콜백에는 원본 빈 문자열이 전달됨.
+
 ## [1.0.54] - 2026-03-22
 
 ### Added

@@ -21,6 +21,9 @@ import {
   MENU_ITEM_SIZE_CONFIG,
 } from '@/constants/select/Select/Select.constants';
 
+// Radix Select는 value=""를 허용하지 않으므로 내부적으로 sentinel 값으로 매핑
+const EMPTY_SENTINEL = '__ds_empty__';
+
 // ============================================================================
 // SVG Icons for Checkbox/Radio indicators
 // ============================================================================
@@ -566,6 +569,16 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
     const [searchQuery, setSearchQuery] = React.useState('');
     const searchInputRef = React.useRef<HTMLInputElement>(null);
 
+    // Radix는 value=""를 허용하지 않으므로 sentinel로 매핑
+    const safeOptions = React.useMemo(() =>
+      options.map((opt) => opt.id === '' ? { ...opt, id: EMPTY_SENTINEL } : opt),
+      [options]
+    );
+    const normalizedValue = value === '' ? EMPTY_SENTINEL : value;
+    const handleValueChange = React.useCallback((v: string) => {
+      onChange?.(v === EMPTY_SENTINEL ? '' : v);
+    }, [onChange]);
+
     const hasError =
       error === true || (typeof error === 'string' && error.length > 0);
     const hasSuccess =
@@ -580,19 +593,19 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
 
     const filteredOptions = React.useMemo(() => {
       if (!searchable || !searchQuery.trim()) {
-        return options;
+        return safeOptions;
       }
       const query = searchQuery.toLowerCase().trim();
-      return options.filter(
+      return safeOptions.filter(
         (option) =>
           option.label.toLowerCase().includes(query) ||
           option.description?.toLowerCase().includes(query)
       );
-    }, [options, searchQuery, searchable]);
+    }, [safeOptions, searchQuery, searchable]);
 
     const selectedOption = React.useMemo(() => {
-      return options.find((opt) => opt.id === value);
-    }, [options, value]);
+      return safeOptions.find((opt) => opt.id === normalizedValue);
+    }, [safeOptions, normalizedValue]);
 
     const handleOpenChange = React.useCallback(
       (isOpen: boolean) => {
@@ -614,7 +627,9 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
     );
 
     const renderSingleOption = (option: SelectOption) => {
-      const isSelected = option.id === value;
+      const isSelected = option.id === normalizedValue;
+      // renderOption 콜백에는 원본 id를 전달
+      const originalOption = option.id === EMPTY_SENTINEL ? { ...option, id: '' } : option;
       if (renderOption) {
         return (
           <SelectPrimitive.Item
@@ -641,7 +656,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
               </SelectPrimitive.ItemIndicator>
             </span>
             <SelectPrimitive.ItemText className="sr-only">{option.label}</SelectPrimitive.ItemText>
-            {renderOption(option, isSelected)}
+            {renderOption(originalOption, isSelected)}
           </SelectPrimitive.Item>
         );
       }
@@ -682,8 +697,9 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       }
 
       if (optionGroups && optionGroups.length > 0) {
+        const mapId = (id: string) => id === '' ? EMPTY_SENTINEL : id;
         const ungroupedOptionIds = new Set(
-          optionGroups.flatMap((g) => g.optionIds)
+          optionGroups.flatMap((g) => g.optionIds.map(mapId))
         );
         const ungroupedOptions = filteredOptions.filter(
           (opt) => !ungroupedOptionIds.has(opt.id)
@@ -692,8 +708,9 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
         return (
           <>
             {optionGroups.map((group) => {
+              const mappedIds = group.optionIds.map(mapId);
               const groupOptions = filteredOptions.filter((opt) =>
-                group.optionIds.includes(opt.id)
+                mappedIds.includes(opt.id)
               );
               if (groupOptions.length === 0) return null;
               return (
@@ -716,8 +733,13 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
         return placeholder;
       }
 
+      // renderValue 콜백에는 원본 id를 전달
+      const originalSelectedOption = selectedOption.id === EMPTY_SENTINEL
+        ? { ...selectedOption, id: '' }
+        : selectedOption;
+
       if (renderValue) {
-        return renderValue(selectedOption);
+        return renderValue(originalSelectedOption);
       }
 
       if (variant === 'avatar' && selectedOption.avatarSrc) {
@@ -761,9 +783,9 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       >
         <div ref={ref} className="relative" style={minWidth ? { minWidth: typeof minWidth === 'number' ? `${minWidth}px` : minWidth } : undefined}>
           <Select
-            value={value}
-            onValueChange={onChange}
-            defaultValue={defaultValue}
+            value={normalizedValue}
+            onValueChange={handleValueChange}
+            defaultValue={defaultValue === '' ? EMPTY_SENTINEL : defaultValue}
             open={open}
             onOpenChange={handleOpenChange}
             disabled={disabled}
@@ -778,13 +800,13 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
               aria-describedby={caption || error || success ? `${selectId}-caption` : undefined}
               aria-required={required || undefined}
             >
-              {value ? (
+              {normalizedValue ? (
                 renderSelectedValue()
               ) : (
                 <SelectValue placeholder={placeholder} />
               )}
             </SelectTrigger>
-            {clearable && value && !disabled && (
+            {clearable && normalizedValue && !disabled && (
               <button
                 type="button"
                 aria-label="Clear selection"
