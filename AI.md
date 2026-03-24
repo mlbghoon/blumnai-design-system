@@ -89,6 +89,8 @@ import { Button, Input, Select } from '@blumnai-studio/blumnai-design-system';
 | Circular progress | `ProgressCircular` | `<ProgressCircular value={75} />` |
 | Date picker | `DatePicker` | `<DatePicker value={date} onChange={...} />` |
 | Date range picker | `DateRangePicker` | `<DateRangePicker value={range} onChange={...} />` |
+| Month picker | `MonthPicker` | `<MonthPicker value={date} onChange={...} />` |
+| Month range picker | `MonthRangePicker` | `<MonthRangePicker value={range} onChange={...} />` |
 | Time picker | `TimePicker` | `<TimePicker value={time} onChange={...} />` |
 | Time range picker | `TimeRangePicker` | `<TimeRangePicker value={range} onChange={...} />` |
 | File upload | `FileUploadArea` | `<FileUploadArea onFilesSelected={...} />` |
@@ -1685,6 +1687,47 @@ The underlying calendar used by DatePicker/DateRangePicker. Extends `react-day-p
 | `mode` | `'single'` `'multiple'` `'range'` | - | Selection mode (from react-day-picker) |
 
 > All other props are inherited from `react-day-picker` (`selected`, `onSelect`, `disabled`, `fromDate`, `toDate`, `numberOfMonths`, `locale`, etc.).
+
+### MonthPicker / MonthRangePicker
+
+```tsx
+import { MonthPicker, MonthRangePicker } from '@blumnai-studio/blumnai-design-system';
+```
+
+Month-level date pickers with **segmented keyboard input** (YYYY.MM). Users can type directly into year/month segments with auto-advance, arrow/Tab navigation, and blur padding. The calendar icon opens a popover month grid.
+
+**MonthPicker Props:**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `Date` | - | Selected month (day is always 1) |
+| `onChange` | `(date: Date) => void` | - | Change callback |
+| `minDate` | `Date` | - | Earliest selectable date |
+| `maxDate` | `Date` | - | Latest selectable date |
+| `disabledFuture` | `boolean` | `false` | Disable future months |
+| `locale` | `string` | `'ko'` | Locale (`'ko'` or `'en'`) |
+| `label` | `ReactNode` | - | Label |
+| `labelPosition` | `'top' \| 'left'` | `'top'` | Label position |
+| `labelWidth` | `string \| number` | - | Label width when `labelPosition="left"` |
+| `error` | `boolean \| string` | - | Error state/message |
+| `supportText` | `string` | - | Support text next to label |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `showQuickPresets` | `boolean` | `false` | Show quick presets sidebar |
+| `presets` | `MonthPickerPreset[]` | - | Custom presets |
+
+**MonthRangePicker Props:** Same as MonthPicker, plus:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `MonthRange` (`{ from?: Date; to?: Date }`) | - | Selected range |
+| `onChange` | `(range: MonthRange) => void` | - | Change callback |
+
+```tsx
+<MonthPicker label="월 선택" value={month} onChange={setMonth} />
+<MonthRangePicker label="기간 선택" value={range} onChange={setRange} showQuickPresets />
+```
+
+**Keyboard input:** Type digits directly — year auto-advances to month on 4 digits. For MonthRangePicker, segments flow: fromYear → fromMonth → toYear → toMonth. Arrow/Tab keys navigate between segments. Invalid input (month > 12) shows error border. Range auto-swaps if from > to.
 
 ### Charts
 
