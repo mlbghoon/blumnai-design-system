@@ -174,9 +174,10 @@ export const Default: Story = {
     const caption = args.caption || undefined;
     const error = args.error || undefined;
     const success = args.success || undefined;
+    const variant = (args.variant ?? 'quantity') as 'quantity' | 'quantity-2';
     return (
       <Input
-        variant="quantity"
+        variant={variant}
         inputStyle={args.inputStyle}
         size={args.size}
         label={args.label}
