@@ -126,6 +126,10 @@ import { Button, Input, Select } from '@blumnai-studio/blumnai-design-system';
 | Menubar | `Menubar` | `<Menubar><MenubarMenu>...</MenubarMenu></Menubar>` |
 | Navigation menu | `NavigationMenu` | `<NavigationMenu><NavigationMenuList>...</NavigationMenuList></NavigationMenu>` |
 | Charts | `BarChart`, `LineChart`, `PieChart`, `DonutChart` | See chart section |
+| Status indicator | `StatusDot` | `<StatusDot color="green" label="Active" />` |
+| Empty state placeholder | `EmptyState` | `<EmptyState icon={['system', 'inbox']} title="No data" />` |
+| Step progress | `Stepper` | `<Stepper steps={[...]} activeStep={0} />` |
+| Pagination | `Pagination` | `<Pagination totalPages={10} currentPage={1} onChange={...} />` |
 | Cursor icon | `CursorIcon` | `<CursorIcon cursorType="pointer" />` |
 | Drag and drop | `DndContext`, `Draggable`, `Droppable`, `Sortable` | See DnD section |
 
@@ -155,6 +159,7 @@ import { Button, Input, Select } from '@blumnai-studio/blumnai-design-system';
 | `Slider` / `SliderRange` / `SliderInput` / `SliderRangeInput` | Value sliders |
 | `DataRangeSlider` / `DataRangeSliderInput` | Range slider with data distribution chart |
 | `DatePicker` / `DateRangePicker` | Date selection |
+| `MonthPicker` / `MonthRangePicker` | Month-level selection with keyboard input |
 | `TimePicker` / `TimeInput` / `TimeRangePicker` / `TimeRangeInput` | Time selection |
 | `FileUploadArea` / `FileUploadCard` | File drag & drop upload |
 | `InputOTP` | One-time password input |
@@ -1986,6 +1991,82 @@ import { Pagination } from '@blumnai-studio/blumnai-design-system';
 | `prevText` | `string` | `'Prev'` | Previous button text (simple variant) |
 | `nextText` | `string` | `'Next'` | Next button text (simple variant) |
 | `size` | `'sm'` `'lg'` | `'lg'` | Pagination size (sm=28px items, lg=32px items) |
+
+### StatusDot
+
+```tsx
+import { StatusDot } from '@blumnai-studio/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `color` | `'green'` `'red'` `'orange'` `'gray'` | `'green'` | Status color |
+| `label` | `string` | - | Status label text |
+| `size` | `'sm'` `'md'` | `'md'` | Size |
+
+```tsx
+<StatusDot color="green" label="Active" />
+<StatusDot color="red" label="Error" size="sm" />
+```
+
+> `onClick` prop auto-applies `cursor: pointer` (shared with Badge, Avatar, AvatarGroup).
+
+### EmptyState
+
+```tsx
+import { EmptyState } from '@blumnai-studio/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `icon` | `IconTypeWithFill` | - | Icon |
+| `title` | `string` | - | Heading text |
+| `description` | `string` | - | Description text |
+| `action` | `ReactNode` | - | Action area (e.g. Button) |
+| `size` | `'sm'` `'md'` | `'md'` | Size |
+
+```tsx
+<EmptyState
+  icon={['system', 'inbox']}
+  title="No results found"
+  description="Try adjusting your search criteria"
+  action={<Button>Create new</Button>}
+/>
+```
+
+### Stepper
+
+```tsx
+import { Stepper } from '@blumnai-studio/blumnai-design-system';
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `steps` | `StepItem[]` | required | Step items |
+| `activeStep` | `number` | `0` | Current active step index |
+| `orientation` | `'horizontal'` `'vertical'` | `'horizontal'` | Layout direction |
+| `indicatorType` | `'number'` `'icon'` `'dot'` | `'number'` | Step indicator style |
+| `size` | `'sm'` `'md'` `'lg'` | `'md'` | Size |
+| `color` | color name | `'blue'` | Active step color |
+| `clickable` | `boolean` | `false` | Steps are clickable |
+| `onStepClick` | `(index: number) => void` | - | Click callback |
+| `showCheckOnCompleted` | `boolean` | `false` | Show check icon for completed steps |
+
+**StepItem:** `label` (string, required), `caption?`, `supportText?`, `icon?` (IconType), `error?` (boolean), `children?` (ReactNode — shown when step is active)
+
+```tsx
+<Stepper
+  steps={[
+    { label: 'Info', caption: 'Personal details' },
+    { label: 'Contact', caption: 'Email & phone' },
+    { label: 'Confirm' },
+  ]}
+  activeStep={1}
+  clickable
+  onStepClick={setStep}
+  showCheckOnCompleted
+/>
+```
 
 ### Card
 
