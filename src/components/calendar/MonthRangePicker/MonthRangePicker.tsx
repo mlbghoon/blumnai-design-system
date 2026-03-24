@@ -5,17 +5,11 @@ import { cn } from '../../../utils/cn';
 import { Popover, PopoverContent, PopoverAnchor } from '../../popover/Popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
 import { Icon } from '../../icons/Icon';
+import { MonthRangeInput } from '../components/MonthRangeInput';
 import { QuickPresets } from '../components/QuickPresets';
-import { MONTHS_KO, MONTHS_EN, formatYearMonth, isMonthDisabled as checkMonthDisabled } from '../utils';
+import { MONTHS_KO, MONTHS_EN, isMonthDisabled as checkMonthDisabled } from '../utils';
 import type { QuickPreset } from '../DatePicker.types';
 import type { MonthRangePickerProps, MonthRange, MonthRangePreset } from './MonthRangePicker.types';
-
-const formatMonthRange = (range: MonthRange | undefined): string => {
-  if (!range?.from) return '';
-  const fromStr = formatYearMonth(range.from);
-  if (!range.to) return fromStr;
-  return `${fromStr} ~ ${formatYearMonth(range.to)}`;
-};
 
 const getDefaultRangePresets = (): MonthRangePreset[] => {
   const now = new Date();
@@ -60,7 +54,6 @@ export const MonthRangePicker = ({
   supportText,
   className,
   disabled = false,
-  placeholder = 'YYYY.MM ~ YYYY.MM',
   showQuickPresets = false,
   presets,
 }: MonthRangePickerProps) => {
@@ -133,6 +126,11 @@ export const MonthRangePicker = ({
     }
   }, [viewYear, selecting, tempRange.from, onChange]);
 
+  const handleInputChange = useCallback((range: MonthRange) => {
+    onChange?.(range);
+    if (range.from) setViewYear(range.from.getFullYear());
+  }, [onChange]);
+
   const handlePresetSelect = useCallback((preset: QuickPreset) => {
     const range = preset.getValue() as MonthRange;
     setTempRange(range);
@@ -157,8 +155,6 @@ export const MonthRangePicker = ({
     setOpen(nextOpen);
   }, [value]);
 
-  const displayValue = formatMonthRange(value);
-
   return (
     <InputWrapper
       label={label}
@@ -170,38 +166,14 @@ export const MonthRangePicker = ({
     >
       <Popover open={open} onOpenChange={handleOpenChange}>
         <PopoverAnchor asChild>
-          <div
-            role="button"
-            tabIndex={disabled ? -1 : 0}
-            aria-expanded={open}
-            aria-disabled={disabled}
-            onClick={() => !disabled && handleOpenChange(!open)}
-            onKeyDown={(e) => {
-              if (disabled) return;
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleOpenChange(!open);
-              }
-            }}
-            className={cn(
-              'flex w-full items-center justify-between',
-              'height-36 padding-x-12 rounded-md',
-              'font-body size-sm line-height-leading-5 text-default',
-              'border-default bg-default',
-              'transition-colors duration-150 cursor-pointer',
-              'focus:outline-none focus:ring-2 focus:ring-[var(--border-highlight)]',
-              hasError && 'border-destructive',
-              disabled && 'cursor-not-allowed opacity-50 bg-muted',
-            )}
-          >
-            <span className={cn(!displayValue && 'text-hint')}>
-              {displayValue || placeholder}
-            </span>
-            <Icon
-              iconType={['business', 'calendar']}
-              size={16}
-              color={disabled ? 'default-disabled' : 'default-subtle'}
-              className="flex-shrink-0"
+          <div>
+            <MonthRangeInput
+              value={value}
+              onChange={handleInputChange}
+              disabled={disabled}
+              hasError={hasError}
+              isOpen={open}
+              onCalendarClick={() => !disabled && handleOpenChange(!open)}
             />
           </div>
         </PopoverAnchor>
@@ -230,7 +202,7 @@ export const MonthRangePicker = ({
               <button
                 type="button"
                 onClick={() => setViewYear((y) => y - 1)}
-                className="flex items-center justify-center width-28 height-28 rounded-sm hover:bg-[var(--bg-state-ghost-hover)] transition-colors"
+                className="flex items-center justify-center width-28 height-28 rounded-sm hover:bg-state-ghost-hover transition-colors"
               >
                 <Icon iconType={['arrows', 'arrow-drop-left']} size={16} color="default" />
               </button>
@@ -240,7 +212,7 @@ export const MonthRangePicker = ({
               <button
                 type="button"
                 onClick={() => setViewYear((y) => y + 1)}
-                className="flex items-center justify-center width-28 height-28 rounded-sm hover:bg-[var(--bg-state-ghost-hover)] transition-colors"
+                className="flex items-center justify-center width-28 height-28 rounded-sm hover:bg-state-ghost-hover transition-colors"
               >
                 <Icon iconType={['arrows', 'arrow-drop-right']} size={16} color="default" />
               </button>

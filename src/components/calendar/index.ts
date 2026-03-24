@@ -1,6 +1,6 @@
 export { Calendar, CalendarDayButton } from './Calendar';
 export { DatePicker, DateRangePicker } from './DatePicker';
-export { DatePickerInput, DateInput, DateRangeInput, QuickPresets } from './components';
+export { DatePickerInput, DateInput, DateRangeInput, MonthInput, MonthRangeInput, QuickPresets } from './components';
 
 export type { CalendarProps, CalendarStyle, CaptionLayout } from './Calendar.types';
 export type {

@@ -85,13 +85,6 @@ const meta: Meta<typeof MonthRangePicker> = {
         type: { summary: 'boolean' },
       },
     },
-    placeholder: {
-      control: 'text',
-      description: '플레이스홀더 텍스트',
-      table: {
-        type: { summary: 'string' },
-      },
-    },
     showQuickPresets: {
       control: 'boolean',
       description: '빠른 선택 프리셋 표시 여부',
@@ -120,7 +113,6 @@ type Story = StoryObj<typeof MonthRangePicker>;
 export const Default: Story = {
   args: {
     label: '기간 선택',
-    placeholder: 'YYYY.MM ~ YYYY.MM',
     locale: 'ko',
     disabled: false,
     disabledFuture: false,

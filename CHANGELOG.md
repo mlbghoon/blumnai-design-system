@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- **MonthPicker/MonthRangePicker 키보드 입력 지원**: YYYY.MM 세그먼트 입력 추가. 숫자 직접 입력, 자동 이동(year→month), 화살표/Tab 키 탐색, blur 시 자동 패딩 지원. 달력 아이콘 클릭으로 기존 팝오버 그리드도 사용 가능.
+
+### Fixed
+
+- **MonthPicker/MonthRangePicker 포커스 링 스타일**: DatePicker와 동일한 `shadow-component-input-focus` 스타일로 변경 (기존: Tailwind ring-2).
+- **MonthPicker/MonthRangePicker 연도 버튼 임의값 제거**: `hover:bg-[var(--bg-state-ghost-hover)]` → `hover:bg-state-ghost-hover`.
+
 ## [1.0.57] - 2026-03-24
 
 ### Added
