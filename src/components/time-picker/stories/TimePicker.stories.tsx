@@ -25,10 +25,10 @@ const meta: Meta<TimePickerProps> = {
     },
     size: {
       control: 'select',
-      options: ['sm', 'lg'],
+      options: ['xs', 'sm', 'lg'],
       description: '시간 선택기 크기',
       table: {
-        type: { summary: 'TimePickerSize', detail: "'sm' | 'lg'" },
+        type: { summary: 'TimePickerSize', detail: "'xs' | 'sm' | 'lg'" },
         defaultValue: { summary: 'sm' },
       },
     },
@@ -281,10 +281,17 @@ export const WithSeconds: Story = {
  */
 export const Sizes: Story = {
   render: function Render() {
+    const [timeXs, setTimeXs] = useState<TimeValue | undefined>();
     const [timeSm, setTimeSm] = useState<TimeValue | undefined>();
     const [timeLg, setTimeLg] = useState<TimeValue | undefined>();
     return (
       <div className="flex flex-col ds-gap-16" style={{ width: 200 }}>
+        <TimePicker
+          label="초소형 (xs)"
+          size="xs"
+          value={timeXs}
+          onChange={setTimeXs}
+        />
         <TimePicker
           label="소형 (sm)"
           size="sm"
