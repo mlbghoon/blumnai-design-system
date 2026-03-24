@@ -1346,7 +1346,7 @@ import { TimePicker, TimeRangePicker } from '@blumnai-studio/blumnai-design-syst
 | `timeFormat` | `'12h'` `'24h'` | `'24h'` | Time format |
 | `showSeconds` | `boolean` | `false` | Show seconds segment |
 | `disabled` | `boolean` | `false` | Disabled state |
-| `size` | `'sm'` `'lg'` | `'sm'` | Size |
+| `size` | `'xs'` `'sm'` `'lg'` | `'sm'` | Size (xs=28px, sm=32px, lg=36px) |
 | `timePickerStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `placeholder` | `TimeSegmentPlaceholder` | - | Placeholder `{ hour?, minute?, second? }` |
 | `name` | `string` | - | Form name (renders hidden input) |
@@ -1377,7 +1377,7 @@ import { TimePicker, TimeRangePicker } from '@blumnai-studio/blumnai-design-syst
 | `timeFormat` | `'12h'` `'24h'` | `'24h'` | Time format |
 | `showSeconds` | `boolean` | `false` | Show seconds segment |
 | `disabled` | `boolean` | `false` | Disabled state |
-| `size` | `'sm'` `'lg'` | `'sm'` | Size |
+| `size` | `'xs'` `'sm'` `'lg'` | `'sm'` | Size (xs=28px, sm=32px, lg=36px) |
 | `timePickerStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `placeholder` | `TimeSegmentPlaceholder` | - | Start/end placeholder |
 | `name` | `string` | - | Form name (`{name}-start`, `{name}-end`) |
@@ -1418,7 +1418,7 @@ import { TimeInput, TimeRangeInput } from '@blumnai-studio/blumnai-design-system
 | `hasError` | `boolean` | `false` | Error style |
 | `hasSuccess` | `boolean` | `false` | Success style |
 | `isOpen` | `boolean` | - | Open state indicator |
-| `size` | `'sm'` `'lg'` | `'sm'` | Size |
+| `size` | `'xs'` `'sm'` `'lg'` | `'sm'` | Size (xs=28px, sm=32px, lg=36px) |
 | `timePickerStyle` | `'default'` `'shadow'` `'soft'` | `'default'` | Visual style |
 | `placeholder` | `TimeSegmentPlaceholder` | - | Placeholder `{ hour?, minute?, second? }` |
 | `hideClockIcon` | `boolean` | `false` | Hide clock icon |

@@ -346,6 +346,9 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
   const showError = hasError || hasInvalidTime;
   const state = disabled ? 'disabled' : showError ? 'error' : hasSuccess ? 'success' : 'default';
   const stateConfig = STATE_CONFIG[state];
+  const isXs = size === 'xs';
+  const segmentWidth = isXs ? '20px' : '24px';
+  const segmentHeight = isXs ? '16px' : '20px';
 
   const iconColor = disabled ? 'default-disabled' : showError ? 'destructive' : hasSuccess ? 'success' : 'default-subtle';
 
@@ -393,8 +396,8 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
           disabled && 'cursor-not-allowed'
         )}
         style={{
-          width: '24px',
-          height: '20px',
+          width: segmentWidth,
+          height: segmentHeight,
         }}
       />
     );
@@ -406,11 +409,11 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
     return (
       <div className="flex items-center ds-gap-2">
         {renderSegment(part, 'hour')}
-        <span className="text-hint size-sm">:</span>
+        <span className={cn('text-hint', isXs ? 'size-xs' : 'size-sm')}>:</span>
         {renderSegment(part, 'minute')}
         {showSeconds && (
           <>
-            <span className="text-hint size-sm">:</span>
+            <span className={cn('text-hint', isXs ? 'size-xs' : 'size-sm')}>:</span>
             {renderSegment(part, 'second')}
           </>
         )}
@@ -422,7 +425,8 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
             className={cn(
               'padding-x-4 padding-y-2 rounded-xs',
               'ml-[4px]',
-              'font-body size-sm line-height-leading-5 font-medium',
+              'font-body font-medium',
+              isXs ? 'size-xs line-height-leading-4' : 'size-sm line-height-leading-5',
               'transition-colors duration-150',
               disabled
                 ? 'text-hint cursor-not-allowed'
@@ -446,7 +450,7 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
         onClick={handleInputAreaClick}
       >
         {renderTimePart('start')}
-        <span className="text-hint size-sm">-</span>
+        <span className={cn('text-hint', isXs ? 'size-xs' : 'size-sm')}>-</span>
         {renderTimePart('end')}
       </div>
       <button

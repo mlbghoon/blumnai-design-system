@@ -293,6 +293,9 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
   const showError = hasError || hasInvalidTime;
   const state = disabled ? 'disabled' : showError ? 'error' : hasSuccess ? 'success' : 'default';
   const stateConfig = STATE_CONFIG[state];
+  const isXs = size === 'xs';
+  const segmentWidth = isXs ? '20px' : '24px';
+  const segmentHeight = isXs ? '16px' : '20px';
 
   const iconColor = disabled ? 'default-disabled' : showError ? 'destructive' : hasSuccess ? 'success' : 'default-subtle';
 
@@ -344,8 +347,8 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
           disabled && 'cursor-not-allowed'
         )}
         style={{
-          width: '24px',
-          height: '20px',
+          width: segmentWidth,
+          height: segmentHeight,
         }}
       />
     );
@@ -362,11 +365,11 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
         onClick={handleInputAreaClick}
       >
         {renderSegment('hour')}
-        <span className="text-hint size-sm">:</span>
+        <span className={cn('text-hint', isXs ? 'size-xs' : 'size-sm')}>:</span>
         {renderSegment('minute')}
         {showSeconds && (
           <>
-            <span className="text-hint size-sm">:</span>
+            <span className={cn('text-hint', isXs ? 'size-xs' : 'size-sm')}>:</span>
             {renderSegment('second')}
           </>
         )}
@@ -379,7 +382,8 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
             className={cn(
               'padding-x-4 padding-y-2 rounded-xs',
               'ml-[4px]',
-              'font-body size-sm line-height-leading-5 font-medium',
+              'font-body font-medium',
+              isXs ? 'size-xs line-height-leading-4' : 'size-sm line-height-leading-5',
               'transition-colors duration-150',
               disabled
                 ? 'text-hint cursor-not-allowed'

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.57] - 2026-03-24
+
+### Added
+
+- **TimePicker/TimeRangePicker `size="xs"` 지원**: 기존 `'sm'`(32px) / `'lg'`(36px) 외에 `'xs'`(28px) 크기 추가. DataGrid 테이블 셀 등 높이가 제한된 환경에서 사용. 세그먼트 입력, 구분자, AM/PM 버튼, 아이콘 모두 xs 크기에 맞게 축소.
+
 ## [1.0.56] - 2026-03-23
 
 ### Added

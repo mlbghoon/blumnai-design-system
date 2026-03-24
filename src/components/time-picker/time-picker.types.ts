@@ -53,7 +53,7 @@ export type TimePickerStyle = 'default' | 'shadow' | 'soft';
 /**
  * TimePicker 크기 변형
  */
-export type TimePickerSize = 'sm' | 'lg';
+export type TimePickerSize = 'xs' | 'sm' | 'lg';
 
 /**
  * 빠른 선택 옵션
