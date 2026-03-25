@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.61] - 2026-03-25
+
+### Added
+
+- **CellText `onCopy` 콜백**: `copyable` 사용 시 복사 성공 후 호출되는 `onCopy?: (value: string) => void` 콜백 추가. 토스트 알림 등 소비자 측 사이드 이펙트 처리 가능.
+
 ## [1.0.60] - 2026-03-25
 
 ### Fixed

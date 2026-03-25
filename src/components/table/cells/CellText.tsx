@@ -10,6 +10,7 @@ interface CellTextProps {
   value: string | number | null | undefined;
   tooltip?: boolean | ReactNode;
   copyable?: boolean;
+  onCopy?: (value: string) => void;
   className?: string;
 }
 
@@ -17,6 +18,7 @@ export function CellText({
   value,
   tooltip = false,
   copyable = false,
+  onCopy,
   className,
 }: CellTextProps) {
   const [copied, setCopied] = useState(false);
@@ -41,11 +43,12 @@ export function CellText({
     try {
       await navigator.clipboard.writeText(String(value));
       setCopied(true);
+      onCopy?.(String(value));
       setTimeout(() => setCopied(false), 2000);
     } catch {
       // Failed to copy
     }
-  }, [value]);
+  }, [value, onCopy]);
 
   const getTooltipContent = useCallback((): ReactNode => {
     if (typeof tooltip === 'boolean') {
