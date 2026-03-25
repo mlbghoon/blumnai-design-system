@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.60] - 2026-03-25
+
+### Fixed
+
+- **DataGrid CellText 복사 아이콘 호버 범위**: 행 전체 호버 시 모든 복사 아이콘이 표시되던 문제 수정. `group/cell` 스코핑으로 해당 셀 호버 시에만 복사 아이콘 표시.
+- **DataGrid CellText 복사 클릭 시 행 클릭 동시 발생**: 복사 버튼 클릭 시 `stopPropagation`으로 `onRowClick` 이벤트 전파 방지. 복사와 행 클릭이 상호 배타적으로 동작.
+- **Input 스토리 size 옵션 누락**: 모든 Input 변형 스토리에서 `size` argTypes 옵션에 `'xs'`가 누락되어 Storybook에서 선택 불가했던 문제 수정.
+
 ## [1.0.59] - 2026-03-25
 
 ### Added

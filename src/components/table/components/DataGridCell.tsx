@@ -25,7 +25,7 @@ export function DataGridCell<T>({ cell, stickyInfo, isRowSelected, height, colIn
       role="gridcell"
       aria-colindex={colIndex}
       className={cn(
-        'padding-x-10 flex items-center',
+        'group/cell padding-x-10 flex items-center',
         'font-body size-xs line-height-leading-4 text-default',
         'border-r-default border-b-default last:border-r-0',
         'overflow-hidden min-w-[0px]',

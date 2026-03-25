@@ -34,7 +34,8 @@ export function CellText({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleCopy = useCallback(async () => {
+  const handleCopy = useCallback(async (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (value == null) return;
 
     try {
@@ -112,7 +113,7 @@ export function CellText({
           size={12}
           color={copied ? 'success' : 'default-subtle'}
           className={cn(
-            'shrink-0 opacity-0 group-hover:opacity-100 transition-opacity',
+            'shrink-0 opacity-0 group-hover/cell:opacity-100 transition-opacity',
             copied && 'opacity-100'
           )}
         />
