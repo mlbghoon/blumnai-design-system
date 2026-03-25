@@ -142,6 +142,25 @@ const meta: Meta<typeof Button> = {
         type: { summary: 'ReactNode' },
       },
     },
+    tooltip: {
+      control: 'text',
+      description: '호버 시 표시되는 툴팁 텍스트',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    tooltipPlacement: {
+      control: 'select',
+      options: ['top', 'bottom', 'left', 'right'],
+      description: '툴팁 위치',
+      table: {
+        type: {
+          summary: 'TooltipPlacement',
+          detail: `'top' | 'bottom' | 'left' | 'right'`,
+        },
+        defaultValue: { summary: 'top' },
+      },
+    },
     onClick: {
       action: 'clicked',
       description: '버튼 클릭 시 호출되는 콜백 함수',
@@ -174,6 +193,8 @@ export const Default: Story = {
     leadIcon: ['system', 'add'],
     tailIcon: undefined,
     shortcut: undefined,
+    tooltip: undefined,
+    tooltipPlacement: undefined,
     loading: false,
     disabled: false,
     fullWidth: false,
@@ -199,6 +220,8 @@ export const Default: Story = {
         leadIcon={leadIcon}
         tailIcon={tailIcon}
         shortcut={args.shortcut || undefined}
+        tooltip={args.tooltip || undefined}
+        tooltipPlacement={args.tooltipPlacement}
         loading={args.loading}
         disabled={args.disabled}
         fullWidth={args.fullWidth}
@@ -574,6 +597,28 @@ export const AsChild: Story = {
             Link as Secondary
           </a>
         </Button>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * 툴팁 표시
+ *
+ * `tooltip` prop으로 호버 시 툴팁을 표시합니다. 래퍼 span 없이 버튼에 직접 적용됩니다.
+ */
+export const WithTooltip: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-16">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
+        <Button tooltip="저장합니다" leadIcon={['system', 'check']}>저장</Button>
+        <Button tooltip="삭제합니다" tooltipPlacement="bottom" buttonStyle="destructive" leadIcon={['system', 'delete-bin']}>삭제</Button>
+        <Button tooltip="설정 열기" tooltipPlacement="right" buttonStyle="secondary" leadIcon={['system', 'settings']}>설정</Button>
+      </div>
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
+        <Button variant="iconOnly" tooltip="검색" leadIcon={['system', 'search']} buttonStyle="ghost" />
+        <Button variant="iconOnly" tooltip="알림" tooltipPlacement="bottom" leadIcon={['system', 'notification']} buttonStyle="ghost" />
+        <Button variant="iconOnly" tooltip="더보기" tooltipPlacement="left" leadIcon={['system', 'more-vertical']} buttonStyle="ghost" />
       </div>
     </div>
   ),

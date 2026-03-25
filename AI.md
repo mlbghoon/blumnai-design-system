@@ -334,6 +334,8 @@ import { Button } from '@blumnai-studio/blumnai-design-system';
 | `shortcut` | `string` | - | Keyboard shortcut badge (e.g., `'⌘K'`) |
 | `colorOverride` | `ButtonColor` | - | Override button color hue (18 colors: `'gray'` `'red'` `'orange'` `'amber'` `'yellow'` `'lime'` `'green'` `'emerald'` `'teal'` `'cyan'` `'sky'` `'blue'` `'indigo'` `'violet'` `'purple'` `'fuchsia'` `'pink'` `'rose'`) |
 | `asChild` | `boolean` | `false` | Render as child element (Radix Slot) |
+| `tooltip` | `string` | - | Hover tooltip text (wraps with `TooltipTrigger asChild`, no wrapper span) |
+| `tooltipPlacement` | `'top'` `'bottom'` `'left'` `'right'` | `'top'` | Tooltip position |
 
 > **Tip:** When using `loading`, always set `width` to prevent the button from shrinking when the label is replaced by a spinner.
 > ```tsx
@@ -553,7 +555,11 @@ import { Textarea } from '@blumnai-studio/blumnai-design-system';
 | `toolbarTrailing` | `ReactNode` | - | Custom content in toolbar right side |
 | `fieldSizing` | `'content'` `'fixed'` | `'fixed'` | CSS field-sizing: `'content'` auto-adjusts height to content (Chrome 123+) |
 
-**TextareaToolbarAction**: `{ key, icon?, label?, onClick?, disabled? }`
+**TextareaToolbarAction**: `{ key, icon?, label?, onClick?, disabled?, buttonStyle?, colorOverride?, tooltip? }`
+
+- `buttonStyle`: `ButtonStyle` — button visual style (default: `'soft'`). Uses the `Button` component internally
+- `colorOverride`: `ButtonColor` — override button color hue (18 colors)
+- `tooltip`: `string` — hover tooltip on the action button/chip (uses Button's built-in tooltip)
 
 ### Select
 
@@ -1585,11 +1591,21 @@ import { TooltipTrigger } from '@blumnai-studio/blumnai-design-system';
 | `badge` | `string` | - | Badge text inside tooltip |
 | `open` | `boolean` | - | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | - | Open change callback |
+| `asChild` | `boolean` | `false` | Merge props directly onto child (no wrapper span). Uses Radix Slot |
 
 ```tsx
+// Default: wraps in <span>
 <TooltipTrigger content="Help text" placement="top">
   <Button>Hover me</Button>
 </TooltipTrigger>
+
+// asChild: no wrapper span, props merged directly onto Button
+<TooltipTrigger asChild content="Help text" placement="top">
+  <Button>Hover me</Button>
+</TooltipTrigger>
+
+// Shorthand: Button's built-in tooltip prop (uses asChild internally)
+<Button tooltip="Help text" tooltipPlacement="top">Hover me</Button>
 ```
 
 **AdvancedTooltip**: `items` (TooltipItemData[], required), `minWidth?` (number)

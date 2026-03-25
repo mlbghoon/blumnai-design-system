@@ -9,6 +9,7 @@ import {
   type ReactNode,
   type ReactElement,
 } from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { createPortal } from 'react-dom';
 import {
   useFloating,
@@ -79,6 +80,11 @@ export interface TooltipTriggerProps {
    * 제어 모드: 열림 상태 변경 콜백
    */
   onOpenChange?: (open: boolean) => void;
+  /**
+   * true일 경우 래퍼 span 없이 자식 요소에 직접 이벤트 핸들러와 ref를 병합
+   * @default false
+   */
+  asChild?: boolean;
 }
 
 export function TooltipTrigger({
@@ -95,6 +101,7 @@ export function TooltipTrigger({
   minWidth,
   open: controlledOpen,
   onOpenChange,
+  asChild = false,
 }: TooltipTriggerProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -241,6 +248,48 @@ export function TooltipTrigger({
 
   const shouldShow = isOpen && !disabled && anchor !== null;
 
+  const portalElement = shouldShow &&
+    typeof document !== 'undefined' &&
+    createPortal(
+      <div
+        ref={setFloating}
+        id={tooltipId}
+        role="tooltip"
+        style={{
+          ...floatingStyles,
+          zIndex: 50,
+          animation: 'tooltip-enter 150ms ease-out',
+        }}
+        onMouseEnter={cancelCloseTimeout}
+        onMouseLeave={startCloseTimeout}
+      >
+        {tooltipContent}
+      </div>,
+      document.body
+    );
+
+  if (asChild) {
+    return (
+      <>
+        <Slot
+          ref={setAnchor}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onTouchMove={handleTouchMove}
+          aria-describedby={shouldShow ? tooltipId : undefined}
+        >
+          {children}
+        </Slot>
+        {portalElement}
+      </>
+    );
+  }
+
   return (
     <>
       <span
@@ -258,25 +307,7 @@ export function TooltipTrigger({
       >
         {children}
       </span>
-      {shouldShow &&
-        typeof document !== 'undefined' &&
-        createPortal(
-          <div
-            ref={setFloating}
-            id={tooltipId}
-            role="tooltip"
-            style={{
-              ...floatingStyles,
-              zIndex: 50,
-              animation: 'tooltip-enter 150ms ease-out',
-            }}
-            onMouseEnter={cancelCloseTimeout}
-            onMouseLeave={startCloseTimeout}
-          >
-            {tooltipContent}
-          </div>,
-          document.body
-        )}
+      {portalElement}
     </>
   );
 }

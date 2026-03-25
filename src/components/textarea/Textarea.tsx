@@ -2,7 +2,7 @@ import { forwardRef, useId, useRef, useCallback, useEffect } from 'react';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
 import { cn } from '../../utils/cn';
-import { Icon, parseIconTypeWithFill } from '../icons/Icon';
+import { Button } from '../button/Button';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import { ScrollBar } from '../scroll-area/ScrollArea';
 import type { TextareaProps } from './Textarea.types';
@@ -15,11 +15,6 @@ import {
   COUNT_STYLE,
   TOOLBAR_CONTAINER,
   TOOLBAR_ACTIONS_CONTAINER,
-  TOOLBAR_BUTTON_BASE,
-  TOOLBAR_BUTTON_ICON_ONLY,
-  TOOLBAR_CHIP_BASE,
-  TOOLBAR_SUBMIT_BUTTON,
-  TOOLBAR_SUBMIT_BUTTON_DISABLED,
 } from './Textarea.constants';
 
 /**
@@ -244,50 +239,52 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       <div className={TOOLBAR_CONTAINER}>
         <div className={TOOLBAR_ACTIONS_CONTAINER}>
           {onAttach && (
-            <button
-              type="button"
+            <Button
+              variant="iconOnly"
+              buttonStyle="soft"
+              size="xs"
+              leadIcon={['system', 'add']}
               onClick={onAttach}
               disabled={disabled}
-              className={cn(TOOLBAR_BUTTON_BASE, TOOLBAR_BUTTON_ICON_ONLY)}
               aria-label="Attach file"
-            >
-              <Icon iconType={['system', 'add']} size={16} color="default-muted" />
-            </button>
+            />
           )}
 
           {toolbarActions?.map((action) => {
             const hasLabel = action.label && action.label.length > 0;
+            const style = action.buttonStyle ?? 'soft';
+            const iconProp = action.icon as import('../button/Button.types').ButtonIconType | undefined;
 
             if (!hasLabel && action.icon) {
-              const { iconType, isFill } = parseIconTypeWithFill(action.icon);
               return (
-                <button
+                <Button
                   key={action.key}
-                  type="button"
+                  variant="iconOnly"
+                  buttonStyle={style}
+                  colorOverride={action.colorOverride}
+                  size="xs"
+                  leadIcon={iconProp}
                   onClick={action.onClick}
                   disabled={disabled || action.disabled}
-                  className={cn(TOOLBAR_BUTTON_BASE, TOOLBAR_BUTTON_ICON_ONLY)}
+                  tooltip={action.tooltip}
                   aria-label={action.label || action.key}
-                >
-                  <Icon iconType={iconType} isFill={isFill} size={16} color="default-muted" />
-                </button>
+                />
               );
             }
 
             return (
-              <button
+              <Button
                 key={action.key}
-                type="button"
+                buttonStyle={style}
+                colorOverride={action.colorOverride}
+                size="xs"
+                leadIcon={iconProp}
                 onClick={action.onClick}
                 disabled={disabled || action.disabled}
-                className={TOOLBAR_CHIP_BASE}
+                tooltip={action.tooltip}
               >
-                {action.icon && (() => {
-                  const { iconType, isFill } = parseIconTypeWithFill(action.icon);
-                  return <Icon iconType={iconType} isFill={isFill} size={16} color="default-muted" />;
-                })()}
-                {action.label && <span>{action.label}</span>}
-              </button>
+                {action.label}
+              </Button>
             );
           })}
         </div>
@@ -302,31 +299,27 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
           )}
 
           {onVoiceInput && (
-            <button
-              type="button"
+            <Button
+              variant="iconOnly"
+              buttonStyle="soft"
+              size="xs"
+              leadIcon={['media', 'mic']}
               onClick={onVoiceInput}
               disabled={disabled}
-              className={cn(TOOLBAR_BUTTON_BASE, TOOLBAR_BUTTON_ICON_ONLY)}
               aria-label="Voice input"
-            >
-              <Icon iconType={['media', 'mic']} size={16} color="default-muted" />
-            </button>
+            />
           )}
 
           {onSubmit && (
-            <button
-              type="button"
+            <Button
+              variant="iconOnly"
+              buttonStyle={disabled || submitDisabled ? 'soft' : 'primary'}
+              size="xs"
+              leadIcon={['arrows', 'arrow-up']}
               onClick={onSubmit}
               disabled={disabled || submitDisabled}
-              className={disabled || submitDisabled ? TOOLBAR_SUBMIT_BUTTON_DISABLED : TOOLBAR_SUBMIT_BUTTON}
               aria-label="Submit"
-            >
-              <Icon
-                iconType={['arrows', 'arrow-up']}
-                size={16}
-                color={disabled || submitDisabled ? 'default-muted' : 'white'}
-              />
-            </button>
+            />
           )}
         </div>
       </div>

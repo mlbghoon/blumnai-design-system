@@ -111,6 +111,15 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
    */
   asChild?: boolean;
   /**
+   * 호버 시 표시되는 툴팁 텍스트
+   */
+  tooltip?: string;
+  /**
+   * 툴팁 위치
+   * @default 'top'
+   */
+  tooltipPlacement?: 'top' | 'bottom' | 'left' | 'right';
+  /**
    * The button label text.
    * Optional when variant is 'iconOnly'.
    */

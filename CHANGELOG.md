@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.59] - 2026-03-25
+
+### Added
+
+- **TooltipTrigger `asChild` prop**: 래퍼 `<span>` 없이 자식 요소에 직접 이벤트 핸들러와 ref를 병합. Radix `Slot` 기반으로 구현.
+- **Button `tooltip` / `tooltipPlacement` props**: 버튼에 호버 툴팁을 간편하게 추가. 내부적으로 `<TooltipTrigger asChild>`를 사용하여 DOM에 래퍼 없이 적용. `tooltipPlacement`로 위치 지정 (`'top'` | `'bottom'` | `'left'` | `'right'`, 기본값 `'top'`).
+- **Textarea 툴바 Button 컴포넌트 적용**: 툴바 액션(첨부, 음성입력, 제출 포함)을 raw `<button>`에서 `Button` 컴포넌트로 교체. `buttonStyle`, `colorOverride`, `tooltip` prop을 통해 버튼 스타일·색상·툴팁을 자유롭게 제어 가능.
+
 ## [1.0.58] - 2026-03-24
 
 ### Added

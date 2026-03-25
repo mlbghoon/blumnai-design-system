@@ -8,6 +8,7 @@ import { getPixelValue } from '../../lib/css-utils';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 import { useMergeRefs } from '../../hooks/use-merge-refs';
 import { renderButtonIcon } from './buttonUtils';
+import { TooltipTrigger } from '../tooltip/Tooltip/TooltipTrigger';
 
 import type { ButtonProps, ButtonIconType, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape, ButtonColor } from './Button.types';
 
@@ -141,6 +142,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   fullWidth = false,
   width,
   asChild = false,
+  tooltip,
+  tooltipPlacement,
   className,
   children,
   style,
@@ -259,7 +262,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     props.onKeyUp?.(e);
   };
 
-  return (
+  const buttonElement = (
     <Comp
       ref={mergedRef}
       type={asChild ? undefined : type}
@@ -307,6 +310,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
       )}
     </Comp>
   );
+
+  if (tooltip) {
+    return (
+      <TooltipTrigger asChild content={tooltip} placement={tooltipPlacement ?? 'top'}>
+        {buttonElement}
+      </TooltipTrigger>
+    );
+  }
+
+  return buttonElement;
 });
 
 Button.displayName = 'Button';

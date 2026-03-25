@@ -1,6 +1,7 @@
 import type { TextareaHTMLAttributes, ReactNode } from 'react';
 
 import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { ButtonStyle, ButtonColor } from '../button/Button.types';
 
 /**
  * 텍스트 영역 스타일 변형
@@ -22,7 +23,7 @@ export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both';
  */
 export interface TextareaToolbarAction {
   /**
-   * 아이콘
+   * 아이콘 (Button의 leadIcon으로 전달)
    */
   icon?: IconTypeWithFill;
   /**
@@ -41,6 +42,19 @@ export interface TextareaToolbarAction {
    * 고유 키
    */
   key: string;
+  /**
+   * 버튼 스타일
+   * @default 'soft'
+   */
+  buttonStyle?: ButtonStyle;
+  /**
+   * 버튼 색상 오버라이드
+   */
+  colorOverride?: ButtonColor;
+  /**
+   * 호버 시 표시되는 툴팁
+   */
+  tooltip?: string;
 }
 
 /**

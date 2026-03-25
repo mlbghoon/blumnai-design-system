@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { Textarea } from '../Textarea';
 import type { TextareaProps, TextareaToolbarAction } from '../Textarea.types';
+import type { ButtonColor } from '../../button/Button.types';
 
 const meta: Meta<typeof Textarea> = {
   title: 'DataEntry/Textarea',
@@ -166,18 +167,19 @@ const meta: Meta<typeof Textarea> = {
     },
     toolbarActions: {
       control: false,
-      description: '툴바 왼쪽에 표시할 액션 버튼/칩 목록',
+      description: '툴바 왼쪽에 표시할 액션 버튼/칩 목록. 내부적으로 Button 컴포넌트를 사용합니다',
       table: {
         type: {
           summary: 'TextareaToolbarAction[]',
           detail: `{
   key: string;                // 고유 키
-  icon?: IconTypeWithFill;    // 아이콘
-                              // - ['media', 'image']
-                              // - ['media', 'image', true] (filled)
+  icon?: IconTypeWithFill;    // 아이콘 (Button의 leadIcon)
   label?: string;             // 라벨 (없으면 아이콘만 표시)
   onClick?: () => void;       // 클릭 핸들러
   disabled?: boolean;         // 비활성화 여부
+  buttonStyle?: ButtonStyle;  // 버튼 스타일 (기본: 'soft')
+  colorOverride?: ButtonColor; // 버튼 색상 오버라이드
+  tooltip?: string;           // 호버 툴팁
 }[]`,
         },
       },
@@ -329,12 +331,14 @@ export const WithToolbar: Story = {
         key: 'image',
         icon: ['media', 'image'],
         label: '이미지 생성',
+        tooltip: '이미지를 생성합니다',
         onClick: () => console.log('Create image clicked'),
       },
       {
         key: 'research',
         icon: ['system', 'search'],
         label: '심층 검색',
+        tooltip: '심층 검색을 시작합니다',
         onClick: () => console.log('Deep research clicked'),
       },
     ];
@@ -671,6 +675,86 @@ export const ToolbarStyles: Story = {
             minRows={2}
           />
         ))}
+      </div>
+    );
+  },
+};
+
+/**
+ * 툴바 액션 스타일 변형
+ *
+ * `buttonStyle`과 `colorOverride`로 Button 컴포넌트의 스타일을 직접 제어합니다.
+ */
+export const ToolbarActionStyles: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('');
+
+    const toolbarActions: TextareaToolbarAction[] = [
+      {
+        key: 'generate',
+        icon: ['media', 'image'],
+        label: '이미지 생성',
+        buttonStyle: 'soft',
+        colorOverride: 'blue',
+        tooltip: 'AI로 이미지를 생성합니다',
+        onClick: () => console.log('Generate image'),
+      },
+      {
+        key: 'delete',
+        icon: ['system', 'delete-bin'],
+        buttonStyle: 'soft',
+        colorOverride: 'red',
+        tooltip: '대화 삭제',
+        onClick: () => console.log('Delete'),
+      },
+      {
+        key: 'check',
+        icon: ['system', 'check'],
+        buttonStyle: 'soft',
+        colorOverride: 'green',
+        tooltip: '완료',
+        onClick: () => console.log('Check'),
+      },
+      {
+        key: 'warn',
+        icon: ['system', 'error-warning'],
+        buttonStyle: 'ghost',
+        colorOverride: 'orange',
+        tooltip: '주의 필요',
+        onClick: () => console.log('Warning'),
+      },
+    ];
+
+    const colors: ButtonColor[] = ['blue', 'red', 'green', 'orange', 'purple', 'teal'];
+
+    return (
+      <div className="flex flex-col ds-gap-24 max-w-lg">
+        <Textarea
+          label="스타일 + 툴팁"
+          placeholder="다양한 스타일의 툴바 액션..."
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          toolbarActions={toolbarActions}
+          onSubmit={() => console.log('Submit')}
+          submitDisabled={value.length === 0}
+          minRows={2}
+        />
+        <Textarea
+          label="칩 스타일 색상"
+          placeholder="colorOverride로 색상 변경..."
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          toolbarActions={colors.map((color) => ({
+            key: color,
+            icon: ['system', 'star'] as TextareaToolbarAction['icon'],
+            label: color,
+            buttonStyle: 'soft' as const,
+            colorOverride: color,
+            tooltip: `${color} 색상 액션`,
+            onClick: () => console.log(color),
+          }))}
+          minRows={2}
+        />
       </div>
     );
   },
