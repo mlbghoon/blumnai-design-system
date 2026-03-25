@@ -36,12 +36,12 @@ const meta: Meta<typeof Input> = {
     },
     size: {
       control: 'select',
-      options: ['sm', 'lg'],
+      options: ['xs', 'sm', 'lg'],
       description: '입력 필드의 크기',
       table: {
         type: {
           summary: 'InputSize',
-          detail: `'sm' | 'lg'`,
+          detail: `'xs' | 'sm' | 'lg'`,
         },
         defaultValue: { summary: 'sm' },
       },
