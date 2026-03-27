@@ -6,6 +6,7 @@ import { getPixelValue } from '@/lib/css-utils';
 import { buttonVariants } from '../button/Button';
 import { ScrollArea } from '../scroll-area';
 import { Button } from '../button/Button';
+import { PortalContainerProvider } from '../../utils/PortalContainerContext';
 import type {
   AlertDialogContentProps,
   AlertDialogHeaderProps,
@@ -45,7 +46,18 @@ AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName;
 const AlertDialogContent = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Content>,
   AlertDialogContentProps
->(({ className, width, style, ...props }, ref) => {
+>(({ className, width, style, children, ...props }, ref) => {
+  const [contentEl, setContentEl] = React.useState<HTMLElement | null>(null);
+
+  const composedRef = React.useCallback(
+    (node: React.ElementRef<typeof AlertDialogPrimitive.Content> | null) => {
+      setContentEl(node);
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.MutableRefObject<React.ElementRef<typeof AlertDialogPrimitive.Content> | null>).current = node;
+    },
+    [ref],
+  );
+
   const widthStyle = width !== undefined && width !== ''
     ? { width: getPixelValue(width) }
     : undefined;
@@ -59,7 +71,7 @@ const AlertDialogContent = React.forwardRef<
     <AlertDialogPortal>
       <AlertDialogOverlay />
       <AlertDialogPrimitive.Content
-        ref={ref}
+        ref={composedRef}
         onEscapeKeyDown={(e) => e.preventDefault()}
         className={cn(
           'fixed left-[50%] top-[50%] z-[10000] grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%]',
@@ -75,7 +87,11 @@ const AlertDialogContent = React.forwardRef<
         )}
         style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
         {...props}
-      />
+      >
+        <PortalContainerProvider value={contentEl}>
+          {children}
+        </PortalContainerProvider>
+      </AlertDialogPrimitive.Content>
     </AlertDialogPortal>
   );
 });

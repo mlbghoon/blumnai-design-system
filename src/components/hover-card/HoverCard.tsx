@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
 
 import { cn } from '@/lib/utils';
+import { usePortalContainer } from '../../utils/PortalContainerContext';
 import type {
   HoverCardProps,
   HoverCardTriggerProps,
@@ -23,8 +24,10 @@ HoverCardTrigger.displayName = 'HoverCardTrigger';
 const HoverCardContent = React.forwardRef<
   React.ElementRef<typeof HoverCardPrimitive.Content>,
   HoverCardContentProps
->(({ className, align = 'center', sideOffset = 4, container, width, style, ...props }, ref) => (
-  <HoverCardPrimitive.Portal container={container}>
+>(({ className, align = 'center', sideOffset = 4, container, width, style, ...props }, ref) => {
+  const contextContainer = usePortalContainer();
+  return (
+  <HoverCardPrimitive.Portal container={container ?? contextContainer ?? undefined}>
     <HoverCardPrimitive.Content
       ref={ref}
       align={align}
@@ -44,7 +47,8 @@ const HoverCardContent = React.forwardRef<
       {...props}
     />
   </HoverCardPrimitive.Portal>
-));
+  );
+});
 HoverCardContent.displayName = 'HoverCardContent';
 
 const HoverCardArrow = React.forwardRef<

@@ -945,7 +945,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 
 **DialogTrigger**: Radix Dialog.Trigger primitive (`asChild` supported)
 
-**PortalContainerContext**: DialogContent provides a `PortalContainerContext` so that floating components inside a Dialog (Select dropdowns, Combobox popups, DatePicker calendars, etc.) automatically portal into the Dialog instead of `document.body`. This fixes z-index stacking issues without manual `container` props.
+**PortalContainerContext**: All overlay components (`DialogContent`, `PopoverContent`, `SheetContent`, `DrawerContent`, `AlertDialogContent`) provide a `PortalContainerContext`. All floating components (`Select`, `MultiSelect`, `VirtualSelect`, `Combobox`, `DropdownMenu`, `ContextMenu`, `HoverCard`, `Menubar`, `TooltipTrigger`, `DropdownInput`, `TableTooltip`) automatically consume it and portal into the nearest overlay container instead of `document.body`. This fixes z-index stacking, focus trap conflicts, and redundant floating-ui position calculations for nested portals — no manual `container` props needed.
 
 ### ConfirmDialog
 
@@ -1136,7 +1136,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFoo
 
 | Component | Key Props | Description |
 |-----------|-----------|-------------|
-| `CellText` | `value` (string\|number), `tooltip?`, `copyable?` | Text cell with optional copy |
+| `CellText` | `value` (string\|number), `tooltip?`, `copyable?`, `onCopy?` ((value: string) => void) | Text cell with optional copy |
 | `CellBadge` | `label`, `color?` (BadgeColor) | Badge in a cell |
 | `CellAvatar` | `src?`, `name?`, `initials?`, `size?` (`'2xs'`\|`'xs'`\|`'sm'`\|`'md'`), `showName?` | Avatar in a cell |
 | `CellProgress` | `value`, `max?` (100), `showLabel?`, `color?` (`'default'`\|`'success'`\|`'warning'`\|`'destructive'`) | Progress bar in a cell |
@@ -1607,6 +1607,16 @@ import { TooltipTrigger } from '@blumnai-studio/blumnai-design-system';
 // Shorthand: Button's built-in tooltip prop (uses asChild internally)
 <Button tooltip="Help text" tooltipPlacement="top">Hover me</Button>
 ```
+
+> **Important:** When `content` is a string, `<Tooltip>` styling (background, padding, rounded corners, text color) is applied automatically. When `content` is a ReactNode (JSX), it is rendered **as-is without tooltip styling**. For custom JSX content with tooltip styling, wrap it in `<Tooltip>`:
+>
+> ```tsx
+> import { TooltipTrigger, Tooltip } from '@blumnai-studio/blumnai-design-system';
+>
+> <TooltipTrigger content={<Tooltip>Custom <strong>styled</strong> content</Tooltip>}>
+>   <Button>Hover me</Button>
+> </TooltipTrigger>
+> ```
 
 **AdvancedTooltip**: `items` (TooltipItemData[], required), `minWidth?` (number)
 

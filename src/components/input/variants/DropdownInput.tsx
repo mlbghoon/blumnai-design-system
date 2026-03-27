@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 
 import { cn } from '../../../utils/cn';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import { usePortalContainer } from '../../../utils/PortalContainerContext';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
   SIZE_CONFIG,
@@ -163,6 +164,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
   ...props
 }, ref) => {
   const dropdownId = useId();
+  const portalContainer = usePortalContainer();
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -356,7 +358,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
           </div>
         ))}
       </div>,
-      document.body
+      portalContainer ?? document.body
     );
   };
 

@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.0.62] - 2026-03-27
+
+### Fixed
+
+- **PortalContainerContext 전체 적용**: 모든 플로팅/오버레이 컴포넌트에 `PortalContainerContext` 패턴 통일. Dialog/Sheet/Drawer/Popover 내부에서 Select, Combobox, DropdownMenu, Tooltip 등 사용 시 포탈이 부모 컨테이너 안에 렌더링되어 z-index 충돌, 포커스 트랩 충돌, 이중 floating-ui 위치 계산 문제 해결.
+  - **Provider 추가**: `Popover`, `Sheet`, `Drawer`, `AlertDialog` — 자식 플로팅 컴포넌트가 부모 컨테이너 안으로 포탈
+  - **Consumer 추가**: `DropdownMenu`, `ContextMenu`, `HoverCard`, `Menubar` — `usePortalContainer()` 자동 소비
+  - **createPortal 수정**: `TooltipTrigger`, `DropdownInput`, `TableTooltip` — `document.body` 하드코딩 제거, 컨텍스트 컨테이너 우선 사용
+
+### Changed
+
+- **AI.md**: TooltipTrigger `content` ReactNode 사용 시 `<Tooltip>` 래퍼 필요 안내 추가, CellText `onCopy` prop 반영
+
 ## [1.0.61] - 2026-03-25
 
 ### Added

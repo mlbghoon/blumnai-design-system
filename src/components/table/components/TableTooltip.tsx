@@ -12,12 +12,14 @@ import {
 
 import { Tooltip } from '../../tooltip/Tooltip/Tooltip';
 import { TableTooltipContext, type TableTooltipContextValue } from './TableTooltipContext';
+import { usePortalContainer } from '../../../utils/PortalContainerContext';
 
 interface TableTooltipProviderProps {
   children: ReactNode;
 }
 
 export function TableTooltipProvider({ children }: TableTooltipProviderProps) {
+  const portalContainer = usePortalContainer();
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState<ReactNode>(null);
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -76,7 +78,7 @@ export function TableTooltipProvider({ children }: TableTooltipProviderProps) {
           >
             <Tooltip maxWidth={600}>{content}</Tooltip>
           </div>,
-          document.body
+          portalContainer ?? document.body
         )}
     </TableTooltipContext.Provider>
   );

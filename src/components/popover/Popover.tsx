@@ -4,7 +4,7 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { cn } from '@/lib/utils';
 import { getPixelValue } from '@/lib/css-utils';
 import { ScrollArea } from '../scroll-area';
-import { usePortalContainer } from '../../utils/PortalContainerContext';
+import { usePortalContainer, PortalContainerProvider } from '../../utils/PortalContainerContext';
 import type {
   PopoverContentProps,
   PopoverScrollAreaProps,
@@ -35,8 +35,19 @@ const PopoverClose = PopoverPrimitive.Close;
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   PopoverContentProps
->(({ className, align = 'center', sideOffset = 4, width, container, style, ...props }, ref) => {
+>(({ className, align = 'center', sideOffset = 4, width, container, style, children, ...props }, ref) => {
   const contextContainer = usePortalContainer();
+  const [contentEl, setContentEl] = React.useState<HTMLElement | null>(null);
+
+  const composedRef = React.useCallback(
+    (node: React.ElementRef<typeof PopoverPrimitive.Content> | null) => {
+      setContentEl(node);
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.MutableRefObject<React.ElementRef<typeof PopoverPrimitive.Content> | null>).current = node;
+    },
+    [ref],
+  );
+
   const widthStyle = width !== undefined && width !== ''
     ? { width: getPixelValue(width) }
     : undefined;
@@ -49,7 +60,7 @@ const PopoverContent = React.forwardRef<
   return (
     <PopoverPrimitive.Portal container={container ?? contextContainer ?? undefined}>
       <PopoverPrimitive.Content
-        ref={ref}
+        ref={composedRef}
         align={align}
         sideOffset={sideOffset}
         className={cn(
@@ -65,7 +76,11 @@ const PopoverContent = React.forwardRef<
         )}
         style={Object.keys(mergedStyle).length > 0 ? mergedStyle : undefined}
         {...props}
-      />
+      >
+        <PortalContainerProvider value={contentEl}>
+          {children}
+        </PortalContainerProvider>
+      </PopoverPrimitive.Content>
     </PopoverPrimitive.Portal>
   );
 });

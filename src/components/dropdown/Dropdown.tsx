@@ -7,6 +7,7 @@ import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { Button } from '../button';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
+import { usePortalContainer } from '../../utils/PortalContainerContext';
 import type {
   DropdownMenuContentProps,
   DropdownMenuItemProps,
@@ -53,6 +54,7 @@ const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
   DropdownMenuContentProps
 >(({ className, sideOffset = 4, width, maxHeight, loading = false, style, container, children, ...props }, ref) => {
+  const contextContainer = usePortalContainer();
   const widthStyle = width !== undefined && width !== ''
     ? { width: typeof width === 'number' ? `${width}px` : width }
     : undefined;
@@ -68,7 +70,7 @@ const DropdownMenuContent = React.forwardRef<
   };
 
   return (
-    <DropdownMenuPrimitive.Portal container={container}>
+    <DropdownMenuPrimitive.Portal container={container ?? contextContainer ?? undefined}>
       <DropdownMenuPrimitive.Content
         ref={ref}
         sideOffset={sideOffset}

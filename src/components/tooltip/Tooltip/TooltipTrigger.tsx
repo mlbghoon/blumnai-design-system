@@ -21,6 +21,7 @@ import {
 } from '@floating-ui/react';
 
 import { Tooltip } from './Tooltip';
+import { usePortalContainer } from '../../../utils/PortalContainerContext';
 
 export interface TooltipTriggerProps {
   /**
@@ -109,6 +110,7 @@ export function TooltipTrigger({
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tooltipId = useId();
+  const portalContainer = usePortalContainer();
 
   const isControlled = controlledOpen !== undefined;
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
@@ -265,7 +267,7 @@ export function TooltipTrigger({
       >
         {tooltipContent}
       </div>,
-      document.body
+      portalContainer ?? document.body
     );
 
   if (asChild) {

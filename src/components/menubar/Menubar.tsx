@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { Icon } from '../icons/Icon';
 import { Badge } from '../badge/Badge';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
+import { usePortalContainer } from '../../utils/PortalContainerContext';
 import type {
   MenubarContentProps,
   MenubarItemProps,
@@ -87,6 +88,7 @@ const MenubarContent = React.forwardRef<
   container,
   ...props
 }, ref) => {
+  const contextContainer = usePortalContainer();
   const widthStyle = width !== undefined && width !== ''
     ? { width: typeof width === 'number' ? `${width}px` : width }
     : undefined;
@@ -97,7 +99,7 @@ const MenubarContent = React.forwardRef<
   };
 
   return (
-    <MenubarPrimitive.Portal container={container}>
+    <MenubarPrimitive.Portal container={container ?? contextContainer ?? undefined}>
       <MenubarPrimitive.Content
         ref={ref}
         align={align}

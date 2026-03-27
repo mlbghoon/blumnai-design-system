@@ -3,6 +3,7 @@ import { Drawer as DrawerPrimitive } from "vaul"
 
 import { cn } from "@/lib/utils"
 import { Icon } from "@/components/icons/Icon"
+import { PortalContainerProvider } from "../../../utils/PortalContainerContext"
 
 type DrawerDirection = "top" | "bottom" | "left" | "right"
 
@@ -51,12 +52,22 @@ const DrawerContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
   const { direction } = React.useContext(DrawerContext)
+  const [contentEl, setContentEl] = React.useState<HTMLElement | null>(null)
+
+  const composedRef = React.useCallback(
+    (node: React.ElementRef<typeof DrawerPrimitive.Content> | null) => {
+      setContentEl(node)
+      if (typeof ref === 'function') ref(node)
+      else if (ref) (ref as React.MutableRefObject<React.ElementRef<typeof DrawerPrimitive.Content> | null>).current = node
+    },
+    [ref],
+  )
 
   return (
     <DrawerPortal>
       <DrawerOverlay />
       <DrawerPrimitive.Content
-        ref={ref}
+        ref={composedRef}
         className={cn(
           "fixed z-50 flex bg-background border",
           direction === "bottom" && "inset-x-0 bottom-0 [margin-top:96px] h-auto flex-col rounded-t-lg",
@@ -67,11 +78,13 @@ const DrawerContent = React.forwardRef<
         )}
         {...props}
       >
-        <DrawerPrimitive.Close className="absolute [right:16px] [top:16px] rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-          <Icon iconType={['system', 'close']} size={16} />
-          <span className="sr-only">Close</span>
-        </DrawerPrimitive.Close>
-        {children}
+        <PortalContainerProvider value={contentEl}>
+          <DrawerPrimitive.Close className="absolute [right:16px] [top:16px] rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
+            <Icon iconType={['system', 'close']} size={16} />
+            <span className="sr-only">Close</span>
+          </DrawerPrimitive.Close>
+          {children}
+        </PortalContainerProvider>
       </DrawerPrimitive.Content>
     </DrawerPortal>
   )

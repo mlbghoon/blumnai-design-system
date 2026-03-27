@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { Icon } from '../icons/Icon';
 import { Badge } from '../badge/Badge';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
+import { usePortalContainer } from '../../utils/PortalContainerContext';
 import type {
   ContextMenuContentProps,
   ContextMenuItemProps,
@@ -34,6 +35,7 @@ const ContextMenuContent = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Content>,
   ContextMenuContentProps
 >(({ className, width, style, container, ...props }, ref) => {
+  const contextContainer = usePortalContainer();
   const widthStyle = width !== undefined && width !== ''
     ? { width: typeof width === 'number' ? `${width}px` : width }
     : undefined;
@@ -44,7 +46,7 @@ const ContextMenuContent = React.forwardRef<
   };
 
   return (
-    <ContextMenuPrimitive.Portal container={container}>
+    <ContextMenuPrimitive.Portal container={container ?? contextContainer ?? undefined}>
       <ContextMenuPrimitive.Content
         ref={ref}
         className={cn(
