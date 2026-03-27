@@ -166,12 +166,12 @@ const meta: Meta<typeof Combobox> = {
     emptyStateTitle: {
       control: 'text',
       description: '검색 결과가 없을 때 표시되는 제목 텍스트입니다',
-      table: { type: { summary: 'string' }, defaultValue: { summary: 'No search results' } },
+      table: { type: { summary: 'string' }, defaultValue: { summary: '검색 결과 없음' } },
     },
     emptyStateDescription: {
       control: 'text',
       description: '검색 결과가 없을 때 제목 아래에 표시되는 부가 설명 텍스트입니다',
-      table: { type: { summary: 'string' }, defaultValue: { summary: 'Your search did not match any results.' } },
+      table: { type: { summary: 'string' }, defaultValue: { summary: '검색 결과와 일치하는 항목이 없습니다.' } },
     },
     width: {
       control: 'number',

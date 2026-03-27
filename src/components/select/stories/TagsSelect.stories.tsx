@@ -129,7 +129,7 @@ const meta: Meta<typeof Select> = {
     },
     maxVisibleTags: {
       control: 'number',
-      description: '트리거 영역에 표시할 태그의 최대 개수입니다. 초과하는 태그는 "+N more" 형태로 축소 표시됩니다',
+      description: '트리거 영역에 표시할 태그의 최대 개수입니다. 초과하는 태그는 "+N개 더" 형태로 축소 표시됩니다',
       table: { type: { summary: 'number' } },
     },
     overflowText: {
@@ -138,7 +138,7 @@ const meta: Meta<typeof Select> = {
       table: {
         type: {
           summary: 'string | ((hiddenCount, totalCount) => string)',
-          detail: `기본값: '+{hiddenCount} more'`,
+          detail: `기본값: '+{hiddenCount}개 더'`,
         },
       },
     },
@@ -605,7 +605,7 @@ export const ManyTags: Story = {
  * 태그 오버플로우 (축소 표시)
  *
  * maxVisibleTags로 표시할 최대 태그 수를 지정하면
- * 나머지는 "+N more" 형태로 축소 표시됩니다.
+ * 나머지는 "+N개 더" 형태로 축소 표시됩니다.
  */
 export const TagsOverflow: Story = {
   render: function Render() {

@@ -34,12 +34,12 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       error,
       success,
       disabled = false,
-      placeholder = 'Select...',
+      placeholder = '선택...',
       leadIcon,
       options,
       searchable = false,
-      searchPlaceholder = 'Search...',
-      noResultsText = 'No results found',
+      searchPlaceholder = '검색...',
+      noResultsText = '검색 결과 없음',
       open: controlledOpen,
       onOpenChange,
       maxHeight = 300,
@@ -336,7 +336,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
 
         const displayText = typeof multiProps?.selectedText === 'function'
           ? multiProps.selectedText(multiValue.length)
-          : multiProps?.selectedText ?? `${multiValue.length} selected`;
+          : multiProps?.selectedText ?? `${multiValue.length}개 선택됨`;
 
         return (
           <span className={cn('truncate', disabled ? 'text-hint' : 'text-default')}>

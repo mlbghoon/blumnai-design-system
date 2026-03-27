@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.64] - 2026-03-27
+
+### Changed
+
+- **기본 텍스트 한국어화**: 모든 컴포넌트의 영문 기본값(placeholder, 에러 메시지 등)을 한국어로 변환
+  - **Select / MultiSelect / VirtualSelect**: `'Select...'` → `'선택...'`, `'Search...'` → `'검색...'`, `'No results found'` → `'검색 결과 없음'`
+  - **Combobox**: `'No search results'` → `'검색 결과 없음'`, `'Your search did not match any results.'` → `'검색 결과와 일치하는 항목이 없습니다.'`, `Add "value"` → `"value" 추가`
+  - **RadixMultiSelect / VirtualSelect**: `'N selected'` → `'N개 선택됨'`, `'+N more'` → `'+N개 더'`
+  - **FileUploadArea**: `'Drop your files here, or'` → `'파일을 여기에 놓거나'`, `'click to browse'` → `'클릭하여 찾아보기'`, 에러 메시지 한국어화
+  - **Dropdown**: `'Search...'` → `'검색...'`
+  - **AvatarGroup**: `'N more'` → `'N개 더'`
+
 ## [1.0.63] - 2026-03-27
 
 ### Changed

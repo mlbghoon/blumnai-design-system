@@ -249,11 +249,11 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       error,
       success,
       disabled = false,
-      placeholder = 'Search...',
+      placeholder = '검색...',
       options,
       noResultsText,
-      emptyStateTitle = 'No search results',
-      emptyStateDescription = 'Your search did not match any results.',
+      emptyStateTitle = '검색 결과 없음',
+      emptyStateDescription = '검색 결과와 일치하는 항목이 없습니다.',
       creatable = false,
       createText,
       open: controlledOpen,
@@ -399,7 +399,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       if (typeof createText === 'string') {
         return createText.replace('{value}', inputValue);
       }
-      return `Add "${inputValue}"`;
+      return `"${inputValue}" 추가`;
     };
 
     const filteredOptions = React.useMemo(() => {
@@ -469,7 +469,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
           if (typeof overflowText === 'string') {
             return overflowText.replace('{hiddenCount}', String(hiddenCount)).replace('{totalCount}', String(selectedOptions.length));
           }
-          return `+${hiddenCount} more`;
+          return `+${hiddenCount}개 더`;
         };
 
         return (

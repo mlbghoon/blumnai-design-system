@@ -605,7 +605,7 @@ const DropdownMenuSearch = React.forwardRef<HTMLInputElement, DropdownMenuSearch
     className,
     value,
     onChange,
-    placeholder = 'Search...',
+    placeholder = '검색...',
     autoFocus = true,
     ...props
   }, ref) => {

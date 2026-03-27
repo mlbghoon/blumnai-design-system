@@ -20,9 +20,9 @@ import {
 
 import type { FileUploadAreaProps, FileError } from './FileUpload.types';
 
-const DEFAULT_TITLE = 'Drop your files here, or';
-const DEFAULT_CLICK_TEXT = 'click to browse';
-const DEFAULT_DESCRIPTION = 'Up to 10 files, 100MB total limit';
+const DEFAULT_TITLE = '파일을 여기에 놓거나';
+const DEFAULT_CLICK_TEXT = '클릭하여 찾아보기';
+const DEFAULT_DESCRIPTION = '최대 10개 파일, 총 100MB 제한';
 
 /**
  * FileUploadArea 컴포넌트
@@ -93,7 +93,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
       });
       if (rejected.length > 0) {
         rejected.forEach(f => {
-          errors.push({ file: f, code: 'invalid-type', message: `File "${f.name}" has an unsupported type` });
+          errors.push({ file: f, code: 'invalid-type', message: `"${f.name}" 파일은 지원하지 않는 형식입니다` });
         });
         validFiles = validFiles.filter(f => !rejected.includes(f));
       }
@@ -103,21 +103,21 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
       const oversized = validFiles.filter(f => f.size > maxFileSize);
       if (oversized.length > 0) {
         oversized.forEach(f => {
-          errors.push({ file: f, code: 'file-too-large', message: `File "${f.name}" exceeds ${maxFileSize} bytes` });
+          errors.push({ file: f, code: 'file-too-large', message: `"${f.name}" 파일이 ${maxFileSize} 바이트를 초과합니다` });
         });
         validFiles = validFiles.filter(f => f.size <= maxFileSize);
       }
     }
 
     if (maxFiles !== undefined && validFiles.length > maxFiles) {
-      errors.push({ code: 'too-many-files', message: `Maximum ${maxFiles} files allowed` });
+      errors.push({ code: 'too-many-files', message: `최대 ${maxFiles}개 파일만 허용됩니다` });
       validFiles = validFiles.slice(0, maxFiles);
     }
 
     if (maxSize !== undefined) {
       const totalSize = validFiles.reduce((sum, file) => sum + file.size, 0);
       if (totalSize > maxSize) {
-        errors.push({ code: 'total-size-exceeded', message: `Total size exceeds ${maxSize} bytes` });
+        errors.push({ code: 'total-size-exceeded', message: `총 파일 크기가 ${maxSize} 바이트를 초과합니다` });
         validFiles = [];
       }
     }

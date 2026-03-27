@@ -223,7 +223,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       error,
       success,
       disabled = false,
-      placeholder = 'Select...',
+      placeholder = '선택...',
       leadIcon,
       tailIcon,
       options,
@@ -233,8 +233,8 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       open: controlledOpen,
       onOpenChange,
       searchable = false,
-      searchPlaceholder = 'Search...',
-      noResultsText = 'No results found',
+      searchPlaceholder = '검색...',
+      noResultsText = '검색 결과 없음',
       maxSelections,
       selectedText,
       maxVisibleTags,
@@ -481,7 +481,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
           if (typeof overflowText === 'string') {
             return overflowText.replace('{hiddenCount}', String(hiddenCount)).replace('{totalCount}', String(selectedOptions.length));
           }
-          return `+${hiddenCount} more`;
+          return `+${hiddenCount}개 더`;
         };
 
         return (
@@ -532,7 +532,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       const displayText =
         typeof selectedText === 'function'
           ? selectedText(selectedOptions.length)
-          : selectedText ?? (selectedOptions.length === 1 ? selectedOptions[0].label : `${selectedOptions.length} selected`);
+          : selectedText ?? (selectedOptions.length === 1 ? selectedOptions[0].label : `${selectedOptions.length}개 선택됨`);
 
       return (
         <span className={cn('truncate', disabled ? 'text-hint' : 'text-default')}>

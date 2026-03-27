@@ -151,7 +151,7 @@ const meta: Meta<typeof Select> = {
       table: {
         type: {
           summary: 'string | ((count: number) => string)',
-          detail: `문자열 또는 (count: number) => string 함수\n기본값: '{count} selected'`,
+          detail: `문자열 또는 (count: number) => string 함수\n기본값: '{count}개 선택됨'`,
         },
       },
     },
