@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.63] - 2026-03-27
+
+### Changed
+
+- **성능 최적화**: 전체 컴포넌트 성능 개선
+  - **DataGrid 행 가상화**: 100행 초과 시 `@tanstack/react-virtual` 기반 자동 가상화. DOM 노드 수 대폭 감소로 대용량 테이블 렌더링 성능 향상.
+  - **DataGridRow / DataGridCell**: `React.memo` 적용으로 형제/부모 리렌더 시 불필요한 하위 렌더링 방지
+  - **TableTooltip 컨텍스트 메모이제이션**: `'use no memo'` 프라그마 제거, `useMemo`로 컨텍스트 값 안정화. 1000+ 소비자 리렌더 방지.
+  - **CellText 복사 타임아웃 정리**: `setTimeout` 누수 수정. 언마운트 시 `copyTimeoutRef` 클린업 추가.
+  - **VirtualSelectItem 콜백 안정화**: `handleClick`에 `useCallback` 적용, `onSelect`를 `(id: string) => void`로 변경하여 안정적인 참조 전달
+  - **VirtualSelect / Combobox / RadixMultiSelect**: `triggerClassName`에 `useMemo` 적용, 매 렌더마다 `cn()` 재계산 방지
+  - **SidebarPrimitives**: `setOpen` 콜백에서 `open` 의존성 제거 (`openRef` 패턴). 토글 캐스케이드 중단, 키다운 리스너 재등록 방지.
+  - **Icon / Badge / Chip / StatusDot**: `React.memo` 적용으로 리스트 내 불필요한 리렌더 방지
+  - **DropdownInput**: 드롭다운 닫힘 상태에서 `mousedown` 글로벌 리스너 미등록
+
 ## [1.0.62] - 2026-03-27
 
 ### Fixed

@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo, useCallback } from 'react';
 
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import { cn } from '../../../utils/cn';
@@ -28,7 +28,7 @@ const getColorTextClass = (color: ChipColor): string => {
  * @example
  * <Chip label="Tag" size="md" style="default" />
  */
-export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
+export const Chip = memo(forwardRef<HTMLButtonElement, ChipProps>(
   (
     {
       label,
@@ -47,10 +47,10 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     },
     ref
   ) => {
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
       onToggle?.(!selected);
       onClick?.(e);
-    };
+    }, [selected, onToggle, onClick]);
 
     const iconOnly = variant === 'iconOnly';
     // Size styles
@@ -219,6 +219,6 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
       </button>
     );
   }
-);
+));
 
 Chip.displayName = 'Chip';

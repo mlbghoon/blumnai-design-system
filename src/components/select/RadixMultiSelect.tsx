@@ -541,7 +541,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       );
     };
 
-    const triggerClassName = cn(
+    const triggerClassName = React.useMemo(() => cn(
       'flex w-full items-center justify-between whitespace-nowrap transition-colors duration-150',
       sizeConfig.container,
       sizeConfig.padding,
@@ -557,7 +557,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       disabled ? 'cursor-not-allowed' : 'cursor-pointer',
       'focus:outline-none',
       variant === 'tags' && 'overflow-hidden'
-    );
+    ), [sizeConfig, styleConfig, disabled, state, variant]);
 
     return (
       <InputWrapper

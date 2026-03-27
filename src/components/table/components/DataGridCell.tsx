@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import type { Cell } from '@tanstack/react-table';
 import { flexRender } from '@tanstack/react-table';
 
@@ -14,7 +14,7 @@ interface DataGridCellProps<T> {
   colIndex?: number;
 }
 
-export function DataGridCell<T>({ cell, stickyInfo, isRowSelected, height, colIndex }: DataGridCellProps<T>) {
+function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colIndex }: DataGridCellProps<T>) {
   const align = cell.column.columnDef.meta?.align ?? 'left';
   const isSticky = !!stickyInfo;
 
@@ -47,3 +47,5 @@ export function DataGridCell<T>({ cell, stickyInfo, isRowSelected, height, colIn
     </div>
   );
 }
+
+export const DataGridCell = memo(DataGridCellInner) as typeof DataGridCellInner;

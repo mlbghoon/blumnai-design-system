@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, memo, useMemo } from 'react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
@@ -46,7 +46,7 @@ const getIconColor = (color: BadgeColor): string => {
  * @example
  * <Badge label="New" color="blue" size="md" />
  */
-export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
+export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
   variant = 'default',
   size = 'sm',
   color = 'neutral',
@@ -162,6 +162,6 @@ export const Badge = forwardRef<HTMLDivElement, BadgeProps>(({
       )}
     </div>
   );
-});
+}));
 
 Badge.displayName = 'Badge';

@@ -497,7 +497,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       return null;
     };
 
-    const triggerClassName = cn(
+    const triggerClassName = React.useMemo(() => cn(
       'flex w-full items-center justify-between whitespace-nowrap transition-colors duration-150',
       sizeConfig.minHeight,
       sizeConfig.padding,
@@ -513,7 +513,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       disabled ? 'cursor-not-allowed' : 'cursor-text',
       'focus-within:outline-none',
       isTagsVariant && 'flex-wrap min-h-auto'
-    );
+    ), [sizeConfig, styleConfig, disabled, state, isTagsVariant]);
 
     const handleTriggerClick = () => {
       if (disabled) return;

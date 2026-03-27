@@ -14,7 +14,7 @@ interface VirtualSelectItemProps {
   disabled?: boolean;
   isMulti: boolean;
   selectType?: SelectType;
-  onSelect: () => void;
+  onSelect: (id: string) => void;
   style: React.CSSProperties;
 }
 
@@ -27,9 +27,9 @@ const VirtualSelectItem = React.memo<VirtualSelectItemProps>(
     const iconColor = option.iconColor
       ?? (disabled ? 'var(--icon-default-disabled)' : 'var(--icon-default)');
 
-    const handleClick = () => {
-      if (!disabled) onSelect();
-    };
+    const handleClick = React.useCallback(() => {
+      if (!disabled) onSelect(option.id);
+    }, [disabled, onSelect, option.id]);
 
     const renderSelectionIndicator = () => {
       if (isMulti || selectType === 'checkbox') {

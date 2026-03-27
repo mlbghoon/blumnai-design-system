@@ -1,4 +1,4 @@
-import { forwardRef, Suspense, createElement } from 'react';
+import { forwardRef, memo, Suspense, createElement } from 'react';
 import type { ComponentType } from 'react';
 
 import type { IconColor, IconProps } from './Icon.types';
@@ -37,7 +37,7 @@ const resolveColor = (color: IconColor | undefined): string | undefined => {
  * [category, name] 튜플 형식으로 타입 안전한 아이콘 선택 지원
  * 번들 최적화를 위해 카테고리 단위 지연 로딩
  */
-export const Icon = forwardRef<SVGSVGElement, IconProps>(({
+export const Icon = memo(forwardRef<SVGSVGElement, IconProps>(({
   iconType,
   isFill = false,
   size = 24,
@@ -86,6 +86,6 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(({
       })}
     </Suspense>
   );
-});
+}));
 
 Icon.displayName = 'Icon';

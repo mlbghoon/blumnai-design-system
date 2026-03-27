@@ -27,10 +27,12 @@ export function CellText({
   const tableTooltip = useTableTooltipOptional();
   const cellAlign = useCellAlign();
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     return () => {
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
       tableTooltip?.hideTooltip();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,7 +46,8 @@ export function CellText({
       await navigator.clipboard.writeText(String(value));
       setCopied(true);
       onCopy?.(String(value));
-      setTimeout(() => setCopied(false), 2000);
+      if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
+      copyTimeoutRef.current = setTimeout(() => setCopied(false), 2000);
     } catch {
       // Failed to copy
     }

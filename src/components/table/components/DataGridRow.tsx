@@ -15,7 +15,7 @@ interface DataGridRowProps<T> {
   getRowHeight?: (row: T) => string | undefined;
 }
 
-export function DataGridRow<T>({
+function DataGridRowInner<T>({
   row,
   gridTemplateColumns,
   onRowClick,
@@ -62,3 +62,5 @@ export function DataGridRow<T>({
     </div>
   );
 }
+
+export const DataGridRow = React.memo(DataGridRowInner) as typeof DataGridRowInner;

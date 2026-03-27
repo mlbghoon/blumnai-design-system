@@ -1,6 +1,4 @@
-'use no memo';
-
-import { useState, useCallback, useEffect, type ReactNode } from 'react';
+import { useState, useCallback, useEffect, useMemo, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import {
   useFloating,
@@ -60,10 +58,10 @@ export function TableTooltipProvider({ children }: TableTooltipProviderProps) {
     return () => window.removeEventListener('scroll', handleScroll, true);
   }, [isOpen, hideTooltip]);
 
-  const contextValue: TableTooltipContextValue = {
-    showTooltip,
-    hideTooltip,
-  };
+  const contextValue = useMemo<TableTooltipContextValue>(
+    () => ({ showTooltip, hideTooltip }),
+    [showTooltip, hideTooltip]
+  );
 
   const shouldShow = isOpen && anchor !== null;
 

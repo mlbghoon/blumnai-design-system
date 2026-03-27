@@ -209,6 +209,8 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
 
   // Close dropdown when clicking outside
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       const isOutsideTrigger = triggerRef.current && !triggerRef.current.contains(target);
@@ -221,7 +223,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [closeDropdown]);
+  }, [isOpen, closeDropdown]);
 
   // Find selected option (guard against undefined dropdownOptions)
   const selectedOption = dropdownOptions?.find(opt => opt.value === dropdownValue);

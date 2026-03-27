@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 
 import { cn } from '../../../utils/cn';
 import type { StatusDotProps, StatusDotColor, StatusDotSize } from './StatusDot.types';
@@ -15,7 +15,7 @@ const SIZE_MAP: Record<StatusDotSize, string> = {
   md: 'width-10 height-10',
 };
 
-export const StatusDot = forwardRef<HTMLSpanElement, StatusDotProps>(
+export const StatusDot = memo(forwardRef<HTMLSpanElement, StatusDotProps>(
   ({ color = 'green', label, size = 'md', onClick, className, ...props }, ref) => {
     return (
       <span
@@ -40,6 +40,6 @@ export const StatusDot = forwardRef<HTMLSpanElement, StatusDotProps>(
       </span>
     );
   }
-);
+));
 
 StatusDot.displayName = 'StatusDot';

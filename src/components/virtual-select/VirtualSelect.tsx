@@ -361,7 +361,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       );
     };
 
-    const triggerClassName = cn(
+    const triggerClassName = React.useMemo(() => cn(
       'flex w-full items-center justify-between whitespace-nowrap transition-colors duration-150',
       sizeConfig.container,
       sizeConfig.padding,
@@ -376,7 +376,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       state === 'disabled' && STATE_CONFIG.disabled.border,
       disabled ? 'cursor-not-allowed' : 'cursor-pointer',
       'focus:outline-none'
-    );
+    ), [sizeConfig, styleConfig, disabled, state]);
 
     const focusedItemId = React.useMemo(() => {
       if (focusedIndex < selectAllOffset) return undefined;
@@ -645,7 +645,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                                 disabled={option.disabled}
                                 isMulti={isMulti}
                                 selectType={selectType}
-                                onSelect={() => handleSelect(option.id)}
+                                onSelect={handleSelect}
                                 style={{
                                   position: 'absolute',
                                   top: 0,
