@@ -8,7 +8,7 @@ import { DraggableContext } from './useDraggableContext';
 import type { DraggableProps, DraggableRenderProps, DragHandleContextValue } from './dnd.types';
 
 export const Draggable = forwardRef<HTMLDivElement, DraggableProps>(
-  function Draggable({ id, children, data, disabled = false, handle = false, className }, ref) {
+  function Draggable({ id, children, data, disabled = false, handle = false, className, activeClassName }, ref) {
     const {
       attributes,
       listeners,
@@ -21,7 +21,7 @@ export const Draggable = forwardRef<HTMLDivElement, DraggableProps>(
       disabled,
     });
 
-    const style = transform
+    const style = transform && !(isDragging && activeClassName)
       ? {
           transform: CSS.Translate.toString(transform),
         }
@@ -56,7 +56,7 @@ export const Draggable = forwardRef<HTMLDivElement, DraggableProps>(
           }}
           className={cn(
             'touch-none',
-            isDragging && 'opacity-50',
+            isDragging && (activeClassName || 'opacity-50'),
             className
           )}
           style={style}

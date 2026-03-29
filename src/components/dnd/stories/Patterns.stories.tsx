@@ -207,7 +207,7 @@ export const KanbanBoard: Story = {
 
               <div className="flex flex-col ds-gap-8 min-h-[200px]">
                 {column.cards.map((card) => (
-                  <Draggable key={card.id} id={card.id} data={{ ...card }}>
+                  <Draggable key={card.id} id={card.id} data={{ ...card }} activeClassName="opacity-0">
                     <div className="padding-12 bg-card border-default rounded-lg shadow-sm cursor-grab">
                       <div className="flex items-start ds-gap-8">
                         {card.priority && (

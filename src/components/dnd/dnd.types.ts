@@ -60,6 +60,8 @@ export interface DraggableProps<T = unknown> {
   disabled?: boolean;
   handle?: boolean;
   className?: string;
+  /** DragOverlay 사용 시 원본 요소에 적용할 클래스 (transform 비활성화됨) */
+  activeClassName?: string;
 }
 
 export interface DraggableRenderProps {
