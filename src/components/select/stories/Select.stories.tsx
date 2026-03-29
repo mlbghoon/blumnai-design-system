@@ -160,6 +160,37 @@ const meta: Meta<typeof Select> = {
         },
       },
     },
+    labelPosition: {
+      control: 'select',
+      options: ['top', 'left'],
+      description: '라벨 위치를 설정합니다. top(상단), left(좌측 인라인) 중 선택할 수 있습니다',
+      table: {
+        type: { summary: "'top' | 'left'" },
+        defaultValue: { summary: "'top'" },
+      },
+    },
+    clearable: {
+      control: 'boolean',
+      description: 'true로 설정하면 선택된 값을 초기화할 수 있는 X 버튼이 표시됩니다',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    loading: {
+      control: 'boolean',
+      description: 'true로 설정하면 드롭다운에 로딩 스피너가 표시됩니다',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    selectType: {
+      control: 'select',
+      options: ['default', 'checkbox', 'radio'],
+      description: '선택 표시 스타일을 설정합니다. default(체크), checkbox(체크박스), radio(라디오) 중 선택할 수 있습니다',
+      table: {
+        type: {
+          summary: 'SelectType',
+          detail: `'default' | 'checkbox' | 'radio'`,
+        },
+        defaultValue: { summary: "'default'" },
+      },
+    },
   },
 };
 
@@ -187,6 +218,10 @@ export const Default: Story = {
     success: '',
     maxHeight: 300,
     options: defaultOptions,
+    labelPosition: 'top',
+    clearable: false,
+    loading: false,
+    selectType: 'default',
   },
   parameters: {
     controls: { disable: false },
@@ -199,12 +234,17 @@ export const Default: Story = {
     const caption = args.caption || undefined;
     const error = args.error || undefined;
     const success = args.success || undefined;
+    const selectType = 'selectType' in args ? args.selectType : undefined;
+    const labelPosition = 'labelPosition' in args ? (args.labelPosition as 'top' | 'left') : 'top';
+    const clearable = 'clearable' in args ? args.clearable : false;
+    const loading = 'loading' in args ? args.loading : false;
 
     return (
       <div className="max-w-sm">
         <Select
           variant={variant as 'default'}
           label={args.label}
+          labelPosition={labelPosition}
           placeholder={args.placeholder}
           options={args.options}
           value={value}
@@ -219,6 +259,9 @@ export const Default: Story = {
           error={error}
           success={success}
           maxHeight={args.maxHeight}
+          clearable={clearable as boolean}
+          loading={loading as boolean}
+          selectType={selectType as 'default'}
         />
       </div>
     );

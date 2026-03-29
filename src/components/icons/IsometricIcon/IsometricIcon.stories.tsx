@@ -90,6 +90,7 @@ const meta: Meta<typeof IsometricIcon> = {
   component: IsometricIcon,
   tags: ['autodocs'],
   parameters: {
+    layout: 'padded',
     controls: { disable: true },
   },
   argTypes: {

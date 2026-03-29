@@ -106,6 +106,18 @@ const meta: Meta<typeof Divider> = {
         type: { summary: '() => void' },
       },
     },
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+      description: '디바이더 방향. vertical일 때 부모 요소에 높이가 설정되어 있어야 합니다',
+      table: {
+        type: {
+          summary: 'DividerOrientation',
+          detail: `'horizontal' | 'vertical'`,
+        },
+        defaultValue: { summary: "'horizontal'" },
+      },
+    },
   },
 };
 
@@ -123,22 +135,35 @@ export const Default: Story = {
   args: {
     type: 'default',
     lineStyle: 'default',
+    orientation: 'horizontal',
     label: '라벨',
     icon: undefined,
     buttonLabel: '버튼',
     buttonLeadIcon: undefined,
     buttonTailIcon: undefined,
     buttonBadge: undefined,
-    className: '',
   },
   parameters: {
     controls: { disable: false },
   },
   render: function Render(args) {
     const dividerRef = useRef<HTMLDivElement>(null);
+    const isVertical = args.orientation === 'vertical';
     return (
-      <div style={{ width: '100%', maxWidth: '400px' }}>
-        <Divider ref={dividerRef} {...args} />
+      <div style={{ width: '100%', maxWidth: '400px', ...(isVertical ? { height: '100px', display: 'flex' } : {}) }}>
+        <Divider
+          ref={dividerRef}
+          type={args.type}
+          lineStyle={args.lineStyle}
+          orientation={args.orientation}
+          label={args.label}
+          icon={args.icon}
+          buttonLabel={args.buttonLabel}
+          buttonLeadIcon={args.buttonLeadIcon}
+          buttonTailIcon={args.buttonTailIcon}
+          buttonBadge={args.buttonBadge}
+          onButtonClick={args.onButtonClick}
+        />
       </div>
     );
   },

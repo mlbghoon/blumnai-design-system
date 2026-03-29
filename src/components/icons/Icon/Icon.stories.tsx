@@ -34,6 +34,7 @@ const meta: Meta<typeof Icon> = {
   component: Icon,
   tags: ['autodocs'],
   parameters: {
+    layout: 'padded',
     controls: { disable: true },
   },
   argTypes: {

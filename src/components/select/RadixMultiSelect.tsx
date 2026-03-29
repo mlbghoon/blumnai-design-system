@@ -614,10 +614,10 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   <span
                     role="button"
                     tabIndex={-1}
-                    aria-label="Clear all selections"
+                    aria-label="선택 초기화"
                     onClick={handleClearAll}
                     onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClearAll(e as unknown as React.MouseEvent); }}}
-                    className="flex items-center justify-center width-16 height-16 flex-shrink-0 text-muted hover:text-default"
+                    className="flex items-center justify-center width-16 height-16 flex-shrink-0 text-muted hover:text-default cursor-pointer"
                   >
                     <Icon iconType={['system', 'close']} size={12} />
                   </span>

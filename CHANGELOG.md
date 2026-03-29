@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.0.65] - 2026-03-29
+
+### Fixed
+
+- **Select clearable 버튼 위치 수정**: 절대 위치(absolute)로 chevron 아이콘과 겹치던 clear 버튼을 트리거 내부 flex 레이아웃으로 이동. 모든 Select 컴포넌트 clear 버튼에 `cursor-pointer` 추가.
+- **Checkbox 라벨 정렬 수정**: description이 없을 때 `items-center`로 체크박스와 라벨 수직 정렬 개선
+- **Checkbox size별 라벨 크기 연동**: `size` prop에 따라 라벨/설명 텍스트 크기 자동 조정 (sm→size-sm, md→size-md, lg→size-lg)
+
+### Changed
+
+- **Storybook 스토리 컨트롤 보강**:
+  - **Select**: `labelPosition`, `clearable`, `loading`, `selectType` 컨트롤 추가
+  - **Checkbox**: `size`, `shape` 컨트롤 추가, `checkboxPosition`에 `'off'` 옵션 추가, `checked` 컨트롤 동작 수정
+  - **Divider**: `orientation` 컨트롤 추가
+  - **Chip**: `disabled` 컨트롤 추가, `{...args}` 스프레드 제거
+  - **Resizable**: `defaultSize`, `minSize`, `maxSize`, `collapsible`, `collapsedSize` 컨트롤 추가
+- **Storybook 구조 수정**: 6개 아이콘 스토리에 `layout: 'padded'` 추가, DnD Patterns에 `tags: ['autodocs']` 추가
+
 ## [1.0.64] - 2026-03-27
 
 ### Changed

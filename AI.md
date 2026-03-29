@@ -588,8 +588,8 @@ import { Select } from '@blumnai-studio/blumnai-design-system';
 | `width` | `string \| number` | - | Container width |
 | `leadIcon` | `IconTypeWithFill` | - | Icon before text |
 | `searchable` | `boolean` | `false` | Enable search filtering |
-| `searchPlaceholder` | `string` | `'Search...'` | Search input placeholder |
-| `noResultsText` | `string` | `'No results found'` | Text when no search results |
+| `searchPlaceholder` | `string` | `'검색...'` | Search input placeholder |
+| `noResultsText` | `string` | `'검색 결과 없음'` | Text when no search results |
 | `open` | `boolean` | - | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
 | `maxHeight` | `number \| string` | `300` | Dropdown max height |
@@ -699,7 +699,7 @@ import { Combobox } from '@blumnai-studio/blumnai-design-system';
 | `error` | `boolean \| string` | - | Error state/message |
 | `success` | `boolean \| string` | - | Success state/message |
 | `width` | `string \| number` | - | Custom width |
-| `emptyStateTitle` | `string` | `'No search results'` | Empty state heading when search matches nothing |
+| `emptyStateTitle` | `string` | `'검색 결과 없음'` | Empty state heading when search matches nothing |
 | `emptyStateDescription` | `string` | `'Your search did not match any results.'` | Empty state body text |
 | `creatable` | `boolean` | `false` | Allow creating new options |
 | `createText` | `string \| ((value: string) => string)` | - | Create option text |
@@ -796,7 +796,7 @@ import { Checkbox } from '@blumnai-studio/blumnai-design-system';
 | `disabled` | `boolean` | `false` | Disabled state |
 | `checkboxStyle` | `'default'` `'with-shadow'` | `'default'` | Visual style |
 | `checkboxPosition` | `'left'` `'right'` `'off'` | `'left'` | Checkbox position |
-| `size` | `'sm'` `'md'` `'lg'` | `'sm'` | Checkbox size (sm=16px, md=20px, lg=24px) |
+| `size` | `'sm'` `'md'` `'lg'` | `'sm'` | Checkbox + label size (sm=16px, md=20px, lg=24px) |
 | `shape` | `'square'` `'round'` | `'square'` | Checkbox shape |
 
 ### CheckboxList
@@ -2200,7 +2200,7 @@ Same compound pattern as ContextMenu. Triggered by click instead of right-click.
 
 **DropdownMenuButton**: `label` (required), `buttonStyle?` (`'secondary'`), `leadIcon?`, `tailIcon?`, `disabled?`, `onClick?`
 
-**DropdownMenuSearch**: `value?`, `onChange?`, `placeholder?` (`'Search...'`), `autoFocus?` (`true`)
+**DropdownMenuSearch**: `value?`, `onChange?`, `placeholder?` (`'검색...'`), `autoFocus?` (`true`)
 
 **DropdownMenuCheckboxItem**: `checked?`, `onCheckedChange?`, `inset?`, `leadIcon?`, `iconColor?`
 

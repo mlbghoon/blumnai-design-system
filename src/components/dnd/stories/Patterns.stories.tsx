@@ -22,6 +22,7 @@ import { Button } from '@/components/button';
 
 const meta: Meta = {
   title: 'DnD/Patterns',
+  tags: ['autodocs'],
   parameters: {
     layout: 'padded',
     controls: { disable: true },

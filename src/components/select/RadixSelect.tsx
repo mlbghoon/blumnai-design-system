@@ -72,7 +72,7 @@ const SelectValue = SelectPrimitive.Value;
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
-  SelectTriggerProps
+  SelectTriggerProps & { onClear?: (e: React.MouseEvent) => void; showClear?: boolean }
 >(
   (
     {
@@ -83,6 +83,8 @@ const SelectTrigger = React.forwardRef<
       state = 'default',
       leadIcon,
       tailIcon,
+      onClear,
+      showClear,
       ...props
     },
     ref
@@ -148,6 +150,16 @@ const SelectTrigger = React.forwardRef<
             />
           );
         })()}
+        {showClear && (
+          <button
+            type="button"
+            aria-label="선택 초기화"
+            onClick={onClear}
+            className="flex items-center justify-center width-16 height-16 flex-shrink-0 text-muted hover:text-default cursor-pointer"
+          >
+            <Icon iconType={['system', 'close']} size={12} />
+          </button>
+        )}
         <SelectPrimitive.Icon asChild>
           <Icon
             iconType={['arrows', 'expand-up-down']}
@@ -797,6 +809,8 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
               state={state}
               leadIcon={leadIcon}
               tailIcon={tailIcon}
+              showClear={clearable && !!normalizedValue && !disabled}
+              onClear={handleClear}
               aria-describedby={caption || error || success ? `${selectId}-caption` : undefined}
               aria-required={required || undefined}
             >
@@ -806,16 +820,6 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                 <SelectValue placeholder={placeholder} />
               )}
             </SelectTrigger>
-            {clearable && normalizedValue && !disabled && (
-              <button
-                type="button"
-                aria-label="Clear selection"
-                onClick={handleClear}
-                className="absolute right-8 top-1/2 -translate-y-1/2 flex items-center justify-center width-16 height-16 text-muted hover:text-default z-10"
-              >
-                <Icon iconType={['system', 'close']} size={12} />
-              </button>
-            )}
             <SelectContent
               maxHeight={maxHeight}
               contentWidth={contentWidth}

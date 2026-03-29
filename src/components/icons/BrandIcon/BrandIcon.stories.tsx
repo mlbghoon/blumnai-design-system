@@ -10,6 +10,7 @@ const meta: Meta<typeof BrandIcon> = {
   component: BrandIcon,
   tags: ['autodocs'],
   parameters: {
+    layout: 'padded',
     controls: { disable: true },
   },
   argTypes: {

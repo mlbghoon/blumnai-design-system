@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { Checkbox } from '../Checkbox';
 import { CheckboxCard } from '../CheckboxCard';
@@ -49,16 +49,40 @@ const meta: Meta<typeof Checkbox> = {
         type: { summary: 'ReactNode' },
       },
     },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: '체크박스 크기',
+      table: {
+        type: {
+          summary: 'CheckboxSize',
+          detail: `'sm' | 'md' | 'lg'`,
+        },
+        defaultValue: { summary: "'md'" },
+      },
+    },
+    shape: {
+      control: 'select',
+      options: ['square', 'round'],
+      description: '체크박스 모양',
+      table: {
+        type: {
+          summary: 'CheckboxShape',
+          detail: `'square' | 'round'`,
+        },
+        defaultValue: { summary: "'square'" },
+      },
+    },
     checkboxPosition: {
       control: 'select',
-      options: ['left', 'right'],
+      options: ['left', 'right', 'off'],
       description: '체크박스 위치 (라벨 기준)',
       table: {
         type: {
           summary: 'CheckboxPosition',
-          detail: `'left' | 'right'`,
+          detail: `'left' | 'right' | 'off'`,
         },
-        defaultValue: { summary: 'left' },
+        defaultValue: { summary: "'left'" },
       },
     },
     checkboxStyle: {
@@ -89,6 +113,8 @@ export const Default: Story = {
     checked: false,
     label: 'Label',
     description: '',
+    size: 'sm',
+    shape: 'square',
     checkboxPosition: 'left',
     checkboxStyle: 'default',
     disabled: false,
@@ -97,15 +123,21 @@ export const Default: Story = {
     controls: { disable: false },
   },
   render: function Render(args) {
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState<boolean | 'indeterminate'>(args.checked ?? false);
     const description = args.description || undefined;
+
+    React.useEffect(() => {
+      setChecked(args.checked ?? false);
+    }, [args.checked]);
 
     return (
       <Checkbox
         checked={checked}
-        onCheckedChange={(val) => setChecked(val === true)}
+        onCheckedChange={setChecked}
         label={args.label}
         description={description}
+        size={args.size}
+        shape={args.shape}
         checkboxPosition={args.checkboxPosition}
         checkboxStyle={args.checkboxStyle}
         disabled={args.disabled}

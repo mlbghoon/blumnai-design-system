@@ -22,6 +22,7 @@ const meta: Meta<typeof FileIcon> = {
   component: FileIcon,
   tags: ['autodocs'],
   parameters: {
+    layout: 'padded',
     controls: { disable: true },
   },
   argTypes: {

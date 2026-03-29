@@ -10,6 +10,7 @@ const meta: Meta<typeof CursorIcon> = {
   component: CursorIcon,
   tags: ['autodocs'],
   parameters: {
+    layout: 'padded',
     controls: { disable: true },
   },
   argTypes: {

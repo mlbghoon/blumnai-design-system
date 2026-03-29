@@ -108,6 +108,14 @@ const meta: Meta<typeof Chip> = {
         },
       },
     },
+    disabled: {
+      control: 'boolean',
+      description: 'true로 설정하면 칩이 비활성화되어 클릭할 수 없습니다',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
   },
 };
 
@@ -130,15 +138,28 @@ export const Default: Story = {
     shape: 'rounded',
     size: 'md',
     selected: false,
+    disabled: false,
     color: undefined,
-    className: '',
   },
   parameters: {
     controls: { disable: false },
   },
   render: function Render(args) {
     const chipRef = useRef<HTMLButtonElement>(null);
-    return <Chip ref={chipRef} {...args} />;
+    return (
+      <Chip
+        ref={chipRef}
+        label={args.label}
+        icon={args.icon}
+        variant={args.variant}
+        style={args.style}
+        shape={args.shape}
+        size={args.size}
+        selected={args.selected}
+        disabled={args.disabled}
+        color={args.color}
+      />
+    );
   },
 };
 

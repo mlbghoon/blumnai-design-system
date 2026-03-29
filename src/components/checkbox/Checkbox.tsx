@@ -5,9 +5,9 @@ import { cn } from '@/lib/utils';
 import type { CheckboxProps } from './Checkbox.types';
 
 const CHECKBOX_SIZE_CONFIG = {
-  sm: { box: 'width-16 height-16', checkSize: 8, indeterminateBar: 'width-10 height-2', labelLineHeight: 'height-20' },
-  md: { box: 'width-20 height-20', checkSize: 10, indeterminateBar: 'width-14 height-2', labelLineHeight: 'height-24' },
-  lg: { box: 'width-24 height-24', checkSize: 12, indeterminateBar: 'width-16 height-2', labelLineHeight: 'height-28' },
+  sm: { box: 'width-16 height-16', checkSize: 8, indeterminateBar: 'width-10 height-2', labelLineHeight: 'height-20', labelText: 'size-sm line-height-leading-5', descText: 'size-sm line-height-leading-5' },
+  md: { box: 'width-20 height-20', checkSize: 10, indeterminateBar: 'width-14 height-2', labelLineHeight: 'height-24', labelText: 'size-md line-height-leading-6', descText: 'size-sm line-height-leading-5' },
+  lg: { box: 'width-24 height-24', checkSize: 12, indeterminateBar: 'width-16 height-2', labelLineHeight: 'height-28', labelText: 'size-lg line-height-leading-7', descText: 'size-md line-height-leading-6' },
 } as const;
 
 const CheckIcon = ({ color = 'currentColor', size = 8 }: { color?: string; size?: number }) => (
@@ -113,7 +113,8 @@ const Checkbox = React.forwardRef<
   return (
     <label
       className={cn(
-        'inline-flex items-start ds-gap-10',
+        'inline-flex ds-gap-10',
+        description ? 'items-start' : 'items-center',
         checkboxPosition === 'right' && 'flex-row-reverse',
         disabled ? 'cursor-not-allowed' : 'cursor-pointer'
       )}
@@ -125,7 +126,8 @@ const Checkbox = React.forwardRef<
         {label && (
           <span
             className={cn(
-              'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal font-medium select-none',
+              'font-body letter-spacing-tracking-normal font-medium select-none',
+              sizeConfig.labelText,
               disabled ? 'text-hint' : 'text-default'
             )}
           >
@@ -135,7 +137,8 @@ const Checkbox = React.forwardRef<
         {description && (
           <span
             className={cn(
-              'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal select-none',
+              'font-body letter-spacing-tracking-normal select-none',
+              sizeConfig.descText,
               disabled ? 'text-hint' : 'text-subtle'
             )}
           >

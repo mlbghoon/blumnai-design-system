@@ -15,6 +15,11 @@ interface ResizableStoryProps {
   variant?: ResizableHandleProps['variant'];
   collapseButton?: ResizableHandleProps['collapseButton'];
   collapseButtonPosition?: ResizableHandleProps['collapseButtonPosition'];
+  defaultSize?: number;
+  minSize?: string;
+  maxSize?: string;
+  collapsible?: boolean;
+  collapsedSize?: string;
 }
 
 const meta: Meta<ResizableStoryProps> = {
@@ -74,6 +79,49 @@ const meta: Meta<ResizableStoryProps> = {
         category: 'ResizableHandle',
       },
     },
+    defaultSize: {
+      control: { type: 'number', min: 0, max: 100 },
+      description: '[ResizablePanel] 첫 번째 패널의 초기 크기 (%, 0~100)',
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '50' },
+        category: 'ResizablePanel',
+      },
+    },
+    minSize: {
+      control: 'text',
+      description: '[ResizablePanel] 첫 번째 패널의 최소 크기 (예: "15%", "100px")',
+      table: {
+        type: { summary: 'string' },
+        category: 'ResizablePanel',
+      },
+    },
+    maxSize: {
+      control: 'text',
+      description: '[ResizablePanel] 첫 번째 패널의 최대 크기 (예: "50%", "300px")',
+      table: {
+        type: { summary: 'string' },
+        category: 'ResizablePanel',
+      },
+    },
+    collapsible: {
+      control: 'boolean',
+      description: '[ResizablePanel] 첫 번째 패널의 접기 가능 여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+        category: 'ResizablePanel',
+      },
+    },
+    collapsedSize: {
+      control: 'text',
+      description: '[ResizablePanel] 패널이 접혔을 때 크기 (예: "0%", "50px")',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: '"0%"' },
+        category: 'ResizablePanel',
+      },
+    },
   },
 };
 
@@ -99,6 +147,11 @@ export const Default: Story = {
     variant: 'line',
     collapseButton: undefined,
     collapseButtonPosition: 'center',
+    defaultSize: 50,
+    minSize: undefined,
+    maxSize: undefined,
+    collapsible: false,
+    collapsedSize: '0%',
   },
   parameters: {
     controls: { disable: false },
@@ -118,18 +171,26 @@ export const Default: Story = {
           ? Number(rawPosition)
           : 'center';
 
+    const defaultSize = args.defaultSize ?? 50;
+    const minSize = args.minSize || undefined;
+    const maxSize = args.maxSize || undefined;
+    const collapsible = args.collapsible || collapseButton === 'before';
+    const collapsedSize = args.collapsedSize || '0%';
+
     return (
       <ResizablePanelGroup
         orientation={orientation}
         className="min-h-[200px] max-w-md rounded-lg border-default"
       >
         <ResizablePanel
-          panelRef={collapseButton === 'before' ? panelRef : undefined}
-          defaultSize={50}
-          collapsible={collapseButton === 'before'}
-          collapsedSize="0%"
+          panelRef={collapseButton === 'before' || collapsible ? panelRef : undefined}
+          defaultSize={defaultSize}
+          minSize={minSize}
+          maxSize={maxSize}
+          collapsible={collapsible}
+          collapsedSize={collapsedSize}
           onResize={(size) => {
-            if (collapseButton === 'before') {
+            if (collapsible) {
               setIsCollapsed(size.asPercentage === 0);
             }
           }}
@@ -141,12 +202,12 @@ export const Default: Story = {
           variant={variant}
           collapseButton={collapseButton}
           collapseButtonPosition={collapseButtonPosition}
-          panelRef={collapseButton ? panelRef : undefined}
+          panelRef={collapseButton || collapsible ? panelRef : undefined}
           isCollapsed={isCollapsed}
         />
         <ResizablePanel
           panelRef={collapseButton === 'after' ? panelRef : undefined}
-          defaultSize={50}
+          defaultSize={100 - defaultSize}
           collapsible={collapseButton === 'after'}
           collapsedSize="0%"
           onResize={(size) => {

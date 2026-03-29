@@ -273,6 +273,7 @@ const meta: Meta<typeof FlagIcon> = {
   component: FlagIcon,
   tags: ['autodocs'],
   parameters: {
+    layout: 'padded',
     controls: { disable: true },
   },
   argTypes: {
