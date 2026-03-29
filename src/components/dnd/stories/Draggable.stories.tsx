@@ -211,7 +211,7 @@ export const WithOverlay: Story = {
       >
         <div className="flex ds-gap-16">
           {items.map((item) => (
-            <Draggable key={item.id} id={item.id} data={item}>
+            <Draggable key={item.id} id={item.id} data={item} activeClassName="opacity-0">
               <div
                 className={`padding-16 ${item.color} border-default rounded-lg shadow-sm cursor-grab`}
               >

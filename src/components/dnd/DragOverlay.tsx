@@ -1,6 +1,7 @@
 'use client';
 
 import { DragOverlay as DndKitDragOverlay, useDndContext } from '@dnd-kit/core';
+import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 import type { DragOverlayProps, DndItem } from './dnd.types';
 
@@ -23,7 +24,7 @@ export function DragOverlay({
   const content =
     typeof children === 'function' ? children(activeItem) : children;
 
-  return (
+  const overlay = (
     <DndKitDragOverlay
       dropAnimation={dropAnimation}
       className={cn('shadow-lg', className)}
@@ -31,4 +32,8 @@ export function DragOverlay({
       {active ? content : null}
     </DndKitDragOverlay>
   );
+
+  if (typeof document === 'undefined') return overlay;
+
+  return createPortal(overlay, document.body);
 }
