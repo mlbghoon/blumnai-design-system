@@ -83,3 +83,6 @@ src/icons/svg-source/
 
 # Claude Code active-task marker and counter (local-only)
 .claude/active-task*
+
+# Personal test projects (local-only)
+my-stitch-blumn/
