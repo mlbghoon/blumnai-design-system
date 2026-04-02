@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.8] - 2026-04-02
+
+### Fixed
+
+- **Select 트리거 오버플로우 (relative 래퍼)**: `InputWrapper` 내부 `<div className="relative">` 래퍼에 `min-w-0` 추가. flex 컨테이너 안에서 트리거가 부모 너비를 초과하던 문제 수정.
+
 ## [1.1.7] - 2026-04-02
 
 ### Fixed

@@ -793,7 +793,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
         width={width}
         className={className}
       >
-        <div ref={ref} className="relative" style={minWidth ? { minWidth: typeof minWidth === 'number' ? `${minWidth}px` : minWidth } : undefined}>
+        <div ref={ref} className="relative min-w-0" style={minWidth ? { minWidth: typeof minWidth === 'number' ? `${minWidth}px` : minWidth } : undefined}>
           <Select
             value={normalizedValue}
             onValueChange={handleValueChange}
