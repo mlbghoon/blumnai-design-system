@@ -492,13 +492,14 @@ const ExtendedSelectItem = React.forwardRef<
       >
         {renderIndicator()}
         {renderLeadContent()}
-        <SelectPrimitive.ItemText className="flex-1 min-w-0">
+        <SelectPrimitive.ItemText className="flex-1 min-w-0 overflow-hidden">
           {description ? (
             <div className="flex flex-col ds-gap-1">
-              <span className="truncate">{children}</span>
+              <span title={typeof children === 'string' ? children : undefined} className="block truncate">{children}</span>
               <span
+                title={description}
                 className={cn(
-                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight truncate',
+                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight block truncate',
                   disabled ? 'text-hint' : 'text-muted'
                 )}
               >
@@ -506,7 +507,7 @@ const ExtendedSelectItem = React.forwardRef<
               </span>
             </div>
           ) : (
-            <span className="block truncate">{children}</span>
+            <span title={typeof children === 'string' ? children : undefined} className="block truncate">{children}</span>
           )}
         </SelectPrimitive.ItemText>
         {renderTrailContent()}
@@ -764,7 +765,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
               alt={selectedOption.label}
             />
             <span
-              className={cn('truncate', disabled ? 'text-hint' : 'text-default')}
+              className={cn('min-w-0 truncate', disabled ? 'text-hint' : 'text-default')}
             >
               {selectedOption.label}
             </span>
@@ -773,7 +774,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       }
 
       return (
-        <span className={cn('truncate', disabled ? 'text-hint' : 'text-default')}>
+        <span className={cn('block truncate', disabled ? 'text-hint' : 'text-default')}>
           {selectedOption.label}
         </span>
       );
@@ -825,7 +826,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
               contentWidth={contentWidth}
               header={
                 searchable ? (
-                  <div className="border-b border-default">
+                  <div className="border-b-default">
                     <div className="flex items-center ds-gap-2 padding-x-8 height-36">
                       <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
                         <Icon iconType={['system', 'search']} size={16} color="default-muted" />

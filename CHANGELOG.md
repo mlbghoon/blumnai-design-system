@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.9] - 2026-04-02
+
+### Fixed
+
+- **Select/MultiSelect/VirtualSelect 트리거 텍스트 ellipsis**: 트리거 내부 span이 inline이라 `text-overflow: ellipsis`가 미적용되던 문제 수정. `block truncate` 클래스 추가로 긴 옵션 라벨이 `...`으로 올바르게 잘림.
+- **Select/MultiSelect/VirtualSelect 옵션 라벨 잘림 + 툴팁**: 드롭다운 옵션 텍스트가 컨테이너를 넘어 클리핑되던 문제 수정. 옵션에 `truncate` + `title` 속성 추가하여 ellipsis 처리 및 네이티브 툴팁 표시.
+- **MultiSelect/VirtualSelect ScrollArea → plain div 교체**: Radix ScrollArea 내부 `display: table` 래퍼가 콘텐츠 너비를 확장시켜 옵션 truncation이 동작하지 않던 문제 수정. `overflow-y-auto overflow-x-hidden scrollbar-thin` div로 교체.
+- **Select/MultiSelect/VirtualSelect 검색 입력 테두리**: `border-b border-default`가 모든 방향에 테두리를 적용하던 문제 수정. `border-b-default`로 변경하여 하단만 테두리 표시.
+- **VirtualSelect 무한 스크롤 로딩 인디케이터**: 데이터 로딩 중 시각적 피드백 없던 문제 수정. 기존 옵션 유지하면서 하단에 스피너 표시. 옵션이 없을 때만 전체 스피너 표시.
+
 ## [1.1.8] - 2026-04-02
 
 ### Fixed

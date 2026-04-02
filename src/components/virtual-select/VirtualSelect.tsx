@@ -5,7 +5,6 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
-import { ScrollArea } from '../scroll-area/ScrollArea';
 import { usePortalContainer } from '../../utils/PortalContainerContext';
 import {
   SIZE_CONFIG,
@@ -372,7 +371,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
           : multiProps?.selectedText ?? `${multiValue.length}개 선택됨`;
 
         return (
-          <span className={cn('truncate', disabled ? 'text-hint' : 'text-default')}>
+          <span className={cn('block truncate', disabled ? 'text-hint' : 'text-default')}>
             {displayText}
           </span>
         );
@@ -388,7 +387,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       }
 
       return (
-        <span className={cn('truncate', disabled ? 'text-hint' : 'text-default')}>
+        <span className={cn('block truncate', disabled ? 'text-hint' : 'text-default')}>
           {selectedOpt.label}
         </span>
       );
@@ -475,7 +474,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                   );
                 })()}
 
-                <div className="flex-1 min-w-0 text-left">
+                <div className="flex-1 min-w-0 text-left overflow-hidden">
                   {renderSelectedValue()}
                 </div>
 
@@ -524,7 +523,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                 style={{ width: 'var(--radix-popover-trigger-width)' }}
               >
                 {searchable && (
-                  <div className="border-b border-default">
+                  <div className="border-b-default">
                     <div className="flex items-center ds-gap-2 padding-x-8 height-36">
                       <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
                         <Icon iconType={['system', 'search']} size={16} color="default-muted" />
@@ -562,9 +561,9 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                   </div>
                 )}
 
-                {loading ? (
+                {loading && filteredOptions.length === 0 ? (
                   <div className="flex items-center justify-center padding-y-16">
-                    <div className="width-16 height-16 border-2 border-default border-t-transparent rounded-full motion-safe:animate-spin" />
+                    <div className="width-16 height-16 rounded-full motion-safe:animate-spin" style={{ border: '2px solid var(--border-strong)', borderTopColor: 'transparent' }} />
                   </div>
                 ) : filteredOptions.length > 0 ? (
                   <>
@@ -629,9 +628,10 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                       aria-activedescendant={focusedItemId}
                       className="padding-y-4"
                     >
-                      <ScrollArea
-                        maxHeight={maxHeight}
-                        viewportRef={setScrollElement}
+                      <div
+                        ref={setScrollElement}
+                        className="overflow-y-auto overflow-x-hidden scrollbar-thin"
+                        style={{ maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : (maxHeight ?? '300px') }}
                       >
                         <div
                           style={{
@@ -705,12 +705,19 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                             );
                           })}
                         </div>
-                      </ScrollArea>
+                      </div>
+                      {loading && filteredOptions.length > 0 && (
+                        <div className="flex items-center justify-center padding-y-8">
+                          <div className="width-16 height-16 rounded-full motion-safe:animate-spin" style={{ border: '2px solid var(--border-strong)', borderTopColor: 'transparent' }} />
+                        </div>
+                      )}
                     </div>
                   </>
                 ) : (
                   <div className="flex items-center justify-center padding-y-8 text-muted size-sm font-body">
-                    {noResultsText}
+                    {loading ? (
+                      <div className="width-16 height-16 rounded-full motion-safe:animate-spin" style={{ border: '2px solid var(--border-strong)', borderTopColor: 'transparent' }} />
+                    ) : noResultsText}
                   </div>
                 )}
 

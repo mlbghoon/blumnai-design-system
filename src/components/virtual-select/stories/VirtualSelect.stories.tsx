@@ -588,6 +588,7 @@ export const InfiniteScroll: Story = {
           width={320}
           onLoadMore={handleLoadMore}
           loadMoreThreshold={10}
+          loading={isLoading}
         />
         <p className="font-body size-xs text-muted">
           현재 {options.length}개 옵션 로드됨 {isLoading && '(로딩 중...)'}

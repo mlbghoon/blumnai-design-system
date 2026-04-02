@@ -155,18 +155,20 @@ const VirtualSelectItem = React.memo<VirtualSelectItemProps>(
           {option.description ? (
             <div className="flex flex-col flex-1 min-w-0 padding-x-4 ds-gap-1">
               <span
+                title={option.label}
                 className={cn(
                   'font-body',
                   sizeConfig.text,
                   disabled ? 'text-hint' : 'text-default',
-                  'flex-1 truncate'
+                  'block truncate'
                 )}
               >
                 {option.label}
               </span>
               <span
+                title={option.description}
                 className={cn(
-                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight truncate',
+                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight block truncate',
                   disabled ? 'text-hint' : 'text-muted'
                 )}
               >
@@ -176,6 +178,7 @@ const VirtualSelectItem = React.memo<VirtualSelectItemProps>(
           ) : (
             <div className="flex-1 min-w-0 padding-x-4">
               <span
+                title={option.label}
                 className={cn(
                   'font-body block',
                   sizeConfig.text,

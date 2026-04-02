@@ -6,7 +6,6 @@ import { InputWrapper } from '../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
-import { ScrollArea } from '../scroll-area/ScrollArea';
 import { usePortalContainer } from '../../utils/PortalContainerContext';
 import type {
   RadixMultiSelectProps,
@@ -162,18 +161,20 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
           {option.description ? (
             <div className="flex flex-col flex-1 min-w-0 padding-x-4 ds-gap-1">
               <span
+                title={option.label}
                 className={cn(
                   'font-body',
                   sizeConfig.text,
                   disabled ? 'text-hint' : 'text-default',
-                  'flex-1 truncate'
+                  'block truncate'
                 )}
               >
                 {option.label}
               </span>
               <span
+                title={option.description}
                 className={cn(
-                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight truncate',
+                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight block truncate',
                   disabled ? 'text-hint' : 'text-muted'
                 )}
               >
@@ -183,6 +184,7 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
           ) : (
             <div className="flex-1 min-w-0 padding-x-4">
               <span
+                title={option.label}
                 className={cn(
                   'font-body block',
                   sizeConfig.text,
@@ -541,7 +543,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
             <div className="flex items-center ds-gap-6">
               <Avatar variant="userpic" size="2xs" src={option.avatarSrc} alt={option.label} />
               <span
-                className={cn('truncate', disabled ? 'text-hint' : 'text-default')}
+                className={cn('min-w-0 truncate', disabled ? 'text-hint' : 'text-default')}
               >
                 {option.label}
               </span>
@@ -550,7 +552,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
         }
         return (
           <span
-            className={cn('truncate', disabled ? 'text-hint' : 'text-default')}
+            className={cn('block truncate', disabled ? 'text-hint' : 'text-default')}
           >
             {option.label}
           </span>
@@ -563,7 +565,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
           : selectedText ?? (selectedOptions.length === 1 ? selectedOptions[0].label : `${selectedOptions.length}개 선택됨`);
 
       return (
-        <span className={cn('truncate', disabled ? 'text-hint' : 'text-default')}>
+        <span className={cn('block truncate', disabled ? 'text-hint' : 'text-default')}>
           {displayText}
         </span>
       );
@@ -631,7 +633,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
 
                 <div
                   className={cn(
-                    'flex-1 min-w-0 text-left',
+                    'flex-1 min-w-0 text-left overflow-hidden',
                     variant === 'tags' && 'flex items-center'
                   )}
                 >
@@ -695,7 +697,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                 }}
               >
                 {searchable && (
-                  <div className="border-b border-default">
+                  <div className="border-b-default">
                     <div className="flex items-center ds-gap-2 padding-x-8 height-36">
                       <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
                         <Icon iconType={['system', 'search']} size={16} color="default-muted" />
@@ -730,7 +732,10 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   </div>
                 )}
 
-                <ScrollArea maxHeight={maxHeight}>
+                <div
+                  className="overflow-y-auto overflow-x-hidden scrollbar-thin"
+                  style={{ maxHeight: typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight }}
+                >
                 <div
                   role="listbox"
                   aria-multiselectable="true"
@@ -916,7 +921,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                     </div>
                   )}
                 </div>
-                </ScrollArea>
+                </div>
 
                 {showActions && (
                   <div className="flex items-center justify-end ds-gap-8 padding-x-12 padding-y-8 border-t border-default">

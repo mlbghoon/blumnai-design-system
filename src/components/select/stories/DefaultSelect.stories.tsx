@@ -899,3 +899,56 @@ export const WithOptionGroups: Story = {
     );
   },
 };
+
+// ============================================================================
+// TRIGGER TEXT OVERFLOW
+// ============================================================================
+
+const longLabelOptions: SelectOption[] = [
+  { id: '1', label: '카카오톡(teststests)' },
+  { id: '2', label: 'lc-manager2(lc3manager-very-long-name)' },
+  { id: '3', label: '아주 긴 옵션 라벨 텍스트가 들어가는 경우 테스트입니다' },
+  { id: '4', label: 'Short' },
+];
+
+/**
+ * 트리거 텍스트 오버플로우 테스트
+ *
+ * 좁은 너비에서 긴 옵션 라벨이 ellipsis(...)로 잘리는지 확인합니다.
+ */
+export const TriggerTextOverflow: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-16">
+        <div>
+          <p className="size-xs text-muted margin-y-4">width=100px</p>
+          <Select
+            variant="default"
+            options={longLabelOptions}
+            value="1"
+            width={100}
+          />
+        </div>
+        <div>
+          <p className="size-xs text-muted margin-y-4">width=112px</p>
+          <Select
+            variant="default"
+            options={longLabelOptions}
+            value="2"
+            width={112}
+          />
+        </div>
+        <div>
+          <p className="size-xs text-muted margin-y-4">width=200px, 라벨 포함</p>
+          <Select
+            variant="default"
+            label="상담사 선택"
+            options={longLabelOptions}
+            value="1"
+            width={200}
+          />
+        </div>
+      </div>
+    );
+  },
+};

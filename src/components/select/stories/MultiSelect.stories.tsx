@@ -771,3 +771,73 @@ export const Loading: Story = {
     );
   },
 };
+
+// ============================================================================
+// TRIGGER TEXT OVERFLOW
+// ============================================================================
+
+const longLabelOptions: SelectOption[] = [
+  { id: '1', label: '카카오톡(teststests)' },
+  { id: '2', label: 'lc-manager2(lc3manager-very-long-name)' },
+  { id: '3', label: '아주 긴 옵션 라벨 텍스트가 들어가는 경우 테스트입니다' },
+  { id: '4', label: 'Short' },
+];
+
+/**
+ * 트리거 텍스트 오버플로우 테스트
+ *
+ * 좁은 너비에서 긴 옵션 라벨이 ellipsis(...)로 잘리는지 확인합니다.
+ */
+export const TriggerTextOverflow: Story = {
+  render: function Render() {
+    const [value1, setValue1] = useState<string[]>(['1']);
+    const [value2, setValue2] = useState<string[]>(['2']);
+    const [value3, setValue3] = useState<string[]>(['1', '2', '3']);
+    return (
+      <div className="flex flex-col ds-gap-16">
+        <div>
+          <p className="size-xs text-muted margin-y-4">width=100px, 단일 선택</p>
+          <Select
+            variant="multi-select"
+            options={longLabelOptions}
+            value={value1}
+            onChange={setValue1}
+            width={100}
+          />
+        </div>
+        <div>
+          <p className="size-xs text-muted margin-y-4">width=112px, 단일 선택</p>
+          <Select
+            variant="multi-select"
+            options={longLabelOptions}
+            value={value2}
+            onChange={setValue2}
+            width={112}
+          />
+        </div>
+        <div>
+          <p className="size-xs text-muted margin-y-4">width=150px, 다중 선택 (selectedText)</p>
+          <Select
+            variant="multi-select"
+            options={longLabelOptions}
+            value={value3}
+            onChange={setValue3}
+            selectedText={(count) => `카카오톡(teststests) 외 ${count - 1}개 선택됨`}
+            width={150}
+          />
+        </div>
+        <div>
+          <p className="size-xs text-muted margin-y-4">width=200px, 라벨 포함</p>
+          <Select
+            variant="multi-select"
+            label="상담사 선택"
+            options={longLabelOptions}
+            value={value1}
+            onChange={setValue1}
+            width={200}
+          />
+        </div>
+      </div>
+    );
+  },
+};
