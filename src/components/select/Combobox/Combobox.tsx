@@ -7,6 +7,7 @@ import { InputWrapper } from '../../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import { Avatar } from '../../avatar/Avatar';
 import { Badge } from '../../badge/Badge';
+import { ScrollArea } from '../../scroll-area/ScrollArea';
 import { usePortalContainer } from '../../../utils/PortalContainerContext';
 import {
   SIZE_CONFIG,
@@ -417,7 +418,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       });
     }, [options, inputValue, filterFunction]);
 
-    const updateScrollButtons = React.useCallback(() => {
+    const updateScrollButtons = React.useCallback((_pos?: { x: number; y: number }) => {
       const el = listRef.current;
       if (!el) return;
 
@@ -428,7 +429,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 
     React.useEffect(() => {
       if (isOpen) {
-        requestAnimationFrame(updateScrollButtons);
+        requestAnimationFrame(() => updateScrollButtons());
       }
     }, [isOpen, filteredOptions, updateScrollButtons]);
 
@@ -718,14 +719,10 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                   {filteredOptions.length === 0 ? (
                     renderEmptyState()
                   ) : (
-                    <div
-                      ref={listRef}
-                      className="overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden"
-                      style={{
-                        maxHeight,
-                        scrollbarWidth: 'none',
-                      }}
-                      onScroll={updateScrollButtons}
+                    <ScrollArea
+                      maxHeight={maxHeight}
+                      viewportRef={listRef}
+                      onScrollPositionChange={updateScrollButtons}
                     >
                       {canScrollUp && (
                         <button
@@ -760,7 +757,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                           <Icon iconType={['arrows', 'arrow-drop-down']} size={16} color="default-muted" />
                         </button>
                       )}
-                    </div>
+                    </ScrollArea>
                   )}
 
                   {showCreateOption && (

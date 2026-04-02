@@ -51,6 +51,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       overscan = 5,
       onLoadMore,
       loadMoreThreshold = 5,
+      onSearchChange,
     } = props;
 
     const isMulti = variant === 'multi';
@@ -115,6 +116,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
           : 'default-subtle';
 
     const filteredOptions = React.useMemo(() => {
+      if (onSearchChange) return options;
       if (!searchable || !searchQuery.trim()) return options;
       const query = searchQuery.toLowerCase().trim();
       return options.filter(
@@ -122,7 +124,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
           opt.label.toLowerCase().includes(query) ||
           opt.description?.toLowerCase().includes(query)
       );
-    }, [options, searchQuery, searchable]);
+    }, [options, searchQuery, searchable, onSearchChange]);
 
     const navigableOptions = React.useMemo(
       () => filteredOptions.filter((o) => !o.disabled),
@@ -505,7 +507,9 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                         aria-label={searchPlaceholder || '옵션'}
                         value={searchQuery}
                         onChange={(e) => {
-                          setSearchQuery(e.target.value);
+                          const val = e.target.value;
+                          setSearchQuery(val);
+                          onSearchChange?.(val);
                           setTimeout(() => searchInputRef.current?.focus(), 0);
                         }}
                         placeholder={searchPlaceholder}
@@ -517,6 +521,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                           type="button"
                           onClick={() => {
                             setSearchQuery('');
+                            onSearchChange?.('');
                             setTimeout(() => searchInputRef.current?.focus(), 0);
                           }}
                           className="flex items-center justify-center width-20 height-20 flex-shrink-0 text-muted hover:text-default"

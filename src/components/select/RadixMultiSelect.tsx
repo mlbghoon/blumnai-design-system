@@ -6,6 +6,7 @@ import { InputWrapper } from '../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
+import { ScrollArea } from '../scroll-area/ScrollArea';
 import { usePortalContainer } from '../../utils/PortalContainerContext';
 import type {
   RadixMultiSelectProps,
@@ -702,17 +703,12 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   </div>
                 )}
 
+                <ScrollArea maxHeight={maxHeight}>
                 <div
                   role="listbox"
                   aria-multiselectable="true"
                   aria-label={typeof label === 'string' ? label : 'Options'}
-                  className="padding-y-4 overflow-y-auto overflow-x-hidden"
-                  style={{
-                    maxHeight:
-                      typeof maxHeight === 'number'
-                        ? `${maxHeight}px`
-                        : maxHeight,
-                  }}
+                  className="padding-y-4"
                 >
                   {loading ? (
                     <div className="flex items-center justify-center padding-y-16">
@@ -893,6 +889,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                     </div>
                   )}
                 </div>
+                </ScrollArea>
               </PopoverPrimitive.Content>
             </PopoverPrimitive.Portal>
           </PopoverPrimitive.Root>

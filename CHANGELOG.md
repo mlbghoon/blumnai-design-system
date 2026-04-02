@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.4] - 2026-04-02
+
+### Added
+
+- **VirtualSelect onSearchChange**: 서버사이드 검색 콜백. 설정 시 클라이언트 필터링 비활성화, 소비자가 options 배열 직접 제어 가능.
+
+### Changed
+
+- **Select 드롭다운 스크롤바 스타일링**: `scrollbar-thin` 유틸리티 클래스 적용으로 브라우저 기본 스크롤바 대신 DS 테마 스크롤바 표시
+- **MultiSelect ScrollArea 적용**: 드롭다운 옵션 목록을 DS `ScrollArea` 컴포넌트로 래핑, 일관된 커스텀 스크롤바 표시
+- **Combobox ScrollArea 적용**: 드롭다운 스크롤 컨테이너를 DS `ScrollArea`로 교체, 커스텀 스크롤바 + 기존 상하 스크롤 버튼 유지
+
 ## [1.1.3] - 2026-04-02
 
 ### Added

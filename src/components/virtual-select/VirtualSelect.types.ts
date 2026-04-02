@@ -43,6 +43,8 @@ export interface VirtualSelectBaseProps {
   onLoadMore?: () => void;
   /** onLoadMore 발동 임계값 (하단에서 몇 개 항목 남았을 때, default: 5) */
   loadMoreThreshold?: number;
+  /** 검색어 변경 콜백 (서버사이드 검색용, 설정 시 클라이언트 필터링 비활성화) */
+  onSearchChange?: (query: string) => void;
 }
 
 export interface SingleVirtualSelectProps extends VirtualSelectBaseProps {
