@@ -120,7 +120,7 @@ const SelectTrigger = React.forwardRef<
           isDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
           'data-[placeholder]:text-hint',
           'focus:outline-none',
-          '[&>span]:line-clamp-1 [&>span]:text-left',
+          '[&>span]:min-w-0 [&>span]:truncate [&>span]:text-left',
           className
         )}
         {...props}
