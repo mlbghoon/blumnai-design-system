@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.1.1] - 2026-04-02
+
+### Added
+
+- **EventCalendar 컴포넌트**: FullCalendar 대체용 월간 캘린더 그리드 컴포넌트
+  - `renderDayContent` — 날짜별 커스텀 JSX 렌더링 (DayContext: isOutsideMonth, isToday, isWeekend, isDisabled 제공)
+  - `dayCellClassName` — 날짜별 셀 className 콜백
+  - `headerActions` — 헤더 오른쪽 커스텀 콘텐츠 슬롯
+  - `month` / `onMonthChange` — controlled 월 상태
+  - `onDateClick` — 날짜 클릭 콜백
+  - `size` 프리셋 (`compact` 80px / `default` 120px / `large` 160px) 및 `cellHeight` 커스텀
+  - `weekStartsOn` — 주 시작 요일 설정 (기본 일요일)
+  - `locale` — date-fns Locale 지원 (기본 한국어)
+  - `disabledDate` — 비활성 날짜 콜백
+  - `formatMonthLabel` — 월 라벨 포맷 커스텀
+  - 주말 컬럼 배경 틴트 (일요일: 빨강, 토요일: 파랑)
+  - 오늘 날짜 파란 원형 인디케이터
+  - 키보드 접근성 (`role="grid"`, `gridcell`, Enter/Space)
+  - `React.memo` DayCell, `useMemo`/`useCallback` 성능 최적화
+  - `forwardRef` 지원
+  - Storybook 스토리 9개 (Default, WithCustomContent, WithHeaderActions, Compact, Large, WithDisabledDates, MondayStart, FourRowMonth, SixRowMonth)
+
 ## [1.0.65] - 2026-03-29
 
 ### Fixed

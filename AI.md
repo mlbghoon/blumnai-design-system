@@ -91,6 +91,7 @@ import { Button, Input, Select } from '@blumnai-studio/blumnai-design-system';
 | Date range picker | `DateRangePicker` | `<DateRangePicker value={range} onChange={...} />` |
 | Month picker | `MonthPicker` | `<MonthPicker value={date} onChange={...} />` |
 | Month range picker | `MonthRangePicker` | `<MonthRangePicker value={range} onChange={...} />` |
+| Event/schedule calendar | `EventCalendar` | `<EventCalendar month={month} onMonthChange={setMonth} renderDayContent={(date, ctx) => ...} />` |
 | Time picker | `TimePicker` | `<TimePicker value={time} onChange={...} />` |
 | Time range picker | `TimeRangePicker` | `<TimeRangePicker value={range} onChange={...} />` |
 | File upload | `FileUploadArea` | `<FileUploadArea onFilesSelected={...} />` |
@@ -1718,6 +1719,55 @@ The underlying calendar used by DatePicker/DateRangePicker. Extends `react-day-p
 | `mode` | `'single'` `'multiple'` `'range'` | - | Selection mode (from react-day-picker) |
 
 > All other props are inherited from `react-day-picker` (`selected`, `onSelect`, `disabled`, `fromDate`, `toDate`, `numberOfMonths`, `locale`, etc.).
+
+### EventCalendar
+
+```tsx
+import { EventCalendar } from '@blumnai-studio/blumnai-design-system/event-calendar';
+```
+
+Month-view calendar grid for schedules/planners. Fundamentally different from `Calendar` (date picker) — designed for rendering custom content inside day cells.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `month` | `Date` | - | Controlled month |
+| `onMonthChange` | `(date: Date) => void` | - | Month change callback |
+| `onDateClick` | `(date: Date) => void` | - | Date click callback |
+| `renderDayContent` | `(date: Date, context: DayContext) => ReactNode` | - | Custom cell content |
+| `dayCellClassName` | `(date: Date, context: DayContext) => string \| undefined` | - | Cell className callback |
+| `headerActions` | `ReactNode` | - | Header right slot |
+| `cellHeight` | `number` | - | Cell height in px (overrides size) |
+| `size` | `'compact'` `'default'` `'large'` | `'default'` | Size preset (80/120/160px) |
+| `locale` | `Locale` | `ko` | date-fns locale |
+| `weekStartsOn` | `0-6` | `0` | Week start day (0=Sun) |
+| `disabledDate` | `(date: Date) => boolean` | - | Disable date callback |
+| `formatMonthLabel` | `(date: Date, locale: Locale) => string` | `'yyyy년 MM월'` | Month label format |
+| `className` | `string` | - | Additional className |
+
+**DayContext** passed to `renderDayContent` and `dayCellClassName`:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `isOutsideMonth` | `boolean` | Date is in prev/next month |
+| `isToday` | `boolean` | Date is today |
+| `isWeekend` | `boolean` | Saturday or Sunday |
+| `isDisabled` | `boolean` | Date is disabled |
+
+**Usage:**
+
+```tsx
+<EventCalendar
+  month={currentMonth}
+  onMonthChange={setCurrentMonth}
+  onDateClick={handleDateClick}
+  renderDayContent={(date, ctx) => {
+    if (ctx.isOutsideMonth) return null;
+    const data = scheduleMap[format(date, 'yyyy-MM-dd')];
+    return data ? <span>{data.label}</span> : null;
+  }}
+  headerActions={<Button buttonStyle="primary" size="sm">일정 추가</Button>}
+/>
+```
 
 ### MonthPicker / MonthRangePicker
 
@@ -3548,6 +3598,7 @@ function ResponsivePanel({ children }) {
 | scroll, scrollbar, overflow | `ScrollArea` |
 | accordion, collapse, expand, faq | `AccordionGroup` |
 | slider, range, value, track | `Slider` / `SliderRange` |
+| event calendar, schedule, planner, month grid, fullcalendar | `EventCalendar` |
 | date, calendar, date picker | `DatePicker` |
 | date range, period | `DateRangePicker` |
 | time, clock, hour, minute | `TimePicker` |
@@ -3583,6 +3634,7 @@ function ResponsivePanel({ children }) {
 | `/breadcrumbs` | Breadcrumbs |
 | `/button` | Button, ControlButton, FilterButton, AvatarButton, LinkButton, ButtonGroup |
 | `/calendar` | Calendar, DatePicker, DateRangePicker |
+| `/event-calendar` | EventCalendar |
 | `/card` | Card, CardHeader, CardTitle, CardContent, CardFooter |
 | `/carousel` | Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselIndicators |
 | `/chart` | Chart, BarChart, LineChart, PieChart, DonutChart, ComboChart |

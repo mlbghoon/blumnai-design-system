@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -70,6 +70,9 @@
       ],
       "empty-state": [
         "dist/components/empty-state/index.d.ts"
+      ],
+      "event-calendar": [
+        "dist/components/event-calendar/index.d.ts"
       ],
       "file-upload": [
         "dist/components/file-upload/index.d.ts"
@@ -328,6 +331,10 @@
     "./empty-state": {
       "types": "./dist/components/empty-state/index.d.ts",
       "import": "./dist/components/empty-state/index.mjs"
+    },
+    "./event-calendar": {
+      "types": "./dist/components/event-calendar/index.d.ts",
+      "import": "./dist/components/event-calendar/index.mjs"
     },
     "./file-upload": {
       "types": "./dist/components/file-upload/index.d.ts",
