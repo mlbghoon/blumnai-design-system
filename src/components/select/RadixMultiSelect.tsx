@@ -251,6 +251,9 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       loading = false,
       optionGroups,
       renderOption,
+      showActions = false,
+      applyLabel = '적용',
+      cancelLabel = '취소',
     },
     ref
   ) => {
@@ -264,12 +267,14 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
     );
     const [searchQuery, setSearchQuery] = React.useState('');
     const [focusedIndex, setFocusedIndex] = React.useState(-1);
+    const [pendingValues, setPendingValues] = React.useState<string[] | null>(null);
 
     const isControlledOpen = controlledOpen !== undefined;
     const isOpen = isControlledOpen ? controlledOpen : internalOpen;
 
     const isControlledValue = controlledValue !== undefined;
-    const selectedValues = isControlledValue ? controlledValue : internalValue;
+    const committedValues = isControlledValue ? controlledValue : internalValue;
+    const selectedValues = showActions && pendingValues !== null ? pendingValues : committedValues;
 
     const hasError =
       error === true || (typeof error === 'string' && error.length > 0);
@@ -335,13 +340,17 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
         if (!isControlledOpen) {
           setInternalOpen(newOpen);
         }
+        if (newOpen && showActions) {
+          setPendingValues(committedValues);
+        }
         if (!newOpen) {
           setSearchQuery('');
           setFocusedIndex(-1);
+          if (showActions) setPendingValues(null);
         }
         onOpenChange?.(newOpen);
       },
-      [disabled, isControlledOpen, onOpenChange]
+      [disabled, isControlledOpen, onOpenChange, showActions, committedValues]
     );
 
     const toggleValue = React.useCallback(
@@ -359,12 +368,14 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
           newValue = [...selectedValues, id];
         }
 
-        if (!isControlledValue) {
-          setInternalValue(newValue);
+        if (showActions) {
+          setPendingValues(newValue);
+        } else {
+          if (!isControlledValue) setInternalValue(newValue);
+          onChange?.(newValue);
         }
-        onChange?.(newValue);
       },
-      [disabled, options, selectedValues, maxSelections, isControlledValue, onChange]
+      [disabled, options, selectedValues, maxSelections, isControlledValue, onChange, showActions]
     );
 
     const removeValue = React.useCallback(
@@ -390,9 +401,25 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
         const set = new Set([...selectedValues, ...selectableIds]);
         newValue = Array.from(set);
       }
-      if (!isControlledValue) setInternalValue(newValue);
-      onChange?.(newValue);
-    }, [disabled, selectableOptions, allSelected, selectedValues, isControlledValue, onChange]);
+      if (showActions) {
+        setPendingValues(newValue);
+      } else {
+        if (!isControlledValue) setInternalValue(newValue);
+        onChange?.(newValue);
+      }
+    }, [disabled, selectableOptions, allSelected, selectedValues, isControlledValue, onChange, showActions]);
+
+    const handleApply = React.useCallback(() => {
+      if (pendingValues !== null) {
+        if (!isControlledValue) setInternalValue(pendingValues);
+        onChange?.(pendingValues);
+      }
+      setOpen(false);
+    }, [pendingValues, isControlledValue, onChange, setOpen]);
+
+    const handleCancel = React.useCallback(() => {
+      setOpen(false);
+    }, [setOpen]);
 
     const handleClearAll = React.useCallback(
       (e: React.MouseEvent) => {
@@ -890,6 +917,25 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   )}
                 </div>
                 </ScrollArea>
+
+                {showActions && (
+                  <div className="flex items-center justify-end ds-gap-8 padding-x-12 padding-y-8 border-t border-default">
+                    <button
+                      type="button"
+                      onClick={handleCancel}
+                      className="padding-x-12 padding-y-4 rounded-md size-sm font-body font-medium text-muted hover:text-default hover:bg-state-ghost-hover transition-colors cursor-pointer"
+                    >
+                      {cancelLabel}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleApply}
+                      className="padding-x-12 padding-y-4 rounded-md size-sm font-body font-medium text-white-default bg-state-brand hover:bg-state-brand-hover transition-colors cursor-pointer"
+                    >
+                      {applyLabel}
+                    </button>
+                  </div>
+                )}
               </PopoverPrimitive.Content>
             </PopoverPrimitive.Portal>
           </PopoverPrimitive.Root>

@@ -628,6 +628,9 @@ import { Select } from '@blumnai-studio/blumnai-design-system';
 | `selectedText` | `string \| ((count: number) => string)` | Display text for selected count |
 | `showSelectAll` | `boolean` | Show "Select All" option (ignored when `maxSelections` set) |
 | `selectAllLabel` | `string` | "Select All" label text (default `'전체 선택'`) |
+| `showActions` | `boolean` | Batch apply mode — selections held until Apply clicked |
+| `applyLabel` | `string` | Apply button label (default `'적용'`) |
+| `cancelLabel` | `string` | Cancel button label (default `'취소'`) |
 
 #### variant="tags"
 
@@ -760,7 +763,7 @@ Virtualized select for large option lists (1,000+). Only renders visible items u
 | `loadMoreThreshold` | `number` | `5` | How many items from bottom to trigger onLoadMore |
 | `onSearchChange` | `(query: string) => void` | - | Server-side search — fires on input, disables client filtering |
 
-Multi variant adds: `maxSelections` (number), `selectedText` (string | function), `showSelectAll` (boolean), `selectAllLabel` (string)
+Multi variant adds: `maxSelections` (number), `selectedText` (string | function), `showSelectAll` (boolean), `selectAllLabel` (string), `showActions` (boolean), `applyLabel` (string), `cancelLabel` (string)
 
 ```tsx
 // Single select — 1000 options, instant open

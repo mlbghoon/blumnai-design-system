@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.5] - 2026-04-02
+
+### Added
+
+- **MultiSelect/VirtualSelect showActions**: 적용 버튼 모드. `showActions={true}` 설정 시 체크박스 클릭이 즉시 반영되지 않고, 하단 '적용'/'취소' 버튼으로 일괄 반영. `applyLabel`, `cancelLabel` 커스텀 가능.
+
 ## [1.1.4] - 2026-04-02
 
 ### Added

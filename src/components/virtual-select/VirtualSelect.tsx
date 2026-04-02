@@ -63,6 +63,9 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
     const multiOnChange = multiProps?.onChange;
     const multiMaxSelections = multiProps?.maxSelections;
     const multiControlledValue = multiProps?.value;
+    const multiShowActions = multiProps?.showActions ?? false;
+    const multiApplyLabel = multiProps?.applyLabel ?? '적용';
+    const multiCancelLabel = multiProps?.cancelLabel ?? '취소';
 
     const contextContainer = usePortalContainer();
     const selectId = React.useId();
@@ -81,6 +84,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
     const [internalMultiValue, setInternalMultiValue] = React.useState<string[]>(
       multiProps?.defaultValue ?? []
     );
+    const [pendingMultiValues, setPendingMultiValues] = React.useState<string[] | null>(null);
 
     const isControlledOpen = controlledOpen !== undefined;
     const isOpen = isControlledOpen ? controlledOpen : internalOpen;
@@ -89,10 +93,11 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       ? (singlePropsValue !== undefined ? singlePropsValue : internalSingleValue)
       : '';
     const controlledMultiValue = isMulti ? multiControlledValue : undefined;
-    const multiValue = React.useMemo(
+    const committedMultiValue = React.useMemo(
       () => controlledMultiValue !== undefined ? controlledMultiValue : internalMultiValue,
       [controlledMultiValue, internalMultiValue]
     );
+    const multiValue = multiShowActions && pendingMultiValues !== null ? pendingMultiValues : committedMultiValue;
 
     const hasError = error === true || (typeof error === 'string' && error.length > 0);
     const hasSuccess = success === true || (typeof success === 'string' && success.length > 0);
@@ -145,13 +150,17 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       (newOpen: boolean) => {
         if (disabled) return;
         if (!isControlledOpen) setInternalOpen(newOpen);
+        if (newOpen && multiShowActions) {
+          setPendingMultiValues(committedMultiValue);
+        }
         if (!newOpen) {
           setSearchQuery('');
           setFocusedIndex(-1);
+          if (multiShowActions) setPendingMultiValues(null);
         }
         onOpenChange?.(newOpen);
       },
-      [disabled, isControlledOpen, onOpenChange]
+      [disabled, isControlledOpen, onOpenChange, multiShowActions, committedMultiValue]
     );
 
     const optionsMap = React.useMemo(
@@ -191,10 +200,14 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
           newValue = [...multiValue, id];
         }
 
-        if (multiControlledValue === undefined) setInternalMultiValue(newValue);
-        multiOnChange?.(newValue);
+        if (multiShowActions) {
+          setPendingMultiValues(newValue);
+        } else {
+          if (multiControlledValue === undefined) setInternalMultiValue(newValue);
+          multiOnChange?.(newValue);
+        }
       },
-      [disabled, isMulti, optionsMap, multiValue, multiMaxSelections, multiControlledValue, multiOnChange]
+      [disabled, isMulti, optionsMap, multiValue, multiMaxSelections, multiControlledValue, multiOnChange, multiShowActions]
     );
 
     const toggleAll = React.useCallback(() => {
@@ -207,9 +220,25 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
         const set = new Set([...multiValue, ...selectableIds]);
         newValue = Array.from(set);
       }
-      if (multiControlledValue === undefined) setInternalMultiValue(newValue);
-      multiOnChange?.(newValue);
-    }, [disabled, isMulti, navigableOptions, allSelected, multiValue, multiControlledValue, multiOnChange]);
+      if (multiShowActions) {
+        setPendingMultiValues(newValue);
+      } else {
+        if (multiControlledValue === undefined) setInternalMultiValue(newValue);
+        multiOnChange?.(newValue);
+      }
+    }, [disabled, isMulti, navigableOptions, allSelected, multiValue, multiControlledValue, multiOnChange, multiShowActions]);
+
+    const handleApply = React.useCallback(() => {
+      if (pendingMultiValues !== null) {
+        if (multiControlledValue === undefined) setInternalMultiValue(pendingMultiValues);
+        multiOnChange?.(pendingMultiValues);
+      }
+      setOpen(false);
+    }, [pendingMultiValues, multiControlledValue, multiOnChange, setOpen]);
+
+    const handleCancel = React.useCallback(() => {
+      setOpen(false);
+    }, [setOpen]);
 
     const handleClearAll = React.useCallback(
       (e: React.MouseEvent) => {
@@ -682,6 +711,25 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                 ) : (
                   <div className="flex items-center justify-center padding-y-8 text-muted size-sm font-body">
                     {noResultsText}
+                  </div>
+                )}
+
+                {multiShowActions && (
+                  <div className="flex items-center justify-end ds-gap-8 padding-x-12 padding-y-8 border-t border-default">
+                    <button
+                      type="button"
+                      onClick={handleCancel}
+                      className="padding-x-12 padding-y-4 rounded-md size-sm font-body font-medium text-muted hover:text-default hover:bg-state-ghost-hover transition-colors cursor-pointer"
+                    >
+                      {multiCancelLabel}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleApply}
+                      className="padding-x-12 padding-y-4 rounded-md size-sm font-body font-medium text-white-default bg-state-brand hover:bg-state-brand-hover transition-colors cursor-pointer"
+                    >
+                      {multiApplyLabel}
+                    </button>
                   </div>
                 )}
               </PopoverPrimitive.Content>
