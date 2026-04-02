@@ -39,6 +39,10 @@ export interface VirtualSelectBaseProps {
   renderOption?: (option: SelectOption, isSelected: boolean) => ReactNode;
   itemHeight?: number;
   overscan?: number;
+  /** 스크롤이 목록 하단에 도달했을 때 호출되는 콜백 (무한 스크롤) */
+  onLoadMore?: () => void;
+  /** onLoadMore 발동 임계값 (하단에서 몇 개 항목 남았을 때, default: 5) */
+  loadMoreThreshold?: number;
 }
 
 export interface SingleVirtualSelectProps extends VirtualSelectBaseProps {

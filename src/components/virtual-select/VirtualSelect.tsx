@@ -49,6 +49,8 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
       renderOption,
       itemHeight = 32,
       overscan = 5,
+      onLoadMore,
+      loadMoreThreshold = 5,
     } = props;
 
     const isMulti = variant === 'multi';
@@ -386,6 +388,17 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
 
     const virtualItems = rowVirtualizer.getVirtualItems();
     const totalSize = rowVirtualizer.getTotalSize();
+
+    const onLoadMoreRef = React.useRef(onLoadMore);
+    onLoadMoreRef.current = onLoadMore;
+
+    React.useEffect(() => {
+      if (!onLoadMoreRef.current || virtualItems.length === 0 || filteredOptions.length === 0) return;
+      const lastItem = virtualItems[virtualItems.length - 1];
+      if (lastItem.index >= filteredOptions.length - loadMoreThreshold) {
+        onLoadMoreRef.current();
+      }
+    }, [virtualItems, filteredOptions.length, loadMoreThreshold]);
 
     return (
       <InputWrapper

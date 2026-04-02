@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.2] - 2026-04-02
+
+### Added
+
+- **VirtualSelect onLoadMore**: 무한 스크롤 지원. 스크롤이 목록 하단에 도달하면 `onLoadMore` 콜백 호출. `loadMoreThreshold` (기본 5)로 발동 시점 조절 가능.
+
 ## [1.1.1] - 2026-04-02
 
 ### Added

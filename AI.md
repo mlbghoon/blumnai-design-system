@@ -756,6 +756,8 @@ Virtualized select for large option lists (1,000+). Only renders visible items u
 | `width` | `string \| number` | - | Custom width |
 | `open` | `boolean` | - | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | - | Open state callback |
+| `onLoadMore` | `() => void` | - | Infinite scroll — called when scroll nears bottom |
+| `loadMoreThreshold` | `number` | `5` | How many items from bottom to trigger onLoadMore |
 
 Multi variant adds: `maxSelections` (number), `selectedText` (string | function), `showSelectAll` (boolean), `selectAllLabel` (string)
 
