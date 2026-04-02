@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3] - 2026-04-02
+
+### Added
+
+- **VirtualSelect InfiniteScroll 스토리**: `onLoadMore` 무한 스크롤 기능 데모 스토리 추가
+- **VirtualSelect argTypes 보완**: `onLoadMore`, `loadMoreThreshold` Storybook 컨트롤 문서 추가
+
 ## [1.1.2] - 2026-04-02
 
 ### Added

@@ -180,6 +180,15 @@ const meta: Meta<typeof VirtualSelect> = {
       description: '커스텀 너비',
       table: { type: { summary: 'string | number' } },
     },
+    onLoadMore: {
+      description: '스크롤이 목록 하단에 도달하면 호출되는 콜백 (무한 스크롤)',
+      table: { type: { summary: '() => void' } },
+    },
+    loadMoreThreshold: {
+      control: 'number',
+      description: 'onLoadMore 발동 임계값 (하단에서 몇 개 항목 남았을 때)',
+      table: { type: { summary: 'number' }, defaultValue: { summary: '5' } },
+    },
   },
 };
 
@@ -535,6 +544,55 @@ export const Success: Story = {
         success="옵션이 선택되었습니다"
         width={320}
       />
+    );
+  },
+};
+
+/**
+ * 무한 스크롤 (onLoadMore)
+ *
+ * 스크롤이 하단에 도달하면 `onLoadMore`가 호출되어 추가 옵션을 로드합니다.
+ */
+export const InfiniteScroll: Story = {
+  render: function Render() {
+    const PAGE_SIZE = 50;
+    const [value, setValue] = useState('');
+    const [options, setOptions] = useState<SelectOption[]>(() => generateOptions(PAGE_SIZE));
+    const [isLoading, setIsLoading] = useState(false);
+    const pageRef = { current: 1 };
+
+    const handleLoadMore = () => {
+      if (isLoading) return;
+      setIsLoading(true);
+      setTimeout(() => {
+        pageRef.current += 1;
+        const newOptions = Array.from({ length: PAGE_SIZE }, (_, i) => {
+          const idx = (pageRef.current - 1) * PAGE_SIZE + i + 1;
+          return { id: `option-${idx}`, label: `Option ${idx}` };
+        });
+        setOptions((prev) => [...prev, ...newOptions]);
+        setIsLoading(false);
+      }, 800);
+    };
+
+    return (
+      <div className="flex flex-col ds-gap-8">
+        <VirtualSelect
+          variant="single"
+          label="무한 스크롤"
+          placeholder="스크롤하면 더 로드됩니다..."
+          options={options}
+          value={value}
+          onChange={setValue}
+          searchable
+          width={320}
+          onLoadMore={handleLoadMore}
+          loadMoreThreshold={10}
+        />
+        <p className="font-body size-xs text-muted">
+          현재 {options.length}개 옵션 로드됨 {isLoading && '(로딩 중...)'}
+        </p>
+      </div>
     );
   },
 };
