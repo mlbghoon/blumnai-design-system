@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.6] - 2026-04-02
+
+### Fixed
+
+- **MultiSelectProps showActions 타입 누락**: `Select variant="multi-select"`에서 `showActions`, `applyLabel`, `cancelLabel` props가 TypeScript 타입에 누락되어 있던 문제 수정. 런타임은 정상 동작했으나 TS에서 에러 발생했음.
+
 ## [1.1.5] - 2026-04-02
 
 ### Added

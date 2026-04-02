@@ -296,6 +296,12 @@ export interface MultiSelectProps extends SelectBaseProps, Omit<HTMLAttributes<H
    * @default '전체 선택'
    */
   selectAllLabel?: string;
+  /** 적용 버튼 모드 — true면 선택을 즉시 반영하지 않고 적용/취소 버튼으로 일괄 반영 */
+  showActions?: boolean;
+  /** 적용 버튼 라벨 @default '적용' */
+  applyLabel?: string;
+  /** 취소 버튼 라벨 @default '취소' */
+  cancelLabel?: string;
 }
 
 /**
