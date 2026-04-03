@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.1.12] - 2026-04-03
+
+### Added
+
+- **단위 테스트 인프라**: `vitest` + `@testing-library/react` + `happy-dom` 테스트 환경 구축. `npm run test`로 실행, `npm run test:watch`로 워치 모드 지원.
+- **Button/Checkbox/Tabs 인터랙션 테스트**: 22개 테스트 케이스 — 클릭, 비활성화, 로딩 상태, 체크박스 토글/indeterminate, 탭 전환/키보드 탐색 등 핵심 상호작용 검증.
+- **MIGRATION.md**: 버전별 마이그레이션 가이드 문서. 0.2.x→1.0.0 스코프 이관, 1.0.x→1.1.x 변경 사항, FAQ (Dialog 내 Select 포탈, CSS 레이어, spacing 충돌 등).
+- **Storybook GitHub Pages 배포**: `main` 브랜치 push 시 자동으로 GitHub Pages에 Storybook 배포.
+
+### Changed
+
+- **아이콘 카탈로그 재생성**: `ICONS.md` 및 `icon-catalog.ts` — 3,782개 아이콘 across 24개 카테고리로 업데이트. `generate-icon-catalog.mjs`가 `.ts` 확장자 인식하도록 수정.
+- **Storybook 설정 정리**: `.storybook/main.ts` — 순환 청크, 미사용 optimizeDeps, no-op 플러그인 등 173줄의 불필요한 설정 제거 (235줄 → 62줄).
+
+### Fixed
+
+- **JSDoc 정리**: DatePicker 중복 JSDoc 제거, Form에 `@example` 추가. 전체 15개 주요 컴포넌트 JSDoc 품질 검증 완료.
+- **react-hook-form 타입체크 실패 수정**: optional peerDep인 `react-hook-form`, `@hookform/resolvers`, `zod`를 devDependencies에 추가. 로컬/CI에서 `npm run typecheck` 항상 통과.
+
 ## [1.1.11] - 2026-04-03
 
 ### Fixed

@@ -42,38 +42,38 @@ function extractFromDirectory(dirPath, globPattern) {
 
 // UI icon categories
 const UI_CATEGORIES = [
-  { subpath: 'arrows', file: 'arrows.tsx' },
-  { subpath: 'buildings', file: 'buildings.tsx' },
-  { subpath: 'business', file: 'business.tsx' },
-  { subpath: 'communication', file: 'communication.tsx' },
-  { subpath: 'design', file: 'design.tsx' },
-  { subpath: 'development', file: 'development.tsx' },
-  { subpath: 'device', file: 'device.tsx' },
-  { subpath: 'document', file: 'document.tsx' },
-  { subpath: 'editor', file: 'editor.tsx' },
-  { subpath: 'finance', file: 'finance.tsx' },
-  { subpath: 'food', file: 'food.tsx' },
-  { subpath: 'health', file: 'health & medical.tsx' },
-  { subpath: 'logos', file: 'logos.tsx' },
-  { subpath: 'map', file: 'map.tsx' },
-  { subpath: 'media', file: 'media.tsx' },
-  { subpath: 'others', file: 'others.tsx' },
-  { subpath: 'system', file: 'system.tsx' },
-  { subpath: 'user', file: 'user & faces.tsx' },
-  { subpath: 'weather', file: 'weather.tsx' },
+  { subpath: 'arrows', file: 'arrows.ts' },
+  { subpath: 'buildings', file: 'buildings.ts' },
+  { subpath: 'business', file: 'business.ts' },
+  { subpath: 'communication', file: 'communication.ts' },
+  { subpath: 'design', file: 'design.ts' },
+  { subpath: 'development', file: 'development.ts' },
+  { subpath: 'device', file: 'device.ts' },
+  { subpath: 'document', file: 'document.ts' },
+  { subpath: 'editor', file: 'editor.ts' },
+  { subpath: 'finance', file: 'finance.ts' },
+  { subpath: 'food', file: 'food.ts' },
+  { subpath: 'health', file: 'health & medical.ts' },
+  { subpath: 'logos', file: 'logos.ts' },
+  { subpath: 'map', file: 'map.ts' },
+  { subpath: 'media', file: 'media.ts' },
+  { subpath: 'others', file: 'others.ts' },
+  { subpath: 'system', file: 'system.ts' },
+  { subpath: 'user', file: 'user & faces.ts' },
+  { subpath: 'weather', file: 'weather.ts' },
 ];
 
 // Special icon types — single file
 const SPECIAL_SINGLE = [
-  { subpath: 'flags', dir: 'FlagIcon', file: 'icons/all.tsx' },
-  { subpath: 'file-icons', dir: 'FileIcon', file: 'icons/all.tsx' },
+  { subpath: 'flags', dir: 'FlagIcon', file: 'icons/all.ts' },
+  { subpath: 'file-icons', dir: 'FileIcon', file: 'icons/all.ts' },
   { subpath: 'cursors', dir: 'CursorIcon', file: 'icons/all.tsx' },
 ];
 
 // Special icon types — chunked across multiple files
 const SPECIAL_CHUNKED = [
   { subpath: 'brands', dir: 'BrandIcon', iconsDir: 'icons', pattern: /^brands-.*\.tsx$/ },
-  { subpath: 'isometric', dir: 'IsometricIcon', iconsDir: 'icons', pattern: /^iso-.*\.tsx$/ },
+  { subpath: 'isometric', dir: 'IsometricIcon', iconsDir: 'icons', pattern: /^iso-.*\.ts$/ },
 ];
 
 const PKG_NAME = '@blumnai-studio/blumnai-design-system';

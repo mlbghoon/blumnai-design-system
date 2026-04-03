@@ -69,9 +69,6 @@ const findMatchingPresetIndex = (
 };
 
 /**
- * 단일 날짜 선택 컴포넌트
- */
-/**
  * DatePicker 컴포넌트
  *
  * 캘린더 기반 날짜 선택 컴포넌트입니다. 빠른 선택 프리셋을 지원합니다.

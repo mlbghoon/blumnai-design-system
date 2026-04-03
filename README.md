@@ -291,6 +291,8 @@ registries:
 
 ## 참고 자료
 
+- **[Storybook](https://fictional-adventure-wwg12m1.pages.github.io/)** — 인터랙티브 컴포넌트 문서 (온라인)
 - **[AI.md](./AI.md)** — 전체 컴포넌트 레퍼런스 (AI 에이전트 & 개발자용)
+- **[ICONS.md](./ICONS.md)** — 3,782개 아이콘 카탈로그
+- **[MIGRATION.md](./MIGRATION.md)** — 버전별 마이그레이션 가이드
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** — 개발 참여 가이드
-- **Storybook** — 인터랙티브 컴포넌트 문서 (로컬에서 `npm run storybook`으로 실행)
