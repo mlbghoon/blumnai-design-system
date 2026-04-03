@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -564,7 +564,7 @@
       "types": "./dist/components/virtual-select/index.d.ts",
       "import": "./dist/components/virtual-select/index.mjs"
     },
-    "./styles": "./dist/blumnai-design-system.css",
+    "./styles": "./dist/index.css",
     "./*": {
       "types": "./dist/*.d.ts",
       "import": "./dist/*.mjs"

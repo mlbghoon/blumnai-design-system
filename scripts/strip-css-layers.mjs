@@ -12,10 +12,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const CSS_PATH = path.resolve(process.cwd(), 'dist/blumnai-design-system.css');
+const CSS_PATH = path.resolve(process.cwd(), 'dist/index.css');
 
 if (!fs.existsSync(CSS_PATH)) {
-  console.error('dist/blumnai-design-system.css not found — skipping layer strip.');
+  console.error('dist/index.css not found — skipping layer strip.');
   process.exit(0);
 }
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.11] - 2026-04-03
+
+### Fixed
+
+- **CSS 빌드 출력 경로 수정**: `cssCodeSplit: true` 전환으로 빌드 CSS 파일명이 `blumnai-design-system.css` → `index.css`로 변경되었으나, `package.json` exports와 `strip-css-layers.mjs`가 이전 파일명을 참조하고 있던 문제 수정. `import '@blumnai-studio/blumnai-design-system/styles'`가 정상 동작하도록 복구.
+
 ## [1.1.10] - 2026-04-03
 
 ### Added

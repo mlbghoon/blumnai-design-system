@@ -1054,7 +1054,7 @@ The design system sets `--spacing: initial` in its `@theme` block (`src/index.cs
 
 ## CSS Layers — Intentionally Unlayered (CRITICAL)
 
-The design system's built CSS (`dist/blumnai-design-system.css`) is **intentionally unlayered**. A post-build script (`scripts/strip-css-layers.mjs`) removes all `@layer` wrappers emitted by Tailwind v4.
+The design system's built CSS (`dist/index.css`) is **intentionally unlayered**. A post-build script (`scripts/strip-css-layers.mjs`) removes all `@layer` wrappers emitted by Tailwind v4.
 
 ### Why
 
