@@ -2,15 +2,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 
+import { parseSvgToTree, attrToReactProp, nodeToCreateElement, walkTree } from './lib/svg-to-create-element.mjs';
+
 /**
- * Consolidate individual flag icon files into a single all.tsx,
+ * Consolidate individual flag icon files into a single all.ts (createElement),
  * then generate flag-registry.tsx and FlagIcon.types.ts.
  *
  * This script:
- * 1. Reads all individual flag icon .tsx files
- * 2. Extracts component bodies and consolidates into icons/all.tsx
- * 3. Deletes individual .tsx files
- * 4. Generates registry with lazy imports from all.tsx
+ * 1. Reads all individual flag icon .tsx files (or existing all.tsx)
+ * 2. Extracts SVG content and converts to createElement calls
+ * 3. Consolidates into icons/all.ts
+ * 4. Generates registry with lazy imports from all.ts
  * 5. Generates FlagIcon.types.ts
  */
 
@@ -64,6 +66,43 @@ const keyToDisplayName = (key, alpha2ToName) => {
     .toLowerCase();
 };
 
+/**
+ * Extract SVG content from a flag component's JSX body.
+ * @param {string} body - The function body (JSX text)
+ * @returns {string} - The <svg>...</svg> markup
+ */
+function extractSvgFromBody(body) {
+  const match = body.match(/<svg[\s\S]*<\/svg>/);
+  if (!match) throw new Error('Could not extract <svg> from component body');
+  return match[0];
+}
+
+/**
+ * Parse SVG string, apply React transforms, and render as createElement.
+ * @param {string} svgString
+ * @returns {string}
+ */
+function svgToFlagCreateElement(svgString) {
+  // Strip xmlns (not needed in React)
+  let cleaned = svgString.replace(/\s*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g, '');
+
+  const nodes = parseSvgToTree(cleaned);
+  if (nodes.length !== 1 || nodes[0].tag !== 'svg') {
+    throw new Error('Expected single root <svg>');
+  }
+
+  // Convert kebab-case attrs to camelCase throughout tree
+  walkTree(nodes, (node) => {
+    const newAttrs = {};
+    for (const [k, v] of Object.entries(node.attrs)) {
+      newAttrs[attrToReactProp(k)] = v;
+    }
+    node.attrs = newAttrs;
+  });
+
+  return nodeToCreateElement(nodes[0], 4);
+}
+
 // Read all flag icon files
 if (!fs.existsSync(FLAGS_DIR)) {
   console.error(`Flags directory not found: ${FLAGS_DIR}`);
@@ -75,25 +114,58 @@ const flagFiles = fs.readdirSync(FLAGS_DIR)
   .filter(f => f.endsWith('.tsx') && f !== 'index.ts' && f !== 'all.tsx')
   .sort();
 
+const allTsPath = path.join(FLAGS_DIR, 'all.ts');
+const allTsxPath = path.join(FLAGS_DIR, 'all.tsx');
+
 if (flagFiles.length === 0) {
-  // Check if all.tsx already exists (already consolidated)
-  if (fs.existsSync(path.join(FLAGS_DIR, 'all.tsx'))) {
-    console.log('Flag icons already consolidated into all.tsx.');
+  if (fs.existsSync(allTsPath)) {
+    console.log('Flag icons already consolidated into all.ts.');
+  } else if (fs.existsSync(allTsxPath)) {
+    console.log('Migrating all.tsx → all.ts (createElement)...');
+    // Migrate existing all.tsx to all.ts
+    const allContent = fs.readFileSync(allTsxPath, 'utf-8');
+    const components = allContent.split(/(?=export const \w+Icon)/).filter(s => s.startsWith('export'));
+
+    const converted = [];
+    for (const comp of components) {
+      const nameMatch = comp.match(/export const (\w+Icon)/);
+      if (!nameMatch) continue;
+      const componentName = nameMatch[1];
+      const svgString = extractSvgFromBody(comp);
+      const hCall = svgToFlagCreateElement(svgString);
+      converted.push({ componentName, hCall });
+    }
+
+    converted.sort((a, b) => a.componentName.localeCompare(b.componentName));
+
+    const allTs = `// This file is auto-generated. Do not edit manually.
+import { createElement as h } from 'react';
+
+import type { Props } from '../../Icon/IconWrapper.types';
+import { Icon } from '../../Icon/IconWrapper';
+
+${converted.map(({ componentName, hCall }) =>
+  `export const ${componentName} = (props: Props) =>\n  h(Icon, { ...props, children:\n${hCall}\n  });`
+).join('\n\n')}
+`;
+
+    fs.writeFileSync(allTsPath, allTs);
+    fs.unlinkSync(allTsxPath);
+    console.log(`Migrated ${converted.length} flag icons to all.ts.`);
   } else {
     console.error('No flag icon files found in flags directory.');
     process.exit(1);
   }
 }
 
-// Step 1: Consolidate individual files into all.tsx
+// Step 1: Consolidate individual files into all.ts
 if (flagFiles.length > 0) {
-  const componentBodies = [];
+  const componentData = [];
 
   for (const file of flagFiles) {
     const filePath = path.join(FLAGS_DIR, file);
     const content = fs.readFileSync(filePath, 'utf-8');
 
-    // Extract the component function (everything after imports)
     const exportMatch = content.match(/export const (\w+Icon)\s*=\s*\(props:\s*Props\)\s*=>\s*\{([\s\S]*)\};/);
     if (!exportMatch) {
       console.warn(`Could not extract component from: ${file}`);
@@ -101,38 +173,39 @@ if (flagFiles.length > 0) {
     }
 
     const componentName = exportMatch[1];
-    let functionBody = exportMatch[2].trim();
-    functionBody = functionBody.replace(/\s*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g, '');
+    const functionBody = exportMatch[2].trim();
+    const svgString = extractSvgFromBody(functionBody);
+    const hCall = svgToFlagCreateElement(svgString);
 
-    componentBodies.push({ componentName, functionBody });
+    componentData.push({ componentName, hCall });
   }
 
-  // Sort alphabetically
-  componentBodies.sort((a, b) => a.componentName.localeCompare(b.componentName));
+  componentData.sort((a, b) => a.componentName.localeCompare(b.componentName));
 
-  // Generate consolidated all.tsx
-  const allComponents = componentBodies.map(({ componentName, functionBody }) => {
-    return `export const ${componentName} = (props: Props) => {
-  ${functionBody}
-};`;
-  }).join('\n\n');
+  const allTs = `// This file is auto-generated. Do not edit manually.
+import { createElement as h } from 'react';
 
-  const allTsx = `// This file is auto-generated. Do not edit manually.
 import type { Props } from '../../Icon/IconWrapper.types';
-
 import { Icon } from '../../Icon/IconWrapper';
 
-${allComponents}
+${componentData.map(({ componentName, hCall }) =>
+  `export const ${componentName} = (props: Props) =>\n  h(Icon, { ...props, children:\n${hCall}\n  });`
+).join('\n\n')}
 `;
 
-  fs.writeFileSync(path.join(FLAGS_DIR, 'all.tsx'), allTsx);
-  console.log(`Consolidated ${componentBodies.length} flag icons into all.tsx.`);
+  fs.writeFileSync(allTsPath, allTs);
+  console.log(`Consolidated ${componentData.length} flag icons into all.ts.`);
 
-  // Step 2: Delete individual .tsx files
+  // Delete individual .tsx files
   for (const file of flagFiles) {
     fs.unlinkSync(path.join(FLAGS_DIR, file));
   }
   console.log(`Deleted ${flagFiles.length} individual flag icon files.`);
+
+  // Delete old all.tsx if it exists
+  if (fs.existsSync(allTsxPath)) {
+    fs.unlinkSync(allTsxPath);
+  }
 
   // Delete index.ts if it exists
   const indexPath = path.join(FLAGS_DIR, 'index.ts');
@@ -141,14 +214,14 @@ ${allComponents}
   }
 }
 
-// Step 3: Generate registry and types from all.tsx
-const allTsxPath = path.join(FLAGS_DIR, 'all.tsx');
-if (!fs.existsSync(allTsxPath)) {
-  console.error('all.tsx not found after consolidation.');
+// Step 2: Generate registry and types from all.ts
+const sourceFile = fs.existsSync(allTsPath) ? allTsPath : allTsxPath;
+if (!fs.existsSync(sourceFile)) {
+  console.error('all.ts not found after consolidation.');
   process.exit(1);
 }
 
-const allContent = fs.readFileSync(allTsxPath, 'utf-8');
+const allContent = fs.readFileSync(sourceFile, 'utf-8');
 const exportRegex = /export const (\w+Icon)\b/g;
 const alpha2ToName = buildAlpha2ToName();
 const registryEntries = [];

@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
 /**
- * Generate consolidated TSX icon component files from SVG source files.
+ * Generate consolidated .ts icon component files from SVG source files.
  *
  * This script:
  * 1. Scans src/icons/svg-source/ for SVG files
  * 2. Converts kebab-case filenames to PascalCase component names
- * 3. Generates ONE consolidated TSX file per category (e.g., arrows.tsx)
+ * 3. Generates ONE consolidated .ts file per category (e.g., system.ts)
+ *    using createElement() instead of JSX to bypass Babel transform in Vite
  * 4. Updates main src/icons/index.ts
  */
 
@@ -191,6 +192,161 @@ function normalizeSVG(svgContent, componentName) {
 }
 
 /**
+ * Parse an SVG string into a tree of { tag, attrs, children } nodes.
+ * Handles self-closing tags, open/close pairs, and nested elements.
+ * @param {string} svgString - Normalized SVG markup
+ * @returns {{ tag: string, attrs: Record<string, string>, children: object[] }}
+ */
+function parseSvgToTree(svgString) {
+  const s = svgString.trim();
+  const nodes = [];
+  let pos = 0;
+
+  while (pos < s.length) {
+    // skip whitespace between tags
+    while (pos < s.length && /\s/.test(s[pos])) pos++;
+    if (pos >= s.length) break;
+
+    if (s[pos] !== '<') {
+      throw new Error(`Unexpected content at position ${pos}: "${s.slice(pos, pos + 30)}..."`);
+    }
+
+    // extract the opening tag
+    const tagStart = pos;
+    const tagEnd = s.indexOf('>', tagStart);
+    if (tagEnd === -1) throw new Error(`Unclosed tag at position ${tagStart}`);
+
+    const tagContent = s.slice(tagStart + 1, tagEnd + (s[tagEnd - 1] === '/' ? 0 : 1));
+    const isSelfClosing = s[tagEnd - 1] === '/' || s.slice(tagStart, tagEnd + 1).endsWith('/>');
+
+    // extract tag name
+    const rawTag = isSelfClosing ? s.slice(tagStart + 1, tagEnd).replace(/\/$/, '').trim()
+      : s.slice(tagStart + 1, tagEnd).trim();
+    const tagNameMatch = rawTag.match(/^(\w[\w-]*)/);
+    if (!tagNameMatch) throw new Error(`Cannot parse tag name from: "${rawTag}"`);
+    const tag = tagNameMatch[1];
+
+    // extract attributes
+    const attrString = rawTag.slice(tag.length).trim();
+    const attrs = {};
+    const attrRegex = /([\w-]+)="([^"]*)"/g;
+    let attrMatch;
+    let matchedLength = 0;
+    while ((attrMatch = attrRegex.exec(attrString)) !== null) {
+      attrs[attrMatch[1]] = attrMatch[2];
+      matchedLength += attrMatch[0].length;
+    }
+    // verify we parsed all attributes (allow whitespace)
+    const residual = attrString.replace(attrRegex, '').trim();
+    if (residual.length > 0) {
+      throw new Error(`Unparsed attribute content in <${tag}>: "${residual}"`);
+    }
+
+    pos = tagEnd + 1;
+
+    if (isSelfClosing) {
+      nodes.push({ tag, attrs, children: [] });
+    } else {
+      // find matching closing tag, handling nesting
+      const closingTag = `</${tag}>`;
+      let depth = 1;
+      let searchPos = pos;
+      while (depth > 0 && searchPos < s.length) {
+        const nextOpen = s.indexOf(`<${tag}`, searchPos);
+        const nextClose = s.indexOf(closingTag, searchPos);
+        if (nextClose === -1) throw new Error(`Missing closing tag for <${tag}>`);
+        if (nextOpen !== -1 && nextOpen < nextClose) {
+          // check if it's a self-closing instance
+          const endOfOpen = s.indexOf('>', nextOpen);
+          if (endOfOpen !== -1 && s[endOfOpen - 1] === '/') {
+            searchPos = endOfOpen + 1;
+          } else {
+            depth++;
+            searchPos = nextOpen + tag.length + 1;
+          }
+        } else {
+          depth--;
+          if (depth === 0) {
+            const innerContent = s.slice(pos, nextClose).trim();
+            const children = innerContent.length > 0 ? parseSvgToTree(innerContent) : [];
+            nodes.push({ tag, attrs, children });
+            pos = nextClose + closingTag.length;
+          } else {
+            searchPos = nextClose + closingTag.length;
+          }
+        }
+      }
+      if (depth !== 0) throw new Error(`Unmatched <${tag}> tag`);
+    }
+  }
+
+  return nodes;
+}
+
+/**
+ * Convert SVG attribute names to React camelCase for createElement
+ * @param {string} attr - SVG attribute name (e.g., "fill-rule")
+ * @returns {string} - React prop name (e.g., "fillRule")
+ */
+function attrToReactProp(attr) {
+  const map = {
+    'clip-path': 'clipPath', 'fill-rule': 'fillRule', 'clip-rule': 'clipRule',
+    'stroke-width': 'strokeWidth', 'stroke-linecap': 'strokeLinecap',
+    'stroke-linejoin': 'strokeLinejoin', 'stroke-miterlimit': 'strokeMiterlimit',
+    'stroke-dasharray': 'strokeDasharray', 'stroke-dashoffset': 'strokeDashoffset',
+    'font-family': 'fontFamily', 'font-size': 'fontSize', 'font-weight': 'fontWeight',
+    'text-anchor': 'textAnchor', 'text-decoration': 'textDecoration',
+  };
+  return map[attr] || attr;
+}
+
+/**
+ * Convert a parsed SVG tree node to a nested h() call string
+ * @param {{ tag: string, attrs: Record<string, string>, children: object[] }} node
+ * @param {number} indent - Current indentation (spaces)
+ * @returns {string}
+ */
+function nodeToCreateElement(node, indent) {
+  const pad = ' '.repeat(indent);
+  const innerPad = ' '.repeat(indent + 2);
+
+  // build props object
+  const entries = Object.entries(node.attrs);
+  let propsStr;
+  if (entries.length === 0) {
+    propsStr = 'null';
+  } else {
+    const pairs = entries.map(([k, v]) => {
+      const key = attrToReactProp(k);
+      const escaped = v.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      return `${key}: '${escaped}'`;
+    });
+    propsStr = `{ ${pairs.join(', ')} }`;
+  }
+
+  if (node.children.length === 0) {
+    return `${pad}h('${node.tag}', ${propsStr})`;
+  }
+
+  const childStrs = node.children.map(c => nodeToCreateElement(c, indent + 2));
+  return `${pad}h('${node.tag}', ${propsStr},\n${childStrs.join(',\n')}\n${pad})`;
+}
+
+/**
+ * Convert an SVG string to a createElement h() expression
+ * @param {string} svgString - Normalized SVG markup (with React-cased attributes)
+ * @param {number} [baseIndent=4] - Base indentation
+ * @returns {string} - h('svg', {...}, h('path', {...})) expression
+ */
+function svgToCreateElement(svgString, baseIndent = 4) {
+  const nodes = parseSvgToTree(svgString);
+  if (nodes.length === 0) throw new Error('Empty SVG content');
+  if (nodes.length > 1) throw new Error(`Expected single root <svg>, got ${nodes.length} roots`);
+  if (nodes[0].tag !== 'svg') throw new Error(`Expected root <svg>, got <${nodes[0].tag}>`);
+  return nodeToCreateElement(nodes[0], baseIndent);
+}
+
+/**
  * Process a single SVG file and return its data (without writing to disk)
  * @param {string} svgFilePath - Path to SVG file
  * @returns {{componentName: string, svgContent: string}|null}
@@ -241,7 +397,7 @@ function getCategoryDirectories() {
 }
 
 /**
- * Clean old category directory (remove subdirectory entirely) and old .tsx file
+ * Clean old category directory (remove subdirectory entirely) and old .tsx/.ts files
  * @param {string} category - Category name
  */
 function cleanCategory(category) {
@@ -251,16 +407,17 @@ function cleanCategory(category) {
     fs.rmSync(categoryDir, { recursive: true, force: true });
   }
 
-  // Remove old consolidated .tsx file if it exists
-  const consolidatedFile = path.join(ICONS_OUTPUT_DIR, `${category}.tsx`);
-  if (fs.existsSync(consolidatedFile)) {
-    fs.unlinkSync(consolidatedFile);
+  // Remove old .tsx and .ts files (handles transition from JSX to createElement)
+  for (const ext of ['.tsx', '.ts']) {
+    const file = path.join(ICONS_OUTPUT_DIR, `${category}${ext}`);
+    if (fs.existsSync(file)) {
+      fs.unlinkSync(file);
+    }
   }
 }
 
 /**
- * Generate a consolidated category file with all icon components
- * @param {string} category - Category name
+ * Generate a consolidated .ts category file with createElement calls
  * @param {{componentName: string, svgContent: string}[]} icons - Array of icon data
  * @returns {string} - File content
  */
@@ -268,23 +425,14 @@ function generateConsolidatedCategoryFile(icons) {
   const sortedIcons = [...icons].sort((a, b) => a.componentName.localeCompare(b.componentName));
 
   const components = sortedIcons.map(({ componentName, svgContent }) => {
-    return `export const ${componentName} = (props: Props) => {
-  return (
-    <Icon {...props}>
-      ${svgContent}
-    </Icon>
-  );
-};`;
+    const hCall = svgToCreateElement(svgContent, 4);
+    return `export const ${componentName} = (props: Props) =>\n  h(Icon, { ...props, children:\n${hCall}\n  });`;
   }).join('\n\n');
 
-  const hasUnderscoreExports = sortedIcons.some(i => i.componentName.startsWith('_'));
-  const eslintDirective = hasUnderscoreExports
-    ? '/* eslint-disable react-refresh/only-export-components */\n'
-    : '';
+  return `// This file is auto-generated. Do not edit manually.
+import { createElement as h } from 'react';
 
-  return `${eslintDirective}// This file is auto-generated. Do not edit manually.
 import type { Props } from '../IconWrapper.types';
-
 import { Icon } from '../IconWrapper';
 
 ${components}
@@ -329,8 +477,27 @@ function processCategory(category) {
 
   if (icons.length > 0) {
     const content = generateConsolidatedCategoryFile(icons);
-    const outputPath = path.join(ICONS_OUTPUT_DIR, `${category}.tsx`);
+    const outputPath = path.join(ICONS_OUTPUT_DIR, `${category}.ts`);
     fs.writeFileSync(outputPath, content, 'utf-8');
+
+    // Validate written file
+    const written = fs.readFileSync(outputPath, 'utf-8');
+    const exportCount = (written.match(/export const /g) || []).length;
+    if (exportCount !== icons.length) {
+      console.error(`❌ ${category}: expected ${icons.length} exports, found ${exportCount}`);
+      process.exit(1);
+    }
+    for (const { componentName } of icons) {
+      if (!written.includes(`export const ${componentName}`)) {
+        console.error(`❌ ${category}: missing export for ${componentName}`);
+        process.exit(1);
+      }
+    }
+    const hIconCount = (written.match(/h\(Icon, \{ \.\.\.props, children:/g) || []).length;
+    if (hIconCount !== icons.length) {
+      console.error(`❌ ${category}: expected ${icons.length} h(Icon, ...) calls, found ${hIconCount}`);
+      process.exit(1);
+    }
   }
 
   return { success, failed, componentNames: icons.map(i => i.componentName) };

@@ -6,12 +6,13 @@ import { InputWrapper } from '../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
-import { usePortalContainer } from '../../utils/PortalContainerContext';
+import { usePortalContainer, PortalContainerProvider } from '../../utils/PortalContainerContext';
 import type {
   RadixMultiSelectProps,
   MultiSelectItemProps,
   SelectOption,
 } from './Select.types';
+import { TruncatedText } from './TruncatedText';
 import {
   SIZE_CONFIG,
   STYLE_CONFIG,
@@ -160,40 +161,38 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
 
           {option.description ? (
             <div className="flex flex-col flex-1 min-w-0 padding-x-4 ds-gap-1">
-              <span
-                title={option.label}
+              <TruncatedText
                 className={cn(
                   'font-body',
                   sizeConfig.text,
-                  disabled ? 'text-hint' : 'text-default',
-                  'block truncate'
+                  disabled ? 'text-hint' : 'text-default'
                 )}
+                tooltipContent={option.label}
               >
                 {option.label}
-              </span>
-              <span
-                title={option.description}
+              </TruncatedText>
+              <TruncatedText
                 className={cn(
-                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight block truncate',
+                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight',
                   disabled ? 'text-hint' : 'text-muted'
                 )}
+                tooltipContent={option.description}
               >
                 {option.description}
-              </span>
+              </TruncatedText>
             </div>
           ) : (
             <div className="flex-1 min-w-0 padding-x-4">
-              <span
-                title={option.label}
+              <TruncatedText
                 className={cn(
-                  'font-body block',
+                  'font-body',
                   sizeConfig.text,
-                  disabled ? 'text-hint' : 'text-default',
-                  'truncate'
+                  disabled ? 'text-hint' : 'text-default'
                 )}
+                tooltipContent={option.label}
               >
                 {option.label}
-              </span>
+              </TruncatedText>
             </div>
           )}
 
@@ -270,6 +269,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
     const [searchQuery, setSearchQuery] = React.useState('');
     const [focusedIndex, setFocusedIndex] = React.useState(-1);
     const [pendingValues, setPendingValues] = React.useState<string[] | null>(null);
+    const [contentEl, setContentEl] = React.useState<HTMLDivElement | null>(null);
 
     const isControlledOpen = controlledOpen !== undefined;
     const isOpen = isControlledOpen ? controlledOpen : internalOpen;
@@ -677,6 +677,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
 
             <PopoverPrimitive.Portal container={contextContainer ?? undefined}>
               <PopoverPrimitive.Content
+                ref={setContentEl}
                 align="start"
                 sideOffset={4}
                 collisionPadding={8}
@@ -696,6 +697,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                     : 'var(--radix-popover-trigger-width)',
                 }}
               >
+              <PortalContainerProvider value={contentEl}>
                 {searchable && (
                   <div className="border-b-default">
                     <div className="flex items-center ds-gap-2 padding-x-8 height-36">
@@ -941,6 +943,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                     </button>
                   </div>
                 )}
+              </PortalContainerProvider>
               </PopoverPrimitive.Content>
             </PopoverPrimitive.Portal>
           </PopoverPrimitive.Root>

@@ -55,3 +55,7 @@ export {
 } from './RadixSelect';
 
 export { MultiSelect as RadixMultiSelect } from './RadixMultiSelect';
+
+// TruncatedText utility component
+export { TruncatedText } from './TruncatedText';
+export type { TruncatedTextProps } from './TruncatedText';

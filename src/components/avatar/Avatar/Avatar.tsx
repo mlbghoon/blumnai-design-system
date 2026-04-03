@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useState } from 'react';
+import { forwardRef, memo, useMemo, useState } from 'react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
 import { AspectRatio } from '../../aspect-ratio';
@@ -40,7 +40,7 @@ const EMPTY_VARIANT_PLACEHOLDER_ICON = avatarPlaceholderIcon;
  * @example
  * <Avatar variant="initials" initials="AB" size="md" />
  */
-export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
+export const Avatar = memo(forwardRef<HTMLDivElement, AvatarProps>(
   (
     {
       variant = 'initials',
@@ -225,6 +225,6 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     </div>
   );
   }
-);
+));
 
 Avatar.displayName = 'Avatar';

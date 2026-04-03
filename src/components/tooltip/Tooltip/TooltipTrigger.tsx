@@ -86,6 +86,11 @@ export interface TooltipTriggerProps {
    * @default false
    */
   asChild?: boolean;
+  /**
+   * 툴팁 포탈 z-index 오버라이드.
+   * 미지정 시 PortalContainerContext가 있으면 10, 없으면 50.
+   */
+  zIndex?: number;
 }
 
 export function TooltipTrigger({
@@ -103,12 +108,12 @@ export function TooltipTrigger({
   open: controlledOpen,
   onOpenChange,
   asChild = false,
+  zIndex,
 }: TooltipTriggerProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [floating, setFloating] = useState<HTMLDivElement | null>(null);
-  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timersRef = useRef<{ hover: ReturnType<typeof setTimeout> | null; close: ReturnType<typeof setTimeout> | null; touch: ReturnType<typeof setTimeout> | null }>({ hover: null, close: null, touch: null });
   const tooltipId = useId();
   const portalContainer = usePortalContainer();
 
@@ -137,57 +142,28 @@ export function TooltipTrigger({
     },
   });
 
-  const cancelCloseTimeout = useCallback(() => {
-    if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-      closeTimeoutRef.current = null;
+  const cancelClose = useCallback(() => {
+    if (timersRef.current.close) {
+      clearTimeout(timersRef.current.close);
+      timersRef.current.close = null;
     }
   }, []);
 
-  const handleMouseEnter = useCallback(() => {
+  const scheduleOpen = useCallback(() => {
     if (disabled) return;
-    cancelCloseTimeout();
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
-    hoverTimeoutRef.current = setTimeout(() => {
-      setIsOpen(true);
-    }, delay);
-  }, [disabled, delay, setIsOpen, cancelCloseTimeout]);
+    cancelClose();
+    if (timersRef.current.hover) clearTimeout(timersRef.current.hover);
+    timersRef.current.hover = setTimeout(() => setIsOpen(true), delay);
+  }, [disabled, delay, setIsOpen, cancelClose]);
 
-  const startCloseTimeout = useCallback(() => {
-    cancelCloseTimeout();
-    closeTimeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, 100);
-  }, [setIsOpen, cancelCloseTimeout]);
-
-  const handleMouseLeave = useCallback(() => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-      hoverTimeoutRef.current = null;
+  const scheduleClose = useCallback(() => {
+    if (timersRef.current.hover) {
+      clearTimeout(timersRef.current.hover);
+      timersRef.current.hover = null;
     }
-    startCloseTimeout();
-  }, [startCloseTimeout]);
-
-  const handleFocus = useCallback(() => {
-    if (disabled) return;
-    cancelCloseTimeout();
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
-    hoverTimeoutRef.current = setTimeout(() => {
-      setIsOpen(true);
-    }, delay);
-  }, [disabled, delay, setIsOpen, cancelCloseTimeout]);
-
-  const handleBlur = useCallback(() => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-      hoverTimeoutRef.current = null;
-    }
-    startCloseTimeout();
-  }, [startCloseTimeout]);
+    cancelClose();
+    timersRef.current.close = setTimeout(() => setIsOpen(false), 100);
+  }, [setIsOpen, cancelClose]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Escape' && isOpen) {
@@ -195,46 +171,33 @@ export function TooltipTrigger({
     }
   }, [isOpen, setIsOpen]);
 
-  const touchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   const handleTouchStart = useCallback(() => {
     if (disabled) return;
-    if (touchTimeoutRef.current) {
-      clearTimeout(touchTimeoutRef.current);
-    }
-    touchTimeoutRef.current = setTimeout(() => {
-      setIsOpen(true);
-    }, 500);
+    if (timersRef.current.touch) clearTimeout(timersRef.current.touch);
+    timersRef.current.touch = setTimeout(() => setIsOpen(true), 500);
   }, [disabled, setIsOpen]);
 
   const handleTouchEnd = useCallback(() => {
-    if (touchTimeoutRef.current) {
-      clearTimeout(touchTimeoutRef.current);
-      touchTimeoutRef.current = null;
+    if (timersRef.current.touch) {
+      clearTimeout(timersRef.current.touch);
+      timersRef.current.touch = null;
     }
-    if (isOpen) {
-      setIsOpen(false);
-    }
+    if (isOpen) setIsOpen(false);
   }, [isOpen, setIsOpen]);
 
   const handleTouchMove = useCallback(() => {
-    if (touchTimeoutRef.current) {
-      clearTimeout(touchTimeoutRef.current);
-      touchTimeoutRef.current = null;
+    if (timersRef.current.touch) {
+      clearTimeout(timersRef.current.touch);
+      timersRef.current.touch = null;
     }
   }, []);
 
   useEffect(() => {
+    const timers = timersRef.current;
     return () => {
-      if (hoverTimeoutRef.current) {
-        clearTimeout(hoverTimeoutRef.current);
-      }
-      if (closeTimeoutRef.current) {
-        clearTimeout(closeTimeoutRef.current);
-      }
-      if (touchTimeoutRef.current) {
-        clearTimeout(touchTimeoutRef.current);
-      }
+      if (timers.hover) clearTimeout(timers.hover);
+      if (timers.close) clearTimeout(timers.close);
+      if (timers.touch) clearTimeout(timers.touch);
     };
   }, []);
 
@@ -259,11 +222,11 @@ export function TooltipTrigger({
         role="tooltip"
         style={{
           ...floatingStyles,
-          zIndex: 50,
+          zIndex: zIndex ?? (portalContainer ? 10 : 50),
           animation: 'tooltip-enter 150ms ease-out',
         }}
-        onMouseEnter={cancelCloseTimeout}
-        onMouseLeave={startCloseTimeout}
+        onMouseEnter={cancelClose}
+        onMouseLeave={scheduleClose}
       >
         {tooltipContent}
       </div>,
@@ -275,10 +238,10 @@ export function TooltipTrigger({
       <>
         <Slot
           ref={setAnchor}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          onMouseEnter={scheduleOpen}
+          onMouseLeave={scheduleClose}
+          onFocus={scheduleOpen}
+          onBlur={scheduleClose}
           onKeyDown={handleKeyDown}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
@@ -296,10 +259,10 @@ export function TooltipTrigger({
     <>
       <span
         ref={setAnchor}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
+        onMouseEnter={scheduleOpen}
+        onMouseLeave={scheduleClose}
+        onFocus={scheduleOpen}
+        onBlur={scheduleClose}
         onKeyDown={handleKeyDown}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}

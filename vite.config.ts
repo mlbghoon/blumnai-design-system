@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
@@ -51,7 +52,14 @@ export default defineConfig(({ mode }) => {
   const isLibraryBuild = mode === 'lib'
 
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      ...(process.env.ANALYZE ? [visualizer({
+        filename: 'bundle-analysis.html',
+        gzipSize: true,
+        template: 'treemap',
+      })] : []),
+    ],
     resolve: {
       alias: {
         constants: path.resolve(__dirname, './src/constants'),
@@ -95,7 +103,7 @@ export default defineConfig(({ mode }) => {
             ],
           },
           sourcemap: false,
-          cssCodeSplit: false,
+          cssCodeSplit: true,
           copyPublicDir: false,
           minify: 'esbuild',
         }

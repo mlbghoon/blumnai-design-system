@@ -8,7 +8,7 @@ export { IsometricIcon } from './IsometricIcon';
 
 // 타입
 export type { IconCategory, IconProps, IconType, IconTypeWithFill } from './Icon';
-export { parseIconTypeWithFill } from './Icon';
+export { parseIconTypeWithFill, preloadIconCategory, preloadIcons } from './Icon';
 export type { BrandIconProps, BrandType } from './BrandIcon';
 export type { CursorIconProps, CursorType } from './CursorIcon';
 export type { FileIconProps, FileVariant, FileSize } from './FileIcon';

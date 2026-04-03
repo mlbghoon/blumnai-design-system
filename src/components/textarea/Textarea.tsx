@@ -62,6 +62,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   const internalRef = useRef<HTMLTextAreaElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
+  const mirrorRef = useRef<{ div: HTMLDivElement; marker: HTMLSpanElement } | null>(null);
 
   const mergedRef = useCallback((node: HTMLTextAreaElement | null) => {
     internalRef.current = node;
@@ -110,13 +111,21 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       const viewport = viewportRef.current;
       if (!textarea || !viewport) return;
 
-      const mirror = document.createElement('div');
+      if (!mirrorRef.current) {
+        const div = document.createElement('div');
+        div.style.position = 'absolute';
+        div.style.visibility = 'hidden';
+        div.style.whiteSpace = 'pre-wrap';
+        div.style.wordWrap = 'break-word';
+        div.style.overflow = 'hidden';
+        const marker = document.createElement('span');
+        marker.textContent = '\u200b';
+        document.body.appendChild(div);
+        mirrorRef.current = { div, marker };
+      }
+
+      const { div: mirror, marker } = mirrorRef.current;
       const computed = window.getComputedStyle(textarea);
-      mirror.style.position = 'absolute';
-      mirror.style.visibility = 'hidden';
-      mirror.style.whiteSpace = 'pre-wrap';
-      mirror.style.wordWrap = 'break-word';
-      mirror.style.overflow = 'hidden';
       mirror.style.width = computed.width;
       mirror.style.fontFamily = computed.fontFamily;
       mirror.style.fontSize = computed.fontSize;
@@ -131,16 +140,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
       mirror.style.boxSizing = computed.boxSizing;
 
       const textBeforeCursor = textarea.value.substring(0, textarea.selectionEnd ?? textarea.value.length);
-      mirror.textContent = textBeforeCursor;
+      mirror.replaceChildren(document.createTextNode(textBeforeCursor), marker);
 
-      const marker = document.createElement('span');
-      marker.textContent = '\u200b';
-      mirror.appendChild(marker);
-
-      document.body.appendChild(mirror);
       const cursorTop = marker.offsetTop;
       const cursorBottom = cursorTop + marker.offsetHeight;
-      document.body.removeChild(mirror);
 
       const scrollTop = viewport.scrollTop;
       const viewHeight = viewport.clientHeight;
@@ -191,6 +194,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   useEffect(() => {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (mirrorRef.current) {
+        mirrorRef.current.div.remove();
+        mirrorRef.current = null;
+      }
     };
   }, []);
 

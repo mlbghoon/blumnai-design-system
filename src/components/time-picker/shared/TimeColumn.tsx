@@ -29,9 +29,7 @@ export const TimeColumn = memo(function TimeColumn({
   useEffect(() => {
     if (selectedValue === undefined) return;
     const frame = requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        selectedRef.current?.scrollIntoView({ block: 'center' });
-      });
+      selectedRef.current?.scrollIntoView({ block: 'center' });
     });
     return () => cancelAnimationFrame(frame);
   }, [selectedValue]);

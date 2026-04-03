@@ -26,7 +26,7 @@ const skeletonVariants = cva(
   }
 );
 
-const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
+const Skeleton = React.memo(React.forwardRef<HTMLDivElement, SkeletonProps>(
   ({ className, variant, width, height, style, animation = 'pulse', count, ...props }, ref) => {
     const sizeStyle: React.CSSProperties = {
       ...(width !== undefined && {
@@ -66,7 +66,7 @@ const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
       />
     );
   }
-);
+));
 Skeleton.displayName = 'Skeleton';
 
 export { Skeleton };

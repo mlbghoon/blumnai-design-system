@@ -108,22 +108,23 @@ const SidebarProvider = React.forwardRef<
         : setOpen((open) => !open)
     }, [isMobile, setOpen, setOpenMobile, collapsible])
 
-    // Adds a keyboard shortcut to toggle the sidebar.
+    const toggleRef = React.useRef(toggleSidebar)
+    React.useEffect(() => { toggleRef.current = toggleSidebar }, [toggleSidebar])
+
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (collapsible === "none") return
         if (
           event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
           (event.metaKey || event.ctrlKey)
         ) {
           event.preventDefault()
-          toggleSidebar()
+          toggleRef.current()
         }
       }
 
       window.addEventListener("keydown", handleKeyDown)
       return () => window.removeEventListener("keydown", handleKeyDown)
-    }, [toggleSidebar, collapsible])
+    }, [])
 
     // We add a state so that we can do data-state="expanded" or "collapsed".
     // This makes it easier to style the sidebar with Tailwind classes.

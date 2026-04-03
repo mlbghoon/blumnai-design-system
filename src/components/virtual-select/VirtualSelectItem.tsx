@@ -6,6 +6,7 @@ import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { MENU_ITEM_SIZE_CONFIG } from '@/constants/select/Select/Select.constants';
 import type { SelectOption, SelectType } from '../select/Select.types';
+import { TruncatedText } from '../select/TruncatedText';
 
 interface VirtualSelectItemProps {
   option: SelectOption;
@@ -154,40 +155,38 @@ const VirtualSelectItem = React.memo<VirtualSelectItemProps>(
 
           {option.description ? (
             <div className="flex flex-col flex-1 min-w-0 padding-x-4 ds-gap-1">
-              <span
-                title={option.label}
+              <TruncatedText
                 className={cn(
                   'font-body',
                   sizeConfig.text,
-                  disabled ? 'text-hint' : 'text-default',
-                  'block truncate'
+                  disabled ? 'text-hint' : 'text-default'
                 )}
+                tooltipContent={option.label}
               >
                 {option.label}
-              </span>
-              <span
-                title={option.description}
+              </TruncatedText>
+              <TruncatedText
                 className={cn(
-                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight block truncate',
+                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight',
                   disabled ? 'text-hint' : 'text-muted'
                 )}
+                tooltipContent={option.description}
               >
                 {option.description}
-              </span>
+              </TruncatedText>
             </div>
           ) : (
             <div className="flex-1 min-w-0 padding-x-4">
-              <span
-                title={option.label}
+              <TruncatedText
                 className={cn(
-                  'font-body block',
+                  'font-body',
                   sizeConfig.text,
-                  disabled ? 'text-hint' : 'text-default',
-                  'truncate'
+                  disabled ? 'text-hint' : 'text-default'
                 )}
+                tooltipContent={option.label}
               >
                 {option.label}
-              </span>
+              </TruncatedText>
             </div>
           )}
 

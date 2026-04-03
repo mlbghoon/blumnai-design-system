@@ -147,6 +147,43 @@ import { Button } from '@blumnai-studio/blumnai-design-system/button';
 
 ---
 
+## 번들 최적화
+
+### 아이콘 로딩 방식
+
+아이콘은 카테고리별 지연 로딩(lazy loading)으로 작동합니다:
+
+1. `Icon` 컴포넌트를 import해도 아이콘 데이터는 번들에 포함되지 않습니다
+2. 아이콘이 처음 렌더링될 때 해당 카테고리만 비동기로 로드됩니다
+3. 같은 카테고리의 다른 아이콘은 캐시에서 즉시 표시됩니다
+
+| 임포트 방식 | 초기 번들 | 런타임 로드 |
+|------------|---------|-----------|
+| `Icon` + `iconType` prop | 컴포넌트 래퍼만 포함 (최소) | 사용 카테고리만 지연 로딩 |
+| `import { AddIcon } from 'ds/icons/system'` | 전체 카테고리 포함 | 없음 (정적 포함) |
+
+**권장**: `Icon` 컴포넌트 + `iconType` prop 사용 (자동 지연 로딩)
+
+### 서브패스 임포트
+
+서브패스 임포트를 사용하면 번들러 트리쉐이킹에 의존하지 않고 필요한 코드만 포함합니다.
+
+| 임포트 방식 | 번들 영향 |
+|------------|---------|
+| `import { Button } from '@blumnai-studio/blumnai-design-system'` | barrel export → 트리쉐이킹에 의존 |
+| `import { Button } from '@blumnai-studio/blumnai-design-system/button'` | Button만 포함 (권장) |
+
+### 번들 분석
+
+`rollup-plugin-visualizer`로 빌드 결과를 시각화할 수 있습니다:
+
+```bash
+npm run analyze
+# bundle-analysis.html 파일이 프로젝트 루트에 생성됩니다
+```
+
+---
+
 ## 테마
 
 4가지 테마를 지원하며, `data-theme` 속성으로 전환합니다:

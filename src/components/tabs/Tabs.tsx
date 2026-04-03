@@ -67,13 +67,20 @@ function useTabIndicator(listRef: React.RefObject<HTMLElement | null>, animatedI
 
     update();
 
+    let rafId = 0;
+    const debouncedUpdate = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(update);
+    };
+
     const observer = new MutationObserver(update);
     observer.observe(list, { attributes: true, subtree: true, attributeFilter: ['data-state'] });
 
-    const resizeObserver = new ResizeObserver(update);
+    const resizeObserver = new ResizeObserver(debouncedUpdate);
     resizeObserver.observe(list);
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       observer.disconnect();
       resizeObserver.disconnect();
     };

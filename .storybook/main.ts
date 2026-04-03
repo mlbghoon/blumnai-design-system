@@ -16,6 +16,22 @@ const config: StorybookConfig = {
     config.plugins.push(tailwindcss());
     config.plugins.push(vanillaExtractPlugin());
 
+    // react-docgen이 아이콘 데이터 파일을 파싱하지 않도록 패치
+    // 수백 개 export가 있는 대용량 파일에서 Babel AST 파싱이 10-20초 소요됨
+    const iconDataRE = /\/components\/icons\/\w+\/icons\//;
+    const flatPlugins = (config.plugins ?? []).flat();
+    for (const p of flatPlugins) {
+      if (p && typeof p === 'object' && 'name' in p && p.name === 'storybook:react-docgen-plugin' && 'transform' in p) {
+        type TransformFn = (src: string, id: string, ...rest: unknown[]) => unknown;
+        const origTransform = p.transform as TransformFn;
+        const plugin = p as Record<string, unknown>;
+        plugin.transform = function (this: unknown, src: string, id: string, ...rest: unknown[]) {
+          if (iconDataRE.test(id)) return undefined;
+          return (origTransform as TransformFn).call(this, src, id, ...rest);
+        };
+      }
+    }
+
     // Suppress virtual module resolution warnings
     if (config.resolve) {
       config.resolve.dedupe = config.resolve.dedupe || [];

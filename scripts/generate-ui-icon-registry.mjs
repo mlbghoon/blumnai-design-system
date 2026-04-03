@@ -36,16 +36,16 @@ function collectIcons() {
   const seenComponentNames = new Map();
 
   const categoryFiles = fs.readdirSync(ICONS_DIR)
-    .filter(f => f.endsWith('.tsx'))
+    .filter(f => (f.endsWith('.tsx') || f.endsWith('.ts')) && f !== 'index.ts')
     .filter(f => {
-      const category = f.replace('.tsx', '');
+      const category = f.replace(/\.tsx?$/, '');
       return !EXCLUDED_CATEGORIES.includes(category);
     });
 
   const duplicates = [];
 
   for (const file of categoryFiles) {
-    const category = file.replace('.tsx', '');
+    const category = file.replace(/\.tsx?$/, '');
     const filePath = path.join(ICONS_DIR, file);
     const content = fs.readFileSync(filePath, 'utf-8');
 
@@ -138,6 +138,7 @@ import { lazy } from 'react';
 import type { LazyExoticComponent, ComponentType } from 'react';
 
 import type { Props as IconProps } from './IconWrapper.types';
+import type { IconCategory, IconType } from './Icon.types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type CategoryModule = Record<string, ComponentType<any>>;
@@ -202,6 +203,43 @@ export function getIconLazy(registryKey: string): LazyExoticComponent<ComponentT
 /** 아이콘 존재 여부 확인 */
 export function hasIcon(registryKey: string): boolean {
   return registryKey in iconLookup;
+}
+
+/** 공개 카테고리명 → 내부 카테고리명 매핑 */
+const categoryNameMap: Record<string, string> = {
+  'health': 'health & medical',
+  'user': 'user & faces',
+};
+
+/**
+ * 카테고리 프리로드: 아이콘 렌더링 전에 카테고리 데이터를 미리 로드
+ *
+ * 앱 초기화 시 자주 사용하는 카테고리를 프리로드하면
+ * 아이콘이 렌더링될 때 Suspense 없이 즉시 표시됩니다.
+ *
+ * @example
+ * preloadIconCategory('system');
+ * preloadIconCategory('arrows');
+ */
+export function preloadIconCategory(category: IconCategory): void {
+  const resolved = categoryNameMap[category] ?? category;
+  loadCategory(resolved).catch(() => {});
+}
+
+/**
+ * 여러 아이콘의 카테고리를 한번에 프리로드
+ *
+ * 전달된 아이콘들의 카테고리를 추출하여 중복 없이 프리로드합니다.
+ *
+ * @example
+ * preloadIcons([['system', 'add'], ['arrows', 'arrow-left'], ['system', 'check']]);
+ * // system, arrows 카테고리만 프리로드 (중복 제거)
+ */
+export function preloadIcons(iconTypes: IconType[]): void {
+  const categories = new Set(iconTypes.map(([category]) => category));
+  for (const category of categories) {
+    preloadIconCategory(category);
+  }
 }
 
 /** ComponentName → kebab display name: 'ArrowDownIcon' → 'arrow-down' */

@@ -5,7 +5,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
-import { usePortalContainer } from '../../utils/PortalContainerContext';
+import { usePortalContainer, PortalContainerProvider } from '../../utils/PortalContainerContext';
 import {
   SIZE_CONFIG,
   STYLE_CONFIG,
@@ -72,6 +72,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
     const searchInputRef = React.useRef<HTMLInputElement>(null);
 
     const [scrollElement, setScrollElement] = React.useState<HTMLDivElement | null>(null);
+    const [contentEl, setContentEl] = React.useState<HTMLDivElement | null>(null);
 
     const [internalOpen, setInternalOpen] = React.useState(false);
     const [searchQuery, setSearchQuery] = React.useState('');
@@ -507,6 +508,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
 
             <PopoverPrimitive.Portal container={contextContainer ?? undefined}>
               <PopoverPrimitive.Content
+                ref={setContentEl}
                 align="start"
                 sideOffset={4}
                 collisionPadding={8}
@@ -522,6 +524,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                 )}
                 style={{ width: 'var(--radix-popover-trigger-width)' }}
               >
+              <PortalContainerProvider value={contentEl}>
                 {searchable && (
                   <div className="border-b-default">
                     <div className="flex items-center ds-gap-2 padding-x-8 height-36">
@@ -739,6 +742,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                     </button>
                   </div>
                 )}
+              </PortalContainerProvider>
               </PopoverPrimitive.Content>
             </PopoverPrimitive.Portal>
           </PopoverPrimitive.Root>

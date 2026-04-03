@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -654,6 +654,7 @@
     "test:visual": "playwright test",
     "test:visual:ui": "playwright test --ui",
     "test:visual:update": "playwright test --update-snapshots",
+    "analyze": "ANALYZE=true npm run build:lib",
     "prepublishOnly": "npm run build:lib"
   },
   "peerDependencies": {
@@ -751,6 +752,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "remixicon": "^4.6.0",
+    "rollup-plugin-visualizer": "^7.0.1",
     "storybook": "9.1.17",
     "tailwindcss": "^4.1.18",
     "tsc-alias": "^1.8.16",

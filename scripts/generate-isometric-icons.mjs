@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { parseSvgToTree, attrToReactProp, nodeToCreateElement, walkTree } from './lib/svg-to-create-element.mjs';
+
 const ROOT = process.cwd();
 
 const SNAPSHOT_PATH =
@@ -23,24 +25,50 @@ const toPascalCase = (name) =>
     })
     .join('');
 
+/**
+ * Parse raw SVG, extract inner children as tree nodes, apply fill/stroke transforms.
+ * @param {string} rawSvg
+ * @returns {{ viewBox: string, innerNodes: Array }}
+ */
 const parseSvg = (rawSvg) => {
-  const viewBox = /viewBox="([^"]+)"/.exec(rawSvg)?.[1];
+  // Strip xmlns
+  let cleaned = rawSvg.replace(/\s*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g, '');
+  // Remove width/height from root svg (controlled by component props)
+  cleaned = cleaned.replace(/<svg([^>]*)\s+width="[^"]*"/gi, '<svg$1');
+  cleaned = cleaned.replace(/<svg([^>]*)\s+height="[^"]*"/gi, '<svg$1');
+
+  const nodes = parseSvgToTree(cleaned);
+  if (nodes.length !== 1 || nodes[0].tag !== 'svg') throw new Error('SVG parse failed');
+
+  const root = nodes[0];
+  const viewBox = root.attrs.viewBox;
   if (!viewBox) throw new Error('SVG missing viewBox');
 
-  const start = rawSvg.indexOf('>');
-  const end = rawSvg.lastIndexOf('</svg>');
-  if (start === -1 || end === -1 || end <= start) throw new Error('SVG parse failed');
+  // Transform all nodes: camelCase attrs, replace fill/stroke with dynamic values
+  walkTree(root.children, (node) => {
+    const newAttrs = {};
+    let hasStroke = false;
 
-  let inner = rawSvg.slice(start + 1, end).trim();
-  inner = inner.replace(/fill="white"/g, 'fill={fillStyle}');
-  inner = inner.replace(/stroke="#[0-9A-Fa-f]+" stroke-opacity="[^"]+"/g, 'stroke={strokeStyle}');
-  inner = inner.replace(/stroke="#[0-9A-Fa-f]+"/g, 'stroke={strokeStyle}');
-  inner = inner.replace(/stroke-linecap/g, 'strokeLinecap');
-  inner = inner.replace(/stroke-linejoin/g, 'strokeLinejoin');
-  inner = inner.replace(/stroke-width/g, 'strokeWidth');
-  inner = inner.replace(/fill-rule/g, 'fillRule');
-  inner = inner.replace(/clip-rule/g, 'clipRule');
-  return { viewBox, inner };
+    for (const [k, v] of Object.entries(node.attrs)) {
+      const reactKey = attrToReactProp(k);
+
+      if (reactKey === 'fill' && v === 'white') {
+        newAttrs.fill = { __dynamic: 'fillStyle' };
+      } else if (reactKey === 'stroke' && /^#[0-9A-Fa-f]+$/.test(v)) {
+        newAttrs.stroke = { __dynamic: 'strokeStyle' };
+        hasStroke = true;
+      } else if (reactKey === 'strokeOpacity' && hasStroke) {
+        // Skip stroke-opacity when stroke is replaced with dynamic
+        continue;
+      } else {
+        newAttrs[reactKey] = v;
+      }
+    }
+
+    node.attrs = newAttrs;
+  });
+
+  return { viewBox, innerNodes: root.children };
 };
 
 const sanitizeDiscriminator = (value) => {
@@ -81,10 +109,10 @@ const entries = Object.entries(snapshot).sort(([a], [b]) => a.localeCompare(b));
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
-// Clean old .tsx files (but keep isometric.types.ts)
+// Clean old .tsx and .ts files (but keep types)
 const existingFiles = fs.readdirSync(OUT_DIR);
 for (const file of existingFiles) {
-  if (file.endsWith('.tsx')) {
+  if ((file.endsWith('.tsx') || file.endsWith('.ts')) && file !== 'isometric.types.ts') {
     fs.unlinkSync(path.join(OUT_DIR, file));
   }
 }
@@ -108,9 +136,9 @@ const componentDefs = [];
 
 for (const [key, rawSvg] of entries) {
   const componentName = deriveComponentName(key);
-  const { viewBox, inner } = parseSvg(rawSvg);
+  const { viewBox, innerNodes } = parseSvg(rawSvg);
 
-  componentDefs.push({ componentName, viewBox, inner });
+  componentDefs.push({ componentName, viewBox, innerNodes });
 
   // Extract base name for data file
   const [rawBaseKey] = key.split('__');
@@ -136,27 +164,18 @@ for (const def of sortedDefs) {
   chunks.get(chunk).push(def);
 }
 
-// Write one .tsx per chunk
+// Write one .ts per chunk
 for (const [chunkName, defs] of chunks) {
-  const components = defs.map(({ componentName, viewBox, inner }) => {
+  const components = defs.map(({ componentName, viewBox, innerNodes }) => {
+    const innerCalls = innerNodes.map(n => nodeToCreateElement(n, 6)).join(',\n');
+
     return `export const ${componentName} = forwardRef<SVGSVGElement, IsometricSvgProps>(
   ({ size = 24, className, fillColor = 'default', strokeColor = 'accent', ...props }, ref) => {
     const fillStyle = \`var(--bg-\${fillColor})\`;
     const strokeStyle = \`var(--border-\${strokeColor})\`;
 
-    return (
-      <svg
-        ref={ref}
-        viewBox="${viewBox}"
-        fill="none"
-        width={size}
-        height={size}
-        className={className}
-        aria-hidden
-        {...props}
-      >
-        ${inner}
-      </svg>
+    return h('svg', { ref, viewBox: '${viewBox}', fill: 'none', width: size, height: size, className, 'aria-hidden': true, ...props },
+${innerCalls}
     );
   }
 );
@@ -164,16 +183,16 @@ for (const [chunkName, defs] of chunks) {
 ${componentName}.displayName = '${componentName}';`;
   }).join('\n\n');
 
-  const chunkTsx = `// This file is auto-generated. Do not edit manually.
-import { forwardRef } from 'react';
+  const chunkTs = `// This file is auto-generated. Do not edit manually.
+import { createElement as h, forwardRef } from 'react';
 
 import type { IsometricSvgProps } from './isometric.types';
 
 ${components}
 `;
 
-  const fileName = `iso-${chunkName}.tsx`;
-  fs.writeFileSync(path.join(OUT_DIR, fileName), chunkTsx);
+  const fileName = `iso-${chunkName}.ts`;
+  fs.writeFileSync(path.join(OUT_DIR, fileName), chunkTs);
   console.log(`  ${fileName}: ${defs.length} components`);
 }
 

@@ -1,5 +1,40 @@
 # Changelog
 
+## [1.1.10] - 2026-04-03
+
+### Added
+
+- **TruncatedText 컴포넌트**: 텍스트가 잘릴 때만 자동으로 DS 툴팁을 표시하는 유틸리티 컴포넌트. Select/MultiSelect 옵션에서 사용.
+- **아이콘 프리로드 API**: `preloadIconCategory(category)`, `preloadIcons(iconTypes)` 함수 export 추가. 소비자가 아이콘 카테고리를 미리 로드할 수 있음.
+- **번들 분석 도구**: `npm run analyze` 명령으로 `rollup-plugin-visualizer` 트리맵 생성 (`bundle-analysis.html`)
+- **README 번들 최적화 섹션**: 아이콘 지연 로딩 방식, 서브패스 임포트 가이드, 번들 분석 사용법 문서 추가
+
+### Changed
+
+- **아이콘 파일 JSX → createElement 변환**: 모든 아이콘 카테고리 파일(`.tsx`)을 `.ts`(createElement) 형식으로 변환. Vite dev server에서 Babel JSX 트랜스폼을 우회하여 esbuild만 사용.
+  - UI 아이콘: 19개 카테고리 파일, 3,058개 컴포넌트
+  - 플래그 아이콘: `all.ts`, 260개 컴포넌트
+  - 아이소메트릭 아이콘: 8개 청크 파일, 311개 컴포넌트
+  - 파일 아이콘: `all.ts`, 27개 컴포넌트 (썸네일 조건부 렌더링 포함)
+- **공유 SVG 파서 모듈**: `scripts/lib/svg-to-create-element.mjs` — 플래그/아이소메트릭/파일 아이콘 제너레이터가 공유하는 재귀적 SVG-to-createElement 변환기
+- **UI 아이콘 레지스트리 스캐너**: `.ts`와 `.tsx` 모두 인식하도록 필터 업데이트
+- **빌드: CSS 코드 스플릿 활성화**: `cssCodeSplit: true`로 변경하여 컴포넌트별 CSS 분리
+- **Select/MultiSelect/Combobox 옵션 텍스트 툴팁**: 기존 `title` 속성 기반 네이티브 툴팁을 `TruncatedText` 컴포넌트(DS 툴팁)로 교체
+- **Select/MultiSelect/Combobox PortalContainerProvider**: 드롭다운 내부에 중첩된 floating 컴포넌트(툴팁 등)의 z-index 스태킹 수정
+
+### Fixed
+
+- **Storybook 아이콘 로딩 속도 대폭 개선**: `storybook:react-docgen-plugin`이 수백 개 export가 있는 아이콘 데이터 파일을 Babel AST로 파싱하며 10-20초 소요되던 문제 수정. 아이콘 데이터 파일을 docgen에서 제외하여 1초 이내로 단축.
+
+### Performance
+
+- **Avatar/Skeleton**: `React.memo` 래핑으로 불필요한 리렌더 방지
+- **TooltipTrigger**: 3개 타이머 ref를 1개로 통합, `zIndex` prop 추가
+- **Textarea**: 커서 위치 계산용 mirror div를 매번 생성/제거하지 않고 재사용
+- **Tabs**: `ResizeObserver` 콜백을 `requestAnimationFrame`으로 디바운스
+- **SidebarProvider**: 키보드 단축키 리스너를 `toggleRef`로 안정화, 리렌더마다 리스너 재등록 방지
+- **TimeColumn**: 이중 `requestAnimationFrame` → 단일 RAF로 간소화
+
 ## [1.1.9] - 2026-04-02
 
 ### Fixed

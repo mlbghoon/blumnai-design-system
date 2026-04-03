@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { parseSvgToTree, attrToReactProp, nodeToCreateElement, walkTree } from './lib/svg-to-create-element.mjs';
+
 const ROOT = process.cwd();
 const ICONS_SOURCE_DIR = path.join(ROOT, 'src', 'icons', 'source');
 const FILE_ICON_DIR = path.join(ROOT, 'src', 'components', 'icons', 'FileIcon');
@@ -19,8 +21,9 @@ const cleanOutDir = () => {
   const entries = fs.readdirSync(OUT_DIR, { withFileTypes: true });
   for (const entry of entries) {
     if (!entry.isFile()) continue;
-    if (!entry.name.endsWith('.tsx')) continue;
-    fs.unlinkSync(path.join(OUT_DIR, entry.name));
+    if (entry.name.endsWith('.tsx') || (entry.name.endsWith('.ts') && entry.name !== 'index.ts')) {
+      fs.unlinkSync(path.join(OUT_DIR, entry.name));
+    }
   }
 };
 
@@ -46,72 +49,83 @@ const toValidIdentifier = (raw) => {
 
 const sanitizeId = (value) => String(value).replaceAll(':', '_').replaceAll('-', '_');
 
-const toJsxSafeSvgMarkup = (svg) => {
-  let out = String(svg);
+const SHAPE_ELEMENTS = new Set(['path', 'rect', 'circle', 'ellipse', 'polygon', 'polyline']);
 
-  // Remove width/height attributes from root SVG (IconWrapper will control size via size prop)
-  // Keep viewBox for proper scaling
-  out = out.replace(/<svg([^>]*)\s+width="[^"]*"/gi, '<svg$1');
-  out = out.replace(/<svg([^>]*)\s+height="[^"]*"/gi, '<svg$1');
-
-  out = out.replace(/style="mask-type:([^"]+)"/g, (_m, maskType) => {
-    return `style={{ maskType: '${String(maskType).trim()}' }}`;
-  });
-
-  out = out.replace(/style="mix-blend-mode:([^"]+)"/g, (_m, mode) => {
-    return `style={{ mixBlendMode: '${String(mode).trim()}' }}`;
-  });
-
-  // Convert fill="white" to style={{ fill: 'white' }} to prevent IconWrapper override
-  out = out.replace(/(<(?:path|rect|circle|ellipse|polygon|polyline)[^>]*)\s+fill="white"([^>]*>)/g,
-    '$1 style={{ fill: \'white\' }}$2');
-
-  // Convert other fill colors (like #6F6F77) to inline styles to prevent override
-  out = out.replace(/(<(?:path|rect|circle|ellipse|polygon|polyline)[^>]*)\s+fill="(#[0-9A-Fa-f]{3,8})"([^>]*>)/g,
-    (match, before, color, after) => {
-      if (before.includes('style=') || after.includes('style=')) {
-        return match;
-      }
-      return `${before} style={{ fill: '${color}' }}${after}`;
-    });
-
-  // For stroke-only paths, ensure fill doesn't get inherited
-  out = out.replace(/(<path[^>]*)\s+stroke="([^"]+)"([^>]*)(\/?>)/g, (match, before, strokeVal, after, closing) => {
-    if (before.includes('fill=') || before.includes('style=') || after.includes('fill=') || after.includes('style=')) {
-      return match;
-    }
-    return `${before} style={{ fill: 'none' }} stroke="${strokeVal}"${after}${closing}`;
-  });
-
-  const attrReplacements = [
-    ['clip-rule=', 'clipRule='],
-    ['fill-rule=', 'fillRule='],
-    ['stroke-linecap=', 'strokeLinecap='],
-    ['stroke-linejoin=', 'strokeLinejoin='],
-    ['stroke-width=', 'strokeWidth='],
-    ['stroke-miterlimit=', 'strokeMiterlimit='],
-    ['stroke-dasharray=', 'strokeDasharray='],
-    ['stroke-dashoffset=', 'strokeDashoffset='],
-    ['stroke-opacity=', 'strokeOpacity='],
-    ['fill-opacity=', 'fillOpacity='],
-    ['stop-color=', 'stopColor='],
-    ['stop-opacity=', 'stopOpacity='],
-    ['flood-color=', 'floodColor='],
-    ['flood-opacity=', 'floodOpacity='],
-    ['color-interpolation-filters=', 'colorInterpolationFilters='],
-    ['clip-path=', 'clipPath='],
-    ['xmlns:xlink=', 'xmlnsXlink='],
-    ['xlink:href=', 'xlinkHref='],
-  ];
-
-  for (const [from, to] of attrReplacements) {
-    out = out.replaceAll(from, to);
+/**
+ * Parse CSS style string into object.
+ * e.g., "mask-type:alpha" → { maskType: 'alpha' }
+ */
+function parseCssStyle(styleStr) {
+  const result = {};
+  for (const pair of String(styleStr).split(';').filter(Boolean)) {
+    const [prop, ...valParts] = pair.split(':');
+    if (!prop || valParts.length === 0) continue;
+    const key = prop.trim().replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+    result[key] = valParts.join(':').trim();
   }
+  return result;
+}
 
-  out = out.replace(/\s*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/, '');
+/**
+ * Transform parsed SVG tree for file icons:
+ * - Remove xmlns, width, height from root svg
+ * - CamelCase all attribute names
+ * - Promote fill colors on shape elements to style (prevent IconWrapper override)
+ * - Convert inline style strings to objects
+ * - Ensure stroke-only paths have style.fill = 'none'
+ */
+function transformFileIconTree(nodes) {
+  walkTree(nodes, (node) => {
+    const newAttrs = {};
+    const isShape = SHAPE_ELEMENTS.has(node.tag);
+    let hasFill = false;
+    let hasStroke = false;
+    let hasStyleFill = false;
 
-  return out;
-};
+    // First pass: collect attrs and detect fill/stroke
+    for (const [k, v] of Object.entries(node.attrs)) {
+      const reactKey = attrToReactProp(k);
+
+      if (reactKey === 'xmlns') continue;
+      if (reactKey === 'style') {
+        node.style = { ...(node.style || {}), ...parseCssStyle(v) };
+        continue;
+      }
+
+      // Promote fill on shape elements to style to prevent IconWrapper override
+      if (isShape && reactKey === 'fill') {
+        hasFill = true;
+        if (v === 'none' || v === 'currentColor') {
+          newAttrs[reactKey] = v;
+        } else if (v === 'transparent') {
+          newAttrs[reactKey] = v;
+        } else {
+          // Move to style
+          node.style = { ...(node.style || {}), fill: v };
+          hasStyleFill = true;
+        }
+        continue;
+      }
+
+      if (reactKey === 'stroke') hasStroke = true;
+
+      newAttrs[reactKey] = v;
+    }
+
+    // For stroke-only shapes, ensure fill doesn't get inherited
+    if (isShape && hasStroke && !hasFill && !hasStyleFill) {
+      node.style = { ...(node.style || {}), fill: 'none' };
+    }
+
+    node.attrs = newAttrs;
+  });
+
+  // Remove width/height from root svg
+  if (nodes.length > 0 && nodes[0].tag === 'svg') {
+    delete nodes[0].attrs.width;
+    delete nodes[0].attrs.height;
+  }
+}
 
 const prefixSvgIds = (svg, prefix) => {
   const idRegex = /\bid="([^"]+)"/g;
@@ -207,64 +221,76 @@ const hasBase64Image = (svg) => {
          svgStr.includes('href="data:');
 };
 
-const addThumbnailImageSupport = (svg, componentName) => {
-  let cleaned = hasBase64Image(svg) ? removeBase64Image(svg) : String(svg);
+/**
+ * For thumbnail SVGs: find the transparent-fill path in the tree and
+ * inject a conditional image element after it.
+ */
+function addThumbnailImageToTree(nodes, componentName) {
+  const root = nodes[0];
+  if (!root || root.tag !== 'svg') return;
 
-  const viewBoxMatch = cleaned.match(/viewBox="([^"]+)"/);
-  if (!viewBoxMatch) return cleaned;
+  // Get viewBox dimensions for image size
+  const viewBox = root.attrs.viewBox;
+  if (!viewBox) return;
+  const vbParts = viewBox.split(/\s+/);
+  const width = vbParts[2] || '40';
+  const height = vbParts[3] || '40';
 
-  const viewBox = viewBoxMatch[1].split(/\s+/);
-  const width = viewBox[2] || '40';
-  const height = viewBox[3] || '40';
-
-  const clipPathRefMatch = cleaned.match(/clipPath="url\(#([^)]+)\)"/) || cleaned.match(/clip-path="url\(#([^)]+)\)"/);
-  const clipPathId = clipPathRefMatch
-    ? `${componentName}__${clipPathRefMatch[1]}`
-    : null;
-  if (!clipPathId) {
-    console.warn(`  ⚠️ ${componentName}: no clipPath found in SVG, image will render without clipping`);
-  }
-
-  const mainPathRegex = /<path([^>]*)\s+d="([^"]+)"([^>]*)\s+fill="transparent"([^>]*)\/>/;
-  const mainPathMatch = cleaned.match(mainPathRegex);
-
-  if (mainPathMatch) {
-    const beforeAttrs = mainPathMatch[1] || '';
-    const pathData = mainPathMatch[2];
-    const middleAttrs = mainPathMatch[3] || '';
-    const afterAttrs = mainPathMatch[4] || '';
-
-    if (pathData.startsWith('M0 4') || pathData.startsWith('M0 4C0')) {
-      const allAttrs = beforeAttrs + middleAttrs + afterAttrs;
-      const shapeRenderingMatch = allAttrs.match(/shape-rendering="([^"]+)"/);
-      const shapeRendering = shapeRenderingMatch ? ` shapeRendering="${shapeRenderingMatch[1]}"` : '';
-
-      const clipPathAttr = clipPathId
-        ? `\n            clipPath={\`url(#${clipPathId})\`}`
-        : '';
-
-      const replacement = `<g>
-        <path d="${pathData}" fill="transparent"${shapeRendering}/>
-        {imageSrc ? (
-          <image
-            x="0"
-            y="0"
-            width="${width}"
-            height="${height}"
-            preserveAspectRatio="xMidYMid slice"
-            href={imageSrc}${clipPathAttr}
-          />
-        ) : null}
-      </g>`;
-
-      cleaned = cleaned.replace(mainPathRegex, replacement);
+  // Find clipPath ID from the tree
+  let clipPathId = null;
+  walkTree(root.children, (node) => {
+    if (node.tag === 'clipPath' && node.attrs.id) {
+      clipPathId = node.attrs.id;
     }
+  });
+
+  // Find the transparent path and wrap it with conditional image
+  function processChildren(children) {
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i];
+      if (child.tag === 'path' && child.attrs.fill === 'transparent') {
+        // Extract shapeRendering from the path if present
+        const shapeRendering = child.attrs.shapeRendering || child.attrs['shape-rendering'];
+
+        // Build the replacement group
+        const pathNode = {
+          tag: 'path',
+          attrs: { d: child.attrs.d, fill: 'transparent' },
+          children: [],
+        };
+        if (shapeRendering) pathNode.attrs.shapeRendering = shapeRendering;
+
+        const imageAttrs = {
+          x: '0', y: '0',
+          width, height,
+          preserveAspectRatio: 'xMidYMid slice',
+          href: { __dynamic: 'imageSrc' },
+        };
+        if (clipPathId) {
+          imageAttrs.clipPath = `url(#${clipPathId})`;
+        }
+
+        const conditionalImage = {
+          __conditional: 'imageSrc',
+          __trueNode: { tag: 'image', attrs: imageAttrs, children: [] },
+        };
+
+        const groupNode = {
+          tag: 'g',
+          attrs: {},
+          children: [pathNode, conditionalImage],
+        };
+
+        children[i] = groupNode;
+        return true;
+      }
+      if (child.children && processChildren(child.children)) return true;
+    }
+    return false;
   }
 
-  cleaned = cleaned.replace(/<g([^>]*)\s+d="[^"]*"([^>]*)>/g, '<g$1$2>');
-
-  return cleaned;
-};
+  processChildren(root.children);
+}
 
 if (!fs.existsSync(SNAPSHOT_PATH)) {
   console.error(`Snapshot not found: ${SNAPSHOT_PATH}`);
@@ -296,40 +322,47 @@ for (const [rawKey, rawSvg] of entries) {
   let processedSvg = String(rawSvg).trim();
 
   if (isThumbnail) {
-    processedSvg = addThumbnailImageSupport(processedSvg, componentName);
+    processedSvg = hasBase64Image(processedSvg) ? removeBase64Image(processedSvg) : processedSvg;
     hasThumbnail = true;
   }
 
-  const prefixedSvg = prefixSvgIds(toJsxSafeSvgMarkup(processedSvg), componentName);
+  // Prefix IDs before parsing
+  const prefixedSvg = prefixSvgIds(processedSvg, componentName);
 
-  componentDefs.push({ componentName, svgMarkup: prefixedSvg, isThumbnail });
+  // Parse SVG into tree
+  const nodes = parseSvgToTree(prefixedSvg);
+
+  // Apply file-icon-specific transforms (fill promotion, style conversion, camelCase)
+  transformFileIconTree(nodes);
+
+  // For thumbnails: inject conditional image
+  if (isThumbnail) {
+    addThumbnailImageToTree(nodes, componentName);
+  }
+
+  // Remove d attribute from <g> elements (Figma artifact)
+  walkTree(nodes, (node) => {
+    if (node.tag === 'g') delete node.attrs.d;
+  });
+
+  const hCall = nodeToCreateElement(nodes[0], 4);
+
+  componentDefs.push({ componentName, hCall, isThumbnail });
   registryEntries.push({ fileType: registryKey, componentName, isThumbnail });
 }
 
-// Write consolidated all.tsx
+// Write consolidated all.ts
 const sortedDefs = [...componentDefs].sort((a, b) => a.componentName.localeCompare(b.componentName));
 
 const regularComponents = sortedDefs.filter(d => !d.isThumbnail);
 const thumbnailComponents = sortedDefs.filter(d => d.isThumbnail);
 
-const regularDefs = regularComponents.map(({ componentName, svgMarkup }) => {
-  return `export const ${componentName} = (props: Props) => {
-  return (
-    <Icon {...props}>
-      ${svgMarkup}
-    </Icon>
-  );
-};`;
+const regularDefs = regularComponents.map(({ componentName, hCall }) => {
+  return `export const ${componentName} = (props: Props) =>\n  h(Icon, { ...props, children:\n${hCall}\n  });`;
 }).join('\n\n');
 
-const thumbnailDefs = thumbnailComponents.map(({ componentName, svgMarkup }) => {
-  return `export const ${componentName} = ({ imageSrc, ...props }: ThumbnailProps) => {
-  return (
-    <Icon {...props}>
-      ${svgMarkup}
-    </Icon>
-  );
-};`;
+const thumbnailDefs = thumbnailComponents.map(({ componentName, hCall }) => {
+  return `export const ${componentName} = ({ imageSrc, ...props }: ThumbnailProps) =>\n  h(Icon, { ...props, children:\n${hCall}\n  });`;
 }).join('\n\n');
 
 const thumbnailInterface = hasThumbnail ? `
@@ -339,15 +372,16 @@ interface ThumbnailProps extends Props {
 }
 ` : '';
 
-const allTsx = `// This file is auto-generated. Do not edit manually.
-import type { Props } from '../../Icon/IconWrapper.types';
+const allTs = `// This file is auto-generated. Do not edit manually.
+import { createElement as h } from 'react';
 
+import type { Props } from '../../Icon/IconWrapper.types';
 import { Icon } from '../../Icon/IconWrapper';
 ${thumbnailInterface}
 ${regularDefs}${thumbnailDefs ? '\n\n' + thumbnailDefs : ''}
 `;
 
-fs.writeFileSync(path.join(OUT_DIR, 'all.tsx'), allTsx);
+fs.writeFileSync(path.join(OUT_DIR, 'all.ts'), allTs);
 
 // Generate file-registry.tsx
 const generateFileRegistry = () => {
@@ -476,6 +510,6 @@ const generateFileTypes = () => {
 fs.writeFileSync(REGISTRY_PATH, generateFileRegistry());
 fs.writeFileSync(TYPES_PATH, generateFileTypes());
 
-console.log(`Generated ${entries.length} file icons into src/components/icons/FileIcon/icons/all.tsx.`);
+console.log(`Generated ${entries.length} file icons into src/components/icons/FileIcon/icons/all.ts.`);
 console.log(`Generated file-registry.tsx in src/components/icons/FileIcon/.`);
 console.log(`Generated FileIcon.types.ts in src/components/icons/FileIcon/.`);

@@ -8,7 +8,7 @@ import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import { Avatar } from '../../avatar/Avatar';
 import { Badge } from '../../badge/Badge';
 import { ScrollArea } from '../../scroll-area/ScrollArea';
-import { usePortalContainer } from '../../../utils/PortalContainerContext';
+import { usePortalContainer, PortalContainerProvider } from '../../../utils/PortalContainerContext';
 import {
   SIZE_CONFIG,
   STYLE_CONFIG,
@@ -273,6 +273,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
     const inputRef = React.useRef<HTMLInputElement>(null);
     const triggerRef = React.useRef<HTMLDivElement>(null);
     const listRef = React.useRef<HTMLDivElement>(null);
+    const [contentEl, setContentEl] = React.useState<HTMLDivElement | null>(null);
     const [internalOpen, setInternalOpen] = React.useState(false);
     const [inputValue, setInputValue] = React.useState('');
     const [isEditing, setIsEditing] = React.useState(false);
@@ -681,6 +682,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 
               <PopoverPrimitive.Portal container={contextContainer ?? undefined}>
                 <PopoverPrimitive.Content
+                  ref={setContentEl}
                   align="start"
                   sideOffset={4}
                   collisionPadding={8}
@@ -716,6 +718,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                       : 'var(--radix-popover-trigger-width)',
                   }}
                 >
+                <PortalContainerProvider value={contentEl}>
                   {filteredOptions.length === 0 ? (
                     renderEmptyState()
                   ) : (
@@ -779,6 +782,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                       </button>
                     </div>
                   )}
+                </PortalContainerProvider>
                 </PopoverPrimitive.Content>
               </PopoverPrimitive.Portal>
             </PopoverPrimitive.Root>

@@ -3111,6 +3111,31 @@ import { Icon, BrandIcon, FlagIcon, FileIcon, IsometricIcon, CursorIcon } from '
 <CursorIcon cursorType="pointer" />
 ```
 
+### Preloading Icons
+
+```tsx
+import { preloadIconCategory, preloadIcons } from '@blumnai-studio/blumnai-design-system';
+
+// 카테고리 전체 프리로드
+preloadIconCategory('system');
+
+// 특정 아이콘만 프리로드
+preloadIcons([['system', 'check'], ['arrows', 'arrow-down']]);
+```
+
+### Icon File Architecture
+
+아이콘 데이터 파일은 `.ts` (createElement) 형식으로 생성됩니다. JSX(`.tsx`) 대신 `createElement`를 사용하여 Vite dev server에서 Babel을 우회하고 esbuild만으로 처리합니다.
+
+- UI 아이콘: `src/components/icons/Icon/icons/{category}.ts` — 19개 카테고리, 3,058개 컴포넌트
+- 플래그 아이콘: `src/components/icons/FlagIcon/icons/all.ts` — 260개 컴포넌트
+- 아이소메트릭 아이콘: `src/components/icons/IsometricIcon/icons/iso-*.ts` — 8개 청크, 311개 컴포넌트
+- 파일 아이콘: `src/components/icons/FileIcon/icons/all.ts` — 27개 컴포넌트
+
+제너레이터 스크립트: `scripts/generate-icons.mjs`, `scripts/generate-flags-icons.mjs`, `scripts/generate-isometric-icons.mjs`, `scripts/generate-file-icons.mjs`
+
+공유 SVG 파서: `scripts/lib/svg-to-create-element.mjs`
+
 ### Categories
 
 `arrows`, `buildings`, `business`, `communication`, `design`, `development`, `device`, `document`, `editor`, `finance`, `food`, `health`, `map`, `media`, `others`, `system`, `user`, `weather`

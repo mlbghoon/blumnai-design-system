@@ -122,6 +122,9 @@ export type {
   SelectOptionGroup,
 } from './components/select';
 
+export { TruncatedText } from './components/select';
+export type { TruncatedTextProps } from './components/select';
+
 export { Combobox } from './components/select/Combobox';
 export type {
   ComboboxProps,
@@ -851,7 +854,7 @@ export type {
 // =============================================================================
 // ICONS
 // =============================================================================
-export { Icon } from './components/icons';
+export { Icon, preloadIconCategory, preloadIcons } from './components/icons';
 export type {
   IconProps,
   IconType,

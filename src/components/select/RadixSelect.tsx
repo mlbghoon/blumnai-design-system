@@ -6,7 +6,7 @@ import { InputWrapper } from '../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
-import { usePortalContainer } from '../../utils/PortalContainerContext';
+import { usePortalContainer, PortalContainerProvider } from '../../utils/PortalContainerContext';
 import type {
   SelectTriggerProps,
   SelectContentProps,
@@ -14,6 +14,7 @@ import type {
   ExtendedSelectProps,
   SelectOption,
 } from './Select.types';
+import { TruncatedText } from './TruncatedText';
 import {
   SIZE_CONFIG,
   STYLE_CONFIG,
@@ -226,6 +227,18 @@ const SelectContent = React.forwardRef<
   SelectContentProps
 >(({ className, children, position = 'popper', sideOffset = 4, maxHeight, header, contentWidth, ...props }, ref) => {
   const contextContainer = usePortalContainer();
+  const [contentEl, setContentEl] = React.useState<HTMLElement | null>(null);
+
+  type ContentElement = React.ElementRef<typeof SelectPrimitive.Content>;
+  const composedRef = React.useCallback(
+    (node: ContentElement | null) => {
+      setContentEl(node);
+      if (typeof ref === 'function') ref(node);
+      else if (ref) (ref as React.MutableRefObject<ContentElement | null>).current = node;
+    },
+    [ref]
+  );
+
   const maxHeightValue = maxHeight
     ? typeof maxHeight === 'number'
       ? `${maxHeight}px`
@@ -241,7 +254,7 @@ const SelectContent = React.forwardRef<
   return (
     <SelectPrimitive.Portal container={contextContainer ?? undefined}>
       <SelectPrimitive.Content
-        ref={ref}
+        ref={composedRef}
         sideOffset={sideOffset}
         collisionPadding={8}
         className={cn(
@@ -264,6 +277,7 @@ const SelectContent = React.forwardRef<
         }}
         {...props}
       >
+        <PortalContainerProvider value={contentEl}>
         {header && (
           <div className="sticky top-0 z-20 bg-card">
             {header}
@@ -279,6 +293,7 @@ const SelectContent = React.forwardRef<
           {children}
         </SelectPrimitive.Viewport>
         <SelectScrollDownButton />
+        </PortalContainerProvider>
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
   );
@@ -495,19 +510,19 @@ const ExtendedSelectItem = React.forwardRef<
         <SelectPrimitive.ItemText className="flex-1 min-w-0 overflow-hidden">
           {description ? (
             <div className="flex flex-col ds-gap-1">
-              <span title={typeof children === 'string' ? children : undefined} className="block truncate">{children}</span>
-              <span
-                title={description}
+              <TruncatedText tooltipContent={typeof children === 'string' ? children : undefined}>{children}</TruncatedText>
+              <TruncatedText
                 className={cn(
-                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight block truncate',
+                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight',
                   disabled ? 'text-hint' : 'text-muted'
                 )}
+                tooltipContent={description}
               >
                 {description}
-              </span>
+              </TruncatedText>
             </div>
           ) : (
-            <span title={typeof children === 'string' ? children : undefined} className="block truncate">{children}</span>
+            <TruncatedText tooltipContent={typeof children === 'string' ? children : undefined}>{children}</TruncatedText>
           )}
         </SelectPrimitive.ItemText>
         {renderTrailContent()}
