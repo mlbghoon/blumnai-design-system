@@ -1,5 +1,13 @@
 # DS 컴포넌트 사용 규칙
 
+## 기본 선택 원칙
+
+- 새 UI를 만들 때 **먼저 DS 컴포넌트를 찾는다.** 직접 구현은 DS에 없을 때만.
+- 정보 나열은 **플랫**, 클릭 유도/강조가 필요하면 **카드**(shadow-card).
+- 텍스트 라벨이 충분하면 **툴팁을 붙이지 않는다.**
+- 리스트 구분 방식은 **gap 또는 divider 중 하나만** 쓴다.
+- 모달은 **fit-content** 기본, 오버플로우 시 내부 스크롤.
+
 ## 1. 필수 DS 사용 (직접 구현 금지)
 
 | UI 요소 | DS 컴포넌트 | 비고 |
@@ -142,7 +150,7 @@ UI 디자인에서 리스트는 크게 **2가지 유형**으로 구분한다.
 
 | 서브타입 | 아이템 간 | 결정 사항 |
 | -------- | --------- | --------- |
-| **Gap 리스트** | `gap-*` / `space-y-*`로 분리 | gap 크기 + 개별 카드 radius 적용 여부 |
+| **Gap 리스트** | `ds-gap-*`로 분리 | gap 크기 + 개별 카드 radius 적용 여부 |
 | **Gapless 리스트** | 밀착 (gap 없음) | 내부 padding + 전체 컨테이너 radius 적용 여부 |
 
 **Gap 리스트**: 아이템 사이에 공간이 있어 각 아이템이 독립적으로 보임.
@@ -182,11 +190,11 @@ UI 디자인에서 리스트는 크게 **2가지 유형**으로 구분한다.
 
 | 모드 | 스타일 | 용도 |
 | ---- | ------ | ---- |
-| **강조 (Emphasized)** | `shadow-component-default` + `border-default` | 독립적으로 돋보여야 하는 카드, 클릭 유도 요소, 중요 정보 블록 |
+| **강조 (Emphasized)** | `shadow-card` + `border-default` | 독립적으로 돋보여야 하는 카드, 클릭 유도 요소, 중요 정보 블록 |
 | **플랫 (Flat)** | shadow 없음, border 없음 또는 `border-b-default`로 구분 | 정보 나열, 설정 패널, 연속된 콘텐츠 영역 |
 
 ```
-✅ 강조 카드 → shadow-component-default + border-default + rounded-lg
+✅ 강조 카드 → shadow-card + border-default + rounded-lg
 ✅ 플랫 카드 → bg-subtle 또는 bg-default + padding만으로 영역 구분
 ✅ 플랫 리스트 → border-b-default로 아이템 간 구분
 ❌ 모든 카드에 일괄 shadow 적용 → 강조도 확인 후 적용
@@ -198,8 +206,8 @@ UI 디자인에서 리스트는 크게 **2가지 유형**으로 구분한다.
 카드/컨테이너 레이아웃을 새로 구성할 때 아래 순서를 따른다:
 
 1. **사용자 의도 확인**: "이 영역을 강조해서 눈에 띄게 할까요, 플랫하게 배치할까요?" 식으로 질문
-2. **강조** 선택 시 → `shadow-component-default` + `border-default` + `rounded-lg` 적용
+2. **강조** 선택 시 → `shadow-card` + `border-default` + `rounded-lg` 적용
 3. **플랫** 선택 시 → shadow/border 없이 `bg-subtle` 또는 padding으로 영역 구분
 4. radius/shadow 수치를 직접 묻지 않고, 위 2단계 중 선택하도록 유도
 
-> **주의**: 이 가이드는 일반 레이아웃의 카드/컨테이너에 적용. 모달(`shadow-modal-*`)과 팝오버(`shadow-lg`)는 elevation 규칙을 따른다.
+> **주의**: 이 가이드는 일반 레이아웃의 카드/컨테이너에 적용. 모달(`shadow-modal-md`)과 팝오버(`shadow-modal-sm`)는 elevation 규칙을 따른다.

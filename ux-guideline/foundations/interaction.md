@@ -1,16 +1,22 @@
 # 인터랙션 (Interaction)
 
-## 1. 호버 상태
+## 1. 기본 원칙
+
+- **인터랙션은 절제한다.** 미세한 transition만 기본이고, 화려한 모션은 의도적 연출에만 사용.
+- **상태 변경은 transition**, 1회성 연출은 keyframe. 이 구분을 지킨다.
+
+## 2. 호버 상태
 
 | 요소 유형 | 호버 패턴 |
 |-----------|-----------|
 | 리스트 아이템 | `hover:bg-subtle transition-colors` |
 | 버튼 (ghost) | `hover:bg-muted transition-colors` |
 | 아이콘 버튼 | `hover:bg-muted rounded-md transition-colors` |
-| 링크/텍스트 | `hover:text-blue-600 transition-colors` |
-| 카드 | `hover:shadow-sm transition-shadow` |
+| 텍스트 (보조 액션) | `hover:text-subtle transition-colors` |
+| 링크 (브랜드/내비게이션) | `hover:text-blue-600 transition-colors` |
+| 카드 | `hover:shadow-card transition-shadow` |
 
-## 2. 트랜지션 규칙
+## 3. 트랜지션 규칙
 
 > **변경되는 속성만 명시한다.** `transition-all` 사용 금지 — 불필요한 속성까지 감시하여 성능 저하 및 의도치 않은 애니메이션 발생.
 
@@ -25,7 +31,7 @@
 
 duration: 기본 `duration-150`. 명시 불필요.
 
-## 3. Scale on Press
+## 4. Scale on Press
 
 > 버튼 클릭 시 미세한 scale-down으로 촉각적 피드백을 준다.
 
@@ -46,7 +52,7 @@ duration: 기본 `duration-150`. 명시 불필요.
 <button className="transition-transform duration-150 ease-out">
 ```
 
-## 4. 최소 히트 영역
+## 5. 최소 히트 영역
 
 > 인터랙티브 요소는 **최소 40×40px** 히트 영역을 확보한다 (WCAG 44×44px 권장).
 
@@ -66,7 +72,7 @@ duration: 기본 `duration-150`. 명시 불필요.
 - 인접한 인터랙티브 요소 간 히트 영역이 겹치지 않도록 주의
 - 아이콘 버튼(`ControlButton`)은 DS가 히트 영역을 보장하므로 별도 처리 불필요
 
-## 5. Transitions vs Keyframes
+## 6. Transitions vs Keyframes
 
 > **인터랙티브 상태 변경은 CSS transition**, **1회성 시퀀스는 keyframe animation**.
 
@@ -82,7 +88,7 @@ duration: 기본 `duration-150`. 명시 불필요.
 ❌ 인터랙티브 요소에 keyframe → 금지 (닫기 중 재열기 시 끊김)
 ```
 
-## 6. Enter 애니메이션 (Split & Stagger)
+## 7. Enter 애니메이션 (Split & Stagger)
 
 > 큰 컨테이너를 통째로 애니메이션하지 않는다. **의미 단위로 분리**하고 **시차**를 둔다.
 
@@ -106,7 +112,7 @@ duration: 기본 `duration-150`. 명시 불필요.
 }
 ```
 
-## 7. Exit 애니메이션
+## 8. Exit 애니메이션
 
 > Exit는 Enter보다 **작고 빠르게**. 사용자의 시선은 이미 다음으로 이동 중.
 
@@ -117,7 +123,7 @@ duration: 기본 `duration-150`. 명시 불필요.
 ❌ exit 애니메이션 없음 (display:none) → 맥락 단절
 ```
 
-## 8. 아이콘 애니메이션
+## 9. 아이콘 애니메이션
 
 > 상태 변경/hover로 아이콘이 나타나거나 사라질 때, 토글이 아닌 **연속적 전환**을 사용한다.
 
@@ -138,7 +144,7 @@ duration: 기본 `duration-150`. 명시 불필요.
 
 **Motion 미사용 시**: 두 아이콘을 모두 DOM에 두고 CSS cross-fade (absolute positioning).
 
-## 9. Page Load 애니메이션 스킵
+## 10. Page Load 애니메이션 스킵
 
 > 기본 상태로 이미 표시되는 요소는 **첫 렌더 시 애니메이션하지 않는다**.
 
@@ -146,7 +152,7 @@ duration: 기본 `duration-150`. 명시 불필요.
 - 적용 대상: 아이콘 swap, 토글, 탭 — 페이지 로드 시 기본 상태인 것들
 - 비적용: 페이지 hero stagger, 로딩 상태 등 첫 진입 애니메이션이 의도된 것
 
-## 10. 레이어 팝업 노출 방식
+## 11. 레이어 팝업 노출 방식
 
 > 모든 레이어 팝업(Dialog, Modal, Popover, Drawer 등)의 **기본 노출 방식은 dissolve + 중앙 노출**이다.
 
@@ -177,7 +183,7 @@ duration: 기본 `duration-150`. 명시 불필요.
 - 트리거 요소가 있으면 기본 → 질문 없이 구현
 - 트리거 요소가 없으면 클릭 좌표 → 질문 없이 `virtualRef` 사용
 
-## 11. 성능
+## 12. 성능
 
 ### Transition 속성 명시
 
