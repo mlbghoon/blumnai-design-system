@@ -33,7 +33,18 @@ const preview: Preview = {
     // Additional Korean translations for Storybook UI elements
     options: {
       storySort: {
-        order: ['Components', 'Icons'],
+        order: [
+          'Components',
+          'Icons',
+          'UI Cases',
+          [
+            '01. 리스트 + 상세',
+            '02. 설정 / 폼',
+            '03. 대시보드',
+            '04. 빈 상태',
+            '05. 모달 / 다이얼로그',
+          ],
+        ],
       },
     },
   },
