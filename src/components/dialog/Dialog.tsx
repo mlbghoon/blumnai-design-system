@@ -258,7 +258,7 @@ DialogScrollArea.displayName = 'DialogScrollArea';
 const TITLE_WEIGHT = {
   medium: 'font-medium',
   semibold: 'font-semibold',
-  bold: 'font-bold',
+  bold: 'font-semibold',
 } as const;
 
 const DialogTitle = React.forwardRef<

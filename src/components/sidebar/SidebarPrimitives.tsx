@@ -304,7 +304,7 @@ const Sidebar = React.forwardRef<
             className={cn(
               "fixed z-20 flex items-center justify-center cursor-pointer",
               "width-24 height-24 rounded-full",
-              "bg-default border-default shadow-sm",
+              "bg-default border-default shadow-card",
               "hover:bg-subtle transition-colors",
               side === "left"
                 ? "left-[calc(var(--sidebar-width)-12px)] group-data-[collapsible=icon]:left-[calc(var(--sidebar-width-icon)-12px)]"
@@ -425,7 +425,7 @@ const SidebarToggleButton = React.forwardRef<
       className={cn(
         "absolute [right:-12px] z-20 flex items-center justify-center cursor-pointer",
         "width-24 height-24 rounded-full",
-        "bg-default border-default shadow-sm",
+        "bg-default border-default shadow-card",
         "hover:bg-subtle transition-colors",
         "group-data-[side=right]:[left:-12px] group-data-[side=right]:right-auto",
         !offset && positionClasses[position],

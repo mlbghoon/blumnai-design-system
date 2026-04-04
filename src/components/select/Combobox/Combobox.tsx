@@ -37,7 +37,7 @@ const highlightText = (text: string, searchTerm: string): React.ReactNode => {
 
   return parts.map((part, i) =>
     regex.test(part)
-      ? <mark key={i} className="bg-transparent font-bold text-default">{part}</mark>
+      ? <mark key={i} className="bg-transparent font-semibold text-default">{part}</mark>
       : part
   );
 };

@@ -70,8 +70,8 @@ const SliderRange = React.forwardRef<
           className={cn(
             'relative flex touch-none select-none',
             isVertical
-              ? 'flex-col items-center justify-center w-[16px] padding-y-8'
-              : 'w-full items-center h-[16px] padding-x-8',
+              ? 'flex-col items-center justify-center width-16 padding-y-8'
+              : 'w-full items-center height-16 padding-x-8',
             disabled && 'cursor-not-allowed'
           )}
           value={value}

@@ -82,7 +82,7 @@ const Radio = React.forwardRef<
   const sizeConfig = RADIO_SIZE_CONFIG[size];
 
   const shadowEffects = radioStyle === 'with-shadow' && !isChecked && !disabled
-    ? 'shadow-[inset_0_-1px_0_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04)]'
+    ? 'shadow-component-default'
     : '';
 
   const checkedInnerShadow = radioStyle === 'with-shadow' && isChecked && !disabled;

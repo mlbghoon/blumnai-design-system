@@ -102,7 +102,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           ) : (
             <div
               className={cn(
-                'h-full rounded-full transition-all duration-300',
+                'h-full rounded-full transition-[width] duration-300',
                 !gradient && FILL_COLOR_MAP[color],
                 isIndeterminate && 'animate-progress-indeterminate'
               )}

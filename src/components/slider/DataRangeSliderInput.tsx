@@ -145,7 +145,7 @@ const DataRangeSliderInput = React.forwardRef<
             ref={ref}
             className={cn(
               'relative flex w-full touch-none select-none items-center',
-              'h-[16px] padding-x-8',
+              'height-16 padding-x-8',
               chartData && chartData.length > 0 && '-mt-[6px]',
               disabled && 'cursor-not-allowed'
             )}

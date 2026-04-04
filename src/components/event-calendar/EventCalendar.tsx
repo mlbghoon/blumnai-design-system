@@ -246,7 +246,7 @@ export const EventCalendar = forwardRef<HTMLDivElement, EventCalendarProps>(
             onClick={handleNextMonth}
             aria-label="다음 달"
           />
-          <span className="size-lg font-bold line-height-leading-6 text-default font-body select-none">
+          <span className="size-lg font-semibold line-height-leading-6 text-default font-body select-none">
             {formatMonthLabel(currentMonth, locale)}
           </span>
           <Button

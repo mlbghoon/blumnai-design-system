@@ -168,7 +168,7 @@ const ProgressCircular = React.forwardRef<HTMLDivElement, ProgressCircularProps>
                   strokeLinecap="round"
                   strokeDasharray={circumference}
                   strokeDashoffset={offset}
-                  className="transition-all duration-300"
+                  className="transition-[stroke-dashoffset] duration-300"
                 />
               </>
             ) : (
@@ -191,7 +191,7 @@ const ProgressCircular = React.forwardRef<HTMLDivElement, ProgressCircularProps>
                   strokeLinecap="round"
                   strokeDasharray={circumference}
                   strokeDashoffset={offset}
-                  className="transition-all duration-300"
+                  className="transition-[stroke-dashoffset] duration-300"
                 />
               </>
             )}

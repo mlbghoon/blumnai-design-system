@@ -10,7 +10,7 @@ import { getPixelValue } from '../../lib/css-utils';
 import type { FilterButtonProps, FilterButtonSize, FilterButtonShape } from './FilterButton.types';
 
 const filterButtonVariants = cva(
-  'inline-flex items-center justify-center font-medium cursor-pointer transition-all duration-200 focus:outline-none',
+  'inline-flex items-center justify-center font-medium cursor-pointer transition-colors duration-200 focus:outline-none',
   {
     variants: {
       size: {

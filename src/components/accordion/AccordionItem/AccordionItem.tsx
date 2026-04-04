@@ -56,7 +56,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
     const hasShadow = style === 'default';
 
     return cn(
-      'w-full flex flex-col transition-all duration-200 ease-in-out',
+      'w-full flex flex-col transition-[background-color,border-color,box-shadow] duration-200 ease-in-out',
       STYLE_BASE_CLASSES[style],
       hasShadow && BOX_SHADOW,
       canHover && STYLE_HOVER_CLASSES[style],
@@ -81,7 +81,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
     () =>
       cn(
         'flex items-center justify-center width-24 height-24 shrink-0 icon-default-muted',
-        'transition-all duration-200 ease-in-out',
+        'transition-transform duration-200 ease-in-out',
         isOpen && 'rotate-180'
       ),
     [isOpen]

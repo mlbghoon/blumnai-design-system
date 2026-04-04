@@ -151,7 +151,7 @@ const Switch = React.forwardRef<
               'transition-transform duration-200',
               'motion-reduce:transition-none',
               isDisabled ? 'bg-switch-handle-disabled' : 'bg-switch-handle',
-              !isDisabled && 'shadow-[0_1px_3px_rgba(0,0,0,0.08),0_1px_2px_-1px_rgba(0,0,0,0.08)]',
+              !isDisabled && 'shadow-card',
               sizeConfig.translateOff,
               hasTrackLabels ? sizeConfig.labeledTranslateOn : sizeConfig.translateOn,
             )}

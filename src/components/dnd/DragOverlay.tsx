@@ -27,7 +27,7 @@ export function DragOverlay({
   const overlay = (
     <DndKitDragOverlay
       dropAnimation={dropAnimation}
-      className={cn('shadow-lg', className)}
+      className={cn('shadow-modal-sm', className)}
     >
       {active ? content : null}
     </DndKitDragOverlay>

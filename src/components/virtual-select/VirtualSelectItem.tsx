@@ -79,7 +79,7 @@ const VirtualSelectItem = React.memo<VirtualSelectItemProps>(
           >
             {selected && (
               <div className="absolute flex items-center justify-center" style={{ inset: '1px' }}>
-                <div className="width-8 height-8 rounded-full bg-white" />
+                <div className="width-8 height-8 rounded-full" style={{ backgroundColor: 'var(--icon-white-default)' }} />
               </div>
             )}
           </div>

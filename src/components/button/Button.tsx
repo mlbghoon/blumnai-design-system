@@ -13,7 +13,7 @@ import { TooltipTrigger } from '../tooltip/Tooltip/TooltipTrigger';
 import type { ButtonProps, ButtonIconType, ButtonStyle, ButtonVariant, ButtonSize, ButtonShape, ButtonColor } from './Button.types';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center shrink-0 whitespace-nowrap cursor-pointer transition-all duration-200 focus:outline-none font-medium letter-spacing-tracking-normal',
+  'inline-flex items-center justify-center shrink-0 whitespace-nowrap cursor-pointer transition-colors duration-200 focus:outline-none font-medium letter-spacing-tracking-normal',
   {
     variants: {
       size: {

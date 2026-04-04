@@ -18,7 +18,7 @@ const SliderTrack = React.forwardRef<
       ref={ref}
       className={cn(
         'relative grow rounded-full bg-basic-gray-alpha-10',
-        isVertical ? 'h-full w-[4px]' : 'w-full h-[4px]',
+        isVertical ? 'h-full width-4' : 'w-full height-4',
         className
       )}
       {...props}

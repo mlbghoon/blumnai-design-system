@@ -129,7 +129,7 @@ const SliderRangeInput = React.forwardRef<
             ref={ref}
             className={cn(
               'relative flex w-full touch-none select-none items-center',
-              'h-[16px] padding-x-8',
+              'height-16 padding-x-8',
               disabled && 'cursor-not-allowed'
             )}
             value={internalValue}

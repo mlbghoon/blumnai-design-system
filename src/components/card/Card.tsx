@@ -17,7 +17,7 @@ const cardVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border-default shadow-sm',
+        default: 'border-default shadow-card',
         outline: 'border-default',
         ghost: '',
       },
@@ -48,7 +48,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
         tabIndex={interactive ? 0 : undefined}
         className={cn(
           cardVariants({ variant }),
-          interactive && 'cursor-pointer hover:shadow-md transition-shadow focus-visible:shadow-component-focus focus-visible:outline-none',
+          interactive && 'cursor-pointer hover:shadow-modal-sm transition-shadow focus-visible:shadow-component-focus focus-visible:outline-none',
           className
         )}
         onClick={onClick}

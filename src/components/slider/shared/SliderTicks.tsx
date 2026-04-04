@@ -43,7 +43,7 @@ const SliderTicks = React.forwardRef<HTMLDivElement, SliderTicksProps>(
         aria-hidden="true"
         className={cn(
           'relative',
-          isVertical ? 'w-[24px] [margin-left:4px]' : 'w-full h-[24px] margin-t-4',
+          isVertical ? 'width-24 [margin-left:4px]' : 'w-full height-24 margin-t-4',
           className
         )}
         {...(isVertical && height ? { style: { height } } : {})}
@@ -67,7 +67,7 @@ const SliderTicks = React.forwardRef<HTMLDivElement, SliderTicksProps>(
             >
               <div className={cn(
                 'bg-basic-gray-alpha-10',
-                isVertical ? 'h-[1px] w-[4px]' : 'w-[1px] h-[4px]'
+                isVertical ? 'height-1 width-4' : 'w-[1px] height-4'
               )} />
               <span className="font-body size-xs line-height-leading-4 text-muted whitespace-nowrap">
                 {formatFn(tick)}

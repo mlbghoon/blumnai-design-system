@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.14] - 2026-04-04
+
+### Fixed
+
+- **DS 컴포넌트 전체 감사 (50개 컴포넌트)**: UX 가이드라인 위반 28건 수정
+  - **font-weight**: `font-bold` → `font-semibold` (Dialog, EventCalendar, Combobox)
+  - **shadow**: Tailwind `shadow-sm/md/lg` 및 커스텀 `shadow-[...]` → DS 토큰 (`shadow-card`, `shadow-modal-sm/md`, `shadow-component-default`) 적용 (Card, DragOverlay, Sheet, InputOTP, NavigationMenu, Sidebar, Checkbox, Radio, RadioCard, Switch, Chart)
+  - **color**: `bg-white` → CSS 변수 `var(--icon-white-default)` (VirtualSelectItem)
+  - **transition**: `transition-all` → 변경 속성만 명시 (`transition-colors`, `transition-transform`, `transition-[width]` 등) (Button ×5, Accordion ×2, Carousel, Progress, ProgressCircular ×2, InputOTP, Tabs)
+  - **spacing**: Tailwind arbitrary `w-[Npx]`/`h-[Npx]` → DS `width-*`/`height-*` 유틸리티 (Slider 계열 9개 파일)
+
 ## [1.1.13] - 2026-04-04
 
 ### Added

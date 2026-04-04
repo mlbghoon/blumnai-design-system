@@ -74,7 +74,7 @@ const SliderChart = React.forwardRef<HTMLDivElement, SliderChartProps>(
     return (
       <div
         ref={ref}
-        className={cn('relative w-full h-[32px] padding-x-8', disabled && 'opacity-50', className)}
+        className={cn('relative w-full height-32 padding-x-8', disabled && 'opacity-50', className)}
       >
         <svg
           viewBox={`0 0 100 ${height}`}

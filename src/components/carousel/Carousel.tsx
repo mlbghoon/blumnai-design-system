@@ -333,7 +333,7 @@ export const CarouselIndicators = React.forwardRef<
             type="button"
             role="tab"
             className={cn(
-              'height-4 rounded-full transition-all cursor-pointer',
+              'height-4 rounded-full transition-[width,background-color] cursor-pointer',
               index === selectedIndex
                 ? 'width-24 bg-state-primary'
                 : 'width-16 bg-state-soft hover:bg-state-soft-hover'

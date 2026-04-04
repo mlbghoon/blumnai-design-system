@@ -70,7 +70,7 @@ const InputOTPSlot = React.forwardRef<
       className={cn(
         'relative flex height-40 width-40 items-center justify-center',
         'border-y border-r size-md font-body font-medium line-height-leading-5',
-        'shadow-sm transition-all',
+        'shadow-component-default transition-[border-color,box-shadow]',
         'first:rounded-l-md first:border-l last:rounded-r-md',
         hasError ? 'border-destructive' : 'border-default',
         isActive && !hasError && 'z-10 shadow-component-input-focus',

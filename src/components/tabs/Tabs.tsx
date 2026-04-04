@@ -331,7 +331,7 @@ const TabsTrigger = React.forwardRef<
         variant === 'underline' && size === 'lg'
           ? 'size-md line-height-leading-6'
           : 'size-sm line-height-leading-5',
-        'transition-all duration-150',
+        'transition-colors duration-150',
         'focus-visible:outline-none',
         'disabled:pointer-events-none disabled:opacity-50',
         type === 'fixed' && 'flex-1',

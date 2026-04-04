@@ -29,6 +29,21 @@ const meta: Meta<typeof Card> = {
         defaultValue: { summary: 'default' },
       },
     },
+    interactive: {
+      control: 'boolean',
+      description: '인터랙티브 카드로 설정합니다. 클릭 가능하며 role="button", tabIndex, 키보드(Enter/Space) 지원이 추가됩니다',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    onClick: {
+      action: 'clicked',
+      description: '카드 클릭 시 호출되는 콜백 함수입니다. interactive가 true일 때 사용합니다',
+      table: {
+        type: { summary: '() => void' },
+      },
+    },
   },
 };
 
@@ -46,10 +61,17 @@ export const Default: Story = {
   },
   args: {
     variant: 'default',
+    interactive: false,
+    onClick: () => {},
   },
   render: function Render(args) {
     return (
-      <Card className="w-[350px]" variant={args.variant}>
+      <Card
+        className="w-[350px]"
+        variant={args.variant}
+        interactive={args.interactive}
+        onClick={args.onClick}
+      >
         <CardHeader>
           <CardTitle>카드 제목</CardTitle>
           <CardDescription>카드에 대한 간단한 설명입니다.</CardDescription>

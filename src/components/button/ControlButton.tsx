@@ -9,7 +9,7 @@ import { cn } from '../../lib/utils';
 import type { ControlButtonProps, ControlButtonSize, ControlButtonShape, ControlButtonStyle } from './ControlButton.types';
 
 const controlButtonVariants = cva(
-  'inline-flex items-center justify-center transition-all duration-200 focus:outline-none',
+  'inline-flex items-center justify-center transition-colors duration-200 focus:outline-none',
   {
     variants: {
       buttonStyle: {

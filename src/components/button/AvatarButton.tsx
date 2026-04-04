@@ -12,7 +12,7 @@ import { renderButtonIcon } from './buttonUtils';
 import type { AvatarButtonProps, AvatarButtonIconType, AvatarButtonSize, AvatarButtonStyle } from './AvatarButton.types';
 
 const avatarButtonVariants = cva(
-  'inline-flex items-center rounded-full transition-all duration-200 focus:outline-none font-body size-sm line-height-leading-5 font-medium letter-spacing-tracking-normal',
+  'inline-flex items-center rounded-full transition-colors duration-200 focus:outline-none font-body size-sm line-height-leading-5 font-medium letter-spacing-tracking-normal',
   {
     variants: {
       buttonStyle: {
