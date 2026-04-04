@@ -1,0 +1,5 @@
+{
+  "main": "../dist/components/event-calendar/index.mjs",
+  "module": "../dist/components/event-calendar/index.mjs",
+  "types": "../dist/components/event-calendar/index.d.ts"
+}

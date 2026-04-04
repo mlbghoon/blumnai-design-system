@@ -1,0 +1,5 @@
+{
+  "main": "../dist/components/info-box/index.mjs",
+  "module": "../dist/components/info-box/index.mjs",
+  "types": "../dist/components/info-box/index.d.ts"
+}

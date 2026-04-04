@@ -1,0 +1,5 @@
+{
+  "main": "../dist/components/empty-state/index.mjs",
+  "module": "../dist/components/empty-state/index.mjs",
+  "types": "../dist/components/empty-state/index.d.ts"
+}

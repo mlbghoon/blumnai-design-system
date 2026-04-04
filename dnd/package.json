@@ -1,0 +1,5 @@
+{
+  "main": "../dist/components/dnd/index.mjs",
+  "module": "../dist/components/dnd/index.mjs",
+  "types": "../dist/components/dnd/index.d.ts"
+}

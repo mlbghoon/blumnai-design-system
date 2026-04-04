@@ -1,0 +1,5 @@
+{
+  "main": "../dist/components/accordion/index.mjs",
+  "module": "../dist/components/accordion/index.mjs",
+  "types": "../dist/components/accordion/index.d.ts"
+}

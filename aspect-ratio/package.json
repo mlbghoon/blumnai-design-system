@@ -1,0 +1,5 @@
+{
+  "main": "../dist/components/aspect-ratio/index.mjs",
+  "module": "../dist/components/aspect-ratio/index.mjs",
+  "types": "../dist/components/aspect-ratio/index.d.ts"
+}
