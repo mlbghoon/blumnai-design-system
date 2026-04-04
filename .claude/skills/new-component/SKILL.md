@@ -67,7 +67,7 @@ import type { HTMLAttributes } from 'react';
 
 export interface {ComponentName}Props extends HTMLAttributes<HTMLDivElement> {
   /**
-   * Additional CSS classes
+   * 추가 CSS 클래스
    */
   className?: string;
 }
@@ -150,7 +150,9 @@ Files:
 - src/components/{component-name}/stories/{ComponentName}.stories.tsx
 
 Next steps:
-1. Provide Figma URL to fetch design specs
-2. Implement component logic
-3. Add more stories for different states
+1. Invoke the `ux-guidelines` skill for spacing, color, shadow, and interaction decisions
+2. Provide Figma URL to fetch design specs (use the `figma-save` skill)
+3. Implement component logic
+4. Invoke the `storybook-story` skill to create stories following DS conventions
+5. When done, invoke the `component-checklist` skill for full verification
 ```

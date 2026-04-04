@@ -13,7 +13,7 @@ PROMPT=$(echo "$INPUT" | /usr/bin/python3 -c "import sys,json; print(json.load(s
 SUGGESTIONS=""
 
 # new-component skill
-if echo "$PROMPT" | grep -qE "(new component|create component|add component|만들어.*컴포넌트|새 컴포넌트|컴포넌트 생성)"; then
+if echo "$PROMPT" | grep -qE "((new|create|add|scaffold|build)\s+(\S+\s+)*component|component\s+(\S+\s+)*(만들|생성|추가)|scaffold\s+\S+|만들어.*컴포넌트|새 컴포넌트|컴포넌트 생성)"; then
   SUGGESTIONS="${SUGGESTIONS}Use the 'new-component' skill to scaffold the component with correct file structure.\n"
 fi
 

@@ -72,6 +72,11 @@ npm run typecheck && npm run lint
 - [ ] argTypes have Korean descriptions
 - [ ] Stories exist for major states
 
+## Related Skills
+
+- If UX decisions are uncertain (spacing, shadow, color, interaction patterns), invoke the `ux-guidelines` skill
+- If story conventions need review, invoke the `storybook-story` skill
+
 ---
 
 ## Report to User
