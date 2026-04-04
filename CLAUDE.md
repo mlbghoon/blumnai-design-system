@@ -20,6 +20,7 @@
 | `component-checklist` | Verifying implementation is complete |
 | `figma-save` | Fetching Figma node data |
 | `visual-test` | Running Playwright visual regression tests |
+| `component-audit` | Scanning existing components for DS violations |
 
 ### Hooks (auto-triggered)
 

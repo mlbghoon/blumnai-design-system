@@ -47,6 +47,11 @@ if echo "$PROMPT" | grep -qE "(ds rule|ds class|design system rule|styling rule|
   SUGGESTIONS="${SUGGESTIONS}Use the 'design-system-rules' skill for DS class reference (typography, spacing, colors).\n"
 fi
 
+# component-audit skill
+if echo "$PROMPT" | grep -qE "(audit|scan.*violation|check.*violation|ds.*compliance|컴포넌트.*감사|위반.*검사|감사)"; then
+  SUGGESTIONS="${SUGGESTIONS}Use the 'component-audit' skill to scan for DS guideline violations.\n"
+fi
+
 # coderabbit-review skill
 if echo "$PROMPT" | grep -qE "(coderabbit|code review|PR review|리뷰.*요청)"; then
   SUGGESTIONS="${SUGGESTIONS}Use the 'coderabbit-review' skill for automated PR review via CodeRabbit.\n"
