@@ -1,12 +1,40 @@
 # Blumnai Design System - Development Guidelines
 
+## Documentation Architecture
+
+| Layer | Location | When loaded | Purpose |
+|-------|----------|-------------|---------|
+| **CLAUDE.md** | (this file) | Always | Core rules: styling, spacing, colors, patterns |
+| **Skills** | `.claude/skills/` | On demand | Detailed guides for specific tasks |
+| **UX Guidelines** | `ux-guideline/foundations/` | Via skill | Layout decisions, component usage, interaction |
+| **AI.md** | `AI.md` | By consumers | Component reference for downstream projects |
+
+### Available Skills
+
+| Skill | Trigger |
+|-------|---------|
+| `ux-guidelines` | Layout/spacing/shadow decisions, new UI |
+| `storybook-story` | Creating or modifying story files |
+| `design-system-rules` | Detailed DS class reference |
+| `new-component` | Scaffolding a new component |
+| `component-checklist` | Verifying implementation is complete |
+| `figma-save` | Fetching Figma node data |
+| `visual-test` | Running Playwright visual regression tests |
+
+### Hooks (auto-triggered)
+
+- **PreToolUse** (Edit/Write on components): UX guidelines reminder (once per session)
+- **UserPromptSubmit**: Skill suggestions based on keywords
+- **Stop**: Verification check when component work appears done
+- **SessionStart**: Autonomy rules + stale flag cleanup
+
+---
+
 ## Publishing to GitHub Packages (CRITICAL)
 
 - **Package scope**: `@blumnai-studio/blumnai-design-system`
 - **Registry**: `https://npm.pkg.github.com`
 - **Auth env var**: `GITHUB_TOKEN_BLUMNAI`
-
-**To publish, ALWAYS source env vars first and use this exact command:**
 
 ```bash
 source ~/.zshrc 2>/dev/null; npm publish
@@ -14,395 +42,200 @@ source ~/.zshrc 2>/dev/null; npm publish
 
 ## Code Quality Verification (CRITICAL)
 
-**ALWAYS run type-check and lint after making code changes:**
+**ALWAYS run after making code changes, before telling user work is done:**
 
 ```bash
 npm run typecheck && npm run lint
 ```
 
-This MUST be done:
-
-- After completing any code changes
-- Before telling the user the work is done
-- To catch TypeScript errors, ESLint violations, and React hooks issues
-
-**Common issues this catches:**
-
-- TypeScript type incompatibilities
-- React refs updated during render (use `useEffect` instead)
-- Missing or incorrect prop types
-- Import errors
-
 ## Communication Rules
 
-- During long operations (multi-file edits, team work, waiting for agents), output a brief status update to the user at least every few tool calls. Never go silent for extended periods.
-- When spawning a team, narrate: who was spawned, what they're doing, and relay results as they come in.
-- If blocked or waiting, say so explicitly — don't just go quiet.
+- During long operations, output brief status updates every few tool calls.
+- When spawning a team, narrate who was spawned and relay results.
+- If blocked or waiting, say so explicitly.
+
+---
 
 ## Typography Classes (CRITICAL)
 
-**NEVER use default Tailwind typography classes. ALWAYS use the design system's utility classes:**
+**NEVER use default Tailwind typography classes.**
 
-### Font Size
-
-- Use `size-xs`, `size-sm`, `size-md`, `size-lg`, `size-xl`, `size-2xl`, etc.
-- NOT `text-xs`, `text-sm`, `text-base`, `text-lg`, etc.
-
-### Line Height
-
-- Use `line-height-leading-3`, `line-height-leading-4`, `line-height-leading-5`, `line-height-leading-6`, etc.
-- NOT `leading-3`, `leading-4`, `leading-5`, `leading-6`, etc.
-
-### Letter Spacing
-
-- Use `letter-spacing-tracking-tighter`, `letter-spacing-tracking-tight`, `letter-spacing-tracking-normal`, `letter-spacing-tracking-wide`, etc.
-- NOT `tracking-tighter`, `tracking-tight`, `tracking-normal`, `tracking-wide`, etc.
-
-### Font Family
-
-- Use `font-body`, `font-headline`, `font-quote`, `font-code`
-- These map to CSS variables: `var(--font-body)`, `var(--font-headline)`, etc.
-
-### Font Weight
-
-- Use `font-medium`, `font-bold`, etc. (Tailwind classes are OK here as they're configured to use CSS variables)
-
-### Example - Correct Label Styling:
+| Category | DS Class | NOT |
+|----------|----------|-----|
+| Font size | `size-xs`, `size-sm`, `size-md`, `size-lg`, `size-xl`, `size-2xl` | `text-xs`, `text-sm`, `text-base`, `text-lg` |
+| Line height | `line-height-leading-3` thru `leading-6` | `leading-3`, `leading-4` |
+| Letter spacing | `letter-spacing-tracking-{tighter,tight,normal,wide}` | `tracking-tight`, `tracking-normal` |
+| Font family | `font-body`, `font-headline`, `font-quote`, `font-code` | — |
+| Font weight | `font-normal`(400), `font-medium`(500), `font-semibold`(600) only | `font-light`, `font-bold`, `font-extrabold` |
 
 ```tsx
-const labelClassName = cn(
-  "font-body",
-  "size-sm line-height-leading-5 letter-spacing-tracking-normal",
-  "font-medium",
-  "text-default",
-  "select-none",
-);
-```
+// CORRECT
+cn("font-body", "size-sm line-height-leading-5 letter-spacing-tracking-normal", "font-medium", "text-default")
 
-### Example - WRONG (DO NOT USE):
-
-```tsx
-// WRONG - Do not use these Tailwind defaults
-const labelClassName = cn(
-  "text-sm leading-5 tracking-normal", // WRONG!
-  "font-medium",
-  "text-gray-700",
-);
+// WRONG
+cn("text-sm leading-5 tracking-normal", "font-medium", "text-gray-700")
 ```
 
 ## Spacing & Sizing (CRITICAL)
 
-**NEVER use arbitrary values like `w-[14px]`, `h-[10px]`, `left-[1px]`, etc.**
-**NEVER use Tailwind default spacing classes like `w-16`, `h-8`, `p-4`, `px-2`, `gap-4`, `mt-4`, `mx-2`, etc.**
+**NEVER use arbitrary values (`w-[14px]`) or Tailwind defaults (`w-16`, `p-4`, `gap-8`, `mt-4`).**
 
-### Padding
+| Category | DS Classes | NOT |
+|----------|-----------|-----|
+| Padding | `padding-{0,1,2,4,6,8,10,12,16,20,24}`, `padding-x-*`, `padding-y-*` | `p-4`, `px-2`, `py-1` |
+| Width | `width-{2,8,10,14,16,24,28,32,36,40}` | `w-16`, `w-[14px]` |
+| Height | `height-{2,8,14,16,24,28,32,36,40}` | `h-16`, `h-[10px]` |
+| Gap | `ds-gap-{0,1,2,4,6,8,10,12,16,20,24,32}` | `gap-4`, `gap-8`, `gap-[6px]` |
+| Margin | `margin-0`, `margin-x-*`, `margin-y-*`, `margin-t-*`, `margin-r-*`, `margin-l-*` | `mt-4`, `mx-2` |
 
-Use design system padding utility classes:
-
-- `padding-0`, `padding-1`, `padding-2`, `padding-4`, `padding-6`, `padding-8`, `padding-10`, `padding-12`, `padding-16`, `padding-20`, `padding-24`
-- `padding-x-*` for horizontal padding (left + right)
-- `padding-y-*` for vertical padding (top + bottom)
-- NOT `p-4`, `px-2`, `py-1` (Tailwind defaults)
-
-Available padding-x: `padding-x-0`, `padding-x-1`, `padding-x-2`, `padding-x-4`, `padding-x-6`, `padding-x-8`, `padding-x-10`, `padding-x-12`, `padding-x-14`, `padding-x-16`
-Available padding-y: `padding-y-0`, `padding-y-1`, `padding-y-2`, `padding-y-4`, `padding-y-6`, `padding-y-8`, `padding-y-10`, `padding-y-12`, `padding-y-16`
-Available padding-t: `padding-t-4`, `padding-t-16`
-Available padding-b: `padding-b-4`, `padding-b-16`
-
-### Margin
-
-Use design system margin utility classes:
-
-- `margin-0` for all sides
-- `margin-x-*` for horizontal margin (left + right): `margin-x-2`, `margin-x-8`, `margin-x-14`
-- `margin-y-*` for vertical margin (top + bottom): `margin-y-4`, `margin-y-16`
-- `margin-t-*` for top margin: `margin-t-24`, `margin-t-32`
-- `margin-r-*` for right margin: `margin-r-4`, `margin-r-16`, `margin-r-24`
-- `margin-l-*` for left margin: `margin-l-2`
-- NOT `mt-4`, `mx-2`, `my-4` (Tailwind defaults)
-
-### Width & Height
-
-Use design system utility classes from `utilities.css`:
-
-- `width-2`, `width-8`, `width-10`, `width-14`, `width-16`, `width-24`, `width-28`, `width-32`, `width-36`, `width-40`
-- `height-2`, `height-8`, `height-14`, `height-16`, `height-24`, `height-28`, `height-32`, `height-36`, `height-40`
-- NOT `w-16`, `h-16` (Tailwind defaults)
-
-### Gap
-
-Use `ds-gap-*` classes (prefixed to avoid Tailwind collision):
-
-- `ds-gap-0`, `ds-gap-1`, `ds-gap-2`, `ds-gap-4`, `ds-gap-6`, `ds-gap-8`, `ds-gap-10`, `ds-gap-12`, `ds-gap-16`, `ds-gap-20`, `ds-gap-24`, `ds-gap-32`
-- NOT `gap-4`, `gap-8` (Tailwind defaults — these conflict with consuming projects)
-- NOT `gap-[6px]` or other arbitrary values
-- Responsive variants work: `md:ds-gap-0`, `sm:ds-gap-8`, etc.
-
-### Examples:
-
-```tsx
-// CORRECT
-"width-16 height-16"; // 16px × 16px
-"width-10 height-2"; // 10px × 2px
-"padding-x-12 padding-y-8"; // 12px horizontal, 8px vertical padding
-"padding-6"; // 6px padding all sides
-"ds-gap-8"; // 8px gap
-
-// WRONG - Never use these
-"w-16 h-16"; // WRONG! Use width-16 height-16
-"w-[14px] h-[14px]"; // WRONG! Use width-14 height-14
-"p-4 px-2 py-1"; // WRONG! Use padding-4, padding-x-2, padding-y-1
-"gap-8"; // WRONG! Use ds-gap-8
-"gap-[6px]"; // WRONG! Use ds-gap-6
-"mt-4 mx-2"; // WRONG! Use margin-t-16, margin-x-8
-```
+Available padding-x: 0,1,2,4,6,8,10,12,14,16. Available padding-y: 0,1,2,4,6,8,10,12,16.
+Available padding-t: 4,16. Available padding-b: 4,16.
 
 ### Border Radius
 
-Use design system radius tokens:
-
-- `rounded-none`, `rounded-2xs`, `rounded-xs`, `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl`, `rounded-2xl`, `rounded-3xl`, `rounded-full`
-- NOT `rounded-[5px]` or other arbitrary values
+DS scale: `rounded-none`, `rounded-2xs`(2), `rounded-xs`(4), `rounded-sm`(6), `rounded-md`(8), `rounded-lg`(12), `rounded-xl`(16), `rounded-2xl`(24), `rounded-3xl`(28), `rounded-full`. NOT `rounded-[5px]`.
 
 ## Color Classes (CRITICAL)
 
-**NEVER use arbitrary color values like `bg-[#437DFC]`, `border-[rgba(39,39,42,0.15)]`, etc.**
+**NEVER use arbitrary colors (`bg-[#437DFC]`) or Tailwind grays (`bg-white`, `bg-gray-*`).**
 
-### Text Colors
+| Category | DS Classes |
+|----------|-----------|
+| Text | `text-default`, `text-subtle`, `text-muted`, `text-hint` |
+| Background | `bg-default`, `bg-subtle`, `bg-muted`, `bg-card`, `bg-inverted`, `bg-overlay` |
+| Border | `border-default`(10%), `border-darker`(15%), `border-strong`(25%) |
+| Checkbox bg | `bg-checkbox-default`, `bg-checkbox-active`, `bg-checkbox-active-hover`, `bg-checkbox-disabled` |
 
-- Use semantic colors: `text-default`, `text-subtle`, `text-muted`, `text-hint`
-- NOT hardcoded colors like `text-[#4E4E55]` or `text-gray-600`
+Border classes are self-contained (width + style + color). For dashed borders, add `border-dashed`.
 
-### Background Colors
+**Note:** Tailwind chromatic colors (`bg-blue-500`, `text-red-600`) ARE allowed for semantic states.
 
-- Use semantic colors: `bg-default`, `bg-subtle`, `bg-muted`, `bg-card`, etc.
-- NOT hardcoded colors like `bg-[#437DFC]`, `bg-[rgba(39,39,42,0.06)]`, `bg-white`
-
-#### Checkbox-specific backgrounds:
-
-- `bg-checkbox-default` - unchecked checkbox background (white)
-- `bg-checkbox-active` - checked/indeterminate checkbox background (blue)
-- `bg-checkbox-active-hover` - hover state for checked checkbox
-- `bg-checkbox-disabled` - disabled checkbox background
-
-### Border Colors
-
-- Use semantic colors: `border-default`, `border-darker`, `border-strong`, etc.
-- NOT hardcoded colors like `border-[rgba(39,39,42,0.15)]`
-
-#### Border opacity reference:
-
-- `border-default` = 10% opacity (#27272a1a)
-- `border-darker` = 15% opacity (#27272a26)
-- `border-strong` = 25% opacity (#27272a40)
-
-**Note:** Border classes set `border-width: 1px`, `border-style: solid`, and `border-color` — they are fully self-contained and work without Tailwind's preflight reset. For dashed borders, add `border-dashed` which overrides the style.
-
-### Examples - Correct checkbox styling:
-
-```tsx
-// CORRECT
-disabled
-  ? "bg-checkbox-disabled border-default cursor-not-allowed"
-  : isChecked
-    ? "border-none bg-checkbox-active hover:bg-checkbox-active-hover"
-    : "border-darker bg-checkbox-default hover:border-strong";
-
-// WRONG - Never use these
-disabled
-  ? "bg-[rgba(39,39,42,0.06)] border border-[rgba(39,39,42,0.10)]" // WRONG!
-  : isChecked
-    ? "bg-[#437DFC] hover:bg-[#65A0FD]" // WRONG!
-    : "border border-[rgba(39,39,42,0.15)] bg-white"; // WRONG!
-```
+---
 
 ## Component Patterns
 
 ### No darkMode prop
 
-- Components should NOT have a `darkMode` prop
-- Dark mode is handled automatically via CSS variables and themes
+Dark mode is handled automatically via CSS variables and themes.
 
 ### PortalContainerContext (Floating Components in Dialog)
 
-When floating components (Select, Popover, DatePicker, etc.) are used inside a Dialog, they must portal into the Dialog's content element to maintain correct z-index stacking. This is handled automatically via `PortalContainerContext`.
-
-- **Dialog** provides its content element via `<PortalContainerProvider value={contentEl}>`
-- **Floating components** consume it: `const contextContainer = usePortalContainer()`
-- **Portal usage**: `<Portal container={contextContainer ?? undefined}>`
-- No z-index hacks needed — DOM hierarchy handles stacking
+Floating components (Select, Popover, DatePicker) inside Dialog must portal into Dialog's content element:
 
 ```tsx
 import { PortalContainerProvider, usePortalContainer } from "../../utils/PortalContainerContext";
+// Dialog provides: <PortalContainerProvider value={contentEl}>
+// Floating consumes: const contextContainer = usePortalContainer()
+// Portal: <Portal container={contextContainer ?? undefined}>
 ```
 
 ### Form Component Label Props
 
-All form components (Input, Select, Combobox, VirtualSelect, Textarea, DatePicker, TimePicker) share these label-related props via `InputWrapper`:
+All form components share via `InputWrapper`:
 
 | Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `label` | `ReactNode` | — | 라벨 (문자열 또는 ReactNode, 아이콘 포함 가능) |
-| `labelPosition` | `'top' \| 'left'` | `'top'` | 라벨 위치 (top: 상단, left: 좌측 인라인) |
-| `required` | `boolean` | `false` | 필수 표시 (별표) |
+|------|------|---------|-------------|
+| `label` | `ReactNode` | — | 라벨 |
+| `labelPosition` | `'top' \| 'left'` | `'top'` | 라벨 위치 |
+| `required` | `boolean` | `false` | 필수 표시 |
 | `supportText` | `string` | — | 라벨 옆 보조 텍스트 |
-| `caption` | `string` | — | 입력 필드 아래 설명 텍스트 |
-
-When adding a new form component variant, always destructure `labelPosition` and pass it to `InputWrapper`:
-
-```tsx
-const MyVariant = ({ label, labelPosition, ...rest }) => (
-  <InputWrapper label={label} labelPosition={labelPosition} ...>
-    {/* input content */}
-  </InputWrapper>
-);
-```
+| `caption` | `string` | — | 입력 필드 아래 설명 |
 
 ### Tabs animatedIndicator
 
-`TabsList` supports `animatedIndicator` prop for smooth sliding indicator animation across all variants (segmented, pill, underline). Implementation uses `MutationObserver` on `data-state` attribute changes and `ResizeObserver` for layout updates.
+`TabsList` supports `animatedIndicator` prop — uses `MutationObserver` on `data-state` + `ResizeObserver`.
 
-## AspectRatio Usage
+### AspectRatio Usage
 
-When rendering images or media in components, use the `<AspectRatio>` component instead of hardcoded `aspect-[...]` CSS classes or inline width/height styles.
+Use `<AspectRatio>` instead of `aspect-[...]` CSS. Common ratios: `1` (square), `16/9` (video), `4/3` (photo). Always pair with `object-cover w-full h-full` on `<img>`.
 
-### Import
-
-```tsx
-import { AspectRatio } from "../../aspect-ratio";
-```
-
-### Common Ratios
-
-- `1` — Square (avatars, badge images, thumbnails)
-- `16 / 9` — Video, wide banners
-- `4 / 3` — Photos, card thumbnails
-
-### Pattern
-
-```tsx
-<AspectRatio ratio={1}>
-  <img src={src} alt="" className="object-cover w-full h-full" />
-</AspectRatio>
-```
-
-### Rules
-
-- Always pair with `object-cover w-full h-full` on the `<img>` element
-- Use `<AspectRatio>` instead of `aspect-[16/16]`, `aspect-[4/3]`, or similar Tailwind arbitrary aspect values
-- Only wrap `<img>` / `<video>` / `<iframe>` elements — not icon fallbacks
-- The parent container controls the width; AspectRatio enforces the height proportionally
+---
 
 ## Code Comments (CRITICAL)
 
-### Minimize Comments
+- **Minimize comments** — code should be self-documenting
+- **No English comments** in component code (Korean only if truly needed)
+- Exception: JSDoc for public API
 
-- **Only add comments when absolutely necessary** - when the code logic is not self-explanatory
-- Do NOT add obvious or redundant comments
-- Code should be self-documenting through clear naming
+## Storybook Stories (CRITICAL)
 
-### No English Comments in Code
+**Invoke the `storybook-story` skill for full conventions.** Key rules:
 
-- **Do NOT write comments in English** in component code
-- If a comment is truly necessary, write it in Korean
-- Exception: JSDoc for public API documentation can be in English
+1. Controls: disabled globally at meta level, enabled ONLY on Default story
+2. argTypes: every prop needs Korean description + `table.type.summary`
+3. Three Places Rule: every argType must be in argTypes + args + render
+4. Never spread `args` in render functions — set props explicitly
+5. Use unified component with `variant` prop, not individual variant components
 
-```tsx
-// WRONG - Unnecessary English comments
-// Set the disabled state
-const isDisabled = disabled || loading;
+---
 
-// Handle click event
-const handleClick = () => {
-  onClick?.();
-};
+## Tailwind `--spacing` Override (CRITICAL)
 
-// CORRECT - No comments needed, code is self-explanatory
-const isDisabled = disabled || loading;
+DS sets `--spacing: initial` in `@theme` (`src/index.css`), disabling Tailwind multiplicative spacing. DS provides own utilities (`ds-gap-*`, `padding-*`, etc.) mapping 1:1 to pixels. Consuming projects keep their own `--spacing`.
 
-const handleClick = () => {
-  onClick?.();
-};
+## CSS Layers — Intentionally Unlayered (CRITICAL)
 
-// CORRECT - If comment is truly needed, use Korean
-// 비밀번호 강도 계산 로직이 복잡하므로 주석 추가
-const calculateStrength = (password: string): PasswordStrength => {
-  // ...complex logic
-};
+Built CSS (`dist/index.css`) is unlayered (post-build strips `@layer`). Unlayered CSS beats layered CSS per spec, preventing consumer overrides.
+
+## CSS/Styling Guidelines
+
+Analyze existing styles before proposing changes. Never remove styles unless explicitly requested.
+
+## Planning Workflow (CRITICAL)
+
+1. Write plan → 2. Spawn review agent → 3. Present to user only after review confirms
+
+## Quality Assurance
+
+After implementing fixes, verify related functionality still works.
+
+---
+
+## DS ↔ Consumer Bridge (Automated Cross-Project Workflow)
+
+Bridge는 **양방향** — 어느 쪽이든 요청/응답 가능.
+This DS serves `happytalk-front` at `/Users/ml/Documents/GitHub/MBI/happytalk-front`.
+
+### Bridge Directory
+
+- `~/.claude/ds-bridge/requests/` — 변경 요청
+- `~/.claude/ds-bridge/completed/` — 완료 통지
+- `~/.claude/ds-bridge/consumed/` — 소비 마커
+- `~/.claude/ds-bridge/PROTOCOL.md` — Full protocol
+- `~/.claude/ds-bridge/orchestrator-prompt.md` — Orchestrator prompt
+
+### How to Create Requests (outgoing)
+
+1. Write request to `~/.claude/ds-bridge/requests/YYYY-MM-DD-<title>.md` (set `to: happytalk-front`, `from: blumnai-design-system`)
+2. Continue working — don't block
+3. When completion arrives in `completed/`, apply and write consumed marker
+
+### How to Process Requests (incoming)
+
+1. Read request → 2. Implement → 3. `npm run typecheck && npm run lint` → 4. `npm version patch --no-git-tag-version` → 5. Update CHANGELOG → 6. Commit, push, `source ~/.zshrc 2>/dev/null; npm publish` → 7. Write completion file
+
+### Completion File Format
+
+```markdown
+# Completed: {title}
+- **version**: {version}
+- **request**: {filename}
+
+## What Changed
+(summary)
+
+## New/Changed Props
+| Prop | Component | Type | Default | Description |
+
+## Migration Steps for Consumer
+1. `npm install @blumnai-studio/blumnai-design-system@{version} --legacy-peer-deps`
+2. (code changes)
+
+## Breaking Changes
+(if any, otherwise "None")
 ```
 
-### What NOT to Comment
-
-- Variable declarations with clear names
-- Simple function calls
-- Obvious conditional logic
-- Import statements
-- Standard React patterns (useState, useEffect, etc.)
-
-### When Comments ARE Acceptable
-
-- Complex algorithms that need explanation
-- Non-obvious business logic
-- Workarounds for known issues (with issue reference)
-- JSDoc for exported functions/components (public API)
-
-## Figma REST API Script
-
-Use `scripts/fetch-figma.mjs` to fetch component data from Figma. This is the standard way to get design specs.
-
-### Setup
-
-```bash
-# Get your token from: https://www.figma.com/developers/api#access-tokens
-export FIGMA_ACCESS_TOKEN=your_token_here
-```
-
-### Usage
-
-```bash
-# Fetch single node (outputs JSON to console)
-FIGMA_ACCESS_TOKEN=xxx node scripts/fetch-figma.mjs --node=2846-3118
-
-# Fetch multiple nodes
-FIGMA_ACCESS_TOKEN=xxx node scripts/fetch-figma.mjs --node=2846-3118 --node=2846-3119
-
-# Save to file
-FIGMA_ACCESS_TOKEN=xxx node scripts/fetch-figma.mjs --node=2846-3118 --output=src/components/checkbox/source/figma-data.json
-
-# Get raw Figma data (unprocessed)
-FIGMA_ACCESS_TOKEN=xxx node scripts/fetch-figma.mjs --node=2846-3118 --raw
-
-# Limit child depth
-FIGMA_ACCESS_TOKEN=xxx node scripts/fetch-figma.mjs --node=2846-3118 --depth=2
-```
-
-### Arguments
-
-| Argument          | Description                                                                           |
-| ----------------- | ------------------------------------------------------------------------------------- |
-| `--node=NODE_ID`  | Node ID to fetch (required, can specify multiple). Format: `2846-3118` or `2846:3118` |
-| `--output=PATH`   | Save output to file (default: prints to console)                                      |
-| `--file=FILE_KEY` | Figma file key (default: design system file `hNwky49HL9rYtxWb5smgqZ`)                 |
-| `--raw`           | Output raw Figma data without processing                                              |
-| `--depth=N`       | Limit child traversal depth                                                           |
-
-### Finding Node IDs
-
-1. Open the Figma file in browser
-2. Select the component/frame you want
-3. The node ID is in the URL after `node-id=` (e.g., `node-id=2846-3118`)
-4. Or right-click → "Copy link" and extract the node ID
-
-### Output Structure
-
-The processed output includes:
-
-- `id`, `name`, `type` - Node identification
-- `size` - Width and height in pixels
-- `position` - X/Y position relative to parent
-- `styles` - Visual styles (fills, strokes, effects, cornerRadius, padding, layout, etc.)
-- `textStyle` - For TEXT nodes (fontFamily, fontSize, fontWeight, lineHeight, letterSpacing)
-- `children` - Nested child nodes
+---
 
 ## Reference Files
 
@@ -411,741 +244,3 @@ The processed output includes:
 - Design tokens: `src/tokens/`
 - Figma fetch script: `scripts/fetch-figma.mjs`
 - shadcn bridge CSS: `src/styles/tokens/shadcn-bridge.css`
-- shadcn components: `src/components/ui/`
-- shadcn config: `components.json`
-
-## shadcn/ui Components
-
-### Component Location
-
-- shadcn components: `src/components/ui/`
-- Hooks: `src/hooks/`
-- CSS bridge: `src/styles/tokens/shadcn-bridge.css`
-
-### Adding New Components
-
-```bash
-npx shadcn@latest add [component-name]
-```
-
-### Customizing shadcn Components (CRITICAL)
-
-After adding a shadcn component, you MUST customize it to use design system classes:
-
-#### Typography
-
-| shadcn           | Replace with                    |
-| ---------------- | ------------------------------- |
-| `text-sm`        | `size-sm`                       |
-| `text-lg`        | `size-lg`                       |
-| `leading-none`   | `line-height-leading-3`         |
-| `leading-normal` | `line-height-leading-5`         |
-| `tracking-tight` | `letter-spacing-tracking-tight` |
-
-#### Spacing
-
-| shadcn  | Replace with   |
-| ------- | -------------- |
-| `p-4`   | `padding-16`   |
-| `px-4`  | `padding-x-16` |
-| `py-2`  | `padding-y-8`  |
-| `gap-2` | `ds-gap-8`     |
-| `gap-4` | `ds-gap-16`    |
-| `h-9`   | `height-36`    |
-| `h-10`  | `height-40`    |
-
-#### Add Font Family
-
-Always add `font-body` to text elements in shadcn components.
-
-### shadcn Color Variables
-
-shadcn components use these CSS variables (mapped via bridge):
-
-| shadcn Variable | Maps to Design Token     |
-| --------------- | ------------------------ |
-| `--primary`     | `--bg-state-primary`     |
-| `--secondary`   | `--bg-state-secondary`   |
-| `--destructive` | `--bg-state-destructive` |
-| `--muted`       | `--bg-muted`             |
-| `--accent`      | `--bg-state-soft`        |
-| `--border`      | `--border-default`       |
-| `--ring`        | `--border-highlight`     |
-
-### Example - Customizing shadcn Button
-
-Before (shadcn default):
-
-```tsx
-"h-9 px-4 py-2 text-sm font-medium";
-```
-
-After (design system):
-
-```tsx
-"height-36 padding-x-16 padding-y-8 size-sm font-medium font-body line-height-leading-5";
-```
-
-## Storybook Stories Documentation
-
-All Storybook stories must follow these conventions for proper Docs page generation.
-
-### Story Structure (CRITICAL)
-
-Each component's story file must have:
-
-1. **Docs page** - Auto-generated via `tags: ['autodocs']`
-2. **Default story** - Interactive story with controls ENABLED
-3. **Showcase stories** - All other stories with controls DISABLED
-
-#### Controls Configuration
-
-- **Meta level**: Disable controls globally with `parameters: { controls: { disable: true } }`
-- **Default story**: Enable controls with `parameters: { controls: { disable: false } }`
-- **All other stories**: Inherit disabled controls from meta (showcases only)
-
-```tsx
-const meta: Meta<typeof Component> = {
-  title: "Components/Category/ComponentName",
-  component: Component,
-  tags: ["autodocs"],
-  parameters: {
-    layout: "padded",
-    controls: { disable: true }, // Disable controls globally
-  },
-  argTypes: {
-    /* ... */
-  },
-};
-
-/**
- * 기본 컴포넌트
- *
- * 이 스토리에서 컴포넌트의 모든 props를 테스트할 수 있습니다.
- */
-export const Default: Story = {
-  args: {
-    label: "Label",
-    placeholder: "Placeholder...",
-  },
-  parameters: {
-    controls: { disable: false }, // Enable controls ONLY for Default
-  },
-};
-
-/**
- * 비활성화 상태
- */
-export const Disabled: Story = {
-  args: {
-    label: "Disabled",
-    disabled: true,
-  },
-  // No parameters - inherits controls: { disable: true } from meta
-};
-
-/**
- * 에러 상태
- */
-export const Error: Story = {
-  args: {
-    label: "Error",
-    error: "Error message",
-  },
-  // No parameters - showcase only, no controls
-};
-```
-
-#### Why This Pattern?
-
-- **Default story**: Developers can interactively test all props via Storybook controls
-- **Showcase stories**: Display specific states/variants without cluttering with controls
-- **Docs page**: Shows all stories with the Default being the interactive example
-
-### argTypes Structure (CRITICAL)
-
-Every prop must have:
-
-1. **Korean description** - `description: '한글 설명'`
-2. **Proper type display** - Use `table.type.summary` to avoid "union" label
-
-#### For Union/Enum Types (select control)
-
-```tsx
-size: {
-  control: 'select',
-  options: ['sm', 'md', 'lg'],
-  description: '컴포넌트의 크기',
-  table: {
-    type: {
-      summary: 'ComponentSize',           // Type name shown in table
-      detail: `'sm' | 'md' | 'lg'`,       // Full type on hover
-    },
-  },
-},
-```
-
-#### For Boolean Types
-
-```tsx
-disabled: {
-  control: 'boolean',
-  description: '비활성화 여부',
-  table: {
-    type: { summary: 'boolean' },
-  },
-},
-```
-
-#### For String/Number Types
-
-```tsx
-label: {
-  control: 'text',
-  description: '라벨 텍스트',
-  table: {
-    type: { summary: 'string' },
-  },
-},
-```
-
-#### For Function Types
-
-```tsx
-onClick: {
-  action: 'clicked',
-  description: '클릭 시 호출되는 콜백 함수',
-  table: {
-    type: { summary: '(event: MouseEvent) => void' },
-  },
-},
-```
-
-#### For Complex/Object Types
-
-```tsx
-leadIcon: {
-  control: 'object',
-  description: '앞에 표시되는 아이콘',
-  table: {
-    type: { summary: 'IconType | ReactNode' },
-  },
-},
-```
-
-### Story Documentation
-
-Use JSDoc comments above stories for descriptions in Docs:
-
-```tsx
-/**
- * 기본 컴포넌트
- *
- * Component는 `ref`와 `className` prop을 지원합니다.
- */
-export const Default: Story = {
-  args: { ... },
-  parameters: {
-    controls: { disable: false },  // Enable controls for interactive story
-  },
-};
-```
-
-### Common Korean Descriptions
-
-| English            | Korean                     |
-| ------------------ | -------------------------- |
-| Size               | 크기                       |
-| Style/Variant      | 스타일 변형                |
-| Disabled state     | 비활성화 여부              |
-| Loading state      | 로딩 상태                  |
-| Full width         | 전체 너비 사용 여부        |
-| Label              | 라벨                       |
-| Placeholder        | 플레이스홀더 텍스트        |
-| Error state        | 에러 상태 또는 메시지      |
-| Success state      | 성공 상태 또는 메시지      |
-| Required           | 필수 입력 여부             |
-| Callback on click  | 클릭 시 호출되는 콜백 함수 |
-| Callback on change | 변경 시 호출되는 콜백 함수 |
-| Icon before/lead   | 앞에 표시되는 아이콘       |
-| Icon after/tail    | 뒤에 표시되는 아이콘       |
-
-### Connecting Controls to Default Story (CRITICAL)
-
-**Every prop defined in `argTypes` MUST be connected to the Default story in THREE places:**
-
-1. **In `argTypes`** - Define the control
-2. **In `args`** - Provide default value
-3. **In `render` function** - Pass to component
-
-If any of these are missing, the control will appear in Storybook but won't work.
-
-#### Checklist for Default Story
-
-```tsx
-// 1. Define in argTypes
-argTypes: {
-  selectType: {
-    control: 'select',
-    options: ['default', 'checkbox', 'radio'],
-    description: '선택 표시 타입',
-    table: { type: { summary: 'SelectType' } },
-  },
-  maxSelections: {
-    control: 'number',
-    description: '최대 선택 개수',
-    table: { type: { summary: 'number' } },
-  },
-},
-
-// 2. Add to args with default value
-export const Default: Story = {
-  args: {
-    selectType: 'default',        // ← MUST be here
-    maxSelections: undefined,      // ← MUST be here (use undefined for optional)
-    // ... other args
-  },
-
-  // 3. Pass in render function
-  render: function Render(args) {
-    return (
-      <Component
-        selectType={args.selectType}           // ← MUST be here
-        maxSelections={args.maxSelections}     // ← MUST be here
-        // ... other props
-      />
-    );
-  },
-};
-```
-
-#### Common Mistakes
-
-```tsx
-// WRONG - Control defined but not in args
-argTypes: { selectType: { control: 'select', ... } }
-args: { /* selectType missing! */ }
-
-// WRONG - In args but not passed to component
-args: { selectType: 'default' }
-render: (args) => <Component /* selectType not passed! */ />
-
-// WRONG - Empty string instead of undefined for optional props
-args: { maxSelections: '' }  // Should be: maxSelections: undefined
-```
-
-#### For String Props That Can Be Empty
-
-Use empty string to undefined conversion:
-
-```tsx
-args: {
-  supportText: 'Support text here',
-  error: '',  // Empty = no error
-},
-render: function Render(args) {
-  const supportText = args.supportText || undefined;
-  const error = args.error || undefined;
-  return <Component supportText={supportText} error={error} />;
-},
-```
-
-#### Compound Components (Radix UI Pattern) - CRITICAL
-
-For compound components like Dialog or Popover (based on Radix UI), create a combined type that includes props from both the root and content components. This allows documenting and controlling all props in Storybook.
-
-```tsx
-import type { DialogProps, DialogContentProps } from "./Dialog.types";
-
-// Create combined type for story
-type DialogStoryProps = DialogProps & DialogContentProps;
-
-// Use combined type for Meta
-const meta: Meta<DialogStoryProps> = {
-  component: DialogContent,
-  argTypes: {
-    // Dialog (Root) props
-    modal: {
-      control: "boolean",
-      description: "[Dialog] 모달 모드",
-      table: {
-        type: { summary: "boolean" },
-        category: "Dialog", // Group by component
-      },
-    },
-    defaultOpen: {
-      control: "boolean",
-      description: "[Dialog] 초기 열림 상태",
-      table: { category: "Dialog" },
-    },
-    // DialogContent props
-    hideCloseButton: {
-      control: "boolean",
-      description: "[DialogContent] 닫기 버튼 숨김",
-      table: { category: "DialogContent" },
-    },
-  },
-};
-
-// Use combined type for Story
-type Story = StoryObj<DialogStoryProps>;
-
-export const Default: Story = {
-  args: {
-    modal: true, // Root prop
-    hideCloseButton: false, // Content prop
-  },
-  render: function Render(args) {
-    const [open, setOpen] = useState(false);
-
-    return (
-      <Dialog open={open} onOpenChange={setOpen} modal={args.modal}>
-        <Button onClick={() => setOpen(true)}>Open</Button>
-        <DialogContent hideCloseButton={args.hideCloseButton}>
-          {/* content */}
-        </DialogContent>
-      </Dialog>
-    );
-  },
-};
-```
-
-**Key points:**
-
-- Create combined type: `type DialogStoryProps = DialogProps & DialogContentProps`
-- Use combined type for both `Meta<DialogStoryProps>` and `StoryObj<DialogStoryProps>`
-- Use `table: { category: 'ComponentName' }` to group props by component in Storybook UI
-- Prefix descriptions with `[ComponentName]` for clarity
-- Pass root props to root component, content props to content component in render
-
-#### Radix asChild Prop Conflict with Custom Components - CRITICAL
-
-Radix UI's `asChild` prop clones the child element and merges props. This causes conflicts with components that have custom props with common names like `style`.
-
-**Problem:** Our `Button` component has a custom `style` prop (for variants like "primary", "secondary"). When using `asChild`, Radix tries to pass its own `style` prop, causing conflicts.
-
-**Solution for Dialog:** Use controlled state without `DialogTrigger`:
-
-```tsx
-// Dialog doesn't need a trigger for positioning - it's centered on screen
-<Dialog open={open} onOpenChange={setOpen}>
-  <Button style="secondary" onClick={() => setOpen(true)}>
-    Open
-  </Button>
-  <DialogContent>...</DialogContent>
-</Dialog>
-```
-
-**Solution for Popover:** Popover NEEDS a trigger for positioning. Wrap Button in a span:
-
-```tsx
-// Popover needs PopoverTrigger for positioning
-<Popover open={open} onOpenChange={setOpen}>
-  <PopoverTrigger asChild>
-    <span>
-      <Button style="secondary" onClick={() => setOpen(true)}>
-        Open
-      </Button>
-    </span>
-  </PopoverTrigger>
-  <PopoverContent>...</PopoverContent>
-</Popover>
-```
-
-**Why span wrapper works:**
-
-- `asChild` passes props to the span (no conflicts)
-- Button keeps its custom `style` prop intact
-- PopoverTrigger still gets positioning reference from span
-
-#### For Variant-Specific Props (Discriminated Unions)
-
-When a component uses discriminated union types (e.g., `SelectProps = DefaultSelectProps | MultiSelectProps | ...`), variant-specific props need the `in` type guard to avoid TypeScript errors:
-
-```tsx
-// WRONG - TypeScript error: Property 'selectType' does not exist on type 'SelectProps'
-render: function Render(args) {
-  return <Select selectType={args.selectType} />;  // Error!
-},
-
-// CORRECT - Use 'in' type guard for variant-specific props
-render: function Render(args) {
-  const selectType = 'selectType' in args ? args.selectType : undefined;
-  const maxSelections = 'maxSelections' in args ? args.maxSelections : undefined;
-  const selectedText = 'selectedText' in args ? (args.selectedText || undefined) : undefined;
-
-  return (
-    <Select
-      variant="default"
-      selectType={selectType}
-      maxSelections={maxSelections}
-      selectedText={selectedText}
-    />
-  );
-},
-```
-
-**Common variant-specific props:**
-
-- `SelectProps`: `selectType` (default), `maxSelections`/`selectedText` (multi-select), `maxVisibleTags`/`overflowText` (tags)
-- `InputProps`: `showStrength`/`showToggle` (password), `prefix`/`suffix` (default)
-
-### "Show Code" Best Practices (CRITICAL)
-
-The code shown in Storybook's "Show code" must match exactly how users would write it.
-
-#### Use Unified Components with `variant` Prop (CRITICAL)
-
-For components with multiple variants (like Input), always use the unified component with the `variant` prop.
-**NEVER** use the individual variant components directly in stories.
-
-```tsx
-// CORRECT - Use unified component with variant prop
-import { Input } from "../Input";
-
-export const PasswordExample: Story = {
-  args: {
-    variant: "password",
-    label: "Password",
-    showStrength: true,
-  },
-};
-
-// WRONG - Don't use individual variant components
-import { PasswordInput } from "./PasswordInput";
-
-export const PasswordExample: Story = {
-  args: {
-    label: "Password",
-    showStrength: true,
-  },
-};
-```
-
-This ensures "Show code" displays:
-
-```tsx
-// What developers will see and copy
-<Input variant="password" label="Password" showStrength />
-
-// NOT this (internal component)
-<PasswordInput label="Password" showStrength />
-```
-
-#### Never Spread `args` in Render Functions (CRITICAL)
-
-When using `render` functions with stateful components, **do NOT spread `args`**.
-Set all props explicitly to maintain TypeScript type safety and clean "Show code" output.
-
-```tsx
-// CORRECT - Set props explicitly
-export const WithClearButton: Story = {
-  render: function Render() {
-    const [value, setValue] = useState("Hello World");
-    return (
-      <Input
-        variant="default"
-        label="With Clear Button"
-        placeholder="Type something..."
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onClear={() => setValue("")}
-      />
-    );
-  },
-};
-
-// WRONG - Spreading args loses TypeScript narrowing
-export const WithClearButton: Story = {
-  render: function Render(args) {
-    const [value, setValue] = useState("Hello World");
-    return (
-      <Input
-        {...args} // DON'T DO THIS - loses type safety
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onClear={() => setValue("")}
-      />
-    );
-  },
-  args: {
-    variant: "default",
-    label: "With Clear Button",
-  },
-};
-```
-
-**Why this matters:**
-
-1. Spreading `args` breaks TypeScript's discriminated union narrowing
-2. The `variant` prop determines which other props are valid
-3. TypeScript can't narrow the type when `args` is spread
-4. "Show code" displays cleaner, more realistic code
-
-#### Use `render` with Direct Component Usage
-
-```tsx
-// CORRECT - Shows clean, realistic code
-export const WithIcons: Story = {
-  render: () => (
-    <div className="flex ds-gap-12">
-      <Button leadIcon={["system", "add"]}>Add</Button>
-      <Button tailIcon={["system", "check"]}>Confirm</Button>
-    </div>
-  ),
-};
-```
-
-#### For Stateful Components
-
-When component needs state (like controlled inputs), use minimal wrapper:
-
-```tsx
-// CORRECT - Shows realistic controlled usage
-export const Controlled: Story = {
-  render: function Render() {
-    const [value, setValue] = useState("");
-    return (
-      <Input
-        variant="default"
-        label="Email"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-    );
-  },
-};
-```
-
-#### Avoid Internal Helpers in Render
-
-```tsx
-// WRONG - Shows confusing internal code
-export const Example: Story = {
-  render: () => {
-    const helper = useInternalHelper(); // Don't expose internals
-    return <Button {...helper.props}>Click</Button>;
-  },
-};
-```
-
-#### Group Related Examples
-
-```tsx
-// CORRECT - Shows multiple variants together
-export const AllSizes: Story = {
-  render: () => (
-    <div className="flex ds-gap-12 items-center">
-      <Button size="sm">Small</Button>
-      <Button size="md">Medium</Button>
-      <Button size="lg">Large</Button>
-    </div>
-  ),
-};
-```
-
-## Tailwind `--spacing` Override (CRITICAL)
-
-The design system sets `--spacing: initial` in its `@theme` block (`src/index.css`). This prevents Tailwind v4 from generating multiplicative spacing utilities (`gap-*`, `p-*`, `m-*`, `w-*`, `h-*`, `space-*`) in the built CSS.
-
-**Why:** Tailwind's default `--spacing: 0.25rem` means `gap-8 = 32px`, but the DS uses `gap-8 = 8px` (1px-per-unit). Setting `--spacing: initial` removes all TW-generated spacing classes from the output. The DS provides its own utilities (`ds-gap-*`, `padding-*`, `margin-*`, `width-*`, `height-*`) that map directly to pixel-based spacing tokens.
-
-**For consuming projects:** Your project's Tailwind keeps its own `--spacing` value. The DS's `--spacing: initial` only affects the DS build output. Standard TW classes like `p-4`, `mt-2`, `gap-8` work normally in consuming projects — they just won't collide with DS utilities anymore.
-
-## CSS Layers — Intentionally Unlayered (CRITICAL)
-
-The design system's built CSS (`dist/index.css`) is **intentionally unlayered**. A post-build script (`scripts/strip-css-layers.mjs`) removes all `@layer` wrappers emitted by Tailwind v4.
-
-### Why
-
-Per the CSS spec, **unlayered CSS always beats layered CSS** regardless of specificity or source order. If the design system shipped its utilities inside `@layer`, any consuming project with broad unlayered rules (e.g., `button { cursor: pointer }`) would override design system classes like `.cursor-wait`.
-
-### For consuming projects
-
-- Avoid broad element selectors (`button {}`, `svg {}`, `a {}`) that compete with utility classes. Scope them with a class or use `@layer` in your own CSS.
-- If your project uses `@layer`, the design system's unlayered CSS will automatically have higher priority — no extra configuration needed.
-- If you must use element selectors globally, place them inside a `@layer base { ... }` block so the design system utilities take precedence.
-
-## CSS/Styling Guidelines
-
-When fixing CSS or styling issues, always analyze the existing styles and their interactions before proposing changes. Never remove styles (like `border-bottom`) unless explicitly requested — existing styles may be intentional and removing them can break dependent visual behavior.
-
-## Planning Workflow (CRITICAL)
-
-When entering plan mode or creating an implementation plan:
-
-1. **Write the plan** — Design the implementation approach with clear steps
-2. **Review before presenting** — After finishing the plan, spawn a separate agent to review the plan one more time for correctness, completeness, and adherence to design system rules
-3. **Only then present to user** — Do NOT tell the user the plan is ready until the review agent has confirmed it
-
-This ensures plans are double-checked before the user sees them.
-
-## Quality Assurance
-
-After implementing fixes, verify that related functionality still works. For component changes, check that dependent features (like tooltips, hover states, and focus rings) are not affected by the change.
-
-## DS ↔ Consumer Bridge (Automated Cross-Project Workflow)
-
-Bridge는 **양방향**입니다 — 어느 쪽이든 요청을 만들고 응답을 받을 수 있습니다.
-This DS serves `happytalk-front` at `/Users/ml/Documents/GitHub/MBI/happytalk-front`.
-
-### Bridge Directory
-
-- `~/.claude/ds-bridge/requests/` — 변경 요청 (어느 쪽이든 작성 가능)
-- `~/.claude/ds-bridge/completed/` — 완료 통지 (구현한 쪽이 작성)
-- `~/.claude/ds-bridge/consumed/` — 소비 마커 (요청자가 적용 후 작성, cleanup 트리거)
-- `~/.claude/ds-bridge/PROTOCOL.md` — Full protocol documentation
-- `~/.claude/ds-bridge/orchestrator-prompt.md` — Orchestrator prompt for coordinated sessions
-
-### How to Create Requests (outgoing)
-
-When this project needs a change in the other project:
-
-1. Write a request file to `~/.claude/ds-bridge/requests/YYYY-MM-DD-<short-title>.md`
-   - Set `to: happytalk-front` and `from: blumnai-design-system`
-2. Continue working on other tasks — do NOT block waiting
-3. The watcher will notify the other project
-4. When a completion arrives in `~/.claude/ds-bridge/completed/`, apply it and write a consumed marker to `~/.claude/ds-bridge/consumed/` with the same filename
-
-### How to Process Requests (incoming)
-
-When a request file exists in `~/.claude/ds-bridge/requests/` addressed to this project, without a matching completion:
-
-1. Read the request file
-2. Implement the requested changes following all DS conventions
-3. Run `npm run typecheck && npm run lint`
-4. Bump version: `npm version patch --no-git-tag-version`
-5. Update `CHANGELOG.md`
-6. Commit, push, then publish: `source ~/.zshrc 2>/dev/null; npm publish`
-7. Write a completion file to `~/.claude/ds-bridge/completed/` with:
-   - Version number
-   - What changed (new props, components, fixes)
-   - Migration steps for the consumer
-   - Any breaking changes
-
-### Completion File Format
-
-```markdown
-# Completed: {brief title}
-
-- **version**: {version}
-- **request**: {original request filename}
-
-## What Changed
-
-(summary)
-
-## New/Changed Props
-
-| Prop | Component | Type | Default | Description |
-| ---- | --------- | ---- | ------- | ----------- |
-
-## Migration Steps for Consumer
-
-1. `npm install @blumnai-studio/blumnai-design-system@{version} --legacy-peer-deps`
-2. (specific code changes needed)
-
-## Breaking Changes
-
-(if any, otherwise "None")
-```

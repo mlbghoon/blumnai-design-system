@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.1.13] - 2026-04-04
+
+### Added
+
+- **UX 가이드라인 훅 (`ux-guide-inject.sh`)**: 컴포넌트 소스 파일(`.tsx`, `.css`, `.scss`) 편집 시 매번 UX 체크리스트 자동 주입. `hook-checklist.txt`에서 동적으로 규칙 로드.
+- **스킬 제안 훅 (`skill-suggest.sh`)**: 사용자 프롬프트 키워드 감지하여 관련 스킬 자동 제안 (8개 스킬 매핑).
+- **완료 검증 훅 (`completion-check.sh`)**: 컴포넌트 완료 선언 시 typecheck/lint 미실행이면 차단.
+- **UX 가이드라인 스킬 (`ux-guidelines`)**: `ux-guideline/foundations/` 9개 문서의 인덱스 + 빠른 결정 테이블.
+- **`hook-checklist.txt`**: 훅이 매번 읽는 UX 규칙 체크리스트. 가이드라인 변경 시 이 파일만 수정.
+
+### Changed
+
+- **AI.md 대폭 축소** (3,768줄 → ~640줄, 83% 감소): Props 테이블 제거 (agents가 `.types.ts` 직접 읽음), Quick Reference Table 15개 항목 추가, 잘못된 import 경로 3곳 수정 (Form/CellAvatar/CellBadge).
+- **CLAUDE.md 축소** (1,151줄 → ~248줄, 78% 감소): 스토리북 상세 규칙 → 스킬로 이동, shadcn 불필요 참조 삭제.
+- **`font-bold` 금지로 통일**: UX 가이드라인 따름 — `font-normal`(400), `font-medium`(500), `font-semibold`(600)만 허용.
+- **`design-system-rules` 스킬 중복 제거**: CLAUDE.md와 겹치던 typography/spacing/colors 섹션 삭제 (139줄 → ~50줄). shadcn 교체 테이블만 유지.
+- **`storybook-story` 스킬 강화**: CLAUDE.md에 있던 전체 스토리 규칙 병합 (Single Source of Truth).
+
+### Removed
+
+- **`AGENTS.md`**: CLAUDE.md와 동일한 복사본, 삭제.
+- **`.claude/skills/story/`**: `storybook-story/`와 중복 스킬, 삭제.
+
 ## [1.1.12] - 2026-04-03
 
 ### Added

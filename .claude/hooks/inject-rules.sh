@@ -6,6 +6,9 @@ if [ -z "${CLAUDE_PROJECT_DIR:-}" ]; then
   exit 1
 fi
 
+# Clean up stale session flag files (older than 24h)
+find /tmp -maxdepth 1 \( -name '.ux-injected-*' -o -name '.verify-reminded-*' \) -mtime +1 -delete 2>/dev/null
+
 TASK_FILE="$CLAUDE_PROJECT_DIR/.claude/active-task"
 
 # Inject autonomy rules
