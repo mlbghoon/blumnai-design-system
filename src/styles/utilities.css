@@ -1554,29 +1554,29 @@ table[data-striped] tbody tr:nth-child(even) {
    Shadow Utilities (using @utility for variant support)
    ============================================ */
 @utility shadow-card {
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05), inset 0px -1px 0px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-card);
 }
 
 @utility shadow-modal-sm {
-  box-shadow: 0px 1px 1px -0.5px rgba(0, 0, 0, 0.04), 0px 3px 3px -1.5px rgba(0, 0, 0, 0.04), 0px 6px 6px -3px rgba(0, 0, 0, 0.04), 0px 12px 12px -6px rgba(0, 0, 0, 0.04), 0px 0px 0px 1px var(--border-default);
+  box-shadow: var(--shadow-modal-sm);
 }
 
 @utility shadow-modal-md {
-  box-shadow: 0px 0px 0px 1px var(--border-default), 0px 12px 12px 0px rgba(0, 0, 0, 0.04), 0px 6px 6px 0px rgba(0, 0, 0, 0.04), 0px 3px 3px 0px rgba(0, 0, 0, 0.04), 0px 1px 1px -0.5px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-modal-md);
 }
 
 @utility shadow-modal-lg {
-  box-shadow: 0px 0px 0px 1px var(--border-default), 0px 16px 16px 0px rgba(0, 0, 0, 0.04), 0px 12px 12px 0px rgba(0, 0, 0, 0.04), 0px 6px 6px 0px rgba(0, 0, 0, 0.04), 0px 3px 3px 0px rgba(0, 0, 0, 0.04), 0px 1px 1px -0.5px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-modal-lg);
 }
 
 @utility shadow-component-default {
-  box-shadow: 0px 1px 2px 0px var(--bg-basic-gray-alpha-4), inset 0px -1px 0px 0px var(--bg-basic-gray-alpha-10);
+  box-shadow: var(--shadow-component-default);
 }
 
 @utility shadow-components-default {
   position: relative;
   border: 1px solid rgba(39, 39, 42, 0.20);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-components-default);
 
   &::after {
     content: '';
@@ -1592,23 +1592,23 @@ table[data-striped] tbody tr:nth-child(even) {
 }
 
 @utility shadow-component-focus {
-  box-shadow: 0 -1px 0 0 var(--bg-basic-gray-alpha-10) inset, 0 1px 2px 0 var(--bg-basic-gray-alpha-4), 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight);
+  box-shadow: var(--shadow-component-focus);
 }
 
 @utility shadow-component-misc-focus {
-  box-shadow: 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight);
+  box-shadow: var(--shadow-component-misc-focus);
 }
 
 @utility shadow-component-destructive-focus {
-  box-shadow: 0 -1px 0 0 var(--bg-basic-gray-alpha-10) inset, 0 1px 2px 0 var(--bg-basic-gray-alpha-4), 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight-destructive);
+  box-shadow: var(--shadow-component-destructive-focus);
 }
 
 @utility shadow-component-input-focus {
-  box-shadow: 0px 0px 0px 3px var(--border-default), inset 0px 0px 0px 1px var(--border-input-highlight);
+  box-shadow: var(--shadow-component-input-focus);
 }
 
 @utility shadow-component-input-focus-error {
-  box-shadow: 0px 0px 0px 3px var(--border-highlight-destructive), inset 0px 0px 0px 1px var(--border-destructive);
+  box-shadow: var(--shadow-component-input-focus-error);
 }
 
 /* ============================================

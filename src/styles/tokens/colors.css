@@ -176,6 +176,18 @@
   --bg-badge-rose: #f16e811a;
   --border-badge-default: #27272a1a;
 
+  /* Badge Text Colors */
+  --text-badge-red: #b11e1b;
+  --text-badge-orange: #a73b0c;
+  --text-badge-lime: #557c18;
+  --text-badge-green: #33803f;
+  --text-badge-cyan: #297392;
+  --text-badge-blue: #2147dd;
+  --text-badge-violet: #6717de;
+  --text-badge-fuchsia: #9a15b1;
+  --text-badge-pink: #b61a5c;
+  --text-badge-neutral: #4e4e55;
+
   /* Background Basic Colors - Light Mode */
   /* Gray */
   --bg-basic-gray-subtle: #f4f4f5;
@@ -463,6 +475,18 @@
   --bg-badge-pink: #ea6eb31a;
   --bg-badge-rose: #f16e811a;
   --border-badge-default: #ffffff1a;
+
+  /* Badge Text Colors */
+  --text-badge-red: #ed6664;
+  --text-badge-orange: #f38f36;
+  --text-badge-lime: #abe435;
+  --text-badge-green: #66dc7e;
+  --text-badge-cyan: #4ad0ef;
+  --text-badge-blue: #65a0fd;
+  --text-badge-violet: #a185fd;
+  --text-badge-fuchsia: #dd72fa;
+  --text-badge-pink: #ea6eb3;
+  --text-badge-neutral: #ffffffb2;
 
   /* Background Basic Colors - Dark Mode */
   /* Gray */
@@ -752,6 +776,18 @@
   --bg-badge-rose: #f16e811a;
   --border-badge-default: #27272a1a;
 
+  /* Badge Text Colors */
+  --text-badge-red: #b11e1b;
+  --text-badge-orange: #a73b0c;
+  --text-badge-lime: #557c18;
+  --text-badge-green: #33803f;
+  --text-badge-cyan: #297392;
+  --text-badge-blue: #2147dd;
+  --text-badge-violet: #6717de;
+  --text-badge-fuchsia: #9a15b1;
+  --text-badge-pink: #b61a5c;
+  --text-badge-neutral: #6f6f77;
+
   /* Background Basic Colors - Theme-B Light */
   /* Gray */
   --bg-basic-gray-subtle: #f4f4f5;
@@ -1039,6 +1075,18 @@
   --bg-badge-pink: #ea6eb31a;
   --bg-badge-rose: #f16e811a;
   --border-badge-default: #ffffff1a;
+
+  /* Badge Text Colors */
+  --text-badge-red: #ed6664;
+  --text-badge-orange: #f38f36;
+  --text-badge-lime: #abe435;
+  --text-badge-green: #66dc7e;
+  --text-badge-cyan: #4ad0ef;
+  --text-badge-blue: #65a0fd;
+  --text-badge-violet: #a185fd;
+  --text-badge-fuchsia: #dd72fa;
+  --text-badge-pink: #ea6eb3;
+  --text-badge-neutral: #ffffffb2;
 
   /* Background Basic Colors - Theme-B Dark */
   /* Gray */

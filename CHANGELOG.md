@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.17] - 2026-04-06
+
+### Added
+
+- **Shadow CSS variables**: `--shadow-card`, `--shadow-modal-sm/md/lg`, `--shadow-component-default`, `--shadow-components-default`, `--shadow-component-focus`, `--shadow-component-misc-focus`, `--shadow-component-destructive-focus`, `--shadow-component-input-focus`, `--shadow-component-input-focus-error` — CSS-in-JS (Emotion) 소비자가 직접 사용 가능
+- **Badge text color variables**: `--text-badge-red/orange/lime/green/cyan/blue/violet/fuchsia/pink/neutral` — 4개 테마 모두 정의
+- **`src/styles/tokens/shadow.css`**: 새 토큰 파일
+
+### Changed
+
+- Shadow `@utility` 클래스들이 이제 `var(--shadow-*)` 참조 (기존 하드코딩 값 대신). 기능 변경 없음
+
 ## [1.1.16] - 2026-04-06
 
 ### Added
