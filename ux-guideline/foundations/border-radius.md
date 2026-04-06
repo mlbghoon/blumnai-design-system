@@ -43,21 +43,46 @@ DS는 alpha 기반 보더 변수를 제공한다. 라이트/다크 테마 자동
 ❌ border-gray-300, border-gray-100 → DS 강도 변수 (darker, strong) 사용
 ```
 
-## 2. 버튼 Shape 규칙
+## 2. Shape 규칙: rounded vs pill
 
-**모든 버튼은 `rounded` (DS 기본값)를 사용한다.** `pill`은 의도적 케이스에만 허용.
+### 판단 기준
 
-| DS 컴포넌트 | shape 옵션 | 기본값 | 규칙 |
-|-------------|-----------|--------|------|
-| `Button` | `'rounded'` \| `'pill'` | `'rounded'` | **rounded 사용** (pill 금지, 의도적 예외만 허용) |
-| `ControlButton` | `'rounded'` \| `'circle'` | `'rounded'` | **rounded 사용** |
-| `Badge` | `'rounded'` \| `'pill'` | `'rounded'` | **rounded 사용** |
-| `TabsList` | `'rounded'` \| `'pill'` | — | 컨텍스트에 따라 선택 |
+**기본은 `rounded`**. 대부분의 UI 요소(버튼, 입력, 탭 등)는 `rounded`를 사용한다.
+
+**`pill`은 태그를 감싸는 디자인에만 사용한다.** 짧은 텍스트 라벨을 알약형으로 감싸서 독립된 단위로 보여주는 경우가 pill의 유일한 용도이다.
+
+| 요소 성격              | shape       | 이유                                      |
+|------------------------|-------------|-------------------------------------------|
+| 액션 버튼, 폼 요소     | **rounded** | UI 프레임의 일부 — 페이지 톤과 통일       |
+| 탭, 네비게이션         | **rounded** | 구조적 요소 — 각진 형태가 자연스러움      |
+| 태그, 라벨, 상태 뱃지  | **pill**    | 독립된 텍스트 단위 — 알약형이 구분감 제공 |
+| 필터 칩 (선택/해제)    | **pill**    | 태그와 동일한 성격 — 개별 항목 강조       |
 
 ```
-✅ <Button shape="rounded">      → 기본값, shape prop 생략 가능
-❌ <Button shape="pill">          → 의도적 예외가 아니면 금지
-✅ <ControlButton shape="rounded"> → 기본값, shape prop 생략 가능
+pill을 쓸지 판단하는 질문:
+"이 요소가 짧은 텍스트를 태그처럼 감싸는 디자인인가?"
+→ Yes → pill
+→ No  → rounded
+```
+
+### 컴포넌트별 적용
+
+| DS 컴포넌트    | shape 옵션                   | 기본값      | 규칙                              |
+|----------------|------------------------------|-------------|-----------------------------------|
+| `Button`       | `'rounded'` \| `'pill'`     | `'rounded'` | **rounded 사용** — pill 금지      |
+| `ControlButton`| `'rounded'` \| `'circle'`   | `'rounded'` | **rounded 사용**                  |
+| `Badge`        | `'rounded'` \| `'pill'`     | `'rounded'` | 태그 용도면 **pill**, 그 외 rounded |
+| `Chip`         | `'rounded'` \| `'pill'`     | `'rounded'` | 태그/필터 용도면 **pill**         |
+| `FilterButton` | `'rounded'` \| `'pill'`     | `'rounded'` | 태그형 필터면 **pill**            |
+| `TabsList`     | `'rounded'` \| `'pill'`     | —           | **rounded 사용** — pill 금지      |
+
+```
+✅ <Button shape="rounded">              → 기본값, shape prop 생략 가능
+❌ <Button shape="pill">                  → 버튼에 pill 금지
+✅ <Badge shape="pill">New</Badge>        → 태그형 라벨 — pill 적합
+✅ <Chip shape="pill">React</Chip>        → 태그 — pill 적합
+✅ <Chip shape="rounded">React</Chip>     → 태그가 아닌 선택 UI — rounded
+❌ <TabsList shape="pill">                → 탭에 pill 금지
 ```
 
 ## 3. 라운딩 규칙
