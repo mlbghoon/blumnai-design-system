@@ -37,9 +37,23 @@ export type DividerStyle = 'default' | 'dashed';
 export type DividerOrientation = 'horizontal' | 'vertical';
 
 /**
+ * Divider 간격
+ * - sm: 8px — 컴포넌트 내부 요소 간 구분
+ * - md: 12px — 그룹 간 구분
+ * - lg: 16px — 영역/섹션 간 구분 (기본값)
+ * - xl: 24px — 대섹션 구분
+ */
+export type DividerSpacing = 'sm' | 'md' | 'lg' | 'xl';
+
+/**
  * Divider 컴포넌트 Props
  */
 export interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+  /**
+   * 디바이더 간격
+   * @default 'lg'
+   */
+  spacing?: DividerSpacing;
   /**
    * 디바이더 타입
    * @default 'default'

@@ -17,6 +17,8 @@ import {
   CONTAINER_VERTICAL,
   CONTAINER_WITH_CONTENT,
   CONTAINER_VERTICAL_WITH_CONTENT,
+  SPACING_HORIZONTAL,
+  SPACING_VERTICAL,
 } from 'constants/divider/Divider/Divider.constants';
 import type { DividerProps } from './Divider.types';
 
@@ -35,6 +37,7 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
     {
       type = 'default',
       orientation = 'horizontal',
+      spacing = 'lg',
       lineStyle = 'default',
       label,
       icon,
@@ -51,6 +54,7 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
   ) => {
     const isDashed = lineStyle === 'dashed';
     const isVertical = orientation === 'vertical';
+    const spacingClass = isVertical ? SPACING_VERTICAL[spacing] : SPACING_HORIZONTAL[spacing];
 
     const lineClassName = cn(
       isVertical ? LINE_VERTICAL : LINE_BASE,
@@ -108,7 +112,7 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
           ref={ref}
           role="separator"
           aria-orientation={orientation}
-          className={cn(isVertical ? CONTAINER_VERTICAL : CONTAINER_BASE, className)}
+          className={cn(isVertical ? CONTAINER_VERTICAL : CONTAINER_BASE, spacingClass, className)}
           {...props}
         >
           <div className={lineClassName} />
@@ -121,7 +125,7 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
         ref={ref}
         role={hasInteractiveContent ? 'presentation' : 'separator'}
         aria-orientation={hasInteractiveContent ? undefined : orientation}
-        className={cn(isVertical ? CONTAINER_VERTICAL_WITH_CONTENT : CONTAINER_WITH_CONTENT, className)}
+        className={cn(isVertical ? CONTAINER_VERTICAL_WITH_CONTENT : CONTAINER_WITH_CONTENT, spacingClass, className)}
         {...props}
       >
         {position === 'left' && (
