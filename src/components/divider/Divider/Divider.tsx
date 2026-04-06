@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { forwardRef } from 'react';
 
 import { cn } from '../../../utils/cn';
@@ -17,6 +18,8 @@ import {
   CONTAINER_VERTICAL,
   CONTAINER_WITH_CONTENT,
   CONTAINER_VERTICAL_WITH_CONTENT,
+  SPACING_HORIZONTAL,
+  SPACING_VERTICAL,
 } from 'constants/divider/Divider/Divider.constants';
 import type { DividerProps } from './Divider.types';
 
@@ -36,6 +39,8 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
       type = 'default',
       orientation = 'horizontal',
       lineStyle = 'default',
+      spacing = 'lg',
+      spacingOverride,
       label,
       icon,
       buttonLabel,
@@ -45,6 +50,7 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
       onButtonClick,
       children,
       className,
+      style,
       ...props
     },
     ref
@@ -61,6 +67,23 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
       CONTENT_BASE,
       CONTENT_TEXT
     );
+
+    const hasOverride = spacingOverride !== undefined;
+    const spacingClass = hasOverride
+      ? undefined
+      : isVertical
+        ? SPACING_VERTICAL[spacing]
+        : SPACING_HORIZONTAL[spacing];
+
+    const spacingStyle: CSSProperties | undefined = hasOverride
+      ? isVertical
+        ? { paddingInline: `${spacingOverride}px` }
+        : { paddingBlock: `${spacingOverride}px` }
+      : undefined;
+
+    const mergedStyle = spacingStyle
+      ? { ...spacingStyle, ...style }
+      : style;
 
     const renderContent = () => {
       if (children) {
@@ -108,7 +131,8 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
           ref={ref}
           role="separator"
           aria-orientation={orientation}
-          className={cn(isVertical ? CONTAINER_VERTICAL : CONTAINER_BASE, className)}
+          className={cn(isVertical ? CONTAINER_VERTICAL : CONTAINER_BASE, spacingClass, className)}
+          style={mergedStyle}
           {...props}
         >
           <div className={lineClassName} />
@@ -121,7 +145,8 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
         ref={ref}
         role={hasInteractiveContent ? 'presentation' : 'separator'}
         aria-orientation={hasInteractiveContent ? undefined : orientation}
-        className={cn(isVertical ? CONTAINER_VERTICAL_WITH_CONTENT : CONTAINER_WITH_CONTENT, className)}
+        className={cn(isVertical ? CONTAINER_VERTICAL_WITH_CONTENT : CONTAINER_WITH_CONTENT, spacingClass, className)}
+        style={mergedStyle}
         {...props}
       >
         {position === 'left' && (

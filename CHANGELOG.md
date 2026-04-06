@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.1.15] - 2026-04-06
+
+### Added
+
+- **Divider `spacing` prop**: 구분선 주변 여백 크기를 `sm`(8px), `md`(12px), `lg`(16px), `xl`(24px)로 선택 가능 (`@default 'lg'`)
+- **Divider `spacingOverride` prop**: px 단위로 여백 직접 지정. 설정 시 `spacing` 값 무시
+- **`DividerSpacing` 타입** re-export
+- **`padding-x-24` 유틸리티 클래스** 추가
+
+### Changed
+
+- **Divider 기본 여백 변경 (Breaking)**: 24px → 16px. 기존 24px 유지하려면 `spacing="xl"` 사용
+
+### Stories
+
+- Default 스토리에 `spacing`/`spacingOverride` 컨트롤 추가
+- `Spacing`, `SpacingWithContent`, `SpacingOverride` 스토리 3개 추가
+
 ## [1.1.14] - 2026-04-04
 
 ### Fixed

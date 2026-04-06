@@ -37,6 +37,15 @@ export type DividerStyle = 'default' | 'dashed';
 export type DividerOrientation = 'horizontal' | 'vertical';
 
 /**
+ * Divider 여백 크기
+ * - sm: 8px
+ * - md: 12px
+ * - lg: 16px (기본값)
+ * - xl: 24px
+ */
+export type DividerSpacing = 'sm' | 'md' | 'lg' | 'xl';
+
+/**
  * Divider 컴포넌트 Props
  */
 export interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
@@ -90,6 +99,15 @@ export interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chil
    * 버튼 클릭 핸들러 (button-* 타입에서 사용)
    */
   onButtonClick?: () => void;
+  /**
+   * 구분선 주변 여백 크기
+   * @default 'lg'
+   */
+  spacing?: DividerSpacing;
+  /**
+   * 여백을 px 단위로 직접 지정. 설정 시 spacing 값은 무시됩니다
+   */
+  spacingOverride?: number;
   /**
    * 커스텀 콘텐츠 (label, icon, button 대신 사용)
    */

@@ -89,7 +89,7 @@ cn("text-sm leading-5 tracking-normal", "font-medium", "text-gray-700")
 | Gap | `ds-gap-{0,1,2,4,6,8,10,12,16,20,24,32}` | `gap-4`, `gap-8`, `gap-[6px]` |
 | Margin | `margin-0`, `margin-x-*`, `margin-y-*`, `margin-t-*`, `margin-r-*`, `margin-l-*` | `mt-4`, `mx-2` |
 
-Available padding-x: 0,1,2,4,6,8,10,12,14,16. Available padding-y: 0,1,2,4,6,8,10,12,16.
+Available padding-x: 0,1,2,4,6,8,10,12,14,16,24. Available padding-y: 0,1,2,4,6,8,10,12,16.
 Available padding-t: 4,16. Available padding-b: 4,16.
 
 ### Border Radius
