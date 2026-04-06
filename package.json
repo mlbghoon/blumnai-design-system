@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.1.14",
+  "version": "1.1.15",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -617,7 +617,8 @@
     "AI.md",
     "ICONS.md",
     "README.md",
-    "skills"
+    "skills",
+    "ux-guideline"
   ],
   "agents": {
     "skills": [
