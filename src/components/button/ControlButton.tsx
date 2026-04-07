@@ -3,7 +3,7 @@ import { forwardRef, useMemo } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 
-import { Icon } from '../icons/Icon';
+import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { cn } from '../../lib/utils';
 
 import type { ControlButtonProps, ControlButtonSize, ControlButtonShape, ControlButtonStyle } from './ControlButton.types';
@@ -66,6 +66,7 @@ export const ControlButton = forwardRef<HTMLButtonElement, ControlButtonProps>((
   size = 'md',
   shape = 'rounded',
   icon,
+  colorOverride,
   disabled = false,
   asChild = false,
   className,
@@ -74,6 +75,7 @@ export const ControlButton = forwardRef<HTMLButtonElement, ControlButtonProps>((
 }, ref) => {
   const Comp = asChild ? Slot : 'button';
   const iconSize = ICON_SIZE[size] ?? 16;
+  const { iconType, isFill } = parseIconTypeWithFill(icon);
 
   const containerClassName = cn(
     controlButtonVariants({ ...(disabled ? {} : { buttonStyle }), size, shape }),
@@ -84,8 +86,9 @@ export const ControlButton = forwardRef<HTMLButtonElement, ControlButtonProps>((
   const getIconColor = useMemo(() => {
     const config = STYLE_CONFIG[buttonStyle] ?? STYLE_CONFIG.default;
     if (disabled) return config.disabledIconColor;
+    if (colorOverride) return `var(--bg-basic-${colorOverride}-accent)`;
     return config.iconColor;
-  }, [buttonStyle, disabled]);
+  }, [buttonStyle, disabled, colorOverride]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (disabled) { e.preventDefault(); return; }
@@ -111,9 +114,10 @@ export const ControlButton = forwardRef<HTMLButtonElement, ControlButtonProps>((
       onKeyDown={handleKeyDown}
     >
       <Icon
-        iconType={icon}
+        iconType={iconType}
         size={iconSize}
         color={getIconColor}
+        isFill={isFill}
       />
     </Comp>
   );

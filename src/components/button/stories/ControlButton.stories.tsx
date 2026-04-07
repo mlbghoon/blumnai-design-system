@@ -46,9 +46,29 @@ const meta: Meta<typeof ControlButton> = {
     },
     icon: {
       control: 'object',
-      description: '버튼에 표시할 아이콘입니다. [카테고리, 이름] 형식의 튜플로 지정합니다 (필수)',
+      description: '버튼에 표시할 아이콘입니다. [카테고리, 이름] 또는 [카테고리, 이름, isFill] 형식의 튜플로 지정합니다 (필수)',
       table: {
-        type: { summary: 'IconType' },
+        type: {
+          summary: 'IconType | IconTypeWithFill',
+          detail: `[category, name] | [category, name, boolean]`,
+        },
+      },
+    },
+    colorOverride: {
+      control: 'select',
+      options: [
+        'gray', 'red', 'orange', 'amber', 'yellow', 'lime',
+        'green', 'emerald', 'teal', 'cyan', 'sky', 'blue',
+        'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose',
+      ],
+      description: '아이콘 색상을 오버라이드합니다. 배경/호버 스타일에는 영향 없음. Button의 colorOverride와 동일한 색상 팔레트',
+      table: {
+        type: {
+          summary: 'ButtonColor',
+          detail: `'gray' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime'
+| 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue'
+| 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'`,
+        },
       },
     },
     disabled: {
@@ -71,6 +91,13 @@ const meta: Meta<typeof ControlButton> = {
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
+      },
+    },
+    className: {
+      control: 'text',
+      description: '컨테이너에 추가할 CSS 클래스. 아이콘 색상은 colorOverride를 사용하세요',
+      table: {
+        type: { summary: 'string' },
       },
     },
     onClick: {
@@ -101,8 +128,10 @@ export const Default: Story = {
     buttonStyle: 'default',
     size: 'md',
     shape: 'rounded',
+    colorOverride: undefined,
     disabled: false,
     asChild: false,
+    className: '',
   },
   parameters: {
     controls: { disable: false },

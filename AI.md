@@ -46,7 +46,7 @@ import { CellText, CellBadge, CellAvatar } from '@blumnai-studio/blumnai-design-
 |------|-----------|---------------|
 | Clickable action | `Button` | `<Button buttonStyle="primary">Save</Button>` |
 | Navigation link | `LinkButton` | `<LinkButton href="/page">Go</LinkButton>` |
-| Icon-only button | `ControlButton` | `<ControlButton icon={['system', 'settings']} />` |
+| Icon-only button | `ControlButton` | `<ControlButton icon={['system', 'settings']} />` or `icon={['system', 'star', true]} colorOverride="yellow"` |
 | Quick actions menu | `MenuButton` | `<MenuButton items={[...]} />` |
 | Text input | `Input` | `<Input variant="default" label="Name" />` |
 | Password input | `Input` | `<Input variant="password" showStrength />` |

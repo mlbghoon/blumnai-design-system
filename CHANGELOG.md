@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.21] - 2026-04-08
+
+### Added
+
+- **ControlButton `isFill` 지원**: `icon` prop이 3-tuple `[category, name, boolean]` 형식 지원 (`IconTypeWithFill`). 채워진 아이콘 사용 가능
+- **ControlButton `colorOverride` prop**: Button과 동일한 `ButtonColor` 팔레트 (18색)로 아이콘 색상 오버라이드. 배경/호버 스타일에는 영향 없음
+
+### Stories
+
+- ControlButton Default 스토리에 `colorOverride`, `className` 컨트롤 추가
+- `icon` argType에 `IconTypeWithFill` 설명 추가
+
 ## [1.1.20] - 2026-04-08
 
 ### Changed
