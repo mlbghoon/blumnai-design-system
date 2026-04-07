@@ -7,9 +7,16 @@ import {
   STYLE_BASE_CLASSES,
   STYLE_HOVER_CLASSES,
   STYLE_OPEN_CLASSES,
+  STYLE_PADDING_CLASSES,
 } from '../../../constants/accordion/AccordionItem/AccordionItem.constants';
 
-import type { AccordionItemProps } from './AccordionItem.types';
+import type { AccordionItemProps, AccordionItemStyle, AccordionPadding } from './AccordionItem.types';
+
+function getPaddingClass(style: AccordionItemStyle, padding?: AccordionPadding): string {
+  if (padding === undefined) return STYLE_PADDING_CLASSES[style];
+  if (style === 'line') return `padding-y-${padding} padding-x-0`;
+  return `padding-${padding}`;
+}
 
 /**
  * AccordionItem 컴포넌트
@@ -29,6 +36,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
   headingLevel = 3,
   className,
   headerProps,
+  padding,
   ...restProps
 }, ref) => {
   const [internalIsOpen, setInternalIsOpen] = useState(defaultIsOpen ?? false);
@@ -58,12 +66,13 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
     return cn(
       'w-full flex flex-col transition-[background-color,border-color,box-shadow] duration-200 ease-in-out',
       STYLE_BASE_CLASSES[style],
+      getPaddingClass(style, padding),
       hasShadow && BOX_SHADOW,
       canHover && STYLE_HOVER_CLASSES[style],
       isOpen && STYLE_OPEN_CLASSES[style],
       className
     );
-  }, [style, isOpen, isHovered, disabled, className]);
+  }, [style, isOpen, isHovered, disabled, className, padding]);
 
   const headerClassName = useMemo(
     () =>

@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.19] - 2026-04-07
+
+### Added
+
+- **AccordionItem `padding` prop**: 컨테이너 패딩을 px 단위로 커스텀 (`AccordionPadding`: 0 | 1 | 2 | 4 | 6 | 8 | 10 | 12 | 16 | 24). 미지정 시 기본 24px
+- **AccordionGroup `padding` prop**: 그룹 전체 기본 패딩. 개별 아이템의 `padding`이 우선
+- **AccordionGroupItem `padding`**: 아이템별 패딩 오버라이드
+- **`AccordionPadding` 타입** export
+- **AccordionItem 테스트**: 패딩 기본값, 커스텀 패딩, line variant 패딩, 그룹 전파, 아이템 오버라이드 테스트
+
+### Stories
+
+- AccordionItem/AccordionGroup Default 스토리에 `padding` 컨트롤 추가
+
 ## [1.1.18] - 2026-04-07
 
 ### Added

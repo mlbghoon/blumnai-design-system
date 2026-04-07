@@ -17,6 +17,7 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
   style = 'default',
   allowMultipleOpen = true,
   onToggle: groupOnToggle,
+  padding,
   className,
   ...restProps
 }, ref) => {
@@ -139,6 +140,7 @@ export const AccordionGroup = forwardRef<HTMLDivElement, AccordionGroupProps>(({
             isOpen={isOpen}
             onToggle={() => handleToggle(id, isOpen, item.onToggle)}
             disabled={item.disabled}
+            padding={item.padding ?? padding}
             className={item.className}
             headerProps={{
               ref: (el: HTMLButtonElement | null) => { headerRefs.current[index] = el; },
