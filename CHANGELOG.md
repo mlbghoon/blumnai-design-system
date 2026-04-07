@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.20] - 2026-04-08
+
+### Changed
+
+- **Select trigger gap → 0px**: 모든 사이즈(xs/sm/lg)의 트리거 내부 gap을 0으로 변경하여 텍스트 영역 확보
+- **Textarea minHeight 계산 수정**: paddingY 이중 계산 제거 (패딩은 wrapper에 적용되므로 textarea minHeight에서 제외)
+
 ## [1.1.19] - 2026-04-07
 
 ### Added

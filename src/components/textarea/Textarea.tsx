@@ -82,10 +82,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   const stateConfig = STATE_CONFIG[state];
 
   const lineHeight = 20;
-  const paddingY = size === 'sm' ? 20 : 24;
   const toolbarHeight = showToolbar ? 36 : 0;
-  const minHeight = minRows * lineHeight + paddingY + toolbarHeight;
-  const maxHeight = maxRows ? maxRows * lineHeight + paddingY + toolbarHeight : undefined;
+  const minHeight = minRows * lineHeight + toolbarHeight;
+  const maxHeight = maxRows ? maxRows * lineHeight + toolbarHeight : undefined;
 
   const currentLength = typeof value === 'string'
     ? value.length
