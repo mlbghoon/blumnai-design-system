@@ -226,6 +226,37 @@
       transform: scale(1);
     }
   }
+
+  @keyframes popover-expand-down {
+    from {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      opacity: 1;
+      clip-path: inset(0);
+    }
+  }
+
+  @keyframes popover-collapse-up {
+    from {
+      opacity: 1;
+      clip-path: inset(0);
+    }
+    to {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+    }
+  }
+}
+
+@utility popover-anim-slide {
+  &[data-state='open'] {
+    animation: popover-expand-down var(--popover-duration, 150ms) ease forwards;
+  }
+  &[data-state='closed'] {
+    animation: popover-collapse-up var(--popover-duration, 150ms) ease forwards;
+  }
 }
 
 /* Base layer styles for shadcn components */

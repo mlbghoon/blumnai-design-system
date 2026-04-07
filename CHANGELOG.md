@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.1.18] - 2026-04-07
+
+### Added
+
+- **PopoverContent `animation` prop**: 애니메이션 프리셋 선택 (`'default' | 'fade' | 'scale' | 'slide' | 'none'`)
+  - `default`: fade + zoom + 방향별 슬라이드 (기존 동작)
+  - `fade`: 페이드 인/아웃만
+  - `scale`: fade + zoom (80% → 100%)
+  - `slide`: 위→아래 clip-path 확장 애니메이션 (`fadeInDown`/`fadeOutUp` 스타일)
+  - `none`: 즉시 표시/숨김
+- **PopoverContent `animationDuration` prop**: 애니메이션 지속 시간 커스텀 (ms 단위)
+- **`PopoverAnimation` 타입** export
+- **`popover-anim-slide` CSS 유틸리티**: clip-path 기반 확장/축소 키프레임 애니메이션
+
+### Stories
+
+- Default 스토리에 `animation`/`animationDuration` 컨트롤 추가
+- `AnimationPresets` 스토리 추가 — 5개 프리셋 시각적 비교
+
 ## [1.1.17] - 2026-04-06
 
 ### Added

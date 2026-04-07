@@ -10,6 +10,7 @@ import type {
   PopoverScrollAreaProps,
   PopoverArrowProps,
 } from './Popover.types';
+import { getAnimationClasses } from './Popover.animations';
 
 /**
  * Popover 컴포넌트
@@ -35,7 +36,7 @@ const PopoverClose = PopoverPrimitive.Close;
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   PopoverContentProps
->(({ className, align = 'center', sideOffset = 4, width, container, style, children, ...props }, ref) => {
+>(({ className, align = 'center', sideOffset = 4, width, container, style, children, animation = 'default', animationDuration, ...props }, ref) => {
   const contextContainer = usePortalContainer();
   const [contentEl, setContentEl] = React.useState<HTMLElement | null>(null);
 
@@ -52,9 +53,17 @@ const PopoverContent = React.forwardRef<
     ? { width: getPixelValue(width) }
     : undefined;
 
+  const durationStyle: React.CSSProperties | undefined =
+    animation !== 'none' && animationDuration !== undefined
+      ? animation === 'slide'
+        ? { ['--popover-duration' as string]: `${animationDuration}ms` }
+        : { animationDuration: `${animationDuration}ms` }
+      : undefined;
+
   const mergedStyle: React.CSSProperties = {
     ...(style || {}),
     ...(widthStyle || {}),
+    ...(durationStyle || {}),
   };
 
   return (
@@ -65,11 +74,7 @@ const PopoverContent = React.forwardRef<
         sideOffset={sideOffset}
         className={cn(
           'z-50 [width:288px] rounded-lg bg-card padding-16 text-default shadow-modal-sm outline-none',
-          'data-[state=open]:animate-in data-[state=closed]:animate-out',
-          'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
-          'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
-          'data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2',
-          'data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+          getAnimationClasses(animation),
           'origin-[--radix-popover-content-transform-origin]',
           width && 'w-auto',
           className

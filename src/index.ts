@@ -301,6 +301,7 @@ export {
 } from './components/popover';
 
 export type {
+  PopoverAnimation,
   PopoverProps,
   PopoverTriggerProps,
   PopoverContentProps,

@@ -448,6 +448,11 @@ import { Popover, PopoverTrigger, PopoverContent, Button } from '@blumnai-studio
     <div className="padding-16"><p>팝오버 내용</p></div>
   </PopoverContent>
 </Popover>
+
+// 애니메이션 커스텀: slide 프리셋 (위→아래 확장) + 400ms
+<PopoverContent animation="slide" animationDuration={400}>...</PopoverContent>
+
+// 프리셋: 'default' | 'fade' | 'scale' | 'slide' | 'none'
 ```
 
 ### Combobox with Creatable
