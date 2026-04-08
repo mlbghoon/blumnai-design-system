@@ -232,6 +232,7 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
           required={required}
           className={inputClassName}
           value={value}
+          maxLength={maxLength}
           autoComplete="off"
           aria-invalid={hasError}
           aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}

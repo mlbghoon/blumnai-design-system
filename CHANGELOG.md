@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.25] - 2026-04-08
+
+### Fixed
+
+- **`Input` `maxLength` prop이 inner `<input>` 엘리먼트로 전달되지 않던 버그**: `maxLength`는 카운터 표시(`showCount`)에만 사용되고 실제 브라우저 레벨 enforcement가 누락되어, 사용자가 제한을 초과해 입력/붙여넣기할 수 있었음 (e.g. `330/100`, `63/15`). 모든 Input variant에서 `maxLength`를 DOM input에 forward하도록 수정
+  - 영향 variant: `Default`, `Password`, `AddOn` (grouped + inline), `Button`, `Shortcut`, `Dropdown`
+  - `Textarea`는 이미 올바르게 전달하고 있어 변경 없음
+  - API 변경 없음, 순수 behavior 수정 (`maxLength` 타입은 이미 `InputHTMLAttributes<HTMLInputElement>`에서 상속)
+
 ## [1.1.24] - 2026-04-08
 
 ### Added

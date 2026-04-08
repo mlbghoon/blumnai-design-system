@@ -300,6 +300,7 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
             required={required}
             className={inputClassName}
             value={value}
+            maxLength={maxLength}
             autoComplete="off"
             aria-invalid={hasError}
             aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}

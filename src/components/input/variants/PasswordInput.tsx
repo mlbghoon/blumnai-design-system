@@ -270,6 +270,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
           required={required}
           className={inputClassName}
           value={value}
+          maxLength={maxLength}
           onChange={onChange}
           autoComplete="current-password"
           aria-invalid={hasError}

@@ -198,6 +198,7 @@ export const ShortcutInput = forwardRef<HTMLInputElement, ShortcutInputProps>(({
           id={inputId}
           disabled={disabled}
           className={inputClassName}
+          maxLength={maxLength}
           autoComplete="off"
           aria-invalid={hasError}
           aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}

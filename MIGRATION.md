@@ -126,6 +126,36 @@ import '@blumnai-studio/blumnai-design-system/styles';
 
 - **소비자 영향 없음** — 신규 prop, 미사용 시 동작 변화 없음
 
+#### Input `maxLength` 브라우저 enforcement 활성화 (v1.1.25)
+
+`Input`이 받은 `maxLength` prop을 inner `<input>` DOM 엘리먼트로 forward하지 않던 버그를 수정했습니다. 이전까지 `maxLength`는 `showCount`와 함께 카운터 표시(`{현재}/{max}`)에만 사용되고, 사용자는 제한을 초과해 입력/붙여넣기할 수 있었습니다.
+
+**영향 범위:** `maxLength`를 prop으로 넘기는 모든 `Input` variant (`Default`, `Password`, `AddOn`, `Button`, `Shortcut`, `Dropdown`). `Textarea`는 이미 올바르게 forward하고 있어 변경 없음.
+
+**Before (v1.1.24 이하):**
+
+```tsx
+<Input showCount maxLength={15} value={v} onChange={(e) => setV(e.target.value)} />
+// 사용자가 30자 입력 → 카운터: "30/15", state: "30자 문자열" (제한 없음)
+```
+
+**After (v1.1.25+):**
+
+```tsx
+<Input showCount maxLength={15} value={v} onChange={(e) => setV(e.target.value)} />
+// 사용자는 15자까지만 입력/붙여넣기 가능 (브라우저 레벨 enforcement)
+```
+
+**잠재적 영향:** 기존에 `maxLength`를 카운터 표시 *전용*으로만 의도하고 enforcement를 원치 않았다면 동작이 달라집니다. 카운터만 표시하고 enforcement는 원치 않는 경우, `maxLength`를 빼고 별도의 길이 표시 로직을 직접 구현하세요. 다만 이 케이스는 거의 없을 것으로 판단합니다 — 대부분 consumer는 enforcement를 기대하고 `maxLength`를 사용합니다.
+
+**Migration:** 일반적으로 추가 작업 없음. 기존에 `onChange`에서 `.slice(0, maxLength)` workaround를 추가했다면 이제 제거해도 됩니다.
+
+```tsx
+// workaround 제거 가능
+- onChange={(e) => setV(e.target.value.slice(0, 15))}
++ onChange={(e) => setV(e.target.value)}
+```
+
 ---
 
 ## 자주 묻는 마이그레이션 질문
