@@ -6,6 +6,7 @@ import {
   useRef,
   useEffect,
   useId,
+  isValidElement,
   type ReactNode,
   type ReactElement,
 } from 'react';
@@ -29,7 +30,9 @@ export interface TooltipTriggerProps {
    */
   children: ReactElement;
   /**
-   * 툴팁에 표시할 내용 (문자열 또는 ReactNode)
+   * 툴팁에 표시할 내용.
+   * - string/number: 자동으로 `<Tooltip>`로 감쌈 (배경/패딩/화살표 자동 적용)
+   * - ReactNode: 자동 감쌈. 단, 이미 `<Tooltip>` 엘리먼트면 그대로 사용
    */
   content: ReactNode;
   /**
@@ -91,6 +94,13 @@ export interface TooltipTriggerProps {
    * 미지정 시 PortalContainerContext가 있으면 10, 없으면 50.
    */
   zIndex?: number;
+  /**
+   * 포탈 컨테이너 명시적 지정.
+   * - `undefined` (기본): PortalContainerContext 사용 → 없으면 document.body
+   * - `null`: Context 무시하고 강제로 document.body 포탈
+   * - `HTMLElement`: 해당 엘리먼트로 포탈 (overflow:hidden 컨테이너 탈출용)
+   */
+  container?: HTMLElement | null;
 }
 
 export function TooltipTrigger({
@@ -109,6 +119,7 @@ export function TooltipTrigger({
   onOpenChange,
   asChild = false,
   zIndex,
+  container,
 }: TooltipTriggerProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -201,17 +212,22 @@ export function TooltipTrigger({
     };
   }, []);
 
-  const isSimpleContent = typeof content === 'string' || typeof content === 'number';
+  const isAlreadyTooltip = isValidElement(content) && content.type === Tooltip;
 
-  const tooltipContent = isSimpleContent ? (
+  const tooltipContent = isAlreadyTooltip ? (
+    content
+  ) : (
     <Tooltip badge={badge} maxWidth={maxWidth} width={width} minWidth={minWidth}>
       {content}
     </Tooltip>
-  ) : (
-    content
   );
 
   const shouldShow = isOpen && !disabled && anchor !== null;
+
+  // container 명시 우선: undefined → context, null → body 강제, HTMLElement → 그대로
+  const effectivePortalTarget =
+    container === undefined ? portalContainer : container;
+  const usingContextContainer = container === undefined && portalContainer !== null;
 
   const portalElement = shouldShow &&
     typeof document !== 'undefined' &&
@@ -222,7 +238,7 @@ export function TooltipTrigger({
         role="tooltip"
         style={{
           ...floatingStyles,
-          zIndex: zIndex ?? (portalContainer ? 10 : 50),
+          zIndex: zIndex ?? (usingContextContainer ? 10 : 50),
           animation: 'tooltip-enter 150ms ease-out',
         }}
         onMouseEnter={cancelClose}
@@ -230,7 +246,7 @@ export function TooltipTrigger({
       >
         {tooltipContent}
       </div>,
-      portalContainer ?? document.body
+      effectivePortalTarget ?? document.body
     );
 
   if (asChild) {

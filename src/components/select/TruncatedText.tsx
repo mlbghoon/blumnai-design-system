@@ -7,10 +7,14 @@ interface TruncatedTextProps {
   children: React.ReactNode;
   className?: string;
   tooltipContent?: React.ReactNode;
+  /**
+   * 오버플로우 시 자동 툴팁 표시 비활성화. 외부에서 다른 툴팁을 제공할 때 충돌 방지용
+   */
+  disableTooltip?: boolean;
 }
 
 const TruncatedText = React.memo<TruncatedTextProps>(
-  ({ children, className, tooltipContent }) => {
+  ({ children, className, tooltipContent, disableTooltip }) => {
     const textRef = React.useRef<HTMLSpanElement>(null);
     const [open, setOpen] = React.useState(false);
 
@@ -24,6 +28,14 @@ const TruncatedText = React.memo<TruncatedTextProps>(
         setOpen(false);
       }
     }, []);
+
+    if (disableTooltip) {
+      return (
+        <span ref={textRef} className={cn('block truncate', className)}>
+          {children}
+        </span>
+      );
+    }
 
     return (
       <TooltipTrigger

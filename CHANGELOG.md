@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.1.23] - 2026-04-08
+
+### Added
+
+- **`SelectOption.tooltip` / `tooltipPlacement`**: 옵션 호버 시 표시되는 DS 툴팁. `disabled` 옵션에서도 동작하므로 비활성화 사유 안내에 적합. `ReactNode` 자동 감싸기 지원
+- **`SelectOptionTooltipPlacement` 타입** (`'top' | 'right' | 'bottom' | 'left'`)
+- **`TooltipTrigger.container` prop**: 포탈 컨테이너 명시적 지정 (`undefined` = context, `null` = body 강제, `HTMLElement` = 명시). overflow-hidden 컨테이너를 탈출해야 할 때 사용
+- **`TruncatedText.disableTooltip` prop**: 외부에서 별도 툴팁을 제공할 때 내부 오버플로우 툴팁을 비활성화하여 충돌 방지
+- **`ExtendedSelectItemProps.disableLabelTooltip`**, **`MultiSelectItemProps.disableLabelTooltip`** (internal)
+
+### Changed
+
+- **`TooltipTrigger.content` 자동 감싸기**: ReactNode를 자동으로 `<Tooltip>`으로 감싸 배경/패딩/화살표가 적용됨. 이미 `<Tooltip>` 엘리먼트면 그대로 사용 (이중 감싸기 방지)
+- **Select/MultiSelect `renderOption` 타이포그래피 패리티**: 커스텀 `renderOption` 사용 시 기본 아이템과 동일한 `font-body size-sm line-height-leading-5 text-default` 클래스 자동 적용
+- **Select sr-only ItemText 견고성**: Tailwind preflight가 없는 환경에서도 시각적으로 숨김 처리되도록 인라인 visually-hidden 스타일 적용
+
+### Fixed
+
+- 옵션 `tooltip`이 Select 드롭다운(`overflow:hidden`)에 의해 잘리지 않도록 `container={null}` + `zIndex={101}`로 body 포탈 처리
+
+### Migration
+
+- 자세한 내용은 [MIGRATION.md](./MIGRATION.md#tooltiptrigger-content-자동-감싸기-v1123) 참조
+
 ## [1.1.22] - 2026-04-08
 
 ### Added

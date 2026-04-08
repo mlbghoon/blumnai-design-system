@@ -70,6 +70,62 @@ import '@blumnai-studio/blumnai-design-system/styles';
 - **소비자 영향 없음** — 자동 적용됩니다
 - 스타일이 DS 테마와 일치합니다
 
+#### TooltipTrigger `content` 자동 감싸기 (v1.1.23)
+
+`TooltipTrigger`의 `content` prop이 string/number뿐 아니라 **모든 ReactNode**를 자동으로 `<Tooltip>` 컨테이너로 감쌉니다. 이전에는 ReactNode를 넘길 때 직접 `<Tooltip>`을 작성해야 배경/패딩/화살표가 적용되었습니다.
+
+**역호환:** 이미 `<Tooltip>` 엘리먼트를 직접 넘기는 코드는 그대로 동작합니다 — 내부에서 `content.type === Tooltip`을 감지해 이중 감싸기를 방지합니다.
+
+```tsx
+// Before (v1.1.22 이하) — ReactNode는 직접 Tooltip으로 감싸야 했음
+<TooltipTrigger
+  content={
+    <Tooltip>
+      <div>커스텀 내용</div>
+    </Tooltip>
+  }
+>
+  <button>호버</button>
+</TooltipTrigger>
+
+// After (v1.1.23+) — 자동 감싸기
+<TooltipTrigger content={<div>커스텀 내용</div>}>
+  <button>호버</button>
+</TooltipTrigger>
+
+// 직접 Tooltip을 넘기는 기존 코드도 그대로 동작 (이중 감싸기 없음)
+<TooltipTrigger content={<Tooltip badge="NEW">커스텀</Tooltip>}>
+  <button>호버</button>
+</TooltipTrigger>
+```
+
+**주의:** 이전에 ReactNode를 그냥 넘겨서 **배경 없이 raw 노드만 노출**되는 것을 의도한 코드가 있다면, 이제 자동으로 Tooltip 컨테이너로 감싸지므로 시각적으로 달라질 수 있습니다. 그러한 의도라면 직접 wrapper 엘리먼트를 사용하세요.
+
+#### Select 옵션 `tooltip` prop 추가 (v1.1.23)
+
+`SelectOption`에 `tooltip` 및 `tooltipPlacement` 속성이 추가되었습니다. 옵션 호버 시 자동으로 DS 툴팁이 표시되며, `disabled: true` 옵션에서도 동작하므로 비활성화 사유 안내에 적합합니다.
+
+```tsx
+<Select
+  options={[
+    {
+      id: 'auto',
+      label: '자동선택',
+      tooltip: '시스템이 가장 적합한 옵션을 자동으로 선택합니다.',
+      tooltipPlacement: 'right',
+    },
+    {
+      id: 'pro',
+      label: 'Pro 전용',
+      disabled: true,
+      tooltip: 'Pro 플랜에서만 사용 가능합니다.',
+    },
+  ]}
+/>
+```
+
+- **소비자 영향 없음** — 신규 prop, 미사용 시 동작 변화 없음
+
 ---
 
 ## 자주 묻는 마이그레이션 질문
