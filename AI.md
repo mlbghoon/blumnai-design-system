@@ -106,7 +106,7 @@ import { CellText, CellBadge, CellAvatar } from '@blumnai-studio/blumnai-design-
 | Card grid | `CardGroup` | `<CardGroup columns={3}>...</CardGroup>` |
 | Skeleton | `Skeleton` | `<Skeleton width="100%" height={16} />` |
 | Status dot | `StatusDot` | `<StatusDot color="green" label="Active" />` |
-| Empty state | `EmptyState` | `<EmptyState icon={['system', 'inbox']} title="No data" />` |
+| Empty state | `EmptyState` | `<EmptyState icon={['system', 'inbox']} title="No data" />` or `<EmptyState illustration={<img src="/img.png" />} variant="fill" size="lg" title="Select a room" />` |
 | Stepper | `Stepper` | `<Stepper steps={[...]} activeStep={0} />` |
 | Pagination | `Pagination` | `<Pagination totalPages={10} currentPage={1} onChange={...} />` |
 | Resizable panels | `ResizablePanelGroup` | `<ResizablePanelGroup><ResizablePanel /></ResizablePanelGroup>` |

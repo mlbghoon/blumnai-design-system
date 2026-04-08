@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.1.22] - 2026-04-08
+
+### Added
+
+- **EmptyState `illustration` prop**: 커스텀 일러스트레이션 (SVG, img, 애니메이션 등)을 icon 대신 렌더링. `ReactNode` 타입
+- **EmptyState `variant` prop**: 레이아웃 프리셋 (`'default' | 'inline' | 'fill'`). inline은 컴팩트 패딩, fill은 전체 높이
+- **EmptyState `size` 확장**: 기존 `'sm' | 'md'`에서 `'xs' | 'sm' | 'md' | 'lg'`로 확장
+- **`EmptyStateVariant` 타입** export
+
+### Stories
+
+- EmptyState Default 스토리에 `illustration`, `variant` 컨트롤 추가
+- `size` 옵션을 `['xs', 'sm', 'md', 'lg']`로 확장
+- 신규 스토리: `WithIllustration`, `InlineVariant`, `FillVariant`, `ExtraSmall`, `Large`
+
 ## [1.1.21] - 2026-04-08
 
 ### Added
