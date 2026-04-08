@@ -317,6 +317,13 @@ export interface MultiSelectProps extends SelectBaseProps, Omit<HTMLAttributes<H
   applyLabel?: string;
   /** 취소 버튼 라벨 @default '취소' */
   cancelLabel?: string;
+  /**
+   * 적용 버튼 활성화 조건 (showActions 모드에서만 동작).
+   * 반환값이 false면 적용 버튼이 비활성화됩니다.
+   * 미지정 시 기본값은 "변경 사항이 있을 때만 활성화" (pending !== committed).
+   * 예: `canApply={(pending) => pending.length > 0}` — 빈 선택 commit 방지
+   */
+  canApply?: (pending: string[], committed: string[]) => boolean;
 }
 
 /**
@@ -385,6 +392,12 @@ export interface RadixMultiSelectProps extends SelectBaseProps {
   applyLabel?: string;
   /** 취소 버튼 라벨 @default '취소' */
   cancelLabel?: string;
+  /**
+   * 적용 버튼 활성화 조건 (showActions 모드에서만 동작).
+   * 반환값이 false면 적용 버튼이 비활성화됩니다.
+   * 미지정 시 기본값은 "변경 사항이 있을 때만 활성화" (pending !== committed).
+   */
+  canApply?: (pending: string[], committed: string[]) => boolean;
 }
 
 // ============================================================================

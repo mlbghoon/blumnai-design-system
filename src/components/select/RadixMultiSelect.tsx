@@ -259,6 +259,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       showActions = false,
       applyLabel = '적용',
       cancelLabel = '취소',
+      canApply,
     },
     ref
   ) => {
@@ -415,13 +416,28 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       }
     }, [disabled, selectableOptions, allSelected, selectedValues, isControlledValue, onChange, showActions]);
 
+    const arraysEqualUnordered = React.useCallback((a: string[], b: string[]) => {
+      if (a.length !== b.length) return false;
+      const sa = new Set(a);
+      for (const v of b) if (!sa.has(v)) return false;
+      return true;
+    }, []);
+
+    const applyDisabled = React.useMemo(() => {
+      if (!showActions) return false;
+      const pending = pendingValues ?? committedValues;
+      if (canApply) return !canApply(pending, committedValues);
+      return arraysEqualUnordered(pending, committedValues);
+    }, [showActions, pendingValues, committedValues, canApply, arraysEqualUnordered]);
+
     const handleApply = React.useCallback(() => {
+      if (applyDisabled) return;
       if (pendingValues !== null) {
         if (!isControlledValue) setInternalValue(pendingValues);
         onChange?.(pendingValues);
       }
       setOpen(false);
-    }, [pendingValues, isControlledValue, onChange, setOpen]);
+    }, [applyDisabled, pendingValues, isControlledValue, onChange, setOpen]);
 
     const handleCancel = React.useCallback(() => {
       setOpen(false);
@@ -960,7 +976,14 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                     <button
                       type="button"
                       onClick={handleApply}
-                      className="padding-x-12 padding-y-4 rounded-md size-sm font-body font-medium text-white-default bg-state-brand hover:bg-state-brand-hover transition-colors cursor-pointer"
+                      disabled={applyDisabled}
+                      aria-disabled={applyDisabled || undefined}
+                      className={cn(
+                        'padding-x-12 padding-y-4 rounded-md size-sm font-body font-medium text-white-default bg-state-brand transition-colors',
+                        applyDisabled
+                          ? 'opacity-50 cursor-not-allowed'
+                          : 'hover:bg-state-brand-hover cursor-pointer'
+                      )}
                     >
                       {applyLabel}
                     </button>

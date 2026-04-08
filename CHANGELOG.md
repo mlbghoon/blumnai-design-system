@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.1.24] - 2026-04-08
+
+### Added
+
+- **`MultiSelectProps.canApply`**: showActions 모드에서 적용 버튼의 활성화 조건을 직접 지정하는 predicate. `(pending, committed) => boolean`. 기본값은 "변경 사항이 있을 때만 활성화" (`!arraysEqual(pending, committed)`)
+  - 예: `canApply={(pending) => pending.length > 0}` — 빈 commit 방지
+
+### Fixed
+
+- **`Select` wrapper가 multi-select / tags variant에서 `showActions` / `applyLabel` / `cancelLabel` prop을 drop하던 버그**: wrapper가 prop을 명시적으로 enumerate하면서 누락. `<Select variant="multi-select" showActions />`가 sliently 동작하지 않던 문제 해결
+  - 추가로 `defaultValue`, `maxVisibleTags`, `overflowText` 등 다른 prop들도 동일한 위험이 있었음
+  - 재발 방지: wrapper를 spread 패턴으로 리팩터링 (`{...rest}` forward) → 이후 `MultiSelectProps` / `TagsSelectProps`에 prop을 추가하면 자동으로 forward됨
+- **`Select` 적용 버튼 disabled 상태**: `applyDisabled` 시 `disabled` 속성과 `opacity-50 cursor-not-allowed` 스타일 적용, hover 효과 제거, onClick 단락(short-circuit)
+
+### Stories
+
+- MultiSelect: `WithApplyActions`, `WithApplyCanApplyPredicate` 스토리 추가
+
 ## [1.1.23] - 2026-04-08
 
 ### Added
