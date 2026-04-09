@@ -29,6 +29,8 @@
 | 날짜 선택 | `DatePicker`, `DateRangePicker` | |
 | 데이터 그리드 | `DataGrid` | |
 
+> 정확한 컴포넌트 이름, 허용 prop, variant는 Storybook 스토리와 TypeScript 인터페이스를 source of truth로 삼는다.
+
 ## 2. 모달 사이즈
 
 ### 기본 높이: `fit-content`
@@ -157,20 +159,21 @@ UI 디자인에서 리스트는 크게 **2가지 유형**으로 구분한다.
 **Gap 리스트**: 아이템 사이에 공간이 있어 각 아이템이 독립적으로 보임.
 
 - 개별 아이템에 `rounded-*` 적용 가능
-- 아이템 간 간격과 개별 radius는 디자이너+AI가 케이스별 판단
+- 디자이너 지침이 없으면 `ds-gap-16`을 기본값으로 시작한다
+- 개별 radius는 아이템이 독립 블록으로 보여야 할 때만 적용한다
 
 **Gapless 리스트**: 아이템이 밀착되어 하나의 연속된 영역으로 보임.
 
 - 개별 아이템이 아닌 **전체 컨테이너**에 `rounded-*` 적용
 - 내부 아이템은 `padding-*`으로 영역 확보, 필요시 `border-b-default`로 구분
-- 내부 padding과 컨테이너 radius는 디자이너+AI가 케이스별 판단
+- 디자이너 지침이 없으면 `padding-10` + `border-b-default`를 기본값으로 시작한다
 
 ### Default 원칙
 
 > **디자이너 지침이 없을 때는 default 값을 우선 사용한다.**
 > 면(面)을 구분해야 하는 케이스에만 `bg-muted`를 적용한다.
 
-- gap/padding 등 구체적 수치는 디자이너+AI가 케이스별 판단
+- gap/padding은 위 기본값에서 시작하고, 정보 밀도 변화가 분명할 때만 조정한다
 - 면 구분이 불필요하면 배경색 없이 간격/padding만으로 구분
 - 면 구분이 필요하면 `bg-muted` 적용 (Gap: 개별 카드 / Gapless: 컨테이너)
 
@@ -209,8 +212,19 @@ UI 디자인에서 리스트는 크게 **2가지 유형**으로 구분한다.
 1. **콘텐츠 성격 자동 판단** (먼저, 질문 없이)
    - 클릭 유도, 핵심 요약, 독립적으로 돋보여야 하는 블록 → **강조**
    - 정보 나열, 설정 패널, 반복 목록, 연속 콘텐츠 영역 → **플랫**
-2. **강조** 판단 시 → `shadow-card` or `border-default` 적용
-3. **플랫** 판단 시 → shadow/border 없이 `bg-subtle` 또는 padding으로 영역 구분
+2. **같은 형태가 반복되는지 확인**
+   - 같은 구조가 2개 이상 반복되면 기본은 **플랫**
+   - 그중 1개만 핵심 CTA/핵심 요약이면 그 카드만 **강조**
+3. **강조** 판단 시 → 기본은 `rounded-lg`를 적용한 뒤, `shadow-card` 또는 `border-default` 중 하나를 선택한다
+   - 카드 간 분리가 더 필요하면 `shadow-card`
+   - 경계만 정돈해도 충분하면 `border-default`
+   - 강조 카드가 여러 개 반복되면 shadow를 반복하지 말고 `border-default` 중심으로 낮춘다
+4. **플랫** 판단 시 → shadow/border 없이 `bg-subtle` 또는 padding으로 영역 구분
+
+경계 사례:
+- 대시보드 KPI 위젯 여러 개 → 기본 플랫
+- hero/empty state의 단일 대표 블록 → 강조 우선
+- 사이드바/참조패널 안의 검색 필터/설정 블록 → 기본 플랫
 
 > **주의**: 이 가이드는 일반 레이아웃의 카드/컨테이너에 적용. 모달(`shadow-modal-md`)과 팝오버(`shadow-modal-sm`)는 elevation 규칙을 따른다.
 

@@ -145,5 +145,5 @@ hover 변환: `hover:text-gray-600` → `hover:text-subtle`
       ├─ 무채색(gray)인가?
       │   └─ YES → DS 토큰 중 가장 가까운 것을 사용 (§2~4 참조)
       └─ 유채색인가?
-          └─ YES → Tailwind 클래스 사용 가능 (bg-blue-500 등)
+          └─ YES → 브랜드 표현, 데이터 시각화, 이미지 데코레이션, 특수 구분 케이스인지 먼저 확인한 뒤 Tailwind 클래스 사용
 ```

@@ -128,7 +128,8 @@ pill을 쓸지 판단하는 질문:
 
 ### Concentric Border Radius (동심 라운딩)
 
-> **중첩된 라운딩 요소에서: `outerRadius = innerRadius + padding`**
+> **생성 기본 규칙은 sm → md → lg 3단계다.**
+> `outerRadius = innerRadius + padding`은 중첩 라운딩이 어색할 때만 사용하는 **검토 공식**이다.
 
 내부 요소와 외부 컨테이너의 radius가 동일하면 시각적으로 어긋나 보인다. 외부 radius를 내부 radius + 사이 간격만큼 키워야 자연스러운 동심원을 이룬다.
 
@@ -137,8 +138,9 @@ pill을 쓸지 판단하는 질문:
 → 외부 컨테이너: 6 + 8 = 14px ≈ rounded-lg(12px) 또는 rounded-xl(16px)
 ```
 
-- 3단계 규칙(sm→md→lg)이 대부분의 경우 자연스럽게 이 원칙을 충족
-- 커스텀 레이아웃에서 중첩 라운딩이 어색하면 이 공식으로 검증
+- 기본 생성: 말단 요소 `rounded-sm` → 래퍼 `rounded-md` → 콘텐츠 블록 `rounded-lg`
+- 공식 검토: 중첩 라운딩이 유난히 답답하거나 들떠 보일 때만 `outerRadius = innerRadius + padding`으로 검토
+- DS 스케일에 정확한 값이 없으면 가장 가까운 단계(`sm`, `md`, `lg`) 중 시각적으로 더 자연스러운 쪽을 선택
 
 ### Optical Alignment (시각적 정렬)
 
