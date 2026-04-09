@@ -20,6 +20,7 @@ import {
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+// AI가 complex UI를 코딩할 때 조합 패턴을 참고하는 샘플 갤러리다.
 type Theme = 'light' | 'dark';
 
 function cn(...inputs: ClassValue[]) {
@@ -262,7 +263,7 @@ function SampleContent() {
   );
 }
 
-function App() {
+function UISample() {
   useEffect(() => {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
@@ -357,8 +358,8 @@ function App() {
             <Text variant="period">기간 : 2026-03-01 ~ 2026-03-31</Text>
           </div>
 
-          <TabsView defaultValue="tab1">
-            <TabsListView variant="underline" size="sm">
+          <TabsView defaultValue="tab1" className="w-full">
+            <TabsListView variant="underline" size="sm" type="fixed">
               <TabsTriggerView value="tab1">근무 시간 관리</TabsTriggerView>
               <TabsTriggerView value="tab2">정보 조회 설정</TabsTriggerView>
               <TabsTriggerView value="tab3">상담 배분 설정</TabsTriggerView>
@@ -637,9 +638,192 @@ function App() {
           </div>
         </div>
 
+        {/* ── Codex Freeform Sample ── */}
+        <div className="mt-[48px] flex flex-col ds-gap-4 padding-y-8">
+          <Text variant="sectionTitle">Codex가 자유롭게 만들어본 화면 ㅋㅋ</Text>
+          <Text variant="sectionDesc">
+            DS 지침들과 이 페이지 안의 샘플 케이스들을 바탕으로, Codex가 PRD 없이 자유롭게 만들어본 화면입니다 ㅋㅋ 그래도 상단 요약, 필터 툴바, 좌측 대기열, 우측 상세 패널, 하단 액션 바까지 한 흐름으로 묶어서 complex UI 참고용으로 볼 수 있게 구성했습니다.
+          </Text>
+        </div>
+
+        <section className="flex w-full flex-col ds-gap-16 rounded-radius-lg border-default bg-default padding-16">
+          <div className="flex items-start justify-between ds-gap-24">
+            <div className="flex flex-col ds-gap-4">
+              <Text variant="cardTitle">자동 분류 검수 작업대</Text>
+              <div className="flex flex-wrap items-center ds-gap-12">
+                <span className="font-body size-xs line-height-leading-4 font-normal text-muted">대기 12건</span>
+                <span className="font-body size-xs line-height-leading-4 font-medium text-warning">검토 필요 3건</span>
+                <span className="font-body size-xs line-height-leading-4 font-medium text-success">적용 완료 24건</span>
+              </div>
+            </div>
+
+            <div className="flex items-center ds-gap-8">
+              <span className="font-body size-sm line-height-leading-5 font-medium text-subtle">자동 적용</span>
+              <SwitchView defaultChecked size="md" />
+            </div>
+          </div>
+
+          <div className="w-full border-t-default" />
+
+          <div className="flex w-full flex-wrap items-end ds-gap-12">
+            <div className="min-w-[280px] flex-1">
+              <TabsView defaultValue="pending" className="w-full">
+                <TabsListView variant="segmented" size="sm" className="rounded-sm" type="fixed">
+                  <TabsTriggerView value="pending">대기중</TabsTriggerView>
+                  <TabsTriggerView value="review">검토 필요</TabsTriggerView>
+                  <TabsTriggerView value="done">적용 완료</TabsTriggerView>
+                </TabsListView>
+              </TabsView>
+            </div>
+
+            <div className="w-[160px]">
+              <SelectView
+                size="sm"
+                placeholder="우선순위"
+                options={[
+                  { id: 'all', label: '전체' },
+                  { id: 'high', label: '높음 우선' },
+                  { id: 'latest', label: '최신순' },
+                ]}
+              />
+            </div>
+
+            <div className="min-w-[240px] flex-1">
+              <InputView size="sm" placeholder="고객명, 방번호, 키워드 검색" />
+            </div>
+
+            <ButtonView buttonStyle="secondary" size="sm">초기화</ButtonView>
+          </div>
+
+          <div className="grid w-full ds-gap-12" style={{ gridTemplateColumns: '320px minmax(0, 1fr)' }}>
+            <div className="flex flex-col ds-gap-8 rounded-radius-md bg-subtle padding-12">
+              <div className="flex items-center justify-between">
+                <span className="font-body size-sm line-height-leading-5 font-semibold text-default">대기열</span>
+                <span className="font-body size-xs line-height-leading-4 font-normal text-muted">3 / 12 선택됨</span>
+              </div>
+
+              <div className="flex flex-col ds-gap-8">
+                <div className="flex flex-col ds-gap-6 rounded-radius-md border-default bg-default padding-12">
+                  <div className="flex items-start justify-between ds-gap-12">
+                    <div className="flex flex-col ds-gap-2">
+                      <span className="font-body size-sm line-height-leading-5 font-semibold text-default">#240331-1382 상품문의</span>
+                      <span className="font-body size-xs line-height-leading-4 font-normal text-muted">고객: 김하늘 · 3분 전</span>
+                    </div>
+                    <span className="font-body size-xs line-height-leading-4 font-medium text-warning">검토 필요</span>
+                  </div>
+                  <span className="font-body size-sm line-height-leading-5 font-normal text-subtle">
+                    배송지 변경 요청과 상품 옵션 문의가 함께 포함되어 있어 분류 충돌 가능성이 있습니다.
+                  </span>
+                </div>
+
+                <div className="flex flex-col ds-gap-6 rounded-radius-md bg-default padding-12">
+                  <div className="flex items-start justify-between ds-gap-12">
+                    <div className="flex flex-col ds-gap-2">
+                      <span className="font-body size-sm line-height-leading-5 font-semibold text-default">#240331-1379 결제문의</span>
+                      <span className="font-body size-xs line-height-leading-4 font-normal text-muted">고객: 이서준 · 12분 전</span>
+                    </div>
+                    <span className="font-body size-xs line-height-leading-4 font-medium text-informative">자동 추천</span>
+                  </div>
+                  <span className="font-body size-sm line-height-leading-5 font-normal text-subtle">
+                    무통장 입금 확인 지연 관련 문의로 감지되었습니다.
+                  </span>
+                </div>
+
+                <div className="flex flex-col ds-gap-6 rounded-radius-md bg-default padding-12">
+                  <div className="flex items-start justify-between ds-gap-12">
+                    <div className="flex flex-col ds-gap-2">
+                      <span className="font-body size-sm line-height-leading-5 font-semibold text-default">#240331-1375 취소/환불</span>
+                      <span className="font-body size-xs line-height-leading-4 font-normal text-muted">고객: 박민지 · 18분 전</span>
+                    </div>
+                    <span className="font-body size-xs line-height-leading-4 font-medium text-success">적용 가능</span>
+                  </div>
+                  <span className="font-body size-sm line-height-leading-5 font-normal text-subtle">
+                    주문 취소 의도가 명확하고 추가 문맥이 적어 자동 적용 후보입니다.
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col ds-gap-12 rounded-radius-md border-default bg-default padding-12">
+              <div className="flex items-start justify-between ds-gap-12">
+                <div className="flex flex-col ds-gap-2">
+                  <span className="font-body size-md line-height-leading-6 font-semibold text-default">상세 검수</span>
+                  <span className="font-body size-xs line-height-leading-4 font-normal text-muted">
+                    선택한 대화의 추천 분류를 검토하고 수정한 뒤 적용합니다.
+                  </span>
+                </div>
+
+                <ButtonView buttonStyle="soft" size="xs">원문 보기</ButtonView>
+              </div>
+
+              <div className="grid w-full ds-gap-12" style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
+                <SelectView
+                  size="sm"
+                  label="추천 대분류"
+                  placeholder="상품문의"
+                  options={[
+                    { id: 'product', label: '상품문의' },
+                    { id: 'delivery', label: '배송문의' },
+                    { id: 'refund', label: '취소/환불' },
+                  ]}
+                />
+                <SelectView
+                  size="sm"
+                  label="추천 소분류"
+                  placeholder="옵션 변경"
+                  options={[
+                    { id: 'option', label: '옵션 변경' },
+                    { id: 'address', label: '배송지 변경' },
+                    { id: 'payment', label: '결제 확인' },
+                  ]}
+                />
+                <InputView size="sm" label="추천 키워드" value="배송지 변경, 옵션 문의" readOnly />
+                <InputView size="sm" label="담당자 메모" placeholder="검수 판단 근거를 입력하세요" />
+              </div>
+
+              <div className="flex flex-col ds-gap-8 rounded-radius-md bg-subtle padding-12">
+                <span className="font-body size-sm line-height-leading-5 font-semibold text-default">AI 요약</span>
+                <span className="font-body size-sm line-height-leading-5 font-normal text-subtle">
+                  고객은 기본적으로 상품 옵션 변경을 요청하고 있으나, 동일 대화 안에서 배송지 수정 의사도 함께 표현했습니다. 단일 분류로 자동 적용하기보다 담당자 검수가 필요한 케이스입니다.
+                </span>
+              </div>
+
+              <div className="flex flex-col ds-gap-8 rounded-radius-md border-default bg-default padding-12">
+                <span className="font-body size-sm line-height-leading-5 font-semibold text-default">원문 미리보기</span>
+                <div className="flex flex-col ds-gap-6">
+                  <div className="max-w-[85%] rounded-radius-lg bg-subtle padding-12">
+                    <span className="font-body size-sm line-height-leading-5 font-normal text-default">
+                      어제 주문한 상품 옵션을 바꾸고 싶은데요. 배송 시작 전이면 주소도 같이 변경 가능한가요?
+                    </span>
+                  </div>
+                  <div className="max-w-[85%] self-end rounded-radius-lg border-default bg-default padding-12">
+                    <span className="font-body size-sm line-height-leading-5 font-normal text-default">
+                      현재 기준으로는 옵션 변경과 배송지 변경 요청이 함께 확인됩니다. 담당자 확인 후 처리 방향을 안내드릴게요.
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between rounded-radius-md bg-subtle padding-12">
+                <div className="flex flex-col ds-gap-2">
+                  <span className="font-body size-sm line-height-leading-5 font-medium text-default">적용 메모</span>
+                  <span className="font-body size-xs line-height-leading-4 font-normal text-muted">
+                    같은 패턴의 대화 18건에 재사용될 수 있으므로 분류 확정 시 후속 자동화에 반영됩니다.
+                  </span>
+                </div>
+
+                <div className="flex items-center ds-gap-8">
+                  <ButtonView buttonStyle="secondary" size="sm">보류</ButtonView>
+                  <ButtonView buttonStyle="primary" size="sm">분류 적용</ButtonView>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
     </main>
   );
 }
 
-export default App;
+export default UISample;
