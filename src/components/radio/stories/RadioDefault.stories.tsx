@@ -428,3 +428,72 @@ export const Sizes: Story = {
     );
   },
 };
+
+/**
+ * 에러 상태
+ *
+ * RadioGroup에 error 문자열을 전달하면 에러 메시지가 그룹 하단에 표시되고
+ * 선택되지 않은 라디오 버튼의 테두리가 빨간색으로 변합니다.
+ */
+export const WithError: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('');
+    return (
+      <RadioGroup value={value} onValueChange={setValue} error="항목을 선택해 주세요" required>
+        <Radio value="a" label="옵션 A" />
+        <Radio value="b" label="옵션 B" />
+        <Radio value="c" label="옵션 C" />
+      </RadioGroup>
+    );
+  },
+};
+
+/**
+ * 성공 상태
+ */
+export const WithSuccess: Story = {
+  render: function Render() {
+    return (
+      <RadioGroup value="a" success="선택이 완료되었습니다">
+        <Radio value="a" label="옵션 A" />
+        <Radio value="b" label="옵션 B" />
+      </RadioGroup>
+    );
+  },
+};
+
+/**
+ * 캡션 텍스트
+ */
+export const WithCaption: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('a');
+    return (
+      <RadioGroup value={value} onValueChange={setValue} caption="하나의 옵션만 선택할 수 있습니다">
+        <Radio value="a" label="옵션 A" />
+        <Radio value="b" label="옵션 B" />
+      </RadioGroup>
+    );
+  },
+};
+
+/**
+ * 에러 boolean (테두리만)
+ */
+export const ErrorBooleanOnly: Story = {
+  render: function Render() {
+    const [value, setValue] = useState('');
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <RadioGroup value={value} onValueChange={setValue} error>
+          <Radio value="a" label="에러 테두리만" />
+          <Radio value="b" label="옵션 B" />
+        </RadioGroup>
+        <RadioGroup value={value} onValueChange={setValue} error caption="이 항목을 확인해 주세요">
+          <Radio value="a" label="에러 + 캡션" />
+          <Radio value="b" label="옵션 B" />
+        </RadioGroup>
+      </div>
+    );
+  },
+};

@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 
 import { cn } from '@/lib/utils';
+import { resolveCaption } from '../input/shared/resolveCaption';
+import { InlineFieldWrapper } from '../input/shared/InlineFieldWrapper';
 import type { CheckboxProps } from './Checkbox.types';
 
 const CHECKBOX_SIZE_CONFIG = {
@@ -46,10 +48,11 @@ const IndeterminateIcon = ({ color = 'currentColor', className }: { color?: stri
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   CheckboxProps
->(({ className, label, description, checkboxPosition = 'left', checkboxStyle = 'default', size = 'sm', shape = 'square', disabled, checked, onCheckedChange, ...props }, ref) => {
+>(({ className, label, description, checkboxPosition = 'left', checkboxStyle = 'default', size = 'sm', shape = 'square', disabled, checked, onCheckedChange, error, success, caption, required, ...props }, ref) => {
   const isChecked = checked === true || checked === 'indeterminate';
   const isIndeterminate = checked === 'indeterminate';
   const sizeConfig = CHECKBOX_SIZE_CONFIG[size];
+  const { hasError, hasSuccess } = resolveCaption(error, success, caption);
 
   const shadowEffects = checkboxStyle === 'with-shadow' && !isChecked && !disabled
     ? 'shadow-component-default'
@@ -76,10 +79,16 @@ const Checkbox = React.forwardRef<
           ? 'bg-checkbox-disabled border-default cursor-not-allowed'
           : isChecked
             ? 'border-none bg-checkbox-active cursor-pointer hover:bg-checkbox-active-hover'
-            : 'border-darker bg-checkbox-default cursor-pointer hover:border-strong',
+            : cn(
+                'bg-checkbox-default cursor-pointer',
+                hasError ? 'border-destructive hover:border-destructive'
+                  : hasSuccess ? 'border-success hover:border-success'
+                  : 'border-darker hover:border-strong',
+              ),
         shadowEffects,
         className
       )}
+      aria-invalid={hasError || undefined}
       {...props}
     >
       {checkedInnerShadow && (
@@ -106,47 +115,22 @@ const Checkbox = React.forwardRef<
     </CheckboxPrimitive.Root>
   );
 
-  if (!label && !description) {
-    return checkboxElement;
-  }
-
   return (
-    <label
-      className={cn(
-        'inline-flex ds-gap-10',
-        description ? 'items-start' : 'items-center',
-        checkboxPosition === 'right' && 'flex-row-reverse',
-        disabled ? 'cursor-not-allowed' : 'cursor-pointer'
-      )}
+    <InlineFieldWrapper
+      label={label}
+      description={description}
+      required={required}
+      error={error}
+      success={success}
+      caption={caption}
+      disabled={disabled}
+      controlPosition={checkboxPosition === 'right' ? 'right' : 'left'}
+      labelLineHeight={sizeConfig.labelLineHeight}
+      labelTextClassName={sizeConfig.labelText}
+      descTextClassName={sizeConfig.descText}
     >
-      <div className={cn(sizeConfig.labelLineHeight, 'flex items-center shrink-0')}>
-        {checkboxElement}
-      </div>
-      <div className="flex flex-col ds-gap-4">
-        {label && (
-          <span
-            className={cn(
-              'font-body letter-spacing-tracking-normal font-medium select-none',
-              sizeConfig.labelText,
-              disabled ? 'text-hint' : 'text-default'
-            )}
-          >
-            {label}
-          </span>
-        )}
-        {description && (
-          <span
-            className={cn(
-              'font-body letter-spacing-tracking-normal select-none',
-              sizeConfig.descText,
-              disabled ? 'text-hint' : 'text-subtle'
-            )}
-          >
-            {description}
-          </span>
-        )}
-      </div>
-    </label>
+      {checkboxElement}
+    </InlineFieldWrapper>
   );
 });
 

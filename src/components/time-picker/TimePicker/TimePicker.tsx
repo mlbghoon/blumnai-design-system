@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo, useId, forwardRef } from 'react';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverAnchor } from '../../popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
 import { TimeInput } from './TimeInput';

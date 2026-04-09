@@ -953,6 +953,8 @@ export type { ParsedShortcut } from './hooks/keyboard-shortcut-parser';
 
 export { useMergeRefs } from './hooks/use-merge-refs';
 
+export { useDebouncedValue } from './hooks/use-debounced-value';
+
 // =============================================================================
 // UTILITIES
 // =============================================================================

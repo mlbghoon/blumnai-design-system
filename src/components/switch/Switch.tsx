@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
 
 import { cn } from '@/lib/utils';
+import { resolveCaption } from '../input/shared/resolveCaption';
+import { InlineFieldWrapper } from '../input/shared/InlineFieldWrapper';
 import type { SwitchColor, SwitchProps } from './Switch.types';
 
 const SWITCH_SIZE_CONFIG = {
@@ -87,13 +89,13 @@ const LoadingSpinner = ({ className }: { className?: string }) => (
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Root>,
   SwitchProps
->(({ className, label, description, switchPosition = 'left', color = 'green', size = 'sm', disabled, loading = false, checked, onCheckedChange, onLabel, offLabel, 'aria-describedby': ariaDescribedBy, ...props }, ref) => {
-  const descriptionId = React.useId();
+>(({ className, label, description, switchPosition = 'left', color = 'green', size = 'sm', disabled, loading = false, checked, onCheckedChange, onLabel, offLabel, error, success, caption, required, 'aria-describedby': ariaDescribedBy, ...props }, ref) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const isGreen = color === 'green';
   const isDisabled = disabled || loading;
   const sizeConfig = SWITCH_SIZE_CONFIG[size];
   const hasTrackLabels = !!(onLabel || offLabel);
+  const { hasError, hasSuccess } = resolveCaption(error, success, caption);
 
   const getTrackStyle = (): React.CSSProperties | undefined => {
     const base: React.CSSProperties = {};
@@ -120,8 +122,9 @@ const Switch = React.forwardRef<
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       aria-label={!label && !props['aria-label'] ? 'Toggle' : props['aria-label']}
-      aria-describedby={[ariaDescribedBy, description ? descriptionId : undefined].filter(Boolean).join(' ') || undefined}
+      aria-describedby={ariaDescribedBy || undefined}
       aria-busy={loading || undefined}
+      aria-invalid={hasError || undefined}
       className={cn(
         'peer relative inline-flex items-center shrink-0 overflow-hidden',
         sizeConfig.track,
@@ -129,7 +132,11 @@ const Switch = React.forwardRef<
         'focus-visible:outline-none focus-visible:shadow-component-misc-focus',
         isDisabled
           ? !checked && 'bg-switch-disabled cursor-not-allowed'
-          : !checked && 'bg-switch-default hover:bg-switch-default-hover',
+          : !checked && (
+              hasError ? 'bg-switch-default outline-destructive'
+                : hasSuccess ? 'bg-switch-default outline-success'
+                : 'bg-switch-default hover:bg-switch-default-hover'
+            ),
         isDisabled && 'cursor-not-allowed',
         isGreen && checked && isDisabled && 'bg-switch-active-disabled',
         isGreen && checked && !isDisabled && 'bg-switch-active hover:bg-switch-active-hover',
@@ -197,45 +204,22 @@ const Switch = React.forwardRef<
     </SwitchPrimitive.Root>
   );
 
-  if (!label && !description) {
-    return switchElement;
-  }
-
   return (
-    <label
-      className={cn(
-        'inline-flex items-start ds-gap-10',
-        switchPosition === 'right' && 'flex-row-reverse',
-        isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'
-      )}
+    <InlineFieldWrapper
+      label={label}
+      description={description}
+      required={required}
+      error={error}
+      success={success}
+      caption={caption}
+      disabled={isDisabled}
+      controlPosition={switchPosition === 'right' ? 'right' : 'left'}
+      labelLineHeight={sizeConfig.labelLineHeight}
+      labelTextClassName="size-sm line-height-leading-5"
+      descTextClassName="size-sm line-height-leading-5"
     >
-      <div className={cn(sizeConfig.labelLineHeight, 'flex items-center shrink-0')}>
-        {switchElement}
-      </div>
-      <div className="flex flex-col ds-gap-4">
-        {label && (
-          <span
-            className={cn(
-              'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal font-medium select-none',
-              isDisabled ? 'text-hint' : 'text-default'
-            )}
-          >
-            {label}
-          </span>
-        )}
-        {description && (
-          <span
-            id={descriptionId}
-            className={cn(
-              'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal select-none',
-              isDisabled ? 'text-hint' : 'text-subtle'
-            )}
-          >
-            {description}
-          </span>
-        )}
-      </div>
-    </label>
+      {switchElement}
+    </InlineFieldWrapper>
   );
 });
 

@@ -12,7 +12,7 @@ import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
 import { PieTooltipAdapter } from '../Chart/ChartTooltipAdapter';
 import { ChartLegend } from '../Chart/ChartLegend';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 
 import type { DonutChartProps } from '../Chart/Chart.types';
 

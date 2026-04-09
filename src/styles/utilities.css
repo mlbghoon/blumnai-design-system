@@ -588,6 +588,21 @@ table[data-striped] tbody tr:nth-child(even) {
   outline-color: var(--border-darker);
 }
 
+/* Inset outline utilities for form field error/success states (e.g. Switch track) */
+.outline-destructive {
+  outline-width: 1px;
+  outline-style: solid;
+  outline-color: var(--border-destructive);
+  outline-offset: -1px;
+}
+
+.outline-success {
+  outline-width: 1px;
+  outline-style: solid;
+  outline-color: var(--border-success);
+  outline-offset: -1px;
+}
+
 /* Card border utilities using inset box-shadow (no layout shift) */
 .card-border-default {
   box-shadow: inset 0 0 0 1px var(--border-default), 0px 1px 2px 0px rgba(0, 0, 0, 0.04), inset 0px -1px 0px 0px rgba(0, 0, 0, 0.05);

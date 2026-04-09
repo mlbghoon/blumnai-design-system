@@ -9,7 +9,7 @@ import {
 } from '../../dropdown';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 
 import type { BreadcrumbsProps } from './Breadcrumbs.types';
 

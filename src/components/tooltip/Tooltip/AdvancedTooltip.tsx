@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 
 import { TooltipItem } from './TooltipItem';
 import type { AdvancedTooltipProps } from './Tooltip.types';

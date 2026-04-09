@@ -1,6 +1,6 @@
 import type { LegendPayload } from 'recharts/types/component/DefaultLegendContent';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 
 interface ChartLegendProps {
   payload?: LegendPayload[];

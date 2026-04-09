@@ -1,6 +1,6 @@
 import { forwardRef, memo } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import type { StatusDotProps, StatusDotColor, StatusDotSize } from './StatusDot.types';
 
 const COLOR_MAP: Record<StatusDotColor, string> = {

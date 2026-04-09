@@ -1,11 +1,12 @@
 import { useId } from 'react';
 import type { ReactNode } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { INPUT_CONTAINER_BASE } from 'constants/input/Input/Input.constants';
 import { InputLabel } from './InputLabel';
 import { InputCaption } from './InputCaption';
 import { InputContextProvider } from './InputContext';
+import { resolveCaption } from './resolveCaption';
 
 export interface InputWrapperProps {
   /**
@@ -84,17 +85,11 @@ export const InputWrapper = ({
 }: InputWrapperProps) => {
   const wrapperId = useId();
 
-  const hasError = error === true || (typeof error === 'string' && error.length > 0);
-  const hasSuccess = success === true || (typeof success === 'string' && success.length > 0);
-
-  const errorText = typeof error === 'string' && error.length > 0 ? error : undefined;
-  const successText = typeof success === 'string' && success.length > 0 ? success : undefined;
-  const captionText = errorText || successText || caption;
-  const showCaption = captionText !== undefined && captionText.length > 0;
+  const { hasError, hasSuccess, captionText, showCaption } = resolveCaption(error, success, caption);
 
   const descBaseId = inputId || wrapperId;
   const captionElId = showCaption ? `${descBaseId}-caption` : undefined;
-  const contextValue = { captionId: captionElId, errorId: errorText ? captionElId : undefined, required };
+  const contextValue = { captionId: captionElId, errorId: hasError && captionText ? captionElId : undefined, required };
 
   const isHorizontal = labelPosition === 'left';
 

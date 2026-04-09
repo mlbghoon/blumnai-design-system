@@ -1,7 +1,7 @@
 import { forwardRef, useCallback, useId, useMemo, useState } from 'react';
 
 import { ArrowDownIcon } from '../../icons/Icon/icons/arrows';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import {
   BOX_SHADOW,
   STYLE_BASE_CLASSES,

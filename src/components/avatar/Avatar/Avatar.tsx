@@ -23,7 +23,7 @@ import {
   RING_SHAPE_CLASSES_CIRCULAR,
   RING_SIZE_CLASSES,
 } from 'constants/avatar/Avatar/Avatar.constants';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 
 import { AvatarBadge } from './AvatarBadge';
 import type { AvatarProps } from './Avatar.types';

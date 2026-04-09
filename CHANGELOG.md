@@ -1,5 +1,47 @@
 # Changelog
 
+## [1.1.26] - 2026-04-09
+
+### Added
+
+- **`Checkbox` / `Switch` / `Radio` / `RadioGroup` 폼 필드 검증 props**: 모든 인라인 폼 컨트롤이 `Input` / `Textarea`와 동일한 검증 API를 지원합니다
+  - `error?: boolean | string` — `true`면 에러 스타일만 적용, 문자열이면 캡션으로 에러 메시지 표시
+  - `success?: boolean | string` — 성공 상태 (에러와 동일한 패턴)
+  - `caption?: string` — 컨트롤 하단에 표시되는 도움말 텍스트
+  - `required?: boolean` — 라벨 옆에 빨간 별표 표시
+  - 에러/성공 시 Checkbox와 Radio는 테두리가 `border-destructive` / `border-success`로 변경
+  - Switch는 트랙에 `outline-destructive` / `outline-success` inset outline 적용 (신규 DS 유틸리티)
+  - `RadioGroup`에 전달하면 Radio Context를 통해 자식 Radio 아이템의 테두리까지 전파되며, 캡션은 그룹 하단에 한 번만 렌더링됨
+  - `CheckboxList` / `SwitchList` / `RadioList`는 그룹 레벨 `error` / `success` / `caption` 지원
+- **`Button.color` prop (canonical)**: Badge/Switch/Avatar와 일관된 네이밍. `colorOverride`도 계속 동작하지만 `@deprecated` 표시 — 둘 다 전달 시 `color`가 우선. 런타임 경고 없음 (JSDoc only)
+- **`Input` / `Textarea.loading?: boolean`**: 모든 Input variant와 Textarea에서 로딩 상태 지원. `true`일 때 tail 영역(Input) 또는 toolbar(Textarea)에 스피너 표시, 컨트롤은 `disabled` 처리되고 `aria-busy` 설정. 에러/성공 상태와 병존 가능 (비동기 validation 중 retry 등)
+- **`Spinner` 내부 primitive** (`src/lib/spinner`): Button / Input / Textarea 등 로딩 상태가 필요한 컴포넌트에서 공통으로 사용하는 2-circle SVG. `src/index.ts`에서 공개 export되지 않음 (내부 전용)
+- **`InlineFieldWrapper` 내부 컴포넌트** (`src/components/input/shared/InlineFieldWrapper`): Checkbox/Switch/Radio가 공유하는 라벨+설명+필수+캡션 레이아웃. DRY 정리로 중복 JSX 제거
+- **`resolveCaption` 유틸리티** (`src/components/input/shared/resolveCaption`): `error > success > caption` 우선순위 해석 로직. `InputWrapper`와 폼 필드 전반에서 사용
+- **DS 유틸리티 `.outline-destructive` / `.outline-success`**: `.outline-darker`와 동일한 패턴의 inset outline (1px solid, -1px offset). Switch 에러/성공 상태용
+
+### Changed
+
+- **`Button`의 `colorOverride` → `color` deprecation path**: `ButtonProps.colorOverride`에 `@deprecated` JSDoc 추가. 기존 consumer는 그대로 동작 (breaking change 아님)
+- **`InputWrapper` 내부 리팩터링**: 인라인으로 작성되어 있던 caption 해석 로직을 `resolveCaption` 유틸리티로 추출. 동작 변경 없음
+
+### Fixed
+
+- **`Switch` 불필요한 `descriptionId` `aria-describedby`**: 설명 텍스트가 항상 같은 `<label>` 내부에 시각적으로 인접해 있어 aria 링크가 중복이었음. `InlineFieldWrapper` 마이그레이션과 함께 제거
+
+### Stories
+
+- **Checkbox**: `WithError`, `WithSuccess`, `WithCaption`, `Required`, `ErrorBooleanOnly` 추가
+- **Switch**: 동일한 5개 스토리 추가
+- **Radio**: RadioGroup 레벨 `WithError`, `WithSuccess`, `WithCaption`, `ErrorBooleanOnly` 추가
+
+### Tests
+
+- `resolveCaption.test.ts` (10 cases) — 우선순위, boolean/string 변형, edge cases
+- `InlineFieldWrapper.test.tsx` (11 cases) — label, description, required, caption 상태, conditional wrapper
+- `RadioGroup.test.tsx` (5 cases) — 컨텍스트 전파, 그룹 레벨 캡션, aria 속성
+- 총 26 tests 추가, 기존 94 + 신규 26 = 120 all passing
+
 ## [1.1.25] - 2026-04-08
 
 ### Fixed

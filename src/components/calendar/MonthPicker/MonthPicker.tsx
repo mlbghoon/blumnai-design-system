@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { addMonths } from 'date-fns';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverAnchor } from '../../popover/Popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
 import { Icon } from '../../icons/Icon';

@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect, forwardRef, useMemo } from 'react';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Icon } from '../../icons/Icon/Icon';
 import {
   SIZE_CONFIG,

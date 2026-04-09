@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { LABEL_STYLE, SUPPORT_TEXT_STYLE, REQUIRED_STYLE } from 'constants/input/Input/Input.constants';
 
 export interface InputLabelProps extends HTMLAttributes<HTMLLabelElement> {

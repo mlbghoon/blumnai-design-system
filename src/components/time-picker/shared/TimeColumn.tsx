@@ -1,5 +1,5 @@
 import { memo, useEffect, useRef } from 'react';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { ScrollArea } from '../../scroll-area';
 
 export interface TimeColumnItem {
@@ -25,11 +25,21 @@ export const TimeColumn = memo(function TimeColumn({
   className,
 }: TimeColumnProps) {
   const selectedRef = useRef<HTMLButtonElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (selectedValue === undefined) return;
     const frame = requestAnimationFrame(() => {
-      selectedRef.current?.scrollIntoView({ block: 'center' });
+      const btn = selectedRef.current;
+      const viewport = viewportRef.current;
+      if (!btn || !viewport) return;
+      // 선택된 버튼을 viewport 중앙에 배치합니다. scrollIntoView는 모든 스크롤 가능
+      // 조상을 연쇄적으로 스크롤하기 때문에 Popover 뒤 페이지까지 스크롤될 수 있습니다.
+      // 여기서는 ScrollArea viewport에만 범위를 한정하여 scrollTop을 직접 설정합니다.
+      const btnTop = btn.offsetTop;
+      const btnHeight = btn.offsetHeight;
+      const viewportHeight = viewport.clientHeight;
+      viewport.scrollTop = Math.max(0, btnTop - (viewportHeight - btnHeight) / 2);
     });
     return () => cancelAnimationFrame(frame);
   }, [selectedValue]);
@@ -39,7 +49,7 @@ export const TimeColumn = memo(function TimeColumn({
       <span className="size-xs text-muted font-medium font-body text-center padding-y-2">
         {label}
       </span>
-      <ScrollArea maxHeight={224} className="flex flex-col">
+      <ScrollArea maxHeight={224} className="flex flex-col" viewportRef={viewportRef}>
         <div className="flex flex-col ds-gap-2">
           {items.map((item) => {
             const isSelected = item.value === selectedValue;

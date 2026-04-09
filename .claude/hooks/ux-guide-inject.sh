@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# PreToolUse hook: UX guidelines enforcement on every component edit
+# PreToolUse hook: UX guidelines enforcement on component edits
 # Reads from hook-checklist.txt — update that file when guidelines change
+# Fires ONCE per session (matches CLAUDE.md documentation). Stale flags in /tmp
+# are cleaned up by inject-rules.sh on SessionStart (older than 24h).
 INPUT=$(cat)
 
 FILE=$(echo "$INPUT" | /usr/bin/python3 -c "
@@ -23,6 +25,16 @@ if [ "$IS_COMPONENT" = false ]; then
   exit 0
 fi
 
+# Session-flag guard — fire only once per session per CLAUDE.md docs.
+# Fallback to 'unknown' if session_id is absent (degenerates to "once per machine
+# until flag is cleaned up" which is still better than "every edit").
+SESSION_ID=$(echo "$INPUT" | /usr/bin/python3 -c \
+  "import sys,json; print(json.load(sys.stdin).get('session_id','unknown'))" 2>/dev/null)
+FLAG="/tmp/.ux-injected-${SESSION_ID}"
+if [ -f "$FLAG" ]; then
+  exit 0
+fi
+
 CHECKLIST_FILE="${CLAUDE_PROJECT_DIR:-.}/ux-guideline/foundations/hook-checklist.txt"
 
 RULES=""
@@ -41,4 +53,7 @@ cat <<EOF
   }
 }
 EOF
+
+# Mark session as injected — subsequent component edits in the same session skip.
+touch "$FLAG"
 exit 0

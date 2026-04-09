@@ -1,6 +1,6 @@
 import { forwardRef, useId } from 'react';
 
-import { cn } from '../../utils/cn';
+import { cn } from '@/lib/utils';
 import { FormItemContext } from './FormContext';
 import type { FormItemProps } from './Form.types';
 

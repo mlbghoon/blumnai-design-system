@@ -46,7 +46,7 @@ import { CellText, CellBadge, CellAvatar } from '@blumnai-studio/blumnai-design-
 |------|-----------|---------------|
 | Clickable action | `Button` | `<Button buttonStyle="primary">Save</Button>` |
 | Navigation link | `LinkButton` | `<LinkButton href="/page">Go</LinkButton>` |
-| Icon-only button | `ControlButton` | `<ControlButton icon={['system', 'settings']} />` or `icon={['system', 'star', true]} colorOverride="yellow"` |
+| Icon-only button | `ControlButton` | `<ControlButton icon={['system', 'settings']} />` or `icon={['system', 'star', true]} color="yellow"` |
 | Quick actions menu | `MenuButton` | `<MenuButton items={[...]} />` |
 | Text input | `Input` | `<Input variant="default" label="Name" />` |
 | Password input | `Input` | `<Input variant="password" showStrength />` |
@@ -235,6 +235,8 @@ function LoginForm() {
 
 `FormControl` auto-injects `error` prop into `Input`, `Textarea`, `Select`. Other components get `aria-invalid` and `aria-describedby`.
 
+As of v1.1.26, `Checkbox`/`Switch`/`Radio`/`RadioGroup` natively support `error`/`success`/`caption`/`required` — same API as `Input`/`Textarea`. Pass `error` / `success` as `boolean | string`, and `caption` as plain helper text.
+
 ```tsx
 <FormField control={form.control} name="role" render={({ field }) => (
   <FormControl>
@@ -242,10 +244,28 @@ function LoginForm() {
   </FormControl>
 )} />
 
-<FormField control={form.control} name="agree" render={({ field }) => (
-  <FormControl>
-    <Checkbox label="약관 동의" checked={field.value} onCheckedChange={field.onChange} />
-  </FormControl>
+<FormField control={form.control} name="agree" render={({ field, fieldState }) => (
+  <Checkbox
+    label="약관 동의"
+    checked={field.value}
+    onCheckedChange={field.onChange}
+    error={fieldState.error?.message}
+    required
+  />
+)} />
+
+{/* RadioGroup: error/required at the group level — NOT per-item */}
+<FormField control={form.control} name="plan" render={({ field, fieldState }) => (
+  <RadioGroup
+    value={field.value}
+    onValueChange={field.onChange}
+    error={fieldState.error?.message}
+    caption="나중에 언제든지 변경할 수 있습니다"
+    required
+  >
+    <Radio value="free" label="무료" />
+    <Radio value="pro" label="프로" />
+  </RadioGroup>
 )} />
 ```
 
@@ -433,6 +453,48 @@ import { Button } from '@blumnai-studio/blumnai-design-system';
 <Button leadIcon={['system', 'add']}>추가</Button>
 <Button loading width={120}>저장 중...</Button>
 <Button fullWidth>전체 너비</Button>
+
+// v1.1.26+: color prop (canonical) — use instead of deprecated colorOverride
+<Button color="red" buttonStyle="solid">삭제</Button>
+<Button color="blue" buttonStyle="ghost">정보</Button>
+```
+
+### Async Input Validation (loading + error)
+
+v1.1.26+: `Input`, `Textarea`, and all variants support `loading?: boolean`. Combine with `error`/`success` for async validation.
+
+```tsx
+import { Input } from '@blumnai-studio/blumnai-design-system';
+import { useState, useEffect } from 'react';
+
+function UsernameInput() {
+  const [username, setUsername] = useState('');
+  const [checking, setChecking] = useState(false);
+  const [available, setAvailable] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (!username) { setAvailable(null); return; }
+    setChecking(true);
+    const timer = setTimeout(async () => {
+      const result = await checkUsernameAvailability(username);
+      setAvailable(result);
+      setChecking(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [username]);
+
+  return (
+    <Input
+      label="사용자명"
+      value={username}
+      onChange={(e) => setUsername(e.target.value)}
+      loading={checking}
+      error={available === false ? "이미 사용 중인 사용자명입니다" : undefined}
+      success={available === true ? "사용 가능합니다" : undefined}
+      required
+    />
+  );
+}
 ```
 
 ### Popover
@@ -587,13 +649,20 @@ Options: `enabled` (boolean), `ignoreInputFields` (boolean), `preventDefault` (b
 
 > Browser-reserved shortcuts (⌘W, ⌘N, ⌘T, ⌘Q, ⌘L) cannot be overridden.
 
-### useIsMobile
+### useDebouncedValue
 
 ```tsx
-const isMobile = useIsMobile(); // true when viewport < 768px
-if (isMobile) return <Drawer>...</Drawer>;
-return <Sheet>...</Sheet>;
+import { useDebouncedValue } from '@blumnai-studio/blumnai-design-system';
+
+const [query, setQuery] = useState('');
+const debouncedQuery = useDebouncedValue(query, 300);
+
+useEffect(() => {
+  if (debouncedQuery) void fetchSearchResults(debouncedQuery);
+}, [debouncedQuery]);
 ```
+
+Signature: `useDebouncedValue<T>(value: T, delay?: number): T` (default `delay=300`)
 
 ### useSidebar
 

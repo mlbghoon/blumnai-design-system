@@ -2,6 +2,9 @@ import * as React from 'react';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 
 import { cn } from '@/lib/utils';
+import { resolveCaption } from '../input/shared/resolveCaption';
+import { InputCaption } from '../input/shared/InputCaption';
+import { InlineFieldWrapper } from '../input/shared/InlineFieldWrapper';
 import type { RadioGroupProps, RadioProps } from './Radio.types';
 
 const RADIO_SIZE_CONFIG = {
@@ -24,6 +27,8 @@ export const RadioIndicator = ({ color = 'currentColor', size = 8 }: { color?: s
 
 type RadioContextValue = {
   value: string | undefined;
+  hasError?: boolean;
+  hasSuccess?: boolean;
 };
 
 const RadioContext = React.createContext<RadioContextValue>({ value: undefined });
@@ -42,9 +47,12 @@ const RadioContext = React.createContext<RadioContextValue>({ value: undefined }
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
   RadioGroupProps
->(({ className, value, onValueChange, defaultValue, orientation, ...props }, ref) => {
+>(({ className, value, onValueChange, defaultValue, orientation, error, success, caption, required, ...props }, ref) => {
   const [internalValue, setInternalValue] = React.useState(defaultValue);
   const currentValue = value !== undefined ? (value ?? undefined) : internalValue;
+  const { hasError, hasSuccess, captionText, showCaption } = resolveCaption(error, success, caption);
+  const captionId = React.useId();
+  const captionElId = showCaption ? `${captionId}-caption` : undefined;
 
   const handleValueChange = (newValue: string) => {
     if (value === undefined) {
@@ -53,20 +61,49 @@ const RadioGroup = React.forwardRef<
     onValueChange?.(newValue);
   };
 
+  const ctx = React.useMemo(
+    () => ({ value: currentValue, hasError, hasSuccess }),
+    [currentValue, hasError, hasSuccess],
+  );
+
+  const groupElement = (
+    <RadioGroupPrimitive.Root
+      ref={ref}
+      className={cn(
+        'flex ds-gap-12',
+        orientation === 'horizontal' ? 'flex-row flex-wrap' : 'flex-col',
+        className
+      )}
+      value={currentValue}
+      onValueChange={handleValueChange}
+      orientation={orientation}
+      aria-required={required || undefined}
+      aria-invalid={hasError || undefined}
+      aria-describedby={captionElId}
+      {...props}
+    />
+  );
+
+  if (!showCaption) {
+    return (
+      <RadioContext.Provider value={ctx}>
+        {groupElement}
+      </RadioContext.Provider>
+    );
+  }
+
   return (
-    <RadioContext.Provider value={{ value: currentValue }}>
-      <RadioGroupPrimitive.Root
-        ref={ref}
-        className={cn(
-          'flex ds-gap-12',
-          orientation === 'horizontal' ? 'flex-row flex-wrap' : 'flex-col',
-          className
-        )}
-        value={currentValue}
-        onValueChange={handleValueChange}
-        orientation={orientation}
-        {...props}
-      />
+    <RadioContext.Provider value={ctx}>
+      <div className="flex flex-col">
+        {groupElement}
+        <InputCaption
+          id={captionElId}
+          error={hasError}
+          success={hasSuccess}
+        >
+          {captionText}
+        </InputCaption>
+      </div>
     </RadioContext.Provider>
   );
 });
@@ -77,8 +114,8 @@ const Radio = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
   RadioProps
 >(({ className, label, description, radioPosition = 'left', radioStyle = 'default', align = 'start', labelWeight = 'medium', size = 'sm', disabled, value, ...props }, ref) => {
-  const context = React.useContext(RadioContext);
-  const isChecked = context.value === value;
+  const { value: groupValue, hasError, hasSuccess } = React.useContext(RadioContext);
+  const isChecked = groupValue === value;
   const sizeConfig = RADIO_SIZE_CONFIG[size];
 
   const shadowEffects = radioStyle === 'with-shadow' && !isChecked && !disabled
@@ -105,7 +142,12 @@ const Radio = React.forwardRef<
           ? 'bg-checkbox-disabled border-default cursor-not-allowed'
           : isChecked
             ? 'border-none bg-checkbox-active cursor-pointer hover:bg-checkbox-active-hover'
-            : 'border-darker bg-checkbox-default cursor-pointer hover:border-strong',
+            : cn(
+                'bg-checkbox-default cursor-pointer',
+                hasError ? 'border-destructive hover:border-destructive'
+                  : hasSuccess ? 'border-success hover:border-success'
+                  : 'border-darker hover:border-strong',
+              ),
         shadowEffects,
         className
       )}
@@ -131,46 +173,20 @@ const Radio = React.forwardRef<
     </RadioGroupPrimitive.Item>
   );
 
-  if (!label && !description) {
-    return radioElement;
-  }
-
   return (
-    <label
-      className={cn(
-        'inline-flex ds-gap-10',
-        align === 'center' ? 'items-center' : 'items-start',
-        radioPosition === 'right' && 'flex-row-reverse',
-        disabled ? 'cursor-not-allowed' : 'cursor-pointer'
-      )}
+    <InlineFieldWrapper
+      label={label}
+      description={description}
+      disabled={disabled}
+      controlPosition={radioPosition === 'right' ? 'right' : 'left'}
+      labelLineHeight={sizeConfig.labelLineHeight}
+      labelTextClassName="size-sm line-height-leading-5"
+      descTextClassName="size-sm line-height-leading-5"
+      labelWeight={labelWeight === 'normal' ? 'font-normal' : 'font-medium'}
+      align={align}
     >
-      <div className={cn(sizeConfig.labelLineHeight, 'flex items-center shrink-0')}>
-        {radioElement}
-      </div>
-      <div className="flex flex-col ds-gap-4">
-        {label && (
-          <span
-            className={cn(
-              'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal select-none',
-              labelWeight === 'normal' ? 'font-normal' : 'font-medium',
-              disabled ? 'text-hint' : 'text-default'
-            )}
-          >
-            {label}
-          </span>
-        )}
-        {description && (
-          <span
-            className={cn(
-              'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal select-none',
-              disabled ? 'text-hint' : 'text-subtle'
-            )}
-          >
-            {description}
-          </span>
-        )}
-      </div>
-    </label>
+      {radioElement}
+    </InlineFieldWrapper>
   );
 });
 

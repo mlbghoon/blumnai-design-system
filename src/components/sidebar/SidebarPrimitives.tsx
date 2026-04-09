@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { Icon } from "@/components/icons/Icon"
 
 import { useIsMobile } from "@/hooks/use-mobile"
-import { cn } from "@/lib/utils"
+import { cn, isEditableTarget } from "@/lib/utils"
 import {
   Sheet,
   SheetContent,
@@ -23,7 +23,7 @@ const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_WIDTH = "256px"
 const SIDEBAR_WIDTH_MOBILE = "288px"
 const SIDEBAR_WIDTH_ICON = "48px"
-const SIDEBAR_KEYBOARD_SHORTCUT = "b"
+const DEFAULT_KEYBOARD_SHORTCUT = "b"
 
 type SidebarContextProps = {
   state: "expanded" | "collapsed"
@@ -60,6 +60,7 @@ const SidebarProvider = React.forwardRef<
       onCollapse,
       onExpand,
       persistState = true,
+      keyboardShortcut = DEFAULT_KEYBOARD_SHORTCUT,
       className,
       style,
       children,
@@ -111,15 +112,28 @@ const SidebarProvider = React.forwardRef<
     const toggleRef = React.useRef(toggleSidebar)
     React.useEffect(() => { toggleRef.current = toggleSidebar }, [toggleSidebar])
 
+    const shortcutKeyRef = React.useRef(keyboardShortcut)
+    React.useEffect(() => { shortcutKeyRef.current = keyboardShortcut }, [keyboardShortcut])
+
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (
-          event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
-          (event.metaKey || event.ctrlKey)
-        ) {
-          event.preventDefault()
-          toggleRef.current()
-        }
+        const currentShortcut = shortcutKeyRef.current
+        // false로 명시되면 단축키를 완전히 비활성화합니다.
+        if (currentShortcut === false) return
+
+        // Cmd 또는 Ctrl 중 하나는 반드시 눌려 있어야 합니다.
+        if (!(event.metaKey || event.ctrlKey)) return
+        // Shift와 함께 눌리면 무시합니다 (Cmd+Shift+B 북마크 바 등과의 충돌 회피).
+        if (event.shiftKey) return
+        // 키 값이 설정된 단축키와 일치해야 합니다.
+        if (event.key.toLowerCase() !== currentShortcut.toLowerCase()) return
+
+        // 사용자가 편집 가능한 필드에 포커스된 경우 단축키를 가로채지 않습니다
+        // (textarea에서 Cmd+B를 눌러 bold를 입력하는 경우 등).
+        if (isEditableTarget(event.target)) return
+
+        event.preventDefault()
+        toggleRef.current()
       }
 
       window.addEventListener("keydown", handleKeyDown)

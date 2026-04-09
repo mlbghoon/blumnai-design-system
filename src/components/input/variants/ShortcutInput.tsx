@@ -3,7 +3,8 @@ import type { InputHTMLAttributes, ReactNode } from 'react';
 
 import { useKeyboardShortcut } from '../../../hooks/use-keyboard-shortcut';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
+import { Spinner } from '@/lib/spinner';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
@@ -73,6 +74,11 @@ export interface ShortcutInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    * @default false
    */
   showCount?: boolean;
+  /**
+   * 로딩 상태. `true`일 때 tail 영역에 스피너를 표시하고 input을 비활성화합니다.
+   * @default false
+   */
+  loading?: boolean;
 }
 
 /**
@@ -96,6 +102,7 @@ export const ShortcutInput = forwardRef<HTMLInputElement, ShortcutInputProps>(({
   shortcut,
   width,
   disabled = false,
+  loading = false,
   className,
   showCount = false,
   maxLength,
@@ -196,19 +203,25 @@ export const ShortcutInput = forwardRef<HTMLInputElement, ShortcutInputProps>(({
         <input
           ref={mergeRefs}
           id={inputId}
-          disabled={disabled}
+          disabled={disabled || loading}
           className={inputClassName}
           maxLength={maxLength}
           autoComplete="off"
           aria-invalid={hasError}
+          aria-busy={loading || undefined}
           aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
           {...props}
         />
 
-        {/* Shortcut Badge */}
-        <div className={SHORTCUT_STYLE.container}>
-          <span className={SHORTCUT_STYLE.text}>{shortcut}</span>
-        </div>
+        {/* Tail slot: Spinner takes precedence when loading */}
+        {loading ? (
+          <Spinner size={sizeConfig.iconSize} color={iconColor} />
+        ) : (
+          /* Shortcut Badge */
+          <div className={SHORTCUT_STYLE.container}>
+            <span className={SHORTCUT_STYLE.text}>{shortcut}</span>
+          </div>
+        )}
 
         {showCount && maxLength !== undefined && (
           <span className={cn(INPUT_COUNT_STYLE, 'flex-shrink-0')}>{currentLength}/{maxLength}</span>

@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 
 import { AccordionItem } from '../AccordionItem';
 import type { AccordionGroupProps } from './AccordionGroup.types';

@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { addDays, addWeeks, addMonths, startOfDay, endOfDay, format } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 
-import { cn } from '../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverAnchor } from '../popover/Popover';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import { Button } from '../button/Button';

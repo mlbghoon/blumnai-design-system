@@ -408,3 +408,89 @@ export const WithTrackLabelsColors: Story = {
     );
   },
 };
+
+/**
+ * 에러 상태
+ *
+ * error 문자열을 전달하면 에러 메시지가 하단에 표시되고 스위치 트랙에 에러 아웃라인이 적용됩니다.
+ */
+export const WithError: Story = {
+  render: function Render() {
+    const [checked, setChecked] = useState(false);
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <Switch
+          checked={checked}
+          onCheckedChange={setChecked}
+          label="알림 활성화"
+          error="이 설정은 필수입니다"
+        />
+        <Switch
+          checked={checked}
+          onCheckedChange={setChecked}
+          label="알림 활성화"
+          description="중요한 알림을 받으려면 활성화하세요"
+          error="이 설정은 필수입니다"
+          required
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 성공 상태
+ */
+export const WithSuccess: Story = {
+  render: function Render() {
+    return (
+      <Switch
+        checked
+        label="2단계 인증"
+        success="보안 설정이 활성화되었습니다"
+      />
+    );
+  },
+};
+
+/**
+ * 캡션 텍스트
+ */
+export const WithCaption: Story = {
+  render: function Render() {
+    return (
+      <Switch
+        label="자동 백업"
+        caption="매일 자정에 자동으로 백업됩니다"
+      />
+    );
+  },
+};
+
+/**
+ * 필수 표시
+ */
+export const Required: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <Switch label="필수 설정" required />
+        <Switch label="선택 설정" />
+      </div>
+    );
+  },
+};
+
+/**
+ * 에러 boolean (아웃라인만)
+ */
+export const ErrorBooleanOnly: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <Switch label="에러 아웃라인만" error />
+        <Switch label="에러 + 캡션" error caption="이 설정을 확인해 주세요" />
+      </div>
+    );
+  },
+};

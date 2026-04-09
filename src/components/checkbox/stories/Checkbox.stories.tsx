@@ -220,3 +220,98 @@ export const AllVariants: Story = {
     );
   },
 };
+
+/**
+ * 에러 상태
+ *
+ * error 문자열을 전달하면 에러 메시지가 하단에 표시되고 체크박스 테두리가 빨간색으로 변합니다.
+ */
+export const WithError: Story = {
+  render: function Render() {
+    const [checked, setChecked] = useState(false);
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <Checkbox
+          checked={checked}
+          onCheckedChange={(c) => setChecked(c === true)}
+          label="이용약관 동의"
+          error="필수 항목입니다"
+        />
+        <Checkbox
+          checked={checked}
+          onCheckedChange={(c) => setChecked(c === true)}
+          label="이용약관 동의"
+          description="서비스 이용을 위해 반드시 동의해야 합니다"
+          error="필수 항목입니다"
+          required
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 성공 상태
+ *
+ * success 문자열을 전달하면 성공 메시지가 하단에 표시되고 체크박스 테두리가 초록색으로 변합니다.
+ */
+export const WithSuccess: Story = {
+  render: function Render() {
+    return (
+      <Checkbox
+        checked
+        label="이메일 수신 동의"
+        success="설정이 저장되었습니다"
+      />
+    );
+  },
+};
+
+/**
+ * 캡션 텍스트
+ *
+ * caption을 전달하면 기본 스타일의 도움말 텍스트가 하단에 표시됩니다.
+ */
+export const WithCaption: Story = {
+  render: function Render() {
+    return (
+      <Checkbox
+        label="마케팅 정보 수신"
+        caption="이메일, SMS 등으로 마케팅 정보를 받습니다"
+      />
+    );
+  },
+};
+
+/**
+ * 필수 표시
+ *
+ * required를 전달하면 라벨 옆에 빨간 별표가 표시됩니다.
+ */
+export const Required: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <Checkbox label="필수 동의 항목" required />
+        <Checkbox label="선택 동의 항목" />
+      </div>
+    );
+  },
+};
+
+/**
+ * 에러 boolean (테두리만)
+ *
+ * error={true}만 전달하면 에러 메시지 없이 테두리 색상만 변합니다.
+ * caption이 함께 있으면 caption이 에러 스타일로 표시됩니다.
+ */
+export const ErrorBooleanOnly: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <Checkbox label="에러 테두리만" error />
+        <Checkbox label="에러 + 캡션" error caption="이 항목을 확인해 주세요" />
+      </div>
+    );
+  },
+};

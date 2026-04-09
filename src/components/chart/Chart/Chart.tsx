@@ -1,6 +1,6 @@
 import { forwardRef, useMemo } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Skeleton } from '../../skeleton/Skeleton';
 
 import type { BaseChartProps } from './Chart.types';

@@ -1,6 +1,6 @@
 import { toast as sonnerToast } from 'sonner';
 
-import { cn } from '../../utils/cn';
+import { cn } from '@/lib/utils';
 import {
   TOAST_BASE,
   TOAST_INDICATOR,

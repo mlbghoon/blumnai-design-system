@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import type { EmptyStateProps, EmptyStateSize, EmptyStateVariant } from './EmptyState.types';
 
