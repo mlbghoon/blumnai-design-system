@@ -41,7 +41,7 @@ type MetricItem = {
   tone: 'default' | 'informative';
   fragments: Array<{
     text: string;
-    weight: 400 | 700;
+    emphasis?: boolean;
   }>;
 };
 
@@ -49,7 +49,7 @@ type LegendItem = {
   id: string;
   label: string;
   value: string;
-  color: string;
+  colorClassName: string;
 };
 
 type TextVariant =
@@ -71,8 +71,8 @@ const metrics: MetricItem[] = [
     label: '총 종료 수',
     tone: 'informative',
     fragments: [
-      { text: '1', weight: 700 },
-      { text: '건', weight: 400 },
+      { text: '1', emphasis: true },
+      { text: '건' },
     ],
   },
   {
@@ -80,8 +80,8 @@ const metrics: MetricItem[] = [
     label: '총 과금 수',
     tone: 'default',
     fragments: [
-      { text: '4554', weight: 700 },
-      { text: '건', weight: 400 },
+      { text: '4554', emphasis: true },
+      { text: '건' },
     ],
   },
   {
@@ -89,20 +89,20 @@ const metrics: MetricItem[] = [
     label: '평균 상담 시간',
     tone: 'default',
     fragments: [
-      { text: '60일 ', weight: 700 },
-      { text: '00:00:26', weight: 700 },
+      { text: '60일 ', emphasis: true },
+      { text: '00:00:26', emphasis: true },
     ],
   },
 ];
 
 const channelLegend: LegendItem[] = [
-  { id: 'happytalk', label: '해피톡', value: '1 (100%)', color: 'var(--bg-state-primary)' },
-  { id: 'naver', label: '네이버톡톡', value: '0 (0%)', color: 'var(--bg-basic-green-accent)' },
-  { id: 'kakao', label: '카카오톡', value: '0 (0%)', color: 'rgb(253 224 71)' },
+  { id: 'happytalk', label: '해피톡', value: '1 (100%)', colorClassName: 'bg-state-primary' },
+  { id: 'naver', label: '네이버톡톡', value: '0 (0%)', colorClassName: 'bg-basic-green-accent' },
+  { id: 'kakao', label: '카카오톡', value: '0 (0%)', colorClassName: 'bg-yellow-300' },
 ];
 
 const categoryLegend: LegendItem[] = [
-  { id: 'product', label: '상품문의(샘플)', value: '1 (100%)', color: 'var(--bg-state-primary)' },
+  { id: 'product', label: '상품문의(샘플)', value: '1 (100%)', colorClassName: 'bg-state-primary' },
 ];
 
 const textVariantClassName: Record<TextVariant, string> = {
@@ -145,14 +145,13 @@ function MetricValue({
         tone === 'informative' ? textVariantClassName.metricValueInformative : textVariantClassName.metricValue,
       )}
     >
-      {fragments.map((fragment) => (
+      {fragments.map((fragment, index) => (
         <span
-          key={`${fragment.text}-${fragment.weight}`}
-          style={{
-            fontWeight: fragment.weight,
-            whiteSpace: multiline ? 'pre-line' : 'normal',
-            display: multiline ? 'block' : 'inline',
-          }}
+          key={`${fragment.text}-${index}`}
+          className={cn(
+            fragment.emphasis ? 'font-semibold' : 'font-normal',
+            multiline && 'block whitespace-pre-line',
+          )}
         >
           {fragment.text}
         </span>
@@ -175,7 +174,7 @@ function LegendList({ items }: { items: LegendItem[] }) {
     <div className="flex w-full flex-col ds-gap-6">
       {items.map((item) => (
         <div key={item.id} className="flex items-center ds-gap-12">
-          <div className="h-3 w-3 shrink-0 rounded-radius-full" style={{ background: item.color }} />
+          <div className={cn('h-3 w-3 shrink-0 rounded-radius-full', item.colorClassName)} />
           <Text variant="legend" className="flex-1">
             {item.label}
           </Text>
@@ -303,11 +302,11 @@ function App() {
             <ChartPanel
               title="채널별 상담"
               chart={
-                <PieChart background="conic-gradient(from 330deg, var(--bg-state-primary) 0deg 120deg, rgb(253 224 71) 120deg 240deg, var(--bg-basic-green-accent) 240deg 360deg)">
-                  <div className="absolute inset-0 rounded-radius-full ring-1 ring-inset ring-white" />
-                  <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-white" />
-                  <div className="absolute left-[100px] top-[100px] h-px w-[100px] origin-left -rotate-[30deg] bg-white" />
-                  <div className="absolute left-[100px] top-[100px] h-px w-[100px] origin-left rotate-[210deg] bg-white" />
+                <PieChart background="conic-gradient(from 330deg, var(--bg-state-primary) 0deg 120deg, #fbe152 120deg 240deg, var(--bg-basic-green-accent) 240deg 360deg)">
+                  <div className="absolute inset-0 rounded-radius-full border-default" />
+                  <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-default" />
+                  <div className="absolute left-[100px] top-[100px] h-px w-[100px] origin-left -rotate-[30deg] bg-default" />
+                  <div className="absolute left-[100px] top-[100px] h-px w-[100px] origin-left rotate-[210deg] bg-default" />
                 </PieChart>
               }
               legend={channelLegend}
@@ -370,7 +369,7 @@ function App() {
           </TabsView>
 
           <TabsView defaultValue="sub1">
-            <TabsListView variant="segmented" size="sm">
+            <TabsListView variant="segmented" size="sm" className="rounded-sm">
               <TabsTriggerView value="sub1">Label</TabsTriggerView>
               <TabsTriggerView value="sub2">Label</TabsTriggerView>
               <TabsTriggerView value="sub3">Label</TabsTriggerView>
@@ -406,7 +405,7 @@ function App() {
           <div className="flex w-full flex-col ds-gap-12">
             <div className="flex items-center ds-gap-12">
               <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-radius-md" style={{ background: 'linear-gradient(135deg, #4285F4 0%, #34A853 33%, #FBBC05 66%, #EA4335 100%)' }}>
-                <span className="font-body size-md font-bold text-white">G</span>
+                <span className="font-body size-md font-semibold text-white-default">G</span>
               </div>
               <div className="flex flex-1 flex-col ds-gap-2">
                 <div className="font-body size-sm line-height-leading-5 font-semibold text-default">Google Drive</div>
@@ -417,7 +416,7 @@ function App() {
 
             <div className="flex items-center ds-gap-12">
               <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-radius-md bg-state-informative-soft">
-                <span className="font-body size-md font-bold text-informative">☁</span>
+                <span className="font-body size-md font-semibold text-informative">☁</span>
               </div>
               <div className="flex flex-1 flex-col ds-gap-2">
                 <div className="font-body size-sm line-height-leading-5 font-semibold text-default">Microsoft OneDrive (personal)</div>
@@ -428,7 +427,7 @@ function App() {
 
             <div className="flex items-center ds-gap-12">
               <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-radius-md bg-state-informative-soft">
-                <span className="font-body size-md font-bold text-informative">☁</span>
+                <span className="font-body size-md font-semibold text-informative">☁</span>
               </div>
               <div className="flex flex-1 flex-col ds-gap-2">
                 <div className="font-body size-sm line-height-leading-5 font-semibold text-default">Microsoft OneDrive (work/school)</div>
@@ -582,7 +581,7 @@ function App() {
         <section className="flex w-full items-center rounded-radius-lg border-default bg-default padding-16">
           <ButtonGroupView
             size="sm"
-            className="rounded-md"
+            className="rounded-sm"
             items={[
               { id: 'today', label: '오늘' },
               { id: 'yesterday', label: '어제' },
@@ -605,7 +604,7 @@ function App() {
 
         <section className="flex w-full items-center rounded-radius-lg border-default bg-default padding-16">
           <TabsView defaultValue="t1">
-            <TabsListView variant="segmented" size="sm">
+            <TabsListView variant="segmented" size="sm" className="rounded-sm">
               <TabsTriggerView value="t1">Label</TabsTriggerView>
               <TabsTriggerView value="t2">Label</TabsTriggerView>
               <TabsTriggerView value="t3">Label</TabsTriggerView>

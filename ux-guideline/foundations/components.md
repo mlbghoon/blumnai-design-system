@@ -126,12 +126,14 @@ HTML `title` 속성 대신 DS `TooltipTrigger`를 사용한다.
   <TooltipTrigger content="좋아요됨">
   ```
 
-## 4. DS 컴포넌트 스타일 오버라이드 최소화
+## 4. DS 컴포넌트 스타일 변경 규칙
+
+DS 컴포넌트의 스타일을 바꿀 때 허용되는 행동과 금지되는 행동을 명시한다.
 
 ```
 ✅ className prop으로 외부 간격(margin) 조정       → 허용
 ✅ DS variant/size prop으로 스타일 변경              → 권장
-❌ DS 내부 구조를 CSS 셀렉터로 강제 오버라이드       → 최소화
+❌ DS 내부 구조를 CSS 셀렉터로 강제 오버라이드       → 금지
 ❌ DS 컴포넌트를 감싸서 완전히 다른 스타일 적용       → 금지
 ```
 
@@ -183,31 +185,32 @@ UI 디자인에서 리스트는 크게 **2가지 유형**으로 구분한다.
 ## 6. 카드 & 컨테이너 강조도 가이드
 
 > **원칙: 카드/컨테이너형 레이아웃 요소에 shadow와 border를 무조건 적용하지 않는다.**
-> 모달 내부가 아닌 일반 레이아웃에서 카드형 요소를 구성할 때, **사용자의 의도에 맞는 강조도**를 먼저 확인한다.
+> 모달 내부가 아닌 일반 레이아웃에서 카드형 요소를 구성할 때, **콘텐츠 성격으로 자동 판단**한다.
 
 ### 강조도 2단계
 
-| 모드 | 스타일 | 용도 |
-| ---- | ------ | ---- |
-| **강조 (Emphasized)** | `shadow-card` + `border-default` | 독립적으로 돋보여야 하는 카드, 클릭 유도 요소, 중요 정보 블록 |
-| **플랫 (Flat)** | shadow 없음, border 없음 또는 `border-b-default`로 구분 | 정보 나열, 설정 패널, 연속된 콘텐츠 영역 |
+| 모드 | 스타일 | 콘텐츠 성격 |
+| --- | --- | --- |
+| **강조 (Emphasized)** | `shadow-card` + `border-default` + `rounded-lg` | 클릭 유도, 핵심 요약, 독립적으로 돋보여야 하는 블록 |
+| **플랫 (Flat)** | shadow 없음, border 없음 또는 `border-b-default`로 구분 | 정보 나열, 설정 패널, 반복 목록, 연속 콘텐츠 영역 |
 
 ```
 ✅ 강조 카드 → shadow-card + border-default + rounded-lg
 ✅ 플랫 카드 → bg-subtle 또는 bg-default + padding만으로 영역 구분
 ✅ 플랫 리스트 → border-b-default로 아이템 간 구분
-❌ 모든 카드에 일괄 shadow 적용 → 강조도 확인 후 적용
+❌ 모든 카드에 일괄 shadow 적용 → 콘텐츠 성격으로 판단
 ❌ 비전문가 사용자에게 radius/shadow 수치를 직접 질문
 ```
 
 ### AI 에이전트 워크플로우
 
-카드/컨테이너 레이아웃을 새로 구성할 때 아래 순서를 따른다:
+카드/컨테이너 레이아웃을 새로 구성할 때 아래 순서를 따른다.
 
-1. **사용자 의도 확인**: "이 영역을 강조해서 눈에 띄게 할까요, 플랫하게 배치할까요?" 식으로 질문
-2. **강조** 선택 시 → `shadow-card` + `border-default` + `rounded-lg` 적용
-3. **플랫** 선택 시 → shadow/border 없이 `bg-subtle` 또는 padding으로 영역 구분
-4. radius/shadow 수치를 직접 묻지 않고, 위 2단계 중 선택하도록 유도
+1. **콘텐츠 성격 자동 판단** (먼저, 질문 없이)
+   - 클릭 유도, 핵심 요약, 독립적으로 돋보여야 하는 블록 → **강조**
+   - 정보 나열, 설정 패널, 반복 목록, 연속 콘텐츠 영역 → **플랫**
+2. **강조** 판단 시 → `shadow-card` or `border-default` 적용
+3. **플랫** 판단 시 → shadow/border 없이 `bg-subtle` 또는 padding으로 영역 구분
 
 > **주의**: 이 가이드는 일반 레이아웃의 카드/컨테이너에 적용. 모달(`shadow-modal-md`)과 팝오버(`shadow-modal-sm`)는 elevation 규칙을 따른다.
 

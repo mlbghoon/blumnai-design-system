@@ -8,14 +8,21 @@
 - 보더는 `border-default`, 강한 구분은 `border-darker`
 
 **무채색(gray 계열)은 반드시 DS 시맨틱 토큰을 사용한다.**
-유채색(blue, red, green 등)은 Tailwind 클래스를 자유롭게 사용할 수 있다.
+그 외 유채색은 DS 시맨틱 토큰에 없는 브랜드 표현, 데이터 시각화, 이미지 데코레이션, 특수 구분 케이스에 Tailwind 클래스를 사용할 수 있다.
+유채색은 화면의 구조를 대신하지 않고, 의미 있는 포인트나 구분을 보강하는 용도로 사용한다.
 
 ### 우선순위
 
+색상 선택은 **영역 판단이 먼저**다. 영역을 정한 뒤 토큰을 고른다.
+
 ```
-1순위  DS 시맨틱 토큰     bg-default, text-subtle, border-darker …
-2순위  앱 레이아웃 변수    bg-app-container, bg-app-gnb …
-3순위  Tailwind 유채색     bg-blue-500, text-red-600, border-green-300 …
+영역 판단
+  ├─ 앱 레이아웃 영역인가? (GNB, 사이드바, 대화방, 컴포저, 모달 등)
+  │    └─ YES → 앱 레이아웃 토큰     bg-app-container, bg-app-gnb, bg-app-sidebar …
+  └─ 일반 surface인가? (카드, 패널, 콘텐츠, 리스트 등)
+       └─ YES → DS 시맨틱 토큰       bg-default, text-subtle, border-default …
+
+시맨틱 토큰에 없는 유채색만 → Tailwind 유채색 (bg-blue-500, text-red-600 등)
 ─────────────────────────────────────────────────────────
 금지   Tailwind 무채색     bg-white, bg-gray-*, text-gray-*, border-gray-*
 금지   arbitrary 색상값    bg-[#437DFC], text-[rgba(…)]
@@ -105,7 +112,7 @@ hover 변환: `hover:text-gray-600` → `hover:text-subtle`
 1. **`color` 미지정 시**: 부모 CSS `color`를 상속 — 일반적으로 텍스트와 같은 색
 2. **텍스트와 나란한 아이콘**: 텍스트 토큰 계층과 동일하게 맞춤 (`text-default` ↔ `default`, `text-subtle` ↔ `default-subtle`)
 3. **시맨틱 상태 아이콘**: 반드시 시맨틱 토큰 사용 (`destructive`, `success` 등)
-4. **유채색 하드코딩 허용**: 브랜드 컬러나 시맨틱 토큰에 없는 유채색만 허용
+4. **유채색 하드코딩 비허용**: 기본적으로 허용하지 않으며, 브랜드 컬러나 시맨틱 토큰에 없는 유채색만 예외적으로 허용
 5. **gray 계열 하드코딩 금지**: `color="#6b7280"` 등 → DS 토큰으로 대체
 
 ## 6. 앱 레이아웃 영역별 배경색
@@ -129,21 +136,7 @@ hover 변환: `hover:text-gray-600` → `hover:text-subtle`
 | 검색 | `bg-app-search` |
 | 공지 | `bg-app-notice`, `text-app-notice-text` |
 
-## 7. Tailwind 유채색 — 자유 사용
-
-DS 토큰으로 표현할 수 없는 유채색은 Tailwind 클래스를 그대로 사용한다.
-
-| 용도 | 클래스 예시 |
-|------|-------------|
-| 상태: 긴급/에러 | `bg-red-*`, `text-red-*` |
-| 상태: 성공 | `bg-green-*`, `text-green-*` |
-| 상태: 경고 | `bg-amber-*`, `bg-yellow-*` |
-| 상태: 정보/강조 | `bg-blue-*`, `text-blue-*` |
-| 상태: 보라 계열 | `bg-violet-*`, `bg-purple-*` |
-| 상태: 기타 | `bg-orange-*`, `bg-pink-*`, `bg-teal-*`, `bg-sky-*` 등 |
-| 그라데이션 | `bg-gradient-to-*` |
-
-## 8. 판단 기준 요약
+## 7. 판단 기준 요약
 
 ```
 질문: 이 색상에 DS 토큰이 있는가?
