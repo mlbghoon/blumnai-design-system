@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.1.27] - 2026-04-10
+
+### Documentation (PR #4 by @moodzmz)
+
+- **`ux-guideline/foundations/typography.md`** (+48 lines)
+  - 새 섹션 **"선택 원칙 (권장이며 강제가 아님)"** — 각 size 단계가 의미하는 정보 역할(`xs` 보조/메타, `sm` 기본 정보, `md` 영역 입구, `lg+` 단일 앵커) 정의 + 단계 선택 시 자가 질문 가이드
+  - 새 섹션 **"권장에서 벗어나도 좋은 신호"** — 정보 밀도 높은 표/리스트, 빈 상태/온보딩, KPI 카드 등에서 default 사이즈를 벗어나도 되는 케이스
+  - 새 섹션 **"시맨틱 헤딩 (h1 단일성)"** — 페이지당 `<h1>` 단 1개만 사용 (GA/GTM/SEO 파서가 페이지 식별 anchor로 사용). 시각적 강조와 시맨틱 위계 분리 원칙
+- **`ux-guideline/foundations/color.md`** — 우선순위 규칙과 결정 기준 정제
+- **`ux-guideline/foundations/components.md`** — "어떤 컴포넌트를 언제 쓸지" 결정 룰 강화
+- **`ux-guideline/foundations/border-radius.md`** — 작은 룰 정제
+- **`ux-guideline/foundations/spacing.md`** — 3줄 추가
+- **`ux-guideline/일관성-가이드라인.md`** (+112 lines) — AI 에이전트가 읽는 메인 가이드라인 문서. 결정 룰을 더 명시적으로, 모호함 줄이고 예시 보강
+
+### Added (PR #4 by @moodzmz)
+
+- **UI Sample 갤러리 페이지** (`ux-guideline/UI Sample.tsx`, 829 lines + `src/main.tsx`, `vite.config.ts`)
+  - Vite dev 서버에서 실행 가능한 living pattern library
+  - 실행: `npm run dev` → `http://localhost:5173`
+  - 추상적인 가이드라인 텍스트 대신 실제 DS 컴포넌트 조합을 시각적으로 브라우징
+  - **소비자에게 export되지 않음** — 내부 디자인 도구 (`src/main.tsx` / `index.html`은 npm 패키지에 포함되지 않음)
+
 ## [1.1.26] - 2026-04-09
 
 ### Added
