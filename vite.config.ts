@@ -70,6 +70,7 @@ export default defineConfig(({ mode }) => {
         tokens: path.resolve(__dirname, './src/tokens'),
         hooks: path.resolve(__dirname, './src/hooks'),
         '@': path.resolve(__dirname, './src'),
+        '@blumnai-studio/blumnai-design-system': path.resolve(__dirname, './src/index.ts'),
       },
     },
     build: isLibraryBuild
