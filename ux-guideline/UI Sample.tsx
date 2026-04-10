@@ -8,6 +8,7 @@ import {
   ButtonGroup as ButtonGroupBase,
   Input as InputBase,
   Select as SelectBase,
+  InfoBox as InfoBoxBase,
   type TabsProps,
   type TabsListProps,
   type TabsTriggerProps,
@@ -16,6 +17,7 @@ import {
   type ButtonGroupProps,
   type InputProps,
   type SelectProps,
+  type InfoBoxProps,
 } from '@blumnai-studio/blumnai-design-system';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -35,6 +37,7 @@ const ButtonView = ButtonBase as unknown as (props: ButtonProps) => ReactNode;
 const ButtonGroupView = ButtonGroupBase as unknown as (props: ButtonGroupProps) => ReactNode;
 const InputView = InputBase as unknown as (props: InputProps) => ReactNode;
 const SelectView = SelectBase as unknown as (props: SelectProps) => ReactNode;
+const InfoBoxView = InfoBoxBase as unknown as (props: InfoBoxProps) => ReactNode;
 
 type MetricItem = {
   id: string;
@@ -640,7 +643,7 @@ function UISample() {
 
         {/* ── Codex Freeform Sample ── */}
         <div className="mt-[48px] flex flex-col ds-gap-4 padding-y-8">
-          <Text variant="sectionTitle">Codex가 자유롭게 만들어본 화면 ㅋㅋ</Text>
+          <Text variant="sectionTitle">Codex가 자유롭게 만들어본 화면</Text>
           <Text variant="sectionDesc">
             DS 지침들과 이 페이지 안의 샘플 케이스들을 바탕으로, Codex가 PRD 없이 자유롭게 만들어본 화면입니다 ㅋㅋ 그래도 상단 요약, 필터 툴바, 좌측 대기열, 우측 상세 패널, 하단 액션 바까지 한 흐름으로 묶어서 complex UI 참고용으로 볼 수 있게 구성했습니다.
           </Text>
@@ -817,6 +820,140 @@ function UISample() {
                   <ButtonView buttonStyle="primary" size="sm">분류 적용</ButtonView>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Claude Freeform Sample ── */}
+        <div className="mt-[48px] flex flex-col ds-gap-4 padding-y-8">
+          <Text variant="sectionTitle">Claude가 자유롭게 만들어본 화면</Text>
+          <Text variant="sectionDesc">
+            DS 지침과 위의 샘플들만 보고 Claude가 PRD 없이 만들어본 화면입니다 ㅋㅋ 헤더(타이틀·기간·액션) → 증감 시그널을 포함한 KPI 행 → 좌측 시계열 + 우측 분포 시각화 행 → 시맨틱 색을 활용한 인사이트 콜아웃 행 순으로 쌓이는 종합 분석 리포트. 본문 색은 중성 토큰으로 유지하고 시맨틱 색은 상태 표현(증감·인사이트 톤)에만 사용한다. 반복 KPI 카드는 plat 카드로 두고 primary는 헤더 액션 1개에만 둔다.
+          </Text>
+        </div>
+
+        <section className="flex w-full flex-col ds-gap-16 rounded-radius-lg border-default bg-default padding-16">
+          {/* 헤더 */}
+          <div className="flex items-start justify-between ds-gap-24">
+            <div className="flex flex-col ds-gap-4">
+              <Text variant="cardTitle">고객 응대 트렌드 분석</Text>
+              <div className="flex flex-wrap items-center ds-gap-8">
+                <Text variant="period">기간 : 2026-03-01 ~ 2026-03-31</Text>
+                <span className="font-body size-xs line-height-leading-4 font-normal text-muted">·</span>
+                <Text variant="period">매일 09:00 자동 업데이트</Text>
+              </div>
+            </div>
+            <div className="flex items-center ds-gap-8">
+              <ButtonView buttonStyle="soft" size="sm">CSV</ButtonView>
+              <ButtonView buttonStyle="soft" size="sm">PDF</ButtonView>
+              <ButtonView buttonStyle="primary" size="sm">리포트 공유</ButtonView>
+            </div>
+          </div>
+
+          <div className="w-full border-t-default" />
+
+          {/* KPI 행 */}
+          <div className="grid w-full ds-gap-12" style={{ gridTemplateColumns: 'repeat(4, minmax(0, 1fr))' }}>
+            {[
+              { id: 'total', label: '총 응대 건수', value: '12,480', unit: '건', delta: '▲ 12.4%', deltaTone: 'success' as const },
+              { id: 'response', label: '평균 응답 시간', value: '00:42', unit: '분', delta: '▼ 8초', deltaTone: 'success' as const },
+              { id: 'csat', label: 'CSAT', value: '4.62', unit: '/ 5.0', delta: '▼ 0.06', deltaTone: 'destructive' as const },
+              { id: 'auto', label: '자동 응답률', value: '38.2', unit: '%', delta: '▲ 5.1%p', deltaTone: 'success' as const },
+            ].map((kpi) => (
+              <div key={kpi.id} className="flex flex-col ds-gap-8 rounded-radius-md bg-subtle padding-16">
+                <span className="font-body size-sm line-height-leading-5 font-medium text-subtle">{kpi.label}</span>
+                <div className="flex items-baseline ds-gap-6">
+                  <span className="font-body size-2xl line-height-leading-8 font-semibold text-default">{kpi.value}</span>
+                  <span className="font-body size-xs font-normal text-muted">{kpi.unit}</span>
+                </div>
+                <div className="flex items-center ds-gap-4">
+                  <span className={cn('font-body size-xs line-height-leading-4 font-medium', kpi.deltaTone === 'success' ? 'text-success' : 'text-destructive')}>
+                    {kpi.delta}
+                  </span>
+                  <span className="font-body size-xs line-height-leading-4 font-normal text-muted">vs 전월</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="w-full border-t-default" />
+
+          {/* 시각화 행: 좌측 시계열 + 우측 분포 */}
+          <div className="grid w-full ds-gap-16" style={{ gridTemplateColumns: 'minmax(0, 1.6fr) minmax(0, 1fr)' }}>
+            {/* 좌: 시계열 */}
+            <div className="flex flex-col ds-gap-12">
+              <div className="flex items-center justify-between">
+                <Text variant="chartTitle">일별 응대 추이</Text>
+                <TabsView defaultValue="daily">
+                  <TabsListView variant="segmented" size="sm" className="rounded-sm">
+                    <TabsTriggerView value="daily">일</TabsTriggerView>
+                    <TabsTriggerView value="weekly">주</TabsTriggerView>
+                    <TabsTriggerView value="monthly">월</TabsTriggerView>
+                  </TabsListView>
+                </TabsView>
+              </div>
+              <div className="flex h-[200px] items-end ds-gap-6 rounded-radius-md bg-subtle padding-16">
+                {[42, 65, 50, 78, 55, 88, 62, 95, 70, 88, 80, 92, 68, 75].map((h, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 rounded-radius-sm bg-state-primary"
+                    style={{ height: `${h}%` }}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-body size-xs line-height-leading-4 font-normal text-muted">3/01</span>
+                <span className="font-body size-xs line-height-leading-4 font-normal text-muted">3/14</span>
+                <span className="font-body size-xs line-height-leading-4 font-normal text-muted">3/31</span>
+              </div>
+            </div>
+
+            {/* 우: 상위 키워드 */}
+            <div className="flex flex-col ds-gap-12 rounded-radius-md bg-subtle padding-16">
+              <div className="flex items-center justify-between">
+                <Text variant="chartTitle">상위 문의 키워드</Text>
+                <span className="font-body size-xs line-height-leading-4 font-normal text-muted">Top 5</span>
+              </div>
+              <div className="flex flex-col ds-gap-12">
+                {[
+                  { id: 'k1', label: '배송지 변경', value: '384건', percent: 88 },
+                  { id: 'k2', label: '결제 오류', value: '312건', percent: 71 },
+                  { id: 'k3', label: '환불 요청', value: '256건', percent: 58 },
+                  { id: 'k4', label: '쿠폰 적용', value: '198건', percent: 45 },
+                  { id: 'k5', label: '재고 문의', value: '142건', percent: 32 },
+                ].map((topic) => (
+                  <div key={topic.id} className="flex flex-col ds-gap-6">
+                    <div className="flex items-center justify-between ds-gap-8">
+                      <span className="font-body size-sm line-height-leading-5 font-medium text-default">{topic.label}</span>
+                      <span className="font-body size-xs line-height-leading-4 font-normal text-muted">{topic.value}</span>
+                    </div>
+                    <div className="h-[6px] w-full overflow-hidden rounded-radius-full bg-muted">
+                      <div className="h-full rounded-radius-full bg-state-primary" style={{ width: `${topic.percent}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full border-t-default" />
+
+          {/* AI 인사이트 콜아웃 — DS InfoBox */}
+          <div className="flex flex-col ds-gap-12">
+            <div className="flex items-center justify-between">
+              <Text variant="chartTitle">AI가 발견한 변화</Text>
+              <span className="font-body size-xs line-height-leading-4 font-normal text-muted">최근 7일 기준 · 자동 생성</span>
+            </div>
+            <div className="grid w-full ds-gap-12" style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' }}>
+              <InfoBoxView variant="info" title="새 패턴 감지">
+                '배송지 변경' 관련 문의가 평균 대비 32% 증가했습니다. 자동 응답 템플릿 도입 후보로 추천합니다.
+              </InfoBoxView>
+              <InfoBoxView variant="warning" title="CSAT 하락 주의">
+                오후 3~5시 응답 지연이 누적되며 만족도가 0.06pt 하락했습니다. 인력 배치 검토가 필요합니다.
+              </InfoBoxView>
+              <InfoBoxView variant="success" title="자동화 효과">
+                신규 자동 응답 5건이 적용되며 평균 응답 시간이 8초 단축됐습니다. 이번 주 가장 큰 개선입니다.
+              </InfoBoxView>
             </div>
           </div>
         </section>
