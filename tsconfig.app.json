@@ -26,7 +26,8 @@
       "styles/*": ["src/styles/*"],
       "tokens/*": ["src/tokens/*"],
       "hooks/*": ["src/hooks/*"],
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@blumnai-studio/blumnai-design-system": ["./src/index.ts"]
     },
 
     /* Linting */
