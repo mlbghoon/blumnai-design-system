@@ -139,6 +139,11 @@ export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
    * 커스텀 툴팁 렌더링 콜백
    */
   renderTooltip?: (params: ChartTooltipParams | PieTooltipParams) => ReactNode;
+  /**
+   * renderTooltip 사용 시 기본 카드 스타일 래퍼 적용 여부
+   * @default false
+   */
+  wrapCustomTooltip?: boolean;
 }
 
 /**

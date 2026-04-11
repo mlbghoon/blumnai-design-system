@@ -160,7 +160,7 @@ import { Button } from '@blumnai-studio/blumnai-design-system/button';
 | 임포트 방식 | 초기 번들 | 런타임 로드 |
 |------------|---------|-----------|
 | `Icon` + `iconType` prop | 컴포넌트 래퍼만 포함 (최소) | 사용 카테고리만 지연 로딩 |
-| `import { AddIcon } from 'ds/icons/system'` | 전체 카테고리 포함 | 없음 (정적 포함) |
+| `import { AddIcon } from '@blumnai-studio/blumnai-design-system/icons/system'` | 전체 카테고리 포함 | 없음 (정적 포함) |
 
 **권장**: `Icon` 컴포넌트 + `iconType` prop 사용 (자동 지연 로딩)
 

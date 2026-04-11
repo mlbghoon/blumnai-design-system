@@ -29,13 +29,37 @@ npm install @blumnai-studio/blumnai-design-system@latest --legacy-peer-deps
 
 ### 3. import 경로 변경
 
-모든 소스 파일에서 import 경로를 일괄 변경합니다.
+TypeScript 소스(.ts/.tsx)에서 import 경로를 일괄 변경합니다.
 
 ```bash
-# macOS/Linux
+# macOS (BSD sed)
 find src -type f \( -name '*.ts' -o -name '*.tsx' \) \
   -exec sed -i '' 's/@mlbghoon\/blumnai-design-system/@blumnai-studio\/blumnai-design-system/g' {} +
+
+# Linux (GNU sed)
+find src -type f \( -name '*.ts' -o -name '*.tsx' \) \
+  -exec sed -i 's/@mlbghoon\/blumnai-design-system/@blumnai-studio\/blumnai-design-system/g' {} +
 ```
+
+---
+
+## 1.1.x → 1.2.x
+
+### Chart `renderTooltip` 래퍼 변경
+
+v1.1.x에서는 `renderTooltip` 콜백의 반환값이 자동으로 카드 스타일 래퍼(`rounded-card-xs padding-4 bg-card shadow-modal-sm`)로 감싸졌습니다.
+v1.2.0부터 커스텀 툴팁은 **래퍼 없이 직접 렌더링**됩니다.
+
+```tsx
+// 이전 동작이 필요한 경우
+<LineChart
+  renderTooltip={(params) => <MyTooltip {...params} />}
+  wrapCustomTooltip  // ← 이전 래퍼 유지
+/>
+```
+
+기존 `renderTooltip` 사용 시 래퍼를 자체적으로 포함하고 있었다면 변경 불필요합니다.
+래퍼에 의존하고 있었다면 `wrapCustomTooltip` prop을 추가하세요.
 
 ---
 

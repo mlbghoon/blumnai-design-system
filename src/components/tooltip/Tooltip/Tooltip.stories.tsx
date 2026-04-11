@@ -84,7 +84,17 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const tooltipRef = useRef<HTMLDivElement>(null);
-    return <Tooltip ref={tooltipRef} {...args} />;
+    return (
+      <Tooltip
+        ref={tooltipRef}
+        children={args.children}
+        badge={args.badge}
+        maxWidth={args.maxWidth}
+        width={args.width}
+        minWidth={args.minWidth}
+        className={args.className}
+      />
+    );
   },
 };
 

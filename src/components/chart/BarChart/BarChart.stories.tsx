@@ -196,7 +196,20 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const chartRef = useRef<HTMLDivElement>(null);
-    return <BarChart ref={chartRef} {...args} />;
+    return (
+      <BarChart
+        ref={chartRef}
+        data={args.data}
+        xAxis={args.xAxis}
+        yAxis={args.yAxis}
+        dataKey={args.dataKey}
+        config={args.config}
+        width={args.width}
+        height={args.height}
+        showXGrid={args.showXGrid}
+        className={args.className}
+      />
+    );
   },
 };
 

@@ -42,6 +42,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
       isLoading,
       responsive,
       renderTooltip,
+      wrapCustomTooltip,
       ...props
     },
     ref
@@ -96,6 +97,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
         content={
           <PieTooltipAdapter
             renderTooltip={renderTooltip}
+            wrapCustomTooltip={wrapCustomTooltip}
             getLabel={getLabel}
             totalValue={totalValue}
           />

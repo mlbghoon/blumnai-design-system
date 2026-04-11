@@ -137,7 +137,8 @@ const DayCell = React.memo(
     prev.customClassName === next.customClassName &&
     prev.isLastRow === next.isLastRow &&
     prev.renderContent === next.renderContent &&
-    prev.onClick === next.onClick,
+    prev.onClick === next.onClick &&
+    prev.locale === next.locale,
 );
 
 const defaultFormatMonthLabel = (date: Date) => format(date, 'yyyy년 MM월');

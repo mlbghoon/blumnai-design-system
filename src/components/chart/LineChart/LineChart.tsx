@@ -52,6 +52,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       isLoading,
       responsive,
       renderTooltip,
+      wrapCustomTooltip,
       ...props
     },
     ref
@@ -81,7 +82,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 
   const chartAriaLabel = ariaLabel || `Line chart showing ${activeKeys.join(', ') || 'data'}`;
   const yDomain = (yAxis.domain === 'auto' || yAxis.domain === undefined)
-    ? [0, (dataMax: number) => Math.max(dataMax, 1)] as const
+    ? [(dataMin: number) => Math.min(dataMin, 0), (dataMax: number) => Math.max(dataMax, 1)] as const
     : yAxis.domain;
   const tickCount = yAxis.tickCount ?? 5;
   const curveType = smooth ? 'monotone' : 'linear';
@@ -124,6 +125,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
         content={
           <ChartTooltipAdapter
             renderTooltip={renderTooltip}
+            wrapCustomTooltip={wrapCustomTooltip}
             getLabel={getLabel}
             getColor={getColor}
           />

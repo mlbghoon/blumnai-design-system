@@ -115,6 +115,13 @@ const Checkbox = React.forwardRef<
     </CheckboxPrimitive.Root>
   );
 
+  if (checkboxPosition === 'off') {
+    if (import.meta.env.DEV && (error || success || caption || label)) {
+      console.warn('Checkbox: label, error, success, caption props are ignored when checkboxPosition="off"');
+    }
+    return checkboxElement;
+  }
+
   return (
     <InlineFieldWrapper
       label={label}

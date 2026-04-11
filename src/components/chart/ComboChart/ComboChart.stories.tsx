@@ -150,7 +150,21 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const chartRef = useRef<HTMLDivElement>(null);
-    return <ComboChart ref={chartRef} {...args} />;
+    return (
+      <ComboChart
+        ref={chartRef}
+        data={args.data}
+        xAxis={args.xAxis}
+        yAxis={args.yAxis}
+        barSeries={args.barSeries}
+        lineSeries={args.lineSeries}
+        config={args.config}
+        width={args.width}
+        height={args.height}
+        showXGrid={args.showXGrid}
+        showLegend={args.showLegend}
+      />
+    );
   },
 };
 

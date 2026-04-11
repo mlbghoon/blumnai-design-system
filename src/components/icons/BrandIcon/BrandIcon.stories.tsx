@@ -77,7 +77,14 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
-    return <BrandIcon ref={iconRef} {...args} />;
+    return (
+      <BrandIcon
+        ref={iconRef}
+        brandType={args.brandType}
+        size={args.size}
+        className={args.className}
+      />
+    );
   },
 };
 

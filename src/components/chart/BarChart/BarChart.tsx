@@ -53,6 +53,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       isLoading,
       responsive,
       renderTooltip,
+      wrapCustomTooltip,
       ...props
     },
     ref
@@ -196,6 +197,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         content={
           <ChartTooltipAdapter
             renderTooltip={renderTooltip}
+            wrapCustomTooltip={wrapCustomTooltip}
             getLabel={getLabel}
             getColor={getColor}
           />

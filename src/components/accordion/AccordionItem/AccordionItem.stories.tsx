@@ -133,7 +133,20 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const accordionRef = useRef<HTMLDivElement>(null);
-    return <AccordionItem ref={accordionRef} {...args} />;
+    return (
+      <AccordionItem
+        ref={accordionRef}
+        header={args.header}
+        children={args.children}
+        style={args.style}
+        isOpen={args.isOpen}
+        disabled={args.disabled}
+        defaultIsOpen={args.defaultIsOpen}
+        headingLevel={args.headingLevel}
+        padding={args.padding}
+        className={args.className}
+      />
+    );
   },
 };
 

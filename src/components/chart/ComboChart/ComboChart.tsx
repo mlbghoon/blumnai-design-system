@@ -49,6 +49,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
       isLoading,
       responsive,
       renderTooltip,
+      wrapCustomTooltip,
       ...props
     },
     ref
@@ -174,6 +175,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
         content={
           <ChartTooltipAdapter
             renderTooltip={renderTooltip}
+            wrapCustomTooltip={wrapCustomTooltip}
             getLabel={getLabel}
             getColor={getColor}
           />

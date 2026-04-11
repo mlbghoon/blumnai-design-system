@@ -64,7 +64,14 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const tooltipRef = useRef<HTMLDivElement>(null);
-    return <AdvancedTooltip ref={tooltipRef} {...args} />;
+    return (
+      <AdvancedTooltip
+        ref={tooltipRef}
+        items={args.items}
+        minWidth={args.minWidth}
+        className={args.className}
+      />
+    );
   },
 };
 

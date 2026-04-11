@@ -323,7 +323,14 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
-    return <FlagIcon ref={iconRef} {...args} />;
+    return (
+      <FlagIcon
+        ref={iconRef}
+        country={args.country}
+        size={args.size}
+        className={args.className}
+      />
+    );
   },
 };
 

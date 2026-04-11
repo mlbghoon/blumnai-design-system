@@ -8,7 +8,7 @@ export type AccordionItemStyle = 'default' | 'soft' | 'ghost' | 'line';
 /**
  * AccordionItem 패딩 값 (px)
  */
-export type AccordionPadding = 0 | 1 | 2 | 4 | 6 | 8 | 10 | 12 | 16 | 24;
+export type AccordionPadding = 0 | 1 | 2 | 4 | 6 | 8 | 10 | 12 | 16 | 20 | 24;
 
 /**
  * 헤더 버튼에 전달할 추가 props

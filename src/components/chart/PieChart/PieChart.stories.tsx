@@ -171,7 +171,20 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const chartRef = useRef<HTMLDivElement>(null);
-    return <PieChart ref={chartRef} {...args} />;
+    return (
+      <PieChart
+        ref={chartRef}
+        data={args.data}
+        dataKey={args.dataKey}
+        nameKey={args.nameKey}
+        config={args.config}
+        width={args.width}
+        height={args.height}
+        outerRadius={args.outerRadius}
+        showLegend={args.showLegend}
+        className={args.className}
+      />
+    );
   },
 };
 

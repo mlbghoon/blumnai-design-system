@@ -179,7 +179,17 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
-    return <IsometricIcon ref={iconRef} {...args} />;
+    return (
+      <IsometricIcon
+        ref={iconRef}
+        iconType={args.iconType}
+        view={args.view}
+        size={args.size}
+        fillColor={args.fillColor}
+        strokeColor={args.strokeColor}
+        className={args.className}
+      />
+    );
   },
 };
 

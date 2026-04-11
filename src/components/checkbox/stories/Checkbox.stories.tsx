@@ -58,7 +58,7 @@ const meta: Meta<typeof Checkbox> = {
           summary: 'CheckboxSize',
           detail: `'sm' | 'md' | 'lg'`,
         },
-        defaultValue: { summary: "'md'" },
+        defaultValue: { summary: "'sm'" },
       },
     },
     shape: {
@@ -95,6 +95,38 @@ const meta: Meta<typeof Checkbox> = {
           detail: `'default' | 'with-shadow'`,
         },
         defaultValue: { summary: 'default' },
+      },
+    },
+    error: {
+      control: 'text',
+      description: '에러 상태 또는 메시지',
+      table: {
+        type: { summary: 'string | boolean' },
+        defaultValue: { summary: 'undefined' },
+      },
+    },
+    success: {
+      control: 'text',
+      description: '성공 상태 또는 메시지',
+      table: {
+        type: { summary: 'string | boolean' },
+        defaultValue: { summary: 'undefined' },
+      },
+    },
+    caption: {
+      control: 'text',
+      description: '입력 필드 아래 설명',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'undefined' },
+      },
+    },
+    required: {
+      control: 'boolean',
+      description: '필수 입력 여부',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
       },
     },
   },
@@ -159,9 +191,6 @@ export const AllVariants: Story = {
     checkboxPosition: 'left',
     checkboxStyle: 'default',
     disabled: false,
-  },
-  parameters: {
-    controls: { disable: false },
   },
   render: function Render(args) {
     const [basicChecked, setBasicChecked] = useState(false);

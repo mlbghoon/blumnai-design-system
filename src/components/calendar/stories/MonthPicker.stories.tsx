@@ -125,7 +125,11 @@ export const Default: Story = {
     return (
       <div style={{ width: 300 }}>
         <MonthPicker
-          {...args}
+          label={args.label}
+          locale={args.locale}
+          disabled={args.disabled}
+          disabledFuture={args.disabledFuture}
+          showQuickPresets={args.showQuickPresets}
           value={value}
           onChange={setValue}
         />

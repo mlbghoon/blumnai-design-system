@@ -1,5 +1,41 @@
 # Changelog
 
+## [1.2.0] - 2026-04-11
+
+### Fixed
+
+- **`Checkbox` `checkboxPosition="off"` 무시되던 버그**: `off` 설정 시 `left`로 강제되던 문제 수정. 이제 `off` 시 체크박스 요소만 렌더링 (InlineFieldWrapper 바이패스). dev 모드에서 `off` + label/error 동시 사용 시 경고 출력
+- **Chart `renderTooltip` override 깨지던 버그**: 커스텀 툴팁이 불필요한 카드 래퍼에 감싸지던 문제 수정. 이제 기본적으로 래퍼 없이 직접 렌더링. `wrapCustomTooltip` prop으로 이전 동작 유지 가능
+- **`DragOverlay` Dialog 내부 렌더링 버그**: `document.body` 고정 대신 `usePortalContainer()` 사용으로 Dialog 내부에서도 정상 동작
+- **`LineChart` Y축 음수 데이터 지원**: auto domain에서 하한이 0으로 고정되어 음수 데이터가 잘리던 문제 수정. 이제 `Math.min(dataMin, 0)` 사용
+- **`@hookform/resolvers` peerDep 호환성**: `^3.10.0` → `^3.10.0 || ^5.0.0`으로 v5 지원
+- **`package.json` files 배열 누락**: `accordion`, `aspect-ratio`, `dnd`, `empty-state`, `event-calendar`, `info-box`, `status-dot`, `stepper` subpath proxy 디렉터리 추가
+- **CSS 클래스 공백 누락**: 여러 story 파일에서 `"margin-0size-sm"` → `"margin-0 size-sm"` 등 공백 누락으로 클래스가 적용되지 않던 문제 수정 (18건)
+- **isometric icon 생성 스크립트 속성 순서 의존 버그**: `strokeOpacity` 제거 로직이 `stroke` 속성 순서에 의존하던 문제 → pre-scan 방식으로 변경
+- **`DatePicker` / `DateRangePicker` 들여쓰기 불일치**: `labelWidth` prop 들여쓰기 수정
+
+### Added
+
+- **`wrapCustomTooltip` prop** (Chart 컴포넌트): `renderTooltip` 사용 시 기본 카드 래퍼 적용 여부 제어 (default: `false`)
+- **`AccordionPadding` 타입에 `20` 추가**: DS spacing scale 완전 지원
+- **테스트 추가**: Checkbox `off` 동작 (3건), ChartTooltipAdapter wrap 동작 (2건), DragOverlay 포탈 fallback (1건)
+
+### Changed
+
+- **`DialogTitle` `weight="bold"` deprecated**: 내부적으로 `semibold`와 동일하게 처리. 향후 제거 예정
+- **SVG 파서 개선**: namespace 속성 (`xlink:href`) 및 단일 따옴표 지원 추가
+- **Storybook 규칙 일괄 적용**: 24개 story 파일에서 `{...args}` spread 제거 → 명시적 prop 전달. Three Places Rule 위반 5건 수정. `font-mono` → `font-code` 변경
+- **`RadioList`**: `defaultValue` 및 `size` prop이 `RadioGroup`/`RadioItem`에 올바르게 전달되도록 수정
+- **`EventCalendar`**: DayCell memo 비교에 `locale` 추가
+- **`tailwind.config.js`**: `text-destructive` 중복 제거 (utilities.css 수동 유틸리티 우선)
+
+### Documentation
+
+- **`MIGRATION.md`**: `sed` 명령어 macOS/Linux 분리 안내 + 1.1.x → 1.2.x 마이그레이션 섹션 추가
+- **`README.md`**: 아이콘 import 경로 예시를 실제 패키지 경로로 수정
+- **`CHANGELOG.md`**: `sliently` → `silently` 오타 수정
+- **`Checkbox.stories.tsx`**: size 기본값 문서 `'md'` → `'sm'` 수정
+
 ## [1.1.27] - 2026-04-10
 
 ### Documentation (PR #4 by @moodzmz)
@@ -82,7 +118,7 @@
 
 ### Fixed
 
-- **`Select` wrapper가 multi-select / tags variant에서 `showActions` / `applyLabel` / `cancelLabel` prop을 drop하던 버그**: wrapper가 prop을 명시적으로 enumerate하면서 누락. `<Select variant="multi-select" showActions />`가 sliently 동작하지 않던 문제 해결
+- **`Select` wrapper가 multi-select / tags variant에서 `showActions` / `applyLabel` / `cancelLabel` prop을 drop하던 버그**: wrapper가 prop을 명시적으로 enumerate하면서 누락. `<Select variant="multi-select" showActions />`가 silently 동작하지 않던 문제 해결
   - 추가로 `defaultValue`, `maxVisibleTags`, `overflowText` 등 다른 prop들도 동일한 위험이 있었음
   - 재발 방지: wrapper를 spread 패턴으로 리팩터링 (`{...rest}` forward) → 이후 `MultiSelectProps` / `TagsSelectProps`에 prop을 추가하면 자동으로 forward됨
 - **`Select` 적용 버튼 disabled 상태**: `applyDisabled` 시 `disabled` 속성과 `opacity-50 cursor-not-allowed` 스타일 적용, hover 효과 제거, onClick 단락(short-circuit)

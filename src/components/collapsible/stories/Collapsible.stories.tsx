@@ -119,14 +119,14 @@ export const MultipleItems: Story = {
           </CollapsibleTrigger>
         </div>
         <div className="padding-x-12 padding-y-8 margin-t-16 rounded-md border-default">
-          <span className="size-sm font-body font-mono">@radix-ui/primitives</span>
+          <span className="size-sm font-body font-code">@radix-ui/primitives</span>
         </div>
         <CollapsibleContent className="flex flex-col ds-gap-8">
           <div className="padding-x-12 padding-y-8 margin-t-16 rounded-md border-default">
-            <span className="size-sm font-body font-mono">@radix-ui/colors</span>
+            <span className="size-sm font-body font-code">@radix-ui/colors</span>
           </div>
           <div className="padding-x-12 padding-y-8 margin-t-16 rounded-md border-default">
-            <span className="size-sm font-body font-mono">@stitches/react</span>
+            <span className="size-sm font-body font-code">@stitches/react</span>
           </div>
         </CollapsibleContent>
       </Collapsible>
@@ -208,7 +208,7 @@ export const ContentPanel: Story = {
             </div>
             <div className="flex justify-between">
               <span className="size-sm font-body text-muted">버전</span>
-              <span className="size-sm font-body font-mono">1.0.43</span>
+              <span className="size-sm font-body font-code">1.0.43</span>
             </div>
             <div className="flex justify-between">
               <span className="size-sm font-body text-muted">상태</span>

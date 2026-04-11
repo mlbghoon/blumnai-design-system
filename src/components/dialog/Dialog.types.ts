@@ -62,6 +62,7 @@ export interface DialogTitleProps extends ComponentPropsWithoutRef<typeof Dialog
   /**
    * 타이틀 font-weight
    * @default 'semibold'
+   * @remarks 'bold'는 deprecated — 내부적으로 'semibold'와 동일하게 처리됩니다
    */
   weight?: 'medium' | 'semibold' | 'bold';
 }

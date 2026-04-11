@@ -211,7 +211,21 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const chartRef = useRef<HTMLDivElement>(null);
-    return <DonutChart ref={chartRef} {...args} />;
+    return (
+      <DonutChart
+        ref={chartRef}
+        data={args.data}
+        dataKey={args.dataKey}
+        nameKey={args.nameKey}
+        config={args.config}
+        width={args.width}
+        height={args.height}
+        innerRadius={args.innerRadius}
+        outerRadius={args.outerRadius}
+        showLegend={args.showLegend}
+        className={args.className}
+      />
+    );
   },
 };
 

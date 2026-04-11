@@ -15,6 +15,7 @@ interface ChartTooltipAdapterProps {
   }>;
   label?: string | number;
   renderTooltip?: (params: ChartTooltipParams) => ReactNode;
+  wrapCustomTooltip?: boolean;
   getLabel: (key: string) => string;
   getColor: (key: string, index: number) => string;
 }
@@ -24,6 +25,7 @@ export function ChartTooltipAdapter({
   payload,
   label,
   renderTooltip,
+  wrapCustomTooltip = false,
   getLabel,
   getColor,
 }: ChartTooltipAdapterProps) {
@@ -39,11 +41,14 @@ export function ChartTooltipAdapter({
     })),
   };
 
-  if (renderTooltip) return (
-    <div className="rounded-card-xs padding-4 bg-card shadow-modal-sm">
-      {renderTooltip(params)}
-    </div>
-  );
+  if (renderTooltip) {
+    const content = renderTooltip(params);
+    return wrapCustomTooltip ? (
+      <div className="rounded-card-xs padding-4 bg-card shadow-modal-sm">
+        {content}
+      </div>
+    ) : <>{content}</>;
+  }
 
   const tooltipItems: TooltipItemData[] = [
     { type: 'label', label: String(label ?? '') },
@@ -69,6 +74,7 @@ interface PieTooltipAdapterProps {
     };
   }>;
   renderTooltip?: (params: PieTooltipParams) => ReactNode;
+  wrapCustomTooltip?: boolean;
   getLabel: (key: string) => string;
   totalValue?: number;
 }
@@ -77,6 +83,7 @@ export function PieTooltipAdapter({
   active,
   payload,
   renderTooltip,
+  wrapCustomTooltip = false,
   getLabel,
   totalValue = 0,
 }: PieTooltipAdapterProps) {
@@ -90,11 +97,14 @@ export function PieTooltipAdapter({
 
   const params: PieTooltipParams = { name, value, percent: percent * 100, color };
 
-  if (renderTooltip) return (
-    <div className="rounded-card-xs padding-4 bg-card shadow-modal-sm">
-      {renderTooltip(params)}
-    </div>
-  );
+  if (renderTooltip) {
+    const content = renderTooltip(params);
+    return wrapCustomTooltip ? (
+      <div className="rounded-card-xs padding-4 bg-card shadow-modal-sm">
+        {content}
+      </div>
+    ) : <>{content}</>;
+  }
 
   const tooltipItems: TooltipItemData[] = [
     { type: 'label', label: getLabel(name) },

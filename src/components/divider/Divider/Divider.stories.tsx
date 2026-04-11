@@ -163,6 +163,7 @@ export const Default: Story = {
     buttonLeadIcon: undefined,
     buttonTailIcon: undefined,
     buttonBadge: undefined,
+    onButtonClick: undefined,
   },
   parameters: {
     controls: { disable: false },

@@ -85,11 +85,13 @@ export default {
         ),
         // Text colors - matches Figma CSS variables (--text-default, etc.)
         // Define at root level for direct use: text-muted, text-subtle, etc.
+        // Note: 'destructive' is intentionally omitted here — it's defined above
+        // as a shadcn structure { DEFAULT, foreground }. The DS text color
+        // (text-destructive) is provided by the hand-written utility in utilities.css.
         muted: 'var(--text-muted)',
         subtle: 'var(--text-subtle)',
         default: 'var(--text-default)',
         hint: 'var(--text-hint)',
-        destructive: 'var(--text-destructive)',
         success: 'var(--text-success)',
         warning: 'var(--text-warning)',
         informative: 'var(--text-informative)',

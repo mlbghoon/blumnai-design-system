@@ -159,7 +159,16 @@ export const Group: Story = {
   },
   render: function Render(args) {
     const groupRef = useRef<HTMLDivElement>(null);
-    return <AccordionGroup ref={groupRef} {...args} />;
+    return (
+      <AccordionGroup
+        ref={groupRef}
+        items={args.items}
+        spacing={args.spacing}
+        style={args.style}
+        allowMultipleOpen={args.allowMultipleOpen}
+        className={args.className}
+      />
+    );
   },
 };
 

@@ -78,7 +78,15 @@ export const Default: Story = {
     height: 20,
   },
   render: function Render(args) {
-    return <Skeleton {...args} />;
+    return (
+      <Skeleton
+        variant={args.variant}
+        animation={args.animation}
+        count={args.count}
+        width={args.width}
+        height={args.height}
+      />
+    );
   },
 };
 

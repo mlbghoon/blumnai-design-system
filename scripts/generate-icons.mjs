@@ -222,18 +222,18 @@ function parseSvgToTree(svgString) {
     // extract tag name
     const rawTag = isSelfClosing ? s.slice(tagStart + 1, tagEnd).replace(/\/$/, '').trim()
       : s.slice(tagStart + 1, tagEnd).trim();
-    const tagNameMatch = rawTag.match(/^(\w[\w-]*)/);
+    const tagNameMatch = rawTag.match(/^([A-Za-z_][\w:.-]*)/);
     if (!tagNameMatch) throw new Error(`Cannot parse tag name from: "${rawTag}"`);
     const tag = tagNameMatch[1];
 
     // extract attributes
     const attrString = rawTag.slice(tag.length).trim();
     const attrs = {};
-    const attrRegex = /([\w-]+)="([^"]*)"/g;
+    const attrRegex = /([A-Za-z_:][\w:.-]*)=(?:"([^"]*)"|'([^']*)')/g;
     let attrMatch;
     let matchedLength = 0;
     while ((attrMatch = attrRegex.exec(attrString)) !== null) {
-      attrs[attrMatch[1]] = attrMatch[2];
+      attrs[attrMatch[1]] = attrMatch[2] ?? attrMatch[3] ?? '';
       matchedLength += attrMatch[0].length;
     }
     // verify we parsed all attributes (allow whitespace)

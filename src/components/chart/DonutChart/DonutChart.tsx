@@ -47,6 +47,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
       isLoading,
       responsive,
       renderTooltip,
+      wrapCustomTooltip,
       ...props
     },
     ref
@@ -121,6 +122,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
         content={
           <PieTooltipAdapter
             renderTooltip={renderTooltip}
+            wrapCustomTooltip={wrapCustomTooltip}
             getLabel={getLabel}
             totalValue={totalValue}
           />

@@ -48,6 +48,7 @@ const RadioList = React.forwardRef<HTMLDivElement, RadioListProps>(
       <RadioGroup
         ref={ref}
         value={value}
+        defaultValue={defaultValue}
         onValueChange={onValueChange}
         disabled={disabled}
         error={error}
@@ -60,6 +61,7 @@ const RadioList = React.forwardRef<HTMLDivElement, RadioListProps>(
             key={item.value}
             value={item.value}
             disabled={item.disabled}
+            size={size}
             radioStyle={radioStyle}
             label={item.title}
             description={item.description}

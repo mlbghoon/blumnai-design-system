@@ -117,6 +117,7 @@ export const Default: Story = {
     disabled: false,
     disabledFuture: false,
     showQuickPresets: false,
+    presets: [],
   },
   parameters: {
     controls: { disable: false },
@@ -126,7 +127,12 @@ export const Default: Story = {
     return (
       <div style={{ width: 300 }}>
         <MonthRangePicker
-          {...args}
+          label={args.label}
+          locale={args.locale}
+          disabled={args.disabled}
+          disabledFuture={args.disabledFuture}
+          showQuickPresets={args.showQuickPresets}
+          presets={args.presets}
           value={value}
           onChange={setValue}
         />

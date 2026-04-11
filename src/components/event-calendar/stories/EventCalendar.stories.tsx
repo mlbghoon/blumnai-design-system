@@ -98,7 +98,10 @@ export const Default: Story = {
     const [month, setMonth] = useState(new Date());
     return (
       <EventCalendar
-        {...args}
+        size={args.size}
+        weekStartsOn={args.weekStartsOn}
+        cellHeight={args.cellHeight}
+        className={args.className}
         month={month}
         onMonthChange={setMonth}
       />

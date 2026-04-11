@@ -47,7 +47,9 @@ const parseSvg = (rawSvg) => {
   // Transform all nodes: camelCase attrs, replace fill/stroke with dynamic values
   walkTree(root.children, (node) => {
     const newAttrs = {};
-    let hasStroke = false;
+    const hasDynamicStroke = Object.entries(node.attrs).some(
+      ([k, v]) => attrToReactProp(k) === 'stroke' && /^#[0-9A-Fa-f]+$/.test(v)
+    );
 
     for (const [k, v] of Object.entries(node.attrs)) {
       const reactKey = attrToReactProp(k);
@@ -56,9 +58,7 @@ const parseSvg = (rawSvg) => {
         newAttrs.fill = { __dynamic: 'fillStyle' };
       } else if (reactKey === 'stroke' && /^#[0-9A-Fa-f]+$/.test(v)) {
         newAttrs.stroke = { __dynamic: 'strokeStyle' };
-        hasStroke = true;
-      } else if (reactKey === 'strokeOpacity' && hasStroke) {
-        // Skip stroke-opacity when stroke is replaced with dynamic
+      } else if (reactKey === 'strokeOpacity' && hasDynamicStroke) {
         continue;
       } else {
         newAttrs[reactKey] = v;
