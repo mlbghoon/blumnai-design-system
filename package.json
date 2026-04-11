@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -666,7 +666,7 @@
     "test:visual:ui": "playwright test --ui",
     "test:visual:update": "playwright test --update-snapshots",
     "analyze": "ANALYZE=true npm run build:lib",
-    "prepublishOnly": "npm run build:lib"
+    "prepublishOnly": "npm run typecheck && npm run lint && npm run build:lib"
   },
   "peerDependencies": {
     "@hookform/resolvers": "^3.10.0 || ^5.0.0",

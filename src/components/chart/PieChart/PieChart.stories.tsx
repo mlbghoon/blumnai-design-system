@@ -164,6 +164,8 @@ export const Default: Story = {
     height: 400,
     outerRadius: 150,
     showLegend: false,
+    isHalf: false,
+    ariaLabel: undefined,
     className: '',
   },
   parameters: {
@@ -182,6 +184,8 @@ export const Default: Story = {
         height={args.height}
         outerRadius={args.outerRadius}
         showLegend={args.showLegend}
+        isHalf={args.isHalf}
+        ariaLabel={args.ariaLabel}
         className={args.className}
       />
     );

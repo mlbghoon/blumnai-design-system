@@ -112,7 +112,7 @@ fs.mkdirSync(OUT_DIR, { recursive: true });
 // Clean old .tsx and .ts files (but keep types)
 const existingFiles = fs.readdirSync(OUT_DIR);
 for (const file of existingFiles) {
-  if ((file.endsWith('.tsx') || file.endsWith('.ts')) && file !== 'isometric.types.ts') {
+  if (file.startsWith('iso-') && (file.endsWith('.tsx') || file.endsWith('.ts'))) {
     fs.unlinkSync(path.join(OUT_DIR, file));
   }
 }

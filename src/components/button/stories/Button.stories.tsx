@@ -200,6 +200,7 @@ export const Default: Story = {
     fullWidth: false,
     width: undefined,
     asChild: false,
+    onClick: undefined,
   },
   parameters: {
     controls: { disable: false },

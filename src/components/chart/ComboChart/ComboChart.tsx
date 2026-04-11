@@ -88,27 +88,31 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
 
   const primaryDomain = useMemo(() => {
     if (primaryAxis.domain !== 'auto' && primaryAxis.domain !== undefined) return primaryAxis.domain;
-    const max = safeData.reduce((m, d) => {
+    let min = 0;
+    let max = 0;
+    for (const d of safeData) {
       for (const k of primaryKeys) {
         const v = Number(d[k] ?? 0);
-        if (v > m) m = v;
+        if (v < min) min = v;
+        if (v > max) max = v;
       }
-      return m;
-    }, 0);
-    return [0, Math.max(max, 1)] as [number, number];
+    }
+    return [Math.min(min, 0), Math.max(max, 1)] as [number, number];
   }, [primaryAxis.domain, safeData, primaryKeys]);
 
   const secondaryDomain = useMemo(() => {
     if (!secondaryAxis) return undefined;
     if (secondaryAxis.domain !== 'auto' && secondaryAxis.domain !== undefined) return secondaryAxis.domain;
-    const max = safeData.reduce((m, d) => {
+    let min = 0;
+    let max = 0;
+    for (const d of safeData) {
       for (const k of secondaryKeys) {
         const v = Number(d[k] ?? 0);
-        if (v > m) m = v;
+        if (v < min) min = v;
+        if (v > max) max = v;
       }
-      return m;
-    }, 0);
-    return [0, Math.max(max, 1)] as [number, number];
+    }
+    return [Math.min(min, 0), Math.max(max, 1)] as [number, number];
   }, [secondaryAxis, safeData, secondaryKeys]);
 
   const stackGroups = new Map<string, string[]>();

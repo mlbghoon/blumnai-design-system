@@ -175,6 +175,10 @@ export const Default: Story = {
     showPoints: true,
     strokeWidth: 2,
     showXGrid: true,
+    showYGrid: false,
+    showLegend: false,
+    dataKeys: undefined,
+    ariaLabel: undefined,
     className: '',
   },
   parameters: {
@@ -189,6 +193,7 @@ export const Default: Story = {
         xAxis={args.xAxis}
         yAxis={args.yAxis}
         dataKey={args.dataKey}
+        dataKeys={args.dataKeys}
         config={args.config}
         width={args.width}
         height={args.height}
@@ -196,6 +201,9 @@ export const Default: Story = {
         showPoints={args.showPoints}
         strokeWidth={args.strokeWidth}
         showXGrid={args.showXGrid}
+        showYGrid={args.showYGrid}
+        showLegend={args.showLegend}
+        ariaLabel={args.ariaLabel}
         className={args.className}
       />
     );

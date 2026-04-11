@@ -132,6 +132,7 @@ export const Default: Story = {
     disabled: false,
     asChild: false,
     width: undefined,
+    onClick: undefined,
   },
   parameters: {
     controls: { disable: false },
@@ -148,6 +149,7 @@ export const Default: Story = {
       disabled={args.disabled}
       asChild={args.asChild}
       width={args.width}
+      onClick={args.onClick}
     />
   ),
 };
