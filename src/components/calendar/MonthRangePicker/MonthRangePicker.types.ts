@@ -64,6 +64,10 @@ export interface MonthRangePickerProps {
    */
   className?: string;
   /**
+   * 컴포넌트 전체 너비
+   */
+  width?: string | number;
+  /**
    * 비활성화 여부
    * @default false
    */
@@ -82,4 +86,14 @@ export interface MonthRangePickerProps {
    * 빠른 선택 프리셋 목록
    */
   presets?: MonthRangePreset[];
+  /**
+   * 입력 필드 크기
+   * @default 'sm'
+   */
+  size?: 'sm' | 'lg';
+  /**
+   * true일 때 입력 비활성화, 클릭 시 캘린더만 열림
+   * @default false
+   */
+  pickerOnly?: boolean;
 }

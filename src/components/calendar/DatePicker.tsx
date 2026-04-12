@@ -104,6 +104,7 @@ export const DatePicker = ({
   showActions = false,
   confirmLabel = '확인',
   cancelLabel = '취소',
+  pickerOnly = false,
 }: DatePickerProps) => {
   const [open, setOpen] = useState(false);
   const [month, setMonth] = useState<Date>(value || new Date());
@@ -219,6 +220,7 @@ export const DatePicker = ({
               hasError={hasError}
               hasSuccess={hasSuccess}
               isOpen={open}
+              pickerOnly={pickerOnly}
               dateFormat={dateFormat}
               onCalendarClick={handleOpenCalendar}
             />
@@ -391,6 +393,7 @@ export const DateRangePicker = ({
   confirmLabel = '확인',
   cancelLabel = '취소',
   triggerVariant = 'default',
+  pickerOnly = false,
 }: DateRangePickerProps) => {
   const [open, setOpen] = useState(false);
   const [month, setMonth] = useState<Date>(() => {
@@ -551,6 +554,7 @@ export const DateRangePicker = ({
                 hasError={hasError}
                 hasSuccess={hasSuccess}
                 isOpen={open}
+                pickerOnly={pickerOnly}
                 dateFormat={dateFormat}
                 onCalendarClick={handleOpenCalendar}
               />

@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.2] - 2026-04-12
+
+### Added
+
+- **`MonthPicker` / `MonthRangePicker` — `width` prop 추가**: 다른 form 컴포넌트와 동일하게 컴포넌트 전체 너비 제어 가능
+- **`MonthPicker` / `MonthRangePicker` — `size` prop 추가**: `'sm' | 'lg'` 입력 필드 크기 제어 (DatePicker/DateRangePicker와 동일)
+- **`pickerOnly` prop 추가** (MonthPicker, MonthRangePicker, DatePicker, DateRangePicker): 입력 비활성화, 클릭 시 캘린더만 열림
+
+### Fixed
+
+- **CodeRabbit round 2 수정**: ComboChart Y축 음수 데이터 지원, story prop 누락 수정, prepublishOnly에 typecheck+lint 추가, isometric icon cleanup 범위 제한
+
 ## [1.2.0] - 2026-04-11
 
 ### Fixed
