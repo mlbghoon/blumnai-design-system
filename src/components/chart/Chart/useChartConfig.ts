@@ -5,6 +5,7 @@ import { DEFAULT_CHART_COLORS } from './Chart.types';
 
 interface UseChartConfigResult {
   getLabel: (key: string) => string;
+  getTooltipLabel: (key: string) => string;
   getColor: (key: string, index: number) => string;
 }
 
@@ -18,6 +19,11 @@ export function useChartConfig(
       return key;
     };
 
+    const getTooltipLabel = (key: string): string => {
+      if (config?.[key]?.tooltipLabel) return config[key].tooltipLabel!;
+      return getLabel(key);
+    };
+
     const getColor = (key: string, index: number): string => {
       if (config?.[key]) return config[key].color;
       if (colorMapping) {
@@ -29,6 +35,6 @@ export function useChartConfig(
       return DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length];
     };
 
-    return { getLabel, getColor };
+    return { getLabel, getTooltipLabel, getColor };
   }, [config, colorMapping]);
 }

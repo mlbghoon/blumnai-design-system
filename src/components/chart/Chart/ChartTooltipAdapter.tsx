@@ -17,7 +17,9 @@ interface ChartTooltipAdapterProps {
   renderTooltip?: (params: ChartTooltipParams) => ReactNode;
   wrapCustomTooltip?: boolean;
   getLabel: (key: string) => string;
+  getTooltipLabel?: (key: string) => string;
   getColor: (key: string, index: number) => string;
+  tooltipValueFormatter?: (value: number) => string;
 }
 
 export function ChartTooltipAdapter({
@@ -27,18 +29,24 @@ export function ChartTooltipAdapter({
   renderTooltip,
   wrapCustomTooltip = false,
   getLabel,
+  getTooltipLabel,
   getColor,
+  tooltipValueFormatter,
 }: ChartTooltipAdapterProps) {
   if (!active || !payload?.length) return null;
+
+  const resolveLabel = getTooltipLabel ?? getLabel;
+  const formatValue = tooltipValueFormatter ?? String;
 
   const params: ChartTooltipParams = {
     xValue: label ?? '',
     items: payload.map((entry, i) => ({
       dataKey: String(entry.dataKey ?? ''),
-      label: getLabel(String(entry.dataKey ?? '')),
+      label: resolveLabel(String(entry.dataKey ?? '')),
       value: Number(entry.value ?? 0),
       color: entry.color || getColor(String(entry.dataKey ?? ''), i),
     })),
+    valueFormatter: tooltipValueFormatter,
   };
 
   if (renderTooltip) {
@@ -56,7 +64,7 @@ export function ChartTooltipAdapter({
     ...params.items.map((item) => ({
       type: 'item' as const,
       label: item.label,
-      caption: String(item.value),
+      caption: formatValue(item.value),
       indicatorColor: item.color,
     })),
   ];
@@ -76,7 +84,9 @@ interface PieTooltipAdapterProps {
   renderTooltip?: (params: PieTooltipParams) => ReactNode;
   wrapCustomTooltip?: boolean;
   getLabel: (key: string) => string;
+  getTooltipLabel?: (key: string) => string;
   totalValue?: number;
+  tooltipValueFormatter?: (value: number) => string;
 }
 
 export function PieTooltipAdapter({
@@ -85,9 +95,14 @@ export function PieTooltipAdapter({
   renderTooltip,
   wrapCustomTooltip = false,
   getLabel,
+  getTooltipLabel,
   totalValue = 0,
+  tooltipValueFormatter,
 }: PieTooltipAdapterProps) {
   if (!active || !payload?.length) return null;
+
+  const resolveLabel = getTooltipLabel ?? getLabel;
+  const formatValue = tooltipValueFormatter ?? String;
 
   const entry = payload[0];
   const name = String(entry.name ?? '');
@@ -95,7 +110,7 @@ export function PieTooltipAdapter({
   const percent = totalValue > 0 ? value / totalValue : 0;
   const color = String(entry.payload?.fill ?? '');
 
-  const params: PieTooltipParams = { name, value, percent: percent * 100, color };
+  const params: PieTooltipParams = { name, value, percent: percent * 100, color, valueFormatter: tooltipValueFormatter };
 
   if (renderTooltip) {
     const content = renderTooltip(params);
@@ -107,9 +122,9 @@ export function PieTooltipAdapter({
   }
 
   const tooltipItems: TooltipItemData[] = [
-    { type: 'label', label: getLabel(name) },
+    { type: 'label', label: resolveLabel(name) },
     { type: 'divider' },
-    { type: 'item', label: getLabel(name), caption: String(value), indicatorColor: color },
+    { type: 'item', label: resolveLabel(name), caption: formatValue(value), indicatorColor: color },
     { type: 'item', label: `${(percent * 100).toFixed(1)}%`, indicatorColor: color },
   ];
 

@@ -1,20 +1,33 @@
 # Changelog
 
-## [1.2.3] - 2026-04-12
+## [1.3.0] - 2026-04-12
 
-### Added
+### Added — Chart Feature Gaps (소비자 마이그레이션 지원)
 
-- **`MonthPicker` / `MonthRangePicker` — `width` prop 추가**: 다른 form 컴포넌트와 동일하게 컴포넌트 전체 너비 제어 가능
-- **`MonthPicker` / `MonthRangePicker` — `size` prop 추가**: `'sm' | 'lg'` 입력 필드 크기 제어 (DatePicker/DateRangePicker와 동일)
-- **`pickerOnly` prop 추가** (MonthPicker, MonthRangePicker, DatePicker, DateRangePicker): 입력 비활성화, 클릭 시 캘린더만 열림
-- **Color Alpha 토큰 세분화**: 모든 non-gray 색상 (17개)에 `alpha-2`, `alpha-4`, `alpha-10` 레벨 추가 (4개 테마 모두 적용, 총 204개 토큰)
+- **Interactive Legend** (`legendInteractive` prop): 클릭으로 시리즈 토글. 마지막 시리즈 숨기기 방지. 숨긴 항목 opacity 0.4, dot 색상 #ccc. 모든 차트 컴포넌트 지원
+- **BarList 컴포넌트** (신규): 수평 바 리스트. collapse/expand, 값 포맷터, valueSuffix, maxHeight 스크롤, 항목 클릭 콜백 지원
+- **Animation Control** (`animated` prop): false 설정 시 모든 Recharts 애니메이션 비활성화 (PDF 캡처용). 모든 차트 + BarList 지원
+- **Chart Wrapper Variant** (`variant` prop): `'unstyled'` 설정 시 배경/그림자/라운드 제거 (카드 내부 임베딩용)
+- **Tooltip Value Formatter** (`tooltipValueFormatter` prop): 숫자 값 커스텀 포맷 (예: `toLocaleString('ko-KR')`)
+- **Tooltip Label Alias** (`ChartConfigItem.tooltipLabel`): 범례와 다른 툴팁 전용 라벨
+- **DonutChart Footnote** (`footnote` prop): 차트 하단 각주 텍스트
+- **Margin Control** (`margin` prop): Recharts 차트 영역 마진 커스텀 설정
+- **Theme-aware Strokes**: Pie/Donut 세그먼트 + Line/Combo dot stroke가 `var(--bg-card)` 사용 (다크 모드 호환)
+
+### Added — 기타
+
+- **`MonthPicker` / `MonthRangePicker` — `width` prop 추가**
+- **`MonthPicker` / `MonthRangePicker` — `size` prop 추가** (`'sm' | 'lg'`)
+- **`pickerOnly` prop** (MonthPicker, MonthRangePicker, DatePicker, DateRangePicker)
+- **Color Alpha 토큰 세분화**: 17개 색상 × 3 레벨 × 4 테마 = 204개 토큰
 
 ### Fixed
 
-- **InfoBox 레이아웃 수정**: 제목 중복 렌더링 제거, `whitespace-pre-line`으로 줄바꿈 지원, 아이콘 수직 정렬
-- **PieChart / DonutChart 컨테이너 오버플로우**: `outerRadius`가 컨테이너 크기를 초과할 때 자동 클램핑 (`Math.min(outerRadius, Math.min(width, height) / 2 - 4)`)
-- **Chart Storybook Controls 미작동**: BarChart (8개), DonutChart (4개), ComboChart (1개) Default 스토리에서 누락된 prop을 args/render에 추가
-- **CodeRabbit round 2 수정**: ComboChart Y축 음수 데이터 지원, prepublishOnly에 typecheck+lint 추가, isometric icon cleanup 범위 제한
+- **InfoBox 레이아웃**: 제목 중복 제거, 줄바꿈 지원, 아이콘 정렬
+- **PieChart / DonutChart 오버플로우**: outerRadius 자동 클램핑
+- **DonutChart half 모드 중앙 라벨**: 범례와 겹치지 않도록 위치 수정
+- **Chart Storybook Controls**: 누락 prop 연결 (BarChart 8개, DonutChart 4개, ComboChart 1개)
+- **CodeRabbit round 2**: ComboChart Y축 음수, prepublishOnly 강화, icon cleanup 범위 제한
 
 ## [1.2.0] - 2026-04-11
 

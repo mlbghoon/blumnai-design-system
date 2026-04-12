@@ -18,8 +18,10 @@ import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
 import { ChartTooltipAdapter } from '../Chart/ChartTooltipAdapter';
 import { ChartLegend } from '../Chart/ChartLegend';
+import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 
 import type { LineChartProps } from '../Chart/Chart.types';
+import { DEFAULT_CHART_MARGIN } from '../Chart/Chart.types';
 
 /**
  * LineChart 컴포넌트
@@ -50,13 +52,20 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       ariaLabel,
       onDataPointClick,
       isLoading,
+      margin,
+      animated,
       responsive,
       renderTooltip,
       wrapCustomTooltip,
+      tooltipValueFormatter,
+      legendInteractive = false,
       ...props
     },
     ref
   ) => {
+  const chartMargin = { ...DEFAULT_CHART_MARGIN, ...margin };
+  const isAnimated = animated !== false;
+
   if (import.meta.env.DEV) {
     if (dataKey && dataKeys && dataKeys.length > 0) {
       console.warn('[LineChart] dataKey와 dataKeys가 동시에 제공되었습니다. dataKeys가 우선 적용됩니다.');
@@ -70,7 +79,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     return isMultiLine ? dataKeys : (dataKey ? [dataKey] : []);
   }, [isMultiLine, dataKeys, dataKey]);
 
-  const { getLabel, getColor } = useChartConfig(config, lineColors);
+  const { getLabel, getTooltipLabel, getColor } = useChartConfig(config, lineColors);
+  const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(activeKeys, legendInteractive);
 
   const handleChartClick = useCallback((state: MouseHandlerDataParam) => {
     if (!onDataPointClick || state?.activeTooltipIndex == null) return;
@@ -92,7 +102,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   const chartContent = (
     <ChartComponent
       data={safeData}
-      margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+      margin={chartMargin}
       onClick={onDataPointClick ? handleChartClick : undefined}
     >
       <CartesianGrid
@@ -127,15 +137,17 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             renderTooltip={renderTooltip}
             wrapCustomTooltip={wrapCustomTooltip}
             getLabel={getLabel}
+            getTooltipLabel={getTooltipLabel}
             getColor={getColor}
+            tooltipValueFormatter={tooltipValueFormatter}
           />
         }
         cursor={{ stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
       />
       {showLegend && (
-        <Legend content={<ChartLegend variant="square" />} />
+        <Legend content={<ChartLegend variant="square" interactive={legendInteractive} hiddenSeries={hiddenSeries} onToggle={toggleSeries} />} />
       )}
-      {activeKeys.map((key, index) => {
+      {activeKeys.filter(key => !isHidden(key)).map((key, index) => {
         const color = getColor(key, index);
         if (showArea) {
           return (
@@ -148,9 +160,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
               fill={color}
               fillOpacity={0.1}
               strokeWidth={strokeWidth}
-              dot={showPoints ? { r: 4, fill: color, stroke: '#fff', strokeWidth: 2 } : false}
-              activeDot={showPoints ? { r: 5, fill: color, stroke: '#fff', strokeWidth: 2 } : undefined}
+              dot={showPoints ? { r: 4, fill: color, stroke: 'var(--bg-card)', strokeWidth: 2 } : false}
+              activeDot={showPoints ? { r: 5, fill: color, stroke: 'var(--bg-card)', strokeWidth: 2 } : undefined}
               name={getLabel(key)}
+              isAnimationActive={isAnimated}
             />
           );
         }
@@ -162,9 +175,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             dataKey={key}
             stroke={color}
             strokeWidth={strokeWidth}
-            dot={showPoints ? { r: 4, fill: color, stroke: '#fff', strokeWidth: 2 } : false}
-            activeDot={showPoints ? { r: 5, fill: color, stroke: '#fff', strokeWidth: 2 } : undefined}
+            dot={showPoints ? { r: 4, fill: color, stroke: 'var(--bg-card)', strokeWidth: 2 } : false}
+            activeDot={showPoints ? { r: 5, fill: color, stroke: 'var(--bg-card)', strokeWidth: 2 } : undefined}
             name={getLabel(key)}
+            isAnimationActive={isAnimated}
           />
         );
       })}

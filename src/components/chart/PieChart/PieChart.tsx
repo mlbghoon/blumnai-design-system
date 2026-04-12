@@ -10,6 +10,7 @@ import {
 
 import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
+import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 import { PieTooltipAdapter } from '../Chart/ChartTooltipAdapter';
 import { ChartLegend } from '../Chart/ChartLegend';
 
@@ -36,6 +37,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
       paddingAngle = 0,
       showLegend = false,
       isHalf = false,
+      animated,
       className,
       ariaLabel,
       onDataPointClick,
@@ -43,23 +45,31 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
       responsive,
       renderTooltip,
       wrapCustomTooltip,
+      tooltipValueFormatter,
+      legendInteractive = false,
       ...props
     },
     ref
   ) => {
+  const isAnimated = animated !== false;
   const safeData = useMemo(() => data ?? [], [data]);
-  const { getLabel, getColor } = useChartConfig(config);
+  const { getLabel, getTooltipLabel, getColor } = useChartConfig(config);
 
-  const colors = useMemo(() => {
-    return safeData.map((item, index) => {
+  const allPieKeys = useMemo(() => safeData.map(d => String(d[nameKey] ?? '')), [safeData, nameKey]);
+  const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(allPieKeys, legendInteractive);
+
+  const filteredData = useMemo(() => safeData.filter(d => !isHidden(String(d[nameKey] ?? ''))), [safeData, nameKey, isHidden]);
+
+  const filteredColors = useMemo(() => {
+    return filteredData.map((item, index) => {
       const name = String(item[nameKey] ?? '');
       return getColor(name, index);
     });
-  }, [safeData, nameKey, getColor]);
+  }, [filteredData, nameKey, getColor]);
 
   const totalValue = useMemo(
-    () => safeData.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
-    [safeData, dataKey]
+    () => filteredData.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
+    [filteredData, dataKey]
   );
 
   // Recharts 각도 변환: Recharts는 0 = 12시 방향, 시계 방향이 양수
@@ -77,7 +87,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
   const chartContent = (
     <RPieChart>
       <Pie
-        data={safeData}
+        data={filteredData}
         dataKey={dataKey}
         nameKey={nameKey}
         cx="50%"
@@ -86,14 +96,15 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
         startAngle={rStartAngle}
         endAngle={rEndAngle}
         paddingAngle={paddingAngle}
-        stroke="#fff"
+        isAnimationActive={isAnimated}
+        stroke="var(--bg-card)"
         strokeWidth={2}
         onClick={(_data: Record<string, unknown>, idx: number) => {
-          if (onDataPointClick) onDataPointClick(safeData[idx], idx);
+          if (onDataPointClick) onDataPointClick(filteredData[idx], idx);
         }}
       >
-        {safeData.map((_, index) => (
-          <Cell key={`cell-${index}`} fill={colors[index]} />
+        {filteredData.map((_, index) => (
+          <Cell key={`cell-${index}`} fill={filteredColors[index]} />
         ))}
       </Pie>
       <Tooltip
@@ -102,12 +113,14 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
             renderTooltip={renderTooltip}
             wrapCustomTooltip={wrapCustomTooltip}
             getLabel={getLabel}
+            getTooltipLabel={getTooltipLabel}
             totalValue={totalValue}
+            tooltipValueFormatter={tooltipValueFormatter}
           />
         }
       />
       {showLegend && (
-        <Legend content={<ChartLegend variant="circle" />} />
+        <Legend content={<ChartLegend variant="circle" interactive={legendInteractive} hiddenSeries={hiddenSeries} onToggle={toggleSeries} />} />
       )}
     </RPieChart>
   );

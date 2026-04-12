@@ -4,6 +4,7 @@ export { LineChart } from './LineChart';
 export { PieChart } from './PieChart';
 export { DonutChart } from './DonutChart';
 export { ComboChart } from './ComboChart';
+export { BarList } from './BarList';
 
 export type {
   BaseChartProps,
@@ -23,4 +24,6 @@ export type {
   PieTooltipParams,
 } from './Chart/Chart.types';
 
-export { DEFAULT_CHART_COLORS } from './Chart/Chart.types';
+export type { BarListProps, BarListItem } from './BarList/BarList.types';
+
+export { DEFAULT_CHART_COLORS, DEFAULT_CHART_MARGIN } from './Chart/Chart.types';

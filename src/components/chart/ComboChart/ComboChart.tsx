@@ -17,11 +17,12 @@ import type { MouseHandlerDataParam } from 'recharts/types/synchronisation/types
 
 import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
+import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 import { ChartTooltipAdapter } from '../Chart/ChartTooltipAdapter';
 import { ChartLegend } from '../Chart/ChartLegend';
 
 import type { ComboChartProps } from '../Chart/Chart.types';
-import { DEFAULT_CHART_COLORS } from '../Chart/Chart.types';
+import { DEFAULT_CHART_COLORS, DEFAULT_CHART_MARGIN } from '../Chart/Chart.types';
 
 /**
  * ComboChart 컴포넌트
@@ -47,16 +48,29 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
       ariaLabel,
       onDataPointClick,
       isLoading,
+      margin,
+      animated,
       responsive,
       renderTooltip,
       wrapCustomTooltip,
+      tooltipValueFormatter,
+      legendInteractive = false,
       ...props
     },
     ref
   ) => {
+  const chartMargin = { ...DEFAULT_CHART_MARGIN, bottom: 24, ...margin };
+  const isAnimated = animated !== false;
+
   const safeData = useMemo(() => data ?? [], [data]);
 
-  const { getLabel, getColor } = useChartConfig(config);
+  const { getLabel, getTooltipLabel, getColor } = useChartConfig(config);
+
+  const allKeys = useMemo(() => [
+    ...barSeries.map(s => s.dataKey),
+    ...lineSeries.map(s => s.dataKey),
+  ], [barSeries, lineSeries]);
+  const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(allKeys, legendInteractive);
   const isDualAxis = Array.isArray(yAxis);
   const primaryAxis = isDualAxis ? yAxis[0] : yAxis;
   const secondaryAxis = isDualAxis ? yAxis[1] : undefined;
@@ -127,7 +141,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
   const chartContent = (
     <ComposedChart
       data={safeData}
-      margin={{ top: 20, right: 20, bottom: 24, left: 20 }}
+      margin={chartMargin}
       onClick={onDataPointClick ? handleChartClick : undefined}
     >
       <CartesianGrid
@@ -181,15 +195,17 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
             renderTooltip={renderTooltip}
             wrapCustomTooltip={wrapCustomTooltip}
             getLabel={getLabel}
+            getTooltipLabel={getTooltipLabel}
             getColor={getColor}
+            tooltipValueFormatter={tooltipValueFormatter}
           />
         }
         cursor={{ stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
       />
       {showLegend && (
-        <Legend content={<ChartLegend variant="square" />} />
+        <Legend content={<ChartLegend variant="square" interactive={legendInteractive} hiddenSeries={hiddenSeries} onToggle={toggleSeries} />} />
       )}
-      {barSeries.map((series, index) => {
+      {barSeries.filter(s => !isHidden(s.dataKey)).map((series, index) => {
         const color = getSeriesColor(series.dataKey, series.color, index);
         const stackId = series.stack ?? undefined;
 
@@ -209,6 +225,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
               fill={color}
               name={getLabel(series.dataKey)}
               barSize={series.barSize}
+              isAnimationActive={isAnimated}
               shape={(shapeProps: RectangleProps) => {
                 const r = isStackTop
                   ? [radius, radius, 0, 0] as [number, number, number, number]
@@ -228,11 +245,12 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
             fill={color}
             name={getLabel(series.dataKey)}
             barSize={series.barSize}
+            isAnimationActive={isAnimated}
             radius={radius ? [radius, radius, radius, radius] : undefined}
           />
         );
       })}
-      {lineSeries.map((series, index) => {
+      {lineSeries.filter(s => !isHidden(s.dataKey)).map((series, index) => {
         const color = getSeriesColor(series.dataKey, series.color, barSeries.length + index);
         const yAxisId = String(series.yAxisIndex ?? 0);
         const curveType = series.smooth ? 'monotone' : 'linear';
@@ -250,7 +268,8 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
               fillOpacity={0.1}
               strokeWidth={series.strokeWidth ?? 2}
               name={getLabel(series.dataKey)}
-              dot={{ r: 4, fill: color, stroke: '#fff', strokeWidth: 2 }}
+              dot={{ r: 4, fill: color, stroke: 'var(--bg-card)', strokeWidth: 2 }}
+              isAnimationActive={isAnimated}
             />
           );
         }
@@ -265,7 +284,8 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
             stroke={color}
             strokeWidth={series.strokeWidth ?? 2}
             name={getLabel(series.dataKey)}
-            dot={{ r: 4, fill: color, stroke: '#fff', strokeWidth: 2 }}
+            dot={{ r: 4, fill: color, stroke: 'var(--bg-card)', strokeWidth: 2 }}
+            isAnimationActive={isAnimated}
           />
         );
       })}

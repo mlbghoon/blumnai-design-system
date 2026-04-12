@@ -33,4 +33,34 @@ describe('ChartTooltipAdapter', () => {
     const custom = screen.getByTestId('custom');
     expect(custom.parentElement?.className).toContain('rounded-card-xs');
   });
+
+  it('uses tooltipValueFormatter for default tooltip values', () => {
+    render(
+      <ChartTooltipAdapter
+        {...defaultProps}
+        tooltipValueFormatter={(v) => `$${v.toLocaleString()}`}
+      />
+    );
+    expect(screen.getByText('$100')).toBeInTheDocument();
+  });
+
+  it('uses getTooltipLabel instead of getLabel for tooltip items', () => {
+    render(
+      <ChartTooltipAdapter
+        {...defaultProps}
+        getTooltipLabel={() => '툴팁 전용 라벨'}
+      />
+    );
+    expect(screen.getByText('툴팁 전용 라벨')).toBeInTheDocument();
+  });
+
+  it('falls back to getLabel when getTooltipLabel is not provided', () => {
+    render(
+      <ChartTooltipAdapter
+        {...defaultProps}
+        getLabel={() => '기본 라벨'}
+      />
+    );
+    expect(screen.getByText('기본 라벨')).toBeInTheDocument();
+  });
 });

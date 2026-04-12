@@ -15,11 +15,12 @@ import type { MouseHandlerDataParam } from 'recharts/types/synchronisation/types
 
 import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
+import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 import { ChartTooltipAdapter } from '../Chart/ChartTooltipAdapter';
 import { ChartLegend } from '../Chart/ChartLegend';
 
 import type { BarChartProps } from '../Chart/Chart.types';
-import { DEFAULT_CHART_COLORS } from '../Chart/Chart.types';
+import { DEFAULT_CHART_COLORS, DEFAULT_CHART_MARGIN } from '../Chart/Chart.types';
 
 /**
  * BarChart 컴포넌트
@@ -51,16 +52,26 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       ariaLabel,
       onDataPointClick,
       isLoading,
+      margin,
+      animated,
       responsive,
       renderTooltip,
       wrapCustomTooltip,
+      tooltipValueFormatter,
+      legendInteractive = false,
       ...props
     },
     ref
   ) => {
   const isHorizontal = layout === 'horizontal';
+  const defaultBarMargin = { ...DEFAULT_CHART_MARGIN, left: isHorizontal ? 60 : 20 };
+  const chartMargin = { ...defaultBarMargin, ...margin };
+  const isAnimated = animated !== false;
   const safeData = useMemo(() => data ?? [], [data]);
-  const { getLabel, getColor } = useChartConfig(config, stackedColors);
+  const { getLabel, getTooltipLabel, getColor } = useChartConfig(config, stackedColors);
+
+  const allKeys = useMemo(() => stacked ? (stackedKeys ?? []) : (dataKey ? [dataKey] : []), [stacked, stackedKeys, dataKey]);
+  const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(allKeys, legendInteractive);
 
   const getBarColor = (key: string, index: number): string => {
     if (config?.[key]) return config[key].color;
@@ -107,6 +118,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
           fill={getBarColor(stackKey, keyIndex)}
           name={getLabel(stackKey)}
           barSize={barSize}
+          isAnimationActive={isAnimated}
         />
       );
     }
@@ -120,6 +132,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         fill={getBarColor(stackKey, keyIndex)}
         name={getLabel(stackKey)}
         barSize={barSize}
+        isAnimationActive={isAnimated}
         shape={(shapeProps: RectangleProps) => {
           const r = isTop
             ? (isHorizontal
@@ -136,7 +149,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     <RBarChart
       data={safeData}
       barCategoryGap={gap ?? 8}
-      margin={{ top: 20, right: 20, bottom: 20, left: isHorizontal ? 60 : 20 }}
+      margin={chartMargin}
       onClick={onDataPointClick ? handleChartClick : undefined}
       {...(isHorizontal ? { layout: 'vertical' as const } : {})}
     >
@@ -199,22 +212,25 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
             renderTooltip={renderTooltip}
             wrapCustomTooltip={wrapCustomTooltip}
             getLabel={getLabel}
+            getTooltipLabel={getTooltipLabel}
             getColor={getColor}
+            tooltipValueFormatter={tooltipValueFormatter}
           />
         }
         cursor={{ stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
       />
       {showLegend && (
-        <Legend content={<ChartLegend variant="square" />} />
+        <Legend content={<ChartLegend variant="square" interactive={legendInteractive} hiddenSeries={hiddenSeries} onToggle={toggleSeries} />} />
       )}
       {stacked && stackedKeys && stackedKeys.length > 0
-        ? stackedKeys.map((key, i) => renderStackedBar(key, i, stackedKeys.length))
-        : dataKey && (
+        ? stackedKeys.filter(k => !isHidden(k)).map((key, i) => renderStackedBar(key, i, stackedKeys.filter(k => !isHidden(k)).length))
+        : dataKey && !isHidden(dataKey) && (
             <Bar
               dataKey={dataKey}
               fill={getBarColor(dataKey, 0)}
               name={getLabel(dataKey)}
               barSize={barSize}
+              isAnimationActive={isAnimated}
               radius={barRadius
                 ? (isHorizontal
                   ? [0, barRadius, barRadius, 0] as [number, number, number, number]
