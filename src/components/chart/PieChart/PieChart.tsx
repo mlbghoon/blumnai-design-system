@@ -66,8 +66,11 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
   const rStartAngle = isHalf ? 180 : 90 - startAngle;
   const rEndAngle = isHalf ? 0 : 90 - endAngle;
 
+  const maxRadius = Math.floor(Math.min(width, height) / 2) - 4;
+  const safeOuterRadius = Math.min(outerRadius, maxRadius);
+
   const halfPadding = showLegend ? 80 : 20;
-  const svgHeight = isHalf ? outerRadius + halfPadding : height;
+  const svgHeight = isHalf ? safeOuterRadius + halfPadding : height;
 
   const chartAriaLabel = ariaLabel || `Pie chart showing ${safeData.map(d => String(d[nameKey] ?? '')).join(', ')}`;
 
@@ -79,7 +82,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
         nameKey={nameKey}
         cx="50%"
         cy={isHalf ? '100%' : '50%'}
-        outerRadius={outerRadius}
+        outerRadius={safeOuterRadius}
         startAngle={rStartAngle}
         endAngle={rEndAngle}
         paddingAngle={paddingAngle}

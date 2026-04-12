@@ -75,8 +75,12 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   const rStartAngle = isHalf ? 180 : 90 - startAngle;
   const rEndAngle = isHalf ? 0 : 90 - endAngle;
 
+  const maxRadius = Math.floor(Math.min(width, height) / 2) - 4;
+  const safeOuterRadius = Math.min(outerRadius, maxRadius);
+  const safeInnerRadius = Math.min(innerRadius, safeOuterRadius - 1);
+
   const halfPadding = showLegend ? 80 : 20;
-  const svgHeight = isHalf ? outerRadius + halfPadding : height;
+  const svgHeight = isHalf ? safeOuterRadius + halfPadding : height;
 
   const displayLabel = showCenterOnHover && hoveredSlice ? hoveredSlice.name : centerLabel;
   const displayValue = showCenterOnHover && hoveredSlice ? String(hoveredSlice.value) : centerValue;
@@ -91,8 +95,8 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
         nameKey={nameKey}
         cx="50%"
         cy={isHalf ? '100%' : '50%'}
-        innerRadius={innerRadius}
-        outerRadius={outerRadius}
+        innerRadius={safeInnerRadius}
+        outerRadius={safeOuterRadius}
         startAngle={rStartAngle}
         endAngle={rEndAngle}
         paddingAngle={paddingAngle}
@@ -154,7 +158,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
             className="absolute flex flex-col items-center justify-center ds-gap-1 pointer-events-none"
             style={{
               left: '50%',
-              top: isHalf ? `${svgHeight - (innerRadius / 2)}px` : '50%',
+              top: isHalf ? `${svgHeight - (safeInnerRadius / 2)}px` : '50%',
               transform: 'translate(-50%, -50%)',
             }}
             aria-hidden="true"

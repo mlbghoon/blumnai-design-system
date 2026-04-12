@@ -204,6 +204,10 @@ export const Default: Story = {
     innerRadius: 80,
     outerRadius: 150,
     showLegend: false,
+    centerLabel: undefined,
+    centerValue: undefined,
+    isHalf: false,
+    ariaLabel: undefined,
     className: '',
   },
   parameters: {
@@ -223,6 +227,10 @@ export const Default: Story = {
         innerRadius={args.innerRadius}
         outerRadius={args.outerRadius}
         showLegend={args.showLegend}
+        centerLabel={args.centerLabel}
+        centerValue={args.centerValue}
+        isHalf={args.isHalf}
+        ariaLabel={args.ariaLabel}
         className={args.className}
       />
     );

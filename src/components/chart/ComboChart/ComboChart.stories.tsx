@@ -143,6 +143,7 @@ export const Default: Story = {
     width: 700,
     height: 400,
     showXGrid: true,
+    showYGrid: false,
     showLegend: true,
   },
   parameters: {
@@ -162,6 +163,7 @@ export const Default: Story = {
         width={args.width}
         height={args.height}
         showXGrid={args.showXGrid}
+        showYGrid={args.showYGrid}
         showLegend={args.showLegend}
       />
     );

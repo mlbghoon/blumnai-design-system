@@ -189,6 +189,14 @@ export const Default: Story = {
     width: 600,
     height: 400,
     showXGrid: true,
+    showYGrid: false,
+    showLegend: false,
+    barSize: undefined,
+    gap: undefined,
+    ariaLabel: undefined,
+    stacked: false,
+    layout: 'horizontal',
+    stackedKeys: undefined,
     className: '',
   },
   parameters: {
@@ -207,6 +215,14 @@ export const Default: Story = {
         width={args.width}
         height={args.height}
         showXGrid={args.showXGrid}
+        showYGrid={args.showYGrid}
+        showLegend={args.showLegend}
+        barSize={args.barSize}
+        gap={args.gap}
+        ariaLabel={args.ariaLabel}
+        stacked={args.stacked}
+        layout={args.layout}
+        stackedKeys={args.stackedKeys}
         className={args.className}
       />
     );

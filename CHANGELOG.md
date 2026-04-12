@@ -1,16 +1,20 @@
 # Changelog
 
-## [1.2.2] - 2026-04-12
+## [1.2.3] - 2026-04-12
 
 ### Added
 
 - **`MonthPicker` / `MonthRangePicker` — `width` prop 추가**: 다른 form 컴포넌트와 동일하게 컴포넌트 전체 너비 제어 가능
 - **`MonthPicker` / `MonthRangePicker` — `size` prop 추가**: `'sm' | 'lg'` 입력 필드 크기 제어 (DatePicker/DateRangePicker와 동일)
 - **`pickerOnly` prop 추가** (MonthPicker, MonthRangePicker, DatePicker, DateRangePicker): 입력 비활성화, 클릭 시 캘린더만 열림
+- **Color Alpha 토큰 세분화**: 모든 non-gray 색상 (17개)에 `alpha-2`, `alpha-4`, `alpha-10` 레벨 추가 (4개 테마 모두 적용, 총 204개 토큰)
 
 ### Fixed
 
-- **CodeRabbit round 2 수정**: ComboChart Y축 음수 데이터 지원, story prop 누락 수정, prepublishOnly에 typecheck+lint 추가, isometric icon cleanup 범위 제한
+- **InfoBox 레이아웃 수정**: 제목 중복 렌더링 제거, `whitespace-pre-line`으로 줄바꿈 지원, 아이콘 수직 정렬
+- **PieChart / DonutChart 컨테이너 오버플로우**: `outerRadius`가 컨테이너 크기를 초과할 때 자동 클램핑 (`Math.min(outerRadius, Math.min(width, height) / 2 - 4)`)
+- **Chart Storybook Controls 미작동**: BarChart (8개), DonutChart (4개), ComboChart (1개) Default 스토리에서 누락된 prop을 args/render에 추가
+- **CodeRabbit round 2 수정**: ComboChart Y축 음수 데이터 지원, prepublishOnly에 typecheck+lint 추가, isometric icon cleanup 범위 제한
 
 ## [1.2.0] - 2026-04-11
 
