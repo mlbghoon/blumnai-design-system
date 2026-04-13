@@ -719,3 +719,68 @@ export const Horizontal: Story = {
     />
   ),
 };
+
+/**
+ * 인터랙티브 범례 (스택 막대)
+ *
+ * 범례 항목을 클릭하여 스택 시리즈를 표시/숨길 수 있습니다.
+ */
+export const InteractiveLegend: Story = {
+  render: () => (
+    <BarChart
+      data={stacked2Data}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'desktop' }}
+      stacked
+      stackedKeys={['desktop', 'mobile']}
+      config={stacked2Config}
+      width={600}
+      height={400}
+      showXGrid
+      showLegend
+      legendInteractive
+    />
+  ),
+};
+
+/**
+ * 스타일 없음 (카드 내부 임베딩용)
+ *
+ * variant="unstyled"로 배경, 그림자, 라운드를 제거합니다.
+ */
+export const Unstyled: Story = {
+  render: () => (
+    <BarChart
+      data={defaultData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'sales' }}
+      dataKey="sales"
+      config={salesConfig}
+      width={600}
+      height={400}
+      variant="unstyled"
+      showXGrid
+    />
+  ),
+};
+
+/**
+ * 애니메이션 비활성화 (PDF 캡처용)
+ *
+ * animated={false}로 모든 차트 애니메이션을 끕니다.
+ */
+export const NoAnimation: Story = {
+  render: () => (
+    <BarChart
+      data={defaultData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'sales' }}
+      dataKey="sales"
+      config={salesConfig}
+      width={600}
+      height={400}
+      animated={false}
+      showXGrid
+    />
+  ),
+};

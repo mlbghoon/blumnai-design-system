@@ -608,3 +608,24 @@ export const Controlled: Story = {
     );
   },
 };
+
+/**
+ * Picker Only 모드
+ *
+ * 입력 필드에 직접 타이핑할 수 없고, 클릭 시 캘린더만 열립니다.
+ */
+export const PickerOnly: Story = {
+  render: function Render() {
+    const [range, setRange] = useState<DateRange | undefined>();
+    return (
+      <div style={{ width: 350 }}>
+        <DateRangePicker
+          label="기간 선택 (Picker Only)"
+          value={range}
+          onChange={setRange}
+          pickerOnly
+        />
+      </div>
+    );
+  },
+};

@@ -426,3 +426,57 @@ export const CustomTooltip: Story = {
     },
   },
 };
+
+/**
+ * 인터랙티브 범례
+ *
+ * 범례 항목을 클릭하여 시리즈를 표시/숨길 수 있습니다.
+ */
+export const InteractiveLegend: Story = {
+  render: () => (
+    <ComboChart
+      data={comboData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'sales' }}
+      barSeries={[
+        { dataKey: 'sales', color: 'var(--chart-1)' },
+      ]}
+      lineSeries={[
+        { dataKey: 'visitors', color: 'var(--chart-2)', smooth: true },
+      ]}
+      config={comboConfig}
+      width={700}
+      height={400}
+      showXGrid
+      showLegend
+      legendInteractive
+    />
+  ),
+};
+
+/**
+ * 우측 범례
+ *
+ * legendPosition="right"로 범례를 차트 우측에 배치합니다.
+ */
+export const RightLegend: Story = {
+  render: () => (
+    <ComboChart
+      data={comboData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'sales' }}
+      barSeries={[
+        { dataKey: 'sales', color: 'var(--chart-1)' },
+      ]}
+      lineSeries={[
+        { dataKey: 'visitors', color: 'var(--chart-2)', smooth: true },
+      ]}
+      config={comboConfig}
+      width={700}
+      height={400}
+      showXGrid
+      showLegend
+      legendPosition="right"
+    />
+  ),
+};

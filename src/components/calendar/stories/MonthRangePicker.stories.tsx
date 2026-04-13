@@ -251,3 +251,24 @@ export const EnglishLocale: Story = {
     );
   },
 };
+
+/**
+ * Picker Only 모드
+ *
+ * 입력 필드에 직접 타이핑할 수 없고, 클릭 시 캘린더만 열립니다.
+ */
+export const PickerOnly: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<MonthRange>({});
+    return (
+      <div style={{ width: 300 }}>
+        <MonthRangePicker
+          label="기간 선택 (Picker Only)"
+          value={value}
+          onChange={setValue}
+          pickerOnly
+        />
+      </div>
+    );
+  },
+};

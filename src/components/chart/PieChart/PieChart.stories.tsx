@@ -339,3 +339,45 @@ export const WithAccessibility: Story = {
     ariaLabel: '카테고리별 분포 파이 차트',
   },
 };
+
+/**
+ * 인터랙티브 범례
+ *
+ * 범례 항목을 클릭하여 슬라이스를 표시/숨길 수 있습니다.
+ */
+export const InteractiveLegend: Story = {
+  render: () => (
+    <PieChart
+      data={multipleData}
+      dataKey="value"
+      nameKey="category"
+      config={multipleConfig}
+      width={400}
+      height={400}
+      outerRadius={150}
+      showLegend
+      legendInteractive
+    />
+  ),
+};
+
+/**
+ * 우측 범례
+ *
+ * legendPosition="right"로 범례를 차트 우측에 배치합니다.
+ */
+export const RightLegend: Story = {
+  render: () => (
+    <PieChart
+      data={multipleData}
+      dataKey="value"
+      nameKey="category"
+      config={multipleConfig}
+      width={500}
+      height={400}
+      outerRadius={150}
+      showLegend
+      legendPosition="right"
+    />
+  ),
+};

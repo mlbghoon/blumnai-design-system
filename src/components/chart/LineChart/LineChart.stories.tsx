@@ -713,3 +713,137 @@ export const CustomTooltip: Story = {
     },
   },
 };
+
+/**
+ * 인터랙티브 범례
+ *
+ * 범례 항목을 클릭하여 시리즈를 표시/숨길 수 있습니다.
+ */
+export const InteractiveLegend: Story = {
+  render: () => (
+    <LineChart
+      data={multiLineData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'desktop' }}
+      dataKeys={['desktop', 'mobile']}
+      config={multiLineConfig}
+      width={600}
+      height={400}
+      showLegend
+      legendInteractive
+      showXGrid
+      showPoints
+    />
+  ),
+};
+
+/**
+ * 우측 범례
+ *
+ * legendPosition="right"로 범례를 차트 우측에 배치합니다.
+ */
+export const RightLegend: Story = {
+  render: () => (
+    <LineChart
+      data={multiLineData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'desktop' }}
+      dataKeys={['desktop', 'mobile']}
+      config={multiLineConfig}
+      width={600}
+      height={400}
+      showLegend
+      legendPosition="right"
+      showXGrid
+      showPoints
+    />
+  ),
+};
+
+/**
+ * 애니메이션 비활성화 (PDF 캡처용)
+ *
+ * animated={false}로 모든 차트 애니메이션을 끕니다.
+ */
+export const NoAnimation: Story = {
+  render: () => (
+    <LineChart
+      data={defaultData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'revenue' }}
+      dataKey="revenue"
+      config={revenueConfig}
+      width={600}
+      height={400}
+      animated={false}
+      showXGrid
+      showPoints
+    />
+  ),
+};
+
+/**
+ * 스타일 없음 (카드 내부 임베딩용)
+ *
+ * variant="unstyled"로 배경, 그림자, 라운드를 제거합니다.
+ */
+export const Unstyled: Story = {
+  render: () => (
+    <LineChart
+      data={defaultData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'revenue' }}
+      dataKey="revenue"
+      config={revenueConfig}
+      width={600}
+      height={400}
+      variant="unstyled"
+      showXGrid
+      showPoints
+    />
+  ),
+};
+
+/**
+ * 커스텀 마진
+ *
+ * margin prop으로 차트 영역의 여백을 조정합니다.
+ */
+export const CustomMargin: Story = {
+  render: () => (
+    <LineChart
+      data={defaultData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'revenue' }}
+      dataKey="revenue"
+      config={revenueConfig}
+      width={600}
+      height={400}
+      margin={{ top: 8, right: 40, bottom: 4, left: 60 }}
+      showXGrid
+      showPoints
+    />
+  ),
+};
+
+/**
+ * 툴팁 값 포맷터
+ *
+ * tooltipValueFormatter로 툴팁에 표시되는 값을 포맷합니다.
+ */
+export const FormattedTooltip: Story = {
+  render: () => (
+    <LineChart
+      data={defaultData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'revenue' }}
+      dataKey="revenue"
+      config={revenueConfig}
+      width={600}
+      height={400}
+      tooltipValueFormatter={(v) => v.toLocaleString('ko-KR')}
+      showXGrid
+      showPoints
+    />
+  ),
+};
