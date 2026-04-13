@@ -14,10 +14,18 @@ interface ChartWithLegendProps {
   showLegend?: boolean;
   legendProps?: ChartLegendProps;
   renderLegend?: (props: RenderLegendProps) => ReactNode;
+  footer?: ReactNode;
 }
 
-export function ChartWithLegend({ children, showLegend, legendProps, renderLegend }: ChartWithLegendProps) {
-  if (!showLegend || !legendProps) return <>{children}</>;
+export function ChartWithLegend({ children, showLegend, legendProps, renderLegend, footer }: ChartWithLegendProps) {
+  if (!showLegend || !legendProps) {
+    return (
+      <>
+        {children}
+        {footer}
+      </>
+    );
+  }
 
   const isRight = legendProps.position === 'right';
 
@@ -34,6 +42,7 @@ export function ChartWithLegend({ children, showLegend, legendProps, renderLegen
       <div>
         {children}
         {legendContent}
+        {footer}
       </div>
     );
   }
@@ -43,8 +52,9 @@ export function ChartWithLegend({ children, showLegend, legendProps, renderLegen
       <div style={{ flex: '1 1 0%', minWidth: 0 }}>
         {children}
       </div>
-      <div style={{ flexShrink: 0 }}>
+      <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
         {legendContent}
+        {footer}
       </div>
     </div>
   );

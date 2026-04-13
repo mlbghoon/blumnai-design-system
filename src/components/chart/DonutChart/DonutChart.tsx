@@ -109,7 +109,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   const safeOuterRadius = Math.min(outerRadius, maxRadius);
   const safeInnerRadius = Math.min(innerRadius, safeOuterRadius - 1);
 
-  const halfPadding = showLegend ? 80 : 20;
+  const halfPadding = showLegend && legendPosition !== 'right' ? 80 : 20;
   const svgHeight = isHalf ? safeOuterRadius + halfPadding : height;
 
   const displayLabel = showCenterOnHover && hoveredSlice ? hoveredSlice.name : centerLabel;
@@ -183,6 +183,13 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
           onToggle: toggleSeries,
           valueFormatter: legendValueFormatter,
         }}
+        footer={footnote ? (
+          <div className={legendPosition === 'right' ? 'flex justify-end margin-t-8' : 'text-center padding-y-4'}>
+            <span className="inline-block bg-muted padding-x-8 padding-y-4 rounded-sm size-sm line-height-leading-5 text-muted">
+              {footnote}
+            </span>
+          </div>
+        ) : undefined}
       >
         <div className="relative">
           {responsive ? (
@@ -202,7 +209,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
               className="absolute flex flex-col items-center justify-center ds-gap-1 pointer-events-none"
               style={{
                 left: '50%',
-                top: isHalf ? `${safeOuterRadius - (safeOuterRadius - safeInnerRadius) / 2}px` : '50%',
+                top: isHalf ? `${svgHeight - safeInnerRadius * 0.4}px` : '50%',
                 transform: 'translate(-50%, -50%)',
               }}
               aria-hidden="true"
@@ -231,13 +238,6 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
           )}
         </div>
       </ChartWithLegend>
-      {footnote && (
-        <div className="text-center padding-y-4">
-          <span className="inline-block bg-muted padding-x-8 padding-y-4 rounded-sm size-sm line-height-leading-5 text-muted">
-            {footnote}
-          </span>
-        </div>
-      )}
     </Chart>
   );
   }

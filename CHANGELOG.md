@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.1] - 2026-04-13
+
+### Fixed
+
+- **DonutChart 반원(isHalf) 중앙 라벨 위치**: 라벨이 도넛 아크 위/겹쳐 표시되던 버그 수정. 기존 수식 `(outerR + innerR) / 2`는 링 두께의 중간점(아크 안)을 계산 → `svgHeight - innerRadius * 0.4`로 변경하여 도넛 구멍 내부에 정확히 배치
+- **DonutChart `halfPadding` 불필요한 여백**: `legendPosition='right'`일 때도 하단 범례용 80px 패딩이 적용되던 문제 수정. 우측 범례 시 20px로 축소
+- **DonutChart `footnote` 위치**: 범례가 우측일 때 footnote가 차트+범례 전체 아래에 표시되던 문제 수정. `ChartWithLegend`에 `footer` prop 추가하여 범례 컬럼 하단에 배치
+
 ## [1.4.0] - 2026-04-13
 
 ### Added
