@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.4.0] - 2026-04-13
+
+### Added
+
+- **`HtmlEditor` 컴포넌트** (신규): Tiptap 기반 WYSIWYG HTML 에디터. `react-draft-wysiwyg` 대체용
+  - **텍스트 서식**: Bold, Italic, Underline, Strikethrough
+  - **블록 타입**: 표준, 제목1-6, 인용, Code (드롭다운)
+  - **목록**: 순서 없는 목록, 순서 있는 목록
+  - **텍스트 정렬**: 왼쪽, 가운데, 오른쪽, 양쪽 정렬 (`compactToolbar` 시 드롭다운으로 축소)
+  - **컬러 피커**: 글꼴색 / 배경색 탭 (28색 기본 팔레트, 커스텀 가능)
+  - **링크**: 링크 제목 + URL 입력, 별도 링크 제거 버튼
+  - **이미지**: 파일 업로드 (드래그 앤 드롭) + URL 입력 탭, 최대 크기 제한 + 인라인 에러
+  - **서식 제거**, **실행 취소/다시 실행** (Ctrl+Z/Y)
+  - **HTML 소스 코드 뷰**: Dialog 모달로 raw HTML 편집
+  - **콘텐츠 크기 표시**: 바이트 카운터 (debounced 300ms)
+  - **하이브리드 값 모델**: `defaultValue` (비제어) + `value` (제어)
+  - **`features` prop**: 툴바 기능 개별 on/off
+  - **`compactToolbar` prop**: 정렬을 드롭다운으로 축소
+  - **`HtmlEditorRef`**: `editor`, `focus()`, `getHTML()` 노출
+  - **InputWrapper 통합**: label, caption, required, error, success 지원
+  - **FormControl 연동**: react-hook-form 자동 에러 주입
+  - **ScrollArea**: 에디터 콘텐츠 + 툴바 수평 스크롤
+  - **한글 IME**: Tiptap/ProseMirror 네이티브 처리 (Draft.js 워크어라운드 불필요)
+  - **SSR 안전**: `immediatelyRender: false` 설정
+  - **Optional peerDependencies**: Tiptap 패키지는 HtmlEditor 사용 시에만 설치 필요
+  - **Storybook**: Default, WithLabel, Controlled, Uncontrolled, CustomFeatures, ImageUpload, ContentSize, States, PreloadedContent (9 stories)
+  - **Unit tests**: `normalizeHtmlContent`, `calculateContentSize`, `validateImageFile` (16 tests)
+
 ## [1.3.2] - 2026-04-13
 
 ### Fixed (CRITICAL)

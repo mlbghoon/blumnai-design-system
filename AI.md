@@ -34,6 +34,7 @@ import { CellText, CellBadge, CellAvatar } from '@blumnai-studio/blumnai-design-
 **Peer Dependencies:**
 - **Required:** `react` ^18/^19, `react-dom` ^18/^19
 - **Optional** (for Form components): `react-hook-form`, `@hookform/resolvers`, `zod`
+- **Optional** (for HtmlEditor): `@tiptap/react`, `@tiptap/pm`, `@tiptap/starter-kit`, `@tiptap/extension-underline`, `@tiptap/extension-text-align`, `@tiptap/extension-color`, `@tiptap/extension-text-style`, `@tiptap/extension-highlight`, `@tiptap/extension-link`, `@tiptap/extension-image`, `@tiptap/extension-placeholder`
 - **Bundled** (no action needed): `date-fns`, `sonner`
 
 **Ref forwarding:** All interactive components forward refs via `React.forwardRef`.
@@ -53,6 +54,7 @@ import { CellText, CellBadge, CellAvatar } from '@blumnai-studio/blumnai-design-
 | Number input +/- | `Input` | `<Input variant="quantity" />` |
 | Tags/chips input | `Input` | `<Input variant="tags" />` |
 | Multi-line text | `Textarea` | `<Textarea label="Bio" />` |
+| Rich text editor | `HtmlEditor` | `<HtmlEditor defaultValue={html} onChange={setHtml} label="내용" />` |
 | Select one | `Select` | `<Select variant="default" options={[...]} />` |
 | Select multiple | `Select` | `<Select variant="multi-select" options={[...]} />` |
 | Searchable select | `Combobox` | `<Combobox options={[...]} />` |
@@ -527,6 +529,48 @@ import { Combobox } from '@blumnai-studio/blumnai-design-system';
 <Combobox variant="default" label="프레임워크" options={options} value={value} onChange={setValue}
   creatable createText={(v) => `"${v}" 추가`} onCreate={(newValue) => setOptions([...options, { id: newValue, label: newValue }])} />
 ```
+
+### HtmlEditor (Rich Text)
+
+```tsx
+import { HtmlEditor } from '@blumnai-studio/blumnai-design-system/html-editor';
+// Requires: npm install @tiptap/react @tiptap/pm @tiptap/starter-kit @tiptap/extension-underline @tiptap/extension-text-align @tiptap/extension-color @tiptap/extension-text-style @tiptap/extension-highlight @tiptap/extension-link @tiptap/extension-image @tiptap/extension-placeholder
+
+// Uncontrolled (recommended) — read HTML via ref
+const editorRef = useRef<HtmlEditorRef>(null);
+const handleSave = () => { const html = editorRef.current?.getHTML() || ''; };
+
+<HtmlEditor
+  ref={editorRef}
+  defaultValue={savedHtml}
+  onChange={(html) => console.log(html)}
+  placeholder="게시글을 작성해주세요"
+  label="내용"
+  required
+  imageUpload={{
+    maxSize: 3 * 1024 * 1024,
+    handler: async (file) => {
+      const base64 = await toBase64(file);
+      return { url: base64 };
+    },
+  }}
+  onContentSizeChange={(bytes) => setSize(bytes)}
+  maxContentSize={5 * 1024 * 1024}
+  minHeight={300}
+  maxHeight={500}
+/>
+
+// Controlled — external state drives editor content
+<HtmlEditor value={html} onChange={setHtml} />
+
+// Subset features only
+<HtmlEditor features={['bold', 'italic', 'link', 'history']} />
+
+// Compact toolbar (alignment as dropdown)
+<HtmlEditor compactToolbar />
+```
+
+Features: bold, italic, underline, strikethrough, heading (H1-H6), blockquote, codeBlock, bulletList, orderedList, textAlign, colorPicker (text + background), link (title + URL), image (file upload + URL), removeFormat, history (undo/redo), codeView (HTML source dialog). All controlled via `features` prop array. Outputs standard HTML string — compatible with existing Draft.js/stateToHTML data.
 
 ### Sidebar Page Layout
 

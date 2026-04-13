@@ -327,6 +327,12 @@ export type {
 } from './components/hover-card';
 
 // =============================================================================
+// HTML EDITOR
+// =============================================================================
+export { HtmlEditor } from './components/html-editor';
+export type { HtmlEditorProps, HtmlEditorRef, HtmlEditorFeature, HtmlEditorImageUpload } from './components/html-editor';
+
+// =============================================================================
 // TOAST & NOTIFICATIONS
 // =============================================================================
 export { toast, ToastContent, BlumnaiToaster } from './components/toast';

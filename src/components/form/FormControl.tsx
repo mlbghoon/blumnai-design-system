@@ -6,7 +6,7 @@ import type { FormControlProps } from './Form.types';
 /**
  * error prop을 지원하는 컴포넌트 목록
  */
-const COMPONENTS_WITH_ERROR_PROP = ['Input', 'Textarea', 'Select', 'Combobox'];
+const COMPONENTS_WITH_ERROR_PROP = ['Input', 'Textarea', 'Select', 'Combobox', 'HtmlEditor'];
 
 /**
  * 컴포넌트가 error prop을 지원하는지 확인

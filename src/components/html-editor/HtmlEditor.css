@@ -1,0 +1,148 @@
+.blumnai-html-editor .ProseMirror {
+  outline: none;
+  min-height: inherit;
+  cursor: text;
+}
+
+.blumnai-html-editor .ProseMirror > * + * {
+  margin-top: 0.5em;
+}
+
+/* 제목 스타일 */
+.blumnai-html-editor .ProseMirror h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.blumnai-html-editor .ProseMirror h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.blumnai-html-editor .ProseMirror h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.blumnai-html-editor .ProseMirror h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.blumnai-html-editor .ProseMirror h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.blumnai-html-editor .ProseMirror h6 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* 인용 */
+.blumnai-html-editor .ProseMirror blockquote {
+  border-left: 3px solid var(--border-default, #e5e7eb);
+  padding-left: 12px;
+  color: var(--text-subtle, #6b7280);
+  font-style: italic;
+}
+
+/* 코드 블록 */
+.blumnai-html-editor .ProseMirror pre {
+  background: var(--bg-muted, #f3f4f6);
+  border-radius: 8px;
+  padding: 12px;
+  font-family: var(--font-code, monospace);
+  font-size: 0.875rem;
+  overflow-x: auto;
+}
+
+.blumnai-html-editor .ProseMirror pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* 인라인 코드 */
+.blumnai-html-editor .ProseMirror code {
+  background: var(--bg-muted, #f3f4f6);
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-family: var(--font-code, monospace);
+  font-size: 0.875em;
+}
+
+/* 순서 없는 목록 */
+.blumnai-html-editor .ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 24px;
+}
+
+.blumnai-html-editor .ProseMirror ul ul {
+  list-style-type: circle;
+}
+
+.blumnai-html-editor .ProseMirror ul ul ul {
+  list-style-type: square;
+}
+
+/* 순서 있는 목록 */
+.blumnai-html-editor .ProseMirror ol {
+  list-style-type: decimal;
+  padding-left: 24px;
+}
+
+.blumnai-html-editor .ProseMirror ol ol {
+  list-style-type: lower-alpha;
+}
+
+.blumnai-html-editor .ProseMirror ol ol ol {
+  list-style-type: lower-roman;
+}
+
+/* 목록 아이템 간격 */
+.blumnai-html-editor .ProseMirror li {
+  margin-top: 0.25em;
+}
+
+/* 링크 */
+.blumnai-html-editor .ProseMirror a {
+  color: var(--text-link, #2563eb);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* 이미지 */
+.blumnai-html-editor .ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0.5em 0;
+}
+
+/* 플레이스홀더 */
+.blumnai-html-editor .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--text-hint, #9ca3af);
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+/* 비활성화 상태 */
+.blumnai-html-editor--disabled .ProseMirror {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* 읽기 전용 상태 */
+.blumnai-html-editor--readonly .ProseMirror {
+  cursor: default;
+}
