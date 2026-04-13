@@ -784,3 +784,26 @@ export const NoAnimation: Story = {
     />
   ),
 };
+
+/**
+ * 우측 범례
+ *
+ * legendPosition="right"로 범례를 차트 우측에 배치합니다.
+ */
+export const RightLegend: Story = {
+  render: () => (
+    <BarChart
+      data={stacked2Data}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'desktop' }}
+      stacked
+      stackedKeys={['desktop', 'mobile']}
+      config={stacked2Config}
+      width={600}
+      height={400}
+      showXGrid
+      showLegend
+      legendPosition="right"
+    />
+  ),
+};

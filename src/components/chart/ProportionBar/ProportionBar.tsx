@@ -52,41 +52,29 @@ export const ProportionBar = forwardRef<HTMLDivElement, ProportionBarProps>(
       return undefined;
     }, [valueFormatter, valueSuffix]);
 
-    const barContent = (
-      <div className="flex flex-col">
-        {(totalLabel || totalValue) && (
-          <div className="margin-b-8">
-            {totalLabel && (
-              <div className="font-body size-xs line-height-leading-4 text-muted">{totalLabel}</div>
-            )}
-            {totalValue && (
-              <div className="font-body size-lg line-height-leading-6 font-semibold text-default">{totalValue}</div>
-            )}
-          </div>
-        )}
-        <div
-          className="flex w-full overflow-hidden rounded-sm"
-          style={{ height }}
-        >
-          {data.map((item, index) => {
-            const hidden = isHidden(item.name);
-            const widthPercent = visibleTotal > 0 && !hidden
-              ? (item.value / visibleTotal) * 100
-              : 0;
+    const barElement = (
+      <div
+        className="flex w-full overflow-hidden rounded-sm"
+        style={{ height }}
+      >
+        {data.map((item, index) => {
+          const hidden = isHidden(item.name);
+          const widthPercent = visibleTotal > 0 && !hidden
+            ? (item.value / visibleTotal) * 100
+            : 0;
 
-            return (
-              <div
-                key={`${item.name}-${index}`}
-                style={{
-                  width: `${widthPercent}%`,
-                  backgroundColor: item.color,
-                  transition: animated ? 'width 0.3s ease' : 'none',
-                }}
-                className="h-full"
-              />
-            );
-          })}
-        </div>
+          return (
+            <div
+              key={`${item.name}-${index}`}
+              style={{
+                width: `${widthPercent}%`,
+                backgroundColor: item.color,
+                transition: animated ? 'width 0.3s ease' : 'none',
+              }}
+              className="h-full"
+            />
+          );
+        })}
       </div>
     );
 
@@ -97,6 +85,16 @@ export const ProportionBar = forwardRef<HTMLDivElement, ProportionBarProps>(
 
     return (
       <div ref={ref} className={wrapperClassName}>
+        {(totalLabel || totalValue) && (
+          <div className="margin-b-8">
+            {totalLabel && (
+              <div className="font-body size-xs line-height-leading-4 text-muted">{totalLabel}</div>
+            )}
+            {totalValue && (
+              <div className="font-body size-lg line-height-leading-6 font-semibold text-default">{totalValue}</div>
+            )}
+          </div>
+        )}
         <ChartWithLegend
           showLegend={showLegend}
           legendProps={{
@@ -109,7 +107,7 @@ export const ProportionBar = forwardRef<HTMLDivElement, ProportionBarProps>(
             valueFormatter: formatLegendValue,
           }}
         >
-          {barContent}
+          {barElement}
         </ChartWithLegend>
       </div>
     );

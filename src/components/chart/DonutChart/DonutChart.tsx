@@ -55,6 +55,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
       legendInteractive = false,
       legendPosition = 'bottom',
       legendValueFormatter,
+      renderLegend,
       ...props
     },
     ref
@@ -71,12 +72,18 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
     value: number;
   } | null>(null);
 
-  const colors = useMemo(() => {
-    return safeData.map((item, index) => {
+  const filteredData = useMemo(
+    () => safeData.filter(d => !isHidden(String(d[nameKey] ?? ''))),
+    [safeData, nameKey, isHidden]
+  );
+
+  const filteredColors = useMemo(() => {
+    return filteredData.map((item) => {
       const name = String(item[nameKey] ?? '');
-      return getColor(name, index);
+      const originalIndex = allPieKeys.indexOf(name);
+      return getColor(name, originalIndex);
     });
-  }, [safeData, nameKey, getColor]);
+  }, [filteredData, nameKey, allPieKeys, getColor]);
 
   const legendItems: LegendItem[] = useMemo(() => {
     return allPieKeys.map((key, index) => {
@@ -113,7 +120,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   const chartContent = (
     <RPieChart>
       <Pie
-        data={safeData}
+        data={filteredData}
         dataKey={dataKey}
         nameKey={nameKey}
         cx="50%"
@@ -124,13 +131,12 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
         endAngle={rEndAngle}
         paddingAngle={paddingAngle}
         isAnimationActive={isAnimated}
+        animationDuration={800}
         stroke="var(--bg-card)"
         strokeWidth={2}
         onMouseEnter={(_: unknown, index: number) => {
-          const name = String(safeData[index]?.[nameKey] ?? '');
-          if (isHidden(name)) return;
           if (showCenterOnHover) {
-            const item = safeData[index];
+            const item = filteredData[index];
             setHoveredSlice({
               name: getLabel(String(item[nameKey] ?? '')),
               value: Number(item[dataKey] ?? 0),
@@ -141,22 +147,12 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
           if (showCenterOnHover) setHoveredSlice(null);
         }}
         onClick={(_data: Record<string, unknown>, idx: number) => {
-          const name = String(safeData[idx]?.[nameKey] ?? '');
-          if (isHidden(name)) return;
-          if (onDataPointClick) onDataPointClick(safeData[idx], idx);
+          if (onDataPointClick) onDataPointClick(filteredData[idx], idx);
         }}
       >
-        {safeData.map((item, index) => {
-          const name = String(item[nameKey] ?? '');
-          const hidden = isHidden(name);
-          return (
-            <Cell
-              key={`cell-${index}`}
-              fill={hidden ? 'transparent' : colors[index]}
-              stroke={hidden ? 'transparent' : 'var(--bg-card)'}
-            />
-          );
-        })}
+        {filteredData.map((_, index) => (
+          <Cell key={`cell-${index}`} fill={filteredColors[index]} />
+        ))}
       </Pie>
       <Tooltip
         content={
@@ -174,9 +170,10 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   );
 
   return (
-    <Chart ref={ref} width={responsive ? undefined : width} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
+    <Chart ref={ref} width={responsive || legendPosition === 'right' ? undefined : width} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
       <ChartWithLegend
         showLegend={showLegend}
+        renderLegend={renderLegend}
         legendProps={{
           items: legendItems,
           variant: 'circle',
@@ -193,7 +190,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
               {chartContent}
             </ResponsiveContainer>
           ) : (
-            <div style={{ width, height: svgHeight }}>
+            <div style={{ width: legendPosition === 'right' ? '100%' : width, height: svgHeight }}>
               <ResponsiveContainer width="100%" height="100%">
                 {chartContent}
               </ResponsiveContainer>

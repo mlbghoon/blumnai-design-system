@@ -115,6 +115,8 @@ import { CellText, CellBadge, CellAvatar } from '@blumnai-studio/blumnai-design-
 | Drag and drop | `DndContext` | See DnD section |
 | Sortable list | `Sortable` | `<Sortable items={ids}><SortableItem id={id}>...</SortableItem></Sortable>` |
 | Charts | `BarChart`, `LineChart`, `PieChart`, `DonutChart`, `ComboChart` | See chart section |
+| Proportion bar | `ProportionBar` | `<ProportionBar data={[{name,value,color}]} showLegend legendPosition="right" />` |
+| Bar list | `BarList` | `<BarList data={[{name,value}]} showCount={5} labelWidth={80} />` |
 
 ### Component Categories
 
@@ -145,7 +147,7 @@ import { CellText, CellBadge, CellAvatar } from '@blumnai-studio/blumnai-design-
 `DndContext`, `Draggable`, `Droppable`, `DragHandle`, `DragOverlay`, `Sortable`, `SortableItem`
 
 #### Charts
-`BarChart`, `LineChart`, `PieChart`, `DonutChart`, `ComboChart` (mixed bar+line, dual Y-axis)
+`BarChart`, `LineChart`, `PieChart`, `DonutChart`, `ComboChart` (mixed bar+line, dual Y-axis), `ProportionBar` (비율 바), `BarList` (수평 바 리스트)
 
 #### Icons
 `Icon` (system, arrows, etc.), `BrandIcon` (126+ brands), `FlagIcon` (260 countries), `FileIcon`, `IsometricIcon` (311 3D icons), `CursorIcon`

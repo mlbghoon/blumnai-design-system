@@ -13,6 +13,7 @@ export const BarList = forwardRef<HTMLDivElement, BarListProps>(
       fillColor,
       maxHeight,
       animated = true,
+      labelWidth = 64,
       className,
       onItemClick,
     },
@@ -53,7 +54,7 @@ export const BarList = forwardRef<HTMLDivElement, BarListProps>(
                 )}
                 onClick={onItemClick ? () => onItemClick(item, index) : undefined}
               >
-                <span className="font-body size-sm line-height-leading-5 text-default shrink-0" style={{ width: 64 }}>
+                <span className="font-body size-sm line-height-leading-5 text-default shrink-0" style={{ width: labelWidth }}>
                   {item.name}
                 </span>
                 <div className="flex-1 bg-muted rounded-2xs" style={{ height: 18 }}>

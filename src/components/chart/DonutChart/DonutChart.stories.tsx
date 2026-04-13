@@ -659,3 +659,27 @@ export const NoAnimation: Story = {
     />
   ),
 };
+
+/**
+ * 각주 + 우측 범례
+ *
+ * footnote와 legendPosition="right"를 함께 사용합니다.
+ */
+export const FootnoteWithRightLegend: Story = {
+  render: () => (
+    <DonutChart
+      data={multipleData}
+      dataKey="value"
+      nameKey="category"
+      config={multipleConfig}
+      width={500}
+      height={400}
+      innerRadius={80}
+      outerRadius={150}
+      showLegend
+      legendPosition="right"
+      legendValueFormatter={(value) => `${value}%`}
+      footnote="기준: 최근 30일"
+    />
+  ),
+};

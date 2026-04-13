@@ -60,6 +60,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       legendInteractive = false,
       legendPosition = 'bottom',
       legendValueFormatter,
+      renderLegend,
       ...props
     },
     ref
@@ -186,9 +187,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   );
 
   return (
-    <Chart ref={ref} width={responsive ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
+    <Chart ref={ref} width={responsive || legendPosition === 'right' ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
       <ChartWithLegend
         showLegend={showLegend}
+        renderLegend={renderLegend}
         legendProps={{
           items: legendItems,
           variant: 'square',
@@ -204,7 +206,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             {chartContent}
           </ResponsiveContainer>
         ) : (
-          <div style={{ width, height }}>
+          <div style={{ width: legendPosition === 'right' ? '100%' : width, height }}>
             <ResponsiveContainer width="100%" height="100%">
               {chartContent}
             </ResponsiveContainer>

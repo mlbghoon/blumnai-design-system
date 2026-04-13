@@ -41,6 +41,11 @@ export interface BarListProps {
    */
   animated?: boolean;
   /**
+   * 라벨 영역 너비 (px)
+   * @default 64
+   */
+  labelWidth?: number;
+  /**
    * 추가 className
    */
   className?: string;

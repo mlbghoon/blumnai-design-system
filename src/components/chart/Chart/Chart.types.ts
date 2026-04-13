@@ -186,6 +186,11 @@ export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
    * 범례 값 포맷터
    */
   legendValueFormatter?: (value: number, name: string) => string;
+  /**
+   * 커스텀 범례 렌더링. 제공 시 기본 ChartLegend 대신 사용.
+   * items, hiddenSeries, toggleSeries를 받아 자체 범례 UI를 렌더링할 수 있음.
+   */
+  renderLegend?: (props: { items: Array<{ key: string; label: string; color: string; value?: number }>; hiddenSeries: Set<string>; toggleSeries: (key: string) => void }) => ReactNode;
 }
 
 /**

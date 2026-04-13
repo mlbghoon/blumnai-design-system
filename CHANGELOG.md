@@ -1,24 +1,27 @@
 # Changelog
 
-## [1.3.1] - 2026-04-13
+## [1.3.2] - 2026-04-13
 
 ### Fixed (CRITICAL)
 
-- **Interactive Legend 영구 숨김 버그**: 범례 항목 클릭 시 항목이 사라지고 복원 불가능하던 버그 수정. Recharts `<Legend>` payload 의존 제거 → 외부 범례 렌더링으로 전면 재설계. 모든 차트 컴포넌트 적용
-- **Pie/Donut 숨김 처리 방식 변경**: 데이터 필터링 → transparent fill 방식으로 변경. 숨긴 세그먼트가 각도 위치를 유지하여 토글 시 자연스러운 UX
+- **Interactive Legend 영구 숨김 버그**: 범례 항목 클릭 시 항목이 사라지고 복원 불가능하던 버그 수정. Recharts `<Legend>` payload 의존 제거 → 외부 범례 렌더링으로 전면 재설계
+- **Pie/Donut 숨김 시 세그먼트 재분배**: 숨긴 세그먼트의 공간을 나머지가 채워서 항상 100% 원형 유지
+- **우측 범례 레이아웃 오버플로우**: `legendPosition="right"` 시 차트 고정 width가 flex 레이아웃과 충돌하던 문제 수정. 우측 범례 시 차트가 가용 공간에 맞게 축소
 
 ### Added
 
-- **`ProportionBar` 컴포넌트** (신규): 비율 표시 수평 바. 대시보드 통계용 (예: "응대 전 이탈 75%, 자동 종료 25%"). interactive legend, animated, variant, totalLabel/totalValue 지원
-- **`legendPosition` prop** (모든 차트): `'bottom' | 'right'` — 우측 범례로 통계 대시보드 레이아웃 지원
-- **`legendValueFormatter` prop** (모든 차트): 범례 항목에 포맷된 값 표시 (예: `● 정상 종료    25%`)
-- **`ChartWithLegend` 레이아웃 래퍼**: 차트+범례 배치를 관리하는 공용 컴포넌트
-- **`buildLegendItems` in `useChartConfig`**: 범례 항목 생성 로직 중앙화
+- **`ProportionBar` 컴포넌트** (신규): 비율 표시 수평 바. 대시보드 통계용. interactive legend, animated, variant, totalLabel/totalValue 지원
+- **`legendPosition` prop** (모든 차트): `'bottom' | 'right'` — 우측 범례로 대시보드 레이아웃 지원
+- **`legendValueFormatter` prop** (모든 차트): 범례 항목에 포맷된 값 표시
+- **`renderLegend` prop** (모든 차트): 커스텀 범례 UI 렌더링. `{ items, hiddenSeries, toggleSeries }` 를 받아 자체 범례 구현 가능
+- **`BarList.labelWidth` prop**: 바 리스트 라벨 영역 너비 커스텀 (기본 64px)
+- **Storybook**: ProportionBar (7), BarList (6), 차트 feature stories (18), 캘린더 PickerOnly (4) 추가
 
 ### Changed
 
-- **`ChartLegend` 전면 리팩터**: Recharts payload 의존 제거. 자체 `items: LegendItem[]` prop 기반으로 변경. position/value/interactive 지원
-- **`useInteractiveLegend` hook**: 의존성 배열 수정 (`allKeys.length` → `allKeys`), orphan key 자동 정리
+- **`ChartLegend` 전면 리팩터**: Recharts payload 의존 제거. `items: LegendItem[]` prop 기반. position/value/interactive 지원
+- **`useInteractiveLegend` hook**: 의존성 수정 + orphan key 자동 정리
+- **Pie/Donut 애니메이션**: `animationDuration={800}` (기본 1500ms → 800ms)
 
 ## [1.3.0] - 2026-04-12
 

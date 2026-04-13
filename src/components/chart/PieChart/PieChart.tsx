@@ -49,6 +49,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
       legendInteractive = false,
       legendPosition = 'bottom',
       legendValueFormatter,
+      renderLegend,
       ...props
     },
     ref
@@ -60,12 +61,18 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
   const allPieKeys = useMemo(() => safeData.map(d => String(d[nameKey] ?? '')), [safeData, nameKey]);
   const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(allPieKeys, legendInteractive);
 
-  const colors = useMemo(() => {
-    return safeData.map((item, index) => {
+  const filteredData = useMemo(
+    () => safeData.filter(d => !isHidden(String(d[nameKey] ?? ''))),
+    [safeData, nameKey, isHidden]
+  );
+
+  const filteredColors = useMemo(() => {
+    return filteredData.map((item) => {
       const name = String(item[nameKey] ?? '');
-      return getColor(name, index);
+      const originalIndex = allPieKeys.indexOf(name);
+      return getColor(name, originalIndex);
     });
-  }, [safeData, nameKey, getColor]);
+  }, [filteredData, nameKey, allPieKeys, getColor]);
 
   const legendItems: LegendItem[] = useMemo(() => {
     return allPieKeys.map((key, index) => {
@@ -99,7 +106,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
   const chartContent = (
     <RPieChart>
       <Pie
-        data={safeData}
+        data={filteredData}
         dataKey={dataKey}
         nameKey={nameKey}
         cx="50%"
@@ -109,25 +116,16 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
         endAngle={rEndAngle}
         paddingAngle={paddingAngle}
         isAnimationActive={isAnimated}
+        animationDuration={800}
         stroke="var(--bg-card)"
         strokeWidth={2}
         onClick={(_data: Record<string, unknown>, idx: number) => {
-          const name = String(safeData[idx]?.[nameKey] ?? '');
-          if (isHidden(name)) return;
-          if (onDataPointClick) onDataPointClick(safeData[idx], idx);
+          if (onDataPointClick) onDataPointClick(filteredData[idx], idx);
         }}
       >
-        {safeData.map((item, index) => {
-          const name = String(item[nameKey] ?? '');
-          const hidden = isHidden(name);
-          return (
-            <Cell
-              key={`cell-${index}`}
-              fill={hidden ? 'transparent' : colors[index]}
-              stroke={hidden ? 'transparent' : 'var(--bg-card)'}
-            />
-          );
-        })}
+        {filteredData.map((_, index) => (
+          <Cell key={`cell-${index}`} fill={filteredColors[index]} />
+        ))}
       </Pie>
       <Tooltip
         content={
@@ -145,9 +143,10 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
   );
 
   return (
-    <Chart ref={ref} width={responsive ? undefined : width} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
+    <Chart ref={ref} width={responsive || legendPosition === 'right' ? undefined : width} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
       <ChartWithLegend
         showLegend={showLegend}
+        renderLegend={renderLegend}
         legendProps={{
           items: legendItems,
           variant: 'circle',
@@ -163,7 +162,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
             {chartContent}
           </ResponsiveContainer>
         ) : (
-          <div style={{ width, height: svgHeight }}>
+          <div style={{ width: legendPosition === 'right' ? '100%' : width, height: svgHeight }}>
             <ResponsiveContainer width="100%" height="100%">
               {chartContent}
             </ResponsiveContainer>

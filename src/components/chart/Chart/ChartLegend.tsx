@@ -34,7 +34,7 @@ export function ChartLegend({
     <div
       className={cn(
         isRight
-          ? 'flex flex-col ds-gap-6 padding-y-16 padding-r-16 shrink-0'
+          ? 'flex flex-col ds-gap-6 shrink-0'
           : 'flex flex-wrap justify-center ds-gap-4 padding-x-16 padding-b-16 margin-t-16'
       )}
       role="list"
