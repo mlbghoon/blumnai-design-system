@@ -9,7 +9,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 import type { MouseHandlerDataParam } from 'recharts/types/synchronisation/types';
@@ -17,7 +16,7 @@ import type { MouseHandlerDataParam } from 'recharts/types/synchronisation/types
 import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
 import { ChartTooltipAdapter } from '../Chart/ChartTooltipAdapter';
-import { ChartLegend } from '../Chart/ChartLegend';
+import { ChartWithLegend } from '../Chart/ChartWithLegend';
 import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 
 import type { LineChartProps } from '../Chart/Chart.types';
@@ -59,6 +58,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       wrapCustomTooltip,
       tooltipValueFormatter,
       legendInteractive = false,
+      legendPosition = 'bottom',
+      legendValueFormatter,
       ...props
     },
     ref
@@ -79,8 +80,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     return isMultiLine ? dataKeys : (dataKey ? [dataKey] : []);
   }, [isMultiLine, dataKeys, dataKey]);
 
-  const { getLabel, getTooltipLabel, getColor } = useChartConfig(config, lineColors);
+  const { getLabel, getTooltipLabel, getColor, buildLegendItems } = useChartConfig(config, lineColors);
   const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(activeKeys, legendInteractive);
+
+  const legendItems = useMemo(() => buildLegendItems(activeKeys), [buildLegendItems, activeKeys]);
 
   const handleChartClick = useCallback((state: MouseHandlerDataParam) => {
     if (!onDataPointClick || state?.activeTooltipIndex == null) return;
@@ -144,9 +147,6 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
         }
         cursor={{ stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
       />
-      {showLegend && (
-        <Legend content={<ChartLegend variant="square" interactive={legendInteractive} hiddenSeries={hiddenSeries} onToggle={toggleSeries} />} />
-      )}
       {activeKeys.filter(key => !isHidden(key)).map((key, index) => {
         const color = getColor(key, index);
         if (showArea) {
@@ -187,17 +187,30 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 
   return (
     <Chart ref={ref} width={responsive ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
-      {responsive ? (
-        <ResponsiveContainer width="100%" height={height}>
-          {chartContent}
-        </ResponsiveContainer>
-      ) : (
-        <div style={{ width, height }}>
-          <ResponsiveContainer width="100%" height="100%">
+      <ChartWithLegend
+        showLegend={showLegend}
+        legendProps={{
+          items: legendItems,
+          variant: 'square',
+          position: legendPosition,
+          interactive: legendInteractive,
+          hiddenSeries,
+          onToggle: toggleSeries,
+          valueFormatter: legendValueFormatter,
+        }}
+      >
+        {responsive ? (
+          <ResponsiveContainer width="100%" height={height}>
             {chartContent}
           </ResponsiveContainer>
-        </div>
-      )}
+        ) : (
+          <div style={{ width, height }}>
+            <ResponsiveContainer width="100%" height="100%">
+              {chartContent}
+            </ResponsiveContainer>
+          </div>
+        )}
+      </ChartWithLegend>
     </Chart>
   );
   }

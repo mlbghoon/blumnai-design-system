@@ -51,4 +51,38 @@ describe('useInteractiveLegend', () => {
     act(() => result.current.toggleSeries('a'));
     expect(result.current.isHidden('a')).toBe(false);
   });
+
+  it('cleans orphaned keys when allKeys changes', () => {
+    const { result, rerender } = renderHook(
+      ({ keys }) => useInteractiveLegend(keys, true),
+      { initialProps: { keys: ['a', 'b', 'c'] } }
+    );
+
+    act(() => result.current.toggleSeries('a'));
+    act(() => result.current.toggleSeries('c'));
+    expect(result.current.hiddenSeries.size).toBe(2);
+
+    rerender({ keys: ['b', 'd'] });
+    expect(result.current.isHidden('a')).toBe(false);
+    expect(result.current.isHidden('c')).toBe(false);
+    expect(result.current.hiddenSeries.size).toBe(0);
+  });
+
+  it('toggle works correctly after allKeys changes', () => {
+    const { result, rerender } = renderHook(
+      ({ keys }) => useInteractiveLegend(keys, true),
+      { initialProps: { keys: ['x', 'y'] } }
+    );
+
+    rerender({ keys: ['p', 'q', 'r'] });
+
+    act(() => result.current.toggleSeries('p'));
+    expect(result.current.isHidden('p')).toBe(true);
+
+    act(() => result.current.toggleSeries('q'));
+    expect(result.current.isHidden('q')).toBe(true);
+
+    act(() => result.current.toggleSeries('r'));
+    expect(result.current.isHidden('r')).toBe(false);
+  });
 });

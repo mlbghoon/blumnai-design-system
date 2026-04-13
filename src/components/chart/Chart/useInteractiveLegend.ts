@@ -13,7 +13,13 @@ export function useInteractiveLegend(
   allKeys: string[],
   enabled: boolean
 ): UseInteractiveLegendResult {
-  const [hiddenSeries, setHiddenSeries] = useState<Set<string>>(new Set());
+  const [rawHiddenSeries, setHiddenSeries] = useState<Set<string>>(new Set());
+
+  // Derive clean set — remove orphaned keys that are no longer in allKeys
+  const hiddenSeries = useMemo(() => {
+    const valid = new Set([...rawHiddenSeries].filter(k => allKeys.includes(k)));
+    return valid.size === rawHiddenSeries.size ? rawHiddenSeries : valid;
+  }, [rawHiddenSeries, allKeys]);
 
   const toggleSeries = useCallback((key: string) => {
     setHiddenSeries(prev => {
@@ -27,7 +33,7 @@ export function useInteractiveLegend(
       next.add(key);
       return next;
     });
-  }, [allKeys.length]);
+  }, [allKeys]);
 
   const isHidden = useCallback((key: string) => hiddenSeries.has(key), [hiddenSeries]);
 

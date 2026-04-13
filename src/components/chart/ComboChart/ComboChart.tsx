@@ -8,7 +8,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   Rectangle,
 } from 'recharts';
@@ -19,7 +18,7 @@ import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
 import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 import { ChartTooltipAdapter } from '../Chart/ChartTooltipAdapter';
-import { ChartLegend } from '../Chart/ChartLegend';
+import { ChartWithLegend } from '../Chart/ChartWithLegend';
 
 import type { ComboChartProps } from '../Chart/Chart.types';
 import { DEFAULT_CHART_COLORS, DEFAULT_CHART_MARGIN } from '../Chart/Chart.types';
@@ -55,6 +54,8 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
       wrapCustomTooltip,
       tooltipValueFormatter,
       legendInteractive = false,
+      legendPosition = 'bottom',
+      legendValueFormatter,
       ...props
     },
     ref
@@ -64,13 +65,15 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
 
   const safeData = useMemo(() => data ?? [], [data]);
 
-  const { getLabel, getTooltipLabel, getColor } = useChartConfig(config);
+  const { getLabel, getTooltipLabel, getColor, buildLegendItems } = useChartConfig(config);
 
   const allKeys = useMemo(() => [
     ...barSeries.map(s => s.dataKey),
     ...lineSeries.map(s => s.dataKey),
   ], [barSeries, lineSeries]);
   const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(allKeys, legendInteractive);
+
+  const legendItems = useMemo(() => buildLegendItems(allKeys), [buildLegendItems, allKeys]);
   const isDualAxis = Array.isArray(yAxis);
   const primaryAxis = isDualAxis ? yAxis[0] : yAxis;
   const secondaryAxis = isDualAxis ? yAxis[1] : undefined;
@@ -202,9 +205,6 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
         }
         cursor={{ stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
       />
-      {showLegend && (
-        <Legend content={<ChartLegend variant="square" interactive={legendInteractive} hiddenSeries={hiddenSeries} onToggle={toggleSeries} />} />
-      )}
       {barSeries.filter(s => !isHidden(s.dataKey)).map((series, index) => {
         const color = getSeriesColor(series.dataKey, series.color, index);
         const stackId = series.stack ?? undefined;
@@ -294,17 +294,30 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
 
   return (
     <Chart ref={ref} width={responsive ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
-      {responsive ? (
-        <ResponsiveContainer width="100%" height={height}>
-          {chartContent}
-        </ResponsiveContainer>
-      ) : (
-        <div style={{ width, height }}>
-          <ResponsiveContainer width="100%" height="100%">
+      <ChartWithLegend
+        showLegend={showLegend}
+        legendProps={{
+          items: legendItems,
+          variant: 'square',
+          position: legendPosition,
+          interactive: legendInteractive,
+          hiddenSeries,
+          onToggle: toggleSeries,
+          valueFormatter: legendValueFormatter,
+        }}
+      >
+        {responsive ? (
+          <ResponsiveContainer width="100%" height={height}>
             {chartContent}
           </ResponsiveContainer>
-        </div>
-      )}
+        ) : (
+          <div style={{ width, height }}>
+            <ResponsiveContainer width="100%" height="100%">
+              {chartContent}
+            </ResponsiveContainer>
+          </div>
+        )}
+      </ChartWithLegend>
     </Chart>
   );
   }

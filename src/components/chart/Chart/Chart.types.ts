@@ -177,6 +177,15 @@ export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
    * 툴팁 값 포맷터
    */
   tooltipValueFormatter?: (value: number) => string;
+  /**
+   * 범례 위치
+   * @default 'bottom'
+   */
+  legendPosition?: 'bottom' | 'right';
+  /**
+   * 범례 값 포맷터
+   */
+  legendValueFormatter?: (value: number, name: string) => string;
 }
 
 /**

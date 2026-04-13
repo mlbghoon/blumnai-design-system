@@ -4,7 +4,6 @@ import {
   Pie,
   Cell,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 
@@ -12,7 +11,8 @@ import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
 import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 import { PieTooltipAdapter } from '../Chart/ChartTooltipAdapter';
-import { ChartLegend } from '../Chart/ChartLegend';
+import { ChartWithLegend } from '../Chart/ChartWithLegend';
+import type { LegendItem } from '../Chart/ChartLegend';
 import { cn } from '@/lib/utils';
 
 import type { DonutChartProps } from '../Chart/Chart.types';
@@ -53,6 +53,8 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
       wrapCustomTooltip,
       tooltipValueFormatter,
       legendInteractive = false,
+      legendPosition = 'bottom',
+      legendValueFormatter,
       ...props
     },
     ref
@@ -69,18 +71,28 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
     value: number;
   } | null>(null);
 
-  const filteredData = useMemo(() => safeData.filter(d => !isHidden(String(d[nameKey] ?? ''))), [safeData, nameKey, isHidden]);
-
-  const filteredColors = useMemo(() => {
-    return filteredData.map((item, index) => {
+  const colors = useMemo(() => {
+    return safeData.map((item, index) => {
       const name = String(item[nameKey] ?? '');
       return getColor(name, index);
     });
-  }, [filteredData, nameKey, getColor]);
+  }, [safeData, nameKey, getColor]);
+
+  const legendItems: LegendItem[] = useMemo(() => {
+    return allPieKeys.map((key, index) => {
+      const dataItem = safeData.find(d => String(d[nameKey] ?? '') === key);
+      return {
+        key,
+        label: getLabel(key),
+        color: getColor(key, index),
+        value: dataItem ? Number(dataItem[dataKey] ?? 0) : 0,
+      };
+    });
+  }, [allPieKeys, safeData, nameKey, dataKey, getLabel, getColor]);
 
   const totalValue = useMemo(
-    () => filteredData.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
-    [filteredData, dataKey]
+    () => safeData.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
+    [safeData, dataKey]
   );
 
   const rStartAngle = isHalf ? 180 : 90 - startAngle;
@@ -101,7 +113,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   const chartContent = (
     <RPieChart>
       <Pie
-        data={filteredData}
+        data={safeData}
         dataKey={dataKey}
         nameKey={nameKey}
         cx="50%"
@@ -115,8 +127,10 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
         stroke="var(--bg-card)"
         strokeWidth={2}
         onMouseEnter={(_: unknown, index: number) => {
+          const name = String(safeData[index]?.[nameKey] ?? '');
+          if (isHidden(name)) return;
           if (showCenterOnHover) {
-            const item = filteredData[index];
+            const item = safeData[index];
             setHoveredSlice({
               name: getLabel(String(item[nameKey] ?? '')),
               value: Number(item[dataKey] ?? 0),
@@ -127,12 +141,22 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
           if (showCenterOnHover) setHoveredSlice(null);
         }}
         onClick={(_data: Record<string, unknown>, idx: number) => {
-          if (onDataPointClick) onDataPointClick(filteredData[idx], idx);
+          const name = String(safeData[idx]?.[nameKey] ?? '');
+          if (isHidden(name)) return;
+          if (onDataPointClick) onDataPointClick(safeData[idx], idx);
         }}
       >
-        {filteredData.map((_, index) => (
-          <Cell key={`cell-${index}`} fill={filteredColors[index]} />
-        ))}
+        {safeData.map((item, index) => {
+          const name = String(item[nameKey] ?? '');
+          const hidden = isHidden(name);
+          return (
+            <Cell
+              key={`cell-${index}`}
+              fill={hidden ? 'transparent' : colors[index]}
+              stroke={hidden ? 'transparent' : 'var(--bg-card)'}
+            />
+          );
+        })}
       </Pie>
       <Tooltip
         content={
@@ -146,60 +170,70 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
           />
         }
       />
-      {showLegend && (
-        <Legend content={<ChartLegend variant="circle" interactive={legendInteractive} hiddenSeries={hiddenSeries} onToggle={toggleSeries} />} />
-      )}
     </RPieChart>
   );
 
   return (
     <Chart ref={ref} width={responsive ? undefined : width} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
-      <div className="relative">
-        {responsive ? (
-          <ResponsiveContainer width="100%" height={svgHeight}>
-            {chartContent}
-          </ResponsiveContainer>
-        ) : (
-          <div style={{ width, height: svgHeight }}>
-            <ResponsiveContainer width="100%" height="100%">
+      <ChartWithLegend
+        showLegend={showLegend}
+        legendProps={{
+          items: legendItems,
+          variant: 'circle',
+          position: legendPosition,
+          interactive: legendInteractive,
+          hiddenSeries,
+          onToggle: toggleSeries,
+          valueFormatter: legendValueFormatter,
+        }}
+      >
+        <div className="relative">
+          {responsive ? (
+            <ResponsiveContainer width="100%" height={svgHeight}>
               {chartContent}
             </ResponsiveContainer>
-          </div>
-        )}
+          ) : (
+            <div style={{ width, height: svgHeight }}>
+              <ResponsiveContainer width="100%" height="100%">
+                {chartContent}
+              </ResponsiveContainer>
+            </div>
+          )}
 
-        {(displayLabel || displayValue) && (
-          <div
-            className="absolute flex flex-col items-center justify-center ds-gap-1 pointer-events-none"
-            style={{
-              left: '50%',
-              top: isHalf ? `${safeOuterRadius - (safeOuterRadius - safeInnerRadius) / 2}px` : '50%',
-              transform: 'translate(-50%, -50%)',
-            }}
-            aria-hidden="true"
-          >
-            {displayLabel && (
-              <div
-                className={cn(
-                  'size-xs line-height-leading-4 font-medium text-center',
-                  'text-muted'
-                )}
-              >
-                {displayLabel}
-              </div>
-            )}
-            {displayValue && (
-              <div
-                className={cn(
-                  'size-2xl line-height-leading-8 font-medium text-center',
-                  'text-default'
-                )}
-              >
-                {displayValue}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+          {(displayLabel || displayValue) && (
+            <div
+              className="absolute flex flex-col items-center justify-center ds-gap-1 pointer-events-none"
+              style={{
+                left: '50%',
+                top: isHalf ? `${safeOuterRadius - (safeOuterRadius - safeInnerRadius) / 2}px` : '50%',
+                transform: 'translate(-50%, -50%)',
+              }}
+              aria-hidden="true"
+            >
+              {displayLabel && (
+                <div
+                  className={cn(
+                    'size-xs line-height-leading-4 font-medium text-center',
+                    'text-muted'
+                  )}
+                >
+                  {displayLabel}
+                </div>
+              )}
+              {displayValue && (
+                <div
+                  className={cn(
+                    'size-2xl line-height-leading-8 font-medium text-center',
+                    'text-default'
+                  )}
+                >
+                  {displayValue}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </ChartWithLegend>
       {footnote && (
         <div className="text-center padding-y-4">
           <span className="inline-block bg-muted padding-x-8 padding-y-4 rounded-sm size-sm line-height-leading-5 text-muted">

@@ -6,7 +6,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   Rectangle,
 } from 'recharts';
@@ -17,7 +16,7 @@ import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
 import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 import { ChartTooltipAdapter } from '../Chart/ChartTooltipAdapter';
-import { ChartLegend } from '../Chart/ChartLegend';
+import { ChartWithLegend } from '../Chart/ChartWithLegend';
 
 import type { BarChartProps } from '../Chart/Chart.types';
 import { DEFAULT_CHART_COLORS, DEFAULT_CHART_MARGIN } from '../Chart/Chart.types';
@@ -59,6 +58,8 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       wrapCustomTooltip,
       tooltipValueFormatter,
       legendInteractive = false,
+      legendPosition = 'bottom',
+      legendValueFormatter,
       ...props
     },
     ref
@@ -68,10 +69,12 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   const chartMargin = { ...defaultBarMargin, ...margin };
   const isAnimated = animated !== false;
   const safeData = useMemo(() => data ?? [], [data]);
-  const { getLabel, getTooltipLabel, getColor } = useChartConfig(config, stackedColors);
+  const { getLabel, getTooltipLabel, getColor, buildLegendItems } = useChartConfig(config, stackedColors);
 
   const allKeys = useMemo(() => stacked ? (stackedKeys ?? []) : (dataKey ? [dataKey] : []), [stacked, stackedKeys, dataKey]);
   const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(allKeys, legendInteractive);
+
+  const legendItems = useMemo(() => buildLegendItems(allKeys), [buildLegendItems, allKeys]);
 
   const getBarColor = (key: string, index: number): string => {
     if (config?.[key]) return config[key].color;
@@ -219,9 +222,6 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         }
         cursor={{ stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
       />
-      {showLegend && (
-        <Legend content={<ChartLegend variant="square" interactive={legendInteractive} hiddenSeries={hiddenSeries} onToggle={toggleSeries} />} />
-      )}
       {stacked && stackedKeys && stackedKeys.length > 0
         ? stackedKeys.filter(k => !isHidden(k)).map((key, i) => renderStackedBar(key, i, stackedKeys.filter(k => !isHidden(k)).length))
         : dataKey && !isHidden(dataKey) && (
@@ -243,17 +243,30 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 
   return (
     <Chart ref={ref} width={responsive ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
-      {responsive ? (
-        <ResponsiveContainer width="100%" height={height}>
-          {chartContent}
-        </ResponsiveContainer>
-      ) : (
-        <div style={{ width, height }}>
-          <ResponsiveContainer width="100%" height="100%">
+      <ChartWithLegend
+        showLegend={showLegend}
+        legendProps={{
+          items: legendItems,
+          variant: 'square',
+          position: legendPosition,
+          interactive: legendInteractive,
+          hiddenSeries,
+          onToggle: toggleSeries,
+          valueFormatter: legendValueFormatter,
+        }}
+      >
+        {responsive ? (
+          <ResponsiveContainer width="100%" height={height}>
             {chartContent}
           </ResponsiveContainer>
-        </div>
-      )}
+        ) : (
+          <div style={{ width, height }}>
+            <ResponsiveContainer width="100%" height="100%">
+              {chartContent}
+            </ResponsiveContainer>
+          </div>
+        )}
+      </ChartWithLegend>
     </Chart>
   );
   }

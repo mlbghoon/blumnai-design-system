@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.3.1] - 2026-04-13
+
+### Fixed (CRITICAL)
+
+- **Interactive Legend 영구 숨김 버그**: 범례 항목 클릭 시 항목이 사라지고 복원 불가능하던 버그 수정. Recharts `<Legend>` payload 의존 제거 → 외부 범례 렌더링으로 전면 재설계. 모든 차트 컴포넌트 적용
+- **Pie/Donut 숨김 처리 방식 변경**: 데이터 필터링 → transparent fill 방식으로 변경. 숨긴 세그먼트가 각도 위치를 유지하여 토글 시 자연스러운 UX
+
+### Added
+
+- **`ProportionBar` 컴포넌트** (신규): 비율 표시 수평 바. 대시보드 통계용 (예: "응대 전 이탈 75%, 자동 종료 25%"). interactive legend, animated, variant, totalLabel/totalValue 지원
+- **`legendPosition` prop** (모든 차트): `'bottom' | 'right'` — 우측 범례로 통계 대시보드 레이아웃 지원
+- **`legendValueFormatter` prop** (모든 차트): 범례 항목에 포맷된 값 표시 (예: `● 정상 종료    25%`)
+- **`ChartWithLegend` 레이아웃 래퍼**: 차트+범례 배치를 관리하는 공용 컴포넌트
+- **`buildLegendItems` in `useChartConfig`**: 범례 항목 생성 로직 중앙화
+
+### Changed
+
+- **`ChartLegend` 전면 리팩터**: Recharts payload 의존 제거. 자체 `items: LegendItem[]` prop 기반으로 변경. position/value/interactive 지원
+- **`useInteractiveLegend` hook**: 의존성 배열 수정 (`allKeys.length` → `allKeys`), orphan key 자동 정리
+
 ## [1.3.0] - 2026-04-12
 
 ### Added — Chart Feature Gaps (소비자 마이그레이션 지원)

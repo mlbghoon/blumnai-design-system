@@ -4,7 +4,6 @@ import {
   Pie,
   Cell,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 
@@ -12,7 +11,8 @@ import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
 import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 import { PieTooltipAdapter } from '../Chart/ChartTooltipAdapter';
-import { ChartLegend } from '../Chart/ChartLegend';
+import { ChartWithLegend } from '../Chart/ChartWithLegend';
+import type { LegendItem } from '../Chart/ChartLegend';
 
 import type { PieChartProps } from '../Chart/Chart.types';
 
@@ -47,6 +47,8 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
       wrapCustomTooltip,
       tooltipValueFormatter,
       legendInteractive = false,
+      legendPosition = 'bottom',
+      legendValueFormatter,
       ...props
     },
     ref
@@ -58,18 +60,28 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
   const allPieKeys = useMemo(() => safeData.map(d => String(d[nameKey] ?? '')), [safeData, nameKey]);
   const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(allPieKeys, legendInteractive);
 
-  const filteredData = useMemo(() => safeData.filter(d => !isHidden(String(d[nameKey] ?? ''))), [safeData, nameKey, isHidden]);
-
-  const filteredColors = useMemo(() => {
-    return filteredData.map((item, index) => {
+  const colors = useMemo(() => {
+    return safeData.map((item, index) => {
       const name = String(item[nameKey] ?? '');
       return getColor(name, index);
     });
-  }, [filteredData, nameKey, getColor]);
+  }, [safeData, nameKey, getColor]);
+
+  const legendItems: LegendItem[] = useMemo(() => {
+    return allPieKeys.map((key, index) => {
+      const dataItem = safeData.find(d => String(d[nameKey] ?? '') === key);
+      return {
+        key,
+        label: getLabel(key),
+        color: getColor(key, index),
+        value: dataItem ? Number(dataItem[dataKey] ?? 0) : 0,
+      };
+    });
+  }, [allPieKeys, safeData, nameKey, dataKey, getLabel, getColor]);
 
   const totalValue = useMemo(
-    () => filteredData.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
-    [filteredData, dataKey]
+    () => safeData.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
+    [safeData, dataKey]
   );
 
   // Recharts 각도 변환: Recharts는 0 = 12시 방향, 시계 방향이 양수
@@ -87,7 +99,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
   const chartContent = (
     <RPieChart>
       <Pie
-        data={filteredData}
+        data={safeData}
         dataKey={dataKey}
         nameKey={nameKey}
         cx="50%"
@@ -100,12 +112,22 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
         stroke="var(--bg-card)"
         strokeWidth={2}
         onClick={(_data: Record<string, unknown>, idx: number) => {
-          if (onDataPointClick) onDataPointClick(filteredData[idx], idx);
+          const name = String(safeData[idx]?.[nameKey] ?? '');
+          if (isHidden(name)) return;
+          if (onDataPointClick) onDataPointClick(safeData[idx], idx);
         }}
       >
-        {filteredData.map((_, index) => (
-          <Cell key={`cell-${index}`} fill={filteredColors[index]} />
-        ))}
+        {safeData.map((item, index) => {
+          const name = String(item[nameKey] ?? '');
+          const hidden = isHidden(name);
+          return (
+            <Cell
+              key={`cell-${index}`}
+              fill={hidden ? 'transparent' : colors[index]}
+              stroke={hidden ? 'transparent' : 'var(--bg-card)'}
+            />
+          );
+        })}
       </Pie>
       <Tooltip
         content={
@@ -119,25 +141,35 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
           />
         }
       />
-      {showLegend && (
-        <Legend content={<ChartLegend variant="circle" interactive={legendInteractive} hiddenSeries={hiddenSeries} onToggle={toggleSeries} />} />
-      )}
     </RPieChart>
   );
 
   return (
     <Chart ref={ref} width={responsive ? undefined : width} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
-      {responsive ? (
-        <ResponsiveContainer width="100%" height={svgHeight}>
-          {chartContent}
-        </ResponsiveContainer>
-      ) : (
-        <div style={{ width, height: svgHeight }}>
-          <ResponsiveContainer width="100%" height="100%">
+      <ChartWithLegend
+        showLegend={showLegend}
+        legendProps={{
+          items: legendItems,
+          variant: 'circle',
+          position: legendPosition,
+          interactive: legendInteractive,
+          hiddenSeries,
+          onToggle: toggleSeries,
+          valueFormatter: legendValueFormatter,
+        }}
+      >
+        {responsive ? (
+          <ResponsiveContainer width="100%" height={svgHeight}>
             {chartContent}
           </ResponsiveContainer>
-        </div>
-      )}
+        ) : (
+          <div style={{ width, height: svgHeight }}>
+            <ResponsiveContainer width="100%" height="100%">
+              {chartContent}
+            </ResponsiveContainer>
+          </div>
+        )}
+      </ChartWithLegend>
     </Chart>
   );
   }
