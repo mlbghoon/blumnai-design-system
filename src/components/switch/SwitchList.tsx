@@ -1,11 +1,14 @@
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+import { resolveCaption } from '../input/shared/resolveCaption';
+import { InputCaption } from '../input/shared/InputCaption';
 import { Switch } from './Switch';
 import type { SwitchListProps } from './SwitchList.types';
 
 const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
-  ({ items, listStyle = 'default', color = 'green', onItemChange, showToggleAll = false, toggleAllLabel = '전체 토글', onToggleAll, className }, ref) => {
+  ({ items, listStyle = 'default', color = 'green', onItemChange, showToggleAll = false, toggleAllLabel = '전체 토글', onToggleAll, error, success, caption, className }, ref) => {
+    const { hasError, hasSuccess, captionText, showCaption } = resolveCaption(error, success, caption);
     const enabledItems = items.filter((item) => !item.disabled);
     const allChecked = enabledItems.length > 0 && enabledItems.every((item) => item.checked);
 
@@ -41,47 +44,57 @@ const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
       />
     ) : null;
 
-    if (listStyle === 'bordered') {
-      return (
-        <div ref={ref} role="group" className={containerClassName}>
-          {toggleAllElement && (
-            <div className="w-full padding-y-12 border-b-default">
-              {toggleAllElement}
-            </div>
-          )}
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="w-full padding-y-12 border-b-default"
-            >
-              <Switch
-                checked={item.checked}
-                disabled={item.disabled}
-                color={color}
-                onCheckedChange={handleItemChange(item.id)}
-                label={item.title}
-                description={item.description}
-              />
-            </div>
-          ))}
-        </div>
+    const captionElement = showCaption ? (
+      <InputCaption error={hasError} success={hasSuccess}>
+        {captionText}
+      </InputCaption>
+    ) : null;
+
+    const itemElements = items.map((item) => {
+      const switchEl = (
+        <Switch
+          key={item.id}
+          checked={item.checked}
+          disabled={item.disabled}
+          color={color}
+          onCheckedChange={handleItemChange(item.id)}
+          label={item.title}
+          description={item.description}
+        />
       );
+
+      if (listStyle === 'bordered') {
+        return (
+          <div key={item.id} className="w-full padding-y-12 border-b-default">
+            {switchEl}
+          </div>
+        );
+      }
+
+      return switchEl;
+    });
+
+    const toggleAllBordered = toggleAllElement && listStyle === 'bordered' ? (
+      <div className="w-full padding-y-12 border-b-default">
+        {toggleAllElement}
+      </div>
+    ) : toggleAllElement;
+
+    const groupElement = (
+      <div ref={ref} role="group" className={containerClassName}>
+        {toggleAllBordered}
+        {itemElements}
+      </div>
+    );
+
+    if (!showCaption) {
+      return groupElement;
     }
 
     return (
-      <div ref={ref} role="group" className={containerClassName}>
-        {toggleAllElement}
-        {items.map((item) => (
-          <Switch
-            key={item.id}
-            checked={item.checked}
-            disabled={item.disabled}
-            color={color}
-            onCheckedChange={handleItemChange(item.id)}
-            label={item.title}
-            description={item.description}
-          />
-        ))}
+      <div className="flex flex-col">
+        {groupElement}
+        {captionElement}
       </div>
     );
   }

@@ -76,6 +76,17 @@ false: 하나를 열면 다른 것이 닫힘`,
         },
       },
     },
+    padding: {
+      control: 'select',
+      options: [0, 1, 2, 4, 6, 8, 10, 12, 16, 24],
+      description: '모든 아이템에 적용할 컨테이너 패딩(px)입니다. 개별 아이템의 padding이 우선합니다',
+      table: {
+        type: {
+          summary: 'AccordionPadding',
+          detail: '0 | 1 | 2 | 4 | 6 | 8 | 10 | 12 | 16 | 24',
+        },
+      },
+    },
   },
 } satisfies Meta<typeof AccordionGroup>;
 
@@ -108,6 +119,7 @@ export const Default: Story = {
     spacing: 8,
     style: 'default',
     allowMultipleOpen: true,
+    padding: undefined,
     className: '',
   },
   parameters: {
@@ -120,6 +132,7 @@ export const Default: Story = {
         spacing={args.spacing}
         style={args.style}
         allowMultipleOpen={args.allowMultipleOpen}
+        padding={args.padding}
         className={args.className}
       />
     );
@@ -146,7 +159,16 @@ export const Group: Story = {
   },
   render: function Render(args) {
     const groupRef = useRef<HTMLDivElement>(null);
-    return <AccordionGroup ref={groupRef} {...args} />;
+    return (
+      <AccordionGroup
+        ref={groupRef}
+        items={args.items}
+        spacing={args.spacing}
+        style={args.style}
+        allowMultipleOpen={args.allowMultipleOpen}
+        className={args.className}
+      />
+    );
   },
 };
 

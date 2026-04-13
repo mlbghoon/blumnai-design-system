@@ -97,6 +97,14 @@ export interface InputBaseProps {
    */
   showCount?: boolean;
   /**
+   * 로딩 상태.
+   * `true`일 때 tail 영역에 스피너를 표시하고 input의 native disabled 속성을
+   * 활성화합니다. 시각적 상태(border/background/text color)는 변경되지 않아
+   * error/success 상태와 함께 표시될 수 있습니다 (retry 중인 상태 등).
+   * @default false
+   */
+  loading?: boolean;
+  /**
    * 외부 컨테이너에 적용할 추가 className
    */
   className?: string;

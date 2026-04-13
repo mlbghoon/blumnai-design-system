@@ -92,6 +92,17 @@ const meta = {
         },
       },
     },
+    padding: {
+      control: 'select',
+      options: [0, 1, 2, 4, 6, 8, 10, 12, 16, 24],
+      description: '컨테이너 패딩을 px 단위로 설정합니다. 미지정 시 기본 24px이 적용됩니다',
+      table: {
+        type: {
+          summary: 'AccordionPadding',
+          detail: '0 | 1 | 2 | 4 | 6 | 8 | 10 | 12 | 16 | 24',
+        },
+      },
+    },
   },
 } satisfies Meta<typeof AccordionItem>;
 
@@ -114,6 +125,7 @@ export const Default: Story = {
     disabled: false,
     defaultIsOpen: false,
     headingLevel: 3,
+    padding: undefined,
     className: '',
   },
   parameters: {
@@ -121,7 +133,20 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const accordionRef = useRef<HTMLDivElement>(null);
-    return <AccordionItem ref={accordionRef} {...args} />;
+    return (
+      <AccordionItem
+        ref={accordionRef}
+        header={args.header}
+        children={args.children}
+        style={args.style}
+        isOpen={args.isOpen}
+        disabled={args.disabled}
+        defaultIsOpen={args.defaultIsOpen}
+        headingLevel={args.headingLevel}
+        padding={args.padding}
+        className={args.className}
+      />
+    );
   },
 };
 

@@ -2,7 +2,7 @@ import { forwardRef, memo, useMemo } from 'react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 
 import type { BadgeColor, BadgeProps } from './Badge.types';
 

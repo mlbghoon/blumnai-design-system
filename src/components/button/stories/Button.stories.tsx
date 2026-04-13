@@ -200,6 +200,7 @@ export const Default: Story = {
     fullWidth: false,
     width: undefined,
     asChild: false,
+    onClick: undefined,
   },
   parameters: {
     controls: { disable: false },
@@ -311,7 +312,7 @@ export const WithIcons: Story = {
 export const WithFilledIcons: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
-      <p className="margin-0size-sm text-subtle">일반 아이콘 vs 채워진 아이콘 (isFill=true)</p>
+      <p className="margin-0 size-sm text-subtle">일반 아이콘 vs 채워진 아이콘 (isFill=true)</p>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button leadIcon={['system', 'star']}>일반</Button>
         <Button leadIcon={['system', 'star', true]}>채움</Button>
@@ -383,7 +384,7 @@ export const KeyboardShortcutBinding: Story = {
 
     return (
       <div className="flex flex-col ds-gap-16">
-        <p className="margin-0size-sm text-subtle">
+        <p className="margin-0 size-sm text-subtle">
           shortcut prop은 뱃지 표시 + 전역 keydown 리스너를 자동 바인딩합니다.
         </p>
         <div className="flex flex-wrap ds-gap-12 items-center justify-center">
@@ -445,9 +446,9 @@ export const KeyboardShortcutBinding: Story = {
         </div>
         {log.length > 0 && (
           <div className="padding-12 bg-subtle rounded-md">
-            <p className="margin-0size-xs text-muted font-medium">이벤트 로그</p>
+            <p className="margin-0 size-xs text-muted font-medium">이벤트 로그</p>
             {log.map((entry, i) => (
-              <p key={i} className="margin-0size-xs text-subtle">{entry}</p>
+              <p key={i} className="margin-0 size-xs text-subtle">{entry}</p>
             ))}
           </div>
         )}
@@ -494,7 +495,7 @@ export const LoadingState: Story = {
 
     return (
       <div className="flex flex-col ds-gap-16">
-        <p className="margin-0size-sm text-subtle">각 버튼을 클릭하여 로딩 상태를 테스트하세요</p>
+        <p className="margin-0 size-sm text-subtle">각 버튼을 클릭하여 로딩 상태를 테스트하세요</p>
         <div className="flex flex-wrap ds-gap-12 items-center justify-center">
           <Button
             loading={loadingStates['textOnly']}
@@ -585,7 +586,7 @@ export const CustomWidth: Story = {
 export const AsChild: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-12">
-      <p className="margin-0size-sm text-subtle">asChild prop으로 a 태그로 렌더링</p>
+      <p className="margin-0 size-sm text-subtle">asChild prop으로 a 태그로 렌더링</p>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button asChild buttonStyle="primary">
           <a href="https://example.com" target="_blank" rel="noopener noreferrer">

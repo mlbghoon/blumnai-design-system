@@ -3,6 +3,7 @@
 import { DragOverlay as DndKitDragOverlay, useDndContext } from '@dnd-kit/core';
 import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
+import { usePortalContainer } from '../../utils/PortalContainerContext';
 import type { DragOverlayProps, DndItem } from './dnd.types';
 
 const defaultDropAnimation = {
@@ -16,6 +17,7 @@ export function DragOverlay({
   dropAnimation = defaultDropAnimation,
 }: DragOverlayProps) {
   const { active } = useDndContext();
+  const portalContainer = usePortalContainer();
 
   const activeItem: DndItem | null = active
     ? { id: active.id, data: active.data.current as Record<string, unknown> }
@@ -35,5 +37,5 @@ export function DragOverlay({
 
   if (typeof document === 'undefined') return overlay;
 
-  return createPortal(overlay, document.body);
+  return createPortal(overlay, portalContainer ?? document.body);
 }

@@ -34,6 +34,20 @@ export interface SidebarProviderProps extends ComponentProps<'div'> {
    * @default true
    */
   persistState?: boolean;
+  /**
+   * 전역 키보드 단축키 설정. SidebarProvider가 window에 `keydown` 리스너를 등록하여
+   * `Cmd/Ctrl` + 지정된 키로 사이드바를 토글합니다.
+   *
+   * - 문자열(예: `'b'`) → `Cmd/Ctrl + <key>`로 토글합니다. `Shift`와 함께 눌리면
+   *   무시됩니다 (Cmd+Shift+B로 브라우저 북마크 바를 토글하는 등의 충돌 방지).
+   *   사용자가 편집 가능한 필드(input/textarea/select/contentEditable)에 포커스된
+   *   경우에도 단축키가 동작하지 않습니다.
+   * - `false` → 전역 단축키를 완전히 비활성화합니다. consumer 앱이 자체 키보드
+   *   단축키 체계를 가진 경우 사용하세요.
+   *
+   * @default 'b'
+   */
+  keyboardShortcut?: string | false;
 }
 
 // ============================================

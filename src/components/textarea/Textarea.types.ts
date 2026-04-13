@@ -166,4 +166,10 @@ export interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaE
    * @default false
    */
   autoResize?: boolean;
+  /**
+   * 로딩 상태. `true`일 때 스피너를 표시하고 textarea를 비활성화합니다.
+   * 툴바가 있으면 툴바 영역에, 없으면 우측 상단에 표시됩니다.
+   * @default false
+   */
+  loading?: boolean;
 }

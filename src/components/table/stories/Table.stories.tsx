@@ -312,7 +312,7 @@ export const Default: Story = {
   },
   render: function Render(args) {
     return (
-      <Table {...args}>
+      <Table striped={args.striped} bordered={args.bordered}>
         <TableHeader>
           <TableRow>
             <TableHead>이름</TableHead>

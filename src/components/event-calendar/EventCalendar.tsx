@@ -88,7 +88,7 @@ const DayCell = React.memo(
     return (
       <div
         role="gridcell"
-        aria-label={format(date, 'yyyy년 M월 d일', { locale })}
+        aria-label={format(date, 'PPP', { locale })}
         aria-disabled={context.isDisabled || undefined}
         tabIndex={isClickable ? 0 : undefined}
         className={cn(
@@ -137,7 +137,8 @@ const DayCell = React.memo(
     prev.customClassName === next.customClassName &&
     prev.isLastRow === next.isLastRow &&
     prev.renderContent === next.renderContent &&
-    prev.onClick === next.onClick,
+    prev.onClick === next.onClick &&
+    prev.locale === next.locale,
 );
 
 const defaultFormatMonthLabel = (date: Date) => format(date, 'yyyy년 MM월');

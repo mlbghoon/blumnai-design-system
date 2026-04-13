@@ -56,4 +56,33 @@ describe('Button', () => {
     render(<Button ref={ref}>Ref</Button>);
     expect(ref).toHaveBeenCalledWith(expect.any(HTMLButtonElement));
   });
+
+  describe('color / colorOverride', () => {
+    it('color prop produces the same output as colorOverride (equivalence)', () => {
+      const { container: c1 } = render(<Button color="red">X</Button>);
+      const { container: c2 } = render(<Button colorOverride="red">X</Button>);
+      const b1 = c1.querySelector('button');
+      const b2 = c2.querySelector('button');
+      expect(b1?.getAttribute('style')).toBe(b2?.getAttribute('style'));
+      expect(b1?.className).toBe(b2?.className);
+    });
+
+    it('color takes precedence over colorOverride when both are passed', () => {
+      const { container: both } = render(
+        <Button color="red" colorOverride="blue">
+          X
+        </Button>,
+      );
+      const { container: colorOnly } = render(<Button color="red">X</Button>);
+      const { container: overrideOnly } = render(<Button colorOverride="blue">X</Button>);
+      const bothBtn = both.querySelector('button');
+      const colorBtn = colorOnly.querySelector('button');
+      const overrideBtn = overrideOnly.querySelector('button');
+
+      // Both-set should match color-only (color wins)
+      expect(bothBtn?.getAttribute('style')).toBe(colorBtn?.getAttribute('style'));
+      // Both-set should NOT match override-only (override loses)
+      expect(bothBtn?.getAttribute('style')).not.toBe(overrideBtn?.getAttribute('style'));
+    });
+  });
 });

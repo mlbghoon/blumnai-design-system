@@ -1,7 +1,8 @@
 import { forwardRef, useState, useCallback, useEffect, useRef } from 'react';
 import type { InputHTMLAttributes, ReactNode } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
+import { Spinner } from '@/lib/spinner';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
@@ -104,6 +105,11 @@ export interface PasswordInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    * @default false
    */
   showCount?: boolean;
+  /**
+   * 로딩 상태. `true`일 때 tail 영역에 스피너를 표시하고 input을 비활성화합니다.
+   * @default false
+   */
+  loading?: boolean;
 }
 
 /**
@@ -154,6 +160,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
   leadIcon,
   width,
   disabled = false,
+  loading = false,
   className,
   showCount = false,
   maxLength,
@@ -266,33 +273,42 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
           ref={ref}
           id={inputId}
           type={isVisible ? 'text' : 'password'}
-          disabled={disabled}
+          disabled={disabled || loading}
           required={required}
           className={inputClassName}
           value={value}
+          maxLength={maxLength}
           onChange={onChange}
           autoComplete="current-password"
           aria-invalid={hasError}
+          aria-busy={loading || undefined}
           aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
           aria-required={required || undefined}
           {...props}
         />
 
-        {/* Visibility Toggle */}
-        {showToggle && (
-          <button
-            type="button"
-            onClick={toggleVisibility}
-            disabled={disabled}
-            className={cn(TOGGLE_BUTTON_STYLE, disabled && 'cursor-not-allowed opacity-50')}
-            aria-label={isVisible ? 'Hide password' : 'Show password'}
-          >
-            <Icon
-              iconType={['system', isVisible ? 'eye-off' : 'eye']}
-              size={sizeConfig.iconSize}
-              color={iconColor}
-            />
-          </button>
+        {/* Tail slot: Spinner takes precedence when loading */}
+        {loading ? (
+          <Spinner size={sizeConfig.iconSize} color={iconColor} />
+        ) : (
+          <>
+            {/* Visibility Toggle */}
+            {showToggle && (
+              <button
+                type="button"
+                onClick={toggleVisibility}
+                disabled={disabled}
+                className={cn(TOGGLE_BUTTON_STYLE, disabled && 'cursor-not-allowed opacity-50')}
+                aria-label={isVisible ? 'Hide password' : 'Show password'}
+              >
+                <Icon
+                  iconType={['system', isVisible ? 'eye-off' : 'eye']}
+                  size={sizeConfig.iconSize}
+                  color={iconColor}
+                />
+              </button>
+            )}
+          </>
         )}
 
         {showCount && maxLength !== undefined && (

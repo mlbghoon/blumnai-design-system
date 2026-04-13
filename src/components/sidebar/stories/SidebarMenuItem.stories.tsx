@@ -438,7 +438,7 @@ export const KeyboardShortcutBinding: Story = {
 
     return (
       <div className="flex flex-col ds-gap-16">
-        <p className="margin-0size-sm text-subtle">
+        <p className="margin-0 size-sm text-subtle">
           단축키를 눌러 onClick이 실행되는 것을 확인하세요. 사이드바 항목은 항상 마운트되어 있으므로 전역 단축키가 작동합니다.
         </p>
         <SidebarProvider defaultOpen={true}>
@@ -478,9 +478,9 @@ export const KeyboardShortcutBinding: Story = {
         </SidebarProvider>
         {log.length > 0 && (
           <div className="padding-12 bg-subtle rounded-md">
-            <p className="margin-0size-xs text-muted font-medium">이벤트 로그</p>
+            <p className="margin-0 size-xs text-muted font-medium">이벤트 로그</p>
             {log.map((entry, i) => (
-              <p key={i} className="margin-0size-xs text-subtle">{entry}</p>
+              <p key={i} className="margin-0 size-xs text-subtle">{entry}</p>
             ))}
           </div>
         )}

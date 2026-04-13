@@ -24,6 +24,10 @@ export interface ChartConfigItem {
    * Optional icon to show in legend/tooltip
    */
   icon?: ReactNode;
+  /**
+   * 툴팁 전용 라벨 (미지정 시 label 사용)
+   */
+  tooltipLabel?: string;
 }
 
 /**
@@ -42,6 +46,8 @@ export type ChartConfig = Record<string, ChartConfigItem>;
  * Default chart colors using CSS variables
  * Used when no config is provided
  */
+export const DEFAULT_CHART_MARGIN = { top: 20, right: 20, bottom: 20, left: 20 };
+
 export const DEFAULT_CHART_COLORS = [
   'var(--chart-1)',
   'var(--chart-2)',
@@ -64,6 +70,7 @@ export interface ChartTooltipParams {
     color: string;
   }>;
   xValue: string | number;
+  valueFormatter?: (value: number) => string;
 }
 
 /**
@@ -74,6 +81,7 @@ export interface PieTooltipParams {
   value: number;
   percent: number;
   color: string;
+  valueFormatter?: (value: number) => string;
 }
 
 /**
@@ -139,6 +147,50 @@ export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
    * 커스텀 툴팁 렌더링 콜백
    */
   renderTooltip?: (params: ChartTooltipParams | PieTooltipParams) => ReactNode;
+  /**
+   * renderTooltip 사용 시 기본 카드 스타일 래퍼 적용 여부
+   * @default false
+   */
+  wrapCustomTooltip?: boolean;
+  /**
+   * 차트 컨테이너 스타일 변형
+   * - 'default': 배경, 그림자, 라운드 적용
+   * - 'unstyled': 투명 배경, 그림자/라운드 없음 (카드 내부 임베딩용)
+   * @default 'default'
+   */
+  variant?: 'default' | 'unstyled';
+  /**
+   * 차트 애니메이션 활성화 여부 (false: PDF 캡처 등에서 사용)
+   * @default true
+   */
+  animated?: boolean;
+  /**
+   * 인터랙티브 범례 활성화 (클릭으로 시리즈 토글)
+   * @default false
+   */
+  legendInteractive?: boolean;
+  /**
+   * 차트 영역 마진 (Recharts margin)
+   */
+  margin?: { top?: number; right?: number; bottom?: number; left?: number };
+  /**
+   * 툴팁 값 포맷터
+   */
+  tooltipValueFormatter?: (value: number) => string;
+  /**
+   * 범례 위치
+   * @default 'bottom'
+   */
+  legendPosition?: 'bottom' | 'right';
+  /**
+   * 범례 값 포맷터
+   */
+  legendValueFormatter?: (value: number, name: string) => string;
+  /**
+   * 커스텀 범례 렌더링. 제공 시 기본 ChartLegend 대신 사용.
+   * items, hiddenSeries, toggleSeries를 받아 자체 범례 UI를 렌더링할 수 있음.
+   */
+  renderLegend?: (props: { items: Array<{ key: string; label: string; color: string; value?: number }>; hiddenSeries: Set<string>; toggleSeries: (key: string) => void }) => ReactNode;
 }
 
 /**
@@ -328,6 +380,10 @@ export interface DonutChartProps extends PieChartProps {
    * @default false
    */
   showCenterOnHover?: boolean;
+  /**
+   * 차트 하단 각주 텍스트
+   */
+  footnote?: string;
 }
 
 /**

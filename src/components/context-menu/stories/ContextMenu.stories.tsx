@@ -68,6 +68,7 @@ type Story = StoryObj<ContextMenuStoryProps>;
 export const Default: Story = {
   args: {
     width: 200,
+    container: null,
   },
   parameters: {
     controls: { disable: false },
@@ -80,6 +81,7 @@ export const Default: Story = {
         </ContextMenuTrigger>
         <ContextMenuContent
           width={args.width}
+          container={args.container}
         >
           <ContextMenuLabel>동작</ContextMenuLabel>
           <ContextMenuSeparator />

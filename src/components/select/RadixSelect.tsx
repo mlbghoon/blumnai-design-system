@@ -6,6 +6,7 @@ import { InputWrapper } from '../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
+import { TooltipTrigger } from '../tooltip/Tooltip/TooltipTrigger';
 import { usePortalContainer, PortalContainerProvider } from '../../utils/PortalContainerContext';
 import type {
   SelectTriggerProps,
@@ -375,6 +376,7 @@ const ExtendedSelectItem = React.forwardRef<
       avatarSrc,
       disabled,
       isSelected,
+      disableLabelTooltip,
       ...props
     },
     ref
@@ -510,19 +512,30 @@ const ExtendedSelectItem = React.forwardRef<
         <SelectPrimitive.ItemText className="flex-1 min-w-0 overflow-hidden">
           {description ? (
             <div className="flex flex-col ds-gap-1">
-              <TruncatedText tooltipContent={typeof children === 'string' ? children : undefined}>{children}</TruncatedText>
+              <TruncatedText
+                disableTooltip={disableLabelTooltip}
+                tooltipContent={typeof children === 'string' ? children : undefined}
+              >
+                {children}
+              </TruncatedText>
               <TruncatedText
                 className={cn(
                   'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight',
                   disabled ? 'text-hint' : 'text-muted'
                 )}
+                disableTooltip={disableLabelTooltip}
                 tooltipContent={description}
               >
                 {description}
               </TruncatedText>
             </div>
           ) : (
-            <TruncatedText tooltipContent={typeof children === 'string' ? children : undefined}>{children}</TruncatedText>
+            <TruncatedText
+              disableTooltip={disableLabelTooltip}
+              tooltipContent={typeof children === 'string' ? children : undefined}
+            >
+              {children}
+            </TruncatedText>
           )}
         </SelectPrimitive.ItemText>
         {renderTrailContent()}
@@ -658,8 +671,9 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       const isSelected = option.id === normalizedValue;
       // renderOption 콜백에는 원본 id를 전달
       const originalOption = option.id === EMPTY_SENTINEL ? { ...option, id: '' } : option;
+      let itemNode: React.ReactNode;
       if (renderOption) {
-        return (
+        itemNode = (
           <SelectPrimitive.Item
             key={option.id}
             value={option.id}
@@ -667,6 +681,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
             className={cn(
               'flex w-full select-none items-center rounded-sm outline-none',
               'padding-6 ds-gap-6',
+              'font-body size-sm line-height-leading-5 text-default',
               'hover:bg-[var(--bg-state-ghost-hover)]',
               'data-[highlighted]:bg-[var(--bg-state-ghost-hover)]',
               option.disabled && 'pointer-events-none opacity-50 cursor-not-allowed',
@@ -683,28 +698,60 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                 />
               </SelectPrimitive.ItemIndicator>
             </span>
-            <SelectPrimitive.ItemText className="sr-only">{option.label}</SelectPrimitive.ItemText>
+            <SelectPrimitive.ItemText
+              style={{
+                position: 'absolute',
+                width: '1px',
+                height: '1px',
+                padding: 0,
+                margin: '-1px',
+                overflow: 'hidden',
+                clip: 'rect(0,0,0,0)',
+                whiteSpace: 'nowrap',
+                border: 0,
+              }}
+            >
+              {option.label}
+            </SelectPrimitive.ItemText>
             {renderOption(originalOption, isSelected)}
           </SelectPrimitive.Item>
         );
+      } else {
+        itemNode = (
+          <ExtendedSelectItem
+            key={option.id}
+            value={option.id}
+            textValue={option.label}
+            selectType={selectType}
+            leadIcon={option.leadIcon}
+            iconColor={option.iconColor}
+            description={option.description}
+            badge={option.badge}
+            avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}
+            disabled={option.disabled}
+            isSelected={isSelected}
+            disableLabelTooltip={!!option.tooltip}
+          >
+            {option.label}
+          </ExtendedSelectItem>
+        );
       }
-      return (
-        <ExtendedSelectItem
-          key={option.id}
-          value={option.id}
-          textValue={option.label}
-          selectType={selectType}
-          leadIcon={option.leadIcon}
-          iconColor={option.iconColor}
-          description={option.description}
-          badge={option.badge}
-          avatarSrc={variant === 'avatar' ? option.avatarSrc : undefined}
-          disabled={option.disabled}
-          isSelected={isSelected}
-        >
-          {option.label}
-        </ExtendedSelectItem>
-      );
+
+      if (option.tooltip) {
+        return (
+          <TooltipTrigger
+            key={option.id}
+            asChild
+            content={option.tooltip}
+            placement={option.tooltipPlacement ?? 'right'}
+            container={null}
+            zIndex={101}
+          >
+            {itemNode as React.ReactElement}
+          </TooltipTrigger>
+        );
+      }
+      return itemNode;
     };
 
     const renderOptions = () => {

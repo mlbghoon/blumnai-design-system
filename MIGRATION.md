@@ -29,13 +29,37 @@ npm install @blumnai-studio/blumnai-design-system@latest --legacy-peer-deps
 
 ### 3. import 경로 변경
 
-모든 소스 파일에서 import 경로를 일괄 변경합니다.
+TypeScript 소스(.ts/.tsx)에서 import 경로를 일괄 변경합니다.
 
 ```bash
-# macOS/Linux
+# macOS (BSD sed)
 find src -type f \( -name '*.ts' -o -name '*.tsx' \) \
   -exec sed -i '' 's/@mlbghoon\/blumnai-design-system/@blumnai-studio\/blumnai-design-system/g' {} +
+
+# Linux (GNU sed)
+find src -type f \( -name '*.ts' -o -name '*.tsx' \) \
+  -exec sed -i 's/@mlbghoon\/blumnai-design-system/@blumnai-studio\/blumnai-design-system/g' {} +
 ```
+
+---
+
+## 1.1.x → 1.2.x
+
+### Chart `renderTooltip` 래퍼 변경
+
+v1.1.x에서는 `renderTooltip` 콜백의 반환값이 자동으로 카드 스타일 래퍼(`rounded-card-xs padding-4 bg-card shadow-modal-sm`)로 감싸졌습니다.
+v1.2.0부터 커스텀 툴팁은 **래퍼 없이 직접 렌더링**됩니다.
+
+```tsx
+// 이전 동작이 필요한 경우
+<LineChart
+  renderTooltip={(params) => <MyTooltip {...params} />}
+  wrapCustomTooltip  // ← 이전 래퍼 유지
+/>
+```
+
+기존 `renderTooltip` 사용 시 래퍼를 자체적으로 포함하고 있었다면 변경 불필요합니다.
+래퍼에 의존하고 있었다면 `wrapCustomTooltip` prop을 추가하세요.
 
 ---
 
@@ -69,6 +93,92 @@ import '@blumnai-studio/blumnai-design-system/styles';
 
 - **소비자 영향 없음** — 자동 적용됩니다
 - 스타일이 DS 테마와 일치합니다
+
+#### TooltipTrigger `content` 자동 감싸기 (v1.1.23)
+
+`TooltipTrigger`의 `content` prop이 string/number뿐 아니라 **모든 ReactNode**를 자동으로 `<Tooltip>` 컨테이너로 감쌉니다. 이전에는 ReactNode를 넘길 때 직접 `<Tooltip>`을 작성해야 배경/패딩/화살표가 적용되었습니다.
+
+**역호환:** 이미 `<Tooltip>` 엘리먼트를 직접 넘기는 코드는 그대로 동작합니다 — 내부에서 `content.type === Tooltip`을 감지해 이중 감싸기를 방지합니다.
+
+```tsx
+// Before (v1.1.22 이하) — ReactNode는 직접 Tooltip으로 감싸야 했음
+<TooltipTrigger
+  content={
+    <Tooltip>
+      <div>커스텀 내용</div>
+    </Tooltip>
+  }
+>
+  <button>호버</button>
+</TooltipTrigger>
+
+// After (v1.1.23+) — 자동 감싸기
+<TooltipTrigger content={<div>커스텀 내용</div>}>
+  <button>호버</button>
+</TooltipTrigger>
+
+// 직접 Tooltip을 넘기는 기존 코드도 그대로 동작 (이중 감싸기 없음)
+<TooltipTrigger content={<Tooltip badge="NEW">커스텀</Tooltip>}>
+  <button>호버</button>
+</TooltipTrigger>
+```
+
+**주의:** 이전에 ReactNode를 그냥 넘겨서 **배경 없이 raw 노드만 노출**되는 것을 의도한 코드가 있다면, 이제 자동으로 Tooltip 컨테이너로 감싸지므로 시각적으로 달라질 수 있습니다. 그러한 의도라면 직접 wrapper 엘리먼트를 사용하세요.
+
+#### Select 옵션 `tooltip` prop 추가 (v1.1.23)
+
+`SelectOption`에 `tooltip` 및 `tooltipPlacement` 속성이 추가되었습니다. 옵션 호버 시 자동으로 DS 툴팁이 표시되며, `disabled: true` 옵션에서도 동작하므로 비활성화 사유 안내에 적합합니다.
+
+```tsx
+<Select
+  options={[
+    {
+      id: 'auto',
+      label: '자동선택',
+      tooltip: '시스템이 가장 적합한 옵션을 자동으로 선택합니다.',
+      tooltipPlacement: 'right',
+    },
+    {
+      id: 'pro',
+      label: 'Pro 전용',
+      disabled: true,
+      tooltip: 'Pro 플랜에서만 사용 가능합니다.',
+    },
+  ]}
+/>
+```
+
+- **소비자 영향 없음** — 신규 prop, 미사용 시 동작 변화 없음
+
+#### Input `maxLength` 브라우저 enforcement 활성화 (v1.1.25)
+
+`Input`이 받은 `maxLength` prop을 inner `<input>` DOM 엘리먼트로 forward하지 않던 버그를 수정했습니다. 이전까지 `maxLength`는 `showCount`와 함께 카운터 표시(`{현재}/{max}`)에만 사용되고, 사용자는 제한을 초과해 입력/붙여넣기할 수 있었습니다.
+
+**영향 범위:** `maxLength`를 prop으로 넘기는 모든 `Input` variant (`Default`, `Password`, `AddOn`, `Button`, `Shortcut`, `Dropdown`). `Textarea`는 이미 올바르게 forward하고 있어 변경 없음.
+
+**Before (v1.1.24 이하):**
+
+```tsx
+<Input showCount maxLength={15} value={v} onChange={(e) => setV(e.target.value)} />
+// 사용자가 30자 입력 → 카운터: "30/15", state: "30자 문자열" (제한 없음)
+```
+
+**After (v1.1.25+):**
+
+```tsx
+<Input showCount maxLength={15} value={v} onChange={(e) => setV(e.target.value)} />
+// 사용자는 15자까지만 입력/붙여넣기 가능 (브라우저 레벨 enforcement)
+```
+
+**잠재적 영향:** 기존에 `maxLength`를 카운터 표시 *전용*으로만 의도하고 enforcement를 원치 않았다면 동작이 달라집니다. 카운터만 표시하고 enforcement는 원치 않는 경우, `maxLength`를 빼고 별도의 길이 표시 로직을 직접 구현하세요. 다만 이 케이스는 거의 없을 것으로 판단합니다 — 대부분 consumer는 enforcement를 기대하고 `maxLength`를 사용합니다.
+
+**Migration:** 일반적으로 추가 작업 없음. 기존에 `onChange`에서 `.slice(0, maxLength)` workaround를 추가했다면 이제 제거해도 됩니다.
+
+```tsx
+// workaround 제거 가능
+- onChange={(e) => setV(e.target.value.slice(0, 15))}
++ onChange={(e) => setV(e.target.value)}
+```
 
 ---
 

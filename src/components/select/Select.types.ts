@@ -24,6 +24,11 @@ export type SelectVariant = 'default' | 'avatar' | 'multi-select' | 'tags';
 export type SelectType = 'default' | 'checkbox' | 'radio';
 
 /**
+ * Select 옵션 툴팁 배치
+ */
+export type SelectOptionTooltipPlacement = 'top' | 'right' | 'bottom' | 'left';
+
+/**
  * Select 옵션 아이템 데이터
  */
 export interface SelectOption {
@@ -59,6 +64,16 @@ export interface SelectOption {
    * 비활성화 여부
    */
   disabled?: boolean;
+  /**
+   * 옵션 호버 시 표시되는 툴팁 내용. string/ReactNode 모두 자동으로 Tooltip으로 감싸짐.
+   * `disabled: true` 옵션에서도 동작하므로, 비활성화 사유를 안내할 때 유용함.
+   */
+  tooltip?: ReactNode;
+  /**
+   * 툴팁 배치 (기본 'right' — 드롭다운 옆으로 표시되어 다른 옵션을 가리지 않음)
+   * @default 'right'
+   */
+  tooltipPlacement?: SelectOptionTooltipPlacement;
 }
 
 /**
@@ -302,6 +317,13 @@ export interface MultiSelectProps extends SelectBaseProps, Omit<HTMLAttributes<H
   applyLabel?: string;
   /** 취소 버튼 라벨 @default '취소' */
   cancelLabel?: string;
+  /**
+   * 적용 버튼 활성화 조건 (showActions 모드에서만 동작).
+   * 반환값이 false면 적용 버튼이 비활성화됩니다.
+   * 미지정 시 기본값은 "변경 사항이 있을 때만 활성화" (pending !== committed).
+   * 예: `canApply={(pending) => pending.length > 0}` — 빈 선택 commit 방지
+   */
+  canApply?: (pending: string[], committed: string[]) => boolean;
 }
 
 /**
@@ -370,6 +392,12 @@ export interface RadixMultiSelectProps extends SelectBaseProps {
   applyLabel?: string;
   /** 취소 버튼 라벨 @default '취소' */
   cancelLabel?: string;
+  /**
+   * 적용 버튼 활성화 조건 (showActions 모드에서만 동작).
+   * 반환값이 false면 적용 버튼이 비활성화됩니다.
+   * 미지정 시 기본값은 "변경 사항이 있을 때만 활성화" (pending !== committed).
+   */
+  canApply?: (pending: string[], committed: string[]) => boolean;
 }
 
 // ============================================================================
@@ -416,6 +444,10 @@ export interface ExtendedSelectItemProps
    * 선택된 상태 여부 (checkbox/radio 타입에서 사용)
    */
   isSelected?: boolean;
+  /**
+   * 라벨 오버플로우 자동 툴팁 비활성화 (외부에서 다른 툴팁을 제공할 때 충돌 방지)
+   */
+  disableLabelTooltip?: boolean;
 }
 
 /**
@@ -439,4 +471,8 @@ export interface MultiSelectItemProps {
   disabled?: boolean;
   variant: RadixMultiSelectVariant;
   onToggle: () => void;
+  /**
+   * 라벨 오버플로우 자동 툴팁 비활성화 (외부에서 다른 툴팁을 제공할 때 충돌 방지)
+   */
+  disableLabelTooltip?: boolean;
 }

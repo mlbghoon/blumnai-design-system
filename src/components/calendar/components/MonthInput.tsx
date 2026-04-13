@@ -1,5 +1,5 @@
 import { useEffect, useCallback, forwardRef } from 'react';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Icon } from '../../icons/Icon/Icon';
 import {
   SIZE_CONFIG,
@@ -16,6 +16,8 @@ interface MonthInputProps {
   disabled?: boolean;
   hasError?: boolean;
   isOpen?: boolean;
+  size?: 'sm' | 'lg';
+  pickerOnly?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
   onCalendarClick?: () => void;
@@ -43,6 +45,8 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
   disabled = false,
   hasError = false,
   isOpen = false,
+  size = 'sm',
+  pickerOnly = false,
   onFocus,
   onBlur,
   onCalendarClick,
@@ -88,7 +92,7 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
     }
   }, [value, setValues]);
 
-  const sizeConfig = SIZE_CONFIG['sm'];
+  const sizeConfig = SIZE_CONFIG[size];
   const styleConfig = STYLE_CONFIG['default'];
   const showError = hasError || hasInvalidDate;
   const state = disabled ? 'disabled' : showError ? 'error' : 'default';
@@ -105,7 +109,7 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
     state === 'disabled' && STATE_CONFIG.disabled.bg,
     state === 'error' && 'border-destructive',
     isOpen && !showError && 'border-strong shadow-component-input-focus',
-    disabled ? 'cursor-not-allowed' : 'cursor-text',
+    disabled ? 'cursor-not-allowed' : pickerOnly ? 'cursor-pointer' : 'cursor-text',
     className
   );
 
@@ -126,22 +130,24 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
         key={segmentName}
         ref={refs[segmentName] as React.RefObject<HTMLInputElement>}
         type="text"
-        inputMode="numeric"
+        inputMode={pickerOnly ? 'none' : 'numeric'}
         value={segmentValue}
         placeholder={config.placeholder}
         disabled={disabled}
-        onChange={(e) => handleChange(segmentName, e.target.value)}
-        onKeyDown={(e) => handleKeyDown(segmentName, e)}
-        onFocus={() => hookHandleFocus(segmentName)}
-        onBlur={() => hookHandleBlur(segmentName)}
+        readOnly={pickerOnly}
+        onChange={pickerOnly ? undefined : (e) => handleChange(segmentName, e.target.value)}
+        onKeyDown={pickerOnly ? undefined : (e) => handleKeyDown(segmentName, e)}
+        onFocus={pickerOnly ? () => onCalendarClick?.() : () => hookHandleFocus(segmentName)}
+        onBlur={pickerOnly ? undefined : () => hookHandleBlur(segmentName)}
         className={cn(
           'bg-transparent border-0 outline-none text-center font-body',
           sizeConfig.text,
           'letter-spacing-tracking-tight',
           segmentValue ? stateConfig.text : 'text-hint',
           'rounded-2xs padding-x-2',
-          isActive && 'bg-state-ghost-hover',
-          disabled && 'cursor-not-allowed'
+          !pickerOnly && isActive && 'bg-state-ghost-hover',
+          disabled && 'cursor-not-allowed',
+          pickerOnly && 'cursor-pointer caret-transparent'
         )}
         style={{
           width: config.maxLength === 4 ? '40px' : '24px',
@@ -155,7 +161,7 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
     <div ref={ref} className={wrapperClassName}>
       <div
         className="flex items-center ds-gap-2 flex-1 min-w-0"
-        onClick={handleAreaClick}
+        onClick={pickerOnly ? handleCalendarIconClick : handleAreaClick}
       >
         {renderSegment('year')}
         <span className="text-hint size-sm">.</span>

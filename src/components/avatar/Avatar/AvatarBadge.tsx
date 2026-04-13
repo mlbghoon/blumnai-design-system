@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { Icon } from '../../icons/Icon';
 import type { IconType } from '../../icons/Icon/Icon.types';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 
 import { sizes, statusBadgePositions } from 'constants/avatar/Avatar/Avatar.constants';
 import type { AvatarBadgeLocation, AvatarShape, AvatarSize, AvatarStatus } from './Avatar.types';

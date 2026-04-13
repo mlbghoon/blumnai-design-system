@@ -59,7 +59,14 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
-    return <CursorIcon ref={iconRef} {...args} />;
+    return (
+      <CursorIcon
+        ref={iconRef}
+        cursorType={args.cursorType}
+        size={args.size}
+        className={args.className}
+      />
+    );
   },
 };
 

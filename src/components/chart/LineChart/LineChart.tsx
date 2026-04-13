@@ -9,7 +9,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 import type { MouseHandlerDataParam } from 'recharts/types/synchronisation/types';
@@ -17,9 +16,11 @@ import type { MouseHandlerDataParam } from 'recharts/types/synchronisation/types
 import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
 import { ChartTooltipAdapter } from '../Chart/ChartTooltipAdapter';
-import { ChartLegend } from '../Chart/ChartLegend';
+import { ChartWithLegend } from '../Chart/ChartWithLegend';
+import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 
 import type { LineChartProps } from '../Chart/Chart.types';
+import { DEFAULT_CHART_MARGIN } from '../Chart/Chart.types';
 
 /**
  * LineChart 컴포넌트
@@ -50,12 +51,23 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       ariaLabel,
       onDataPointClick,
       isLoading,
+      margin,
+      animated,
       responsive,
       renderTooltip,
+      wrapCustomTooltip,
+      tooltipValueFormatter,
+      legendInteractive = false,
+      legendPosition = 'bottom',
+      legendValueFormatter,
+      renderLegend,
       ...props
     },
     ref
   ) => {
+  const chartMargin = { ...DEFAULT_CHART_MARGIN, ...margin };
+  const isAnimated = animated !== false;
+
   if (import.meta.env.DEV) {
     if (dataKey && dataKeys && dataKeys.length > 0) {
       console.warn('[LineChart] dataKey와 dataKeys가 동시에 제공되었습니다. dataKeys가 우선 적용됩니다.');
@@ -69,7 +81,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     return isMultiLine ? dataKeys : (dataKey ? [dataKey] : []);
   }, [isMultiLine, dataKeys, dataKey]);
 
-  const { getLabel, getColor } = useChartConfig(config, lineColors);
+  const { getLabel, getTooltipLabel, getColor, buildLegendItems } = useChartConfig(config, lineColors);
+  const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(activeKeys, legendInteractive);
+
+  const legendItems = useMemo(() => buildLegendItems(activeKeys), [buildLegendItems, activeKeys]);
 
   const handleChartClick = useCallback((state: MouseHandlerDataParam) => {
     if (!onDataPointClick || state?.activeTooltipIndex == null) return;
@@ -81,7 +96,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 
   const chartAriaLabel = ariaLabel || `Line chart showing ${activeKeys.join(', ') || 'data'}`;
   const yDomain = (yAxis.domain === 'auto' || yAxis.domain === undefined)
-    ? [0, (dataMax: number) => Math.max(dataMax, 1)] as const
+    ? [(dataMin: number) => Math.min(dataMin, 0), (dataMax: number) => Math.max(dataMax, 1)] as const
     : yAxis.domain;
   const tickCount = yAxis.tickCount ?? 5;
   const curveType = smooth ? 'monotone' : 'linear';
@@ -91,7 +106,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   const chartContent = (
     <ChartComponent
       data={safeData}
-      margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+      margin={chartMargin}
       onClick={onDataPointClick ? handleChartClick : undefined}
     >
       <CartesianGrid
@@ -124,16 +139,16 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
         content={
           <ChartTooltipAdapter
             renderTooltip={renderTooltip}
+            wrapCustomTooltip={wrapCustomTooltip}
             getLabel={getLabel}
+            getTooltipLabel={getTooltipLabel}
             getColor={getColor}
+            tooltipValueFormatter={tooltipValueFormatter}
           />
         }
         cursor={{ stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
       />
-      {showLegend && (
-        <Legend content={<ChartLegend variant="square" />} />
-      )}
-      {activeKeys.map((key, index) => {
+      {activeKeys.filter(key => !isHidden(key)).map((key, index) => {
         const color = getColor(key, index);
         if (showArea) {
           return (
@@ -146,9 +161,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
               fill={color}
               fillOpacity={0.1}
               strokeWidth={strokeWidth}
-              dot={showPoints ? { r: 4, fill: color, stroke: '#fff', strokeWidth: 2 } : false}
-              activeDot={showPoints ? { r: 5, fill: color, stroke: '#fff', strokeWidth: 2 } : undefined}
+              dot={showPoints ? { r: 4, fill: color, stroke: 'var(--bg-card)', strokeWidth: 2 } : false}
+              activeDot={showPoints ? { r: 5, fill: color, stroke: 'var(--bg-card)', strokeWidth: 2 } : undefined}
               name={getLabel(key)}
+              isAnimationActive={isAnimated}
             />
           );
         }
@@ -160,9 +176,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             dataKey={key}
             stroke={color}
             strokeWidth={strokeWidth}
-            dot={showPoints ? { r: 4, fill: color, stroke: '#fff', strokeWidth: 2 } : false}
-            activeDot={showPoints ? { r: 5, fill: color, stroke: '#fff', strokeWidth: 2 } : undefined}
+            dot={showPoints ? { r: 4, fill: color, stroke: 'var(--bg-card)', strokeWidth: 2 } : false}
+            activeDot={showPoints ? { r: 5, fill: color, stroke: 'var(--bg-card)', strokeWidth: 2 } : undefined}
             name={getLabel(key)}
+            isAnimationActive={isAnimated}
           />
         );
       })}
@@ -170,18 +187,32 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   );
 
   return (
-    <Chart ref={ref} width={responsive ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
-      {responsive ? (
-        <ResponsiveContainer width="100%" height={height}>
-          {chartContent}
-        </ResponsiveContainer>
-      ) : (
-        <div style={{ width, height }}>
-          <ResponsiveContainer width="100%" height="100%">
+    <Chart ref={ref} width={responsive || legendPosition === 'right' ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
+      <ChartWithLegend
+        showLegend={showLegend}
+        renderLegend={renderLegend}
+        legendProps={{
+          items: legendItems,
+          variant: 'square',
+          position: legendPosition,
+          interactive: legendInteractive,
+          hiddenSeries,
+          onToggle: toggleSeries,
+          valueFormatter: legendValueFormatter,
+        }}
+      >
+        {responsive ? (
+          <ResponsiveContainer width="100%" height={height}>
             {chartContent}
           </ResponsiveContainer>
-        </div>
-      )}
+        ) : (
+          <div style={{ width: legendPosition === 'right' ? '100%' : width, height }}>
+            <ResponsiveContainer width="100%" height="100%">
+              {chartContent}
+            </ResponsiveContainer>
+          </div>
+        )}
+      </ChartWithLegend>
     </Chart>
   );
   }

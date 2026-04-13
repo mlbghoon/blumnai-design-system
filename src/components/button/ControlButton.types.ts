@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes } from 'react';
 
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconType, IconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { ButtonColor } from './Button.types';
 
 export type ControlButtonSize = 'sm' | 'md' | 'lg';
 
@@ -25,10 +26,17 @@ export interface ControlButtonProps extends Omit<ButtonHTMLAttributes<HTMLButton
    */
   shape?: ControlButtonShape;
   /**
-   * 아이콘 타입 (필수)
+   * 아이콘 타입 (필수). 3-tuple로 isFill 지정 가능
    * @example icon={['media', 'play']}
+   * @example icon={['system', 'star', true]}
    */
-  icon: IconType;
+  icon: IconType | IconTypeWithFill;
+  /**
+   * 아이콘 색상 오버라이드. 배경/호버 스타일에는 영향 없음
+   * @example colorOverride="yellow"
+   * @example colorOverride="red"
+   */
+  colorOverride?: ButtonColor;
   /**
    * 버튼 비활성화 여부
    * @default false

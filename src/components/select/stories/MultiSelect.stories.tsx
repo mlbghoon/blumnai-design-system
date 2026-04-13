@@ -773,6 +773,84 @@ export const Loading: Story = {
 };
 
 // ============================================================================
+// APPLY ACTIONS
+// ============================================================================
+
+/**
+ * 적용 버튼 모드
+ *
+ * `showActions` prop으로 선택을 즉시 반영하지 않고 적용/취소 버튼으로 일괄 반영합니다.
+ * 기본 동작은 "변경 사항이 있을 때만 활성화" — 처음 열었을 때나 선택을 원래대로 되돌리면 적용 버튼이 비활성화됩니다.
+ */
+export const WithApplyActions: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string[]>(['1', '2']);
+    return (
+      <Select
+        variant="multi-select"
+        label="필터 선택"
+        placeholder="옵션을 선택하세요..."
+        options={defaultOptions}
+        value={value}
+        onChange={setValue}
+        showActions
+        width={300}
+      />
+    );
+  },
+};
+
+/**
+ * 적용 버튼 활성화 조건 (canApply)
+ *
+ * `canApply` predicate로 적용 버튼의 활성화 조건을 직접 지정합니다.
+ * 아래 예시는 "최소 1개 이상 선택"되어야 적용할 수 있도록 빈 commit을 방지합니다.
+ *
+ * 예시: `canApply={(pending) => pending.length > 0}`
+ */
+export const WithApplyCanApplyPredicate: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string[]>(['1']);
+    return (
+      <div className="flex flex-col ds-gap-16">
+        <div>
+          <p className="size-xs text-muted margin-y-4">
+            빈 선택 commit 방지 — 모두 해제하면 적용 버튼 비활성화
+          </p>
+          <Select
+            variant="multi-select"
+            label="필터"
+            placeholder="옵션을 선택하세요..."
+            options={defaultOptions}
+            value={value}
+            onChange={setValue}
+            showActions
+            canApply={(pending) => pending.length > 0}
+            width={300}
+          />
+        </div>
+        <div>
+          <p className="size-xs text-muted margin-y-4">
+            최소 2개 선택해야 적용 가능
+          </p>
+          <Select
+            variant="multi-select"
+            label="필터"
+            placeholder="2개 이상 선택..."
+            options={defaultOptions}
+            value={value}
+            onChange={setValue}
+            showActions
+            canApply={(pending) => pending.length >= 2}
+            width={300}
+          />
+        </div>
+      </div>
+    );
+  },
+};
+
+// ============================================================================
 // TRIGGER TEXT OVERFLOW
 // ============================================================================
 

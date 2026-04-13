@@ -64,4 +64,21 @@ export interface SwitchProps
    * 비활성화 시 트랙 내 표시 텍스트
    */
   offLabel?: ReactNode;
+  /**
+   * 에러 상태 - true면 에러 스타일 적용, 문자열이면 캡션으로 에러 메시지 표시
+   */
+  error?: boolean | string;
+  /**
+   * 성공 상태 - true면 성공 스타일 적용, 문자열이면 캡션으로 성공 메시지 표시
+   */
+  success?: boolean | string;
+  /**
+   * 입력 필드 아래에 표시되는 설명 텍스트
+   */
+  caption?: string;
+  /**
+   * 필수 입력 여부 (별표 표시)
+   * @default false
+   */
+  required?: boolean;
 }

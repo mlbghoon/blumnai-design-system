@@ -84,7 +84,15 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
-    return <FileIcon ref={iconRef} {...args} />;
+    return (
+      <FileIcon
+        ref={iconRef}
+        fileType={args.fileType}
+        size={args.size}
+        className={args.className}
+        src={args.src}
+      />
+    );
   },
 };
 

@@ -2,7 +2,8 @@ import { forwardRef, useState, useCallback } from 'react';
 import type { KeyboardEvent, ReactNode } from 'react';
 import type { InputHTMLAttributes } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
+import { Spinner } from '@/lib/spinner';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
@@ -166,6 +167,11 @@ export interface TagsInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
    * @default true
    */
   removable?: boolean;
+  /**
+   * 로딩 상태. `true`일 때 tail 영역에 스피너를 표시하고 input을 비활성화합니다.
+   * @default false
+   */
+  loading?: boolean;
 }
 
 /**
@@ -199,6 +205,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
   leadIcon,
   width,
   disabled = false,
+  loading = false,
   className,
   placeholder,
   ...props
@@ -356,7 +363,7 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
           ref={ref}
           id={inputId}
           type="text"
-          disabled={disabled || !canAddTag}
+          disabled={disabled || !canAddTag || loading}
           className={inputClassName}
           value={inputValue}
           onChange={handleInputChange}
@@ -364,9 +371,15 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
           placeholder={canAddTag ? placeholder : 'Max tags reached'}
           autoComplete="off"
           aria-invalid={hasError}
+          aria-busy={loading || undefined}
           aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
           {...props}
         />
+
+        {/* Loading spinner */}
+        {loading && (
+          <Spinner size={sizeConfig.iconSize} color={iconColor} className="ml-auto" />
+        )}
       </div>
 
       {/* Tags container (below input for inline-tags variant) */}

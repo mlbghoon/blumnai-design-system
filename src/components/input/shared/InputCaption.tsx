@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { CAPTION_STYLE, ERROR_CAPTION_STYLE, SUCCESS_CAPTION_STYLE } from 'constants/input/Input/Input.constants';
 
 export interface InputCaptionProps extends HTMLAttributes<HTMLDivElement> {

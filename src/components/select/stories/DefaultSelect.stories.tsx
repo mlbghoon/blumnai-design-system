@@ -912,6 +912,49 @@ const longLabelOptions: SelectOption[] = [
 ];
 
 /**
+ * 옵션별 툴팁
+ *
+ * 특정 옵션에 `tooltip` 필드를 지정하면 호버 시 설명 툴팁이 표시됩니다.
+ * - 문자열/ReactNode 모두 자동으로 Tooltip 비주얼로 감싸짐
+ * - 기본 placement는 `'right'` (드롭다운 옆으로 표시되어 다른 옵션을 가리지 않음)
+ * - 툴팁은 드롭다운의 overflow를 탈출하여 document.body에 포탈됨
+ */
+export const WithOptionTooltip: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string>('auto');
+    const options: SelectOption[] = [
+      {
+        id: 'auto',
+        label: '자동선택',
+        tooltip: (
+          <div className="flex flex-col ds-gap-4">
+            <div className="font-body size-xs font-semibold">자동선택이란?</div>
+            <div className="font-body size-xs">상담상태에 따라 조회 기준 상이</div>
+            <ul className="font-body size-xs padding-l-12" style={{ listStyleType: 'disc' }}>
+              <li>진행중 : 상담 시작일</li>
+              <li>상담종료 : 상담 종료일</li>
+            </ul>
+          </div>
+        ),
+        tooltipPlacement: 'right',
+      },
+      { id: 'start', label: '상담시작일' },
+      { id: 'complete', label: '상담종료일' },
+    ];
+    return (
+      <Select
+        variant="default"
+        label="조회 기준"
+        options={options}
+        value={value}
+        onChange={setValue}
+        width={240}
+      />
+    );
+  },
+};
+
+/**
  * 트리거 텍스트 오버플로우 테스트
  *
  * 좁은 너비에서 긴 옵션 라벨이 ellipsis(...)로 잘리는지 확인합니다.

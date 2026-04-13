@@ -1,17 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { parseShortcut } from './keyboard-shortcut-parser';
+import { isEditableTarget } from '@/lib/utils';
 
 export interface UseKeyboardShortcutOptions {
   enabled?: boolean;
   ignoreInputFields?: boolean;
   preventDefault?: boolean;
-}
-
-const INPUT_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT']);
-
-function isInputField(target: EventTarget | null): boolean {
-  if (!target || !(target instanceof HTMLElement)) return false;
-  return INPUT_TAGS.has(target.tagName) || target.isContentEditable;
 }
 
 /**
@@ -30,7 +24,7 @@ export function useKeyboardShortcut(
   const handlerRef = useRef(handler);
   useEffect(() => {
     handlerRef.current = handler;
-  });
+  }, [handler]);
 
   const {
     enabled = true,
@@ -53,7 +47,7 @@ export function useKeyboardShortcut(
       if (e.altKey !== parsed.alt) return;
       if (e.key.toLowerCase() !== parsed.key) return;
 
-      if (ignoreInputFields && !parsed.hasModifier && isInputField(e.target)) {
+      if (ignoreInputFields && !parsed.hasModifier && isEditableTarget(e.target)) {
         return;
       }
 

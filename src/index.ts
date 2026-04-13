@@ -301,6 +301,7 @@ export {
 } from './components/popover';
 
 export type {
+  PopoverAnimation,
   PopoverProps,
   PopoverTriggerProps,
   PopoverContentProps,
@@ -951,6 +952,8 @@ export { parseShortcut } from './hooks/keyboard-shortcut-parser';
 export type { ParsedShortcut } from './hooks/keyboard-shortcut-parser';
 
 export { useMergeRefs } from './hooks/use-merge-refs';
+
+export { useDebouncedValue } from './hooks/use-debounced-value';
 
 // =============================================================================
 // UTILITIES

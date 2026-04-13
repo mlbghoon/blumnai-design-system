@@ -5,6 +5,7 @@ import { cva } from 'class-variance-authority';
 
 import { cn } from '../../lib/utils';
 import { getPixelValue } from '../../lib/css-utils';
+import { Spinner } from '../../lib/spinner';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 import { useMergeRefs } from '../../hooks/use-merge-refs';
 import { renderButtonIcon } from './buttonUtils';
@@ -136,6 +137,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   leadIcon,
   tailIcon,
   shortcut,
+  color,
   colorOverride,
   loading = false,
   disabled = false,
@@ -149,6 +151,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   style,
   ...props
 }, ref) => {
+  // `color` is the canonical form (matches Badge/Switch/Avatar).
+  // `colorOverride` is deprecated but still honored for backwards compat.
+  // If both are passed, `color` wins.
+  const effectiveColor = color ?? colorOverride;
   const internalRef = useRef<HTMLButtonElement>(null);
   const mergedRef = useMergeRefs(internalRef, ref);
 
@@ -174,7 +180,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     : undefined;
 
   const isTextOnlyLoading = loading && !isIconOnly && !leadIcon && !tailIcon;
-  const hasColorOverride = !!colorOverride;
+  const hasColorOverride = !!effectiveColor;
 
   const containerClassName = cn(
     buttonVariants({ size, shape }),
@@ -192,24 +198,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   const getIconColor = () => {
     if (disabled) return 'var(--icon-default-disabled)';
     if (isInvertedStyle) return 'var(--icon-white-default)';
-    if (colorOverride) return `var(--bg-basic-${colorOverride}-${buttonStyle === 'ghostMuted' ? 'accent' : 'strong'})`;
+    if (effectiveColor) return `var(--bg-basic-${effectiveColor}-${buttonStyle === 'ghostMuted' ? 'accent' : 'strong'})`;
     return 'var(--icon-default-muted)';
   };
 
-  const renderLoadingSpinner = () => (
-    <svg
-      className="animate-spin shrink-0"
-      width={iconSize}
-      height={iconSize}
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ display: 'block', fill: 'var(--bg-default)' }}
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="32" strokeDashoffset="32" opacity="0.3" />
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="32" strokeDashoffset="24" />
-    </svg>
-  );
+  const renderLoadingSpinner = () => <Spinner size={iconSize} />;
 
   const renderIcon = (icon: ButtonIconType | React.ReactNode) =>
     renderButtonIcon(icon, iconSize, getIconColor());
@@ -218,7 +211,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     if (!shortcut) return null;
     const shortcutColorStyle = isInvertedStyle
       ? SHORTCUT_STYLE.inverted
-      : colorOverride
+      : effectiveColor
         ? cn(SHORTCUT_STYLE.light, '[color:var(--btn-text)]')
         : SHORTCUT_STYLE.light;
     return (
@@ -228,8 +221,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     );
   };
 
-  const colorVars = colorOverride && !disabled
-    ? getColorOverrideVars(colorOverride) : {};
+  const colorVars = effectiveColor && !disabled
+    ? getColorOverrideVars(effectiveColor) : {};
 
   const mergedStyle = {
     ...(style || {}),

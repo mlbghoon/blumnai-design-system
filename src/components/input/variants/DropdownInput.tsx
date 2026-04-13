@@ -2,7 +2,8 @@ import { forwardRef, useState, useRef, useEffect, useId, useLayoutEffect, useCal
 import type { InputHTMLAttributes, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
+import { Spinner } from '@/lib/spinner';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import { usePortalContainer } from '../../../utils/PortalContainerContext';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
@@ -125,6 +126,11 @@ export interface DropdownInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    */
   showCount?: boolean;
   /**
+   * 로딩 상태. `true`일 때 tail 영역에 스피너를 표시하고 input을 비활성화합니다.
+   * @default false
+   */
+  loading?: boolean;
+  /**
    * 드롭다운 트리거의 고정 너비 (px)
    */
   dropdownWidth?: number;
@@ -156,6 +162,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
   tailIcon,
   width,
   disabled = false,
+  loading = false,
   className,
   onClear,
   showCount = false,
@@ -465,45 +472,54 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
           <input
             ref={ref}
             id={inputId}
-            disabled={disabled}
+            disabled={disabled || loading}
             required={required}
             className={inputClassName}
             value={value}
+            maxLength={maxLength}
             autoComplete="off"
             aria-invalid={hasError}
+            aria-busy={loading || undefined}
             aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
             {...props}
           />
 
-          {/* Clear Button */}
-          {hasClearButton && (
-            <button
-              type="button"
-              onClick={onClear}
-              className="flex-shrink-0 flex items-center justify-center hover:bg-state-ghost-hover rounded-xs transition-colors"
-              aria-label="Clear input"
-            >
-              <Icon
-                iconType={['system', 'close-circle']}
-                size={SIZE_CONFIG[size].iconSize}
-                color={iconColor}
-              />
-            </button>
-          )}
+          {/* Tail slot: Spinner takes precedence when loading */}
+          {loading ? (
+            <Spinner size={SIZE_CONFIG[size].iconSize} color={iconColor} />
+          ) : (
+            <>
+              {/* Clear Button */}
+              {hasClearButton && (
+                <button
+                  type="button"
+                  onClick={onClear}
+                  className="flex-shrink-0 flex items-center justify-center hover:bg-state-ghost-hover rounded-xs transition-colors"
+                  aria-label="Clear input"
+                >
+                  <Icon
+                    iconType={['system', 'close-circle']}
+                    size={SIZE_CONFIG[size].iconSize}
+                    color={iconColor}
+                  />
+                </button>
+              )}
 
-          {/* Tail Icon */}
-          {showTailIcon && !hasClearButton && tailIcon && (() => {
-            const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
-            return (
-              <Icon
-                iconType={iconType}
-                isFill={isFill}
-                size={SIZE_CONFIG[size].iconSize}
-                color={iconColor}
-                className="flex-shrink-0"
-              />
-            );
-          })()}
+              {/* Tail Icon */}
+              {showTailIcon && !hasClearButton && tailIcon && (() => {
+                const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
+                return (
+                  <Icon
+                    iconType={iconType}
+                    isFill={isFill}
+                    size={SIZE_CONFIG[size].iconSize}
+                    color={iconColor}
+                    className="flex-shrink-0"
+                  />
+                );
+              })()}
+            </>
+          )}
 
           {showCount && maxLength !== undefined && (
             <span className={cn(INPUT_COUNT_STYLE, 'flex-shrink-0')}>{currentLength}/{maxLength}</span>

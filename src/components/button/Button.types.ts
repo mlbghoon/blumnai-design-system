@@ -88,6 +88,14 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   /**
    * Override the button color while preserving the style pattern.
    * Changes the hue of the button using design system color tokens.
+   *
+   * This is the canonical way to override a button's color. Prefer this over
+   * `colorOverride` (deprecated).
+   */
+  color?: ButtonColor;
+  /**
+   * @deprecated Use `color` instead. Both props work identically; `color` is
+   * the canonical form aligned with other DS components (Badge, Switch, etc.).
    */
   colorOverride?: ButtonColor;
   /**

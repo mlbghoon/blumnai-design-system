@@ -1,3 +1,5 @@
+import type { DividerSpacing } from 'components/divider/Divider/Divider.types';
+
 export const LINE_BASE = 'flex-1 h-0 border-t-default';
 export const LINE_VERTICAL = 'flex-1 w-0 border-l-default';
 export const LINE_DASHED = 'border-dashed';
@@ -11,16 +13,16 @@ export const CONTAINER_VERTICAL = 'flex flex-col items-center h-full';
 export const CONTAINER_WITH_CONTENT = 'flex items-center w-full ds-gap-8';
 export const CONTAINER_VERTICAL_WITH_CONTENT = 'flex flex-col items-center h-full ds-gap-8';
 
-export const SPACING_HORIZONTAL = {
+export const SPACING_HORIZONTAL: Record<DividerSpacing, string> = {
   sm: 'padding-y-8',
   md: 'padding-y-12',
   lg: 'padding-y-16',
   xl: 'padding-y-24',
-} as const;
+};
 
-export const SPACING_VERTICAL = {
+export const SPACING_VERTICAL: Record<DividerSpacing, string> = {
   sm: 'padding-x-8',
   md: 'padding-x-12',
   lg: 'padding-x-16',
   xl: 'padding-x-24',
-} as const;
+};

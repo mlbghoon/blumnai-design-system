@@ -70,7 +70,14 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const groupRef = useRef<HTMLDivElement>(null);
-    return <ButtonGroup ref={groupRef} {...args} />;
+    return (
+      <ButtonGroup
+        ref={groupRef}
+        items={args.items}
+        size={args.size}
+        className={args.className}
+      />
+    );
   },
 };
 

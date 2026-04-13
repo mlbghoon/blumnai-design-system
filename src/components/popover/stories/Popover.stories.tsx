@@ -7,7 +7,7 @@ import {
   PopoverContent,
   PopoverScrollArea,
 } from '../Popover';
-import type { PopoverProps, PopoverContentProps, PopoverScrollAreaProps } from '../Popover.types';
+import type { PopoverAnimation, PopoverProps, PopoverContentProps, PopoverScrollAreaProps } from '../Popover.types';
 import { Button } from '../../button';
 import { Input } from '../../input/Input';
 
@@ -164,6 +164,24 @@ const meta: Meta<PopoverStoryProps> = {
         category: 'PopoverContent',
       },
     },
+    animation: {
+      control: 'select',
+      options: ['default', 'fade', 'scale', 'slide', 'none'],
+      description: '[PopoverContent] 애니메이션 프리셋',
+      table: {
+        type: { summary: "'default' | 'fade' | 'scale' | 'slide' | 'none'" },
+        defaultValue: { summary: 'default' },
+        category: 'PopoverContent',
+      },
+    },
+    animationDuration: {
+      control: 'number',
+      description: '[PopoverContent] 애니메이션 지속 시간 (ms). 미지정 시 tw-animate-css 기본 150ms',
+      table: {
+        type: { summary: 'number' },
+        category: 'PopoverContent',
+      },
+    },
     // PopoverScrollArea props
     maxHeight: {
       control: 'text',
@@ -199,6 +217,8 @@ export const Default: Story = {
     forceMount: undefined,
     className: '',
     width: undefined,
+    animation: 'default',
+    animationDuration: undefined,
     maxHeight: undefined,
   },
   parameters: {
@@ -206,6 +226,9 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const [open, setOpen] = useState(false);
+    const duration = args.animationDuration != null && args.animationDuration > 0
+      ? args.animationDuration
+      : undefined;
 
     return (
       <Popover open={open} onOpenChange={setOpen} modal={args.modal}>
@@ -213,6 +236,7 @@ export const Default: Story = {
           <Button buttonStyle="secondary" onClick={() => setOpen(true)}>팝오버 열기</Button>
         </PopoverTrigger>
         <PopoverContent
+          key={`${args.animation}-${duration}`}
           side={args.side}
           sideOffset={args.sideOffset}
           align={args.align}
@@ -224,6 +248,8 @@ export const Default: Story = {
           forceMount={args.forceMount}
           className={args.className}
           width={args.width}
+          animation={args.animation}
+          animationDuration={duration}
         >
           <div className="flex flex-col ds-gap-8">
             <p className="font-body size-sm font-medium text-default">팝오버 콘텐츠</p>
@@ -458,6 +484,50 @@ export const CustomWidth: Story = {
             <p className="font-body size-sm text-default">넓은 팝오버 (384px)</p>
           </PopoverContent>
         </Popover>
+      </div>
+    );
+  },
+};
+
+const ANIMATION_LABELS: Record<PopoverAnimation, string> = {
+  default: '기본 (fade+zoom+slide)',
+  fade: '페이드',
+  scale: '스케일 (fade+zoom)',
+  slide: '슬라이드 (fade+slide)',
+  none: '없음',
+};
+
+/**
+ * 애니메이션 프리셋
+ *
+ * `animation` prop으로 다양한 애니메이션 프리셋을 선택할 수 있습니다.
+ * `animationDuration`으로 지속 시간을 조절합니다.
+ */
+export const AnimationPresets: Story = {
+  render: function Render() {
+    const presets: PopoverAnimation[] = ['default', 'fade', 'scale', 'slide', 'none'];
+    const [openStates, setOpenStates] = useState<Record<string, boolean>>({});
+
+    const setOpen = (key: string, value: boolean) =>
+      setOpenStates((prev) => ({ ...prev, [key]: value }));
+
+    return (
+      <div className="flex ds-gap-16 items-center flex-wrap">
+        {presets.map((preset) => (
+          <Popover key={preset} open={openStates[preset] ?? false} onOpenChange={(v) => setOpen(preset, v)}>
+            <PopoverTrigger asChild>
+              <Button buttonStyle="secondary" size="sm" onClick={() => setOpen(preset, true)}>
+                {ANIMATION_LABELS[preset]}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent animation={preset} animationDuration={400}>
+              <div className="flex flex-col ds-gap-4">
+                <p className="font-body size-sm font-medium text-default">animation=&quot;{preset}&quot;</p>
+                <p className="font-body size-xs text-muted">animationDuration=400ms</p>
+              </div>
+            </PopoverContent>
+          </Popover>
+        ))}
       </div>
     );
   },

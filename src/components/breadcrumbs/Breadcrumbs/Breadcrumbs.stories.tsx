@@ -110,7 +110,16 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const breadcrumbsRef = useRef<HTMLElement>(null);
-    return <Breadcrumbs ref={breadcrumbsRef} {...args} />;
+    return (
+      <Breadcrumbs
+        ref={breadcrumbsRef}
+        items={args.items}
+        size={args.size}
+        separator={args.separator}
+        maxItems={args.maxItems}
+        className={args.className}
+      />
+    );
   },
 };
 

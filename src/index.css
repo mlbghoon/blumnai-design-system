@@ -20,6 +20,7 @@
 @import "./styles/tokens/colors.css";
 @import "./styles/tokens/spacing.css";
 @import "./styles/tokens/radius.css";
+@import "./styles/tokens/shadow.css";
 @import "./styles/tokens/shadcn-bridge.css";
 @import "./styles/tokens/chart-tokens.css";
 @import "./styles/utilities.css";
@@ -224,6 +225,37 @@
       opacity: 1;
       transform: scale(1);
     }
+  }
+
+  @keyframes popover-expand-down {
+    from {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      opacity: 1;
+      clip-path: inset(0);
+    }
+  }
+
+  @keyframes popover-collapse-up {
+    from {
+      opacity: 1;
+      clip-path: inset(0);
+    }
+    to {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+    }
+  }
+}
+
+@utility popover-anim-slide {
+  &[data-state='open'] {
+    animation: popover-expand-down var(--popover-duration, 150ms) ease forwards;
+  }
+  &[data-state='closed'] {
+    animation: popover-collapse-up var(--popover-duration, 150ms) ease forwards;
   }
 }
 

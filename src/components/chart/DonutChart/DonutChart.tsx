@@ -4,15 +4,16 @@ import {
   Pie,
   Cell,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts';
 
 import { Chart } from '../Chart/Chart';
 import { useChartConfig } from '../Chart/useChartConfig';
+import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 import { PieTooltipAdapter } from '../Chart/ChartTooltipAdapter';
-import { ChartLegend } from '../Chart/ChartLegend';
-import { cn } from '../../../utils/cn';
+import { ChartWithLegend } from '../Chart/ChartWithLegend';
+import type { LegendItem } from '../Chart/ChartLegend';
+import { cn } from '@/lib/utils';
 
 import type { DonutChartProps } from '../Chart/Chart.types';
 
@@ -41,30 +42,60 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
       centerValue,
       showCenterOnHover = false,
       isHalf = false,
+      animated,
+      footnote,
       className,
       ariaLabel,
       onDataPointClick,
       isLoading,
       responsive,
       renderTooltip,
+      wrapCustomTooltip,
+      tooltipValueFormatter,
+      legendInteractive = false,
+      legendPosition = 'bottom',
+      legendValueFormatter,
+      renderLegend,
       ...props
     },
     ref
   ) => {
+  const isAnimated = animated !== false;
   const safeData = useMemo(() => data ?? [], [data]);
-  const { getLabel, getColor } = useChartConfig(config);
+  const { getLabel, getTooltipLabel, getColor } = useChartConfig(config);
+
+  const allPieKeys = useMemo(() => safeData.map(d => String(d[nameKey] ?? '')), [safeData, nameKey]);
+  const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(allPieKeys, legendInteractive);
 
   const [hoveredSlice, setHoveredSlice] = useState<{
     name: string;
     value: number;
   } | null>(null);
 
-  const colors = useMemo(() => {
-    return safeData.map((item, index) => {
+  const filteredData = useMemo(
+    () => safeData.filter(d => !isHidden(String(d[nameKey] ?? ''))),
+    [safeData, nameKey, isHidden]
+  );
+
+  const filteredColors = useMemo(() => {
+    return filteredData.map((item) => {
       const name = String(item[nameKey] ?? '');
-      return getColor(name, index);
+      const originalIndex = allPieKeys.indexOf(name);
+      return getColor(name, originalIndex);
     });
-  }, [safeData, nameKey, getColor]);
+  }, [filteredData, nameKey, allPieKeys, getColor]);
+
+  const legendItems: LegendItem[] = useMemo(() => {
+    return allPieKeys.map((key, index) => {
+      const dataItem = safeData.find(d => String(d[nameKey] ?? '') === key);
+      return {
+        key,
+        label: getLabel(key),
+        color: getColor(key, index),
+        value: dataItem ? Number(dataItem[dataKey] ?? 0) : 0,
+      };
+    });
+  }, [allPieKeys, safeData, nameKey, dataKey, getLabel, getColor]);
 
   const totalValue = useMemo(
     () => safeData.reduce((sum, item) => sum + Number(item[dataKey] ?? 0), 0),
@@ -74,8 +105,12 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   const rStartAngle = isHalf ? 180 : 90 - startAngle;
   const rEndAngle = isHalf ? 0 : 90 - endAngle;
 
+  const maxRadius = Math.floor(Math.min(width, height) / 2) - 4;
+  const safeOuterRadius = Math.min(outerRadius, maxRadius);
+  const safeInnerRadius = Math.min(innerRadius, safeOuterRadius - 1);
+
   const halfPadding = showLegend ? 80 : 20;
-  const svgHeight = isHalf ? outerRadius + halfPadding : height;
+  const svgHeight = isHalf ? safeOuterRadius + halfPadding : height;
 
   const displayLabel = showCenterOnHover && hoveredSlice ? hoveredSlice.name : centerLabel;
   const displayValue = showCenterOnHover && hoveredSlice ? String(hoveredSlice.value) : centerValue;
@@ -85,21 +120,23 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
   const chartContent = (
     <RPieChart>
       <Pie
-        data={safeData}
+        data={filteredData}
         dataKey={dataKey}
         nameKey={nameKey}
         cx="50%"
         cy={isHalf ? '100%' : '50%'}
-        innerRadius={innerRadius}
-        outerRadius={outerRadius}
+        innerRadius={safeInnerRadius}
+        outerRadius={safeOuterRadius}
         startAngle={rStartAngle}
         endAngle={rEndAngle}
         paddingAngle={paddingAngle}
-        stroke="#fff"
+        isAnimationActive={isAnimated}
+        animationDuration={800}
+        stroke="var(--bg-card)"
         strokeWidth={2}
         onMouseEnter={(_: unknown, index: number) => {
           if (showCenterOnHover) {
-            const item = safeData[index];
+            const item = filteredData[index];
             setHoveredSlice({
               name: getLabel(String(item[nameKey] ?? '')),
               value: Number(item[dataKey] ?? 0),
@@ -110,76 +147,97 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
           if (showCenterOnHover) setHoveredSlice(null);
         }}
         onClick={(_data: Record<string, unknown>, idx: number) => {
-          if (onDataPointClick) onDataPointClick(safeData[idx], idx);
+          if (onDataPointClick) onDataPointClick(filteredData[idx], idx);
         }}
       >
-        {safeData.map((_, index) => (
-          <Cell key={`cell-${index}`} fill={colors[index]} />
+        {filteredData.map((_, index) => (
+          <Cell key={`cell-${index}`} fill={filteredColors[index]} />
         ))}
       </Pie>
       <Tooltip
         content={
           <PieTooltipAdapter
             renderTooltip={renderTooltip}
+            wrapCustomTooltip={wrapCustomTooltip}
             getLabel={getLabel}
+            getTooltipLabel={getTooltipLabel}
             totalValue={totalValue}
+            tooltipValueFormatter={tooltipValueFormatter}
           />
         }
       />
-      {showLegend && (
-        <Legend content={<ChartLegend variant="circle" />} />
-      )}
     </RPieChart>
   );
 
   return (
-    <Chart ref={ref} width={responsive ? undefined : width} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
-      <div className="relative">
-        {responsive ? (
-          <ResponsiveContainer width="100%" height={svgHeight}>
-            {chartContent}
-          </ResponsiveContainer>
-        ) : (
-          <div style={{ width, height: svgHeight }}>
-            <ResponsiveContainer width="100%" height="100%">
+    <Chart ref={ref} width={responsive || legendPosition === 'right' ? undefined : width} height={isHalf ? undefined : height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
+      <ChartWithLegend
+        showLegend={showLegend}
+        renderLegend={renderLegend}
+        legendProps={{
+          items: legendItems,
+          variant: 'circle',
+          position: legendPosition,
+          interactive: legendInteractive,
+          hiddenSeries,
+          onToggle: toggleSeries,
+          valueFormatter: legendValueFormatter,
+        }}
+      >
+        <div className="relative">
+          {responsive ? (
+            <ResponsiveContainer width="100%" height={svgHeight}>
               {chartContent}
             </ResponsiveContainer>
-          </div>
-        )}
+          ) : (
+            <div style={{ width: legendPosition === 'right' ? '100%' : width, height: svgHeight }}>
+              <ResponsiveContainer width="100%" height="100%">
+                {chartContent}
+              </ResponsiveContainer>
+            </div>
+          )}
 
-        {(displayLabel || displayValue) && (
-          <div
-            className="absolute flex flex-col items-center justify-center ds-gap-1 pointer-events-none"
-            style={{
-              left: '50%',
-              top: isHalf ? `${svgHeight - (innerRadius / 2)}px` : '50%',
-              transform: 'translate(-50%, -50%)',
-            }}
-            aria-hidden="true"
-          >
-            {displayLabel && (
-              <div
-                className={cn(
-                  'size-xs line-height-leading-4 font-medium text-center',
-                  'text-muted'
-                )}
-              >
-                {displayLabel}
-              </div>
-            )}
-            {displayValue && (
-              <div
-                className={cn(
-                  'size-2xl line-height-leading-8 font-medium text-center',
-                  'text-default'
-                )}
-              >
-                {displayValue}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+          {(displayLabel || displayValue) && (
+            <div
+              className="absolute flex flex-col items-center justify-center ds-gap-1 pointer-events-none"
+              style={{
+                left: '50%',
+                top: isHalf ? `${safeOuterRadius - (safeOuterRadius - safeInnerRadius) / 2}px` : '50%',
+                transform: 'translate(-50%, -50%)',
+              }}
+              aria-hidden="true"
+            >
+              {displayLabel && (
+                <div
+                  className={cn(
+                    'size-xs line-height-leading-4 font-medium text-center',
+                    'text-muted'
+                  )}
+                >
+                  {displayLabel}
+                </div>
+              )}
+              {displayValue && (
+                <div
+                  className={cn(
+                    'size-2xl line-height-leading-8 font-medium text-center',
+                    'text-default'
+                  )}
+                >
+                  {displayValue}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </ChartWithLegend>
+      {footnote && (
+        <div className="text-center padding-y-4">
+          <span className="inline-block bg-muted padding-x-8 padding-y-4 rounded-sm size-sm line-height-leading-5 text-muted">
+            {footnote}
+          </span>
+        </div>
+      )}
     </Chart>
   );
   }

@@ -150,6 +150,11 @@ export interface DatePickerBaseProps {
    * @default 'default'
    */
   triggerVariant?: DatePickerTriggerVariant;
+  /**
+   * true일 때 입력 비활성화, 클릭 시 캘린더만 열림
+   * @default false
+   */
+  pickerOnly?: boolean;
 }
 
 /**
@@ -238,6 +243,7 @@ export interface DateInputProps {
   hasError?: boolean;
   hasSuccess?: boolean;
   isOpen?: boolean;
+  pickerOnly?: boolean;
   datePickerStyle?: DatePickerStyle;
   size?: DatePickerSize;
   dateFormat?: DateFormat;
@@ -258,6 +264,7 @@ export interface DateRangeInputProps {
   hasError?: boolean;
   hasSuccess?: boolean;
   isOpen?: boolean;
+  pickerOnly?: boolean;
   datePickerStyle?: DatePickerStyle;
   size?: DatePickerSize;
   dateFormat?: DateFormat;

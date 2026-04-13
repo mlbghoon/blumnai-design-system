@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { cn } from '../../utils/cn';
+import { cn } from '@/lib/utils';
 import { ERROR_CAPTION_STYLE } from '../../constants/input/Input/Input.constants';
 import { useFormField } from './useFormField';
 import type { FormErrorProps } from './Form.types';

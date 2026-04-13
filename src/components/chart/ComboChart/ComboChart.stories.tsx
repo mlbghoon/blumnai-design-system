@@ -143,6 +143,7 @@ export const Default: Story = {
     width: 700,
     height: 400,
     showXGrid: true,
+    showYGrid: false,
     showLegend: true,
   },
   parameters: {
@@ -150,7 +151,22 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const chartRef = useRef<HTMLDivElement>(null);
-    return <ComboChart ref={chartRef} {...args} />;
+    return (
+      <ComboChart
+        ref={chartRef}
+        data={args.data}
+        xAxis={args.xAxis}
+        yAxis={args.yAxis}
+        barSeries={args.barSeries}
+        lineSeries={args.lineSeries}
+        config={args.config}
+        width={args.width}
+        height={args.height}
+        showXGrid={args.showXGrid}
+        showYGrid={args.showYGrid}
+        showLegend={args.showLegend}
+      />
+    );
   },
 };
 
@@ -409,4 +425,58 @@ export const CustomTooltip: Story = {
       );
     },
   },
+};
+
+/**
+ * 인터랙티브 범례
+ *
+ * 범례 항목을 클릭하여 시리즈를 표시/숨길 수 있습니다.
+ */
+export const InteractiveLegend: Story = {
+  render: () => (
+    <ComboChart
+      data={comboData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'sales' }}
+      barSeries={[
+        { dataKey: 'sales', color: 'var(--chart-1)' },
+      ]}
+      lineSeries={[
+        { dataKey: 'visitors', color: 'var(--chart-2)', smooth: true },
+      ]}
+      config={comboConfig}
+      width={700}
+      height={400}
+      showXGrid
+      showLegend
+      legendInteractive
+    />
+  ),
+};
+
+/**
+ * 우측 범례
+ *
+ * legendPosition="right"로 범례를 차트 우측에 배치합니다.
+ */
+export const RightLegend: Story = {
+  render: () => (
+    <ComboChart
+      data={comboData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'sales' }}
+      barSeries={[
+        { dataKey: 'sales', color: 'var(--chart-1)' },
+      ]}
+      lineSeries={[
+        { dataKey: 'visitors', color: 'var(--chart-2)', smooth: true },
+      ]}
+      config={comboConfig}
+      width={700}
+      height={400}
+      showXGrid
+      showLegend
+      legendPosition="right"
+    />
+  ),
 };

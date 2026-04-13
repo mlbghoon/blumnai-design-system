@@ -189,6 +189,14 @@ export const Default: Story = {
     width: 600,
     height: 400,
     showXGrid: true,
+    showYGrid: false,
+    showLegend: false,
+    barSize: undefined,
+    gap: undefined,
+    ariaLabel: undefined,
+    stacked: false,
+    layout: 'horizontal',
+    stackedKeys: undefined,
     className: '',
   },
   parameters: {
@@ -196,7 +204,28 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const chartRef = useRef<HTMLDivElement>(null);
-    return <BarChart ref={chartRef} {...args} />;
+    return (
+      <BarChart
+        ref={chartRef}
+        data={args.data}
+        xAxis={args.xAxis}
+        yAxis={args.yAxis}
+        dataKey={args.dataKey}
+        config={args.config}
+        width={args.width}
+        height={args.height}
+        showXGrid={args.showXGrid}
+        showYGrid={args.showYGrid}
+        showLegend={args.showLegend}
+        barSize={args.barSize}
+        gap={args.gap}
+        ariaLabel={args.ariaLabel}
+        stacked={args.stacked}
+        layout={args.layout}
+        stackedKeys={args.stackedKeys}
+        className={args.className}
+      />
+    );
   },
 };
 
@@ -687,6 +716,94 @@ export const Horizontal: Story = {
       barRadius={4}
       height={300}
       width={500}
+    />
+  ),
+};
+
+/**
+ * 인터랙티브 범례 (스택 막대)
+ *
+ * 범례 항목을 클릭하여 스택 시리즈를 표시/숨길 수 있습니다.
+ */
+export const InteractiveLegend: Story = {
+  render: () => (
+    <BarChart
+      data={stacked2Data}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'desktop' }}
+      stacked
+      stackedKeys={['desktop', 'mobile']}
+      config={stacked2Config}
+      width={600}
+      height={400}
+      showXGrid
+      showLegend
+      legendInteractive
+    />
+  ),
+};
+
+/**
+ * 스타일 없음 (카드 내부 임베딩용)
+ *
+ * variant="unstyled"로 배경, 그림자, 라운드를 제거합니다.
+ */
+export const Unstyled: Story = {
+  render: () => (
+    <BarChart
+      data={defaultData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'sales' }}
+      dataKey="sales"
+      config={salesConfig}
+      width={600}
+      height={400}
+      variant="unstyled"
+      showXGrid
+    />
+  ),
+};
+
+/**
+ * 애니메이션 비활성화 (PDF 캡처용)
+ *
+ * animated={false}로 모든 차트 애니메이션을 끕니다.
+ */
+export const NoAnimation: Story = {
+  render: () => (
+    <BarChart
+      data={defaultData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'sales' }}
+      dataKey="sales"
+      config={salesConfig}
+      width={600}
+      height={400}
+      animated={false}
+      showXGrid
+    />
+  ),
+};
+
+/**
+ * 우측 범례
+ *
+ * legendPosition="right"로 범례를 차트 우측에 배치합니다.
+ */
+export const RightLegend: Story = {
+  render: () => (
+    <BarChart
+      data={stacked2Data}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'desktop' }}
+      stacked
+      stackedKeys={['desktop', 'mobile']}
+      config={stacked2Config}
+      width={600}
+      height={400}
+      showXGrid
+      showLegend
+      legendPosition="right"
     />
   ),
 };

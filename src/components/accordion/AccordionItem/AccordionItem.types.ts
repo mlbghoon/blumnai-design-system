@@ -6,6 +6,11 @@ import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode, Ref } from 'react
 export type AccordionItemStyle = 'default' | 'soft' | 'ghost' | 'line';
 
 /**
+ * AccordionItem 패딩 값 (px)
+ */
+export type AccordionPadding = 0 | 1 | 2 | 4 | 6 | 8 | 10 | 12 | 16 | 20 | 24;
+
+/**
  * 헤더 버튼에 전달할 추가 props
  */
 export type AccordionHeaderProps = Omit<
@@ -42,4 +47,6 @@ export interface AccordionItemProps extends Omit<HTMLAttributes<HTMLDivElement>,
   className?: string;
   /** 헤더 버튼에 전달할 추가 props (ref, onKeyDown 등 포함 가능) */
   headerProps?: AccordionHeaderProps;
+  /** 컨테이너 패딩 (px). 미지정 시 기본 24px */
+  padding?: AccordionPadding;
 }

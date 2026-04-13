@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { TimeColumn } from './TimeColumn';
 import { convert24To12Hour, convert12To24Hour, isTimeEqual } from './time-utils';
 import type { TimeColumnItem } from './TimeColumn';

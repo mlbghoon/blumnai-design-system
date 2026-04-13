@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { addDays, addWeeks, addMonths, startOfDay, endOfDay, format } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 
-import { cn } from '../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverAnchor } from '../popover/Popover';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import { Button } from '../button/Button';
@@ -81,7 +81,7 @@ export const DatePicker = ({
   size = 'sm',
   label,
   labelPosition,
-      labelWidth,
+  labelWidth,
   required = false,
   supportText,
   caption,
@@ -104,6 +104,7 @@ export const DatePicker = ({
   showActions = false,
   confirmLabel = '확인',
   cancelLabel = '취소',
+  pickerOnly = false,
 }: DatePickerProps) => {
   const [open, setOpen] = useState(false);
   const [month, setMonth] = useState<Date>(value || new Date());
@@ -219,6 +220,7 @@ export const DatePicker = ({
               hasError={hasError}
               hasSuccess={hasSuccess}
               isOpen={open}
+              pickerOnly={pickerOnly}
               dateFormat={dateFormat}
               onCalendarClick={handleOpenCalendar}
             />
@@ -366,7 +368,7 @@ export const DateRangePicker = ({
   size = 'sm',
   label,
   labelPosition,
-      labelWidth,
+  labelWidth,
   required = false,
   supportText,
   caption,
@@ -391,6 +393,7 @@ export const DateRangePicker = ({
   confirmLabel = '확인',
   cancelLabel = '취소',
   triggerVariant = 'default',
+  pickerOnly = false,
 }: DateRangePickerProps) => {
   const [open, setOpen] = useState(false);
   const [month, setMonth] = useState<Date>(() => {
@@ -551,6 +554,7 @@ export const DateRangePicker = ({
                 hasError={hasError}
                 hasSuccess={hasSuccess}
                 isOpen={open}
+                pickerOnly={pickerOnly}
                 dateFormat={dateFormat}
                 onCalendarClick={handleOpenCalendar}
               />

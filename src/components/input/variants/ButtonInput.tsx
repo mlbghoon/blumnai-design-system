@@ -1,7 +1,8 @@
 import { forwardRef } from 'react';
 import type { InputHTMLAttributes, ReactNode } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
+import { Spinner } from '@/lib/spinner';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
@@ -112,6 +113,11 @@ export interface ButtonInputProps extends Omit<InputHTMLAttributes<HTMLInputElem
    * @default false
    */
   showCount?: boolean;
+  /**
+   * 로딩 상태. `true`일 때 tail 영역에 스피너를 표시하고 input + inline button을 비활성화합니다.
+   * @default false
+   */
+  loading?: boolean;
 }
 
 /**
@@ -140,6 +146,7 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
   tailIcon,
   width,
   disabled = false,
+  loading = false,
   className,
   onClear,
   showCount = false,
@@ -166,8 +173,8 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
   const showTailIcon = !!tailIcon;
   const hasClearButton = onClear !== undefined && value !== '' && value !== undefined;
 
-  // Button is effectively disabled if input is disabled or button is explicitly disabled
-  const isButtonDisabled = disabled || buttonDisabled;
+  // Button is effectively disabled if input is disabled, button is explicitly disabled, or loading
+  const isButtonDisabled = disabled || buttonDisabled || loading;
 
   // Outer container - has the border (via shadow), background, and border-radius
   const outerContainerClassName = cn(
@@ -296,45 +303,54 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
           <input
             ref={ref}
             id={inputId}
-            disabled={disabled}
+            disabled={disabled || loading}
             required={required}
             className={inputClassName}
             value={value}
+            maxLength={maxLength}
             autoComplete="off"
             aria-invalid={hasError}
+            aria-busy={loading || undefined}
             aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
             {...props}
           />
 
-          {/* Clear Button */}
-          {hasClearButton && (
-            <button
-              type="button"
-              onClick={onClear}
-              className="flex-shrink-0 flex items-center justify-center hover:bg-state-ghost-hover rounded-xs transition-colors cursor-pointer"
-              aria-label="Clear input"
-            >
-              <Icon
-                iconType={['system', 'close-circle']}
-                size={sizeConfig.iconSize}
-                color={iconColor}
-              />
-            </button>
-          )}
+          {/* Tail slot: Spinner takes precedence when loading */}
+          {loading ? (
+            <Spinner size={sizeConfig.iconSize} color={iconColor} />
+          ) : (
+            <>
+              {/* Clear Button */}
+              {hasClearButton && (
+                <button
+                  type="button"
+                  onClick={onClear}
+                  className="flex-shrink-0 flex items-center justify-center hover:bg-state-ghost-hover rounded-xs transition-colors cursor-pointer"
+                  aria-label="Clear input"
+                >
+                  <Icon
+                    iconType={['system', 'close-circle']}
+                    size={sizeConfig.iconSize}
+                    color={iconColor}
+                  />
+                </button>
+              )}
 
-          {/* Tail Icon */}
-          {showTailIcon && !hasClearButton && tailIcon && (() => {
-            const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
-            return (
-              <Icon
-                iconType={iconType}
-                isFill={isFill}
-                size={sizeConfig.iconSize}
-                color={iconColor}
-                className="flex-shrink-0"
-              />
-            );
-          })()}
+              {/* Tail Icon */}
+              {showTailIcon && !hasClearButton && tailIcon && (() => {
+                const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
+                return (
+                  <Icon
+                    iconType={iconType}
+                    isFill={isFill}
+                    size={sizeConfig.iconSize}
+                    color={iconColor}
+                    className="flex-shrink-0"
+                  />
+                );
+              })()}
+            </>
+          )}
 
           {showCount && maxLength !== undefined && (
             <span className={cn(INPUT_COUNT_STYLE, 'flex-shrink-0')}>{currentLength}/{maxLength}</span>

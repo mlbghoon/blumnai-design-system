@@ -1,7 +1,8 @@
 import { forwardRef, useId, useRef, useCallback, useEffect } from 'react';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
-import { cn } from '../../utils/cn';
+import { cn } from '@/lib/utils';
+import { Spinner } from '@/lib/spinner';
 import { Button } from '../button/Button';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import { ScrollBar } from '../scroll-area/ScrollArea';
@@ -56,6 +57,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   readOnly,
   fieldSizing = 'fixed',
   autoResize = false,
+  loading = false,
   ...props
 }, ref) => {
   const textareaId = useId();
@@ -82,10 +84,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
   const stateConfig = STATE_CONFIG[state];
 
   const lineHeight = 20;
-  const paddingY = size === 'sm' ? 20 : 24;
-  const toolbarHeight = showToolbar ? 36 : 0;
-  const minHeight = minRows * lineHeight + paddingY + toolbarHeight;
-  const maxHeight = maxRows ? maxRows * lineHeight + paddingY + toolbarHeight : undefined;
+  const minHeight = minRows * lineHeight;
+  const maxHeight = maxRows ? maxRows * lineHeight : undefined;
 
   const currentLength = typeof value === 'string'
     ? value.length
@@ -299,6 +299,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
         <div className={TOOLBAR_ACTIONS_CONTAINER}>
           {toolbarTrailing}
 
+          {loading && (
+            <Spinner size={16} className="text-muted" />
+          )}
+
           {showCount && maxLength && (
             <span className={COUNT_STYLE} aria-live="polite">
               {currentLength}/{maxLength}
@@ -337,13 +341,16 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     <textarea
       ref={(useCustomScrollbar || useAutoResize) ? mergedRef : ref}
       id={textareaId}
-      disabled={disabled}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
       readOnly={readOnly}
       required={required}
       className={textareaClassName}
       style={{
-        minHeight: hasToolbarContent ? undefined : `${minHeight}px`,
-        maxHeight: useCustomScrollbar ? undefined : (useAutoResize ? undefined : (maxHeight && !hasToolbarContent ? `${maxHeight}px` : undefined)),
+        minHeight: `${minHeight}px`,
+        maxHeight: (useCustomScrollbar || useAutoResize)
+          ? undefined
+          : (maxHeight != null ? `${maxHeight}px` : undefined),
         overflow: (useCustomScrollbar || useAutoResize) ? 'hidden' : undefined,
         ...(fieldSizing === 'content' ? { fieldSizing: 'content' } : {}),
       } as React.CSSProperties}

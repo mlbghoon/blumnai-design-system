@@ -6,6 +6,7 @@ import { InputWrapper } from '../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
+import { TooltipTrigger } from '../tooltip/Tooltip/TooltipTrigger';
 import { usePortalContainer, PortalContainerProvider } from '../../utils/PortalContainerContext';
 import type {
   RadixMultiSelectProps,
@@ -25,7 +26,7 @@ import {
 // ============================================================================
 
 const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
-  ({ option, selected, focused, disabled = false, variant, onToggle }, ref) => {
+  ({ option, selected, focused, disabled = false, variant, onToggle, disableLabelTooltip }, ref) => {
     const internalRef = React.useRef<HTMLDivElement>(null);
     React.useEffect(() => {
       if (focused && internalRef.current) {
@@ -168,6 +169,7 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
                   disabled ? 'text-hint' : 'text-default'
                 )}
                 tooltipContent={option.label}
+                disableTooltip={disableLabelTooltip}
               >
                 {option.label}
               </TruncatedText>
@@ -177,6 +179,7 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
                   disabled ? 'text-hint' : 'text-muted'
                 )}
                 tooltipContent={option.description}
+                disableTooltip={disableLabelTooltip}
               >
                 {option.description}
               </TruncatedText>
@@ -190,6 +193,7 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
                   disabled ? 'text-hint' : 'text-default'
                 )}
                 tooltipContent={option.label}
+                disableTooltip={disableLabelTooltip}
               >
                 {option.label}
               </TruncatedText>
@@ -255,6 +259,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       showActions = false,
       applyLabel = '적용',
       cancelLabel = '취소',
+      canApply,
     },
     ref
   ) => {
@@ -411,13 +416,28 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
       }
     }, [disabled, selectableOptions, allSelected, selectedValues, isControlledValue, onChange, showActions]);
 
+    const arraysEqualUnordered = React.useCallback((a: string[], b: string[]) => {
+      if (a.length !== b.length) return false;
+      const sa = new Set(a);
+      for (const v of b) if (!sa.has(v)) return false;
+      return true;
+    }, []);
+
+    const applyDisabled = React.useMemo(() => {
+      if (!showActions) return false;
+      const pending = pendingValues ?? committedValues;
+      if (canApply) return !canApply(pending, committedValues);
+      return arraysEqualUnordered(pending, committedValues);
+    }, [showActions, pendingValues, committedValues, canApply, arraysEqualUnordered]);
+
     const handleApply = React.useCallback(() => {
+      if (applyDisabled) return;
       if (pendingValues !== null) {
         if (!isControlledValue) setInternalValue(pendingValues);
         onChange?.(pendingValues);
       }
       setOpen(false);
-    }, [pendingValues, isControlledValue, onChange, setOpen]);
+    }, [applyDisabled, pendingValues, isControlledValue, onChange, setOpen]);
 
     const handleCancel = React.useCallback(() => {
       setOpen(false);
@@ -839,8 +859,9 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                             : navIndex === focusedIndex;
                           const isSelected = selectedValues.includes(option.id);
 
+                          let itemNode: React.ReactNode;
                           if (renderOption) {
-                            return (
+                            itemNode = (
                               <div
                                 key={option.id}
                                 role="option"
@@ -859,6 +880,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                                 <div
                                   className={cn(
                                     'flex items-center w-full rounded-xs transition-colors duration-150 padding-6',
+                                    'font-body size-sm line-height-leading-5 text-default',
                                     option.disabled
                                       ? 'cursor-not-allowed opacity-50'
                                       : 'hover:bg-state-ghost-hover cursor-pointer',
@@ -869,19 +891,36 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                                 </div>
                               </div>
                             );
+                          } else {
+                            itemNode = (
+                              <MultiSelectItem
+                                key={option.id}
+                                option={option}
+                                selected={isSelected}
+                                focused={adjustedFocusedIndex}
+                                disabled={option.disabled}
+                                variant={variant}
+                                onToggle={() => toggleValue(option.id)}
+                                disableLabelTooltip={!!option.tooltip}
+                              />
+                            );
                           }
 
-                          return (
-                            <MultiSelectItem
-                              key={option.id}
-                              option={option}
-                              selected={isSelected}
-                              focused={adjustedFocusedIndex}
-                              disabled={option.disabled}
-                              variant={variant}
-                              onToggle={() => toggleValue(option.id)}
-                            />
-                          );
+                          if (option.tooltip) {
+                            return (
+                              <TooltipTrigger
+                                key={option.id}
+                                asChild
+                                content={option.tooltip}
+                                placement={option.tooltipPlacement ?? 'right'}
+                                container={null}
+                                zIndex={101}
+                              >
+                                {itemNode as React.ReactElement}
+                              </TooltipTrigger>
+                            );
+                          }
+                          return itemNode;
                         };
 
                         if (optionGroups && optionGroups.length > 0) {
@@ -937,7 +976,14 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                     <button
                       type="button"
                       onClick={handleApply}
-                      className="padding-x-12 padding-y-4 rounded-md size-sm font-body font-medium text-white-default bg-state-brand hover:bg-state-brand-hover transition-colors cursor-pointer"
+                      disabled={applyDisabled}
+                      aria-disabled={applyDisabled || undefined}
+                      className={cn(
+                        'padding-x-12 padding-y-4 rounded-md size-sm font-body font-medium text-white-default bg-state-brand transition-colors',
+                        applyDisabled
+                          ? 'opacity-50 cursor-not-allowed'
+                          : 'hover:bg-state-brand-hover cursor-pointer'
+                      )}
                     >
                       {applyLabel}
                     </button>

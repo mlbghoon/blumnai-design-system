@@ -1,7 +1,7 @@
 import { forwardRef, memo, useCallback } from 'react';
 
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 
 import type { ChipColor, ChipProps, ChipShape, ChipStyle } from './Chip.types';
 

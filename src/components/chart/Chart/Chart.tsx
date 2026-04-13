@@ -1,6 +1,6 @@
 import { forwardRef, useMemo } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Skeleton } from '../../skeleton/Skeleton';
 
 import type { BaseChartProps } from './Chart.types';
@@ -20,6 +20,7 @@ export const Chart = forwardRef<HTMLDivElement, Omit<BaseChartProps, 'data'> & {
       children,
       ariaLabel,
       isLoading,
+      variant = 'default',
       responsive: _responsive,
       onDataPointClick: _onDataPointClick,
       renderTooltip: _renderTooltip,
@@ -41,9 +42,7 @@ export const Chart = forwardRef<HTMLDivElement, Omit<BaseChartProps, 'data'> & {
 
   const containerClassName = cn(
     'relative',
-    'bg-state-ghost',
-    'rounded-lg',
-    'shadow-modal-sm',
+    variant !== 'unstyled' && 'bg-state-ghost rounded-lg shadow-modal-sm',
     className
   );
 

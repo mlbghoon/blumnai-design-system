@@ -3,7 +3,8 @@ import type { InputHTMLAttributes, ReactNode } from 'react';
 
 import { useKeyboardShortcut } from '../../../hooks/use-keyboard-shortcut';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
+import { Spinner } from '@/lib/spinner';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
@@ -82,6 +83,12 @@ export interface DefaultInputProps extends Omit<InputHTMLAttributes<HTMLInputEle
    */
   showCount?: boolean;
   /**
+   * 로딩 상태. `true`일 때 tail 영역에 스피너를 표시하고 input을 비활성화합니다.
+   * 시각적 error/success 상태와 함께 표시될 수 있습니다.
+   * @default false
+   */
+  loading?: boolean;
+  /**
    * Cmd/Ctrl+Enter 입력 시 호출되는 콜백
    */
   onCmdEnter?: () => void;
@@ -108,6 +115,7 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
   shortcut,
   width,
   disabled = false,
+  loading = false,
   className,
   onClear,
   onCmdEnter,
@@ -228,54 +236,63 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
         <input
           ref={mergeRefs}
           id={inputId}
-          disabled={disabled}
+          disabled={disabled || loading}
           required={required}
           className={inputClassName}
           value={value}
+          maxLength={maxLength}
           autoComplete="off"
           aria-invalid={hasError}
+          aria-busy={loading || undefined}
           aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
           aria-required={required || undefined}
           onKeyDown={handleKeyDown}
           {...props}
         />
 
-        {/* Clear Button */}
-        {hasClearButton && (
-          <button
-            type="button"
-            onClick={onClear}
-            className="flex-shrink-0 flex items-center justify-center hover:bg-state-ghost-hover rounded-xs transition-colors"
-            aria-label="Clear input"
-          >
-            <Icon
-              iconType={['system', 'close-circle']}
-              size={sizeConfig.iconSize}
-              color={iconColor}
-            />
-          </button>
-        )}
+        {/* Tail slot: Spinner takes precedence over all other tail elements when loading */}
+        {loading ? (
+          <Spinner size={sizeConfig.iconSize} color={iconColor} />
+        ) : (
+          <>
+            {/* Clear Button */}
+            {hasClearButton && (
+              <button
+                type="button"
+                onClick={onClear}
+                className="flex-shrink-0 flex items-center justify-center hover:bg-state-ghost-hover rounded-xs transition-colors"
+                aria-label="Clear input"
+              >
+                <Icon
+                  iconType={['system', 'close-circle']}
+                  size={sizeConfig.iconSize}
+                  color={iconColor}
+                />
+              </button>
+            )}
 
-        {/* Shortcut Badge */}
-        {shortcut && !hasClearButton && (
-          <div className={SHORTCUT_STYLE.container}>
-            <span className={SHORTCUT_STYLE.text}>{shortcut}</span>
-          </div>
-        )}
+            {/* Shortcut Badge */}
+            {shortcut && !hasClearButton && (
+              <div className={SHORTCUT_STYLE.container}>
+                <span className={SHORTCUT_STYLE.text}>{shortcut}</span>
+              </div>
+            )}
 
-        {/* Tail Icon */}
-        {tailIcon && !shortcut && !hasClearButton && (() => {
-          const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
-          return (
-            <Icon
-              iconType={iconType}
-              isFill={isFill}
-              size={sizeConfig.iconSize}
-              color={iconColor}
-              className="flex-shrink-0"
-            />
-          );
-        })()}
+            {/* Tail Icon */}
+            {tailIcon && !shortcut && !hasClearButton && (() => {
+              const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
+              return (
+                <Icon
+                  iconType={iconType}
+                  isFill={isFill}
+                  size={sizeConfig.iconSize}
+                  color={iconColor}
+                  className="flex-shrink-0"
+                />
+              );
+            })()}
+          </>
+        )}
 
         {showCount && maxLength !== undefined && (
           <span className={cn(INPUT_COUNT_STYLE, 'flex-shrink-0')}>{currentLength}/{maxLength}</span>

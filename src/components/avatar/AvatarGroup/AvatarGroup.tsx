@@ -1,7 +1,7 @@
 import { forwardRef, useMemo } from 'react';
 
 import { Avatar } from '../Avatar/Avatar';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 
 import { overlaps, overlaySizes } from './AvatarGroup.css';
 import type { AvatarGroupProps } from './AvatarGroup.types';

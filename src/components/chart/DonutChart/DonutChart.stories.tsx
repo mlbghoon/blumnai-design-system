@@ -204,6 +204,10 @@ export const Default: Story = {
     innerRadius: 80,
     outerRadius: 150,
     showLegend: false,
+    centerLabel: undefined,
+    centerValue: undefined,
+    isHalf: false,
+    ariaLabel: undefined,
     className: '',
   },
   parameters: {
@@ -211,7 +215,25 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const chartRef = useRef<HTMLDivElement>(null);
-    return <DonutChart ref={chartRef} {...args} />;
+    return (
+      <DonutChart
+        ref={chartRef}
+        data={args.data}
+        dataKey={args.dataKey}
+        nameKey={args.nameKey}
+        config={args.config}
+        width={args.width}
+        height={args.height}
+        innerRadius={args.innerRadius}
+        outerRadius={args.outerRadius}
+        showLegend={args.showLegend}
+        centerLabel={args.centerLabel}
+        centerValue={args.centerValue}
+        isHalf={args.isHalf}
+        ariaLabel={args.ariaLabel}
+        className={args.className}
+      />
+    );
   },
 };
 
@@ -524,4 +546,140 @@ export const CustomTooltip: Story = {
       );
     },
   },
+};
+
+/**
+ * 인터랙티브 범례
+ *
+ * 범례 항목을 클릭하여 슬라이스를 표시/숨길 수 있습니다.
+ */
+export const InteractiveLegend: Story = {
+  render: () => (
+    <DonutChart
+      data={multipleData}
+      dataKey="value"
+      nameKey="category"
+      config={multipleConfig}
+      width={400}
+      height={400}
+      innerRadius={80}
+      outerRadius={150}
+      showLegend
+      legendInteractive
+    />
+  ),
+};
+
+/**
+ * 우측 범례 + 값 포맷터
+ *
+ * legendPosition="right"로 범례를 우측에 배치하고,
+ * legendValueFormatter로 범례 값을 포맷합니다.
+ */
+export const RightLegendWithValues: Story = {
+  render: () => (
+    <DonutChart
+      data={multipleData}
+      dataKey="value"
+      nameKey="category"
+      config={multipleConfig}
+      width={500}
+      height={400}
+      innerRadius={80}
+      outerRadius={150}
+      showLegend
+      legendPosition="right"
+      legendValueFormatter={(value, name) => `${value}% (${name})`}
+    />
+  ),
+};
+
+/**
+ * 각주 텍스트
+ *
+ * footnote prop으로 차트 하단에 기준 정보 등을 표시합니다.
+ */
+export const WithFootnote: Story = {
+  render: () => (
+    <DonutChart
+      data={defaultData}
+      dataKey="value"
+      nameKey="category"
+      config={defaultConfig}
+      width={400}
+      height={400}
+      innerRadius={80}
+      outerRadius={150}
+      centerLabel="합계"
+      centerValue="100"
+      showLegend
+      footnote="기준: 최근 30일"
+    />
+  ),
+};
+
+/**
+ * 스타일 없음 (카드 내부 임베딩용)
+ *
+ * variant="unstyled"로 배경, 그림자, 라운드를 제거합니다.
+ */
+export const Unstyled: Story = {
+  render: () => (
+    <DonutChart
+      data={defaultData}
+      dataKey="value"
+      nameKey="category"
+      config={defaultConfig}
+      width={400}
+      height={400}
+      innerRadius={80}
+      outerRadius={150}
+      variant="unstyled"
+    />
+  ),
+};
+
+/**
+ * 애니메이션 비활성화 (PDF 캡처용)
+ *
+ * animated={false}로 모든 차트 애니메이션을 끕니다.
+ */
+export const NoAnimation: Story = {
+  render: () => (
+    <DonutChart
+      data={defaultData}
+      dataKey="value"
+      nameKey="category"
+      config={defaultConfig}
+      width={400}
+      height={400}
+      innerRadius={80}
+      outerRadius={150}
+      animated={false}
+    />
+  ),
+};
+
+/**
+ * 각주 + 우측 범례
+ *
+ * footnote와 legendPosition="right"를 함께 사용합니다.
+ */
+export const FootnoteWithRightLegend: Story = {
+  render: () => (
+    <DonutChart
+      data={multipleData}
+      dataKey="value"
+      nameKey="category"
+      config={multipleConfig}
+      width={500}
+      height={400}
+      innerRadius={80}
+      outerRadius={150}
+      showLegend
+      legendPosition="right"
+      legendValueFormatter={(value) => `${value}%`}
+      footnote="기준: 최근 30일"
+    />
+  ),
 };

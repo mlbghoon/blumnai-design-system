@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import type { AccordionItemStyle } from '../AccordionItem/AccordionItem.types';
+import type { AccordionItemStyle, AccordionPadding } from '../AccordionItem/AccordionItem.types';
 
 /**
  * AccordionGroup 아이템 데이터
@@ -20,6 +20,8 @@ export interface AccordionGroupItem {
   disabled?: boolean;
   /** 아이템별 토글 콜백 (새 상태 값을 전달받음) */
   onToggle?: (isOpen: boolean) => void;
+  /** 아이템별 패딩 오버라이드 (px) */
+  padding?: AccordionPadding;
   /** 추가 CSS 클래스 이름 */
   className?: string;
 }
@@ -48,6 +50,8 @@ export interface AccordionGroupProps extends Omit<HTMLAttributes<HTMLDivElement>
    * 개별 아이템의 onToggle이 있으면 해당 아이템은 개별 콜백이 우선합니다.
    */
   onToggle?: (id: string, isOpen: boolean) => void;
+  /** 그룹 전체 기본 패딩 (px) */
+  padding?: AccordionPadding;
   /** 추가 CSS 클래스 이름 */
   className?: string;
 }

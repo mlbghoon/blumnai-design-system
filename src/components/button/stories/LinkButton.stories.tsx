@@ -132,10 +132,26 @@ export const Default: Story = {
     disabled: false,
     asChild: false,
     width: undefined,
+    onClick: undefined,
   },
   parameters: {
     controls: { disable: false },
   },
+  render: (args) => (
+    <LinkButton
+      label={args.label}
+      linkType={args.linkType}
+      size={args.size}
+      leadIcon={args.leadIcon}
+      tailIcon={args.tailIcon}
+      href={args.href}
+      openInNewTab={args.openInNewTab}
+      disabled={args.disabled}
+      asChild={args.asChild}
+      width={args.width}
+      onClick={args.onClick}
+    />
+  ),
 };
 
 /**

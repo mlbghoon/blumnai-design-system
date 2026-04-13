@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect, forwardRef, useMemo } from 'react';
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Icon } from '../../icons/Icon/Icon';
 import {
   SIZE_CONFIG,
@@ -111,6 +111,7 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
   hasError = false,
   hasSuccess = false,
   isOpen = false,
+  pickerOnly = false,
   datePickerStyle = 'default',
   size = 'sm',
   dateFormat = 'yyyy.MM.dd',
@@ -339,7 +340,7 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
     state === 'error' && 'border-destructive',
     state === 'success' && 'border-success',
     isOpen && !showError && 'border-strong shadow-component-input-focus',
-    disabled ? 'cursor-not-allowed' : 'cursor-text',
+    disabled ? 'cursor-not-allowed' : pickerOnly ? 'cursor-pointer' : 'cursor-text',
     className
   );
 
@@ -354,22 +355,24 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
         key={`${part}-${segment}`}
         ref={segmentRefs[part][segment] as React.RefObject<HTMLInputElement>}
         type="text"
-        inputMode="numeric"
+        inputMode={pickerOnly ? 'none' : 'numeric'}
         value={segmentValue}
         placeholder={placeholderText}
         disabled={disabled}
-        onChange={(e) => handleSegmentChange(part, segment, e.target.value)}
-        onKeyDown={(e) => handleSegmentKeyDown(part, segment, e)}
-        onFocus={() => handleSegmentFocus(part, segment)}
-        onBlur={() => handleSegmentBlur(part, segment)}
+        readOnly={pickerOnly}
+        onChange={pickerOnly ? undefined : (e) => handleSegmentChange(part, segment, e.target.value)}
+        onKeyDown={pickerOnly ? undefined : (e) => handleSegmentKeyDown(part, segment, e)}
+        onFocus={pickerOnly ? () => onCalendarClick?.() : () => handleSegmentFocus(part, segment)}
+        onBlur={pickerOnly ? undefined : () => handleSegmentBlur(part, segment)}
         className={cn(
           'bg-transparent border-0 outline-none text-center font-body',
           sizeConfig.text,
           'letter-spacing-tracking-tight',
           segmentValue ? stateConfig.text : 'text-hint',
           'rounded-2xs padding-x-2',
-          isActive && 'bg-state-ghost-hover',
-          disabled && 'cursor-not-allowed'
+          !pickerOnly && isActive && 'bg-state-ghost-hover',
+          disabled && 'cursor-not-allowed',
+          pickerOnly && 'cursor-pointer caret-transparent'
         )}
         style={{
           width: segment === 'year' ? '40px' : '24px',
@@ -396,7 +399,7 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
     >
       <div
         className="flex items-center ds-gap-8 flex-1 min-w-0"
-        onClick={handleInputAreaClick}
+        onClick={pickerOnly ? handleCalendarIconClick : handleInputAreaClick}
       >
         {renderDatePart('from')}
         <span className="text-hint size-sm">-</span>

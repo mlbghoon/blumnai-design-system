@@ -118,6 +118,25 @@ const meta: Meta<typeof Divider> = {
         defaultValue: { summary: "'horizontal'" },
       },
     },
+    spacing: {
+      control: 'select',
+      options: ['sm', 'md', 'lg', 'xl'],
+      description: '구분선 주변 여백 크기 (sm=8px, md=12px, lg=16px, xl=24px)',
+      table: {
+        type: {
+          summary: 'DividerSpacing',
+          detail: `'sm' | 'md' | 'lg' | 'xl'`,
+        },
+        defaultValue: { summary: "'lg'" },
+      },
+    },
+    spacingOverride: {
+      control: 'number',
+      description: '여백을 px 단위로 직접 지정. 설정 시 spacing 값은 무시됩니다',
+      table: {
+        type: { summary: 'number' },
+      },
+    },
   },
 };
 
@@ -136,12 +155,15 @@ export const Default: Story = {
     type: 'default',
     lineStyle: 'default',
     orientation: 'horizontal',
+    spacing: 'lg',
+    spacingOverride: undefined,
     label: '라벨',
     icon: undefined,
     buttonLabel: '버튼',
     buttonLeadIcon: undefined,
     buttonTailIcon: undefined,
     buttonBadge: undefined,
+    onButtonClick: undefined,
   },
   parameters: {
     controls: { disable: false },
@@ -156,6 +178,8 @@ export const Default: Story = {
           type={args.type}
           lineStyle={args.lineStyle}
           orientation={args.orientation}
+          spacing={args.spacing}
+          spacingOverride={args.spacingOverride}
           label={args.label}
           icon={args.icon}
           buttonLabel={args.buttonLabel}
@@ -460,6 +484,73 @@ export const AllTypesDashed: Story = {
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>버튼 오른쪽</span>
         <Divider type="button-right" buttonLabel="버튼" lineStyle="dashed" />
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * 여백 크기 (Spacing)
+ *
+ * sm(8px), md(12px), lg(16px, 기본값), xl(24px)
+ */
+export const Spacing: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '40px', width: '100%', maxWidth: '600px' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '4px' }}>Horizontal</span>
+        {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+          <div key={size} style={{ background: 'var(--bg-subtle)' }}>
+            <Divider spacing={size} />
+            <span style={{ fontSize: '11px', color: '#6f6f77', paddingLeft: '4px' }}>{size}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', gap: '16px', height: '200px' }}>
+        <span style={{ fontSize: '12px', color: '#6f6f77' }}>Vertical</span>
+        {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+          <div key={size} style={{ display: 'flex', alignItems: 'stretch', height: '100%', background: 'var(--bg-subtle)' }}>
+            <Divider orientation="vertical" spacing={size} />
+            <span style={{ fontSize: '11px', color: '#6f6f77', writingMode: 'vertical-lr' }}>{size}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * 여백 + 콘텐츠 (Spacing with Content)
+ *
+ * 텍스트 라벨이 있는 구분선에서의 여백 크기
+ */
+export const SpacingWithContent: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '400px' }}>
+      {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+        <div key={size} style={{ background: 'var(--bg-subtle)' }}>
+          <Divider type="text-center" label={size} spacing={size} />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+/**
+ * 커스텀 여백 (SpacingOverride)
+ *
+ * spacingOverride로 px 단위 직접 지정. spacing 값은 무시됩니다.
+ */
+export const SpacingOverride: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '400px' }}>
+      <div style={{ background: 'var(--bg-subtle)' }}>
+        <span style={{ fontSize: '12px', color: '#6f6f77', paddingLeft: '4px' }}>spacingOverride=30</span>
+        <Divider spacingOverride={30} />
+      </div>
+      <div style={{ background: 'var(--bg-subtle)' }}>
+        <span style={{ fontSize: '12px', color: '#6f6f77', paddingLeft: '4px' }}>spacingOverride=30 (with content)</span>
+        <Divider type="text-center" label="30px" spacingOverride={30} />
       </div>
     </div>
   ),

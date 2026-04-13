@@ -15,6 +15,9 @@ export type PopoverPortalProps = ComponentPropsWithoutRef<
   typeof PopoverPrimitive.Portal
 >;
 
+/** 애니메이션 프리셋 */
+export type PopoverAnimation = 'default' | 'fade' | 'scale' | 'slide' | 'none';
+
 export interface PopoverContentProps
   extends ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> {
   /**
@@ -29,6 +32,15 @@ export interface PopoverContentProps
    * 지정하지 않으면 `document.body`에 포탈됩니다.
    */
   container?: HTMLElement | null;
+  /**
+   * 애니메이션 프리셋
+   * @default 'default'
+   */
+  animation?: PopoverAnimation;
+  /**
+   * 애니메이션 지속 시간 (ms). 미지정 시 tw-animate-css 기본 150ms
+   */
+  animationDuration?: number;
 }
 
 export interface PopoverScrollAreaProps extends HTMLAttributes<HTMLDivElement> {

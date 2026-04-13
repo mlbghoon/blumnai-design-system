@@ -1,7 +1,7 @@
 import { forwardRef, useCallback } from 'react';
 import type { InputHTMLAttributes, ReactNode } from 'react';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Icon } from '../../icons/Icon/Icon';
 import {
   STATE_CONFIG,
@@ -95,6 +95,12 @@ export interface QuantityInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    * @default 1
    */
   step?: number;
+  /**
+   * 로딩 상태. `true`일 때 input 및 +/- 버튼을 비활성화합니다.
+   * QuantityInput은 +/- 버튼이 주요 상호작용이라 스피너 대신 disabled 상태로 표시합니다.
+   * @default false
+   */
+  loading?: boolean;
 }
 
 /**
@@ -122,6 +128,7 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
   success,
   width,
   disabled = false,
+  loading = false,
   className,
   ...props
 }, ref) => {
@@ -232,7 +239,7 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
           <button
             type="button"
             onClick={handleDecrement}
-            disabled={disabled || !canDecrement}
+            disabled={disabled || loading || !canDecrement}
             className={cn(buttonClassName, !canDecrement && 'opacity-50')}
             aria-label="Decrease value"
           >
@@ -251,13 +258,14 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
             role="spinbutton"
             inputMode={step % 1 !== 0 ? 'decimal' : 'numeric'}
             pattern={step % 1 !== 0 ? '[0-9]*[.]?[0-9]*' : '[0-9]*'}
-            disabled={disabled}
+            disabled={disabled || loading}
             className={inputClassName}
             value={value}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             autoComplete="off"
             aria-invalid={hasError}
+            aria-busy={loading || undefined}
             aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
             aria-valuemin={min}
             aria-valuemax={max}
@@ -269,7 +277,7 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
           <button
             type="button"
             onClick={handleIncrement}
-            disabled={disabled || !canIncrement}
+            disabled={disabled || loading || !canIncrement}
             className={cn(buttonClassName, !canIncrement && 'opacity-50')}
             aria-label="Increase value"
           >
@@ -334,13 +342,14 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
           role="spinbutton"
           inputMode={step % 1 !== 0 ? 'decimal' : 'numeric'}
           pattern={step % 1 !== 0 ? '[0-9]*[.]?[0-9]*' : '[0-9]*'}
-          disabled={disabled}
+          disabled={disabled || loading}
           className={cn(inputClassName, 'flex-1')}
           value={value}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           autoComplete="off"
           aria-invalid={hasError}
+          aria-busy={loading || undefined}
           aria-describedby={caption || error || success ? `${inputId}-caption` : undefined}
           aria-valuemin={min}
           aria-valuemax={max}
@@ -354,7 +363,7 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
           <button
             type="button"
             onClick={handleIncrement}
-            disabled={disabled || !canIncrement}
+            disabled={disabled || loading || !canIncrement}
             className={cn(
               compactConfig.button,
               compactConfig.buttonTop,
@@ -374,7 +383,7 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
           <button
             type="button"
             onClick={handleDecrement}
-            disabled={disabled || !canDecrement}
+            disabled={disabled || loading || !canDecrement}
             className={cn(
               compactConfig.button,
               'flex-1',

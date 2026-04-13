@@ -22,92 +22,16 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
   const variant = props.variant ?? 'default';
 
   if (variant === 'multi-select') {
-    const multiProps = props as MultiSelectProps;
-    return (
-      <MultiSelect
-        ref={ref}
-        variant="default"
-        selectStyle={multiProps.selectStyle}
-        size={multiProps.size}
-        label={multiProps.label}
-        labelPosition={multiProps.labelPosition}
-        labelWidth={multiProps.labelWidth}
-        required={multiProps.required}
-        supportText={multiProps.supportText}
-        caption={multiProps.caption}
-        error={multiProps.error}
-        success={multiProps.success}
-        disabled={multiProps.disabled}
-        placeholder={multiProps.placeholder}
-        leadIcon={multiProps.leadIcon}
-        tailIcon={multiProps.tailIcon}
-        options={multiProps.options}
-        value={multiProps.value}
-        onChange={multiProps.onChange}
-        searchable={multiProps.searchable}
-        searchPlaceholder={multiProps.searchPlaceholder}
-        noResultsText={multiProps.noResultsText}
-        open={multiProps.open}
-        onOpenChange={multiProps.onOpenChange}
-        maxHeight={multiProps.maxHeight}
-        contentWidth={multiProps.contentWidth}
-        width={multiProps.width}
-        minWidth={multiProps.minWidth}
-        className={multiProps.className}
-        maxSelections={multiProps.maxSelections}
-        selectedText={multiProps.selectedText}
-        showSelectAll={multiProps.showSelectAll}
-        selectAllLabel={multiProps.selectAllLabel}
-        clearable={multiProps.clearable}
-        loading={multiProps.loading}
-        optionGroups={multiProps.optionGroups}
-        renderOption={multiProps.renderOption}
-      />
-    );
+    // 스프레드 패턴: 새 prop 추가 시 wrapper에서 누락되지 않도록 자동 forward
+    const { variant: _variant, ...rest } = props as MultiSelectProps;
+    void _variant;
+    return <MultiSelect ref={ref} variant="default" {...rest} />;
   }
 
   if (variant === 'tags') {
-    const tagsProps = props as TagsSelectProps;
-    return (
-      <MultiSelect
-        ref={ref}
-        variant="tags"
-        selectStyle={tagsProps.selectStyle}
-        size={tagsProps.size}
-        label={tagsProps.label}
-        labelPosition={tagsProps.labelPosition}
-        labelWidth={tagsProps.labelWidth}
-        required={tagsProps.required}
-        supportText={tagsProps.supportText}
-        caption={tagsProps.caption}
-        error={tagsProps.error}
-        success={tagsProps.success}
-        disabled={tagsProps.disabled}
-        placeholder={tagsProps.placeholder}
-        leadIcon={tagsProps.leadIcon}
-        tailIcon={tagsProps.tailIcon}
-        options={tagsProps.options}
-        value={tagsProps.value}
-        onChange={tagsProps.onChange}
-        searchable={tagsProps.searchable}
-        searchPlaceholder={tagsProps.searchPlaceholder}
-        noResultsText={tagsProps.noResultsText}
-        open={tagsProps.open}
-        onOpenChange={tagsProps.onOpenChange}
-        maxHeight={tagsProps.maxHeight}
-        contentWidth={tagsProps.contentWidth}
-        width={tagsProps.width}
-        minWidth={tagsProps.minWidth}
-        className={tagsProps.className}
-        maxSelections={tagsProps.maxSelections}
-        maxVisibleTags={tagsProps.maxVisibleTags}
-        overflowText={tagsProps.overflowText}
-        clearable={tagsProps.clearable}
-        loading={tagsProps.loading}
-        optionGroups={tagsProps.optionGroups}
-        renderOption={tagsProps.renderOption}
-      />
-    );
+    const { variant: _variant, ...rest } = props as TagsSelectProps;
+    void _variant;
+    return <MultiSelect ref={ref} variant="tags" {...rest} />;
   }
 
   if (variant === 'avatar') {

@@ -99,7 +99,16 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const groupRef = useRef<HTMLDivElement>(null);
-    return <AvatarGroup ref={groupRef} {...args} />;
+    return (
+      <AvatarGroup
+        ref={groupRef}
+        size={args.size}
+        stacking={args.stacking}
+        avatars={args.avatars}
+        max={args.max}
+        className={args.className}
+      />
+    );
   },
 };
 

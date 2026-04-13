@@ -125,7 +125,11 @@ export const Default: Story = {
     return (
       <div style={{ width: 300 }}>
         <MonthPicker
-          {...args}
+          label={args.label}
+          locale={args.locale}
+          disabled={args.disabled}
+          disabledFuture={args.disabledFuture}
+          showQuickPresets={args.showQuickPresets}
           value={value}
           onChange={setValue}
         />
@@ -237,6 +241,45 @@ export const EnglishLocale: Story = {
           onChange={setValue}
           locale="en"
         />
+      </div>
+    );
+  },
+};
+
+/**
+ * Picker Only 모드
+ *
+ * 입력 필드에 직접 타이핑할 수 없고, 클릭 시 캘린더만 열립니다.
+ */
+export const PickerOnly: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<Date | undefined>();
+    return (
+      <div style={{ width: 300 }}>
+        <MonthPicker
+          label="월 선택 (Picker Only)"
+          value={value}
+          onChange={setValue}
+          pickerOnly
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 크기 비교
+ *
+ * sm / lg 사이즈를 비교합니다.
+ */
+export const AllSizes: Story = {
+  render: function Render() {
+    const [v1, setV1] = useState<Date | undefined>();
+    const [v2, setV2] = useState<Date | undefined>();
+    return (
+      <div className="flex flex-col ds-gap-16" style={{ width: 300 }}>
+        <MonthPicker label="sm (기본)" size="sm" value={v1} onChange={setV1} />
+        <MonthPicker label="lg" size="lg" value={v2} onChange={setV2} />
       </div>
     );
   },

@@ -10,6 +10,7 @@ export {
 } from './Popover';
 
 export type {
+  PopoverAnimation,
   PopoverProps,
   PopoverTriggerProps,
   PopoverAnchorProps,

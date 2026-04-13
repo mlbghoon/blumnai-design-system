@@ -173,7 +173,23 @@ export const Default: Story = {
   render: function Render(args) {
     const avatarRef = useRef<HTMLDivElement>(null);
 
-    return <Avatar ref={avatarRef} {...args} />;
+    return (
+      <Avatar
+        ref={avatarRef}
+        variant={args.variant}
+        size={args.size}
+        shape={args.shape}
+        status={args.status}
+        badgeLocation={args.badgeLocation}
+        ring={args.ring}
+        initials={args.initials}
+        src={args.src}
+        icon={args.icon}
+        logoImage={args.logoImage}
+        color={args.color}
+        className={args.className}
+      />
+    );
   },
 };
 

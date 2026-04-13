@@ -164,6 +164,8 @@ export const Default: Story = {
     height: 400,
     outerRadius: 150,
     showLegend: false,
+    isHalf: false,
+    ariaLabel: undefined,
     className: '',
   },
   parameters: {
@@ -171,7 +173,22 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const chartRef = useRef<HTMLDivElement>(null);
-    return <PieChart ref={chartRef} {...args} />;
+    return (
+      <PieChart
+        ref={chartRef}
+        data={args.data}
+        dataKey={args.dataKey}
+        nameKey={args.nameKey}
+        config={args.config}
+        width={args.width}
+        height={args.height}
+        outerRadius={args.outerRadius}
+        showLegend={args.showLegend}
+        isHalf={args.isHalf}
+        ariaLabel={args.ariaLabel}
+        className={args.className}
+      />
+    );
   },
 };
 
@@ -321,4 +338,46 @@ export const WithAccessibility: Story = {
     showLegend: true,
     ariaLabel: '카테고리별 분포 파이 차트',
   },
+};
+
+/**
+ * 인터랙티브 범례
+ *
+ * 범례 항목을 클릭하여 슬라이스를 표시/숨길 수 있습니다.
+ */
+export const InteractiveLegend: Story = {
+  render: () => (
+    <PieChart
+      data={multipleData}
+      dataKey="value"
+      nameKey="category"
+      config={multipleConfig}
+      width={400}
+      height={400}
+      outerRadius={150}
+      showLegend
+      legendInteractive
+    />
+  ),
+};
+
+/**
+ * 우측 범례
+ *
+ * legendPosition="right"로 범례를 차트 우측에 배치합니다.
+ */
+export const RightLegend: Story = {
+  render: () => (
+    <PieChart
+      data={multipleData}
+      dataKey="value"
+      nameKey="category"
+      config={multipleConfig}
+      width={500}
+      height={400}
+      outerRadius={150}
+      showLegend
+      legendPosition="right"
+    />
+  ),
 };

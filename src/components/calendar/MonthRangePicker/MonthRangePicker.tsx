@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { addMonths } from 'date-fns';
 
-import { cn } from '../../../utils/cn';
+import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverAnchor } from '../../popover/Popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
 import { Icon } from '../../icons/Icon';
@@ -49,13 +49,16 @@ export const MonthRangePicker = ({
   locale = 'ko',
   label,
   labelPosition,
-      labelWidth,
+  labelWidth,
   error,
   supportText,
   className,
+  width,
   disabled = false,
   showQuickPresets = false,
   presets,
+  size = 'sm',
+  pickerOnly = false,
 }: MonthRangePickerProps) => {
   const [open, setOpen] = useState(false);
   const [viewYear, setViewYear] = useState(() => {
@@ -162,6 +165,7 @@ export const MonthRangePicker = ({
       labelWidth={labelWidth}
       error={error}
       supportText={supportText}
+      width={width}
       className={className}
     >
       <Popover open={open} onOpenChange={handleOpenChange}>
@@ -173,6 +177,8 @@ export const MonthRangePicker = ({
               disabled={disabled}
               hasError={hasError}
               isOpen={open}
+              size={size}
+              pickerOnly={pickerOnly}
               onCalendarClick={() => !disabled && handleOpenChange(!open)}
             />
           </div>
