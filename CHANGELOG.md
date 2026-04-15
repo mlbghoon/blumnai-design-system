@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.4.5] - 2026-04-15
+
+### Fixed
+
+- **Button secondary 로딩 스피너 검은 원**: Spinner SVG `<circle>`에 `fill="none"` 누락 → secondary 등 밝은 배경 버튼에서 로딩 시 검은 원이 표시되던 버그 수정
+
 ## [1.4.4] - 2026-04-15
 
 ### Added

@@ -45,6 +45,7 @@ export function Spinner({
         cx="12"
         cy="12"
         r="10"
+        fill="none"
         stroke={color}
         strokeWidth="2"
         strokeLinecap="round"
@@ -56,6 +57,7 @@ export function Spinner({
         cx="12"
         cy="12"
         r="10"
+        fill="none"
         stroke={color}
         strokeWidth="2"
         strokeLinecap="round"
