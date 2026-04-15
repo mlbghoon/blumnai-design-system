@@ -16,11 +16,11 @@ import {
 } from 'constants/input/Input/Input.constants';
 import {
   DROPDOWN_TRIGGER_BASE,
-  DROPDOWN_TRIGGER_TEXT,
-  DROPDOWN_TRIGGER_PLACEHOLDER,
+  DROPDOWN_TRIGGER_TEXT_BASE,
+  DROPDOWN_TRIGGER_PLACEHOLDER_BASE,
   DROPDOWN_MENU_BASE,
   DROPDOWN_OPTION_BASE,
-  DROPDOWN_OPTION_TEXT,
+  DROPDOWN_OPTION_TEXT_BASE,
   DROPDOWN_OPTION_SELECTED,
   DROPDOWN_SIZE_CONFIG,
   DROPDOWN_DIVIDER,
@@ -347,6 +347,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
             aria-selected={option.value === dropdownValue}
             className={cn(
               DROPDOWN_OPTION_BASE,
+              dropdownSizeConfig.optionPadding,
               option.value === dropdownValue && DROPDOWN_OPTION_SELECTED,
               focusedIndex === index && 'bg-state-ghost-hover'
             )}
@@ -363,7 +364,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
                 />
               );
             })()}
-            <span className={DROPDOWN_OPTION_TEXT}>{option.label}</span>
+            <span className={cn(DROPDOWN_OPTION_TEXT_BASE, dropdownSizeConfig.optionText)}>{option.label}</span>
           </div>
         ))}
       </div>,
@@ -410,7 +411,10 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
             />
           );
         })()}
-        <span className={selectedOption ? DROPDOWN_TRIGGER_TEXT : DROPDOWN_TRIGGER_PLACEHOLDER}>
+        <span className={cn(
+          selectedOption ? DROPDOWN_TRIGGER_TEXT_BASE : DROPDOWN_TRIGGER_PLACEHOLDER_BASE,
+          dropdownSizeConfig.optionText
+        )}>
           {selectedOption?.label || dropdownPlaceholder}
         </span>
         <Icon

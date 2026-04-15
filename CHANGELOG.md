@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.6] - 2026-04-15
+
+### Fixed
+
+- **Input lead-dropdown 옵션 폰트 크기**: 드롭다운 메뉴 옵션 텍스트가 입력 필드 크기와 무관하게 항상 `size-sm`(14px)으로 표시되던 문제 수정. 이제 `xs`→`size-xs`, `sm`/`lg`→`size-sm`으로 입력 필드 텍스트 크기와 일치
+- **Switch OFF 텍스트 간격 및 정렬**: `sm` 사이즈에서 "OFF" 텍스트가 비좁고 약 2px 아래로 치우치던 문제 수정. 라벨 트랙 너비 40→44px 확장, 텍스트 수직 정렬 보정 (`marginTop: -1`)
+- **DataGrid 셀 포커스 링 잘림**: 셀의 `overflow-hidden`이 Input, Switch 등 인터랙티브 요소의 포커스 링(box-shadow)을 잘라내던 문제 수정. `overflow-clip` + `overflowClipMargin: 3px`로 변경
+- **HtmlEditor 포커스 시 파란 테두리**: ProseMirror 에디터 포커스 시 파란 outline/border가 표시되던 문제 수정. `.tiptap`, `[contenteditable]` 셀렉터 추가 및 `!important`로 소비자 전역 스타일 우선순위 확보
+
 ## [1.4.5] - 2026-04-15
 
 ### Fixed

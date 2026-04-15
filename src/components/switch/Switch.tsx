@@ -14,9 +14,9 @@ const SWITCH_SIZE_CONFIG = {
     translateOn: 'data-[state=checked]:translate-x-[15px]',
     spinnerSize: 'width-10 height-10',
     labelLineHeight: 'height-20',
-    labeledTrackWidth: 40,
-    labeledTranslateOn: 'data-[state=checked]:translate-x-[23px]',
-    labelWidth: 23,
+    labeledTrackWidth: 44,
+    labeledTranslateOn: 'data-[state=checked]:translate-x-[27px]',
+    labelWidth: 25,
     labelFontSize: 10 as number | undefined,
     labelFontClass: '',
   },
@@ -175,6 +175,7 @@ const Switch = React.forwardRef<
                 width: sizeConfig.labelWidth,
                 fontSize: sizeConfig.labelFontSize,
                 lineHeight: 1,
+                marginTop: -1,
               }}
               aria-hidden="true"
             >
@@ -193,6 +194,7 @@ const Switch = React.forwardRef<
                 width: sizeConfig.labelWidth,
                 fontSize: sizeConfig.labelFontSize,
                 lineHeight: 1,
+                marginTop: -1,
               }}
               aria-hidden="true"
             >

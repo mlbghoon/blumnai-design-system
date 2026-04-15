@@ -1,14 +1,24 @@
-.blumnai-html-editor .ProseMirror {
-  outline: none;
-  box-shadow: none;
+.blumnai-html-editor .ProseMirror,
+.blumnai-html-editor .tiptap,
+.blumnai-html-editor [contenteditable] {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
   min-height: inherit;
   cursor: text;
 }
 
 .blumnai-html-editor .ProseMirror:focus,
-.blumnai-html-editor .ProseMirror:focus-visible {
-  outline: none;
-  box-shadow: none;
+.blumnai-html-editor .ProseMirror:focus-visible,
+.blumnai-html-editor .ProseMirror:focus-within,
+.blumnai-html-editor .tiptap:focus,
+.blumnai-html-editor .tiptap:focus-visible,
+.blumnai-html-editor .tiptap:focus-within,
+.blumnai-html-editor [contenteditable]:focus,
+.blumnai-html-editor [contenteditable]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 .blumnai-html-editor .ProseMirror > * + * {

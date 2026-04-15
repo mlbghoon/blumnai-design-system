@@ -1,0 +1,5 @@
+{
+  "main": "../dist/components/html-editor/index.mjs",
+  "module": "../dist/components/html-editor/index.mjs",
+  "types": "../dist/components/html-editor/index.d.ts"
+}
