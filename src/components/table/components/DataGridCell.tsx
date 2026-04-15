@@ -28,7 +28,7 @@ function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colInde
         'group/cell padding-x-10 flex items-center',
         'font-body size-xs line-height-leading-4 text-default',
         'border-r-default border-b-default last:border-r-0',
-        'overflow-hidden min-w-[0px] whitespace-nowrap',
+        'overflow-hidden',
         'bg-default',
         isSticky ? 'group-hover:bg-hover-solid' : 'group-hover:bg-basic-gray-alpha-4',
         isRowSelected && (isSticky ? 'bg-hover-solid' : 'bg-basic-gray-alpha-4'),
@@ -38,11 +38,14 @@ function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colInde
       )}
       style={{
         height: height ?? '32px',
+        minWidth: 0,
         ...(isSticky ? { left: stickyInfo.leftOffset, width: stickyInfo.width } : undefined),
       }}
     >
       <DataGridCellContext.Provider value={cellContextValue}>
-        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        <div className="truncate w-full">
+          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        </div>
       </DataGridCellContext.Provider>
     </div>
   );

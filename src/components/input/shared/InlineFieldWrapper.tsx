@@ -76,6 +76,13 @@ export interface InlineFieldWrapperProps {
    * 외부 컨테이너에 적용할 추가 className
    */
   className?: string;
+  /**
+   * 캡션 위치
+   * - 'bottom': 라벨 아래 (기본)
+   * - 'right': 라벨 오른쪽 (인라인)
+   * @default 'bottom'
+   */
+  captionPosition?: 'bottom' | 'right';
 }
 
 /**
@@ -101,6 +108,7 @@ export const InlineFieldWrapper = ({
   labelWeight = 'font-medium',
   captionId: captionIdProp,
   className,
+  captionPosition = 'bottom',
 }: InlineFieldWrapperProps) => {
   const internalId = useId();
   const { hasError, hasSuccess, captionText, showCaption } = resolveCaption(error, success, caption);
@@ -154,6 +162,21 @@ export const InlineFieldWrapper = ({
 
   if (!showCaption) {
     return labelBlock;
+  }
+
+  if (captionPosition === 'right') {
+    return (
+      <div className="inline-flex items-center ds-gap-8">
+        {labelBlock}
+        <InputCaption
+          id={captionElId}
+          error={hasError}
+          success={hasSuccess}
+        >
+          {captionText}
+        </InputCaption>
+      </div>
+    );
   }
 
   return (

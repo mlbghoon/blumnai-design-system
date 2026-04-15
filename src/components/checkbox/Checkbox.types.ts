@@ -71,4 +71,11 @@ export interface CheckboxProps
    * @default false
    */
   required?: boolean;
+  /**
+   * 캡션 위치
+   * - 'bottom': 라벨 아래 (기본)
+   * - 'right': 라벨 오른쪽 (인라인)
+   * @default 'bottom'
+   */
+  captionPosition?: 'bottom' | 'right';
 }

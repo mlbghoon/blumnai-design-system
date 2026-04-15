@@ -1,10 +1,14 @@
 # Changelog
 
-## [1.4.3] - 2026-04-15
+## [1.4.4] - 2026-04-15
+
+### Added
+
+- **Checkbox `captionPosition` prop**: `'bottom'`(기본) 또는 `'right'` — 캡션을 라벨 오른쪽에 인라인으로 표시. `InlineFieldWrapper`에도 동일 prop 추가되어 Switch, Radio 등에서도 사용 가능
 
 ### Fixed
 
-- **DataGrid `minmax()` 컬럼 ellipsis 미작동**: `minmax()` 너비 사용 시 셀 텍스트가 줄바꿈되던 버그 수정. `whitespace-nowrap` 추가하여 `text-overflow: ellipsis` 정상 작동
+- **DataGrid `minmax()` 컬럼 ellipsis 미작동**: `minmax()` 너비 사용 시 셀 텍스트가 줄바꿈되던 버그 수정. 셀 내부에 truncate 래퍼 추가 + inline `minWidth: 0`으로 CSS Grid 축소 보장
 - **HtmlEditor ProseMirror 포커스 링**: 에디터 영역 클릭/포커스 시 브라우저 기본 outline/box-shadow 표시되던 문제 수정
 - **HtmlEditor 빈 영역 클릭 시 포커스**: 에디터 콘텐츠 영역의 빈 공간 클릭 시에도 에디터에 포커스 적용
 

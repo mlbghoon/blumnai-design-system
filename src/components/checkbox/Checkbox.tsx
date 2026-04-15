@@ -48,7 +48,7 @@ const IndeterminateIcon = ({ color = 'currentColor', className }: { color?: stri
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   CheckboxProps
->(({ className, label, description, checkboxPosition = 'left', checkboxStyle = 'default', size = 'sm', shape = 'square', disabled, checked, onCheckedChange, error, success, caption, required, ...props }, ref) => {
+>(({ className, label, description, checkboxPosition = 'left', checkboxStyle = 'default', size = 'sm', shape = 'square', disabled, checked, onCheckedChange, error, success, caption, required, captionPosition = 'bottom', ...props }, ref) => {
   const isChecked = checked === true || checked === 'indeterminate';
   const isIndeterminate = checked === 'indeterminate';
   const sizeConfig = CHECKBOX_SIZE_CONFIG[size];
@@ -135,6 +135,7 @@ const Checkbox = React.forwardRef<
       labelLineHeight={sizeConfig.labelLineHeight}
       labelTextClassName={sizeConfig.labelText}
       descTextClassName={sizeConfig.descText}
+      captionPosition={captionPosition}
     >
       {checkboxElement}
     </InlineFieldWrapper>

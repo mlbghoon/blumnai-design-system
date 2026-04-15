@@ -129,6 +129,17 @@ const meta: Meta<typeof Checkbox> = {
         defaultValue: { summary: 'false' },
       },
     },
+    captionPosition: {
+      control: 'select',
+      options: ['bottom', 'right'],
+      description: '캡션 위치 — bottom: 라벨 아래, right: 라벨 오른쪽 인라인',
+      table: {
+        type: {
+          summary: "'bottom' | 'right'",
+        },
+        defaultValue: { summary: "'bottom'" },
+      },
+    },
   },
 };
 
@@ -323,6 +334,37 @@ export const Required: Story = {
       <div className="flex flex-col ds-gap-24">
         <Checkbox label="필수 동의 항목" required />
         <Checkbox label="선택 동의 항목" />
+      </div>
+    );
+  },
+};
+
+/**
+ * 캡션 위치 오른쪽
+ *
+ * captionPosition="right"를 전달하면 캡션이 라벨 오른쪽에 인라인으로 표시됩니다.
+ */
+export const CaptionPositionRight: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <Checkbox
+          label="마케팅 정보 수신"
+          caption="선택사항"
+          captionPosition="right"
+        />
+        <Checkbox
+          label="이용약관 동의"
+          error="필수 항목입니다"
+          captionPosition="right"
+          required
+        />
+        <Checkbox
+          label="이메일 수신 동의"
+          checked
+          success="저장됨"
+          captionPosition="right"
+        />
       </div>
     );
   },
