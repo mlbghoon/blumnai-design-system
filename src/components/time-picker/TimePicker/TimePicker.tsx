@@ -31,6 +31,8 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
   success,
   width,
   disabled = false,
+  pickerOnly = false,
+  hideClockIcon = false,
   timeFormat = '24h',
   showSeconds = false,
   size = 'sm',
@@ -129,6 +131,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
             timeFormat={timeFormat}
             showSeconds={showSeconds}
             disabled={disabled}
+            pickerOnly={pickerOnly}
             hasError={hasError}
             hasSuccess={hasSuccess}
             isOpen={isOpen}
@@ -138,6 +141,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
             onFocus={onFocus}
             onBlur={onBlur}
             onClockClick={handleClockClick}
+            hideClockIcon={hideClockIcon}
           />
         </PopoverAnchor>
 

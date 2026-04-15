@@ -55,6 +55,8 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
   success,
   width,
   disabled = false,
+  pickerOnly = false,
+  hideClockIcon = false,
   timeFormat = '24h',
   showSeconds = false,
   size = 'sm',
@@ -176,6 +178,8 @@ export const TimeRangePicker = forwardRef<HTMLDivElement, TimeRangePickerProps>(
             timeFormat={timeFormat}
             showSeconds={showSeconds}
             disabled={disabled}
+            pickerOnly={pickerOnly}
+            hideClockIcon={hideClockIcon}
             hasError={hasError}
             hasSuccess={hasSuccess}
             isOpen={isOpen}

@@ -131,6 +131,16 @@ const meta: Meta<TimePickerProps> = {
         },
       },
     },
+    pickerOnly: {
+      control: 'boolean',
+      description: '입력 비활성화, 클릭 시 패널만 열림',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    hideClockIcon: {
+      control: 'boolean',
+      description: '시계 아이콘 숨기기',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
     showActions: {
       control: 'boolean',
       description: '취소/적용 버튼 표시 여부',
@@ -167,10 +177,12 @@ export const Default: Story = {
     timeFormat: '24h',
     showSeconds: false,
     showQuickSelect: false,
+    pickerOnly: false,
+    hideClockIcon: false,
     showActions: false,
     minuteStep: 1,
     secondStep: 1,
-    width: 200,
+    width: undefined,
     required: false,
     supportText: '',
     caption: '',
@@ -193,6 +205,8 @@ export const Default: Story = {
         size={args.size}
         timeFormat={args.timeFormat}
         showSeconds={args.showSeconds}
+        pickerOnly={args.pickerOnly}
+        hideClockIcon={args.hideClockIcon}
         showQuickSelect={args.showQuickSelect}
         showActions={args.showActions}
         minuteStep={args.minuteStep}
@@ -402,6 +416,35 @@ export const CustomQuickSelect: Story = {
           quickSelectOptions={customOptions}
           value={time}
           onChange={setTime}
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 패널 전용 모드
+ *
+ * `pickerOnly`를 사용하면 입력 세그먼트가 비활성화되고,
+ * 컴포넌트 아무 곳이나 클릭하면 패널이 열립니다.
+ */
+export const PickerOnly: Story = {
+  render: function Render() {
+    const [time1, setTime1] = useState<TimeValue | undefined>({ hour: 14, minute: 30 });
+    const [time2, setTime2] = useState<TimeValue | undefined>();
+    return (
+      <div className="flex flex-col ds-gap-16">
+        <TimePicker
+          label="값 있음"
+          pickerOnly
+          value={time1}
+          onChange={setTime1}
+        />
+        <TimePicker
+          label="값 없음"
+          pickerOnly
+          value={time2}
+          onChange={setTime2}
         />
       </div>
     );

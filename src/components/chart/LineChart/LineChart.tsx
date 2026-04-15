@@ -20,7 +20,7 @@ import { ChartWithLegend } from '../Chart/ChartWithLegend';
 import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 
 import type { LineChartProps } from '../Chart/Chart.types';
-import { DEFAULT_CHART_MARGIN } from '../Chart/Chart.types';
+import { DEFAULT_CHART_MARGIN, UNSTYLED_CHART_MARGIN } from '../Chart/Chart.types';
 
 /**
  * LineChart 컴포넌트
@@ -54,6 +54,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       margin,
       animated,
       responsive,
+      variant = 'default',
       renderTooltip,
       wrapCustomTooltip,
       tooltipValueFormatter,
@@ -65,7 +66,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     },
     ref
   ) => {
-  const chartMargin = { ...DEFAULT_CHART_MARGIN, ...margin };
+  const baseMargin = variant === 'unstyled' ? UNSTYLED_CHART_MARGIN : DEFAULT_CHART_MARGIN;
+  const chartMargin = { ...baseMargin, ...margin };
   const isAnimated = animated !== false;
 
   if (import.meta.env.DEV) {
@@ -96,7 +98,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
 
   const chartAriaLabel = ariaLabel || `Line chart showing ${activeKeys.join(', ') || 'data'}`;
   const yDomain = (yAxis.domain === 'auto' || yAxis.domain === undefined)
-    ? [(dataMin: number) => Math.min(dataMin, 0), (dataMax: number) => Math.max(dataMax, 1)] as const
+    ? [(dataMin: number) => Math.min(dataMin, 0), (dataMax: number) => Math.ceil(Math.max(dataMax, 1) * 1.05)] as const
     : yAxis.domain;
   const tickCount = yAxis.tickCount ?? 5;
   const curveType = smooth ? 'monotone' : 'linear';
@@ -133,6 +135,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
         tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
         axisLine={{ stroke: 'var(--chart-axis)' }}
         tickLine={false}
+        padding={{ top: 15 }}
         hide={yAxis.show === false}
       />
       <Tooltip
@@ -187,7 +190,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   );
 
   return (
-    <Chart ref={ref} width={responsive || legendPosition === 'right' ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
+    <Chart ref={ref} width={responsive || legendPosition === 'right' ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} variant={variant} {...props}>
       <ChartWithLegend
         showLegend={showLegend}
         renderLegend={renderLegend}

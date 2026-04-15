@@ -362,7 +362,7 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
         readOnly={pickerOnly}
         onChange={pickerOnly ? undefined : (e) => handleSegmentChange(part, segment, e.target.value)}
         onKeyDown={pickerOnly ? undefined : (e) => handleSegmentKeyDown(part, segment, e)}
-        onFocus={pickerOnly ? () => onCalendarClick?.() : () => handleSegmentFocus(part, segment)}
+        onFocus={pickerOnly ? undefined : () => handleSegmentFocus(part, segment)}
         onBlur={pickerOnly ? undefined : () => handleSegmentBlur(part, segment)}
         className={cn(
           'bg-transparent border-0 outline-none text-center font-body',
@@ -412,7 +412,7 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
         className={cn(
           'flex-shrink-0 flex items-center justify-center',
           'hover:bg-state-ghost-hover rounded-xs transition-colors',
-          disabled && 'cursor-not-allowed'
+          disabled ? 'cursor-not-allowed' : 'cursor-pointer'
         )}
       >
         <Icon

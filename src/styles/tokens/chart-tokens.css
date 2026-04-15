@@ -25,6 +25,12 @@
   --chart-hover-bg: var(--bg-overlay);
 }
 
+/* Recharts: 마우스 클릭 시 포커스 링 제거, 키보드 탐색 시 유지 */
+.recharts-wrapper:focus:not(:focus-visible),
+.recharts-wrapper *:focus:not(:focus-visible) {
+  outline: none;
+}
+
 
 /* Theme-B Light */
 [data-theme="theme-b-light"],

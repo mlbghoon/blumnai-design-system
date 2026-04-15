@@ -21,7 +21,7 @@ import { ChartTooltipAdapter } from '../Chart/ChartTooltipAdapter';
 import { ChartWithLegend } from '../Chart/ChartWithLegend';
 
 import type { ComboChartProps } from '../Chart/Chart.types';
-import { DEFAULT_CHART_COLORS, DEFAULT_CHART_MARGIN } from '../Chart/Chart.types';
+import { DEFAULT_CHART_COLORS, DEFAULT_CHART_MARGIN, UNSTYLED_CHART_MARGIN } from '../Chart/Chart.types';
 
 /**
  * ComboChart 컴포넌트
@@ -50,6 +50,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
       margin,
       animated,
       responsive,
+      variant = 'default',
       renderTooltip,
       wrapCustomTooltip,
       tooltipValueFormatter,
@@ -61,7 +62,8 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
     },
     ref
   ) => {
-  const chartMargin = { ...DEFAULT_CHART_MARGIN, bottom: 24, ...margin };
+  const baseMargin = variant === 'unstyled' ? UNSTYLED_CHART_MARGIN : DEFAULT_CHART_MARGIN;
+  const chartMargin = { ...baseMargin, ...margin };
   const isAnimated = animated !== false;
 
   const safeData = useMemo(() => data ?? [], [data]);
@@ -115,7 +117,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
         if (v > max) max = v;
       }
     }
-    return [Math.min(min, 0), Math.max(max, 1)] as [number, number];
+    return [Math.min(min, 0), Math.ceil(Math.max(max, 1) * 1.05)] as [number, number];
   }, [primaryAxis.domain, safeData, primaryKeys]);
 
   const secondaryDomain = useMemo(() => {
@@ -130,7 +132,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
         if (v > max) max = v;
       }
     }
-    return [Math.min(min, 0), Math.max(max, 1)] as [number, number];
+    return [Math.min(min, 0), Math.ceil(Math.max(max, 1) * 1.05)] as [number, number];
   }, [secondaryAxis, safeData, secondaryKeys]);
 
   const stackGroups = new Map<string, string[]>();
@@ -175,6 +177,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
         tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
         axisLine={{ stroke: 'var(--chart-axis)' }}
         tickLine={false}
+        padding={{ top: 15 }}
         hide={primaryAxis.show === false}
       />
       {isDualAxis && secondaryAxis && (
@@ -190,6 +193,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
           tick={secondaryAxis.show === false ? false : { fontSize: 12, fill: 'var(--text-muted)' }}
           axisLine={secondaryAxis.show === false ? false : { stroke: 'var(--chart-axis)' }}
           tickLine={false}
+          padding={{ top: 15 }}
           width={secondaryAxis.show === false ? 0 : undefined}
         />
       )}
@@ -294,7 +298,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
   );
 
   return (
-    <Chart ref={ref} width={responsive || legendPosition === 'right' ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
+    <Chart ref={ref} width={responsive || legendPosition === 'right' ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} variant={variant} {...props}>
       <ChartWithLegend
         showLegend={showLegend}
         renderLegend={renderLegend}

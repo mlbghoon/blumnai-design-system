@@ -40,7 +40,7 @@ export const Icon = forwardRef<SVGSVGElement, Props & { children: ReactNode }>(
         ...style,
         color: color || undefined,
         fill: color || 'currentColor',
-        cursor: cursor || undefined,
+        ...(cursor ? { cursor } : undefined),
       },
       ...props,
     };

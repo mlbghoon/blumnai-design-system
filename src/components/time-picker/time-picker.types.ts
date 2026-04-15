@@ -154,6 +154,11 @@ export interface TimeInputProps {
    */
   onBlur?: () => void;
   /**
+   * true일 때 입력 비활성화, 클릭 시 패널만 열림
+   * @default false
+   */
+  pickerOnly?: boolean;
+  /**
    * 시계 아이콘 클릭 시 호출되는 콜백
    */
   onClockClick?: () => void;
@@ -171,7 +176,7 @@ export interface TimeInputProps {
 /**
  * TimePicker 컴포넌트 Props
  */
-export interface TimePickerProps extends Omit<TimeInputProps, 'isOpen' | 'onClockClick' | 'hideClockIcon'> {
+export interface TimePickerProps extends Omit<TimeInputProps, 'isOpen' | 'onClockClick'> {
   /**
    * form 전송 시 사용할 name 속성 (설정 시 hidden input 렌더링)
    */
@@ -240,6 +245,16 @@ export interface TimePickerProps extends Omit<TimeInputProps, 'isOpen' | 'onCloc
  * TimeRangePicker 컴포넌트 Props
  */
 export interface TimeRangePickerProps {
+  /**
+   * true일 때 입력 비활성화, 클릭 시 패널만 열림
+   * @default false
+   */
+  pickerOnly?: boolean;
+  /**
+   * 시계 아이콘 숨기기
+   * @default false
+   */
+  hideClockIcon?: boolean;
   /**
    * form 전송 시 사용할 name 속성 (설정 시 hidden input 렌더링)
    * start는 `{name}-start`, end는 `{name}-end`로 전송됩니다

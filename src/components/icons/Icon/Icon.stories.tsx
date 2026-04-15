@@ -75,6 +75,14 @@ const meta: Meta<typeof Icon> = {
         },
       },
     },
+    disabled: {
+      control: 'boolean',
+      description: '비활성화 상태 (onClick 무시, cursor: not-allowed)',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
     color: {
       control: 'select',
       options: iconColorOptions,
@@ -107,6 +115,7 @@ export const Default: Story = {
   args: {
     iconType: ['system', 'add'],
     size: 24,
+    disabled: false,
     className: '',
   },
   parameters: {
@@ -119,6 +128,7 @@ export const Default: Story = {
         ref={iconRef}
         iconType={args.iconType}
         size={args.size}
+        disabled={args.disabled}
         className={args.className}
       />
     );
@@ -217,6 +227,30 @@ export const IsFill: Story = {
       <div style={{ textAlign: 'center' }}>
         <Icon iconType={['system', 'checkbox']} isFill size={32} />
         <div style={{ fontSize: '12px', marginTop: '4px' }}>fill</div>
+      </div>
+    </div>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+/**
+ * onClick이 있으면 자동으로 cursor: pointer가 적용됩니다.
+ * disabled 시 클릭이 무시되고 cursor: not-allowed가 적용됩니다.
+ */
+export const Clickable: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
+      <div style={{ textAlign: 'center' }}>
+        <Icon iconType={['system', 'refresh']} size={32} onClick={() => alert('clicked!')} />
+        <div style={{ fontSize: '10px', marginTop: '4px' }}>onClick</div>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <Icon iconType={['system', 'refresh']} size={32} onClick={() => alert('clicked!')} disabled />
+        <div style={{ fontSize: '10px', marginTop: '4px' }}>disabled</div>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <Icon iconType={['system', 'refresh']} size={32} />
+        <div style={{ fontSize: '10px', marginTop: '4px' }}>no onClick</div>
       </div>
     </div>
   ),

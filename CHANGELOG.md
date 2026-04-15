@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.4.2] - 2026-04-15
+
+### Added
+
+- **TimePicker/TimeRangePicker `pickerOnly` prop**: `pickerOnly={true}` 시 입력 세그먼트 비활성화, 클릭 시 패널 열림 (DatePicker의 `pickerOnly`와 동일 패턴)
+- **TimePicker/TimeRangePicker `hideClockIcon` prop**: 시계 아이콘 숨기기
+- **TimePicker/TimeRangePicker 기본 너비**: minWidth 자동 적용 (TimePicker: 105px/85px, TimeRangePicker: 190px/170px — 아이콘 유무에 따라)
+- **Icon `disabled` prop**: `disabled={true}` 시 onClick 무시, cursor: not-allowed 적용
+- **Icon 자동 cursor: pointer**: `onClick` 전달 시 자동으로 cursor: pointer 적용
+- **Chart `UNSTYLED_CHART_MARGIN`**: `variant="unstyled"` 시 더 타이트한 기본 마진 적용
+
+### Fixed
+
+- **pickerOnly 더블 파이어 버그**: TimePicker, TimeRangePicker, MonthPicker, MonthRangePicker, DatePicker, DateRangePicker — pickerOnly 모드에서 클릭 시 패널이 열렸다 즉시 닫히던 버그 수정 (onFocus + onClick 이중 토글)
+- **Calendar/Time 아이콘 cursor: pointer 누락**: DateInput, DateRangeInput, MonthInput, MonthRangeInput, TimeInput, TimeRangeInput — 아이콘 버튼에 cursor: pointer 추가
+- **Chart 포커스 링**: 마우스 클릭 시 Recharts SVG에 표시되던 브라우저 포커스 링 제거 (`:focus:not(:focus-visible)` 적용). 키보드 접근성은 유지
+- **Chart 기본 마진 최적화**: `{ top: 20, right: 25, bottom: 10, left: 0 }` — 좌측은 Recharts 자동 계산에 위임, 불필요한 60px 좌측 마진 제거
+- **Chart Y축 상단 레이블 잘림**: YAxis `padding={{ top: 15 }}` + domain 5% 여유 적용
+- **Chart 범례 우측 배치 시 간격**: `ChartWithLegend` gap 4px → 16px
+- **IconWrapper cursor 오버라이드**: cursor prop이 undefined일 때 style의 cursor를 덮어쓰던 버그 수정
+
 ## [1.4.1] - 2026-04-13
 
 ### Fixed

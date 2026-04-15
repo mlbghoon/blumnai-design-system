@@ -137,7 +137,7 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
         readOnly={pickerOnly}
         onChange={pickerOnly ? undefined : (e) => handleChange(segmentName, e.target.value)}
         onKeyDown={pickerOnly ? undefined : (e) => handleKeyDown(segmentName, e)}
-        onFocus={pickerOnly ? () => onCalendarClick?.() : () => hookHandleFocus(segmentName)}
+        onFocus={pickerOnly ? undefined : () => hookHandleFocus(segmentName)}
         onBlur={pickerOnly ? undefined : () => hookHandleBlur(segmentName)}
         className={cn(
           'bg-transparent border-0 outline-none text-center font-body',
@@ -174,7 +174,7 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
         className={cn(
           'flex-shrink-0 flex items-center justify-center',
           'hover:bg-state-ghost-hover rounded-xs transition-colors',
-          disabled && 'cursor-not-allowed'
+          disabled ? 'cursor-not-allowed' : 'cursor-pointer'
         )}
       >
         <Icon

@@ -19,7 +19,7 @@ import { ChartTooltipAdapter } from '../Chart/ChartTooltipAdapter';
 import { ChartWithLegend } from '../Chart/ChartWithLegend';
 
 import type { BarChartProps } from '../Chart/Chart.types';
-import { DEFAULT_CHART_COLORS, DEFAULT_CHART_MARGIN } from '../Chart/Chart.types';
+import { DEFAULT_CHART_COLORS, DEFAULT_CHART_MARGIN, UNSTYLED_CHART_MARGIN } from '../Chart/Chart.types';
 
 /**
  * BarChart 컴포넌트
@@ -54,6 +54,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       margin,
       animated,
       responsive,
+      variant = 'default',
       renderTooltip,
       wrapCustomTooltip,
       tooltipValueFormatter,
@@ -66,8 +67,8 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
     ref
   ) => {
   const isHorizontal = layout === 'horizontal';
-  const defaultBarMargin = { ...DEFAULT_CHART_MARGIN, left: isHorizontal ? 60 : 20 };
-  const chartMargin = { ...defaultBarMargin, ...margin };
+  const baseMargin = variant === 'unstyled' ? UNSTYLED_CHART_MARGIN : DEFAULT_CHART_MARGIN;
+  const chartMargin = { ...baseMargin, ...margin };
   const isAnimated = animated !== false;
   const safeData = useMemo(() => data ?? [], [data]);
   const { getLabel, getTooltipLabel, getColor, buildLegendItems } = useChartConfig(config, stackedColors);
@@ -104,7 +105,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
 
   const chartAriaLabel = ariaLabel || `Bar chart showing ${dataKey || (stackedKeys?.join(', ') || 'data')}`;
   const yDomain = (yAxis.domain === 'auto' || yAxis.domain === undefined)
-    ? [0, (dataMax: number) => Math.max(dataMax, 1)] as const
+    ? [0, (dataMax: number) => Math.ceil(Math.max(dataMax, 1) * 1.05)] as const
     : yAxis.domain;
   const tickCount = yAxis.tickCount ?? 5;
 
@@ -206,6 +207,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
             tick={{ fontSize: 12, fill: 'var(--text-muted)' }}
             axisLine={{ stroke: 'var(--chart-axis)' }}
             tickLine={false}
+            padding={{ top: 15 }}
             hide={yAxis.show === false}
           />
         </>
@@ -243,7 +245,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   );
 
   return (
-    <Chart ref={ref} width={responsive || legendPosition === 'right' ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} {...props}>
+    <Chart ref={ref} width={responsive || legendPosition === 'right' ? undefined : width} height={height} className={className} ariaLabel={chartAriaLabel} isLoading={isLoading} responsive={responsive} variant={variant} {...props}>
       <ChartWithLegend
         showLegend={showLegend}
         renderLegend={renderLegend}

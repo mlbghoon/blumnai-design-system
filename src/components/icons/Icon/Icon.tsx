@@ -44,6 +44,9 @@ export const Icon = memo(forwardRef<SVGSVGElement, IconProps>(({
   color,
   className,
   focusable,
+  disabled = false,
+  onClick,
+  style,
   ...restProps
 }, ref) => {
   const [_category, iconName] = iconType;
@@ -67,6 +70,9 @@ export const Icon = memo(forwardRef<SVGSVGElement, IconProps>(({
   const resolvedColor = resolveColor(color);
   const focusableBool = focusable === true || focusable === 'true' ? true : focusable === false || focusable === 'false' ? false : undefined;
 
+  const cursorValue = disabled ? 'not-allowed' : onClick ? 'pointer' : undefined;
+  const mergedStyle = disabled ? { ...style, pointerEvents: 'none' as const } : style;
+
   // 동기 경로 우선: 카테고리가 이미 로드된 경우 즉시 렌더링 (suspend 없음)
   // 비동기 경로: 카테고리 미로드 시 lazy 컴포넌트 사용
   const IconComponent = (getIconSync(registryKey) || getIconLazy(registryKey)) as ComponentType<IconWrapperProps> | null;
@@ -82,6 +88,9 @@ export const Icon = memo(forwardRef<SVGSVGElement, IconProps>(({
         color: resolvedColor,
         className,
         focusable: focusableBool,
+        cursor: cursorValue,
+        onClick: disabled ? undefined : onClick,
+        style: mergedStyle,
         ...restProps,
       })}
     </Suspense>

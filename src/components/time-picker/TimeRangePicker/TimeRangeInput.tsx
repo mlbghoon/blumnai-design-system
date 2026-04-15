@@ -30,6 +30,8 @@ export interface TimeRangeInputProps {
   size?: TimePickerSize;
   timePickerStyle?: TimePickerStyle;
   placeholder?: TimeSegmentPlaceholder;
+  pickerOnly?: boolean;
+  hideClockIcon?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
   onClockClick?: () => void;
@@ -46,6 +48,8 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
   hasError = false,
   hasSuccess = false,
   isOpen = false,
+  pickerOnly = false,
+  hideClockIcon = false,
   timePickerStyle = 'default',
   size = 'sm',
   timeFormat = '24h',
@@ -347,7 +351,7 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
   const state = disabled ? 'disabled' : showError ? 'error' : hasSuccess ? 'success' : 'default';
   const stateConfig = STATE_CONFIG[state];
   const isXs = size === 'xs';
-  const segmentWidth = isXs ? '20px' : '24px';
+  const segmentWidth = isXs ? '20px' : '28px';
   const segmentHeight = isXs ? '16px' : '20px';
 
   const iconColor = disabled ? 'default-disabled' : showError ? 'destructive' : hasSuccess ? 'success' : 'default-subtle';
@@ -355,7 +359,7 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
   const wrapperClassName = cn(
     INPUT_WRAPPER_BASE,
     sizeConfig.container,
-    sizeConfig.paddingWithTailIcon,
+    hideClockIcon ? sizeConfig.padding : sizeConfig.paddingWithTailIcon,
     sizeConfig.gap,
     styleConfig.base,
     !disabled && !showError && !isOpen && styleConfig.focus,
@@ -363,7 +367,7 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
     state === 'error' && 'border-destructive',
     state === 'success' && 'border-success',
     isOpen && !showError && 'border-strong shadow-component-input-focus',
-    disabled ? 'cursor-not-allowed' : 'cursor-text',
+    disabled ? 'cursor-not-allowed' : pickerOnly ? 'cursor-pointer' : 'cursor-text',
     className
   );
 
@@ -378,22 +382,24 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
         key={`${part}-${segment}`}
         ref={segmentRefs[part][segment] as React.RefObject<HTMLInputElement>}
         type="text"
-        inputMode="numeric"
+        inputMode={pickerOnly ? 'none' : 'numeric'}
         value={segmentValue}
         placeholder={placeholderText}
         disabled={disabled}
-        onChange={(e) => handleSegmentChange(part, segment, e.target.value)}
-        onKeyDown={(e) => handleSegmentKeyDown(part, segment, e)}
-        onFocus={() => handleSegmentFocus(part, segment)}
-        onBlur={() => handleSegmentBlur(part, segment)}
+        readOnly={pickerOnly}
+        onChange={pickerOnly ? undefined : (e) => handleSegmentChange(part, segment, e.target.value)}
+        onKeyDown={pickerOnly ? undefined : (e) => handleSegmentKeyDown(part, segment, e)}
+        onFocus={pickerOnly ? undefined : () => handleSegmentFocus(part, segment)}
+        onBlur={pickerOnly ? undefined : () => handleSegmentBlur(part, segment)}
         className={cn(
           'bg-transparent border-0 outline-none text-center font-body',
           sizeConfig.text,
           'letter-spacing-tracking-tight',
           segmentValue ? stateConfig.text : 'text-hint',
           'rounded-2xs padding-x-2',
-          isActive && 'bg-state-ghost-hover',
-          disabled && 'cursor-not-allowed'
+          !pickerOnly && isActive && 'bg-state-ghost-hover',
+          disabled && 'cursor-not-allowed',
+          pickerOnly && 'cursor-pointer caret-transparent'
         )}
         style={{
           width: segmentWidth,
@@ -421,7 +427,8 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
           <button
             type="button"
             disabled={disabled}
-            onClick={() => handlePeriodToggle(part)}
+            onClick={pickerOnly ? undefined : () => handlePeriodToggle(part)}
+            aria-label={`Toggle AM/PM, current: ${period}`}
             className={cn(
               'padding-x-4 padding-y-2 rounded-xs',
               'ml-[4px]',
@@ -430,7 +437,9 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
               'transition-colors duration-150',
               disabled
                 ? 'text-hint cursor-not-allowed'
-                : 'text-default hover:bg-state-ghost-hover cursor-pointer'
+                : pickerOnly
+                  ? 'text-default cursor-pointer'
+                  : 'text-default hover:bg-state-ghost-hover cursor-pointer'
             )}
           >
             {period}
@@ -440,35 +449,40 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
     );
   };
 
+  const defaultWidth = (hideClockIcon ? 170 : 190) + (showSeconds ? 70 : 0);
+
   return (
     <div
       ref={ref}
       className={wrapperClassName}
+      style={{ minWidth: `${defaultWidth}px` }}
     >
       <div
         className="flex items-center ds-gap-8 flex-1 min-w-0"
-        onClick={handleInputAreaClick}
+        onClick={pickerOnly ? handleClockIconClick : handleInputAreaClick}
       >
         {renderTimePart('start')}
         <span className={cn('text-hint', isXs ? 'size-xs' : 'size-sm')}>-</span>
         {renderTimePart('end')}
       </div>
-      <button
-        type="button"
-        disabled={disabled}
-        onClick={handleClockIconClick}
-        className={cn(
-          'flex-shrink-0 flex items-center justify-center',
-          'hover:bg-state-ghost-hover rounded-xs transition-colors',
-          disabled && 'cursor-not-allowed'
-        )}
-      >
-        <Icon
-          iconType={['system', 'time']}
-          size={sizeConfig.iconSize}
-          color={iconColor}
-        />
-      </button>
+      {!hideClockIcon && (
+        <button
+          type="button"
+          disabled={disabled}
+          onClick={handleClockIconClick}
+          className={cn(
+            'flex-shrink-0 flex items-center justify-center',
+            'hover:bg-state-ghost-hover rounded-xs transition-colors',
+            disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+          )}
+        >
+          <Icon
+            iconType={['system', 'time']}
+            size={sizeConfig.iconSize}
+            color={iconColor}
+          />
+        </button>
+      )}
     </div>
   );
 });

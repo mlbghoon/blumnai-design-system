@@ -48,7 +48,7 @@ export function ChartWithLegend({ children, showLegend, legendProps, renderLegen
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 4, paddingRight: 16 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16, paddingRight: 16 }}>
       <div style={{ flex: '1 1 0%', minWidth: 0 }}>
         {children}
       </div>

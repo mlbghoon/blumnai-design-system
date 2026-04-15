@@ -46,7 +46,8 @@ export type ChartConfig = Record<string, ChartConfigItem>;
  * Default chart colors using CSS variables
  * Used when no config is provided
  */
-export const DEFAULT_CHART_MARGIN = { top: 20, right: 20, bottom: 20, left: 20 };
+export const DEFAULT_CHART_MARGIN = { top: 20, right: 25, bottom: 10, left: 0 };
+export const UNSTYLED_CHART_MARGIN = { top: 5, right: 5, bottom: 5, left: 0 };
 
 export const DEFAULT_CHART_COLORS = [
   'var(--chart-1)',

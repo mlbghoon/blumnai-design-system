@@ -31,6 +31,7 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
   size = 'sm',
   timeFormat = '24h',
   showSeconds = false,
+  pickerOnly = false,
   hideClockIcon = false,
   onFocus,
   onBlur,
@@ -294,7 +295,7 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
   const state = disabled ? 'disabled' : showError ? 'error' : hasSuccess ? 'success' : 'default';
   const stateConfig = STATE_CONFIG[state];
   const isXs = size === 'xs';
-  const segmentWidth = isXs ? '20px' : '24px';
+  const segmentWidth = isXs ? '20px' : '28px';
   const segmentHeight = isXs ? '16px' : '20px';
 
   const iconColor = disabled ? 'default-disabled' : showError ? 'destructive' : hasSuccess ? 'success' : 'default-subtle';
@@ -310,7 +311,7 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
     state === 'error' && 'border-destructive',
     state === 'success' && 'border-success',
     isOpen && !showError && 'border-strong shadow-component-input-focus',
-    disabled ? 'cursor-not-allowed' : 'cursor-text',
+    disabled ? 'cursor-not-allowed' : pickerOnly ? 'cursor-pointer' : 'cursor-text',
     className
   );
 
@@ -324,7 +325,7 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
         key={segment}
         ref={segmentRefs[segment] as React.RefObject<HTMLInputElement>}
         type="text"
-        inputMode="numeric"
+        inputMode={pickerOnly ? 'none' : 'numeric'}
         role="spinbutton"
         aria-label={segment}
         aria-valuenow={segmentValue ? parseInt(segmentValue, 10) : undefined}
@@ -333,18 +334,20 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
         value={segmentValue}
         placeholder={placeholderText}
         disabled={disabled}
-        onChange={(e) => handleSegmentChange(segment, e.target.value)}
-        onKeyDown={(e) => handleSegmentKeyDown(segment, e)}
-        onFocus={() => handleSegmentFocus(segment)}
-        onBlur={() => handleSegmentBlur(segment)}
+        readOnly={pickerOnly}
+        onChange={pickerOnly ? undefined : (e) => handleSegmentChange(segment, e.target.value)}
+        onKeyDown={pickerOnly ? undefined : (e) => handleSegmentKeyDown(segment, e)}
+        onFocus={pickerOnly ? undefined : () => handleSegmentFocus(segment)}
+        onBlur={pickerOnly ? undefined : () => handleSegmentBlur(segment)}
         className={cn(
           'bg-transparent border-0 outline-none text-center font-body',
           sizeConfig.text,
           'letter-spacing-tracking-tight',
           segmentValue ? stateConfig.text : 'text-hint',
           'rounded-2xs padding-x-2',
-          isActive && 'bg-state-ghost-hover',
-          disabled && 'cursor-not-allowed'
+          !pickerOnly && isActive && 'bg-state-ghost-hover',
+          disabled && 'cursor-not-allowed',
+          pickerOnly && 'cursor-pointer caret-transparent'
         )}
         style={{
           width: segmentWidth,
@@ -354,15 +357,18 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
     );
   };
 
+  const defaultWidth = (showSeconds ? 35 : 0) + (hideClockIcon ? 85 : 105);
+
   return (
     <div
       ref={ref}
       className={wrapperClassName}
+      style={{ minWidth: `${defaultWidth}px` }}
       aria-invalid={showError || undefined}
     >
       <div
         className="flex items-center ds-gap-2 flex-1 min-w-0"
-        onClick={handleInputAreaClick}
+        onClick={pickerOnly ? handleClockIconClick : handleInputAreaClick}
       >
         {renderSegment('hour')}
         <span className={cn('text-hint', isXs ? 'size-xs' : 'size-sm')}>:</span>
@@ -377,7 +383,7 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
           <button
             type="button"
             disabled={disabled}
-            onClick={handlePeriodToggle}
+            onClick={pickerOnly ? undefined : handlePeriodToggle}
             aria-label={`Toggle AM/PM, current: ${period}`}
             className={cn(
               'padding-x-4 padding-y-2 rounded-xs',
@@ -387,7 +393,9 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
               'transition-colors duration-150',
               disabled
                 ? 'text-hint cursor-not-allowed'
-                : 'text-default hover:bg-state-ghost-hover cursor-pointer'
+                : pickerOnly
+                  ? 'text-default cursor-pointer'
+                  : 'text-default hover:bg-state-ghost-hover cursor-pointer'
             )}
           >
             {period}
@@ -403,7 +411,7 @@ export const TimeInput = forwardRef<HTMLDivElement, TimeInputProps>(({
           className={cn(
             'flex-shrink-0 flex items-center justify-center',
             'hover:bg-state-ghost-hover rounded-xs transition-colors',
-            disabled && 'cursor-not-allowed'
+            disabled ? 'cursor-not-allowed' : 'cursor-pointer'
           )}
         >
           <Icon

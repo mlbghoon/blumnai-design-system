@@ -1641,4 +1641,9 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'children' | 'c
    * 추가 CSS 클래스명
    */
   className?: string;
+  /**
+   * 비활성화 상태 (onClick 무시, cursor: not-allowed)
+   * @default false
+   */
+  disabled?: boolean;
 }
