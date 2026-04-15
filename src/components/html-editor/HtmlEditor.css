@@ -1,7 +1,14 @@
 .blumnai-html-editor .ProseMirror {
   outline: none;
+  box-shadow: none;
   min-height: inherit;
   cursor: text;
+}
+
+.blumnai-html-editor .ProseMirror:focus,
+.blumnai-html-editor .ProseMirror:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 .blumnai-html-editor .ProseMirror > * + * {

@@ -166,6 +166,7 @@ export const HtmlEditor = forwardRef<HtmlEditorRef, HtmlEditorProps>(
             orientation="vertical"
             maxHeight={maxHeight}
             className={EDITOR_CONTENT_BASE}
+            onClick={() => editor?.commands.focus()}
           >
             <div style={{ minHeight }}>
               <EditorContent editor={editor} />

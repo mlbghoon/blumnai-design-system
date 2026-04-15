@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/react-vite';
 import * as React from 'react';
+import { Agentation } from 'agentation';
 
 import '../src/index.css';
 
@@ -119,9 +120,10 @@ const preview: Preview = {
       };
 
       return React.createElement(
-        'div',
-        props,
-        React.createElement(Story)
+        React.Fragment,
+        null,
+        React.createElement('div', props, React.createElement(Story)),
+        React.createElement(Agentation)
       );
     },
   ],

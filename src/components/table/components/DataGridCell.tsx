@@ -28,7 +28,7 @@ function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colInde
         'group/cell padding-x-10 flex items-center',
         'font-body size-xs line-height-leading-4 text-default',
         'border-r-default border-b-default last:border-r-0',
-        'overflow-hidden min-w-[0px]',
+        'overflow-hidden min-w-[0px] whitespace-nowrap',
         'bg-default',
         isSticky ? 'group-hover:bg-hover-solid' : 'group-hover:bg-basic-gray-alpha-4',
         isRowSelected && (isSticky ? 'bg-hover-solid' : 'bg-basic-gray-alpha-4'),

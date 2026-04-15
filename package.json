@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -817,6 +817,7 @@
     "@vanilla-extract/css": "^1.18.0",
     "@vanilla-extract/vite-plugin": "^5.1.4",
     "@vitejs/plugin-react": "^5.1.1",
+    "agentation": "^3.0.2",
     "ajv": "^8.17.1",
     "autoprefixer": "^10.4.23",
     "clsx": "^2.1.1",
