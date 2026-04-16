@@ -1,11 +1,12 @@
 # Changelog
 
-## [1.4.9] - 2026-04-16
+## [1.4.10] - 2026-04-16
 
 ### Fixed
 
 - **BarList 라벨 말줄임 처리**: `labelWidth`보다 긴 라벨이 여러 줄로 줄바꿈되던 문제 수정. `truncate`로 말줄임 처리하고, 호버 시 툴팁으로 전체 텍스트 표시
 - **BarList 바 호버 툴팁 추가**: 바 호버 시 차트 스타일 툴팁(색상 인디케이터 + 항목명 + 값) 표시. LineChart 등 다른 차트 컴포넌트와 동일한 UX 제공
+- **scrollbar-thin 스크롤바 색상 수정**: `scrollbar-color`(Firefox 표준)가 `var(--text-muted)` 100% 불투명도로 설정되어 스크롤바가 너무 어둡던 문제 수정. webkit thumb과 동일하게 `color-mix(20%)` 적용. MultiSelect, Select, Dropdown, Menubar, ContextMenu, Textarea 등 모든 `scrollbar-thin` 사용 컴포넌트에 일괄 적용
 
 ## [1.4.8] - 2026-04-16
 

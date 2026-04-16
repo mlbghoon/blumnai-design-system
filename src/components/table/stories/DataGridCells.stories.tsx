@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ColumnDef } from '@tanstack/react-table';
 
+import { useState } from 'react';
+
 import { DataGrid } from '../DataGrid';
+import { Input } from '../../input';
+import { Switch } from '../../switch/Switch';
 import { CellText } from '../cells/CellText';
 import { CellBadge } from '../cells/CellBadge';
 import { CellAvatar } from '../cells/CellAvatar';
@@ -779,6 +783,92 @@ export const AllCells: StoryObj = {
     return (
       <DataGrid
         data={combinedData}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+      />
+    );
+  },
+};
+
+// ============================================
+// Interactive Cells (Input, Switch)
+// ============================================
+
+interface InteractiveCellData {
+  id: string;
+  name: string;
+  quantity: number;
+  enabled: boolean;
+}
+
+/**
+ * 인터랙티브 셀 (Input, Switch)
+ *
+ * DataGrid 셀 내에 Input, Switch 등 포커스 링이 있는 인터랙티브 컴포넌트를 배치한 예제입니다.
+ * 포커스 링이 셀에 의해 잘리지 않는지 확인할 수 있습니다.
+ */
+export const InteractiveCells: StoryObj = {
+  render: function Render() {
+    const [data, setData] = useState<InteractiveCellData[]>([
+      { id: '1', name: '상품 A', quantity: 10, enabled: true },
+      { id: '2', name: '상품 B', quantity: 25, enabled: false },
+      { id: '3', name: '상품 C', quantity: 0, enabled: true },
+    ]);
+
+    const columns: ColumnDef<InteractiveCellData>[] = [
+      {
+        accessorKey: 'name',
+        header: '상품명',
+        cell: ({ row }) => <CellText value={row.original.name} />,
+        meta: { width: '1fr' },
+      },
+      {
+        accessorKey: 'quantity',
+        header: '수량',
+        cell: ({ row }) => (
+          <Input
+            size="xs"
+            type="number"
+            value={String(row.original.quantity)}
+            onChange={(e) => {
+              setData(prev =>
+                prev.map(item =>
+                  item.id === row.original.id
+                    ? { ...item, quantity: Number(e.target.value) || 0 }
+                    : item
+                )
+              );
+            }}
+          />
+        ),
+        meta: { width: '150px' },
+      },
+      {
+        accessorKey: 'enabled',
+        header: '활성화',
+        cell: ({ row }) => (
+          <Switch
+            size="sm"
+            checked={row.original.enabled}
+            onCheckedChange={(checked) => {
+              setData(prev =>
+                prev.map(item =>
+                  item.id === row.original.id
+                    ? { ...item, enabled: !!checked }
+                    : item
+                )
+              );
+            }}
+          />
+        ),
+        meta: { width: '100px', align: 'center' },
+      },
+    ];
+
+    return (
+      <DataGrid
+        data={data}
         columns={columns}
         getRowId={(row) => row.id}
         pagination={false}

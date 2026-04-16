@@ -2671,7 +2671,7 @@ table[data-striped] tbody tr:nth-child(even) {
    ============================================ */
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: var(--text-muted) transparent;
+  scrollbar-color: color-mix(in srgb, var(--text-muted) 20%, transparent) transparent;
 
   /* Legacy IE */
   -ms-overflow-style: -ms-autohiding-scrollbar;
