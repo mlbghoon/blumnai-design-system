@@ -43,7 +43,7 @@ function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colInde
       }}
     >
       <DataGridCellContext.Provider value={cellContextValue}>
-        <div className="truncate w-full">
+        <div className="w-full text-ellipsis whitespace-nowrap" style={{ overflow: 'clip', overflowClipMargin: 4 }}>
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </div>
       </DataGridCellContext.Provider>
