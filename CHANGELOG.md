@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.8] - 2026-04-16
+
+### Fixed
+
+- **ScrollArea 스크롤바 색상 통일**: ScrollArea 썸 색상을 `bg-border`(불투명)에서 `color-mix(text-muted 20%)`로 변경하여 `scrollbar-thin`과 동일한 스타일 적용. 호버 시 35%로 밝아짐
+- **Menubar/ContextMenu/Dropdown 스크롤바**: `scrollbar-thin` 클래스 추가하여 네이티브 스크롤바 대신 DS 스타일 스크롤바 적용
+
 ## [1.4.7] - 2026-04-16
 
 ### Added

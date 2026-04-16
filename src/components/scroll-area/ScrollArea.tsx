@@ -137,7 +137,10 @@ const ScrollBar = React.forwardRef<
     }}
     {...props}
   >
-    <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-border cursor-pointer" />
+    <ScrollAreaPrimitive.ScrollAreaThumb
+      className="relative flex-1 rounded-full cursor-pointer hover:!bg-[color-mix(in_srgb,var(--text-muted)_35%,transparent)]"
+      style={{ backgroundColor: 'color-mix(in srgb, var(--text-muted) 20%, transparent)' }}
+    />
   </ScrollAreaPrimitive.ScrollAreaScrollbar>
 ));
 ScrollBar.displayName = 'ScrollBar';
