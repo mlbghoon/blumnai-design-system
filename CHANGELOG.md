@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.4.13] - 2026-04-16
+
+### Added
+
+- **PortalContainerProvider 서브경로 export**: `@blumnai-studio/blumnai-design-system/portal-container`로 직접 import 가능. 기존에는 barrel import만 가능하여 ESLint 서브경로 규칙 위반 우회 필요했음
+
 ## [1.4.12] - 2026-04-16
 
 ### Fixed

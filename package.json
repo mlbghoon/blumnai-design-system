@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.4.12",
+  "version": "1.4.13",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -193,6 +193,9 @@
       ],
       "popover": [
         "dist/components/popover/index.d.ts"
+      ],
+      "portal-container": [
+        "dist/utils/PortalContainerContext.d.ts"
       ],
       "progress": [
         "dist/components/progress/index.d.ts"
@@ -498,6 +501,10 @@
     "./popover": {
       "types": "./dist/components/popover/index.d.ts",
       "import": "./dist/components/popover/index.mjs"
+    },
+    "./portal-container": {
+      "types": "./dist/utils/PortalContainerContext.d.ts",
+      "import": "./dist/utils/PortalContainerContext.mjs"
     },
     "./progress": {
       "types": "./dist/components/progress/index.d.ts",
