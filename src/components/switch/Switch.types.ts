@@ -10,13 +10,24 @@ export type SwitchPosition = 'left' | 'right';
  * Switch 색상
  */
 export type SwitchColor =
-  | 'green'
-  | 'blue'
+  | 'gray'
   | 'red'
   | 'orange'
-  | 'violet'
+  | 'amber'
+  | 'yellow'
+  | 'lime'
+  | 'green'
+  | 'emerald'
+  | 'teal'
   | 'cyan'
-  | 'pink';
+  | 'sky'
+  | 'blue'
+  | 'indigo'
+  | 'violet'
+  | 'purple'
+  | 'fuchsia'
+  | 'pink'
+  | 'rose';
 
 /**
  * Switch 크기
@@ -64,6 +75,19 @@ export interface SwitchProps
    * 비활성화 시 트랙 내 표시 텍스트
    */
   offLabel?: ReactNode;
+  /**
+   * 라벨 표시 시 트랙 너비 (px). 미지정 시 사이즈별 기본값 사용
+   */
+  trackWidth?: number;
+  /**
+   * 썸(토글 핸들) 내부에 표시할 아이콘. ReactNode 또는 상태별 아이콘 함수
+   * @example
+   * // 고정 아이콘
+   * <Switch thumbIcon={<Icon iconType={['system', 'check']} size={10} />} />
+   * // 상태별 아이콘
+   * <Switch thumbIcon={(checked) => <Icon iconType={checked ? ['system', 'check'] : ['system', 'close']} size={10} />} />
+   */
+  thumbIcon?: ReactNode | ((checked: boolean) => ReactNode);
   /**
    * 에러 상태 - true면 에러 스타일 적용, 문자열이면 캡션으로 에러 메시지 표시
    */

@@ -50,6 +50,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
   clickText = DEFAULT_CLICK_TEXT,
   description = DEFAULT_DESCRIPTION,
   icon = ['system', 'upload-cloud'],
+  compact = false,
   disabled = false,
   error,
   caption,
@@ -224,7 +225,7 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
         onDrop={handleDrop}
         className={cn(
           FILE_UPLOAD_AREA_BASE,
-          FILE_UPLOAD_AREA_PADDING,
+          compact ? 'flex-row padding-12 ds-gap-10' : FILE_UPLOAD_AREA_PADDING,
           getStateClassName()
         )}
         aria-disabled={disabled}
@@ -243,11 +244,12 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
         <Icon
           iconType={iconType}
           isFill={isFill}
-          size={FILE_UPLOAD_AREA_ICON_SIZE}
+          size={compact ? 24 : FILE_UPLOAD_AREA_ICON_SIZE}
           color={disabled ? 'default-disabled' : 'default-muted'}
+          className="flex-shrink-0"
         />
 
-        <div className="flex flex-col items-center ds-gap-4">
+        <div className={cn('flex flex-col ds-gap-4', !compact && 'items-center')}>
           <span className={titleClassName}>
             {title}
             {clickText && (

@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.7] - 2026-04-16
+
+### Added
+
+- **Switch `thumbIcon` prop**: 썸(토글 핸들) 내부에 아이콘 표시. `ReactNode` 또는 `(checked: boolean) => ReactNode` 함수로 상태별 아이콘 지원
+- **Switch `trackWidth` prop**: 라벨 트랙 너비를 px 단위로 커스텀 설정. 썸 위치와 라벨 영역이 자동 계산
+- **Switch 색상 확장**: 7색 → 18색 (gray, amber, yellow, lime, emerald, teal, sky, indigo, purple, fuchsia, rose 추가). 전체 Tailwind 크로매틱 팔레트 지원
+- **FileUploadArea `compact` prop**: 가로 레이아웃 + 축소된 패딩/아이콘으로 높이를 줄인 컴팩트 모드
+
+### Fixed
+
+- **Switch 라벨 모드 위치 계산 리팩토링**: 하드코딩된 translate/labelWidth 값 제거. `trackWidth`, `thumbSize`, `thumbOffset` 3개 값에서 모든 위치를 동적 계산 (inline style 사용)
+- **DataGrid 셀 포커스 링 잘림 (v2)**: `overflow-clip` → `overflow-visible`로 변경. 내부 `truncate` 래퍼가 텍스트 오버플로를 처리하므로 셀 레벨 overflow 제약 불필요
+- **FileUploadArea 다크모드 배경색**: `bg-default` → `bg-input`으로 변경하여 Input 컴포넌트와 다크모드 배경색 일치
+
 ## [1.4.6] - 2026-04-15
 
 ### Fixed

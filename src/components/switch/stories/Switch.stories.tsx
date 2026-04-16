@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState, useEffect } from 'react';
 
 import { Switch } from '../Switch';
+import { Icon } from '../../icons/Icon';
 import type { SwitchColor } from '../Switch.types';
 
 const meta: Meta<typeof Switch> = {
@@ -51,12 +52,12 @@ const meta: Meta<typeof Switch> = {
     },
     color: {
       control: 'select',
-      options: ['green', 'blue', 'red', 'orange', 'violet', 'cyan', 'pink'],
+      options: ['gray', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'],
       description: '활성화 시 스위치 색상',
       table: {
         type: {
           summary: 'SwitchColor',
-          detail: `'green' | 'blue' | 'red' | 'orange' | 'violet' | 'cyan' | 'pink'`,
+          detail: `'gray' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'`,
         },
         defaultValue: { summary: 'green' },
       },
@@ -101,6 +102,13 @@ const meta: Meta<typeof Switch> = {
         type: { summary: 'ReactNode' },
       },
     },
+    trackWidth: {
+      control: 'number',
+      description: '라벨 표시 시 트랙 너비 (px). 미지정 시 사이즈별 기본값 사용',
+      table: {
+        type: { summary: 'number' },
+      },
+    },
   },
 };
 
@@ -124,6 +132,7 @@ export const Default: Story = {
     switchPosition: 'left',
     onLabel: '',
     offLabel: '',
+    trackWidth: undefined,
   },
   parameters: {
     controls: { disable: false },
@@ -150,6 +159,7 @@ export const Default: Story = {
         switchPosition={args.switchPosition}
         onLabel={onLabel}
         offLabel={offLabel}
+        trackWidth={args.trackWidth}
       />
     );
   },
@@ -162,7 +172,7 @@ export const Default: Story = {
  */
 export const Colors: Story = {
   render: function Render() {
-    const colors: SwitchColor[] = ['green', 'blue', 'red', 'orange', 'violet', 'cyan', 'pink'];
+    const colors: SwitchColor[] = ['gray', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'];
     const [states, setStates] = useState<Record<SwitchColor, boolean>>(
       Object.fromEntries(colors.map((c) => [c, true])) as Record<SwitchColor, boolean>
     );
@@ -384,7 +394,7 @@ export const WithTrackLabels: Story = {
  */
 export const WithTrackLabelsColors: Story = {
   render: function Render() {
-    const colors: SwitchColor[] = ['green', 'blue', 'red', 'orange', 'violet', 'cyan', 'pink'];
+    const colors: SwitchColor[] = ['gray', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'];
     const [states, setStates] = useState<Record<SwitchColor, boolean>>(
       Object.fromEntries(colors.map((c) => [c, true])) as Record<SwitchColor, boolean>
     );
@@ -490,6 +500,119 @@ export const ErrorBooleanOnly: Story = {
       <div className="flex flex-col ds-gap-24">
         <Switch label="에러 아웃라인만" error />
         <Switch label="에러 + 캡션" error caption="이 설정을 확인해 주세요" />
+      </div>
+    );
+  },
+};
+
+/**
+ * 썸 아이콘
+ *
+ * `thumbIcon`으로 토글 핸들 내부에 아이콘을 표시할 수 있습니다.
+ * 함수를 전달하면 checked 상태에 따라 다른 아이콘을 표시합니다.
+ */
+export const WithThumbIcon: Story = {
+  render: function Render() {
+    const [checked1, setChecked1] = useState(false);
+    const [checked2, setChecked2] = useState(true);
+    const [checked3, setChecked3] = useState(false);
+
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex items-center ds-gap-16">
+          <Switch
+            size="md"
+            checked={checked1}
+            onCheckedChange={setChecked1}
+            thumbIcon={(c) => (
+              <Icon
+                iconType={c ? ['system', 'check'] : ['system', 'close']}
+                size={12}
+                color="default-muted"
+              />
+            )}
+          />
+          <span className="font-body size-sm text-subtle">상태별 아이콘 (✓ / ✕)</span>
+        </div>
+        <div className="flex items-center ds-gap-16">
+          <Switch
+            size="lg"
+            checked={checked2}
+            onCheckedChange={setChecked2}
+            thumbIcon={
+              <Icon iconType={['system', 'check']} size={14} color="default-muted" />
+            }
+          />
+          <span className="font-body size-sm text-subtle">고정 아이콘 (✓)</span>
+        </div>
+        <div className="flex items-center ds-gap-16">
+          <Switch
+            size="lg"
+            checked={checked3}
+            onCheckedChange={setChecked3}
+            color="blue"
+            thumbIcon={(c) => (
+              <Icon
+                iconType={c ? ['weather', 'sun'] : ['weather', 'moon']}
+                isFill
+                size={14}
+                color="default-muted"
+              />
+            )}
+          />
+          <span className="font-body size-sm text-subtle">테마 토글 (☀ / ☽)</span>
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * 커스텀 트랙 너비
+ *
+ * `trackWidth`로 라벨이 있는 스위치의 트랙 너비를 자유롭게 조절할 수 있습니다.
+ * 썸 위치와 라벨 영역이 자동으로 계산됩니다.
+ */
+export const CustomTrackWidth: Story = {
+  render: function Render() {
+    const [checked1, setChecked1] = useState(false);
+    const [checked2, setChecked2] = useState(true);
+    const [checked3, setChecked3] = useState(false);
+
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex items-center ds-gap-16">
+          <Switch
+            size="sm"
+            checked={checked1}
+            onCheckedChange={setChecked1}
+            onLabel="ON"
+            offLabel="OFF"
+          />
+          <span className="font-body size-sm text-subtle">기본 (44px)</span>
+        </div>
+        <div className="flex items-center ds-gap-16">
+          <Switch
+            size="sm"
+            checked={checked2}
+            onCheckedChange={setChecked2}
+            onLabel="ON"
+            offLabel="OFF"
+            trackWidth={52}
+          />
+          <span className="font-body size-sm text-subtle">trackWidth={'{52}'}</span>
+        </div>
+        <div className="flex items-center ds-gap-16">
+          <Switch
+            size="md"
+            checked={checked3}
+            onCheckedChange={setChecked3}
+            onLabel="활성"
+            offLabel="비활성"
+            trackWidth={72}
+          />
+          <span className="font-body size-sm text-subtle">한글 라벨 trackWidth={'{72}'}</span>
+        </div>
       </div>
     );
   },

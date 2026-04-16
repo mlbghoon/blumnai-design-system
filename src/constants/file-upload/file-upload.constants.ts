@@ -9,10 +9,10 @@ export const FILE_UPLOAD_AREA_BASE = 'flex flex-col items-center justify-center 
 
 // FileUploadArea state styles
 export const FILE_UPLOAD_AREA_STATE = {
-  default: 'bg-default border border-dashed border-darker hover:bg-subtle',
+  default: 'bg-input border border-dashed border-darker hover:bg-subtle',
   dragging: 'bg-state-soft border border-dashed border-accent',
   disabled: 'bg-input-disabled border border-dashed border-default cursor-not-allowed opacity-50',
-  error: 'bg-default border border-dashed border-destructive',
+  error: 'bg-input border border-dashed border-destructive',
 } as const;
 
 // FileUploadArea padding (using padding-24 as closest match to Figma specs)

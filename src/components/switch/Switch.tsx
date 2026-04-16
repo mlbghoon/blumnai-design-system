@@ -9,40 +9,43 @@ import type { SwitchColor, SwitchProps } from './Switch.types';
 const SWITCH_SIZE_CONFIG = {
   sm: {
     track: 'width-32 height-20',
+    trackHeight: 'height-20',
     thumb: 'width-14 height-14',
+    thumbSize: 14,
+    thumbOffset: 3,
     translateOff: 'translate-x-[3px]',
     translateOn: 'data-[state=checked]:translate-x-[15px]',
     spinnerSize: 'width-10 height-10',
     labelLineHeight: 'height-20',
     labeledTrackWidth: 44,
-    labeledTranslateOn: 'data-[state=checked]:translate-x-[27px]',
-    labelWidth: 25,
     labelFontSize: 10 as number | undefined,
     labelFontClass: '',
   },
   md: {
     track: 'width-40 height-24',
+    trackHeight: 'height-24',
     thumb: 'width-20 height-20',
+    thumbSize: 20,
+    thumbOffset: 2,
     translateOff: 'translate-x-[2px]',
     translateOn: 'data-[state=checked]:translate-x-[18px]',
     spinnerSize: 'width-14 height-14',
     labelLineHeight: 'height-24',
     labeledTrackWidth: 52,
-    labeledTranslateOn: 'data-[state=checked]:translate-x-[30px]',
-    labelWidth: 30,
     labelFontSize: undefined as number | undefined,
     labelFontClass: 'size-xs',
   },
   lg: {
     track: 'width-48 height-28',
+    trackHeight: 'height-28',
     thumb: 'width-24 height-24',
+    thumbSize: 24,
+    thumbOffset: 2,
     translateOff: 'translate-x-[2px]',
     translateOn: 'data-[state=checked]:translate-x-[22px]',
     spinnerSize: 'width-16 height-16',
     labelLineHeight: 'height-28',
     labeledTrackWidth: 60,
-    labeledTranslateOn: 'data-[state=checked]:translate-x-[34px]',
-    labelWidth: 34,
     labelFontSize: undefined as number | undefined,
     labelFontClass: 'size-xs',
   },
@@ -89,7 +92,7 @@ const LoadingSpinner = ({ className }: { className?: string }) => (
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitive.Root>,
   SwitchProps
->(({ className, label, description, switchPosition = 'left', color = 'green', size = 'sm', disabled, loading = false, checked, onCheckedChange, onLabel, offLabel, error, success, caption, required, 'aria-describedby': ariaDescribedBy, ...props }, ref) => {
+>(({ className, label, description, switchPosition = 'left', color = 'green', size = 'sm', disabled, loading = false, checked, onCheckedChange, onLabel, offLabel, trackWidth, thumbIcon, error, success, caption, required, 'aria-describedby': ariaDescribedBy, ...props }, ref) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const isGreen = color === 'green';
   const isDisabled = disabled || loading;
@@ -97,9 +100,16 @@ const Switch = React.forwardRef<
   const hasTrackLabels = !!(onLabel || offLabel);
   const { hasError, hasSuccess } = resolveCaption(error, success, caption);
 
+  // Labeled mode: compute all positions from trackWidth, thumbSize, thumbOffset
+  const tw = trackWidth ?? sizeConfig.labeledTrackWidth;
+  const { thumbSize, thumbOffset } = sizeConfig;
+  const thumbOffPos = thumbOffset;
+  const thumbOnPos = tw - thumbSize - thumbOffset;
+  const labelWidth = tw - thumbSize - thumbOffset;
+
   const getTrackStyle = (): React.CSSProperties | undefined => {
     const base: React.CSSProperties = {};
-    if (hasTrackLabels) base.width = sizeConfig.labeledTrackWidth;
+    if (hasTrackLabels) base.width = tw;
     if (checked) {
       if (!isGreen) {
         const colorStyle = isDisabled
@@ -127,7 +137,7 @@ const Switch = React.forwardRef<
       aria-invalid={hasError || undefined}
       className={cn(
         'peer relative inline-flex items-center shrink-0 overflow-hidden',
-        sizeConfig.track,
+        hasTrackLabels ? sizeConfig.trackHeight : sizeConfig.track,
         'rounded-full cursor-pointer transition-colors',
         'focus-visible:outline-none focus-visible:shadow-component-misc-focus',
         isDisabled
@@ -159,10 +169,21 @@ const Switch = React.forwardRef<
               'motion-reduce:transition-none',
               isDisabled ? 'bg-switch-handle-disabled' : 'bg-switch-handle',
               !isDisabled && 'shadow-card',
-              sizeConfig.translateOff,
-              hasTrackLabels ? sizeConfig.labeledTranslateOn : sizeConfig.translateOn,
+              !hasTrackLabels && sizeConfig.translateOff,
+              !hasTrackLabels && sizeConfig.translateOn,
+              thumbIcon && 'flex items-center justify-center',
             )}
-          />
+            style={hasTrackLabels
+              ? { transform: `translateX(${checked ? thumbOnPos : thumbOffPos}px)` }
+              : undefined
+            }
+          >
+            {thumbIcon && (
+              <span className="flex items-center justify-center text-muted">
+                {typeof thumbIcon === 'function' ? thumbIcon(!!checked) : thumbIcon}
+              </span>
+            )}
+          </SwitchPrimitive.Thumb>
           {onLabel && (
             <span
               className={cn(
@@ -172,10 +193,9 @@ const Switch = React.forwardRef<
                 checked ? 'opacity-100' : 'opacity-0',
               )}
               style={{
-                width: sizeConfig.labelWidth,
+                width: labelWidth,
                 fontSize: sizeConfig.labelFontSize,
                 lineHeight: 1,
-                marginTop: -1,
               }}
               aria-hidden="true"
             >
@@ -191,10 +211,9 @@ const Switch = React.forwardRef<
                 !checked ? 'opacity-100' : 'opacity-0',
               )}
               style={{
-                width: sizeConfig.labelWidth,
+                width: labelWidth,
                 fontSize: sizeConfig.labelFontSize,
                 lineHeight: 1,
-                marginTop: -1,
               }}
               aria-hidden="true"
             >

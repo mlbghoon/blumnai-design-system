@@ -116,6 +116,15 @@ const meta: Meta<FileUploadStoryProps> = {
         category: 'FileUploadArea',
       },
     },
+    compact: {
+      control: 'boolean',
+      description: '[FileUploadArea] 컴팩트 모드 — 패딩과 아이콘 크기를 줄여 높이를 축소',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+        category: 'FileUploadArea',
+      },
+    },
     width: {
       control: 'text',
       description: '[FileUploadArea] 너비',
@@ -212,6 +221,7 @@ export const Default: Story = {
     description: '최대 10개 파일, 총 100MB 제한',
     multiple: true,
     disabled: false,
+    compact: false,
     width: 320,
   },
   parameters: {
@@ -227,6 +237,7 @@ export const Default: Story = {
       maxSize={args.maxSize}
       multiple={args.multiple}
       disabled={args.disabled}
+      compact={args.compact}
       error={args.error}
       caption={args.caption}
       width={args.width}
@@ -240,6 +251,26 @@ export const Default: Story = {
  */
 export const AreaDisabled: Story = {
   render: () => <FileUploadArea disabled width={320} />,
+};
+
+/**
+ * FileUploadArea 컴팩트 모드
+ *
+ * `compact` prop으로 패딩과 아이콘 크기를 줄여 높이를 축소합니다.
+ */
+export const AreaCompact: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-24">
+      <div className="flex flex-col ds-gap-4">
+        <span className="font-body size-xs text-subtle">기본</span>
+        <FileUploadArea width={320} />
+      </div>
+      <div className="flex flex-col ds-gap-4">
+        <span className="font-body size-xs text-subtle">컴팩트</span>
+        <FileUploadArea compact width={320} />
+      </div>
+    </div>
+  ),
 };
 
 /**

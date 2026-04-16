@@ -58,6 +58,11 @@ export interface FileUploadAreaProps {
   /** 커스텀 아이콘 */
   icon?: IconTypeWithFill;
 
+  /**
+   * 컴팩트 모드 — 패딩과 아이콘 크기를 줄여 높이를 축소합니다
+   * @default false
+   */
+  compact?: boolean;
   /** 비활성화 여부 */
   disabled?: boolean;
   /** 에러 상태 - true면 에러 스타일 적용, 문자열이면 캡션으로 에러 메시지 표시 */
