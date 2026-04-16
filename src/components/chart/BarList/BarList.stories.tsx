@@ -210,6 +210,28 @@ export const CustomColors: Story = {
 };
 
 /**
+ * 긴 라벨 말줄임
+ *
+ * labelWidth보다 긴 라벨은 말줄임 처리되며, 호버 시 툴팁으로 전체 텍스트를 확인할 수 있습니다.
+ * 바 호버 시에도 항목 이름과 값이 툴팁으로 표시됩니다.
+ */
+export const LongLabels: Story = {
+  render: () => (
+    <BarList
+      data={[
+        { name: 'lcname1(lc)', value: 2 },
+        { name: 'ml매니저(ml-manager)', value: 1 },
+        { name: 'lc-manager2(lc-manager2)', value: 0 },
+        { name: 'very-long-counselor-name(username)', value: 3 },
+      ]}
+      labelWidth={80}
+      showCount={5}
+      animated={true}
+    />
+  ),
+};
+
+/**
  * 최대 높이 제한
  *
  * maxHeight를 설정하여 스크롤 가능한 컨테이너로 만듭니다.

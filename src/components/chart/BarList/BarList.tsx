@@ -1,5 +1,8 @@
 import { useState, useMemo, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
+import { TooltipTrigger } from '../../tooltip/Tooltip/TooltipTrigger';
+import { TooltipItem } from '../../tooltip/Tooltip/TooltipItem';
+import { Tooltip } from '../../tooltip/Tooltip/Tooltip';
 import type { BarListProps } from './BarList.types';
 
 export const BarList = forwardRef<HTMLDivElement, BarListProps>(
@@ -54,21 +57,33 @@ export const BarList = forwardRef<HTMLDivElement, BarListProps>(
                 )}
                 onClick={onItemClick ? () => onItemClick(item, index) : undefined}
               >
-                <span className="font-body size-sm line-height-leading-5 text-default shrink-0" style={{ width: labelWidth }}>
-                  {item.name}
-                </span>
-                <div className="flex-1 bg-muted rounded-2xs" style={{ height: 18 }}>
-                  <div
-                    className="h-full rounded-2xs"
-                    style={{
-                      width: `${widthPercent}%`,
-                      backgroundColor: barFill,
-                      opacity: 0.7,
-                      borderLeft: `3px solid ${barColor}`,
-                      transition: animated ? 'width 0.3s ease' : 'none',
-                    }}
-                  />
-                </div>
+                <TooltipTrigger content={item.name} placement="top" asChild>
+                  <span className="font-body size-sm line-height-leading-5 text-default shrink-0 truncate" style={{ width: labelWidth }}>
+                    {item.name}
+                  </span>
+                </TooltipTrigger>
+                <TooltipTrigger
+                  content={
+                    <Tooltip>
+                      <TooltipItem type="item" label={item.name} caption={formatValue(item.value)} indicatorColor={barColor} />
+                    </Tooltip>
+                  }
+                  placement="top"
+                  asChild
+                >
+                  <div className="flex-1 bg-muted rounded-2xs" style={{ height: 18 }}>
+                    <div
+                      className="h-full rounded-2xs"
+                      style={{
+                        width: `${widthPercent}%`,
+                        backgroundColor: barFill,
+                        opacity: 0.7,
+                        borderLeft: `3px solid ${barColor}`,
+                        transition: animated ? 'width 0.3s ease' : 'none',
+                      }}
+                    />
+                  </div>
+                </TooltipTrigger>
                 <span className="font-body size-sm line-height-leading-5 text-subtle shrink-0 text-right" style={{ minWidth: `${String(maxValue).length + 1}ch` }}>
                   {formatValue(item.value)}
                 </span>
