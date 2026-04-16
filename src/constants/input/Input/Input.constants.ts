@@ -46,7 +46,7 @@ export const STYLE_CONFIG = {
     focus: 'focus-within:border-strong focus-within:shadow-component-input-focus',
   },
   shadow: {
-    base: 'bg-input border-darker rounded-sm shadow-component-default',
+    base: 'bg-input border-darker rounded-sm shadow-components-default',
     focus: 'focus-within:border-strong focus-within:shadow-component-input-focus',
   },
   soft: {

@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.11] - 2026-04-16
+
+### Fixed
+
+- **Dropdown 테두리 Popover 스펙 통일**: Dropdown 메뉴에 `border-default`(CSS 테두리)와 `shadow-modal-sm`(shadow 테두리)가 이중 적용되던 문제 수정. `border-default` 제거하여 Popover와 동일한 스타일로 통일
+- **Input/Textarea/Select shadow 스타일 통일**: `shadow-component-default`(inset box-shadow) → `shadow-components-default`로 변경하여 Button secondary와 동일한 하단 라인 이펙트 적용
+- **Pill 버튼 shadow 하단 라인 삐져나옴**: `shadow-components-default`의 `::after` 가상 요소가 pill(`rounded-full`) 버튼의 곡선 경계를 넘어 표시되던 문제 수정. `::after` 방식을 `inset box-shadow`로 변경하여 모든 border-radius에서 자연스럽게 클리핑
+
 ## [1.4.10] - 2026-04-16
 
 ### Fixed
