@@ -89,8 +89,9 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
       className
     );
 
-    const renderBadge = (badge: string, disabled: boolean) => (
+    const renderBadge = (badge: string, disabled: boolean, key: string) => (
       <span
+        key={key}
         className={cn(
           'inline-flex items-center justify-center',
           'min-width-20 padding-x-6 padding-y-2',
@@ -104,10 +105,10 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
       </span>
     );
 
-    const renderIcon = (icon: IconType | React.ReactNode, disabled: boolean) => {
+    const renderIcon = (icon: IconType | React.ReactNode, disabled: boolean, key: string) => {
       if (Array.isArray(icon) && icon.length === 2 && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
         return (
-          <span className="inline-flex items-center justify-center shrink-0">
+          <span key={key} className="inline-flex items-center justify-center shrink-0">
             <Icon
               iconType={icon as IconType}
               size={iconSize}
@@ -117,7 +118,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
         );
       }
       return (
-        <span className="inline-flex items-center justify-center shrink-0">
+        <span key={key} className="inline-flex items-center justify-center shrink-0">
           {icon}
         </span>
       );
@@ -140,11 +141,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
           const buttonContent: React.ReactNode[] = [];
 
           if (item.icon) {
-            buttonContent.push(
-              <span key="lead-icon">
-                {renderIcon(item.icon, item.disabled || false)}
-              </span>
-            );
+            buttonContent.push(renderIcon(item.icon, item.disabled || false, 'lead-icon'));
           }
 
           if (item.label) {
@@ -164,17 +161,11 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
           }
 
           if (item.badge) {
-            buttonContent.push(
-              <span key="badge">{renderBadge(item.badge, item.disabled || false)}</span>
-            );
+            buttonContent.push(renderBadge(item.badge, item.disabled || false, 'badge'));
           }
 
           if (item.tailIcon) {
-            buttonContent.push(
-              <span key="tail-icon">
-                {renderIcon(item.tailIcon, item.disabled || false)}
-              </span>
-            );
+            buttonContent.push(renderIcon(item.tailIcon, item.disabled || false, 'tail-icon'));
           }
 
           const isDisabled = item.disabled || !item.onClick;
