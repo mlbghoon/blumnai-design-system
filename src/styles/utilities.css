@@ -1590,7 +1590,7 @@ table[data-striped] tbody tr:nth-child(even) {
 
 @utility shadow-components-default {
   border: 1px solid rgba(39, 39, 42, 0.20);
-  box-shadow: var(--shadow-components-default), inset 0 -1px 0 0 rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-components-default);
 }
 
 @utility shadow-component-focus {
