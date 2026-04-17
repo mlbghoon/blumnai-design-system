@@ -36,7 +36,7 @@
 
 | 클래스 | 용도 |
 |--------|------|
-| `shadow-component-default` | 기본 상태 — 미세 drop shadow + 하단 인셋 |
+| `shadow-components-default` | 기본 상태 — 미세 drop shadow + 1px border |
 | `shadow-component-focus` | 일반 포커스 — focus ring + highlight border |
 | `shadow-component-input-focus` | 입력 필드 포커스 — highlight ring + input border |
 | `shadow-component-destructive-focus` | 에러 포커스 — destructive focus ring |
@@ -55,7 +55,7 @@
 ✅ shadow-modal-sm                 → 팝오버, 드롭다운
 ✅ shadow-modal-md                 → 일반 모달
 ✅ shadow-modal-lg                 → 대형 모달
-✅ shadow-component-default        → DS 폼 컴포넌트 (자동 적용)
+✅ shadow-components-default       → DS 폼 컴포넌트 (자동 적용)
 ❌ shadow-sm, shadow-md, shadow-lg → DS에 없음, 사용 금지
 ❌ shadow-[custom]                 → 임의 shadow 금지
 ```

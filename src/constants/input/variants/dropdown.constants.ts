@@ -14,10 +14,10 @@ export const DROPDOWN_TRIGGER_TEXT_BASE = 'font-body letter-spacing-tracking-tig
 export const DROPDOWN_TRIGGER_PLACEHOLDER_BASE = 'font-body letter-spacing-tracking-tight text-hint whitespace-nowrap' as const;
 
 // Dropdown menu styles (positioning handled by component - supports portal)
-export const DROPDOWN_MENU_BASE = 'z-50 bg-card border-default rounded-md shadow-modal-sm' as const;
+export const DROPDOWN_MENU_BASE = 'z-50 bg-card rounded-md shadow-modal-sm padding-4' as const;
 
 // Dropdown option styles
-export const DROPDOWN_OPTION_BASE = 'flex items-center ds-gap-6 cursor-pointer hover:bg-state-ghost-hover transition-colors' as const;
+export const DROPDOWN_OPTION_BASE = 'flex items-center ds-gap-6 rounded-xs cursor-pointer hover:bg-state-ghost-hover transition-colors' as const;
 
 export const DROPDOWN_OPTION_TEXT_BASE = 'font-body letter-spacing-tracking-tight text-default' as const;
 

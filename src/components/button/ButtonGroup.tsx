@@ -82,7 +82,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
     const containerClassName = cn(
       'inline-flex items-center justify-start',
       'bg-default',
-      'shadow-[0px_1px_2px_rgba(0,0,0,0.05)]',
+      'shadow-components-button',
       'outline outline-1 outline-darker outline-offset-[-1px]',
       currentSize.containerRadius,
       'overflow-hidden',

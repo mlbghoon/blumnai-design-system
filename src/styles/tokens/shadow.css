@@ -9,8 +9,11 @@
   --shadow-modal-sm: 0px 1px 1px -0.5px rgba(0, 0, 0, 0.04), 0px 3px 3px -1.5px rgba(0, 0, 0, 0.04), 0px 6px 6px -3px rgba(0, 0, 0, 0.04), 0px 12px 12px -6px rgba(0, 0, 0, 0.04), 0px 0px 0px 1px var(--border-default);
   --shadow-modal-md: 0px 0px 0px 1px var(--border-default), 0px 12px 12px 0px rgba(0, 0, 0, 0.04), 0px 6px 6px 0px rgba(0, 0, 0, 0.04), 0px 3px 3px 0px rgba(0, 0, 0, 0.04), 0px 1px 1px -0.5px rgba(0, 0, 0, 0.04);
   --shadow-modal-lg: 0px 0px 0px 1px var(--border-default), 0px 16px 16px 0px rgba(0, 0, 0, 0.04), 0px 12px 12px 0px rgba(0, 0, 0, 0.04), 0px 6px 6px 0px rgba(0, 0, 0, 0.04), 0px 3px 3px 0px rgba(0, 0, 0, 0.04), 0px 1px 1px -0.5px rgba(0, 0, 0, 0.04);
-  --shadow-component-default: 0px 1px 2px 0px var(--bg-basic-gray-alpha-4), inset 0px -1px 0px 0px var(--bg-basic-gray-alpha-10);
-  --shadow-components-default: 0 1px 2px rgba(0, 0, 0, 0.06);
+  
+  --shadow-components-default: inset 0 0 0 1px var(--border-darker), 0px 1px 2px 0px rgba(0, 0, 0, 0.04), inset 0px -1px 0px 0px rgba(0, 0, 0, 0.05);
+  --shadow-components-default-destructive: inset 0 0 0 1px var(--border-destructive), 0px 1px 2px 0px rgba(0, 0, 0, 0.04), inset 0px -1px 0px 0px rgba(0, 0, 0, 0.05);
+  --shadow-components-button: 0 1px 2px rgba(0, 0, 0, 0.06);
+
   --shadow-component-focus: 0 -1px 0 0 var(--bg-basic-gray-alpha-10) inset, 0 1px 2px 0 var(--bg-basic-gray-alpha-4), 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight);
   --shadow-component-misc-focus: 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight);
   --shadow-component-destructive-focus: 0 -1px 0 0 var(--bg-basic-gray-alpha-10) inset, 0 1px 2px 0 var(--bg-basic-gray-alpha-4), 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight-destructive);
