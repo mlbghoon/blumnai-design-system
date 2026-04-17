@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type DragEvent, type ReactNode } from 'react';
 import {
   Tabs as TabsBase,
   TabsList as TabsListBase,
@@ -263,6 +263,271 @@ function SampleContent() {
         <Skeleton className="h-[16px] w-[16px] rounded-radius-full" />
       </div>
     </div>
+  );
+}
+
+type PriorityTagTone = 'default' | 'informative' | 'success' | 'warning';
+
+type PriorityRule = {
+  id: string;
+  name: string;
+  description: string;
+  tags: { label: string; tone: PriorityTagTone }[];
+  enabled: boolean;
+};
+
+const priorityTagToneClassName: Record<PriorityTagTone, string> = {
+  default: 'text-subtle',
+  informative: 'text-informative',
+  success: 'text-success',
+  warning: 'text-warning',
+};
+
+const initialPriorityRules: PriorityRule[] = [
+  {
+    id: 'vip',
+    name: 'VIP 고객 전담 배정',
+    description: 'VIP·VVIP 등급 고객을 지정된 전담 상담사에게 즉시 배정합니다.',
+    tags: [
+      { label: '고객등급', tone: 'informative' },
+      { label: '담당자', tone: 'default' },
+    ],
+    enabled: true,
+  },
+  {
+    id: 'returning',
+    name: '재방문 고객 이어받기',
+    description: '최근 7일 이내 상담 이력이 있으면 동일 상담사에게 라우팅합니다.',
+    tags: [
+      { label: '이력', tone: 'informative' },
+      { label: '24h', tone: 'default' },
+    ],
+    enabled: true,
+  },
+  {
+    id: 'urgent',
+    name: '긴급 키워드 가속',
+    description: '"환불", "취소", "분실" 등 키워드 감지 시 우선 큐로 이동합니다.',
+    tags: [
+      { label: '키워드', tone: 'warning' },
+      { label: '자동 감지', tone: 'default' },
+    ],
+    enabled: true,
+  },
+  {
+    id: 'language',
+    name: '언어별 라우팅',
+    description: '비한국어 메시지를 해당 언어 담당 상담사에게 배정합니다.',
+    tags: [{ label: '언어', tone: 'informative' }],
+    enabled: true,
+  },
+  {
+    id: 'category',
+    name: '대분류별 기본 배분',
+    description: '상품문의는 A팀, 결제문의는 B팀으로 기본 배정합니다.',
+    tags: [{ label: '카테고리', tone: 'default' }],
+    enabled: true,
+  },
+  {
+    id: 'afterhours',
+    name: '업무 시간 외 자동 응답',
+    description: '영업 시간 외 수신은 자동 응답 템플릿으로 회신합니다.',
+    tags: [
+      { label: '시간', tone: 'default' },
+      { label: '자동화', tone: 'success' },
+    ],
+    enabled: false,
+  },
+];
+
+function PriorityRuleEditor() {
+  const [rules, setRules] = useState<PriorityRule[]>(initialPriorityRules);
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
+
+  const enabledCount = rules.filter((rule) => rule.enabled).length;
+
+  const moveRule = (from: number, to: number) => {
+    if (to < 0 || to >= rules.length || from === to) return;
+    setRules((prev) => {
+      const next = [...prev];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return next;
+    });
+  };
+
+  const toggleRule = (id: string) => {
+    setRules((prev) => prev.map((rule) => (rule.id === id ? { ...rule, enabled: !rule.enabled } : rule)));
+  };
+
+  const handleDragStart = (id: string) => (event: DragEvent<HTMLDivElement>) => {
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/plain', id);
+    setDraggingId(id);
+  };
+
+  const handleDragOver = (id: string) => (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+    if (dragOverId !== id) setDragOverId(id);
+  };
+
+  const handleDrop = (targetId: string) => (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const sourceId = draggingId ?? event.dataTransfer.getData('text/plain');
+    if (!sourceId || sourceId === targetId) {
+      setDraggingId(null);
+      setDragOverId(null);
+      return;
+    }
+    setRules((prev) => {
+      const from = prev.findIndex((rule) => rule.id === sourceId);
+      const to = prev.findIndex((rule) => rule.id === targetId);
+      if (from === -1 || to === -1) return prev;
+      const next = [...prev];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return next;
+    });
+    setDraggingId(null);
+    setDragOverId(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggingId(null);
+    setDragOverId(null);
+  };
+
+  return (
+    <section className="flex w-full flex-col ds-gap-16 rounded-radius-lg border-default bg-default padding-16">
+      {/* 헤더 */}
+      <div className="flex items-start justify-between ds-gap-24">
+        <div className="flex flex-col ds-gap-4">
+          <Text variant="cardTitle">상담 배분 우선순위 규칙</Text>
+          <div className="flex flex-wrap items-center ds-gap-8">
+            <span className="font-body size-xs line-height-leading-4 font-normal text-muted">총 {rules.length}개 규칙</span>
+            <span className="font-body size-xs line-height-leading-4 font-normal text-muted">·</span>
+            <span className="font-body size-xs line-height-leading-4 font-medium text-informative">활성 {enabledCount}개</span>
+          </div>
+        </div>
+        <div className="flex items-center ds-gap-8">
+          <ButtonView buttonStyle="secondary" size="sm" onClick={() => setRules(initialPriorityRules)}>
+            초기화
+          </ButtonView>
+          <ButtonView buttonStyle="primary" size="sm">변경사항 저장</ButtonView>
+        </div>
+      </div>
+
+      <div className="w-full border-t-default" />
+
+      {/* 도움말 */}
+      <div className="flex w-full items-center ds-gap-6 rounded-radius-md bg-subtle padding-12">
+        <div className="shrink-0 rounded-radius-full" style={{ width: 4, height: 4, background: 'var(--icon-default-muted)' }} />
+        <span className="font-body size-sm line-height-leading-5 font-normal text-subtle">
+          상단에 둘수록 먼저 매칭됩니다. 행을 <span className="font-medium text-default">드래그</span>하거나 우측 <span className="font-medium text-default">↑ ↓</span> 버튼으로 순서를 바꿔 보세요.
+        </span>
+      </div>
+
+      {/* 규칙 리스트 */}
+      <div className="flex w-full flex-col ds-gap-8">
+        {rules.map((rule, index) => {
+          const isDragging = draggingId === rule.id;
+          const isDropTarget = dragOverId === rule.id && draggingId !== null && draggingId !== rule.id;
+          return (
+            <div
+              key={rule.id}
+              draggable
+              onDragStart={handleDragStart(rule.id)}
+              onDragOver={handleDragOver(rule.id)}
+              onDrop={handleDrop(rule.id)}
+              onDragEnd={handleDragEnd}
+              className={cn(
+                'flex items-center ds-gap-12 rounded-radius-md border-default bg-default padding-12 transition-all',
+                isDragging && 'opacity-40',
+                isDropTarget && 'border-darker bg-subtle',
+                !rule.enabled && !isDragging && 'opacity-60',
+              )}
+              style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+            >
+              {/* 드래그 핸들 */}
+              <div
+                aria-hidden
+                className="grid shrink-0"
+                style={{ gridTemplateColumns: 'repeat(2, 2px)', rowGap: 3, columnGap: 3 }}
+              >
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="rounded-radius-full" style={{ width: 2, height: 2, background: 'var(--icon-default-muted)' }} />
+                ))}
+              </div>
+
+              {/* 우선순위 배지 */}
+              <div className="flex shrink-0 items-center justify-center rounded-radius-md bg-inverted" style={{ width: 32, height: 32 }}>
+                <span className="font-body size-sm line-height-leading-5 font-semibold text-white-default">{index + 1}</span>
+              </div>
+
+              {/* 규칙 내용 */}
+              <div className="flex min-w-0 flex-1 flex-col ds-gap-4">
+                <div className="flex flex-wrap items-center ds-gap-8">
+                  <span className="font-body size-sm line-height-leading-5 font-semibold text-default">{rule.name}</span>
+                  <div className="flex flex-wrap items-center ds-gap-4">
+                    {rule.tags.map((tag) => (
+                      <span
+                        key={tag.label}
+                        className={cn(
+                          'rounded-radius-full bg-subtle padding-x-8 padding-y-2 font-body size-xs line-height-leading-4 font-medium',
+                          priorityTagToneClassName[tag.tone],
+                        )}
+                      >
+                        {tag.label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <span className="font-body size-xs line-height-leading-4 font-normal text-muted">{rule.description}</span>
+              </div>
+
+              {/* 활성 토글 */}
+              <div className="shrink-0">
+                <SwitchView checked={rule.enabled} size="md" onCheckedChange={() => toggleRule(rule.id)} />
+              </div>
+
+              {/* 이동 버튼 */}
+              <div className="flex shrink-0 items-center ds-gap-2">
+                <ButtonView
+                  buttonStyle="soft"
+                  size="xs"
+                  disabled={index === 0}
+                  onClick={() => moveRule(index, index - 1)}
+                >
+                  ↑
+                </ButtonView>
+                <ButtonView
+                  buttonStyle="soft"
+                  size="xs"
+                  disabled={index === rules.length - 1}
+                  onClick={() => moveRule(index, index + 1)}
+                >
+                  ↓
+                </ButtonView>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="w-full border-t-default" />
+
+      {/* 푸터 */}
+      <div className="flex flex-wrap items-center justify-between ds-gap-12">
+        <span className="font-body size-xs line-height-leading-4 font-normal text-muted">
+          우선순위 변경은 저장 후 다음 상담부터 적용됩니다.
+        </span>
+        <span className="font-body size-xs line-height-leading-4 font-medium text-informative">
+          현재 1순위: {rules[0].name}
+        </span>
+      </div>
+    </section>
   );
 }
 
@@ -957,6 +1222,16 @@ function UISample() {
             </div>
           </div>
         </section>
+
+        {/* ── UI-Pattern / Sortable Priority List ── */}
+        <div className="mt-[48px] flex flex-col ds-gap-4 padding-y-8">
+          <Text variant="sectionTitle">UI-Pattern / Sortable Priority List</Text>
+          <Text variant="sectionDesc">
+            드래그하거나 화살표 버튼으로 순서를 바꾸는 우선순위 리스트 편집기. 상단에 둘수록 먼저 매칭되는 규칙을 정의할 때 사용한다. 각 행은 드래그 핸들 → 순위 배지 → 이름·설명·태그 → 활성 토글 → 이동 버튼으로 구성되며, 드래그 중인 행은 반투명, 드롭 타깃 행은 강조 배경으로 상태를 드러낸다.
+          </Text>
+        </div>
+
+        <PriorityRuleEditor />
 
       </div>
     </main>

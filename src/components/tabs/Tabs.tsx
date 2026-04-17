@@ -349,8 +349,8 @@ const TabsTrigger = React.forwardRef<
               'border-[1px]',
               'data-[state=active]:[border-color:var(--border-darker)]',
               'data-[state=active]:[background-color:var(--bg-state-secondary)]',
-              'data-[state=active]:[box-shadow:0_-1px_0_0_rgba(0,0,0,0.08)_inset,0_1px_2px_0_rgba(0,0,0,0.05)]',
-              'data-[state=active]:focus-visible:[box-shadow:0_-1px_0_0_rgba(0,0,0,0.08)_inset,0_1px_2px_0_rgba(0,0,0,0.05),0_0_0_2px_var(--border-highlight-accent)]',
+              'data-[state=active]:shadow-component-default',
+              'data-[state=active]:focus-visible:[box-shadow:var(--shadow-component-default),0_0_0_2px_var(--border-highlight-accent)]',
             ],
         ],
         variant === 'underline' && [
