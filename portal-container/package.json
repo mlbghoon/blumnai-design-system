@@ -1,0 +1,5 @@
+{
+  "main": "../dist/utils/PortalContainerContext.mjs",
+  "module": "../dist/utils/PortalContainerContext.mjs",
+  "types": "../dist/utils/PortalContainerContext.d.ts"
+}
