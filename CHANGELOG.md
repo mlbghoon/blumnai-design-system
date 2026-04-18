@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.4.14] - 2026-04-18
+
+### Changed
+
+- **Shadow 토큰 시스템 통합**: `shadow-component-default`와 `shadow-components-default`를 하나의 `shadow-components-default`로 통합. 기존 border + box-shadow 이중 적용 방식을 단일 box-shadow(`inset border + outer shadow + inset bottom line`)로 변경
+- **`shadow-card` 토큰 조정**: outer shadow 강도 완화(`0.05 → 0.025`), inset bottom line 강화(`0.1 → 0.15`)하여 더 자연스러운 카드 입체감
+- **`shadow-components-button` 신규 토큰**: Button secondary 전용 shadow 분리
+- **`shadow-components-default-destructive` 신규 토큰**: destructive 상태 컴포넌트용 shadow 토큰 추가 (`border-destructive` 사용)
+
+### Fixed
+
+- **ButtonGroup 자식 key 경고**: `renderBadge`, `renderIcon` 함수에서 반환하는 요소에 key가 없어 React 경고가 발생하던 문제 수정. 불필요한 wrapper `<span>` 제거 및 key를 직접 전달
+- **ButtonGroup shadow 하드코딩 제거**: 인라인 shadow 값을 `shadow-components-button` 토큰으로 교체
+
 ## [1.4.13] - 2026-04-16
 
 ### Added

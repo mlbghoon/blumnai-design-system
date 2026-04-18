@@ -1,0 +1,5 @@
+{
+  "main": "../dist/components/virtual-select/index.mjs",
+  "module": "../dist/components/virtual-select/index.mjs",
+  "types": "../dist/components/virtual-select/index.d.ts"
+}
