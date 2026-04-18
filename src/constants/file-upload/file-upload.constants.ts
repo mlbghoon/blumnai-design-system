@@ -31,7 +31,7 @@ export const FILE_UPLOAD_AREA_CAPTION = 'font-body size-xs line-height-leading-4
 export const FILE_UPLOAD_AREA_ERROR_CAPTION = 'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-destructive';
 
 // FileUploadCard base styles
-export const FILE_UPLOAD_CARD_BASE = 'flex items-center ds-gap-8 rounded-lg border-default bg-card shadow-component-default';
+export const FILE_UPLOAD_CARD_BASE = 'flex items-center ds-gap-8 rounded-lg bg-card shadow-components-default';
 
 // FileUploadCard size configurations
 export const FILE_UPLOAD_CARD_SIZE = {

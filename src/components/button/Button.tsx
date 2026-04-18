@@ -187,7 +187,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     !disabled && !loading && (hasColorOverride ? COLOR_OVERRIDE_STYLE[buttonStyle] : BUTTON_COLOR_STYLE[buttonStyle]),
     disabled && DISABLED_STYLE,
     loading && (hasColorOverride && !disabled ? COLOR_OVERRIDE_LOADING_STYLE[buttonStyle] : LOADING_STYLE[buttonStyle]),
-    !disabled && buttonStyle !== 'ghost' && buttonStyle !== 'ghostMuted' && buttonStyle !== 'dashed' && buttonStyle !== 'soft' && 'shadow-components-default',
+    !disabled && buttonStyle !== 'ghost' && buttonStyle !== 'ghostMuted' && buttonStyle !== 'dashed' && buttonStyle !== 'soft' && 'shadow-components-button',
     isIconOnly && iconOnlySizeVariants({ size }),
     isIconOnly && 'aspect-square',
     isTextOnlyLoading && 'relative',

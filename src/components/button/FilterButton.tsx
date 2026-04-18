@@ -112,7 +112,7 @@ export const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(({
   const containerClassName = cn(
     filterButtonVariants({ size, shape }),
     stateClasses,
-    !disabled && 'shadow-components-default',
+    !disabled && 'shadow-components-button',
     className
   );
 

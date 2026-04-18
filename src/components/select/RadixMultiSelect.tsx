@@ -703,7 +703,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                 collisionPadding={8}
                 className={cn(
                   'z-[100] min-w-[200px] max-w-[320px] overflow-hidden',
-                  'bg-card border-default rounded-lg shadow-modal-sm',
+                  'bg-card rounded-lg shadow-modal-sm',
                   'data-[state=open]:animate-in data-[state=closed]:animate-out',
                   'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
                   'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',

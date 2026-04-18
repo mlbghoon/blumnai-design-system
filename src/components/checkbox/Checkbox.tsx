@@ -55,7 +55,7 @@ const Checkbox = React.forwardRef<
   const { hasError, hasSuccess } = resolveCaption(error, success, caption);
 
   const shadowEffects = checkboxStyle === 'with-shadow' && !isChecked && !disabled
-    ? 'shadow-component-default'
+    ? 'shadow-components-button'
     : '';
 
   const checkedInnerShadow = checkboxStyle === 'with-shadow' && isChecked && !disabled;

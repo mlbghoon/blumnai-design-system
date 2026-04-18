@@ -69,10 +69,11 @@ const InputOTPSlot = React.forwardRef<
       ref={ref}
       className={cn(
         'relative flex height-40 width-40 items-center justify-center',
-        'border-y border-r size-md font-body font-medium line-height-leading-5',
-        'shadow-component-default transition-[border-color,box-shadow]',
-        'first:rounded-l-md first:border-l last:rounded-r-md',
-        hasError ? 'border-destructive' : 'border-default',
+        'size-md font-body font-medium line-height-leading-5',
+        'transition-[box-shadow]',
+        'first:rounded-l-md last:rounded-r-md',
+        '[&:not(:first-child)]:-ml-px',
+        hasError ? 'shadow-components-default-destructive' : 'shadow-components-default',
         isActive && !hasError && 'z-10 shadow-component-input-focus',
         isActive && hasError && 'z-10 shadow-component-input-focus-error',
         className

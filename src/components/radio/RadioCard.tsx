@@ -92,7 +92,7 @@ const RadioCard = React.forwardRef<HTMLLabelElement, RadioCardProps>(
     };
 
     const shadowEffects = radioStyle === 'with-shadow' && !isChecked && !disabled
-      ? 'shadow-component-default'
+      ? 'shadow-components-button'
       : '';
 
     const checkedInnerShadow = radioStyle === 'with-shadow' && isChecked && !disabled;

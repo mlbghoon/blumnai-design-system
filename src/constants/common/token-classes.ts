@@ -207,7 +207,7 @@ export const SHADOWS = {
   modalMd: 'shadow-modal-md',
   modalLg: 'shadow-modal-lg',
   // Component shadows
-  componentDefault: 'shadow-component-default',
+  componentDefault: 'shadow-components-default',
   componentFocus: 'shadow-component-focus',
   componentDestructiveFocus: 'shadow-component-destructive-focus',
   componentInputFocus: 'shadow-component-input-focus',
