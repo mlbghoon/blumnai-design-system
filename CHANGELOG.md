@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.2] - 2026-04-20
+
+### Added
+
+- **`DialogScrollArea` — `viewportRef` / `onScrollPositionChange` prop forwarding**: 기존에는 내부 `ScrollArea`의 스크롤 관련 API가 `DialogScrollArea`에서 차단되어 programmatic scroll 제어나 스크롤 위치 감지가 불가능했음
+  - `viewportRef?: Ref<HTMLDivElement>` — 스크롤 뷰포트 엘리먼트 ref (예: `viewportRef.current?.scrollTo({ top: 0 })`)
+  - `onScrollPositionChange?: ({ x, y }) => void` — rAF 쓰로틀링된 스크롤 위치 콜백
+  - 두 prop 모두 underlying `<ScrollArea>`로 그대로 전달됨. 기존 `maxHeight`, `className` 동작 변경 없음
+
 ## [1.5.1] - 2026-04-20
 
 ### Fixed

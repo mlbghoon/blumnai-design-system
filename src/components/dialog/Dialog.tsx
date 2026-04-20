@@ -244,11 +244,19 @@ const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
 );
 DialogFooter.displayName = 'DialogFooter';
 
-const DialogScrollArea = ({ className, maxHeight, children }: DialogScrollAreaProps) => (
+const DialogScrollArea = ({
+  className,
+  maxHeight,
+  children,
+  viewportRef,
+  onScrollPositionChange,
+}: DialogScrollAreaProps) => (
   <ScrollArea
     orientation="vertical"
     maxHeight={maxHeight}
     className={className}
+    viewportRef={viewportRef}
+    onScrollPositionChange={onScrollPositionChange}
   >
     {children}
   </ScrollArea>

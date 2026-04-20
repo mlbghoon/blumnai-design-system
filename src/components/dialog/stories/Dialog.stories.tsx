@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import {
@@ -345,6 +345,77 @@ export const LongContent: Story = {
             </DialogClose>
             <DialogClose asChild>
               <Button>동의</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  },
+};
+
+/**
+ * 스크롤 위치 추적 + programmatic scroll
+ *
+ * `DialogScrollArea`의 `viewportRef`와 `onScrollPositionChange`를 사용하여
+ * 스크롤 위치를 실시간으로 표시하고, 버튼으로 스크롤을 제어합니다.
+ *
+ * - `viewportRef`: 스크롤 viewport 엘리먼트에 대한 ref — `scrollTo({ top: 0 })` 등 직접 호출 가능
+ * - `onScrollPositionChange`: rAF로 쓰로틀링된 `{ x, y }` 위치 콜백
+ */
+export const ScrollTracking: Story = {
+  render: function Render() {
+    const viewportRef = useRef<HTMLDivElement>(null);
+    const [scrollY, setScrollY] = useState(0);
+
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button buttonStyle="secondary">스크롤 추적 열기</Button>
+        </DialogTrigger>
+        <DialogContent width={520}>
+          <DialogHeader>
+            <DialogTitle>스크롤 위치: {Math.round(scrollY)}px</DialogTitle>
+            <DialogDescription>
+              스크롤하면 위 숫자가 실시간 갱신됩니다. 버튼으로 programmatic scroll 가능.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex ds-gap-8 padding-x-24 padding-b-8">
+            <Button
+              size="sm"
+              buttonStyle="secondary"
+              onClick={() => viewportRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              맨 위로
+            </Button>
+            <Button
+              size="sm"
+              buttonStyle="secondary"
+              onClick={() =>
+                viewportRef.current?.scrollTo({
+                  top: viewportRef.current.scrollHeight,
+                  behavior: 'smooth',
+                })
+              }
+            >
+              맨 아래로
+            </Button>
+          </div>
+          <DialogScrollArea
+            maxHeight={300}
+            viewportRef={viewportRef}
+            onScrollPositionChange={({ y }) => setScrollY(y)}
+          >
+            <div className="flex flex-col ds-gap-8 font-body size-sm text-default">
+              {Array.from({ length: 40 }, (_, i) => (
+                <p key={i}>
+                  라인 {i + 1} — 긴 스크롤 컨텐츠 예시입니다. 스크롤하면 상단의 위치 값이 실시간으로 갱신되는 것을 확인할 수 있습니다.
+                </p>
+              ))}
+            </div>
+          </DialogScrollArea>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button buttonStyle="secondary">닫기</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>

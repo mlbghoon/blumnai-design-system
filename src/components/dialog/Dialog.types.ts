@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ComponentPropsWithoutRef, HTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ComponentPropsWithoutRef, HTMLAttributes, ReactNode, Ref } from 'react';
 import type * as DialogPrimitive from '@radix-ui/react-dialog';
 
 export interface DialogProps extends ComponentPropsWithoutRef<typeof DialogPrimitive.Root> {
@@ -56,6 +56,17 @@ export interface DialogScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
    * @example maxHeight="50vh" - 뷰포트 높이의 50%
    */
   maxHeight?: string | number;
+  /**
+   * 스크롤 가능한 뷰포트 요소에 대한 ref (programmatic scroll 제어용)
+   * @example const viewportRef = useRef<HTMLDivElement>(null);
+   * viewportRef.current?.scrollTo({ top: 0 });
+   */
+  viewportRef?: Ref<HTMLDivElement>;
+  /**
+   * 스크롤 위치가 변경될 때 호출되는 콜백 (rAF로 쓰로틀링됨).
+   * @example onScrollPositionChange={({ x, y }) => console.log(x, y)}
+   */
+  onScrollPositionChange?: (position: { x: number; y: number }) => void;
 }
 
 export interface DialogTitleProps extends ComponentPropsWithoutRef<typeof DialogPrimitive.Title> {
