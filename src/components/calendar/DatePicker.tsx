@@ -109,9 +109,10 @@ export const DatePicker = ({
   open: openProp,
   onOpenChange,
   trigger,
+  defaultMonth,
 }: DatePickerProps) => {
   const [open, setOpen] = useControllableOpen({ open: openProp, onOpenChange });
-  const [month, setMonth] = useState<Date>(value || new Date());
+  const [month, setMonth] = useState<Date>(value || defaultMonth || new Date());
   const [stagedValue, setStagedValue] = useState<Date | undefined>(value);
   const snapshotRef = useRef<Date | undefined>(value);
 
@@ -186,10 +187,10 @@ export const DatePicker = ({
 
   const handleOpenCalendar = useCallback(() => {
     if (!value) {
-      setMonth(new Date());
+      setMonth(defaultMonth || new Date());
     }
     setOpen(true);
-  }, [value, setOpen]);
+  }, [value, defaultMonth, setOpen]);
 
   const disabledMatcher = useMemo(() => {
     const matchers: Array<Date | { before: Date } | { after: Date }> = [];
@@ -414,10 +415,11 @@ export const DateRangePicker = ({
   open: openProp,
   onOpenChange,
   trigger,
+  defaultMonth,
 }: DateRangePickerProps) => {
   const [open, setOpen] = useControllableOpen({ open: openProp, onOpenChange });
   const [month, setMonth] = useState<Date>(() => {
-    const base = value?.from || new Date();
+    const base = value?.from || defaultMonth || new Date();
     if (maxDate && numberOfMonths >= 2) {
       const baseMonth = base.getFullYear() * 12 + base.getMonth();
       const maxMonth = maxDate.getFullYear() * 12 + maxDate.getMonth();
@@ -523,10 +525,10 @@ export const DateRangePicker = ({
 
   const handleOpenCalendar = useCallback(() => {
     if (!value?.from) {
-      setMonth(new Date());
+      setMonth(defaultMonth || new Date());
     }
     setOpen(true);
-  }, [value, setOpen]);
+  }, [value, defaultMonth, setOpen]);
 
   const disabledMatcher = useMemo(() => {
     const matchers: Array<Date | { before: Date } | { after: Date }> = [];

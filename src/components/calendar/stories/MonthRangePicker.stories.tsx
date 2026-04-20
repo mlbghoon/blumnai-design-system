@@ -123,6 +123,11 @@ const meta: Meta<typeof MonthRangePicker> = {
       description: '소비자가 제공하는 트리거 엘리먼트. 전달 시 DS는 자체 입력 필드 + InputWrapper를 렌더링하지 않습니다',
       table: { type: { summary: 'ReactElement' } },
     },
+    defaultMonth: {
+      control: false,
+      description: '팝오버가 처음 열릴 때 포커스할 월. `value.from`이 있으면 그것이 우선합니다',
+      table: { type: { summary: 'Date' } },
+    },
   },
 };
 
@@ -417,6 +422,27 @@ export const ExternalTriggerWithActions: Story = {
         <div className="font-body size-sm text-muted">
           onChange 호출 횟수: <span className="text-default font-medium">{changeCount}</span>
         </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * defaultMonth — 초기 포커스 연도 제어
+ *
+ * `value.from`이 없을 때 팝오버가 처음 열릴 때 포커스할 연도를 지정합니다.
+ */
+export const DefaultMonth: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<MonthRange>({});
+    return (
+      <div style={{ width: 300 }}>
+        <MonthRangePicker
+          label="지난해 기준 열림"
+          value={value}
+          onChange={setValue}
+          defaultMonth={new Date(new Date().getFullYear() - 1, 0, 1)}
+        />
       </div>
     );
   },

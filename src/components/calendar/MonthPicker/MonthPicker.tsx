@@ -59,10 +59,12 @@ export const MonthPicker = ({
   open: openProp,
   onOpenChange,
   trigger,
+  defaultMonth,
 }: MonthPickerProps) => {
   const [open, setOpen] = useControllableOpen({ open: openProp, onOpenChange });
   const [viewYear, setViewYear] = useState(() => {
     if (value) return value.getFullYear();
+    if (defaultMonth) return defaultMonth.getFullYear();
     return new Date().getFullYear();
   });
   const [stagedValue, setStagedValue] = useState<Date | undefined>(value);
@@ -126,9 +128,10 @@ export const MonthPicker = ({
     if (nextOpen) {
       setStagedValue(value);
       if (value) setViewYear(value.getFullYear());
+      else if (defaultMonth) setViewYear(defaultMonth.getFullYear());
     }
     setOpen(nextOpen);
-  }, [value, setOpen]);
+  }, [value, defaultMonth, setOpen]);
 
 
   const isSelected = (idx: number) =>

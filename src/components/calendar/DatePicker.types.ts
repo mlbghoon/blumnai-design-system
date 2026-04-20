@@ -93,6 +93,12 @@ export interface DatePickerBaseProps {
    */
   className?: string;
   /**
+   * 캘린더 팝오버가 처음 열릴 때 포커스할 월. 선택된 `value`가 있으면 `value`가 우선합니다.
+   * 과거 데이터 조회용 필터(`maxDate={new Date()}`)에서 `defaultMonth={startOfMonth(subMonths(new Date(), 1))}`를 전달하면 이전달/이번달 2패널을 표시해 panel 낭비를 피할 수 있습니다.
+   * @default 현재 월
+   */
+  defaultMonth?: Date;
+  /**
    * 선택 가능한 최소 날짜
    */
   minDate?: Date;

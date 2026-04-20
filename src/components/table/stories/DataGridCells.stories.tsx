@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ColumnDef } from '@tanstack/react-table';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { DataGrid } from '../DataGrid';
 import { Input } from '../../input';
@@ -816,7 +816,7 @@ export const InteractiveCells: StoryObj = {
       { id: '3', name: '상품 C', quantity: 0, enabled: true },
     ]);
 
-    const columns: ColumnDef<InteractiveCellData>[] = [
+    const columns = useMemo<ColumnDef<InteractiveCellData>[]>(() => [
       {
         accessorKey: 'name',
         header: '상품명',
@@ -832,10 +832,11 @@ export const InteractiveCells: StoryObj = {
             type="number"
             value={String(row.original.quantity)}
             onChange={(e) => {
+              const next = Number(e.target.value) || 0;
               setData(prev =>
                 prev.map(item =>
                   item.id === row.original.id
-                    ? { ...item, quantity: Number(e.target.value) || 0 }
+                    ? { ...item, quantity: next }
                     : item
                 )
               );
@@ -864,7 +865,7 @@ export const InteractiveCells: StoryObj = {
         ),
         meta: { width: '100px', align: 'center' },
       },
-    ];
+    ], []);
 
     return (
       <DataGrid

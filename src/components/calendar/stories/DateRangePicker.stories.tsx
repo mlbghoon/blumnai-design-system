@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { addDays, addMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
+import { addDays, addMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, subMonths } from 'date-fns';
 import { ko, enUS, ja, zhCN } from 'date-fns/locale';
 import type { Locale } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
@@ -171,6 +171,11 @@ const meta: Meta<StoryProps> = {
       control: false,
       description: '소비자가 제공하는 트리거 엘리먼트. 전달 시 DS는 자체 입력 필드 + InputWrapper를 렌더링하지 않습니다',
       table: { type: { summary: 'ReactElement' } },
+    },
+    defaultMonth: {
+      control: false,
+      description: '캘린더 팝오버가 처음 열릴 때 포커스할 월. `value.from`이 있으면 그것이 우선합니다',
+      table: { type: { summary: 'Date' } },
     },
     confirmLabel: {
       control: 'text',
@@ -716,6 +721,31 @@ export const ExternalTriggerWithActions: Story = {
         <div className="font-body size-sm text-muted">
           onChange 호출 횟수: <span className="text-default font-medium">{changeCount}</span>
         </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * defaultMonth — 초기 포커스 월 제어 (과거 조회 필터 UX)
+ *
+ * `maxDate={today}`로 미래 날짜를 막은 검색 필터에서 `defaultMonth={startOfMonth(subMonths(today, 1))}`를
+ * 전달하면 2패널 중 오른쪽 패널이 현재월이 되어 두 패널 모두 액션 가능합니다.
+ * `defaultMonth` 미지정 시 기존 동작(현재월/다음월) 유지.
+ */
+export const DefaultMonthForPastFilter: Story = {
+  render: function Render() {
+    const today = new Date();
+    const [range, setRange] = useState<DateRange | undefined>();
+    return (
+      <div style={{ width: 350 }}>
+        <DateRangePicker
+          label="조회 기간 (지난달 기준으로 열림)"
+          value={range}
+          onChange={setRange}
+          maxDate={today}
+          defaultMonth={startOfMonth(subMonths(today, 1))}
+        />
       </div>
     );
   },

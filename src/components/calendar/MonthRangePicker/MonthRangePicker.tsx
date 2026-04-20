@@ -64,10 +64,12 @@ export const MonthRangePicker = ({
   open: openProp,
   onOpenChange,
   trigger,
+  defaultMonth,
 }: MonthRangePickerProps) => {
   const [open, setOpen] = useControllableOpen({ open: openProp, onOpenChange });
   const [viewYear, setViewYear] = useState(() => {
     if (value?.from) return value.from.getFullYear();
+    if (defaultMonth) return defaultMonth.getFullYear();
     return new Date().getFullYear();
   });
   const [selecting, setSelecting] = useState<'from' | 'to'>('from');
@@ -168,6 +170,8 @@ export const MonthRangePicker = ({
       setSelecting(value?.from && !value?.to ? 'to' : 'from');
       if (value?.from) {
         setViewYear(value.from.getFullYear());
+      } else if (defaultMonth) {
+        setViewYear(defaultMonth.getFullYear());
       }
       setHoveredMonth(null);
     } else {
@@ -175,7 +179,7 @@ export const MonthRangePicker = ({
       setHoveredMonth(null);
     }
     setOpen(nextOpen);
-  }, [value, setOpen]);
+  }, [value, defaultMonth, setOpen]);
 
 
   const popoverContent = (

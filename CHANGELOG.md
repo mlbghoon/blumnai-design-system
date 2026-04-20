@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.1] - 2026-04-20
+
+### Added
+
+- **DatePicker / DateRangePicker / MonthPicker / MonthRangePicker — `defaultMonth?: Date` prop**: `value`가 없을 때 팝오버가 처음 열릴 때 포커스할 월을 지정합니다
+  - `value` 있으면 `value`(또는 `value.from`) 우선 — 기존 동작 변경 없음
+  - 주 용도: 과거 데이터 조회 필터 UX. `maxDate={new Date()}` + `defaultMonth={startOfMonth(subMonths(new Date(), 1))}` 조합으로 DateRangePicker 기본 2패널이 "지난달/이번달"로 열려 두 패널 모두 선택 가능 (기존에는 "이번달/다음달"이어서 다음달이 전부 비활성)
+  - react-day-picker의 기존 `defaultMonth` prop을 그대로 forward — 내부 로직 추가 없음
+- **Storybook:** 4개 피커 각각 `DefaultMonth` 스토리 추가 (DateRangePicker는 `DefaultMonthForPastFilter`)
+
 ## [1.6.0] - 2026-04-20
 
 ### Added

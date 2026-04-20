@@ -121,4 +121,9 @@ export interface MonthRangePickerProps {
    * `label`, `supportText`, `error`, `width`, `className`, `pickerOnly` prop은 무시됩니다.
    */
   trigger?: ReactElement;
+  /**
+   * 캘린더 팝오버가 처음 열릴 때 포커스할 월. 선택된 `value.from`이 있으면 그것이 우선합니다.
+   * @default 현재 월
+   */
+  defaultMonth?: Date;
 }

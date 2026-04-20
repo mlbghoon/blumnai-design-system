@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { addDays } from 'date-fns';
+import { addDays, startOfMonth, subMonths } from 'date-fns';
 import { ko, enUS, ja, zhCN } from 'date-fns/locale';
 import type { Locale } from 'date-fns';
 
@@ -165,6 +165,11 @@ const meta: Meta<StoryProps> = {
       control: false,
       description: '소비자가 제공하는 트리거 엘리먼트. 전달 시 DS는 자체 입력 필드 + InputWrapper를 렌더링하지 않습니다',
       table: { type: { summary: 'ReactElement' } },
+    },
+    defaultMonth: {
+      control: false,
+      description: '캘린더 팝오버가 처음 열릴 때 포커스할 월. `value`가 있으면 `value`가 우선합니다',
+      table: { type: { summary: 'Date' } },
     },
     confirmLabel: {
       control: 'text',
@@ -608,6 +613,30 @@ export const ExternalTriggerWithActions: Story = {
         <div className="font-body size-sm text-muted">
           onChange 호출 횟수: <span className="text-default font-medium">{changeCount}</span>
         </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * defaultMonth — 초기 포커스 월 제어
+ *
+ * `value`가 없을 때 팝오버가 처음 열릴 때 포커스할 월을 지정합니다.
+ * 과거 데이터 조회 필터에서 `maxDate={today}`와 함께 쓰면 이번달 대신 지난달을 보여줄 수 있습니다.
+ */
+export const DefaultMonth: Story = {
+  render: function Render() {
+    const [date, setDate] = useState<Date | undefined>();
+    const today = new Date();
+    return (
+      <div style={{ width: 260 }}>
+        <DatePicker
+          label="과거 조회 (지난달 기준)"
+          value={date}
+          onChange={setDate}
+          maxDate={today}
+          defaultMonth={startOfMonth(subMonths(today, 1))}
+        />
       </div>
     );
   },
