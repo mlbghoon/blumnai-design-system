@@ -4,9 +4,66 @@
 
 | DS 버전 | React | Node | Tailwind | 패키지 스코프 |
 |---------|-------|------|----------|--------------|
+| 1.5.x   | 18+   | 20+  | v4 (DS 내부; 소비자는 v3/v4 모두 호환) | `@blumnai-studio` |
 | 1.1.x   | 18+   | 20+  | v4       | `@blumnai-studio` |
 | 1.0.x   | 18+   | 20+  | v4       | `@blumnai-studio` |
 | 0.2.x   | 18+   | 18+  | v4       | `@mlbghoon` |
+
+---
+
+## 1.4.x → 1.5.x (Table / DataGrid 기본 폰트·행 높이 변경)
+
+### 요약
+
+Table과 DataGrid의 기본 폰트 크기가 `xs`(12px) → `sm`(14px)로, 기본 행 높이가 `32px` → `36px`로 변경되었습니다. `Cell*` 프리미티브(CellText, CellDate 등)를 Table/DataGrid 외부에서 단독 사용하는 경우에도 기본값이 `sm`으로 이동합니다.
+
+### 이전 외관을 그대로 유지하려면
+
+Table/DataGrid 루트에 `fontSize="xs"`를 전달하세요. 폰트 12px와 행 높이 32px가 모두 복원됩니다.
+
+```tsx
+// 변경 전 (v1.4.x) — 암묵적 xs + 32px 행
+<Table>...</Table>
+<DataGrid data={data} columns={columns} />
+
+// 변경 후에도 동일한 외관 (v1.5.0+)
+<Table fontSize="xs">...</Table>
+<DataGrid data={data} columns={columns} fontSize="xs" />
+```
+
+### 새 기본값 (sm) 적용 시
+
+별도 조치 없이 `v1.5.0+`로 업그레이드하면 `sm` / 36px가 자동 적용됩니다.
+
+```tsx
+// v1.5.0+ 기본값: 14px / 36px
+<Table>...</Table>
+<DataGrid data={data} columns={columns} />
+
+// 더 큰 크기 (16px / 40px)
+<Table fontSize="md">...</Table>
+<DataGrid data={data} columns={columns} fontSize="md" />
+```
+
+### 명시적 `rowHeight` / `headerHeight`
+
+`fontSize` 기본 행 높이보다 우선합니다. 기존에 `rowHeight="40px"` 등을 지정하고 있었다면 그대로 유지됩니다.
+
+```tsx
+<DataGrid fontSize="md" rowHeight="56px" headerHeight="56px" /> // 56px 우선
+```
+
+### `Cell*` 프리미티브 단독 사용
+
+Table/DataGrid 밖에서 `CellText`, `CellDate` 등을 직접 렌더링하는 경우 Context 기본값(`sm`)이 적용됩니다. 이전처럼 `xs`로 고정하려면 상위를 Provider로 감싸세요.
+
+```tsx
+import { TableFontSizeContext } from '@blumnai-studio/blumnai-design-system/table';
+
+<TableFontSizeContext.Provider value="xs">
+  <CellText value="..." />
+</TableFontSizeContext.Provider>
+```
 
 ---
 

@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import { Avatar } from '../../avatar/Avatar';
+import { useTableFontSize, getTableFontClasses } from '../components/TableFontSizeContext';
 
 interface CellAvatarProps {
   src?: string;
@@ -26,6 +27,7 @@ export function CellAvatar({
 }: CellAvatarProps) {
   const avatarInitials = initials ?? (name ? getInitials(name) : undefined);
   const variant = src ? 'userpic' : avatarInitials ? 'initials' : 'empty';
+  const fontSize = useTableFontSize();
 
   return (
     <div className="flex items-center ds-gap-8">
@@ -36,7 +38,7 @@ export function CellAvatar({
         size={size}
       />
       {showName && name && (
-        <span className={cn('truncate font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default')}>
+        <span className={cn('truncate font-body letter-spacing-tracking-tight text-default', getTableFontClasses(fontSize))}>
           {name}
         </span>
       )}

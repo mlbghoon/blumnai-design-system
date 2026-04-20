@@ -9,6 +9,7 @@ import { Icon } from '../../icons/Icon';
 import { TooltipTrigger } from '../../tooltip';
 import { DndContext } from '../../dnd';
 import { useMergeRefs } from '../../../hooks/use-merge-refs';
+import { useTableFontSize, getTableFontClasses } from './TableFontSizeContext';
 import type { StickyColumnInfo } from '../utils/stickyColumnUtils';
 import type { ColumnSizingState } from '../DataGrid.types';
 
@@ -35,6 +36,7 @@ interface DataGridHeaderCellProps<T> {
 
 function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, enableColumnResize, onResizeStart }: DataGridHeaderCellProps<T>) {
   const cellRef = useRef<HTMLDivElement>(null);
+  const fontSize = useTableFontSize();
   const canSort = header.column.getCanSort();
   const sortDirection = header.column.getIsSorted();
   const sortIndex = header.column.getSortIndex();
@@ -63,7 +65,8 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
       aria-colindex={colIndex}
       className={cn(
         'padding-x-10 flex items-center ds-gap-4',
-        'font-body size-xs line-height-leading-4 font-medium text-subtle',
+        'font-body font-medium text-subtle',
+        getTableFontClasses(fontSize),
         'border-r-default last:border-r-0',
         align === 'center' && 'justify-center',
         align === 'right' && 'justify-end',
@@ -72,7 +75,7 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
         isSticky ? 'sticky z-10' : 'relative z-[1]'
       )}
       style={{
-        height: headerHeight ?? '32px',
+        height: headerHeight,
         ...(isSticky ? { left: stickyInfo.leftOffset, width: stickyInfo.width } : undefined),
       }}
       onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
@@ -137,6 +140,7 @@ const noAnimateLayoutChanges = () => false;
 function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, enableColumnResize, onResizeStart }: SortableHeaderCellProps<T>) {
   const isFixed = !!stickyInfo || header.column.id === 'select';
   const cellRef = useRef<HTMLDivElement>(null);
+  const fontSize = useTableFontSize();
 
   const {
     attributes,
@@ -167,7 +171,7 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
   const isSticky = !!stickyInfo;
 
   const style: React.CSSProperties = {
-    height: headerHeight ?? '32px',
+    height: headerHeight,
     ...(isSticky ? { left: stickyInfo.leftOffset, width: stickyInfo.width } : undefined),
     transform: CSS.Translate.toString(transform),
     transition,
@@ -188,7 +192,8 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
       aria-colindex={colIndex}
       className={cn(
         'padding-x-10 flex items-center ds-gap-4',
-        'font-body size-xs line-height-leading-4 font-medium text-subtle',
+        'font-body font-medium text-subtle',
+        getTableFontClasses(fontSize),
         'border-r-default last:border-r-0',
         align === 'center' && 'justify-center',
         align === 'right' && 'justify-end',

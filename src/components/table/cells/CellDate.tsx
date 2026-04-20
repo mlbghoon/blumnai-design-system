@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { useTableFontSize, getTableFontClasses } from '../components/TableFontSizeContext';
 
 type DateFormat = 'date' | 'datetime' | 'time';
 type Locale = 'ko' | 'en' | 'ja' | 'zh';
@@ -50,10 +51,14 @@ export function CellDate({
   locale = 'ko',
   className,
 }: CellDateProps) {
+  const fontSize = useTableFontSize();
+  const fontClasses = getTableFontClasses(fontSize);
+
   if (value == null) {
     return (
       <span className={cn(
-        'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-hint',
+        'font-body letter-spacing-tracking-tight text-hint',
+        fontClasses,
         className
       )}>
         -
@@ -66,7 +71,8 @@ export function CellDate({
   if (!date) {
     return (
       <span className={cn(
-        'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-hint',
+        'font-body letter-spacing-tracking-tight text-hint',
+        fontClasses,
         className
       )}>
         -
@@ -78,7 +84,8 @@ export function CellDate({
 
   return (
     <span className={cn(
-      'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default tabular-nums',
+      'font-body letter-spacing-tracking-tight text-default tabular-nums',
+      fontClasses,
       className
     )}>
       {displayValue}

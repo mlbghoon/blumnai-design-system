@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { useTableFontSize, getTableFontClasses } from '../components/TableFontSizeContext';
 
 type DateFormat = 'date' | 'datetime' | 'time';
 type Locale = 'ko' | 'en' | 'ja' | 'zh';
@@ -56,11 +57,14 @@ export function CellDateRange({
 }: CellDateRangeProps) {
   const start = startDate != null ? parseDate(startDate) : null;
   const end = endDate != null ? parseDate(endDate) : null;
+  const fontSize = useTableFontSize();
+  const fontClasses = getTableFontClasses(fontSize);
 
   if (!start && !end) {
     return (
       <span className={cn(
-        'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-hint',
+        'font-body letter-spacing-tracking-tight text-hint',
+        fontClasses,
         className
       )}>
         -
@@ -73,7 +77,8 @@ export function CellDateRange({
 
   return (
     <span className={cn(
-      'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default tabular-nums',
+      'font-body letter-spacing-tracking-tight text-default tabular-nums',
+      fontClasses,
       className
     )}>
       {startStr}

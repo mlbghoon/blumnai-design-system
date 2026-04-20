@@ -11,6 +11,7 @@ import { DataGridLoading } from './components/DataGridLoading';
 import { DataGridEmpty } from './components/DataGridEmpty';
 import { DataGridError } from './components/DataGridError';
 import { TableTooltipProvider } from './components/TableTooltip';
+import { TableFontSizeContext, getDefaultRowHeight } from './components/TableFontSizeContext';
 import { ScrollArea } from '../scroll-area';
 import { calculateStickyPositions } from './utils/stickyColumnUtils';
 import type { DataGridProps } from './DataGrid.types';
@@ -73,9 +74,12 @@ function DataGridInner<T>(
     className,
     onRowClick,
     showSelectedRowBackground = true,
+    fontSize = 'sm',
   }: DataGridProps<T>,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
+  const effectiveRowHeight = rowHeight ?? getDefaultRowHeight(fontSize);
+  const effectiveHeaderHeight = headerHeight ?? getDefaultRowHeight(fontSize);
   const {
     table,
     pagination: paginationInfo,
@@ -179,6 +183,7 @@ function DataGridInner<T>(
 
   return (
     <TableTooltipProvider>
+      <TableFontSizeContext.Provider value={fontSize}>
       <div
         ref={mergedRef}
         role="grid"
@@ -202,7 +207,7 @@ function DataGridInner<T>(
             headerGroups={headerGroups}
             gridTemplateColumns={gridTemplateColumns}
             stickyColumnPositions={stickyColumnPositions}
-            headerHeight={headerHeight}
+            headerHeight={effectiveHeaderHeight}
             enableColumnReorder={enableColumnReorder}
             onColumnOrderChange={handleColumnOrderChange}
             enableColumnResize={enableColumnResize}
@@ -220,7 +225,7 @@ function DataGridInner<T>(
               gridTemplateColumns={gridTemplateColumns}
               rowCount={limit}
               stickyColumnPositions={stickyColumnPositions}
-              rowHeight={rowHeight}
+              rowHeight={effectiveRowHeight}
             />
           ) : (
             <DataGridBody
@@ -231,7 +236,7 @@ function DataGridInner<T>(
               onRowClick={onRowClick}
               showSelectedRowBackground={showSelectedRowBackground}
               stickyColumnPositions={stickyColumnPositions}
-              rowHeight={rowHeight}
+              rowHeight={effectiveRowHeight}
               getRowHeight={getRowHeight}
             />
           )}
@@ -242,7 +247,7 @@ function DataGridInner<T>(
               gridTemplateColumns={gridTemplateColumns}
               overlay
               stickyColumnPositions={stickyColumnPositions}
-              rowHeight={rowHeight}
+              rowHeight={effectiveRowHeight}
             />
           )}
         </ScrollArea>
@@ -270,6 +275,7 @@ function DataGridInner<T>(
           />
         )}
       </div>
+      </TableFontSizeContext.Provider>
     </TableTooltipProvider>
   );
 }

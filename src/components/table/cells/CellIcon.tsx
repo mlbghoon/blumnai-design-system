@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import type { IconTypeWithFill, IconColor } from '../../icons/Icon/Icon.types';
+import { useTableFontSize, getTableFontClasses } from '../components/TableFontSizeContext';
 
 interface CellIconProps {
   iconType: IconTypeWithFill;
@@ -18,12 +19,13 @@ export function CellIcon({
   className,
 }: CellIconProps) {
   const { iconType: parsedIconType, isFill } = parseIconTypeWithFill(iconType);
+  const fontSize = useTableFontSize();
 
   return (
     <div className={cn('flex items-center ds-gap-6', className)}>
       <Icon iconType={parsedIconType} size={size} color={color} isFill={isFill} />
       {label && (
-        <span className="font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default">{label}</span>
+        <span className={cn('font-body letter-spacing-tracking-tight text-default', getTableFontClasses(fontSize))}>{label}</span>
       )}
     </div>
   );

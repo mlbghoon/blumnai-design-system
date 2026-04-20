@@ -5,6 +5,12 @@ import { Icon } from '../icons/Icon';
 import { Pagination } from '../pagination';
 import { Select } from '../select';
 import { ScrollArea } from '../scroll-area';
+import {
+  TableFontSizeContext,
+  useTableFontSize,
+  getTableFontClasses,
+  getDefaultRowHeight,
+} from './components/TableFontSizeContext';
 import type {
   TableProps,
   TableHeaderProps,
@@ -33,6 +39,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
   (
     {
       className,
+      fontSize = 'sm',
       striped,
       bordered,
       minHeight,
@@ -103,6 +110,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
     );
 
     return (
+      <TableFontSizeContext.Provider value={fontSize}>
       <div
         className={cn(
           'relative w-full overflow-hidden',
@@ -120,7 +128,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
         >
           <table
             ref={ref}
-            className={cn('w-full caption-bottom size-sm font-body', className)}
+            className={cn('w-full caption-bottom font-body', className)}
             data-slot="table"
             data-striped={striped || undefined}
             aria-busy={isLoading || undefined}
@@ -182,6 +190,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
           </div>
         )}
       </div>
+      </TableFontSizeContext.Provider>
     );
   }
 );
@@ -241,7 +250,8 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
 TableRow.displayName = 'TableRow';
 
 const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
-  ({ className, sortable, sortDirection, children, onClick, ...props }, ref) => {
+  ({ className, sortable, sortDirection, children, onClick, style, ...props }, ref) => {
+    const fontSize = useTableFontSize();
     const getSortIcon = () => {
       if (!sortDirection) return 'expand-up-down';
       return sortDirection === 'asc' ? 'arrow-up-s' : 'arrow-down-s';
@@ -259,12 +269,14 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         ref={ref}
         scope="col"
         className={cn(
-          'height-32 padding-x-10 text-left align-middle bg-default',
-          'font-body size-xs line-height-leading-4 font-medium text-subtle',
+          'padding-x-10 text-left align-middle bg-default',
+          'font-body font-medium text-subtle',
+          getTableFontClasses(fontSize),
           '[&:has([role=checkbox])]:[padding-right:0] [&>[role=checkbox]]:translate-y-[2px]',
           sortable && 'cursor-pointer select-none',
           className
         )}
+        style={{ height: getDefaultRowHeight(fontSize), ...style }}
         onClick={sortable ? onClick : undefined}
         onKeyDown={sortable ? handleKeyDown : undefined}
         tabIndex={sortable ? 0 : undefined}
@@ -296,29 +308,37 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
 TableHead.displayName = 'TableHead';
 
 const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ className, ...props }, ref) => (
-    <td
-      ref={ref}
-      className={cn(
-        'height-32 padding-x-10 align-middle',
-        'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default',
-        '[&:has([role=checkbox])]:[padding-right:0] [&>[role=checkbox]]:translate-y-[2px]',
-        className
-      )}
-      {...props}
-    />
-  )
+  ({ className, style, ...props }, ref) => {
+    const fontSize = useTableFontSize();
+    return (
+      <td
+        ref={ref}
+        className={cn(
+          'padding-x-10 align-middle',
+          'font-body letter-spacing-tracking-tight text-default',
+          getTableFontClasses(fontSize),
+          '[&:has([role=checkbox])]:[padding-right:0] [&>[role=checkbox]]:translate-y-[2px]',
+          className
+        )}
+        style={{ height: getDefaultRowHeight(fontSize), ...style }}
+        {...props}
+      />
+    );
+  }
 );
 TableCell.displayName = 'TableCell';
 
 const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps>(
-  ({ className, ...props }, ref) => (
-    <caption
-      ref={ref}
-      className={cn('margin-t-16 size-sm font-body text-subtle', className)}
-      {...props}
-    />
-  )
+  ({ className, ...props }, ref) => {
+    const fontSize = useTableFontSize();
+    return (
+      <caption
+        ref={ref}
+        className={cn('margin-t-16 font-body text-subtle', getTableFontClasses(fontSize), className)}
+        {...props}
+      />
+    );
+  }
 );
 TableCaption.displayName = 'TableCaption';
 

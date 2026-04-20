@@ -49,3 +49,12 @@ export {
 // Hooks
 export { useDataGridTable } from './hooks/useDataGridTable';
 export { useGridKeyboardNav } from './hooks/useGridKeyboardNav';
+
+// Font size (shared between Table and DataGrid)
+export {
+  TableFontSizeContext,
+  useTableFontSize,
+  getTableFontClasses,
+  getDefaultRowHeight,
+} from './components/TableFontSizeContext';
+export type { TableFontSize } from './components/TableFontSizeContext';

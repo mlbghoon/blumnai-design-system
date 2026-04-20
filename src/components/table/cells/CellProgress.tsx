@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { useTableFontSize, getTableFontClasses } from '../components/TableFontSizeContext';
 
 interface CellProgressProps {
   value: number;
@@ -21,6 +22,7 @@ export function CellProgress({
   color = 'default',
 }: CellProgressProps) {
   const percentage = Math.min(100, Math.max(0, (value / max) * 100));
+  const fontSize = useTableFontSize();
 
   return (
     <div className="flex items-center ds-gap-8 w-full">
@@ -31,7 +33,7 @@ export function CellProgress({
         />
       </div>
       {showLabel && (
-        <span className="font-body size-xs text-subtle shrink-0">
+        <span className={cn('font-body text-subtle shrink-0', getTableFontClasses(fontSize))}>
           {Math.round(percentage)}%
         </span>
       )}

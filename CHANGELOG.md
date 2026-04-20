@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.5.1] - 2026-04-20
+
+### Fixed
+
+- **Transform utility 이중 적용 해결 (Tailwind v3 소비자 호환성)**: DS가 Tailwind v4로 빌드될 때 방출하던 `rotate-*`, `translate-*`, `scale-*`, `skew-*`, `transform*` 유틸리티 클래스가 소비 프로젝트의 Tailwind v3 같은 이름 유틸리티와 충돌하던 문제 수정. v4는 `rotate:`, `translate:` 등 개별 CSS 속성을 사용하고 v3는 `transform:` 합성을 사용하는데, 둘이 서로 다른 CSS 속성이라 브라우저가 두 효과를 합성하여 `rotate-180`이 360도로 돌거나 `-translate-x-1/2`가 -100% 이동하던 증상
+- 해결: 빌드 후처리 스크립트(`scripts/prefix-transform-classes.mjs`)가 `dist/index.css`의 해당 선택자와 `dist/**/*.mjs`의 className 문자열을 `ds-` 접두사 버전(`ds-rotate-180`, `-ds-translate-x-1/2`, `hover:ds-scale-110` 등)으로 리네임. 소비자는 설정 변경 없이 자동 해결됨
+- 범위: transform 계열만. 그 외 유틸리티(`rounded-lg`, `bg-*`, `flex` 등)는 v3/v4가 같은 CSS 속성을 설정하므로 cascade로 해결되어 기능적 버그 없음. 근본적 격리는 `src/future-plans/tailwind-isolation-v2.md` 참고 (v2.0 계획)
+
+## [1.5.0] - 2026-04-20
+
+### Added
+
+- **Table/DataGrid `fontSize` prop**: `'xs' | 'sm' | 'md'` 옵션 추가. 셀 / 헤더 / `Cell*` 프리미티브(`CellText`, `CellAvatar`, `CellDate`, `CellDateRange`, `CellIcon`, `CellProgress`, `CellLink`) 전체에 내부 Context로 전파
+  - `xs`: 12px 텍스트 / 행 32px (이전 동작)
+  - `sm`: 14px 텍스트 / 행 36px (신규 기본값)
+  - `md`: 16px 텍스트 / 행 40px
+  - 명시적 `rowHeight` / `headerHeight` (혹은 `TableHead/TableCell`의 `style.height`)는 여전히 `fontSize` 기본 높이보다 우선
+- **`TableFontSize` 타입 export**: Table/DataGrid 모두에서 재수출
+
+### Changed (BREAKING)
+
+- **Table/DataGrid 기본 폰트 크기 변경**: `size-xs` (12px) → `size-sm` (14px)
+- **Table/DataGrid 기본 행 높이 변경**: `32px` → `36px` (헤더/데이터 행 모두)
+- **`Cell*` 프리미티브 기본 폰트**: Table/DataGrid 외부에서 단독 사용 시에도 기본값이 `sm`으로 이동
+- 마이그레이션: 이전 외관 유지가 필요하면 `fontSize="xs"`를 루트에 전달. 자세한 내용은 MIGRATION.md 참고
+
 ## [1.4.14] - 2026-04-18
 
 ### Changed

@@ -33,7 +33,7 @@ function DataGridRowInner<T>({
     }
   }, [onRowClick, row.original]);
 
-  const height = getRowHeight?.(row.original) ?? rowHeight ?? '32px';
+  const height = getRowHeight?.(row.original) ?? rowHeight;
 
   return (
     <div

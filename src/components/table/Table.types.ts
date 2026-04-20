@@ -1,9 +1,23 @@
 import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from 'react';
 import type { PaginationVariant } from '../pagination';
+import type { TableFontSize } from './components/TableFontSizeContext';
 
 export type TablePaginationAlign = 'left' | 'center' | 'right';
 
+export type { TableFontSize };
+
 export interface TableProps extends HTMLAttributes<HTMLTableElement> {
+  /**
+   * 텍스트 크기 (행 높이도 함께 조정됨)
+   * - xs: 12px / 행 32px
+   * - sm: 14px / 행 36px (기본값)
+   * - md: 16px / 행 40px
+   *
+   * 명시적으로 `minHeight`는 표 전체 최소 높이이고, 행 높이는 내부 기본값입니다.
+   * @default 'sm'
+   */
+  fontSize?: TableFontSize;
+
   /**
    * 줄무늬 행 스타일 사용 여부
    */

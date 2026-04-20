@@ -268,6 +268,20 @@ const meta: Meta<TableProps> = {
         },
       },
     },
+    fontSize: {
+      control: 'select',
+      options: ['xs', 'sm', 'md'],
+      description: '텍스트 크기 (행 높이도 함께 조정)',
+      table: {
+        type: {
+          summary: "'xs' | 'sm' | 'md'",
+          detail: `'xs': 12px 텍스트 / 행 32px
+'sm': 14px 텍스트 / 행 36px (기본값)
+'md': 16px 텍스트 / 행 40px`,
+        },
+        defaultValue: { summary: "'sm'" },
+      },
+    },
     className: {
       control: 'text',
       description: '테이블 요소에 추가할 CSS 클래스',
@@ -300,7 +314,7 @@ const largeData = Array.from({ length: 50 }, (_, i) => ({
 /**
  * 기본 테이블
  *
- * 심플한 HTML 테이블 컴포넌트입니다. 32px 행 높이를 기본으로 합니다.
+ * 심플한 HTML 테이블 컴포넌트입니다. 기본 `fontSize="sm"` (14px) / 행 높이 36px.
  */
 export const Default: Story = {
   parameters: {
@@ -309,10 +323,11 @@ export const Default: Story = {
   args: {
     striped: false,
     bordered: false,
+    fontSize: 'sm',
   },
   render: function Render(args) {
     return (
-      <Table striped={args.striped} bordered={args.bordered}>
+      <Table striped={args.striped} bordered={args.bordered} fontSize={args.fontSize}>
         <TableHeader>
           <TableRow>
             <TableHead>이름</TableHead>
@@ -332,6 +347,107 @@ export const Default: Story = {
           ))}
         </TableBody>
       </Table>
+    );
+  },
+};
+
+/**
+ * fontSize 옵션
+ *
+ * `xs` / `sm` / `md` 세 가지 폰트 크기를 지원합니다.
+ * 행 높이(`TableHead` / `TableCell`)도 자동으로 32/36/40px로 조정됩니다.
+ */
+export const FontSize: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24">
+        {(['xs', 'sm', 'md'] as const).map((size) => (
+          <div key={size} className="flex flex-col ds-gap-8">
+            <h3 className="font-body size-md font-semibold text-default">fontSize=&quot;{size}&quot;</h3>
+            <Table bordered fontSize={size}>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>이름</TableHead>
+                  <TableHead>이메일</TableHead>
+                  <TableHead>역할</TableHead>
+                  <TableHead>상태</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sampleData.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{user.role}</TableCell>
+                    <TableCell>{user.status}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        ))}
+      </div>
+    );
+  },
+};
+
+/**
+ * fontSize + 명시적 행 높이
+ *
+ * `TableHead` / `TableCell`에 `style={{ height: ... }}`를 직접 지정하면
+ * `fontSize` 기반 기본 행 높이보다 우선합니다.
+ */
+export const FontSizeWithExplicitHeight: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex flex-col ds-gap-8">
+          <h3 className="font-body size-md font-semibold text-default">
+            fontSize=&quot;md&quot; (기본 행 40px)
+          </h3>
+          <Table bordered fontSize="md">
+            <TableHeader>
+              <TableRow>
+                <TableHead>이름</TableHead>
+                <TableHead>이메일</TableHead>
+                <TableHead>역할</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sampleData.slice(0, 3).map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.role}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+        <div className="flex flex-col ds-gap-8">
+          <h3 className="font-body size-md font-semibold text-default">
+            fontSize=&quot;md&quot; + 행 높이 56px (명시적 override)
+          </h3>
+          <Table bordered fontSize="md">
+            <TableHeader>
+              <TableRow>
+                <TableHead style={{ height: '56px' }}>이름</TableHead>
+                <TableHead style={{ height: '56px' }}>이메일</TableHead>
+                <TableHead style={{ height: '56px' }}>역할</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sampleData.slice(0, 3).map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell style={{ height: '56px' }}>{user.name}</TableCell>
+                  <TableCell style={{ height: '56px' }}>{user.email}</TableCell>
+                  <TableCell style={{ height: '56px' }}>{user.role}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
     );
   },
 };

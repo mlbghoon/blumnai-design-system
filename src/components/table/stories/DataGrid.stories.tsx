@@ -400,6 +400,22 @@ false: 선택 불가
         defaultValue: { summary: 'true' },
       },
     },
+    fontSize: {
+      control: 'select',
+      options: ['xs', 'sm', 'md'],
+      description: '텍스트 크기 (행 높이 기본값도 함께 조정)',
+      table: {
+        type: {
+          summary: "'xs' | 'sm' | 'md'",
+          detail: `'xs': 12px 텍스트 / 행 32px
+'sm': 14px 텍스트 / 행 36px (기본값)
+'md': 16px 텍스트 / 행 40px
+
+명시적으로 rowHeight/headerHeight를 넘기면 그 값이 우선합니다.`,
+        },
+        defaultValue: { summary: "'sm'" },
+      },
+    },
     className: {
       control: 'text',
       description: '루트 요소에 추가할 CSS 클래스',
@@ -461,8 +477,9 @@ export const Default: Story = {
     showSelectedRowBackground: true,
     paginationVariant: 'numbered',
     paginationAlign: 'right',
-    headerHeight: '32px',
-    rowHeight: '32px',
+    fontSize: 'sm',
+    headerHeight: undefined,
+    rowHeight: undefined,
     maxHeight: undefined,
     minHeight: undefined,
     enableColumnResize: false,
@@ -481,12 +498,81 @@ export const Default: Story = {
         showSelectedRowBackground={args.showSelectedRowBackground}
         paginationVariant={args.paginationVariant}
         paginationAlign={args.paginationAlign}
+        fontSize={args.fontSize}
         headerHeight={args.headerHeight}
         rowHeight={args.rowHeight}
         maxHeight={args.maxHeight}
         minHeight={args.minHeight}
         enableColumnResize={args.enableColumnResize}
       />
+    );
+  },
+};
+
+/**
+ * fontSize 옵션
+ *
+ * `xs` / `sm` / `md` 세 가지 폰트 크기를 지원합니다.
+ * 명시적 `rowHeight` / `headerHeight`가 없으면 행 높이도 자동으로 32/36/40px로 조정됩니다.
+ */
+export const FontSize: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24">
+        {(['xs', 'sm', 'md'] as const).map((size) => (
+          <div key={size} className="flex flex-col ds-gap-8">
+            <h3 className="font-body size-md font-semibold text-default">fontSize=&quot;{size}&quot;</h3>
+            <DataGrid
+              data={sampleUsers.slice(0, 5)}
+              columns={baseColumns}
+              getRowId={(row) => row.id}
+              fontSize={size}
+              pagination={false}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  },
+};
+
+/**
+ * fontSize + 명시적 rowHeight
+ *
+ * `rowHeight` / `headerHeight`를 직접 지정하면 `fontSize` 기본 행 높이보다 우선합니다.
+ * 왼쪽은 `fontSize="md"` 기본(40px), 오른쪽은 `fontSize="md"` + `rowHeight="56px"`.
+ */
+export const FontSizeWithExplicitHeight: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <div className="flex flex-col ds-gap-8">
+          <h3 className="font-body size-md font-semibold text-default">
+            fontSize=&quot;md&quot; (기본 행 40px)
+          </h3>
+          <DataGrid
+            data={sampleUsers.slice(0, 5)}
+            columns={baseColumns}
+            getRowId={(row) => row.id}
+            fontSize="md"
+            pagination={false}
+          />
+        </div>
+        <div className="flex flex-col ds-gap-8">
+          <h3 className="font-body size-md font-semibold text-default">
+            fontSize=&quot;md&quot; + rowHeight=&quot;56px&quot; + headerHeight=&quot;56px&quot;
+          </h3>
+          <DataGrid
+            data={sampleUsers.slice(0, 5)}
+            columns={baseColumns}
+            getRowId={(row) => row.id}
+            fontSize="md"
+            rowHeight="56px"
+            headerHeight="56px"
+            pagination={false}
+          />
+        </div>
+      </div>
     );
   },
 };

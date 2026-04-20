@@ -3,6 +3,7 @@ import { useCallback, useRef, useEffect, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { Icon } from '../../icons/Icon';
 import { useTableTooltipOptional } from '../components/useTableTooltip';
+import { useTableFontSize, getTableFontClasses } from '../components/TableFontSizeContext';
 
 interface CellLinkProps {
   href: string;
@@ -23,6 +24,7 @@ export function CellLink({
   const elementRef = useRef<HTMLAnchorElement>(null);
   const tableTooltip = useTableTooltipOptional();
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fontSize = useTableFontSize();
 
   useEffect(() => {
     return () => {
@@ -66,7 +68,8 @@ export function CellLink({
       className={cn(
         'inline-flex items-center ds-gap-4 truncate group',
         'text-state-primary',
-        'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight',
+        'font-body letter-spacing-tracking-tight',
+        getTableFontClasses(fontSize),
         className
       )}
       onMouseEnter={tooltip ? handleMouseEnter : undefined}

@@ -9,6 +9,9 @@ import type {
   Row,
 } from '@tanstack/react-table';
 import type { PaginationVariant } from '../pagination';
+import type { TableFontSize } from './components/TableFontSizeContext';
+
+export type { TableFontSize };
 
 declare module '@tanstack/react-table' {
   interface ColumnMeta<TData, TValue> {
@@ -258,6 +261,17 @@ export interface DataGridProps<T> {
    * 행별 높이 계산 함수 (rowHeight보다 우선순위 높음)
    */
   getRowHeight?: (row: T) => string | undefined;
+
+  /**
+   * 텍스트 크기 (행 높이 기본값도 함께 조정됨)
+   * - xs: 12px / 행 32px
+   * - sm: 14px / 행 36px (기본값)
+   * - md: 16px / 행 40px
+   *
+   * 명시적으로 `rowHeight` / `headerHeight`를 넘기면 그 값이 우선합니다.
+   * @default 'sm'
+   */
+  fontSize?: TableFontSize;
 
   // ============================================
   // Empty State

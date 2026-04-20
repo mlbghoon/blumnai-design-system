@@ -5,6 +5,7 @@ import { TooltipTrigger } from '../../tooltip/Tooltip/TooltipTrigger';
 import { Icon } from '../../icons/Icon';
 import { useTableTooltipOptional } from '../components/useTableTooltip';
 import { useCellAlign } from '../components/useCellAlign';
+import { useTableFontSize, getTableFontClasses } from '../components/TableFontSizeContext';
 
 interface CellTextProps {
   value: string | number | null | undefined;
@@ -26,6 +27,8 @@ export function CellText({
   const elementRef = useRef<HTMLSpanElement | HTMLButtonElement>(null);
   const tableTooltip = useTableTooltipOptional();
   const cellAlign = useCellAlign();
+  const fontSize = useTableFontSize();
+  const fontClasses = getTableFontClasses(fontSize);
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -84,7 +87,8 @@ export function CellText({
     <span
       ref={elementRef as React.RefObject<HTMLSpanElement>}
       className={cn(
-        'block w-full min-w-[0px] truncate font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default',
+        'block w-full min-w-[0px] truncate font-body letter-spacing-tracking-tight text-default',
+        fontClasses,
         cellAlign === 'center' && 'text-center',
         cellAlign === 'right' && 'text-right',
         className,
@@ -108,7 +112,8 @@ export function CellText({
         aria-label={`Copy ${displayValue}`}
         className={cn(
           'inline-flex items-center ds-gap-4 truncate max-w-full',
-          'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight text-default',
+          'font-body letter-spacing-tracking-tight text-default',
+          fontClasses,
           'hover:text-state-primary cursor-pointer',
           className
         )}

@@ -30,7 +30,7 @@ export function DataGridLoading<T>({
     );
   }
 
-  const height = rowHeight ?? '32px';
+  const height = rowHeight;
 
   return (
     <div role="rowgroup">

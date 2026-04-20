@@ -5,6 +5,7 @@ import { flexRender } from '@tanstack/react-table';
 import { cn } from '@/lib/utils';
 import type { StickyColumnInfo } from '../utils/stickyColumnUtils';
 import { DataGridCellContext, type DataGridCellContextValue } from './DataGridCellContext';
+import { useTableFontSize, getTableFontClasses } from './TableFontSizeContext';
 
 interface DataGridCellProps<T> {
   cell: Cell<T, unknown>;
@@ -17,6 +18,7 @@ interface DataGridCellProps<T> {
 function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colIndex }: DataGridCellProps<T>) {
   const align = cell.column.columnDef.meta?.align ?? 'left';
   const isSticky = !!stickyInfo;
+  const fontSize = useTableFontSize();
 
   const cellContextValue = useMemo<DataGridCellContextValue>(() => ({ align }), [align]);
 
@@ -26,7 +28,8 @@ function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colInde
       aria-colindex={colIndex}
       className={cn(
         'group/cell padding-x-10 flex items-center',
-        'font-body size-xs line-height-leading-4 text-default',
+        'font-body text-default',
+        getTableFontClasses(fontSize),
         'border-r-default border-b-default last:border-r-0',
         'overflow-visible',
         'bg-default',
@@ -37,7 +40,7 @@ function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colInde
         isSticky ? 'sticky z-10 isolate' : 'relative z-[1]'
       )}
       style={{
-        height: height ?? '32px',
+        height: height,
         minWidth: 0,
         ...(isSticky ? { left: stickyInfo.leftOffset, width: stickyInfo.width } : undefined),
       }}
