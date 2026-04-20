@@ -1,9 +1,8 @@
 import { useState, useCallback, useMemo } from 'react';
-import { Slot } from '@radix-ui/react-slot';
 import { addMonths } from 'date-fns';
 
 import { cn } from '@/lib/utils';
-import { Popover, PopoverContent, PopoverAnchor } from '../../popover/Popover';
+import { Popover, PopoverContent, PopoverAnchor, PopoverTrigger } from '../../popover/Popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
 import { Icon } from '../../icons/Icon';
 import { MonthInput } from '../components/MonthInput';
@@ -131,12 +130,6 @@ export const MonthPicker = ({
     setOpen(nextOpen);
   }, [value, setOpen]);
 
-  const toggleOpen = useCallback(() => setOpen(!open), [open, setOpen]);
-
-  const slotTrigger = useMemo(
-    () => (trigger ? <Slot onClick={toggleOpen}>{trigger}</Slot> : null),
-    [trigger, toggleOpen],
-  );
 
   const isSelected = (idx: number) =>
     displayValue?.getFullYear() === viewYear && displayValue?.getMonth() === idx;
@@ -244,7 +237,7 @@ export const MonthPicker = ({
   if (trigger) {
     return (
       <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverAnchor asChild>{slotTrigger}</PopoverAnchor>
+        <PopoverTrigger asChild>{trigger}</PopoverTrigger>
         {popoverContent}
       </Popover>
     );

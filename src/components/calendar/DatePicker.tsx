@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Slot } from '@radix-ui/react-slot';
 import { addDays, addWeeks, addMonths, startOfDay, endOfDay, format } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 
 import { cn } from '@/lib/utils';
-import { Popover, PopoverContent, PopoverAnchor } from '../popover/Popover';
+import { Popover, PopoverContent, PopoverAnchor, PopoverTrigger } from '../popover/Popover';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import { Button } from '../button/Button';
 import { Icon } from '../icons/Icon/Icon';
@@ -200,15 +199,6 @@ export const DatePicker = ({
     return matchers.length > 0 ? matchers : undefined;
   }, [minDate, maxDate, disabledDates]);
 
-  const toggleOpen = useCallback(() => {
-    setOpen(!open);
-  }, [open, setOpen]);
-
-  const slotTrigger = useMemo(
-    () => (trigger ? <Slot onClick={toggleOpen}>{trigger}</Slot> : null),
-    [trigger, toggleOpen],
-  );
-
   const popoverContent = (
     <PopoverContent
       className={cn('w-auto ![padding:0] overflow-hidden', showQuickPresets && 'flex')}
@@ -253,7 +243,7 @@ export const DatePicker = ({
   if (trigger) {
     return (
       <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverAnchor asChild>{slotTrigger}</PopoverAnchor>
+        <PopoverTrigger asChild>{trigger}</PopoverTrigger>
         {popoverContent}
       </Popover>
     );
@@ -546,15 +536,6 @@ export const DateRangePicker = ({
     return matchers.length > 0 ? matchers : undefined;
   }, [minDate, maxDate, disabledDates]);
 
-  const toggleOpen = useCallback(() => {
-    setOpen(!open);
-  }, [open, setOpen]);
-
-  const slotTrigger = useMemo(
-    () => (trigger ? <Slot onClick={toggleOpen}>{trigger}</Slot> : null),
-    [trigger, toggleOpen],
-  );
-
   const popoverContent = (
     <PopoverContent
       className={cn('w-auto ![padding:0] overflow-hidden', showQuickPresets && 'flex')}
@@ -601,7 +582,7 @@ export const DateRangePicker = ({
   if (trigger) {
     return (
       <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverAnchor asChild>{slotTrigger}</PopoverAnchor>
+        <PopoverTrigger asChild>{trigger}</PopoverTrigger>
         {popoverContent}
       </Popover>
     );
