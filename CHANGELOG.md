@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.6.2] - 2026-04-20
+
+### Added
+
+- **Input `lead-dropdown` / `tail-dropdown` — clickable button icon**: 단일 Input으로 "dropdown + 키워드 + 검색(magnifier) 버튼 클릭" 패턴 표현 가능
+  - `lead-dropdown` 에 `buttonTailIcon?: IconTypeWithFill` + `onButtonClick?: () => void` + `buttonDisabled?: boolean` 추가 (오른쪽에 클릭 가능한 아이콘 버튼)
+  - `tail-dropdown` 에 `buttonLeadIcon?: IconTypeWithFill` + `onButtonClick?` + `buttonDisabled?` 추가 (왼쪽에 클릭 가능한 아이콘 버튼)
+  - 우선순위: `buttonTailIcon`/`buttonLeadIcon` 지정 시 장식용 `tailIcon`/`leadIcon` 및 `onClear` clear 버튼은 숨겨짐
+  - 기존 `tailIcon`/`leadIcon` 단독 사용 동작 변경 없음
+- **Storybook:** `DropdownInput` 에 `LeadDropdownWithTailButton` + `TailDropdownWithLeadButton` 스토리 추가
+
 ## [1.6.1] - 2026-04-20
 
 ### Added
@@ -8,14 +19,7 @@
   - `value` 있으면 `value`(또는 `value.from`) 우선 — 기존 동작 변경 없음
   - 주 용도: 과거 데이터 조회 필터 UX. `maxDate={new Date()}` + `defaultMonth={startOfMonth(subMonths(new Date(), 1))}` 조합으로 DateRangePicker 기본 2패널이 "지난달/이번달"로 열려 두 패널 모두 선택 가능 (기존에는 "이번달/다음달"이어서 다음달이 전부 비활성)
   - react-day-picker의 기존 `defaultMonth` prop을 그대로 forward — 내부 로직 추가 없음
-- **Input `lead-dropdown` / `tail-dropdown` — clickable button icon**: 단일 Input으로 "dropdown + 키워드 + 검색(magnifier) 버튼 클릭" 패턴 표현 가능
-  - `lead-dropdown` 에 `buttonTailIcon?: IconTypeWithFill` + `onButtonClick?: () => void` + `buttonDisabled?: boolean` 추가 (오른쪽에 클릭 가능한 아이콘 버튼)
-  - `tail-dropdown` 에 `buttonLeadIcon?: IconTypeWithFill` + `onButtonClick?` + `buttonDisabled?` 추가 (왼쪽에 클릭 가능한 아이콘 버튼)
-  - 우선순위: `buttonTailIcon`/`buttonLeadIcon` 지정 시 장식용 `tailIcon`/`leadIcon` 및 `onClear` clear 버튼은 숨겨짐
-  - 기존 `tailIcon`/`leadIcon` 단독 사용 동작 변경 없음
-- **Storybook:**
-  - 4개 피커 각각 `DefaultMonth` 스토리 추가 (DateRangePicker는 `DefaultMonthForPastFilter`)
-  - `DropdownInput` 에 `LeadDropdownWithTailButton` + `TailDropdownWithLeadButton` 스토리 추가
+- **Storybook:** 4개 피커 각각 `DefaultMonth` 스토리 추가 (DateRangePicker는 `DefaultMonthForPastFilter`)
 
 ## [1.6.0] - 2026-04-20
 
