@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+declare const process: { env: { NODE_ENV?: string } } | undefined;
+
 interface UseControllableOpenParams {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -30,7 +32,8 @@ export function useControllableOpen({
 
   const warnedRef = useRef(false);
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'production' && isControlled && !onOpenChange && !warnedRef.current) {
+    const isDev = typeof process !== 'undefined' && process?.env?.NODE_ENV !== 'production';
+    if (isDev && isControlled && !onOpenChange && !warnedRef.current) {
       warnedRef.current = true;
       console.warn(
         '[useControllableOpen] `open` prop provided without `onOpenChange`. The picker cannot close (outside-click / ESC / Apply will fire onOpenChange but nothing will respond).',
