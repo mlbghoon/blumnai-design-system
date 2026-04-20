@@ -134,6 +134,27 @@ export interface DropdownInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    * 드롭다운 트리거의 고정 너비 (px)
    */
   dropdownWidth?: number;
+  /**
+   * `dropdownPosition='lead'`: 오른쪽에 표시될 클릭 가능한 아이콘 버튼.
+   * `dropdownPosition='tail'`: 무시됨.
+   * 지정 시 `tailIcon`과 `onClear` clear 버튼은 숨겨지고 이 버튼이 우선 표시됨.
+   */
+  buttonTailIcon?: IconTypeWithFill;
+  /**
+   * `dropdownPosition='tail'`: 왼쪽에 표시될 클릭 가능한 아이콘 버튼.
+   * `dropdownPosition='lead'`: 무시됨.
+   * 지정 시 `leadIcon`은 숨겨지고 이 버튼이 우선 표시됨.
+   */
+  buttonLeadIcon?: IconTypeWithFill;
+  /**
+   * 버튼 클릭 시 호출되는 콜백
+   */
+  onButtonClick?: () => void;
+  /**
+   * 버튼 비활성화 여부
+   * @default false
+   */
+  buttonDisabled?: boolean;
 }
 
 /**
@@ -168,6 +189,10 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
   showCount = false,
   maxLength,
   value,
+  buttonTailIcon,
+  buttonLeadIcon,
+  onButtonClick,
+  buttonDisabled = false,
   ...props
 }, ref) => {
   const dropdownId = useId();
@@ -235,10 +260,14 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
   // Find selected option (guard against undefined dropdownOptions)
   const selectedOption = dropdownOptions?.find(opt => opt.value === dropdownValue);
 
+  // buttonTailIcon / buttonLeadIcon take precedence over decorative icons + clear button
+  const showButtonTail = dropdownPosition === 'lead' && buttonTailIcon !== undefined;
+  const showButtonLead = dropdownPosition === 'tail' && buttonLeadIcon !== undefined;
   // Determine if we should show icons (not when they conflict with dropdown position)
-  const showLeadIcon = leadIcon && dropdownPosition !== 'lead';
-  const showTailIcon = tailIcon && dropdownPosition !== 'tail';
-  const hasClearButton = onClear !== undefined && value !== '' && value !== undefined;
+  const showLeadIcon = leadIcon && dropdownPosition !== 'lead' && !showButtonLead;
+  const showTailIcon = tailIcon && dropdownPosition !== 'tail' && !showButtonTail;
+  const hasClearButton = onClear !== undefined && value !== '' && value !== undefined && !showButtonTail;
+  const isButtonDisabled = buttonDisabled || disabled || loading;
 
   useEffect(() => {
     if (isOpen && focusedIndex >= 0) {
@@ -470,6 +499,37 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
           </div>
         )}
 
+        {/* Clickable lead button icon (tail-dropdown variant) */}
+        {showButtonLead && buttonLeadIcon && (
+          <div className="padding-l-8">
+            {(() => {
+              const { iconType, isFill } = parseIconTypeWithFill(buttonLeadIcon);
+              return (
+                <button
+                  type="button"
+                  onClick={isButtonDisabled ? undefined : onButtonClick}
+                  disabled={isButtonDisabled}
+                  tabIndex={isButtonDisabled ? -1 : 0}
+                  aria-label="Action button"
+                  className={cn(
+                    'flex-shrink-0 flex items-center justify-center rounded-xs transition-colors',
+                    isButtonDisabled
+                      ? 'cursor-not-allowed'
+                      : 'cursor-pointer hover:bg-state-ghost-hover',
+                  )}
+                >
+                  <Icon
+                    iconType={iconType}
+                    isFill={isFill}
+                    size={SIZE_CONFIG[size].iconSize}
+                    color={isButtonDisabled ? 'default-disabled' : iconColor}
+                  />
+                </button>
+              );
+            })()}
+          </div>
+        )}
+
         {/* Input Field Container */}
         <div className={cn('flex-1 flex items-center ds-gap-6 min-w-0 overflow-hidden', sizeConfig.padding)}>
           {/* Input Field */}
@@ -520,6 +580,33 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
                     color={iconColor}
                     className="flex-shrink-0"
                   />
+                );
+              })()}
+
+              {/* Clickable tail button icon (lead-dropdown variant) */}
+              {showButtonTail && buttonTailIcon && (() => {
+                const { iconType, isFill } = parseIconTypeWithFill(buttonTailIcon);
+                return (
+                  <button
+                    type="button"
+                    onClick={isButtonDisabled ? undefined : onButtonClick}
+                    disabled={isButtonDisabled}
+                    tabIndex={isButtonDisabled ? -1 : 0}
+                    aria-label="Action button"
+                    className={cn(
+                      'flex-shrink-0 flex items-center justify-center rounded-xs transition-colors',
+                      isButtonDisabled
+                        ? 'cursor-not-allowed'
+                        : 'cursor-pointer hover:bg-state-ghost-hover',
+                    )}
+                  >
+                    <Icon
+                      iconType={iconType}
+                      isFill={isFill}
+                      size={SIZE_CONFIG[size].iconSize}
+                      color={isButtonDisabled ? 'default-disabled' : iconColor}
+                    />
+                  </button>
                 );
               })()}
             </>

@@ -705,3 +705,97 @@ export const FixedDropdownWidth: Story = {
     );
   },
 };
+
+/**
+ * lead-dropdown + clickable tail button
+ *
+ * "검색 타입 dropdown + 키워드 입력 + 검색(magnifier) 버튼 클릭" 패턴.
+ * `buttonTailIcon` + `onButtonClick` 조합으로 단일 Input 내에서 표현 가능합니다.
+ * `buttonTailIcon` 지정 시 장식용 `tailIcon`과 `onClear` 기반 clear 버튼은 숨겨집니다.
+ */
+export const LeadDropdownWithTailButton: Story = {
+  render: function Render() {
+    const [searchType, setSearchType] = useState('content');
+    const [keyword, setKeyword] = useState('');
+    const [lastSearched, setLastSearched] = useState<string | null>(null);
+
+    const searchOptions = [
+      { value: 'content', label: '상담 내용' },
+      { value: 'customer', label: '고객정보' },
+      { value: 'counselor', label: '상담사' },
+    ];
+
+    const runSearch = () => {
+      setLastSearched(`[${searchType}] ${keyword}`);
+    };
+
+    return (
+      <div className="flex flex-col ds-gap-16" style={{ width: 480 }}>
+        <Input
+          variant="lead-dropdown"
+          placeholder="검색어를 입력하세요"
+          dropdownOptions={searchOptions}
+          dropdownValue={searchType}
+          onDropdownChange={setSearchType}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') runSearch();
+          }}
+          buttonTailIcon={['system', 'search']}
+          onButtonClick={runSearch}
+        />
+        <div className="font-body size-sm text-muted">
+          마지막 검색:{' '}
+          <span className="text-default font-medium">{lastSearched ?? '(없음)'}</span>
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * tail-dropdown + clickable lead button
+ *
+ * 대칭 패턴. 키워드를 입력하고 앞쪽 버튼을 눌러 검색, 뒤쪽 드롭다운으로 타입 선택.
+ */
+export const TailDropdownWithLeadButton: Story = {
+  render: function Render() {
+    const [searchType, setSearchType] = useState('content');
+    const [keyword, setKeyword] = useState('');
+    const [lastSearched, setLastSearched] = useState<string | null>(null);
+
+    const searchOptions = [
+      { value: 'content', label: '상담 내용' },
+      { value: 'customer', label: '고객정보' },
+      { value: 'counselor', label: '상담사' },
+    ];
+
+    const runSearch = () => {
+      setLastSearched(`[${searchType}] ${keyword}`);
+    };
+
+    return (
+      <div className="flex flex-col ds-gap-16" style={{ width: 480 }}>
+        <Input
+          variant="tail-dropdown"
+          placeholder="검색어를 입력하세요"
+          dropdownOptions={searchOptions}
+          dropdownValue={searchType}
+          onDropdownChange={setSearchType}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') runSearch();
+          }}
+          buttonLeadIcon={['system', 'search']}
+          onButtonClick={runSearch}
+        />
+        <div className="font-body size-sm text-muted">
+          마지막 검색:{' '}
+          <span className="text-default font-medium">{lastSearched ?? '(없음)'}</span>
+        </div>
+      </div>
+    );
+  },
+};

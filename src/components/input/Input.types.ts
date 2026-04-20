@@ -424,6 +424,21 @@ export interface LeadDropdownVariantProps extends InputBaseProps, Omit<InputHTML
    * 드롭다운 트리거의 고정 너비 (px)
    */
   dropdownWidth?: number;
+  /**
+   * 입력 필드 오른쪽에 표시되는 클릭 가능한 아이콘 버튼.
+   * 지정 시 장식용 `tailIcon` 및 `onClear` 기반 clear 버튼은 무시되고 이 버튼이 우선 표시됩니다.
+   * "dropdown + 키워드 + magnifier 검색" 같은 패턴에 사용.
+   */
+  buttonTailIcon?: IconTypeWithFill;
+  /**
+   * `buttonTailIcon` 버튼 클릭 시 호출되는 콜백
+   */
+  onButtonClick?: () => void;
+  /**
+   * 버튼 비활성화 여부
+   * @default false
+   */
+  buttonDisabled?: boolean;
 }
 
 /**
@@ -460,6 +475,20 @@ export interface TailDropdownVariantProps extends InputBaseProps, Omit<InputHTML
    * 드롭다운 트리거의 고정 너비 (px)
    */
   dropdownWidth?: number;
+  /**
+   * 입력 필드 왼쪽에 표시되는 클릭 가능한 아이콘 버튼.
+   * 지정 시 장식용 `leadIcon`은 무시되고 이 버튼이 우선 표시됩니다.
+   */
+  buttonLeadIcon?: IconTypeWithFill;
+  /**
+   * `buttonLeadIcon` 버튼 클릭 시 호출되는 콜백
+   */
+  onButtonClick?: () => void;
+  /**
+   * 버튼 비활성화 여부
+   * @default false
+   */
+  buttonDisabled?: boolean;
 }
 
 /**
