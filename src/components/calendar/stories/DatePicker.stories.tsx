@@ -6,6 +6,7 @@ import type { Locale } from 'date-fns';
 
 import { DatePicker } from '../DatePicker';
 import type { DatePickerProps } from '../DatePicker.types';
+import { Button } from '../../button/Button';
 
 const LOCALE_MAP: Record<string, Locale> = {
   ko: ko,
@@ -149,6 +150,21 @@ const meta: Meta<StoryProps> = {
       control: 'boolean',
       description: '확인/취소 버튼 표시 여부',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    open: {
+      control: 'boolean',
+      description: '제어 모드 팝오버 오픈 상태. 전달 시 `onOpenChange`와 함께 사용해야 합니다',
+      table: { type: { summary: 'boolean' } },
+    },
+    onOpenChange: {
+      action: 'openChange',
+      description: '팝오버 오픈 상태 변경 콜백. 모든 닫기 경로에서 호출됩니다',
+      table: { type: { summary: '(open: boolean) => void' } },
+    },
+    trigger: {
+      control: false,
+      description: '소비자가 제공하는 트리거 엘리먼트. 전달 시 DS는 자체 입력 필드 + InputWrapper를 렌더링하지 않습니다',
+      table: { type: { summary: 'ReactElement' } },
     },
     confirmLabel: {
       control: 'text',
@@ -526,6 +542,72 @@ export const PickerOnly: Story = {
           onChange={setDate}
           pickerOnly
         />
+      </div>
+    );
+  },
+};
+
+/**
+ * 외부 트리거 + 제어 오픈 상태
+ *
+ * 소비자가 자체 트리거(Button 등)를 제공하고 팝오버 오픈 상태를 외부에서 제어합니다.
+ * `trigger` 제공 시 DS의 기본 입력 필드 + InputWrapper는 렌더링되지 않습니다 (label/caption/error 등 무시).
+ */
+export const ExternalTrigger: Story = {
+  render: function Render() {
+    const [open, setOpen] = useState(false);
+    const [date, setDate] = useState<Date | undefined>(new Date());
+    return (
+      <div className="flex flex-col ds-gap-16" style={{ width: 280 }}>
+        <DatePicker
+          open={open}
+          onOpenChange={setOpen}
+          value={date}
+          onChange={setDate}
+          trigger={
+            <Button buttonStyle="secondary">
+              {date ? date.toLocaleDateString('ko-KR') : '날짜 선택'}
+            </Button>
+          }
+        />
+        <div className="font-body size-sm text-muted">
+          오픈: <span className="text-default font-medium">{String(open)}</span>
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * 외부 트리거 + commit-on-apply
+ *
+ * `trigger` + `showActions` 조합. 소비자 Button으로 열고, "적용" 클릭 시에만 onChange가 발생합니다.
+ */
+export const ExternalTriggerWithActions: Story = {
+  render: function Render() {
+    const [open, setOpen] = useState(false);
+    const [date, setDate] = useState<Date | undefined>(new Date());
+    const [changeCount, setChangeCount] = useState(0);
+    return (
+      <div className="flex flex-col ds-gap-16" style={{ width: 280 }}>
+        <DatePicker
+          open={open}
+          onOpenChange={setOpen}
+          value={date}
+          onChange={(d) => {
+            setDate(d);
+            setChangeCount((c) => c + 1);
+          }}
+          showActions
+          trigger={
+            <Button buttonStyle="secondary">
+              {date ? date.toLocaleDateString('ko-KR') : '날짜 선택'}
+            </Button>
+          }
+        />
+        <div className="font-body size-sm text-muted">
+          onChange 호출 횟수: <span className="text-default font-medium">{changeCount}</span>
+        </div>
       </div>
     );
   },

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import type { Locale } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 import type { CaptionLayout } from './Calendar.types';
@@ -155,6 +155,36 @@ export interface DatePickerBaseProps {
    * @default false
    */
   pickerOnly?: boolean;
+  /**
+   * 제어 모드 팝오버 오픈 상태. 전달 시 내부 상태 대신 이 값을 사용합니다.
+   * 반드시 `onOpenChange`와 함께 사용하세요 (단독 사용 시 dev console.warn 발생, 팝오버가 닫히지 않음).
+   */
+  open?: boolean;
+  /**
+   * 팝오버 오픈 상태 변경 콜백. 다음 모든 경로에서 호출됩니다:
+   * - 트리거 클릭 (열기)
+   * - Apply / Cancel 버튼 (`showActions=true`일 때)
+   * - 외부 클릭 / ESC / 자동 닫기 (단일 선택 후)
+   */
+  onOpenChange?: (open: boolean) => void;
+  /**
+   * 소비자가 제공하는 트리거 엘리먼트. 전달 시 DS는 자체 입력 필드를 렌더링하지 않고
+   * 주어진 엘리먼트를 `PopoverAnchor`로 감싼 뒤 onClick + ref를 병합합니다.
+   *
+   * **주의:** `trigger` 제공 시 `InputWrapper`가 렌더링되지 않으므로
+   * `label`, `labelPosition`, `supportText`, `caption`, `error`, `success`, `width`, `className`,
+   * `pickerOnly` prop은 무시됩니다. 라벨/레이아웃은 소비자가 직접 구성하세요.
+   *
+   * @example
+   * <DateRangePicker
+   *   open={isOpen}
+   *   onOpenChange={setIsOpen}
+   *   trigger={<Button>{range.from} ~ {range.to}</Button>}
+   *   value={range}
+   *   onChange={setRange}
+   * />
+   */
+  trigger?: ReactElement;
 }
 
 /**

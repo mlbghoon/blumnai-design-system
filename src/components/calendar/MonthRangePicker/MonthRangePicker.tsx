@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { addMonths } from 'date-fns';
 
 import { cn } from '@/lib/utils';
@@ -8,6 +9,7 @@ import { Icon } from '../../icons/Icon';
 import { MonthRangeInput } from '../components/MonthRangeInput';
 import { QuickPresets } from '../components/QuickPresets';
 import { MONTHS_KO, MONTHS_EN, isMonthDisabled as checkMonthDisabled } from '../utils';
+import { useControllableOpen } from '../hooks/useControllableOpen';
 import type { QuickPreset } from '../DatePicker.types';
 import type { MonthRangePickerProps, MonthRange, MonthRangePreset } from './MonthRangePicker.types';
 
@@ -59,8 +61,12 @@ export const MonthRangePicker = ({
   presets,
   size = 'sm',
   pickerOnly = false,
+  showActions = false,
+  open: openProp,
+  onOpenChange,
+  trigger,
 }: MonthRangePickerProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useControllableOpen({ open: openProp, onOpenChange });
   const [viewYear, setViewYear] = useState(() => {
     if (value?.from) return value.from.getFullYear();
     return new Date().getFullYear();
@@ -122,12 +128,13 @@ export const MonthRangePicker = ({
       }
 
       setTempRange(newRange);
-      onChange?.(newRange);
-      setOpen(false);
       setSelecting('from');
       setHoveredMonth(null);
+      if (showActions) return;
+      onChange?.(newRange);
+      setOpen(false);
     }
-  }, [viewYear, selecting, tempRange.from, onChange]);
+  }, [viewYear, selecting, tempRange.from, onChange, showActions, setOpen]);
 
   const handleInputChange = useCallback((range: MonthRange) => {
     onChange?.(range);
@@ -137,11 +144,24 @@ export const MonthRangePicker = ({
   const handlePresetSelect = useCallback((preset: QuickPreset) => {
     const range = preset.getValue() as MonthRange;
     setTempRange(range);
+    setSelecting('from');
+    setHoveredMonth(null);
+    if (range.from) setViewYear(range.from.getFullYear());
+    if (showActions) return;
     onChange?.(range);
+    setOpen(false);
+  }, [onChange, showActions, setOpen]);
+
+  const handleApply = useCallback(() => {
+    onChange?.(tempRange);
     setOpen(false);
     setSelecting('from');
     setHoveredMonth(null);
-  }, [onChange]);
+  }, [onChange, tempRange, setOpen]);
+
+  const handleCancel = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
 
   const handleOpenChange = useCallback((nextOpen: boolean) => {
     if (nextOpen) {
@@ -156,34 +176,17 @@ export const MonthRangePicker = ({
       setHoveredMonth(null);
     }
     setOpen(nextOpen);
-  }, [value]);
+  }, [value, setOpen]);
 
-  return (
-    <InputWrapper
-      label={label}
-      labelPosition={labelPosition}
-      labelWidth={labelWidth}
-      error={error}
-      supportText={supportText}
-      width={width}
-      className={className}
-    >
-      <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverAnchor asChild>
-          <div>
-            <MonthRangeInput
-              value={value}
-              onChange={handleInputChange}
-              disabled={disabled}
-              hasError={hasError}
-              isOpen={open}
-              size={size}
-              pickerOnly={pickerOnly}
-              onCalendarClick={() => !disabled && handleOpenChange(!open)}
-            />
-          </div>
-        </PopoverAnchor>
-        <PopoverContent
+  const toggleOpen = useCallback(() => setOpen(!open), [open, setOpen]);
+
+  const slotTrigger = useMemo(
+    () => (trigger ? <Slot onClick={toggleOpen}>{trigger}</Slot> : null),
+    [trigger, toggleOpen],
+  );
+
+  const popoverContent = (
+    <PopoverContent
           align="start"
           sideOffset={4}
           className={cn(
@@ -258,8 +261,76 @@ export const MonthRangePicker = ({
                 );
               })}
             </div>
+
+            {showActions && (
+              <div className="flex justify-end ds-gap-8 padding-t-8">
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className={cn(
+                    'padding-x-12 padding-y-6 rounded-md',
+                    'font-body size-sm line-height-leading-5 font-medium',
+                    'text-default hover:bg-state-ghost-hover',
+                    'transition-colors duration-150',
+                    'cursor-pointer border-0',
+                  )}
+                >
+                  취소
+                </button>
+                <button
+                  type="button"
+                  onClick={handleApply}
+                  className={cn(
+                    'padding-x-12 padding-y-6 rounded-md',
+                    'font-body size-sm line-height-leading-5 font-medium',
+                    'bg-state-primary text-white-default hover:bg-state-primary-hover',
+                    'transition-colors duration-150',
+                    'cursor-pointer border-0',
+                  )}
+                >
+                  적용
+                </button>
+              </div>
+            )}
           </div>
         </PopoverContent>
+  );
+
+  if (trigger) {
+    return (
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <PopoverAnchor asChild>{slotTrigger}</PopoverAnchor>
+        {popoverContent}
+      </Popover>
+    );
+  }
+
+  return (
+    <InputWrapper
+      label={label}
+      labelPosition={labelPosition}
+      labelWidth={labelWidth}
+      error={error}
+      supportText={supportText}
+      width={width}
+      className={className}
+    >
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <PopoverAnchor asChild>
+          <div>
+            <MonthRangeInput
+              value={value}
+              onChange={handleInputChange}
+              disabled={disabled}
+              hasError={hasError}
+              isOpen={open}
+              size={size}
+              pickerOnly={pickerOnly}
+              onCalendarClick={() => !disabled && handleOpenChange(!open)}
+            />
+          </div>
+        </PopoverAnchor>
+        {popoverContent}
       </Popover>
     </InputWrapper>
   );

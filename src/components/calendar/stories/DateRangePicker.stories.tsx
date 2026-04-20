@@ -7,6 +7,7 @@ import type { DateRange } from 'react-day-picker';
 
 import { DateRangePicker } from '../DatePicker';
 import type { DateRangePickerProps, QuickPreset } from '../DatePicker.types';
+import { Button } from '../../button/Button';
 
 const LOCALE_MAP: Record<string, Locale> = {
   ko: ko,
@@ -155,6 +156,21 @@ const meta: Meta<StoryProps> = {
       control: 'boolean',
       description: '확인/취소 버튼 표시 여부',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    open: {
+      control: 'boolean',
+      description: '제어 모드 팝오버 오픈 상태. `onOpenChange`와 함께 사용해야 합니다',
+      table: { type: { summary: 'boolean' } },
+    },
+    onOpenChange: {
+      action: 'openChange',
+      description: '팝오버 오픈 상태 변경 콜백. 모든 닫기 경로에서 호출됩니다',
+      table: { type: { summary: '(open: boolean) => void' } },
+    },
+    trigger: {
+      control: false,
+      description: '소비자가 제공하는 트리거 엘리먼트. 전달 시 DS는 자체 입력 필드 + InputWrapper를 렌더링하지 않습니다',
+      table: { type: { summary: 'ReactElement' } },
     },
     confirmLabel: {
       control: 'text',
@@ -625,6 +641,81 @@ export const PickerOnly: Story = {
           onChange={setRange}
           pickerOnly
         />
+      </div>
+    );
+  },
+};
+
+/**
+ * 외부 트리거 + 제어 오픈 상태
+ *
+ * 소비자가 자체 트리거(Button)를 제공하고 팝오버 오픈 상태를 외부에서 제어합니다.
+ * `FlowDatePicker` 마이그레이션의 주된 사용 패턴입니다.
+ */
+export const ExternalTrigger: Story = {
+  render: function Render() {
+    const [open, setOpen] = useState(false);
+    const [range, setRange] = useState<DateRange | undefined>({
+      from: new Date(),
+      to: addDays(new Date(), 6),
+    });
+    const fmt = (d: Date | undefined) => (d ? d.toLocaleDateString('ko-KR') : '—');
+    return (
+      <div className="flex flex-col ds-gap-16" style={{ width: 360 }}>
+        <DateRangePicker
+          open={open}
+          onOpenChange={setOpen}
+          value={range}
+          onChange={setRange}
+          trigger={
+            <Button buttonStyle="secondary">
+              {fmt(range?.from)} ~ {fmt(range?.to)}
+            </Button>
+          }
+        />
+        <div className="font-body size-sm text-muted">
+          오픈: <span className="text-default font-medium">{String(open)}</span>
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * 외부 트리거 + commit-on-apply
+ *
+ * `trigger` + `showActions` 조합. "적용" 클릭 시에만 onChange가 발생하여
+ * GraphQL refetch 등이 한 번만 트리거됩니다.
+ */
+export const ExternalTriggerWithActions: Story = {
+  render: function Render() {
+    const [open, setOpen] = useState(false);
+    const [range, setRange] = useState<DateRange | undefined>({
+      from: new Date(),
+      to: addDays(new Date(), 6),
+    });
+    const [changeCount, setChangeCount] = useState(0);
+    const fmt = (d: Date | undefined) => (d ? d.toLocaleDateString('ko-KR') : '—');
+    return (
+      <div className="flex flex-col ds-gap-16" style={{ width: 360 }}>
+        <DateRangePicker
+          open={open}
+          onOpenChange={setOpen}
+          value={range}
+          onChange={(r) => {
+            setRange(r);
+            setChangeCount((c) => c + 1);
+          }}
+          showActions
+          trigger={
+            <Button buttonStyle="secondary">
+              {fmt(range?.from)} ~ {fmt(range?.to)}
+            </Button>
+          }
+        />
+        <div className="font-body size-sm text-muted">
+          onChange 호출 횟수: <span className="text-default font-medium">{changeCount}</span>
+        </div>
       </div>
     );
   },

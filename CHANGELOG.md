@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.6.0] - 2026-04-20
+
+### Added
+
+- **MonthPicker / MonthRangePicker — `showActions` prop** (commit-on-apply semantics): `true`일 때 팝오버 하단에 적용/취소 버튼이 표시되며 `onChange`는 "적용" 클릭 시에만 발생. 취소 / 외부 클릭 / ESC로 닫으면 드래프트가 폐기되고 `onChange`는 발생하지 않음
+  - TimePicker / TimeRangePicker / DatePicker / DateRangePicker은 이전 버전부터 동일한 `showActions` prop 지원. v1.6.0에서 나머지 두 월 선택 컴포넌트에도 동일 API 추가로 6개 피커 전체가 commit-on-apply 시맨틱 제공
+  - MonthRangePicker의 경우, 중간 선택(from만 고른 상태)에서 취소하면 선택 상태도 함께 초기화됨
+- **DatePicker / DateRangePicker / MonthPicker / MonthRangePicker — 외부 트리거 + 제어 오픈 상태 API**: 소비자가 자체 트리거(`<Button>` 등)를 제공하고 팝오버 오픈 상태를 외부에서 제어할 수 있습니다
+  - `open?: boolean` — 제어 모드 팝오버 오픈 상태
+  - `onOpenChange?: (open: boolean) => void` — 오픈 상태 변경 콜백. 모든 닫기 경로(Apply/Cancel/외부 클릭/ESC/자동 닫기)에서 호출됨
+  - `trigger?: ReactElement` — 소비자가 제공하는 트리거 엘리먼트. Radix `Slot`으로 ref + onClick 병합. 전달 시 DS의 기본 입력 필드 + `InputWrapper`는 렌더링되지 않음 (`label`, `supportText`, `caption`, `error`, `success`, `width`, `className`, `pickerOnly` 무시)
+  - `open`만 전달하고 `onOpenChange`를 전달하지 않으면 개발 모드에서 `console.warn` 발생 (팝오버가 닫히지 않는 문제 조기 감지)
+  - 사용 예: 소비 프로젝트가 자체 디자인 시스템의 Button 스타일을 유지하면서 DatePicker를 팝오버로만 사용하는 경우 (e.g. `FlowDatePicker` 마이그레이션 패턴)
+  - 새 내부 훅 `useControllableOpen` 추가 (controlled/uncontrolled 상태 병합 + 안정적인 setter identity + 개발 경고)
+
 ## [1.5.2] - 2026-04-20
 
 ### Added

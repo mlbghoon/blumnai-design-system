@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { addMonths } from 'date-fns';
 
 import { cn } from '@/lib/utils';
@@ -8,6 +9,7 @@ import { Icon } from '../../icons/Icon';
 import { MonthInput } from '../components/MonthInput';
 import { QuickPresets } from '../components/QuickPresets';
 import { MONTHS_KO, MONTHS_EN, isMonthDisabled as checkMonthDisabled } from '../utils';
+import { useControllableOpen } from '../hooks/useControllableOpen';
 import type { QuickPreset } from '../DatePicker.types';
 import type { MonthPickerProps, MonthPickerPreset } from './MonthPicker.types';
 
@@ -54,14 +56,20 @@ export const MonthPicker = ({
   presets,
   size = 'sm',
   pickerOnly = false,
+  showActions = false,
+  open: openProp,
+  onOpenChange,
+  trigger,
 }: MonthPickerProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useControllableOpen({ open: openProp, onOpenChange });
   const [viewYear, setViewYear] = useState(() => {
     if (value) return value.getFullYear();
     return new Date().getFullYear();
   });
+  const [stagedValue, setStagedValue] = useState<Date | undefined>(value);
 
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
+  const displayValue = showActions ? stagedValue : value;
 
   const monthNames = locale === 'ko' ? MONTHS_KO : MONTHS_EN;
 
@@ -76,63 +84,65 @@ export const MonthPicker = ({
   );
 
   const selectedPresetIndex = useMemo(
-    () => (showQuickPresets ? findMatchingMonthPresetIndex(activePresets, value) : -1),
-    [showQuickPresets, activePresets, value],
+    () => (showQuickPresets ? findMatchingMonthPresetIndex(activePresets, displayValue) : -1),
+    [showQuickPresets, activePresets, displayValue],
   );
 
   const handleMonthClick = useCallback((month: number) => {
     const selected = new Date(viewYear, month, 1);
+    if (showActions) {
+      setStagedValue(selected);
+      return;
+    }
     onChange?.(selected);
     setOpen(false);
-  }, [viewYear, onChange]);
+  }, [viewYear, onChange, showActions, setOpen]);
 
   const handlePresetSelect = useCallback((preset: QuickPreset) => {
     const date = preset.getValue() as Date;
+    if (showActions) {
+      setStagedValue(date);
+      setViewYear(date.getFullYear());
+      return;
+    }
     onChange?.(date);
     setOpen(false);
-  }, [onChange]);
+  }, [onChange, showActions, setOpen]);
 
   const handleInputChange = useCallback((date: Date | undefined) => {
     onChange?.(date as Date);
     if (date) setViewYear(date.getFullYear());
   }, [onChange]);
 
+  const handleApply = useCallback(() => {
+    if (stagedValue) onChange?.(stagedValue);
+    setOpen(false);
+  }, [onChange, stagedValue, setOpen]);
+
+  const handleCancel = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
+
   const handleOpenChange = useCallback((nextOpen: boolean) => {
-    if (nextOpen && value) {
-      setViewYear(value.getFullYear());
+    if (nextOpen) {
+      setStagedValue(value);
+      if (value) setViewYear(value.getFullYear());
     }
     setOpen(nextOpen);
-  }, [value]);
+  }, [value, setOpen]);
+
+  const toggleOpen = useCallback(() => setOpen(!open), [open, setOpen]);
+
+  const slotTrigger = useMemo(
+    () => (trigger ? <Slot onClick={toggleOpen}>{trigger}</Slot> : null),
+    [trigger, toggleOpen],
+  );
 
   const isSelected = (idx: number) =>
-    value?.getFullYear() === viewYear && value?.getMonth() === idx;
+    displayValue?.getFullYear() === viewYear && displayValue?.getMonth() === idx;
 
-  return (
-    <InputWrapper
-      label={label}
-      labelPosition={labelPosition}
-      labelWidth={labelWidth}
-      error={error}
-      supportText={supportText}
-      width={width}
-      className={className}
-    >
-      <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverAnchor asChild>
-          <div>
-            <MonthInput
-              value={value}
-              onChange={handleInputChange}
-              disabled={disabled}
-              hasError={hasError}
-              isOpen={open}
-              size={size}
-              pickerOnly={pickerOnly}
-              onCalendarClick={() => !disabled && handleOpenChange(!open)}
-            />
-          </div>
-        </PopoverAnchor>
-        <PopoverContent
+  const popoverContent = (
+    <PopoverContent
           align="start"
           sideOffset={4}
           className={cn(
@@ -196,8 +206,76 @@ export const MonthPicker = ({
                 );
               })}
             </div>
+
+            {showActions && (
+              <div className="flex justify-end ds-gap-8 padding-t-8">
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className={cn(
+                    'padding-x-12 padding-y-6 rounded-md',
+                    'font-body size-sm line-height-leading-5 font-medium',
+                    'text-default hover:bg-state-ghost-hover',
+                    'transition-colors duration-150',
+                    'cursor-pointer border-0',
+                  )}
+                >
+                  취소
+                </button>
+                <button
+                  type="button"
+                  onClick={handleApply}
+                  className={cn(
+                    'padding-x-12 padding-y-6 rounded-md',
+                    'font-body size-sm line-height-leading-5 font-medium',
+                    'bg-state-primary text-white-default hover:bg-state-primary-hover',
+                    'transition-colors duration-150',
+                    'cursor-pointer border-0',
+                  )}
+                >
+                  적용
+                </button>
+              </div>
+            )}
           </div>
         </PopoverContent>
+  );
+
+  if (trigger) {
+    return (
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <PopoverAnchor asChild>{slotTrigger}</PopoverAnchor>
+        {popoverContent}
+      </Popover>
+    );
+  }
+
+  return (
+    <InputWrapper
+      label={label}
+      labelPosition={labelPosition}
+      labelWidth={labelWidth}
+      error={error}
+      supportText={supportText}
+      width={width}
+      className={className}
+    >
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <PopoverAnchor asChild>
+          <div>
+            <MonthInput
+              value={value}
+              onChange={handleInputChange}
+              disabled={disabled}
+              hasError={hasError}
+              isOpen={open}
+              size={size}
+              pickerOnly={pickerOnly}
+              onCalendarClick={() => !disabled && handleOpenChange(!open)}
+            />
+          </div>
+        </PopoverAnchor>
+        {popoverContent}
       </Popover>
     </InputWrapper>
   );

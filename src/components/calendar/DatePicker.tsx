@@ -1,4 +1,5 @@
-import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { addDays, addWeeks, addMonths, startOfDay, endOfDay, format } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 
@@ -9,6 +10,7 @@ import { Button } from '../button/Button';
 import { Icon } from '../icons/Icon/Icon';
 import { Calendar } from './Calendar';
 import { DateInput, DateRangeInput, QuickPresets } from './components';
+import { useControllableOpen } from './hooks/useControllableOpen';
 import {
   SIZE_CONFIG,
   STYLE_CONFIG,
@@ -105,8 +107,11 @@ export const DatePicker = ({
   confirmLabel = '확인',
   cancelLabel = '취소',
   pickerOnly = false,
+  open: openProp,
+  onOpenChange,
+  trigger,
 }: DatePickerProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useControllableOpen({ open: openProp, onOpenChange });
   const [month, setMonth] = useState<Date>(value || new Date());
   const [stagedValue, setStagedValue] = useState<Date | undefined>(value);
   const snapshotRef = useRef<Date | undefined>(value);
@@ -136,7 +141,7 @@ export const DatePicker = ({
       onChange?.(snapshotRef.current);
     }
     setOpen(nextOpen);
-  }, [showActions, value, onChange]);
+  }, [showActions, value, onChange, setOpen]);
 
   const handleSelect = useCallback((date: Date | undefined) => {
     if (showActions) {
@@ -149,7 +154,7 @@ export const DatePicker = ({
         setOpen(false);
       }
     }
-  }, [onChange, showActions]);
+  }, [onChange, showActions, setOpen]);
 
   const handleInputChange = useCallback((date: Date | undefined) => {
     onChange?.(date);
@@ -168,24 +173,24 @@ export const DatePicker = ({
       setMonth(date);
       setOpen(false);
     }
-  }, [onChange, showActions]);
+  }, [onChange, showActions, setOpen]);
 
   const handleConfirm = useCallback(() => {
     onChange?.(stagedValue);
     setOpen(false);
-  }, [onChange, stagedValue]);
+  }, [onChange, stagedValue, setOpen]);
 
   const handleCancel = useCallback(() => {
     setStagedValue(snapshotRef.current);
     setOpen(false);
-  }, []);
+  }, [setOpen]);
 
   const handleOpenCalendar = useCallback(() => {
     if (!value) {
       setMonth(new Date());
     }
     setOpen(true);
-  }, [value]);
+  }, [value, setOpen]);
 
   const disabledMatcher = useMemo(() => {
     const matchers: Array<Date | { before: Date } | { after: Date }> = [];
@@ -194,6 +199,65 @@ export const DatePicker = ({
     if (disabledDates) matchers.push(...disabledDates);
     return matchers.length > 0 ? matchers : undefined;
   }, [minDate, maxDate, disabledDates]);
+
+  const toggleOpen = useCallback(() => {
+    setOpen(!open);
+  }, [open, setOpen]);
+
+  const slotTrigger = useMemo(
+    () => (trigger ? <Slot onClick={toggleOpen}>{trigger}</Slot> : null),
+    [trigger, toggleOpen],
+  );
+
+  const popoverContent = (
+    <PopoverContent
+      className={cn('w-auto ![padding:0] overflow-hidden', showQuickPresets && 'flex')}
+      align={align}
+    >
+      <div className={cn(showQuickPresets && 'flex')}>
+        {showQuickPresets && (
+          <QuickPresets
+            presets={effectivePresets}
+            onSelect={handlePresetSelect}
+            selectedIndex={selectedPresetIndex}
+          />
+        )}
+        <div>
+          <Calendar
+            mode="single"
+            selected={displayValue}
+            onSelect={handleSelect}
+            month={month}
+            onMonthChange={setMonth}
+            disabled={disabledMatcher}
+            locale={locale}
+            calendarStyle="default"
+            captionLayout={captionLayout}
+            initialFocus
+          />
+          {showActions && (
+            <div className="flex justify-end ds-gap-8 padding-x-12 padding-y-8 border-t border-default">
+              <Button size="sm" buttonStyle="ghost" onClick={handleCancel}>
+                {cancelLabel}
+              </Button>
+              <Button size="sm" buttonStyle="primary" onClick={handleConfirm}>
+                {confirmLabel}
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </PopoverContent>
+  );
+
+  if (trigger) {
+    return (
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <PopoverAnchor asChild>{slotTrigger}</PopoverAnchor>
+        {popoverContent}
+      </Popover>
+    );
+  }
 
   return (
     <InputWrapper
@@ -226,44 +290,7 @@ export const DatePicker = ({
             />
           </div>
         </PopoverAnchor>
-        <PopoverContent
-          className={cn('w-auto ![padding:0] overflow-hidden', showQuickPresets && 'flex')}
-          align={align}
-        >
-          <div className={cn(showQuickPresets && 'flex')}>
-            {showQuickPresets && (
-              <QuickPresets
-                presets={effectivePresets}
-                onSelect={handlePresetSelect}
-                selectedIndex={selectedPresetIndex}
-              />
-            )}
-            <div>
-              <Calendar
-                mode="single"
-                selected={displayValue}
-                onSelect={handleSelect}
-                month={month}
-                onMonthChange={setMonth}
-                disabled={disabledMatcher}
-                locale={locale}
-                calendarStyle="default"
-                captionLayout={captionLayout}
-                initialFocus
-              />
-              {showActions && (
-                <div className="flex justify-end ds-gap-8 padding-x-12 padding-y-8 border-t border-default">
-                  <Button size="sm" buttonStyle="ghost" onClick={handleCancel}>
-                    {cancelLabel}
-                  </Button>
-                  <Button size="sm" buttonStyle="primary" onClick={handleConfirm}>
-                    {confirmLabel}
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-        </PopoverContent>
+        {popoverContent}
       </Popover>
     </InputWrapper>
   );
@@ -394,8 +421,11 @@ export const DateRangePicker = ({
   cancelLabel = '취소',
   triggerVariant = 'default',
   pickerOnly = false,
+  open: openProp,
+  onOpenChange,
+  trigger,
 }: DateRangePickerProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useControllableOpen({ open: openProp, onOpenChange });
   const [month, setMonth] = useState<Date>(() => {
     const base = value?.from || new Date();
     if (maxDate && numberOfMonths >= 2) {
@@ -437,7 +467,7 @@ export const DateRangePicker = ({
       onChange?.(snapshotRef.current);
     }
     setOpen(nextOpen);
-  }, [showActions, value, onChange]);
+  }, [showActions, value, onChange, setOpen]);
 
   const handleSelect = useCallback((range: DateRange | undefined) => {
     if (showActions) {
@@ -468,7 +498,7 @@ export const DateRangePicker = ({
         setSelectionPhase('idle');
       }
     }
-  }, [onChange, selectionPhase, showActions]);
+  }, [onChange, selectionPhase, showActions, setOpen]);
 
   const handleInputChange = useCallback((range: DateRange | undefined) => {
     onChange?.(range);
@@ -489,24 +519,24 @@ export const DateRangePicker = ({
       }
       setOpen(false);
     }
-  }, [onChange, showActions]);
+  }, [onChange, showActions, setOpen]);
 
   const handleConfirm = useCallback(() => {
     onChange?.(stagedValue);
     setOpen(false);
-  }, [onChange, stagedValue]);
+  }, [onChange, stagedValue, setOpen]);
 
   const handleCancel = useCallback(() => {
     setStagedValue(snapshotRef.current);
     setOpen(false);
-  }, []);
+  }, [setOpen]);
 
   const handleOpenCalendar = useCallback(() => {
     if (!value?.from) {
       setMonth(new Date());
     }
     setOpen(true);
-  }, [value]);
+  }, [value, setOpen]);
 
   const disabledMatcher = useMemo(() => {
     const matchers: Array<Date | { before: Date } | { after: Date }> = [];
@@ -515,6 +545,67 @@ export const DateRangePicker = ({
     if (disabledDates) matchers.push(...disabledDates);
     return matchers.length > 0 ? matchers : undefined;
   }, [minDate, maxDate, disabledDates]);
+
+  const toggleOpen = useCallback(() => {
+    setOpen(!open);
+  }, [open, setOpen]);
+
+  const slotTrigger = useMemo(
+    () => (trigger ? <Slot onClick={toggleOpen}>{trigger}</Slot> : null),
+    [trigger, toggleOpen],
+  );
+
+  const popoverContent = (
+    <PopoverContent
+      className={cn('w-auto ![padding:0] overflow-hidden', showQuickPresets && 'flex')}
+      align={align}
+    >
+      <div className={cn(showQuickPresets && 'flex')}>
+        {showQuickPresets && (
+          <QuickPresets
+            presets={effectivePresets}
+            onSelect={handlePresetSelect}
+            selectedIndex={selectedPresetIndex}
+          />
+        )}
+        <div>
+          <Calendar
+            mode="range"
+            selected={displayValue}
+            onSelect={handleSelect}
+            month={month}
+            onMonthChange={setMonth}
+            numberOfMonths={numberOfMonths}
+            disabled={disabledMatcher}
+            locale={locale}
+            calendarStyle="default"
+            captionLayout={captionLayout}
+            showOutsideDays={false}
+            initialFocus
+          />
+          {showActions && (
+            <div className="flex justify-end ds-gap-8 padding-x-12 padding-y-8 border-t border-default">
+              <Button size="sm" buttonStyle="ghost" onClick={handleCancel}>
+                {cancelLabel}
+              </Button>
+              <Button size="sm" buttonStyle="primary" onClick={handleConfirm}>
+                {confirmLabel}
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </PopoverContent>
+  );
+
+  if (trigger) {
+    return (
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <PopoverAnchor asChild>{slotTrigger}</PopoverAnchor>
+        {popoverContent}
+      </Popover>
+    );
+  }
 
   return (
     <InputWrapper
@@ -561,46 +652,7 @@ export const DateRangePicker = ({
             )}
           </div>
         </PopoverAnchor>
-        <PopoverContent
-          className={cn('w-auto ![padding:0] overflow-hidden', showQuickPresets && 'flex')}
-          align={align}
-        >
-          <div className={cn(showQuickPresets && 'flex')}>
-            {showQuickPresets && (
-              <QuickPresets
-                presets={effectivePresets}
-                onSelect={handlePresetSelect}
-                selectedIndex={selectedPresetIndex}
-              />
-            )}
-            <div>
-              <Calendar
-                mode="range"
-                selected={displayValue}
-                onSelect={handleSelect}
-                month={month}
-                onMonthChange={setMonth}
-                numberOfMonths={numberOfMonths}
-                disabled={disabledMatcher}
-                locale={locale}
-                calendarStyle="default"
-                captionLayout={captionLayout}
-                showOutsideDays={false}
-                initialFocus
-              />
-              {showActions && (
-                <div className="flex justify-end ds-gap-8 padding-x-12 padding-y-8 border-t border-default">
-                  <Button size="sm" buttonStyle="ghost" onClick={handleCancel}>
-                    {cancelLabel}
-                  </Button>
-                  <Button size="sm" buttonStyle="primary" onClick={handleConfirm}>
-                    {confirmLabel}
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-        </PopoverContent>
+        {popoverContent}
       </Popover>
     </InputWrapper>
   );
