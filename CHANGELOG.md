@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.3] - 2026-04-21
+
+### Changed
+
+- **`INPUT_CONTAINER_BASE`에 `max-w-full` 추가 (방어적 폭 clamp)**: `InputWrapper` 루트(수평/수직 라벨 모두 적용) 컨테이너가 flex 부모의 할당된 너비를 초과해 렌더링되지 않도록 `max-width: 100%`를 상시 적용
+  - 배경: password variant 등 `flex-shrink: 0` 인 trailing adornment(eye 토글 버튼)가 포함된 Input 두 개를 `justify-content: space-between; width: 100%` flex row에 나란히 배치한 경우, Windows Chromium 환경에서 intrinsic content-size가 할당된 flex slot을 미세하게 초과하여 Dialog 위치가 우측으로 밀리는 현상이 보고됨. `min-w-0`만으로는 borderline 케이스에서 flex 알고리즘이 content-based size를 선호할 수 있어 보완 필요
+  - `max-width: 100%`는 요소가 부모 content-box를 초과할 때만 동작 — 일반적인 Input 렌더링에는 영향 없음
+  - 동작 변경 가능성: 소비자가 `width="Npx"` 로 부모 컨테이너보다 큰 값을 지정한 경우 기존에는 오버플로우 렌더링되던 것이 부모 너비로 clamp됨. 필요시 해당 인스턴스에 `className="max-w-none"` 로 opt-out 가능 (breaking 아님 — 기존에도 오버플로우는 의도치 않은 동작으로 간주)
+  - Bootstrap `.form-control`, Tailwind Forms plugin 등에서 동일한 방어 패턴 적용 중
+
 ## [1.6.2] - 2026-04-20
 
 ### Added

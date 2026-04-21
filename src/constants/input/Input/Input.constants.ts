@@ -105,7 +105,7 @@ export const SHORTCUT_STYLE = {
 } as const;
 
 // Input container base styles
-export const INPUT_CONTAINER_BASE = 'flex flex-col min-w-0' as const;
+export const INPUT_CONTAINER_BASE = 'flex flex-col min-w-0 max-w-full' as const;
 
 // Input wrapper base styles (the actual input container with border)
 export const INPUT_WRAPPER_BASE = 'flex items-center w-full min-w-0 transition-colors duration-150' as const;
