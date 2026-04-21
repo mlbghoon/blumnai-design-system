@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.6.6] - 2026-04-21
+
+### Added
+
+- **basic color `-wash` tier (emerald/blue/purple)**: `-subtle`보다 한 단계 옅은 새 tier 추가. 라이트 테마에서는 거의 흰색에 가까운 파스텔 wash, 다크 테마에서는 near-black에 hue 힌트가 들어간 배경으로 자동 전환되어 파스텔 그라디언트 데코레이션의 dark-mode readability 이슈를 해소합니다
+  - 4개 테마 전체 커버: `:root`, `[data-theme="dark"]`, `[data-theme="theme-b-light"]`, `[data-theme="theme-b-dark"]`
+  - CSS 변수: `--bg-basic-{emerald,blue,purple}-wash`
+  - Tailwind 유틸: `bg-basic-emerald-wash`, `bg-basic-blue-wash`, `bg-basic-purple-wash`
+  - 라이트 값: `#f5fefb` / `#f6f9ff` / `#f7f5ff` (near-white with hue hint)
+  - 다크 값: `#122e24` / `#141e3c` / `#22123a` (near-black with hue hint)
+- **`ux-guideline/foundations/color.md` §7 업데이트**: basic color tier 구조 표 + 파스텔 wash/그라디언트 데코레이션 판단 플로우 추가
+
+### Notes
+
+- 현재 3개 hue(emerald/blue/purple)만 제공 — 추가 hue 필요 시 별도 요청
+- 다크 값은 엔지니어링 판단으로 제공된 초안 — 필요 시 디자이너 검토 후 micro-adjust 가능
+
 ## [1.6.5] - 2026-04-21
 
 ### Added

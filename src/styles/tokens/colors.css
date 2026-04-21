@@ -225,6 +225,7 @@
   --bg-basic-green-strong: #33803f;
   --bg-basic-green-contrast: #265330;
   /* Emerald */
+  --bg-basic-emerald-wash: #f5fefb;
   --bg-basic-emerald-subtle: #d9f9e6;
   --bg-basic-emerald-accent: #44ba82;
   --bg-basic-emerald-strong: #2a7858;
@@ -245,6 +246,7 @@
   --bg-basic-sky-strong: #2067a4;
   --bg-basic-sky-contrast: #1d496e;
   /* Blue */
+  --bg-basic-blue-wash: #f6f9ff;
   --bg-basic-blue-subtle: #deeafd;
   --bg-basic-blue-accent: #437dfc;
   --bg-basic-blue-strong: #2147dd;
@@ -260,6 +262,7 @@
   --bg-basic-violet-strong: #6717de;
   --bg-basic-violet-contrast: #471b94;
   /* Purple */
+  --bg-basic-purple-wash: #f7f5ff;
   --bg-basic-purple-subtle: #f1e8fd;
   --bg-basic-purple-accent: #a14efd;
   --bg-basic-purple-strong: #7712d2;
@@ -576,6 +579,7 @@
   --bg-basic-green-strong: #66dc7e;
   --bg-basic-green-contrast: #e2fbe8;
   /* Emerald */
+  --bg-basic-emerald-wash: #122e24;
   --bg-basic-emerald-subtle: #1e4e3c;
   --bg-basic-emerald-accent: #44ba82;
   --bg-basic-emerald-strong: #56d197;
@@ -596,6 +600,7 @@
   --bg-basic-sky-strong: #4db9fa;
   --bg-basic-sky-contrast: #e3f2fd;
   /* Blue */
+  --bg-basic-blue-wash: #141e3c;
   --bg-basic-blue-subtle: #223889;
   --bg-basic-blue-accent: #437dfc;
   --bg-basic-blue-strong: #65a0fd;
@@ -611,6 +616,7 @@
   --bg-basic-violet-strong: #a185fd;
   --bg-basic-violet-contrast: #ece9fd;
   /* Purple */
+  --bg-basic-purple-wash: #22123a;
   --bg-basic-purple-subtle: #521b86;
   --bg-basic-purple-accent: #a14efd;
   --bg-basic-purple-strong: #b87efe;
@@ -927,6 +933,7 @@
   --bg-basic-green-strong: #33803f;
   --bg-basic-green-contrast: #265330;
   /* Emerald */
+  --bg-basic-emerald-wash: #f5fefb;
   --bg-basic-emerald-subtle: #d9f9e6;
   --bg-basic-emerald-accent: #44ba82;
   --bg-basic-emerald-strong: #2a7858;
@@ -947,6 +954,7 @@
   --bg-basic-sky-strong: #2067a4;
   --bg-basic-sky-contrast: #1d496e;
   /* Blue */
+  --bg-basic-blue-wash: #f6f9ff;
   --bg-basic-blue-subtle: #deeafd;
   --bg-basic-blue-accent: #437dfc;
   --bg-basic-blue-strong: #2147dd;
@@ -962,6 +970,7 @@
   --bg-basic-violet-strong: #6717de;
   --bg-basic-violet-contrast: #471b94;
   /* Purple */
+  --bg-basic-purple-wash: #f7f5ff;
   --bg-basic-purple-subtle: #f1e8fd;
   --bg-basic-purple-accent: #a14efd;
   --bg-basic-purple-strong: #7712d2;
@@ -1278,6 +1287,7 @@
   --bg-basic-green-strong: #66dc7e;
   --bg-basic-green-contrast: #e2fbe8;
   /* Emerald */
+  --bg-basic-emerald-wash: #122e24;
   --bg-basic-emerald-subtle: #1e4e3c;
   --bg-basic-emerald-accent: #44ba82;
   --bg-basic-emerald-strong: #56d197;
@@ -1298,6 +1308,7 @@
   --bg-basic-sky-strong: #4db9fa;
   --bg-basic-sky-contrast: #e3f2fd;
   /* Blue */
+  --bg-basic-blue-wash: #141e3c;
   --bg-basic-blue-subtle: #223889;
   --bg-basic-blue-accent: #437dfc;
   --bg-basic-blue-strong: #65a0fd;
@@ -1313,6 +1324,7 @@
   --bg-basic-violet-strong: #a185fd;
   --bg-basic-violet-contrast: #ece9fd;
   /* Purple */
+  --bg-basic-purple-wash: #22123a;
   --bg-basic-purple-subtle: #521b86;
   --bg-basic-purple-accent: #a14efd;
   --bg-basic-purple-strong: #b87efe;

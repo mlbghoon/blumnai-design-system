@@ -1056,6 +1056,10 @@ table[data-striped] tbody tr:nth-child(even) {
   background-color: var(--bg-basic-green-contrast);
 }
 
+.bg-basic-emerald-wash {
+  background-color: var(--bg-basic-emerald-wash);
+}
+
 .bg-basic-emerald-subtle {
   background-color: var(--bg-basic-emerald-subtle);
 }
@@ -1120,6 +1124,10 @@ table[data-striped] tbody tr:nth-child(even) {
   background-color: var(--bg-basic-sky-contrast);
 }
 
+.bg-basic-blue-wash {
+  background-color: var(--bg-basic-blue-wash);
+}
+
 .bg-basic-blue-subtle {
   background-color: var(--bg-basic-blue-subtle);
 }
@@ -1166,6 +1174,10 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .bg-basic-violet-contrast {
   background-color: var(--bg-basic-violet-contrast);
+}
+
+.bg-basic-purple-wash {
+  background-color: var(--bg-basic-purple-wash);
 }
 
 .bg-basic-purple-subtle {
