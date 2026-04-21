@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.5] - 2026-04-21
+
+### Added
+
+- **`TooltipTrigger` — `escapePortalContext?: boolean` prop**: Dialog 안에서 Tooltip 사용 시 발생하는 레이아웃 왜곡(asymmetric padding, 멀티라인 dead space 등)을 피하기 위한 escape hatch. `true`로 지정하면:
+  - `PortalContainerContext` 및 `container` prop을 무시하고 `document.body`로 강제 portal
+  - `zIndex` 미지정 시 `10001` 자동 적용 (DS Dialog z-10000 위에 겹침)
+  - 기존 동작 불변 (default `false`) — opt-in
+
+### Notes
+
+- 근본 원인(Dialog의 `PortalContainerProvider`가 DialogContent의 grid/padding/gap 컨텍스트를 portal 타겟으로 사용)은 Tooltip/Select/Popover 등 모든 floating 컴포넌트에 잠재적 영향. 이번 PR은 Tooltip만 targeted fix — Select/Popover는 현재 동일 사용 패턴에서 문제 보고 없음. 추후 Dialog-side neutral wrapper로 범용 해결하는 것은 별도 PR 범위
+- Storybook: `DataDisplay/Tooltip/TooltipTrigger` → `InsideDialog` 스토리에서 기본 vs `escapePortalContext` 비교 가능
+
 ## [1.6.4] - 2026-04-21
 
 ### Fixed
