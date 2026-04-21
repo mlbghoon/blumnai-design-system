@@ -1,8 +1,18 @@
+import { useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { TooltipTrigger } from './TooltipTrigger';
 import { AdvancedTooltip } from './AdvancedTooltip';
 import { Button } from '../../button/Button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../../dialog/Dialog';
+import { Icon } from '../../icons/Icon/Icon';
 
 const meta: Meta<typeof TooltipTrigger> = {
   title: 'DataDisplay/Tooltip/TooltipTrigger',
@@ -254,4 +264,53 @@ export const CustomDelay: Story = {
       </TooltipTrigger>
     </div>
   ),
+};
+
+/**
+ * Dialog 안에서 TooltipTrigger 사용 (`escapePortalContext`)
+ *
+ * Dialog는 내부적으로 `PortalContainerProvider`로 `DialogContent`(grid + padding + gap)를
+ * portal 타겟으로 지정합니다. 그 상태에서 Tooltip을 그대로 쓰면 레이아웃이 왜곡될 수 있습니다.
+ * `escapePortalContext` prop을 `true`로 주면 Tooltip이 `document.body`로 강제 portal되고
+ * `zIndex`가 10001로 자동 조정되어 Dialog(z-10000) 위에 올바르게 떠있습니다.
+ *
+ * 비교: 왼쪽(기본)은 Dialog grid 컨텍스트 안에 portal되어 레이아웃 이슈 잠재. 오른쪽(`escapePortalContext`)은 정상.
+ */
+export const InsideDialog: Story = {
+  render: function Render() {
+    const [open, setOpen] = useState(false);
+    return (
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button>Dialog 열기</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>분류 설정</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col ds-gap-8">
+            <div className="flex items-center ds-gap-8">
+              <span className="size-sm">기본 (portal→Dialog)</span>
+              <TooltipTrigger
+                content="해당 분류에서 처리할 업무의 가이드를 미리 설정할 수 있습니다."
+                placement="right"
+              >
+                <Icon iconType={['system', 'information']} size={14} />
+              </TooltipTrigger>
+            </div>
+            <div className="flex items-center ds-gap-8">
+              <span className="size-sm">escapePortalContext</span>
+              <TooltipTrigger
+                content="해당 분류에서 처리할 업무의 가이드를 미리 설정할 수 있습니다."
+                placement="right"
+                escapePortalContext
+              >
+                <Icon iconType={['system', 'information']} size={14} />
+              </TooltipTrigger>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  },
 };

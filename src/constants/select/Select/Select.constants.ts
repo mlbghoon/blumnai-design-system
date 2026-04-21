@@ -10,7 +10,7 @@ export const SIZE_CONFIG = {
     paddingWithLeadIcon: 'padding-x-6 padding-y-4',
     text: 'size-xs line-height-leading-4',
     iconSize: 14,
-    gap: 'ds-gap-0',
+    gap: 'ds-gap-4',
   },
   sm: {
     container: 'height-32',
@@ -19,7 +19,7 @@ export const SIZE_CONFIG = {
     paddingWithLeadIcon: 'padding-x-8 padding-y-6',
     text: 'size-sm line-height-leading-5',
     iconSize: 16,
-    gap: 'ds-gap-0',
+    gap: 'ds-gap-4',
   },
   lg: {
     container: 'height-36',
@@ -28,7 +28,7 @@ export const SIZE_CONFIG = {
     paddingWithLeadIcon: 'padding-x-8 padding-y-8',
     text: 'size-sm line-height-leading-5',
     iconSize: 16,
-    gap: 'ds-gap-0',
+    gap: 'ds-gap-6',
   },
 } as const;
 

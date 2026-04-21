@@ -7,6 +7,7 @@ import {
   STATE_CONFIG,
   INPUT_WRAPPER_BASE,
 } from 'constants/input/Input/Input.constants';
+import { isOutOfBounds } from '../utils/bounds';
 import type { DateRangeInputProps, DateSegment, DateSegmentOrder, DateFormat } from '../DatePicker.types';
 
 const SEGMENT_PLACEHOLDERS: Record<DateSegment, string> = {
@@ -115,6 +116,8 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
   datePickerStyle = 'default',
   size = 'sm',
   dateFormat = 'yyyy.MM.dd',
+  minDate,
+  maxDate,
   onFocus,
   onBlur,
   onCalendarClick,
@@ -139,7 +142,10 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
   }, [toSegments]);
 
   const [activeSegment, setActiveSegment] = useState<{ part: DatePart; segment: DateSegment } | null>(null);
+  // invalid = 포맷 오류 OR min/max 경계 밖 — 둘 다 onChange 호출되지 않는 상태
   const [hasInvalidDate, setHasInvalidDate] = useState(false);
+  const hasInvalidDateRef = useRef(false);
+  useEffect(() => { hasInvalidDateRef.current = hasInvalidDate; }, [hasInvalidDate]);
   const isInputFocused = useRef(false);
 
   useEffect(() => {
@@ -184,8 +190,15 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
     const isFromComplete = newFrom.day.length === 2 && newFrom.month.length === 2 && newFrom.year.length === 4;
     const isToComplete = newTo.day.length === 2 && newTo.month.length === 2 && newTo.year.length === 4;
 
-    const hasInvalid = (isFromComplete && !fromDate) || (isToComplete && !toDate);
+    const hasFormatInvalid = (isFromComplete && !fromDate) || (isToComplete && !toDate);
+    // 각 side 독립 경계 검증 — 완성된 side만 판정
+    const fromOutOfBounds = !!(fromDate && isOutOfBounds(fromDate, minDate, maxDate));
+    const toOutOfBounds = !!(toDate && isOutOfBounds(toDate, minDate, maxDate));
+
+    const hasInvalid = hasFormatInvalid || fromOutOfBounds || toOutOfBounds;
     setHasInvalidDate(hasInvalid);
+
+    if (hasInvalid) return;
 
     if (fromDate && toDate && fromDate > toDate) {
       [fromDate, toDate] = [toDate, fromDate];
@@ -200,7 +213,7 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
     } else {
       onChange?.({ from: fromDate, to: toDate });
     }
-  }, [onChange]);
+  }, [onChange, minDate, maxDate]);
 
   const handleSegmentChange = useCallback((part: DatePart, segment: DateSegment, inputValue: string) => {
     const numericValue = inputValue.replace(/\D/g, '');
@@ -298,12 +311,18 @@ export const DateRangeInput = forwardRef<HTMLDivElement, DateRangeInputProps>(({
         s => segmentRefs[s.part][s.segment].current === document.activeElement
       );
       if (!isAnySegmentFocused) {
+        // invalid(포맷 오류 or 경계 밖) 상태로 포커스가 완전 이탈하면 value prop 기준으로 양 side 모두 리셋
+        if (hasInvalidDateRef.current) {
+          setFromSegments(dateToSegments(value?.from));
+          setToSegments(dateToSegments(value?.to));
+          setHasInvalidDate(false);
+        }
         isInputFocused.current = false;
         setActiveSegment(null);
         onBlur?.();
       }
     }, 0);
-  }, [segmentRefs, updateRange, onBlur, getAllSegments]);
+  }, [segmentRefs, updateRange, onBlur, getAllSegments, value]);
 
   const handleInputAreaClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();

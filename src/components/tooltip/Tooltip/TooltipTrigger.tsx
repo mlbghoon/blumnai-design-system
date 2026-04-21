@@ -22,6 +22,7 @@ import {
 } from '@floating-ui/react';
 
 import { Tooltip } from './Tooltip';
+import { AdvancedTooltip } from './AdvancedTooltip';
 import { usePortalContainer } from '../../../utils/PortalContainerContext';
 
 export interface TooltipTriggerProps {
@@ -101,6 +102,20 @@ export interface TooltipTriggerProps {
    * - `HTMLElement`: 해당 엘리먼트로 포탈 (overflow:hidden 컨테이너 탈출용)
    */
   container?: HTMLElement | null;
+  /**
+   * Dialog 안에서 Tooltip 사용 시 레이아웃 이슈 회피용 escape.
+   *
+   * Dialog는 내부적으로 `PortalContainerProvider`로 자신의 `DialogContent`(grid + padding + gap)를
+   * portal 타겟으로 지정합니다. 이 컨텍스트 안에서 Tooltip이 portal되면 레이아웃(padding, 멀티라인 wrapping 등)이
+   * 왜곡되는 경우가 보고됨.
+   *
+   * `true`로 지정하면:
+   * - PortalContainerContext / `container` prop을 무시하고 `document.body`로 강제 portal
+   * - `zIndex` 미지정 시 `10001` 자동 적용 (DS Dialog z-10000 위에 안전하게 겹쳐짐)
+   *
+   * @default false
+   */
+  escapePortalContext?: boolean;
 }
 
 export function TooltipTrigger({
@@ -120,6 +135,7 @@ export function TooltipTrigger({
   asChild = false,
   zIndex,
   container,
+  escapePortalContext = false,
 }: TooltipTriggerProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -212,7 +228,9 @@ export function TooltipTrigger({
     };
   }, []);
 
-  const isAlreadyTooltip = isValidElement(content) && content.type === Tooltip;
+  // Tooltip 또는 AdvancedTooltip을 직접 넘긴 경우 이중 wrapper(중첩 카드) 방지
+  const isAlreadyTooltip = isValidElement(content) &&
+    (content.type === Tooltip || content.type === AdvancedTooltip);
 
   const tooltipContent = isAlreadyTooltip ? (
     content
@@ -224,10 +242,14 @@ export function TooltipTrigger({
 
   const shouldShow = isOpen && !disabled && anchor !== null;
 
-  // container 명시 우선: undefined → context, null → body 강제, HTMLElement → 그대로
-  const effectivePortalTarget =
-    container === undefined ? portalContainer : container;
-  const usingContextContainer = container === undefined && portalContainer !== null;
+  // escapePortalContext 우선: 항상 document.body + zIndex 10001
+  // container 명시 다음: undefined → context, null → body 강제, HTMLElement → 그대로
+  const effectivePortalTarget = escapePortalContext
+    ? null
+    : container === undefined ? portalContainer : container;
+  const usingContextContainer =
+    !escapePortalContext && container === undefined && portalContainer !== null;
+  const defaultZIndex = escapePortalContext ? 10001 : usingContextContainer ? 10 : 50;
 
   const portalElement = shouldShow &&
     typeof document !== 'undefined' &&
@@ -238,7 +260,7 @@ export function TooltipTrigger({
         role="tooltip"
         style={{
           ...floatingStyles,
-          zIndex: zIndex ?? (usingContextContainer ? 10 : 50),
+          zIndex: zIndex ?? defaultZIndex,
           animation: 'tooltip-enter 150ms ease-out',
         }}
         onMouseEnter={cancelClose}

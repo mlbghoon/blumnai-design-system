@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef, forwardRef } from 'react';
+import { useEffect, useCallback, useRef, useState, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Icon } from '../../icons/Icon/Icon';
 import {
@@ -9,6 +9,7 @@ import {
 } from 'constants/input/Input/Input.constants';
 import { useSegmentInput } from '../hooks/useSegmentInput';
 import type { SegmentConfig } from '../hooks/useSegmentInput';
+import { isOutOfBoundsMonth } from '../utils/bounds';
 import type { MonthRange } from '../MonthRangePicker/MonthRangePicker.types';
 
 interface MonthRangeInputProps {
@@ -19,6 +20,10 @@ interface MonthRangeInputProps {
   isOpen?: boolean;
   size?: 'sm' | 'lg';
   pickerOnly?: boolean;
+  /** 최소 허용 월(일 단위는 무시, 월 시작으로 정규화됨) */
+  minDate?: Date;
+  /** 최대 허용 월(일 단위는 무시, 월 시작으로 정규화됨) */
+  maxDate?: Date;
   onFocus?: () => void;
   onBlur?: () => void;
   onCalendarClick?: () => void;
@@ -59,12 +64,19 @@ export const MonthRangeInput = forwardRef<HTMLDivElement, MonthRangeInputProps>(
   isOpen = false,
   size = 'sm',
   pickerOnly = false,
+  minDate,
+  maxDate,
   onFocus,
   onBlur,
   onCalendarClick,
   className,
 }, ref) => {
   const isInputFocused = useRef(false);
+
+  // picker-level invalid = min/max 경계 밖. 훅 내부 format invalid와 externalInvalid로 합성됨
+  const [boundsInvalid, setBoundsInvalid] = useState(false);
+  const boundsInvalidRef = useRef(false);
+  useEffect(() => { boundsInvalidRef.current = boundsInvalid; }, [boundsInvalid]);
 
   const handleComplete = useCallback((segValues: Record<string, string>) => {
     const fy = parseInt(segValues.fromYear, 10);
@@ -75,14 +87,25 @@ export const MonthRangeInput = forwardRef<HTMLDivElement, MonthRangeInputProps>(
     let fromDate = new Date(fy, fm - 1, 1);
     let toDate = new Date(ty, tm - 1, 1);
 
+    // 각 side 독립 경계 검증
+    if (
+      isOutOfBoundsMonth(fromDate, minDate, maxDate) ||
+      isOutOfBoundsMonth(toDate, minDate, maxDate)
+    ) {
+      setBoundsInvalid(true);
+      return;
+    }
+    setBoundsInvalid(false);
+
     if (fromDate > toDate) {
       [fromDate, toDate] = [toDate, fromDate];
     }
 
     onChange?.({ from: fromDate, to: toDate });
-  }, [onChange]);
+  }, [onChange, minDate, maxDate]);
 
   const handleClear = useCallback(() => {
+    setBoundsInvalid(false);
     onChange?.({ from: undefined, to: undefined });
   }, [onChange]);
 
@@ -91,10 +114,18 @@ export const MonthRangeInput = forwardRef<HTMLDivElement, MonthRangeInputProps>(
     onFocus?.();
   }, [onFocus]);
 
+  // 훅 반환값 setValues를 wrappedBlur에서 쓰기 위한 ref (순환 의존 회피)
+  const setValuesRef = useRef<(v: Record<string, string>) => void>(() => {});
+
+  // 포커스가 완전 이탈할 때 invalid 상태면 value prop 기준으로 양 side 모두 리셋
   const handleBlur = useCallback(() => {
     isInputFocused.current = false;
+    if (boundsInvalidRef.current) {
+      setValuesRef.current(rangeToValues(value));
+      setBoundsInvalid(false);
+    }
     onBlur?.();
-  }, [onBlur]);
+  }, [onBlur, value]);
 
   const {
     values,
@@ -113,11 +144,16 @@ export const MonthRangeInput = forwardRef<HTMLDivElement, MonthRangeInputProps>(
     onClear: handleClear,
     onFocus: handleFocus,
     onBlur: handleBlur,
+    externalInvalid: boundsInvalid,
   });
+
+  useEffect(() => { setValuesRef.current = setValues; }, [setValues]);
 
   useEffect(() => {
     if (!isInputFocused.current) {
       setValues(rangeToValues(value));
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setBoundsInvalid(false);
     }
   }, [value, setValues]);
 

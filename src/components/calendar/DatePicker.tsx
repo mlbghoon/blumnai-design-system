@@ -277,6 +277,8 @@ export const DatePicker = ({
               isOpen={open}
               pickerOnly={pickerOnly}
               dateFormat={dateFormat}
+              minDate={minDate}
+              maxDate={maxDate}
               onCalendarClick={handleOpenCalendar}
             />
           </div>
@@ -630,6 +632,8 @@ export const DateRangePicker = ({
                 isOpen={open}
                 pickerOnly={pickerOnly}
                 dateFormat={dateFormat}
+                minDate={minDate}
+                maxDate={maxDate}
                 onCalendarClick={handleOpenCalendar}
               />
             )}

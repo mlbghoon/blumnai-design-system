@@ -1,5 +1,50 @@
 # Changelog
 
+## [1.6.5] - 2026-04-21
+
+### Added
+
+- **`TooltipTrigger` — `escapePortalContext?: boolean` prop**: Dialog 안에서 Tooltip 사용 시 발생하는 레이아웃 왜곡(asymmetric padding, 멀티라인 dead space 등)을 피하기 위한 escape hatch. `true`로 지정하면:
+  - `PortalContainerContext` 및 `container` prop을 무시하고 `document.body`로 강제 portal
+  - `zIndex` 미지정 시 `10001` 자동 적용 (DS Dialog z-10000 위에 겹침)
+  - 기존 동작 불변 (default `false`) — opt-in
+
+### Notes
+
+- 근본 원인(Dialog의 `PortalContainerProvider`가 DialogContent의 grid/padding/gap 컨텍스트를 portal 타겟으로 사용)은 Tooltip/Select/Popover 등 모든 floating 컴포넌트에 잠재적 영향. 이번 PR은 Tooltip만 targeted fix — Select/Popover는 현재 동일 사용 패턴에서 문제 보고 없음. 추후 Dialog-side neutral wrapper로 범용 해결하는 것은 별도 PR 범위
+- Storybook: `DataDisplay/Tooltip/TooltipTrigger` → `InsideDialog` 스토리에서 기본 vs `escapePortalContext` 비교 가능
+
+## [1.6.4] - 2026-04-21
+
+### Fixed
+
+- **DatePicker / DateRangePicker / MonthPicker / MonthRangePicker — typed input의 `minDate`/`maxDate` 검증 누락**: 기존에는 `minDate`/`maxDate`가 캘린더 팝업에만 적용되고 직접 키보드 입력(MM/DD/YYYY 세그먼트)에는 적용되지 않아, 예컨대 `maxDate={new Date()}`로 미래 조회를 막은 경우에도 사용자가 미래 날짜를 타이핑하면 `onChange`에 그대로 전달됐습니다. 이제 4개 picker 모두 typed input 경로에서도 경계를 강제합니다.
+  - **동작**: 경계 밖 값이 완성되면 `onChange` 호출 없이 input이 error state(붉은 border)로 표시되고, 포커스가 완전히 이탈하면 segment display가 이전 유효 `value`로 자동 복구됩니다
+  - **Range picker**: from/to 각 side 독립 검증 — 한쪽만 완성되고 경계 밖이어도 즉시 거부
+  - **MonthPicker/MonthRangePicker**: 경계 비교는 월 단위로 정규화(`minDate`/`maxDate`에 일 단위가 포함돼도 같은 월은 모두 in-bounds)
+
+### Added
+
+- **`DateInput` / `DateRangeInput` — `minDate`/`maxDate` props**: 내부 Input 컴포넌트도 경계 검증을 받도록 prop 추가 (상위 Picker에서 자동 전달됨)
+- **`useSegmentInput` 훅 — `externalInvalid?: boolean` 옵션**: picker-level 검증 결과를 훅의 `hasInvalidDate`와 OR 합성
+- **`src/components/calendar/utils/bounds.ts`** 공용 유틸: `isOutOfBounds`, `isOutOfBoundsMonth` 순수 함수
+- **Storybook**: `DatePicker` / `DateRangePicker` / `MonthPicker` / `MonthRangePicker` 에 각 `MinMaxTypedInputValidation` 스토리 추가
+- **유닛 테스트**: `bounds.test.ts` (11 cases), `useSegmentInput.test.ts` (전체 스위트 — 19 cases)
+
+### Changed
+
+- **`TooltipTrigger` — `content`로 `AdvancedTooltip`을 직접 전달 시 이중 wrapper(중첩 카드) 방지**: 기존에는 `content.type === Tooltip`만 검사하여 `AdvancedTooltip`을 넘기면 외부 `<Tooltip>`으로 한 번 더 감싸 두 개의 카드(bg-card + shadow-modal-sm + rounded-card-xs)가 중첩 렌더링됨. 이제 `Tooltip` 또는 `AdvancedTooltip` 둘 다 감지하여 단일 wrapper만 렌더
+- **`Select` trigger — `ds-gap-0` → Button과 동일한 `ds-gap-4`/`ds-gap-6` 으로 통일**: `leadIcon`/`tailIcon`이 placeholder/value 텍스트에 붙어 보이는 시각 이슈 해결. DS 내 Button(`ds-gap-4`/`6`) 정합성 확보
+  - xs: `ds-gap-0` → `ds-gap-4`
+  - sm: `ds-gap-0` → `ds-gap-4`
+  - lg: `ds-gap-0` → `ds-gap-6`
+  - 소폭 Visual change: leadIcon/tailIcon 없는 Select도 value↔chevron 간격이 4-6px 넓어짐 (기존 ellipsis truncation 동작은 그대로)
+
+### Notes
+
+- **staging(showActions) 플로우는 이번 PR에서 변경하지 않음**: typed input은 기존과 동일하게 `showActions=true`일 때도 staging을 우회하여 즉시 `onChange`를 호출합니다. 이 문제는 별도 논의 대상
+- **성능 주의**: `minDate`/`maxDate`를 inline `new Date()`로 전달하면 렌더마다 새 참조가 생성되어 내부 callback identity가 갱신됩니다. 성능이 민감한 컨텍스트에서는 `useMemo`로 안정화 권장
+
 ## [1.6.3] - 2026-04-21
 
 ### Changed

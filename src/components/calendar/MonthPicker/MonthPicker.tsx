@@ -267,6 +267,8 @@ export const MonthPicker = ({
               isOpen={open}
               size={size}
               pickerOnly={pickerOnly}
+              minDate={minDate}
+              maxDate={maxDate}
               onCalendarClick={() => !disabled && handleOpenChange(!open)}
             />
           </div>
