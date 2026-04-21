@@ -750,3 +750,33 @@ export const DefaultMonthForPastFilter: Story = {
     );
   },
 };
+
+/**
+ * minDate/maxDate — typed input 경계 검증 (각 side 독립 판정)
+ *
+ * from/to 각각에 대해 경계 밖 값을 타이핑하면 error 상태로 표시되고 `onChange`가 호출되지 않습니다.
+ * 포커스가 완전 이탈하면 양 side 모두 이전 유효값으로 복구됩니다.
+ *
+ * 시나리오:
+ * - to 에 미래 날짜 타이핑 → error + onChange 호출 안 됨
+ * - from 만 완성 + 30일 이전 날짜 → to 완성 전에도 이미 error
+ * - 양쪽 모두 경계 내 → 정상 통과
+ */
+export const MinMaxTypedInputValidation: Story = {
+  render: function Render() {
+    const today = new Date();
+    const [range, setRange] = useState<DateRange | undefined>();
+    return (
+      <div style={{ width: 380 }}>
+        <DateRangePicker
+          label="조회 기간"
+          caption="최근 30일 이내만 허용. 미래/과거 날짜 타이핑은 거부됩니다."
+          minDate={addDays(today, -30)}
+          maxDate={today}
+          value={range}
+          onChange={setRange}
+        />
+      </div>
+    );
+  },
+};

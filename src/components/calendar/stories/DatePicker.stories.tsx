@@ -641,3 +641,33 @@ export const DefaultMonth: Story = {
     );
   },
 };
+
+/**
+ * minDate/maxDate — typed input 경계 검증
+ *
+ * 경계 밖 날짜를 직접 타이핑하면 error 상태로 표시되고 `onChange`가 호출되지 않습니다.
+ * 모든 세그먼트가 채워진 상태에서 포커스를 벗어나면 이전 유효값으로 자동 복구됩니다.
+ *
+ * 시나리오:
+ * - 미래 날짜(maxDate = 오늘) 타이핑 → error + onChange 호출 안 됨
+ * - 30일 이전 날짜(minDate) 타이핑 → 동일
+ * - 경계와 정확히 일치한 값 → 정상 통과
+ */
+export const MinMaxTypedInputValidation: Story = {
+  render: function Render() {
+    const [date, setDate] = useState<Date | undefined>();
+    const today = new Date();
+    return (
+      <div style={{ width: 320 }}>
+        <DatePicker
+          label="조회 날짜"
+          caption="최근 30일 이내만 허용. 미래/과거 날짜 타이핑은 거부됩니다."
+          minDate={addDays(today, -30)}
+          maxDate={today}
+          value={date}
+          onChange={setDate}
+        />
+      </div>
+    );
+  },
+};

@@ -283,6 +283,10 @@ export interface DateInputProps {
   datePickerStyle?: DatePickerStyle;
   size?: DatePickerSize;
   dateFormat?: DateFormat;
+  /** 타이핑된 날짜가 이 값보다 이전이면 경계 밖으로 판정 (error state, onChange 호출 안 함) */
+  minDate?: Date;
+  /** 타이핑된 날짜가 이 값보다 이후면 경계 밖으로 판정 (error state, onChange 호출 안 함) */
+  maxDate?: Date;
   onFocus?: () => void;
   onBlur?: () => void;
   onCalendarClick?: () => void;
@@ -304,6 +308,10 @@ export interface DateRangeInputProps {
   datePickerStyle?: DatePickerStyle;
   size?: DatePickerSize;
   dateFormat?: DateFormat;
+  /** 타이핑된 날짜(from/to 각각)가 이 값보다 이전이면 경계 밖으로 판정 */
+  minDate?: Date;
+  /** 타이핑된 날짜(from/to 각각)가 이 값보다 이후면 경계 밖으로 판정 */
+  maxDate?: Date;
   onFocus?: () => void;
   onBlur?: () => void;
   onCalendarClick?: () => void;

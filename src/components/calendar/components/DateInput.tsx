@@ -7,6 +7,7 @@ import {
   STATE_CONFIG,
   INPUT_WRAPPER_BASE,
 } from 'constants/input/Input/Input.constants';
+import { isOutOfBounds } from '../utils/bounds';
 import type { DateInputProps, DateSegment, DateSegmentOrder, DateFormat } from '../DatePicker.types';
 
 const SEGMENT_PLACEHOLDERS: Record<DateSegment, string> = {
@@ -76,6 +77,8 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
   datePickerStyle = 'default',
   size = 'sm',
   dateFormat = 'yyyy.MM.dd',
+  minDate,
+  maxDate,
   onFocus,
   onBlur,
   onCalendarClick,
@@ -95,7 +98,10 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
   }, [segments]);
 
   const [activeSegment, setActiveSegment] = useState<DateSegment | null>(null);
+  // invalid = 포맷 오류 OR min/max 경계 밖 — 둘 다 onChange 호출되지 않는 상태
   const [hasInvalidDate, setHasInvalidDate] = useState(false);
+  const hasInvalidDateRef = useRef(false);
+  useEffect(() => { hasInvalidDateRef.current = hasInvalidDate; }, [hasInvalidDate]);
 
   const dayRef = useRef<HTMLInputElement>(null);
   const monthRef = useRef<HTMLInputElement>(null);
@@ -139,6 +145,10 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
           newDate.getMonth() === monthNum - 1 &&
           newDate.getFullYear() === yearNum
         ) {
+          if (isOutOfBounds(newDate, minDate, maxDate)) {
+            setHasInvalidDate(true);
+            return;
+          }
           setHasInvalidDate(false);
           onChange?.(newDate);
           return;
@@ -152,7 +162,7 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
     if (!day && !month && !year) {
       onChange?.(undefined);
     }
-  }, [onChange]);
+  }, [onChange, minDate, maxDate]);
 
   const handleSegmentChange = useCallback((segment: DateSegment, inputValue: string) => {
     const numericValue = inputValue.replace(/\D/g, '');
@@ -233,11 +243,24 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
         s => segmentRefs[s].current === document.activeElement
       );
       if (!isAnySegmentFocused) {
+        // invalid(포맷 오류 or 경계 밖) 상태로 포커스가 완전히 이탈하면 value prop 기준으로 리셋
+        if (hasInvalidDateRef.current) {
+          if (value) {
+            setSegments({
+              day: padSegment('day', String(value.getDate())),
+              month: padSegment('month', String(value.getMonth() + 1)),
+              year: String(value.getFullYear()),
+            });
+          } else {
+            setSegments({ day: '', month: '', year: '' });
+          }
+          setHasInvalidDate(false);
+        }
         setActiveSegment(null);
         onBlur?.();
       }
     }, 0);
-  }, [segmentOrder, segmentRefs, updateDateFromSegments, onBlur]);
+  }, [segmentOrder, segmentRefs, updateDateFromSegments, onBlur, value]);
 
   const handleInputAreaClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();

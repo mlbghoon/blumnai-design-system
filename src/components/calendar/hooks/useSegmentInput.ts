@@ -13,6 +13,12 @@ interface UseSegmentInputOptions {
   onClear: () => void;
   onFocus?: () => void;
   onBlur?: () => void;
+  /**
+   * 외부(picker-level) 검증에서 주입하는 invalid 플래그.
+   * 훅 내부의 format-level invalid 상태와 OR 합성되어 `hasInvalidDate`로 반환됩니다.
+   * 예: min/max 경계 밖으로 판정된 경우 picker가 true를 전달합니다.
+   */
+  externalInvalid?: boolean;
 }
 
 export interface UseSegmentInputReturn {
@@ -34,6 +40,7 @@ export function useSegmentInput({
   onClear,
   onFocus: onFocusProp,
   onBlur: onBlurProp,
+  externalInvalid,
 }: UseSegmentInputOptions): UseSegmentInputReturn {
   const segmentNames = useMemo(() => segments.map(s => s.name), [segments]);
   const segmentMap = useMemo(() => {
@@ -200,6 +207,6 @@ export function useSegmentInput({
     handleFocus,
     handleBlur,
     handleAreaClick,
-    hasInvalidDate,
+    hasInvalidDate: hasInvalidDate || (externalInvalid ?? false),
   };
 }

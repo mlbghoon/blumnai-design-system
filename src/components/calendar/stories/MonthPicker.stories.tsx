@@ -424,6 +424,39 @@ export const DefaultMonth: Story = {
 };
 
 /**
+ * minDate/maxDate — typed input 경계 검증 (월 단위)
+ *
+ * 경계 밖 연/월을 직접 타이핑하면 error 상태로 표시되고 `onChange`가 호출되지 않습니다.
+ * 포커스가 완전 이탈하면 이전 유효값으로 자동 복구됩니다.
+ *
+ * 경계는 월 단위로 정규화 — `maxDate`에 일 단위가 포함돼도 같은 월은 모두 in-bounds.
+ *
+ * 시나리오:
+ * - 미래 월 타이핑 → error + onChange 호출 안 됨
+ * - 12개월 이전 월 타이핑 → 동일
+ * - 경계 월의 아무 일 → in-bounds
+ */
+export const MinMaxTypedInputValidation: Story = {
+  render: function Render() {
+    const today = new Date();
+    const minDate = new Date(today.getFullYear(), today.getMonth() - 12, 1);
+    const [value, setValue] = useState<Date | undefined>();
+    return (
+      <div style={{ width: 300 }}>
+        <MonthPicker
+          label="조회 월"
+          supportText="최근 12개월 이내"
+          minDate={minDate}
+          maxDate={today}
+          value={value}
+          onChange={setValue}
+        />
+      </div>
+    );
+  },
+};
+
+/**
  * 크기 비교
  *
  * sm / lg 사이즈를 비교합니다.

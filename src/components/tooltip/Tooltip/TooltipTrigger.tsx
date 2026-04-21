@@ -22,6 +22,7 @@ import {
 } from '@floating-ui/react';
 
 import { Tooltip } from './Tooltip';
+import { AdvancedTooltip } from './AdvancedTooltip';
 import { usePortalContainer } from '../../../utils/PortalContainerContext';
 
 export interface TooltipTriggerProps {
@@ -212,7 +213,9 @@ export function TooltipTrigger({
     };
   }, []);
 
-  const isAlreadyTooltip = isValidElement(content) && content.type === Tooltip;
+  // Tooltip 또는 AdvancedTooltip을 직접 넘긴 경우 이중 wrapper(중첩 카드) 방지
+  const isAlreadyTooltip = isValidElement(content) &&
+    (content.type === Tooltip || content.type === AdvancedTooltip);
 
   const tooltipContent = isAlreadyTooltip ? (
     content
