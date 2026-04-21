@@ -53,7 +53,7 @@ const DropdownMenuSub = DropdownMenuPrimitive.Sub;
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
   DropdownMenuContentProps
->(({ className, sideOffset = 4, width, maxHeight, loading = false, style, container, children, ...props }, ref) => {
+>(({ className, sideOffset = 4, width, maxHeight, loading = false, isSearch = false, onSearch, searchValue, searchPlaceholder, style, container, children, ...props }, ref) => {
   const contextContainer = usePortalContainer();
   const widthStyle = width !== undefined && width !== ''
     ? { width: typeof width === 'number' ? `${width}px` : width }
@@ -102,7 +102,18 @@ const DropdownMenuContent = React.forwardRef<
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
           </div>
-        ) : children}
+        ) : (
+          <>
+            {isSearch && (
+              <DropdownMenuSearch
+                value={searchValue}
+                onChange={onSearch}
+                placeholder={searchPlaceholder}
+              />
+            )}
+            {children}
+          </>
+        )}
       </DropdownMenuPrimitive.Content>
     </DropdownMenuPrimitive.Portal>
   );

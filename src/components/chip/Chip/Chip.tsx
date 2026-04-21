@@ -33,6 +33,7 @@ export const Chip = memo(forwardRef<HTMLButtonElement, ChipProps>(
     {
       label,
       icon,
+      customIcon,
       variant = 'default',
       style = 'default',
       shape = 'rounded',
@@ -191,7 +192,17 @@ export const Chip = memo(forwardRef<HTMLButtonElement, ChipProps>(
 
     return (
       <button ref={ref} {...props} type="button" className={containerClassName} disabled={disabled} aria-pressed={selected} aria-label={iconOnly ? (props['aria-label'] ?? label) : undefined} onClick={handleClick}>
-        {icon && (
+        {customIcon ? (
+          <span
+            className={cn(
+              'inline-flex items-center justify-center shrink-0',
+              'transition-colors duration-150',
+              activeStyle.icon
+            )}
+          >
+            {customIcon}
+          </span>
+        ) : icon ? (
           <span
             className={cn(
               'inline-flex items-center justify-center shrink-0',
@@ -204,7 +215,7 @@ export const Chip = memo(forwardRef<HTMLButtonElement, ChipProps>(
               return <Icon iconType={iconType} size={currentSize.iconSize} isFill={isFill} />;
             })()}
           </span>
-        )}
+        ) : null}
 
         {!iconOnly && label && (
           <span

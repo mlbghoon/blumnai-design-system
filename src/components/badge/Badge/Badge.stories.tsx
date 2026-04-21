@@ -44,12 +44,12 @@ const meta: Meta<typeof Badge> = {
     },
     color: {
       control: 'select',
-      options: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'],
-      description: '배지의 색상 테마를 설정합니다. 18가지 색상 중 선택할 수 있으며, 기본값은 neutral입니다',
+      options: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral', 'white'],
+      description: '배지의 색상 테마를 설정합니다. 19가지 색상 중 선택할 수 있으며, 기본값은 neutral입니다',
       table: {
         type: {
           summary: 'BadgeColor',
-          detail: `'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose' | 'neutral'
+          detail: `'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose' | 'neutral' | 'white'
 기본값: 'neutral'`,
         },
       },
@@ -225,7 +225,7 @@ export const WithCloseIcon: Story = {
 export const AllColors: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map((color) => (
+      {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral', 'white'] as const).map((color) => (
         <div key={color} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <span style={{ width: '100px', textTransform: 'capitalize' }}>{color}</span>
           <Badge variant="default" label="라벨" color={color} size="sm" />

@@ -108,6 +108,16 @@ const meta: Meta<typeof Chip> = {
         },
       },
     },
+    customIcon: {
+      control: false,
+      description: '커스텀 아이콘 ReactNode. 지정 시 icon 대신 이 노드를 렌더링합니다',
+      table: {
+        type: {
+          summary: 'ReactNode',
+          detail: '예시: customIcon={<MyCustomIcon />}',
+        },
+      },
+    },
     disabled: {
       control: 'boolean',
       description: 'true로 설정하면 칩이 비활성화되어 클릭할 수 없습니다',
@@ -274,6 +284,54 @@ export const ColorsSelected: Story = {
 /**
  * 아이콘만 색상 변형
  */
+/**
+ * 커스텀 아이콘
+ *
+ * customIcon prop으로 ReactNode를 전달하여 내부 아이콘 자리에 커스텀 요소를 렌더링합니다.
+ */
+export const CustomIcon: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-8">
+      <div className="flex items-center ds-gap-4">
+        <Chip
+          label="커스텀 SVG"
+          customIcon={
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <circle cx="8" cy="8" r="6" />
+            </svg>
+          }
+        />
+        <Chip
+          label="커스텀 이모지"
+          customIcon={<span style={{ fontSize: '14px' }}>🎨</span>}
+        />
+        <Chip
+          label="커스텀 이미지"
+          customIcon={
+            <img src="https://placehold.co/16" alt="custom" style={{ width: 16, height: 16, borderRadius: '50%' }} />
+          }
+        />
+      </div>
+      <div className="flex items-center ds-gap-4">
+        <Chip
+          variant="iconOnly"
+          customIcon={
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <circle cx="8" cy="8" r="6" />
+            </svg>
+          }
+          aria-label="커스텀 아이콘"
+        />
+        <Chip
+          label="선택됨"
+          selected
+          customIcon={<span style={{ fontSize: '14px' }}>✅</span>}
+        />
+      </div>
+    </div>
+  ),
+};
+
 export const ColorsIconOnly: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-8">

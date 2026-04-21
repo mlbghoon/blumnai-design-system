@@ -58,12 +58,12 @@ const meta: Meta<typeof Button> = {
     },
     colorOverride: {
       control: 'select',
-      options: [undefined, 'gray', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'],
+      options: [undefined, 'gray', 'black', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'],
       description: '버튼 색상 오버라이드. 스타일 패턴은 유지하면서 색상만 변경',
       table: {
         type: {
           summary: 'ButtonColor',
-          detail: `'gray' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'`,
+          detail: `'gray' | 'black' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'`,
         },
       },
     },
@@ -184,7 +184,7 @@ type Story = StoryObj<typeof Button>;
  */
 export const Default: Story = {
   args: {
-    children: 'Button',
+    children: "Buttonㅇ",
     buttonStyle: 'primary',
     variant: 'default',
     size: 'md',
@@ -620,6 +620,33 @@ export const WithTooltip: Story = {
         <Button variant="iconOnly" tooltip="검색" leadIcon={['system', 'search']} buttonStyle="ghost" />
         <Button variant="iconOnly" tooltip="알림" tooltipPlacement="bottom" leadIcon={['system', 'notification']} buttonStyle="ghost" />
         <Button variant="iconOnly" tooltip="더보기" tooltipPlacement="left" leadIcon={['system', 'more-vertical']} buttonStyle="ghost" />
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * Black 컬러
+ *
+ * `color="black"`으로 소셜 로그인 등에 사용할 수 있는 블랙 버튼을 렌더링합니다.
+ * 모든 buttonStyle에서 동작합니다.
+ */
+export const BlackColor: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-16">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
+        <Button color="black" buttonStyle="primary">Primary</Button>
+        <Button color="black" buttonStyle="primary" disabled>Disabled</Button>
+        <Button color="black" buttonStyle="primary" loading width={120}>Loading</Button>
+      </div>
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
+        <Button color="black" buttonStyle="secondary">Secondary</Button>
+        <Button color="black" buttonStyle="ghost">Ghost</Button>
+        <Button color="black" buttonStyle="soft">Soft</Button>
+      </div>
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
+        <Button color="black" buttonStyle="primary" leadIcon={['system', 'add']}>소셜 버튼</Button>
+        <Button color="black" buttonStyle="primary" variant="iconOnly" leadIcon={['system', 'add']} aria-label="추가" />
       </div>
     </div>
   ),
