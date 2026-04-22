@@ -91,14 +91,27 @@ const LOADING_STYLE = {
   dashed: 'bg-state-secondary-loading text-default border-dashed [border-width:1px] [border-color:var(--border-default)] cursor-wait',
 } as const;
 
-const getColorOverrideVars = (color: ButtonColor): Record<string, string> => ({
-  '--btn-bg': `var(--bg-basic-${color}-accent)`,
-  '--btn-bg-hover': `var(--bg-basic-${color}-strong)`,
-  '--btn-bg-subtle': `var(--bg-basic-${color}-subtle)`,
-  '--btn-bg-alpha': `var(--bg-basic-${color}-alpha-15)`,
-  '--btn-text': `var(--bg-basic-${color}-strong)`,
-  '--btn-text-muted': `var(--bg-basic-${color}-accent)`,
-});
+const getColorOverrideVars = (color: ButtonColor): Record<string, string> => {
+  if (color === 'white') {
+    return {
+      '--btn-bg': '#ffffff',
+      '--btn-bg-hover': '#fafafa',
+      '--btn-bg-subtle': '#f4f4f5',
+      '--btn-bg-alpha': 'var(--bg-basic-white-alpha-15)',
+      '--btn-text': 'var(--text-default)',
+      '--btn-text-muted': 'var(--text-subtle)',
+      '--btn-border': '#27272a26',
+    };
+  }
+  return {
+    '--btn-bg': `var(--bg-basic-${color}-accent)`,
+    '--btn-bg-hover': `var(--bg-basic-${color}-strong)`,
+    '--btn-bg-subtle': `var(--bg-basic-${color}-subtle)`,
+    '--btn-bg-alpha': `var(--bg-basic-${color}-alpha-15)`,
+    '--btn-text': `var(--bg-basic-${color}-strong)`,
+    '--btn-text-muted': `var(--bg-basic-${color}-accent)`,
+  };
+};
 
 const COLOR_OVERRIDE_STYLE: Record<ButtonStyle, string> = {
   primary: '[background-color:var(--btn-bg)] text-white-default border-solid border-[1px] border-transparent hover:[background-color:var(--btn-bg-hover)] active:[background-color:var(--btn-bg-hover)] focus-visible:shadow-component-focus',
@@ -181,12 +194,21 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 
   const isTextOnlyLoading = loading && !isIconOnly && !leadIcon && !tailIcon;
   const hasColorOverride = !!effectiveColor;
+  const isWhite = effectiveColor === 'white';
+
+  const whiteInvertedStyle = isWhite && isInvertedStyle;
 
   const containerClassName = cn(
     buttonVariants({ size, shape }),
-    !disabled && !loading && (hasColorOverride ? COLOR_OVERRIDE_STYLE[buttonStyle] : BUTTON_COLOR_STYLE[buttonStyle]),
-    disabled && DISABLED_STYLE,
-    loading && (hasColorOverride && !disabled ? COLOR_OVERRIDE_LOADING_STYLE[buttonStyle] : LOADING_STYLE[buttonStyle]),
+    !disabled && !loading && (
+      whiteInvertedStyle
+        ? '[background-color:var(--btn-bg)] text-default border-solid border-[1px] [border-color:var(--btn-border)] hover:[background-color:var(--btn-bg-hover)] active:[background-color:var(--btn-bg-subtle)] focus-visible:shadow-component-focus'
+        : hasColorOverride ? COLOR_OVERRIDE_STYLE[buttonStyle] : BUTTON_COLOR_STYLE[buttonStyle]
+    ),
+    disabled && !whiteInvertedStyle && DISABLED_STYLE,
+    whiteInvertedStyle && disabled && '[background-color:#f4f4f5] text-hint border-solid border-[1px] [border-color:var(--btn-border)] cursor-not-allowed',
+    loading && !whiteInvertedStyle && (hasColorOverride && !disabled ? COLOR_OVERRIDE_LOADING_STYLE[buttonStyle] : LOADING_STYLE[buttonStyle]),
+    whiteInvertedStyle && loading && !disabled && '[background-color:var(--btn-bg-subtle)] text-default border-solid border-[1px] [border-color:var(--btn-border)] cursor-wait',
     !disabled && buttonStyle !== 'ghost' && buttonStyle !== 'ghostMuted' && buttonStyle !== 'dashed' && buttonStyle !== 'soft' && 'shadow-components-button',
     isIconOnly && iconOnlySizeVariants({ size }),
     isIconOnly && 'aspect-square',
@@ -197,6 +219,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 
   const getIconColor = () => {
     if (disabled) return 'var(--icon-default-disabled)';
+    if (isWhite && isInvertedStyle) return 'var(--icon-default)';
     if (isInvertedStyle) return 'var(--icon-white-default)';
     if (effectiveColor) return `var(--bg-basic-${effectiveColor}-${buttonStyle === 'ghostMuted' ? 'accent' : 'strong'})`;
     return 'var(--icon-default-muted)';

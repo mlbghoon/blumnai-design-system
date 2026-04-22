@@ -56,14 +56,14 @@ const meta: Meta<typeof Button> = {
         },
       },
     },
-    colorOverride: {
+    color: {
       control: 'select',
-      options: [undefined, 'gray', 'black', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'],
+      options: [undefined, 'gray', 'black', 'white', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'],
       description: '버튼 색상 오버라이드. 스타일 패턴은 유지하면서 색상만 변경',
       table: {
         type: {
           summary: 'ButtonColor',
-          detail: `'gray' | 'black' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'`,
+          detail: `'gray' | 'black' | 'white' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose'`,
         },
       },
     },
@@ -189,7 +189,7 @@ export const Default: Story = {
     variant: 'default',
     size: 'md',
     shape: 'rounded',
-    colorOverride: undefined,
+    color: undefined,
     leadIcon: ['system', 'add'],
     tailIcon: undefined,
     shortcut: undefined,
@@ -217,7 +217,7 @@ export const Default: Story = {
         variant={args.variant}
         size={args.size}
         shape={args.shape}
-        colorOverride={args.colorOverride}
+        color={args.color}
         leadIcon={leadIcon}
         tailIcon={tailIcon}
         shortcut={args.shortcut || undefined}
@@ -647,6 +647,28 @@ export const BlackColor: Story = {
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button color="black" buttonStyle="primary" leadIcon={['system', 'add']}>소셜 버튼</Button>
         <Button color="black" buttonStyle="primary" variant="iconOnly" leadIcon={['system', 'add']} aria-label="추가" />
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * White 컬러
+ *
+ * `color="white"`로 흰색 배경 버튼을 렌더링합니다.
+ * 어두운 배경 위에서 사용하기 적합합니다.
+ */
+export const WhiteColor: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-16">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 bg-inverted rounded-lg">
+        <Button color="white" buttonStyle="primary">Default</Button>
+        <Button color="white" buttonStyle="primary" disabled>Disabled</Button>
+        <Button color="white" buttonStyle="primary" loading width={120}>Loading</Button>
+      </div>
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 bg-inverted rounded-lg">
+        <Button color="white" buttonStyle="primary" leadIcon={['system', 'add']}>소셜 버튼</Button>
+        <Button color="white" buttonStyle="primary" variant="iconOnly" leadIcon={['system', 'add']} aria-label="추가" />
       </div>
     </div>
   ),

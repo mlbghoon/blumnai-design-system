@@ -28,7 +28,7 @@ export type ButtonShape = 'rounded' | 'pill';
 export type ButtonType = 'button' | 'submit' | 'reset';
 
 export type ButtonColor =
-  | 'gray' | 'black' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime'
+  | 'gray' | 'black' | 'white' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime'
   | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue'
   | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose';
 
