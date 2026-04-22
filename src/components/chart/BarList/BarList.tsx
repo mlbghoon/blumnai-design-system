@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { TooltipTrigger } from '../../tooltip/Tooltip/TooltipTrigger';
 import { TooltipItem } from '../../tooltip/Tooltip/TooltipItem';
 import { Tooltip } from '../../tooltip/Tooltip/Tooltip';
+import { ScrollArea } from '../../scroll-area';
 import type { BarListProps } from './BarList.types';
 
 export const BarList = forwardRef<HTMLDivElement, BarListProps>(
@@ -37,60 +38,67 @@ export const BarList = forwardRef<HTMLDivElement, BarListProps>(
       return valueSuffix ? `${formatted}${valueSuffix}` : formatted;
     };
 
+    const itemsList = (
+      <div className="flex flex-col ds-gap-6">
+        {visibleItems.map((item, index) => {
+          const barColor = item.color || color;
+          const barFill = fillColor || barColor;
+          const widthPercent = (item.value / maxValue) * 100;
+
+          return (
+            <div
+              key={`${item.name}-${index}`}
+              className={cn(
+                'flex items-center ds-gap-12',
+                onItemClick && 'cursor-pointer hover:bg-subtle rounded-xs transition-colors'
+              )}
+              onClick={onItemClick ? () => onItemClick(item, index) : undefined}
+            >
+              <TooltipTrigger content={item.name} placement="top" asChild>
+                <span className="font-body size-sm line-height-leading-5 text-default shrink-0 truncate" style={{ width: labelWidth }}>
+                  {item.name}
+                </span>
+              </TooltipTrigger>
+              <TooltipTrigger
+                content={
+                  <Tooltip>
+                    <TooltipItem type="item" label={item.name} caption={formatValue(item.value)} indicatorColor={barColor} />
+                  </Tooltip>
+                }
+                placement="top"
+                asChild
+              >
+                <div className="flex-1 bg-muted rounded-2xs" style={{ height: 18 }}>
+                  <div
+                    className="h-full rounded-2xs"
+                    style={{
+                      width: `${widthPercent}%`,
+                      backgroundColor: barFill,
+                      opacity: 0.7,
+                      borderLeft: `3px solid ${barColor}`,
+                      transition: animated ? 'width 0.3s ease' : 'none',
+                    }}
+                  />
+                </div>
+              </TooltipTrigger>
+              <span className="font-body size-sm line-height-leading-5 text-subtle shrink-0 text-right" style={{ minWidth: `${String(maxValue).length + 1}ch` }}>
+                {formatValue(item.value)}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    );
+
     return (
       <div ref={ref} className={cn('flex flex-col', className)}>
-        <div
-          className="flex flex-col ds-gap-6"
-          style={maxHeight && expanded ? { maxHeight, overflowY: 'auto' } : undefined}
-        >
-          {visibleItems.map((item, index) => {
-            const barColor = item.color || color;
-            const barFill = fillColor || barColor;
-            const widthPercent = (item.value / maxValue) * 100;
-
-            return (
-              <div
-                key={`${item.name}-${index}`}
-                className={cn(
-                  'flex items-center ds-gap-12',
-                  onItemClick && 'cursor-pointer hover:bg-subtle rounded-xs transition-colors'
-                )}
-                onClick={onItemClick ? () => onItemClick(item, index) : undefined}
-              >
-                <TooltipTrigger content={item.name} placement="top" asChild>
-                  <span className="font-body size-sm line-height-leading-5 text-default shrink-0 truncate" style={{ width: labelWidth }}>
-                    {item.name}
-                  </span>
-                </TooltipTrigger>
-                <TooltipTrigger
-                  content={
-                    <Tooltip>
-                      <TooltipItem type="item" label={item.name} caption={formatValue(item.value)} indicatorColor={barColor} />
-                    </Tooltip>
-                  }
-                  placement="top"
-                  asChild
-                >
-                  <div className="flex-1 bg-muted rounded-2xs" style={{ height: 18 }}>
-                    <div
-                      className="h-full rounded-2xs"
-                      style={{
-                        width: `${widthPercent}%`,
-                        backgroundColor: barFill,
-                        opacity: 0.7,
-                        borderLeft: `3px solid ${barColor}`,
-                        transition: animated ? 'width 0.3s ease' : 'none',
-                      }}
-                    />
-                  </div>
-                </TooltipTrigger>
-                <span className="font-body size-sm line-height-leading-5 text-subtle shrink-0 text-right" style={{ minWidth: `${String(maxValue).length + 1}ch` }}>
-                  {formatValue(item.value)}
-                </span>
-              </div>
-            );
-          })}
-        </div>
+        {maxHeight ? (
+          <ScrollArea orientation="vertical" maxHeight={maxHeight} type="always">
+            {itemsList}
+          </ScrollArea>
+        ) : (
+          itemsList
+        )}
 
         {needsCollapse && (
           <button

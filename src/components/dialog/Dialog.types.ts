@@ -43,6 +43,13 @@ export interface DialogContentProps
    * @example overlayClassName="bg-black/50"
    */
   overlayClassName?: string;
+  /**
+   * Portal 대상 DOM 엘리먼트.
+   * 미지정 시 `document.body`로 portal되며, 지정 시 다이얼로그(overlay+content)가 해당 서브트리에 mount됩니다.
+   * 오른쪽 패널 등 특정 영역 내부로 다이얼로그를 스코프하고 싶을 때 사용합니다.
+   * @example <DialogContent container={panelRef.current ?? undefined}>
+   */
+  container?: HTMLElement | null;
 }
 
 export type DialogHeaderProps = HTMLAttributes<HTMLDivElement>;

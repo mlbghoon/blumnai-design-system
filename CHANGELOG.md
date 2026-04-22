@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.6.7] - 2026-04-22
+
+### Added
+
+- **`DialogContent` — `container?: HTMLElement | null` prop**: 다이얼로그(overlay+content)를 `document.body`가 아닌 특정 DOM 서브트리에 portal로 마운트할 수 있는 escape hatch. 오른쪽 패널 등 특정 영역 내부로 다이얼로그를 시각적으로 스코프하고 싶을 때 사용합니다
+  - 미지정 시 기존 동작(document.body)과 동일 — additive, non-breaking
+  - 내부적으로 `DialogPortal container={...}`에 그대로 전달 (Radix pass-through)
+  - 소비자는 타겟 엘리먼트의 CSS(position/overflow)를 직접 관리해야 합니다 — DS는 portal 위치만 결정
+
+### Fixed
+
+- **`Select` / `MultiSelect` searchable — 한글 IME 첫 글자 손실**: `searchable` 모드 검색 입력에서 `onChange` 핸들러마다 `setTimeout(() => input.focus(), 0)`로 강제 refocus하던 동작이 한글(일본어 가나/중국어 병음 등 IME 기반 언어 공통)의 활성 조합 세션을 중단시켜 `compositionend`가 조기 발생, 진행 중이던 음절이 폐기되는 문제 수정. onChange의 refocus를 제거 (`autoFocus`로 이미 초기 포커스가 보장되며, 입력 중 포커스를 뺏는 요소가 없어 불필요)
+  - 영향: 모든 `<Select searchable>`, `<MultiSelect searchable>` — 한글 입력 시 첫 음절부터 필터가 정상 동작
+  - Clear 버튼(X)의 refocus는 유지 — 버튼 클릭이 실제로 포커스를 이동시키므로 복귀가 필요 (조합 중이 아닌 상황)
+- **`BarList` — `maxHeight` prop이 `expanded` 상태에서만 적용되던 버그**: `showCount`보다 데이터가 적거나 같아서 "더보기" 버튼이 노출되지 않는 경우(`WithMaxHeight` 스토리: `showCount={10}` + 10 items) `expanded`가 끝까지 `false`라 `maxHeight`가 무시되던 문제. 이제 `maxHeight`가 설정되면 상태와 무관하게 항상 적용됩니다
+- **`BarList` — 네이티브 스크롤바 대신 DS `ScrollArea` 사용**: 기존에는 `overflowY: 'auto'`로 브라우저 기본 스크롤바가 그대로 노출돼 DS 스타일과 이질적이었습니다. 이제 `maxHeight` 설정 시 DS `ScrollArea`로 래핑되며 `type="always"`로 스크롤바가 항상 표시됩니다
+
+### Notes
+
+- Dialog `container` 사용 예:
+  ```tsx
+  const [targetEl, setTargetEl] = useState<HTMLElement | null>(null);
+  useEffect(() => { setTargetEl(document.querySelector('.ticket-detail') as HTMLElement); }, []);
+  <Dialog open={open} onOpenChange={setOpen}>
+    <DialogContent container={targetEl ?? undefined}>...</DialogContent>
+  </Dialog>
+  ```
+
 ## [1.6.6] - 2026-04-21
 
 ### Added

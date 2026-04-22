@@ -901,7 +901,6 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                         value={searchQuery}
                         onChange={(e) => {
                           setSearchQuery(e.target.value);
-                          setTimeout(() => searchInputRef.current?.focus(), 0);
                         }}
                         placeholder={searchPlaceholder}
                         className="flex-1 bg-transparent border-none outline-none size-sm line-height-leading-5 letter-spacing-tracking-tight font-body text-default placeholder:text-hint"
