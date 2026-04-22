@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.6.11] - 2026-04-22
+
+### Fixed
+
+- **`Select` searchable — 옵션 클릭이 동작하지 않던 문제 (1.6.10 regression)**: cmdk `CommandPrimitive.Item`은 `data-disabled` 속성을 `"true"` / `"false"` 값과 무관하게 **항상** 설정합니다. Tailwind의 `data-[disabled]:pointer-events-none` 선택자는 속성 값이 아니라 **속성 존재 여부**에만 반응하므로, 모든 아이템에 `pointer-events: none`이 적용되어 클릭이 차단되고 있었습니다
+  - 수정: `data-[disabled]:*` 선택자 대신 `option.disabled ? 'pointer-events-none ...' : '...'` 조건부 className 사용
+- **`Select` searchable — 긴 라벨 텍스트가 truncate되지 않던 문제**: cmdk의 내부 `List`와 `list-sizer` wrapper에 width 제약이 없어서 긴 라벨이 popover 너비를 넘어 확장되었습니다 (`--radix-popover-trigger-width`로 Content는 제한되지만 내부 sizer가 natural width로 확장)
+  - 수정: `CommandPrimitive` 루트에 `w-full min-w-0 overflow-hidden`, `CommandPrimitive.List`와 padding wrapper에 `w-full min-w-0` 추가 → 각 레벨이 popover 너비로 shrink 가능하고 `TruncatedText`의 `truncate`가 정상 동작
+
+### Notes
+
+- Truncated label의 hover-to-tooltip은 1.6.10부터 이미 정상 동작 (각 `SearchableSelectItem`이 `<TruncatedText tooltipContent={option.label}>` 사용 — overflow 감지 시 자동 툴팁 표시). 옵션별 커스텀 tooltip은 `option.tooltip` prop으로 제공 가능
+
 ## [1.6.10] - 2026-04-22
 
 ### Fixed

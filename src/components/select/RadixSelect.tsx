@@ -695,10 +695,11 @@ const SearchableSelectItem = React.forwardRef<HTMLDivElement, SearchableSelectIt
           sizeConfig.gap,
           'font-body',
           sizeConfig.text,
-          option.disabled ? 'text-hint cursor-not-allowed' : 'text-default cursor-pointer',
+          option.disabled
+            ? 'text-hint cursor-not-allowed pointer-events-none'
+            : 'text-default cursor-pointer',
           'hover:bg-[var(--bg-state-ghost-hover)]',
           'aria-selected:bg-[var(--bg-state-ghost-hover)]',
-          'data-[disabled]:pointer-events-none data-[disabled]:text-hint',
           isSelected && (selectType === 'checkbox' || selectType === 'radio') && 'bg-[var(--bg-state-ghost-hover)]',
           className
         )}
@@ -1285,7 +1286,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                   }}
                 >
                   <PortalContainerProvider value={contentEl}>
-                    <CommandPrimitive shouldFilter={false}>
+                    <CommandPrimitive shouldFilter={false} className="flex flex-col w-full min-w-0 overflow-hidden">
                       <div className="border-b-default">
                         <div className="flex items-center ds-gap-2 padding-x-8 height-36">
                           <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
@@ -1314,8 +1315,8 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                         </div>
                       </div>
                       <ScrollArea maxHeight={maxHeight}>
-                        <div className="padding-4">
-                          <CommandPrimitive.List>
+                        <div className="padding-4 w-full min-w-0">
+                          <CommandPrimitive.List className="w-full min-w-0">
                             {renderOptions()}
                           </CommandPrimitive.List>
                         </div>
