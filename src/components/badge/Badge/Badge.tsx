@@ -9,6 +9,7 @@ import type { BadgeColor, BadgeProps } from './Badge.types';
 const BADGE_PLACEHOLDER_IMAGE = avatarPlaceholderIcon;
 
 const getBgClass = (color: BadgeColor, hasBorder: boolean): string => {
+  if (color === 'white') return '';
   if (color === 'neutral') {
     return hasBorder ? 'bg-badge-default' : 'bg-badge-gray';
   }
@@ -16,6 +17,7 @@ const getBgClass = (color: BadgeColor, hasBorder: boolean): string => {
 };
 
 const getTextColor = (color: BadgeColor): string => {
+  if (color === 'white') return 'var(--text-dark-subtle)';
   if (color === 'neutral') {
     return 'var(--text-subtle)';
   }
@@ -23,6 +25,7 @@ const getTextColor = (color: BadgeColor): string => {
 };
 
 const getDotColor = (color: BadgeColor): string => {
+  if (color === 'white') return 'var(--text-dark-subtle)';
   if (color === 'neutral') {
     return 'var(--text-subtle)';
   }
@@ -30,6 +33,7 @@ const getDotColor = (color: BadgeColor): string => {
 };
 
 const getIconColor = (color: BadgeColor): string => {
+  if (color === 'white') return 'var(--text-dark-subtle)';
   if (color === 'neutral') {
     return 'var(--icon-default-muted)';
   }
@@ -68,7 +72,7 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
 
   const containerClassName = useMemo(() => {
     const classes = [
-      'relative inline-flex items-center justify-center',
+      'relative inline-flex items-center justify-center ds-gap-4',
       'font-["Spoqa_Han_Sans_Neo",sans-serif] font-medium select-none whitespace-nowrap',
     ];
 
@@ -77,9 +81,9 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
     }
 
     if (size === 'sm') {
-      classes.push('min-height-20 padding-y-2 padding-x-2 size-xs line-height-leading-4 letter-spacing-tracking-normal');
+      classes.push('min-height-20 padding-y-2 padding-x-6 size-xs line-height-leading-4 letter-spacing-tracking-normal');
     } else {
-      classes.push('min-height-24 padding-y-4 padding-x-4 size-sm line-height-leading-4 letter-spacing-tracking-normal');
+      classes.push('min-height-24 padding-y-4 padding-x-8 size-sm line-height-leading-4 letter-spacing-tracking-normal');
     }
 
     if (shape === 'pill') {
@@ -90,7 +94,9 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
 
     classes.push(getBgClass(color, border));
 
-    if (border) {
+    if (color === 'white') {
+      classes.push('border-solid border-[1px]');
+    } else if (border) {
       classes.push('border-badge-default');
     }
 
@@ -105,12 +111,19 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
 
   const parsedIcon = variant === 'icon' && icon ? parseIconTypeWithFill(icon) : null;
 
-  const combinedStyle = { color: getTextColor(color), ...style };
+  const combinedStyle: React.CSSProperties = {
+    color: getTextColor(color),
+    ...(color === 'white' ? {
+      backgroundColor: 'var(--bg-basic-white-accent)',
+      borderColor: 'var(--border-default)',
+    } : {}),
+    ...style,
+  };
 
   return (
     <div ref={ref} className={containerClassName} style={combinedStyle} onClick={onClick} {...props}>
       {parsedIcon && (
-        <span className={`inline-flex items-center shrink-0 line-height-leading-none margin-${size !== 'sm' ? '1' : '2'}`}>
+        <span className="inline-flex items-center shrink-0 line-height-leading-none">
           <Icon iconType={parsedIcon.iconType} size={iconSize} color={getIconColor(color)} isFill={parsedIcon.isFill} />
         </span>
       )}
@@ -121,7 +134,6 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
           style={{
             width: `${iconSize}px`,
             height: `${iconSize}px`,
-            marginLeft: '2px',
           }}
         >
           <img
@@ -134,7 +146,7 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
 
       {variant === 'dot' && (
         <span
-          className={`inline-flex items-center shrink-0 rounded-full line-height-leading-none margin-${size !== 'sm' ? '4' : '5'}`}
+          className="inline-flex items-center shrink-0 rounded-full line-height-leading-none"
           style={{
             width: `${iconSize - 6}px`,
             height: `${iconSize - 6}px`,
@@ -143,7 +155,7 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
         />
       )}
 
-      {(variant === 'default' || label) && <span className={`shrink-0 line-height-leading-none padding-l-${variant === 'dot' || variant === 'icon' ? '2' : '4'} padding-r-4`}>{label}</span>}
+      {(variant === 'default' || label) && <span className="shrink-0 line-height-leading-none">{label}</span>}
 
       {closeIcon && (
         <button

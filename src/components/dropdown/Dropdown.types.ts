@@ -31,6 +31,24 @@ export interface DropdownMenuContentProps
    * Portal이 렌더링될 컨테이너 요소
    */
   container?: HTMLElement | null;
+  /**
+   * 드롭다운 내부 검색 UI 표시 여부
+   * @default false
+   */
+  isSearch?: boolean;
+  /**
+   * 검색 값 변경 시 호출되는 콜백
+   */
+  onSearch?: (value: string) => void;
+  /**
+   * 현재 검색 값 (controlled)
+   */
+  searchValue?: string;
+  /**
+   * 검색 입력 플레이스홀더
+   * @default '검색...'
+   */
+  searchPlaceholder?: string;
 }
 
 /**

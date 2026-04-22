@@ -194,6 +194,16 @@
   --bg-basic-gray-accent: #6f6f77;
   --bg-basic-gray-strong: #36363a;
   --bg-basic-gray-contrast: #18181b;
+  /* Black */
+  --bg-basic-black-subtle: #e4e4e7;
+  --bg-basic-black-accent: #18181b;
+  --bg-basic-black-strong: #2c2c31;
+  --bg-basic-black-contrast: #111115;
+  /* White */
+  --bg-basic-white-subtle: #f4f4f5;
+  --bg-basic-white-accent: #ffffff;
+  --bg-basic-white-strong: #fafafa;
+  --bg-basic-white-contrast: #ffffff;
   /* Red */
   --bg-basic-red-subtle: #fae3e3;
   --bg-basic-red-accent: #e74341;
@@ -287,6 +297,16 @@
   --bg-basic-gray-alpha-4: #27272a0a;
   --bg-basic-gray-alpha-10: #27272a1a;
   --bg-basic-gray-alpha-15: #27272a26;
+  /* Black Alpha */
+  --bg-basic-black-alpha-2: #18181b05;
+  --bg-basic-black-alpha-4: #18181b0a;
+  --bg-basic-black-alpha-10: #18181b1a;
+  --bg-basic-black-alpha-15: #18181b26;
+  /* White Alpha */
+  --bg-basic-white-alpha-2: #ffffff33;
+  --bg-basic-white-alpha-4: #ffffff66;
+  --bg-basic-white-alpha-10: #ffffff99;
+  --bg-basic-white-alpha-15: #ffffffcc;
   /* Color Alpha (transparent) */
   --bg-basic-red-alpha-2: #e7434105;
   --bg-basic-red-alpha-4: #e743410a;
@@ -548,6 +568,16 @@
   --bg-basic-gray-accent: #6f6f77;
   --bg-basic-gray-strong: #a1a1a9;
   --bg-basic-gray-contrast: #f4f4f5;
+  /* Black */
+  --bg-basic-black-subtle: #e4e4e7;
+  --bg-basic-black-accent: #18181b;
+  --bg-basic-black-strong: #2c2c31;
+  --bg-basic-black-contrast: #111115;
+  /* White */
+  --bg-basic-white-subtle: #f4f4f5;
+  --bg-basic-white-accent: #ffffff;
+  --bg-basic-white-strong: #fafafa;
+  --bg-basic-white-contrast: #ffffff;
   /* Red */
   --bg-basic-red-subtle: #77221f;
   --bg-basic-red-accent: #e74341;
@@ -641,6 +671,16 @@
   --bg-basic-gray-alpha-4: #ffffff14;
   --bg-basic-gray-alpha-10: #ffffff26;
   --bg-basic-gray-alpha-15: #ffffff33;
+  /* Black Alpha */
+  --bg-basic-black-alpha-2: #18181b05;
+  --bg-basic-black-alpha-4: #18181b0a;
+  --bg-basic-black-alpha-10: #18181b1a;
+  --bg-basic-black-alpha-15: #18181b26;
+  /* White Alpha */
+  --bg-basic-white-alpha-2: #ffffff33;
+  --bg-basic-white-alpha-4: #ffffff66;
+  --bg-basic-white-alpha-10: #ffffff99;
+  --bg-basic-white-alpha-15: #ffffffcc;
   /* Color Alpha (transparent) */
   --bg-basic-red-alpha-2: #e7434105;
   --bg-basic-red-alpha-4: #e743410a;
@@ -902,6 +942,16 @@
   --bg-basic-gray-accent: #6f6f77;
   --bg-basic-gray-strong: #36363a;
   --bg-basic-gray-contrast: #18181b;
+  /* Black */
+  --bg-basic-black-subtle: #e4e4e7;
+  --bg-basic-black-accent: #18181b;
+  --bg-basic-black-strong: #2c2c31;
+  --bg-basic-black-contrast: #111115;
+  /* White */
+  --bg-basic-white-subtle: #f4f4f5;
+  --bg-basic-white-accent: #ffffff;
+  --bg-basic-white-strong: #fafafa;
+  --bg-basic-white-contrast: #ffffff;
   /* Red */
   --bg-basic-red-subtle: #fae3e3;
   --bg-basic-red-accent: #e74341;
@@ -995,6 +1045,16 @@
   --bg-basic-gray-alpha-4: #27272a0a;
   --bg-basic-gray-alpha-10: #27272a1a;
   --bg-basic-gray-alpha-15: #27272a26;
+  /* Black Alpha */
+  --bg-basic-black-alpha-2: #18181b05;
+  --bg-basic-black-alpha-4: #18181b0a;
+  --bg-basic-black-alpha-10: #18181b1a;
+  --bg-basic-black-alpha-15: #18181b26;
+  /* White Alpha */
+  --bg-basic-white-alpha-2: #ffffff33;
+  --bg-basic-white-alpha-4: #ffffff66;
+  --bg-basic-white-alpha-10: #ffffff99;
+  --bg-basic-white-alpha-15: #ffffffcc;
   /* Color Alpha (transparent) */
   --bg-basic-red-alpha-2: #e7434105;
   --bg-basic-red-alpha-4: #e743410a;
@@ -1256,6 +1316,16 @@
   --bg-basic-gray-accent: #6f6f77;
   --bg-basic-gray-strong: #a1a1a9;
   --bg-basic-gray-contrast: #f4f4f5;
+  /* Black */
+  --bg-basic-black-subtle: #e4e4e7;
+  --bg-basic-black-accent: #18181b;
+  --bg-basic-black-strong: #2c2c31;
+  --bg-basic-black-contrast: #111115;
+  /* White */
+  --bg-basic-white-subtle: #f4f4f5;
+  --bg-basic-white-accent: #ffffff;
+  --bg-basic-white-strong: #fafafa;
+  --bg-basic-white-contrast: #ffffff;
   /* Red */
   --bg-basic-red-subtle: #77221f;
   --bg-basic-red-accent: #e74341;
@@ -1349,6 +1419,16 @@
   --bg-basic-gray-alpha-4: #ffffff14;
   --bg-basic-gray-alpha-10: #ffffff26;
   --bg-basic-gray-alpha-15: #ffffff33;
+  /* Black Alpha */
+  --bg-basic-black-alpha-2: #18181b05;
+  --bg-basic-black-alpha-4: #18181b0a;
+  --bg-basic-black-alpha-10: #18181b1a;
+  --bg-basic-black-alpha-15: #18181b26;
+  /* White Alpha */
+  --bg-basic-white-alpha-2: #ffffff33;
+  --bg-basic-white-alpha-4: #ffffff66;
+  --bg-basic-white-alpha-10: #ffffff99;
+  --bg-basic-white-alpha-15: #ffffffcc;
   /* Color Alpha (transparent) */
   --bg-basic-red-alpha-2: #e7434105;
   --bg-basic-red-alpha-4: #e743410a;

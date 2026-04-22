@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 
@@ -70,6 +70,11 @@ export interface ChipProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>,
    * @example icon={['system', 'star', true]} - 채워진 아이콘
    */
   icon?: IconTypeWithFill;
+  /**
+   * 커스텀 아이콘 ReactNode. 지정 시 icon 대신 이 노드를 렌더링합니다.
+   * @example customIcon={<MyIcon />}
+   */
+  customIcon?: ReactNode;
   /**
    * Chip 변형
    * @default 'default'

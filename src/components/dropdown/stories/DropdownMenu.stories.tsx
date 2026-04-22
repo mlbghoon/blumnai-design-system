@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import {
@@ -282,6 +283,45 @@ export const ComplexExample: Story = {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem tailIcon={['arrows', 'arrow-right-s']}>모두 보기</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  },
+};
+
+/**
+ * 내부 검색
+ *
+ * `isSearch` prop으로 드롭다운 상단에 검색 입력을 표시합니다.
+ * `onSearch` 콜백으로 외부에서 필터링 로직을 처리합니다.
+ */
+export const WithSearch: Story = {
+  render: function Render() {
+    const [search, setSearch] = useState('');
+    const items = ['대시보드', '프로필', '설정', '알림', '보안', '결제', '팀 관리', 'API 키', '로그'];
+    const filtered = items.filter((item) => item.toLowerCase().includes(search.toLowerCase()));
+
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button buttonStyle="secondary">검색 메뉴</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          width={220}
+          isSearch
+          searchValue={search}
+          onSearch={setSearch}
+          searchPlaceholder="메뉴 검색..."
+        >
+          <DropdownMenuLabel>메뉴</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {filtered.length > 0 ? (
+            filtered.map((item) => (
+              <DropdownMenuItem key={item}>{item}</DropdownMenuItem>
+            ))
+          ) : (
+            <div className="padding-x-8 padding-y-6 size-sm text-muted">검색 결과 없음</div>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     );

@@ -328,7 +328,7 @@ const TabsTrigger = React.forwardRef<
         '--tabs-active-underline-color': activeUnderlineColor ?? activeColor,
       } as React.CSSProperties : style}
       className={cn(
-        'inline-flex items-center justify-center whitespace-nowrap',
+        'inline-flex items-center justify-center whitespace-nowrap cursor-pointer',
         'font-body font-medium',
         size === 'lg'
           ? 'size-md line-height-leading-6'

@@ -24,7 +24,8 @@ export type BadgeColor =
   | 'fuchsia'
   | 'pink'
   | 'rose'
-  | 'neutral';
+  | 'neutral'
+  | 'white';
 
 export type BadgeShape = 'rounded' | 'pill';
 
