@@ -312,12 +312,14 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
         return options;
       }
       const query = searchQuery.toLowerCase().trim();
+      const selectedSet = new Set(selectedValues);
       return options.filter(
         (option) =>
+          selectedSet.has(option.id) ||
           option.label.toLowerCase().includes(query) ||
           option.description?.toLowerCase().includes(query)
       );
-    }, [options, searchQuery, searchable]);
+    }, [options, searchQuery, searchable, selectedValues]);
 
     const navigableOptions = React.useMemo(() => {
       return filteredOptions.filter((option) => !option.disabled);
@@ -738,6 +740,13 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                           if (!isComposingRef.current) {
                             setTimeout(() => searchInputRef.current?.focus(), 0);
                           }
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        onKeyDown={(e) => {
+                          if (['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(e.key)) {
+                            return;
+                          }
+                          e.stopPropagation();
                         }}
                         placeholder={searchPlaceholder}
                         className="flex-1 bg-transparent border-none outline-none size-sm line-height-leading-5 letter-spacing-tracking-tight font-body text-default placeholder:text-hint"

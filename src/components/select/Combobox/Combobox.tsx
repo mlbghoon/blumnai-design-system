@@ -412,12 +412,14 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
         return options.filter((option) => filterFunction(option, inputValue));
       }
       const searchLower = inputValue.toLowerCase().trim();
+      const selectedSet = new Set(selectedValues);
       return options.filter((option) => {
+        if (selectedSet.has(option.id)) return true;
         const label = option.label.toLowerCase();
         const desc = option.description?.toLowerCase() ?? '';
         return label.includes(searchLower) || desc.includes(searchLower);
       });
-    }, [options, inputValue, filterFunction]);
+    }, [options, inputValue, filterFunction, selectedValues]);
 
     const updateScrollButtons = React.useCallback((_pos?: { x: number; y: number }) => {
       const el = listRef.current;

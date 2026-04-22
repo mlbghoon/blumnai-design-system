@@ -260,7 +260,10 @@ const TabsList = React.forwardRef<
 });
 TabsList.displayName = TabsPrimitive.List.displayName;
 
-const PILL_SEGMENTED_TRIGGER_STYLES = 'height-28 padding-x-8 padding-y-4 ds-gap-4';
+const PILL_SEGMENTED_TRIGGER_SIZE_STYLES = {
+  sm: 'height-28 padding-x-8 padding-y-4 ds-gap-4',
+  lg: 'height-40 padding-x-12 padding-y-8 ds-gap-6',
+} as const;
 
 const UNDERLINE_TRIGGER_SIZE_STYLES = {
   sm: 'height-40 padding-y-6 ds-gap-4',
@@ -277,7 +280,7 @@ const TabsTrigger = React.forwardRef<
   TabsTriggerProps
 >(({ leadIcon, tailIcon, badge, closable = false, onClose, className, children, value, style, ...props }, ref) => {
   const { variant, shape, size, type, activeColor, activeTextColor, activeUnderlineColor, animatedIndicator } = useTabsContext();
-  const iconSize = variant === 'underline' ? ICON_SIZE[size] : 14;
+  const iconSize = ICON_SIZE[size];
 
   const renderIcon = (icon: IconTypeWithFill | React.ReactNode) => {
     if (!icon) return null;
@@ -327,7 +330,7 @@ const TabsTrigger = React.forwardRef<
       className={cn(
         'inline-flex items-center justify-center whitespace-nowrap',
         'font-body font-medium',
-        variant === 'underline' && size === 'lg'
+        size === 'lg'
           ? 'size-md line-height-leading-6'
           : 'size-sm line-height-leading-5',
         'transition-colors duration-150',
@@ -335,7 +338,7 @@ const TabsTrigger = React.forwardRef<
         'disabled:pointer-events-none disabled:opacity-50',
         type === 'fixed' && 'flex-1',
         (variant === 'pill' || variant === 'segmented') && [
-          PILL_SEGMENTED_TRIGGER_STYLES,
+          PILL_SEGMENTED_TRIGGER_SIZE_STYLES[size],
           shapeClass,
           'text-muted',
           'hover:text-subtle',

@@ -640,10 +640,32 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
       const query = searchQuery.toLowerCase().trim();
       return safeOptions.filter(
         (option) =>
+          option.id === normalizedValue ||
           option.label.toLowerCase().includes(query) ||
           option.description?.toLowerCase().includes(query)
       );
-    }, [safeOptions, searchQuery, searchable]);
+    }, [safeOptions, searchQuery, searchable, normalizedValue]);
+
+    const pinnedSelectedOptions = React.useMemo(() => {
+      if (!searchable || !searchQuery.trim()) return [];
+      const query = searchQuery.toLowerCase().trim();
+      return filteredOptions.filter((option) => {
+        if (option.id !== normalizedValue) return false;
+        const labelMatches = option.label.toLowerCase().includes(query);
+        const descMatches = option.description?.toLowerCase().includes(query) ?? false;
+        return !labelMatches && !descMatches;
+      });
+    }, [filteredOptions, searchable, searchQuery, normalizedValue]);
+
+    const pinnedIds = React.useMemo(
+      () => new Set(pinnedSelectedOptions.map((o) => o.id)),
+      [pinnedSelectedOptions]
+    );
+
+    const unpinnedOptions = React.useMemo(
+      () => filteredOptions.filter((o) => !pinnedIds.has(o.id)),
+      [filteredOptions, pinnedIds]
+    );
 
     const selectedOption = React.useMemo(() => {
       return safeOptions.find((opt) => opt.id === normalizedValue);
@@ -772,20 +794,29 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
         );
       }
 
+      const pinnedHeader = pinnedSelectedOptions.length > 0 ? (
+        <SelectPrimitive.Group key="__pinned_selected__">
+          <SelectLabel>선택됨</SelectLabel>
+          {pinnedSelectedOptions.map(renderSingleOption)}
+          <SelectSeparator />
+        </SelectPrimitive.Group>
+      ) : null;
+
       if (optionGroups && optionGroups.length > 0) {
         const mapId = (id: string) => id === '' ? EMPTY_SENTINEL : id;
         const ungroupedOptionIds = new Set(
           optionGroups.flatMap((g) => g.optionIds.map(mapId))
         );
-        const ungroupedOptions = filteredOptions.filter(
+        const ungroupedOptions = unpinnedOptions.filter(
           (opt) => !ungroupedOptionIds.has(opt.id)
         );
 
         return (
           <>
+            {pinnedHeader}
             {optionGroups.map((group) => {
               const mappedIds = group.optionIds.map(mapId);
-              const groupOptions = filteredOptions.filter((opt) =>
+              const groupOptions = unpinnedOptions.filter((opt) =>
                 mappedIds.includes(opt.id)
               );
               if (groupOptions.length === 0) return null;
@@ -801,7 +832,12 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
         );
       }
 
-      return filteredOptions.map(renderSingleOption);
+      return (
+        <>
+          {pinnedHeader}
+          {unpinnedOptions.map(renderSingleOption)}
+        </>
+      );
     };
 
     const renderSelectedValue = () => {

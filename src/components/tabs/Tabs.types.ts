@@ -14,7 +14,7 @@ export interface TabsListProps extends ComponentPropsWithoutRef<typeof TabsPrimi
   variant?: TabsVariant;
   /** 탭 아이템 모서리 스타일 (pill/segmented 변형에만 적용) */
   shape?: TabsShape;
-  /** 탭 크기 (underline 변형에만 적용) */
+  /** 탭 크기 (모든 variant에 적용) */
   size?: TabsSize;
   /** 탭 너비 타입 (default: 콘텐츠 크기, fixed: 균등 너비) */
   type?: TabsType;

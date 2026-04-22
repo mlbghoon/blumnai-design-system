@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.6.9] - 2026-04-22
+
+### Added
+
+- **`Select` searchable — `선택됨` pinned section**: 검색어가 현재 선택된 옵션의 label/description과 매치되지 않을 때 해당 옵션을 드롭다운 상단의 `선택됨` 그룹에 divider와 함께 고정 표시합니다. 사용자가 검색 중에도 "현재 선택한 옵션"을 잃어버리지 않고 인지할 수 있게 합니다
+  - MultiSelect / Combobox는 체크박스(또는 trigger의 `N개 선택됨`)가 이미 선택 상태를 전달하므로 pinned section을 적용하지 않음 — 많은 항목 선택 시 드롭다운이 비대해지는 문제 회피
+- **`TabsList` — `size` prop이 모든 variant에 적용**: 기존에는 `size`가 `variant="underline"`에만 반영되고 `segmented`/`pill`은 항상 hardcoded (height-28). 이제 세 variant 모두 `sm`/`lg` 지원
+  - Segmented/Pill `size="lg"`: `height-40 padding-x-12 padding-y-8 ds-gap-6` + 본문 `size-md line-height-leading-6` + icon 16px
+  - Segmented/Pill `size="sm"` (default): 기존과 동일 — visual regression 없음
+  - `TabsListProps.size` JSDoc 업데이트: "탭 크기 (underline 변형에만 적용)" → "탭 크기 (모든 variant에 적용)"
+
+### Fixed
+
+- **`Select` / `MultiSelect` / `VirtualSelect` searchable — 선택된 옵션이 필터에서 사라지던 문제 (한글 IME 포커스 탈취 근본 원인)**: `searchable` 필터가 현재 선택된 옵션(`option.id === value` 또는 `selectedValues.includes(option.id)`)을 label/description 매치 여부와 상관없이 항상 포함하도록 수정. 기존에는 `전체` 같은 sentinel 옵션이 선택된 상태에서 한글을 타이핑하면 해당 Item이 unmount → Radix roving focus가 남은 Item으로 이동 → IME 조합 중단으로 첫 음절만 입력되던 문제의 근본 원인이었습니다
+  - Combobox는 default filter branch에만 적용 (consumer-supplied `filterFunction`은 소비자가 authority)
+  - MultiSelect는 pending + committed 값 모두 보존 (action buttons 편집 중에도 정상)
+- **`MultiSelect` searchable — 검색 입력창에서 스페이스바가 동작하지 않던 문제**: MultiSelect의 outer wrapper `handleKeyDown`이 popover open 상태에서 스페이스바를 intercept해서 focused Item을 toggle하는데, 검색 input에 `onKeyDown` 가드가 없어 스페이스가 parent로 bubble → `preventDefault` → input이 공백을 받지 못하던 문제. RadixSelect와 동일하게 non-nav 키에 대해 `stopPropagation()` 추가. 이제 스페이스가 검색어에 정상 입력됩니다
+
 ## [1.6.8] - 2026-04-22
 
 ### Fixed
