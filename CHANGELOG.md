@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.6.10] - 2026-04-22
+
+### Fixed
+
+- **`Select` searchable — 한글 IME 포커스 탈취 근본 해결 (아키텍처 재구성)**: 기존에는 Radix Select 기반으로 구현되어 있었는데, Radix Select의 `focusSelectedItem` useEffect가 drop open 후 ~29ms 뒤에 선택된 Item으로 DOM 포커스를 이동시키며 한글 IME 조합 세션을 파괴하던 문제가 있었습니다. 어떤 bounce-back / redirect 방식으로도 해결 불가능 — 포커스가 input을 떠나는 순간 브라우저가 `compositionend`를 발생시켜 조합이 중단되기 때문. 근본적으로 해결하기 위해 **searchable mode만** Popover + cmdk(Command primitive) 아키텍처로 재구성했습니다
+  - **DOM 포커스는 항상 input에 유지** — cmdk는 roving focus 대신 `aria-selected`로 하이라이트 관리 (MUI Autocomplete, Ant Design Select와 같은 패턴)
+  - **키보드 네비게이션 그대로** — ArrowDown/ArrowUp은 하이라이트만 이동 (input은 포커스 유지), Enter로 선택, Escape로 닫기
+  - **공용 API 변경 없음** — `options`, `optionGroups`, `renderOption`, `renderValue`, `variant`, `clearable`, `loading`, `tooltip`, `selectType='checkbox'/'radio'` 등 모든 기존 기능 동일하게 동작
+  - **Non-searchable Select는 완전히 기존 그대로** — Radix Select 기반 유지, visual regression 없음
+  - 내부적으로 신규 `SearchableSelectItem` 컴포넌트(cmdk `CommandPrimitive.Item` 기반) 추가 — `ExtendedSelectItem`의 모든 시각적 기능(checkbox/radio/check indicator, avatar, icon, description, badge, tooltip) 보존
+  - Dialog portal integration(`PortalContainerContext`) 유지
+  - `onOpenAutoFocus={(e) => { e.preventDefault(); inputRef.current?.focus(); }}` — 팝업 열림 시 input이 즉시 포커스를 받아 Radix의 focus-trap 개입 여지 차단
+
+### Notes
+
+- Radix Select 2.2.6는 `Select.Content`에 `onOpenAutoFocus` prop을 제공하지 않고(`onCloseAutoFocus`만 있음) 내부 `focusSelectedItem` 로직이 항상 실행됩니다. 소비자가 이를 override할 수 있는 방법이 없어 searchable 기능은 구조적으로 다른 primitive(Popover+cmdk)로 재구성하는 것이 유일한 해결책이었습니다
+- MultiSelect / VirtualSelect(Combobox)는 이미 각자 구조가 달라(MultiSelect는 Popover, VirtualSelect는 Popover+cmdk) 영향 없음
+
 ## [1.6.9] - 2026-04-22
 
 ### Added
