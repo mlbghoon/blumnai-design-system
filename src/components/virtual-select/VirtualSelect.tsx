@@ -155,12 +155,13 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
         }
         if (!newOpen) {
           setSearchQuery('');
+          onSearchChange?.('');
           setFocusedIndex(-1);
           if (multiShowActions) setPendingMultiValues(null);
         }
         onOpenChange?.(newOpen);
       },
-      [disabled, isControlledOpen, onOpenChange, multiShowActions, committedMultiValue]
+      [disabled, isControlledOpen, onOpenChange, onSearchChange, multiShowActions, committedMultiValue]
     );
 
     const optionsMap = React.useMemo(

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.13] - 2026-04-22
+
+### Fixed
+
+- **`VirtualSelect` searchable — 닫은 후 재오픈 시 검색 결과가 초기화되지 않던 문제**: 소비자가 `onSearchChange`를 전달하면 VirtualSelect는 내부 필터링을 건너뛰고 부모가 전달한 `options`을 그대로 사용합니다 (server-side filtering 패턴). 기존 close 경로는 내부 `searchQuery` 상태만 `''`로 초기화하고 `onSearchChange?.('')` 호출을 생략했기 때문에, 부모는 여전히 이전 쿼리로 필터링된 `options`을 보유하게 되어 재오픈 시 input은 비어있지만 리스트는 필터링된 상태로 보였습니다
+  - 수정: `VirtualSelect.tsx` `setOpen` 의 close 분기에서 `onSearchChange?.('')`도 함께 호출 → 부모가 쿼리를 리셋하여 전체 옵션을 다시 로드. 내부 clear 버튼(line 554)이 이미 동일한 패턴(`setSearchQuery('') + onSearchChange?.('')`)을 사용하고 있었으므로 close 경로와 일관성 확보
+
 ## [1.6.12] - 2026-04-22
 
 ### Fixed
