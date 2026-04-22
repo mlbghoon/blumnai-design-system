@@ -125,11 +125,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
           viewportRef={viewportRef}
           className={cn(
             stickyHeader && '[&_thead]:sticky [&_thead]:top-[0px] [&_thead]:z-10',
-            stickyFooter && [
-              '[&_tfoot]:sticky [&_tfoot]:bottom-[0px] [&_tfoot]:z-10',
-              '[&_tfoot_tr]:bg-default [&_tfoot_td]:bg-default [&_tfoot_th]:bg-default',
-              '[&_tfoot>tr:first-child>td]:border-t-default [&_tfoot>tr:first-child>th]:border-t-default',
-            ]
+            stickyFooter && 'table-sticky-footer'
           )}
           data-sticky-bordered={bordered && stickyHeader ? '' : undefined}
           style={{ minHeight }}

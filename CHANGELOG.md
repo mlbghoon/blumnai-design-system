@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1] - 2026-04-22
+
+### Fixed
+
+- **`Table stickyFooter` — 투명 배경으로 body 행이 비쳐 보이던 문제**: v1.7.0에서 `stickyFooter` 적용 시 Tailwind arbitrary variant `[&_tfoot_td]:bg-default`를 사용했으나, `bg-default`는 `src/styles/utilities.css`에 정의된 커스텀 CSS 유틸리티이지 Tailwind가 생성하는 유틸리티가 아닙니다. Tailwind arbitrary variant는 RHS가 Tailwind 유틸리티일 때만 rule을 emit하므로, 해당 클래스가 실제로 CSS에 포함되지 않아 `tfoot` 셀이 여전히 `bg-muted/50` (반투명) 상태였습니다
+  - 수정: Tailwind arbitrary variant 대신 plain CSS class `.table-sticky-footer`를 `src/styles/utilities.css`에 직접 추가. `tfoot`, `tfoot tr/td/th`, `first-child > td/th`에 `sticky`/`z-index`/`background-color: var(--bg-default)`/`border-top` 적용. DS CSS 변수를 직접 참조하므로 빌드 시 올바른 rule이 emit됨 (`.table-sticky-footer tfoot { background-color: var(--bg-default) }` 실제 확인됨)
+
 ## [1.7.0] - 2026-04-22
 
 ### Added — `Table` / `DataGrid`

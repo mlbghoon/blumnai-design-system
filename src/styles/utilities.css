@@ -2766,3 +2766,26 @@ table[data-striped] tbody tr:nth-child(even) {
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
+
+/* ============================================
+   Table stickyFooter
+   Applied by <Table stickyFooter>. Pins <tfoot>
+   to the bottom of the scroll viewport and forces
+   opaque cell backgrounds so body rows don't show
+   through (TableFooter's default bg-muted/50 is
+   semi-transparent).
+   ============================================ */
+.table-sticky-footer tfoot {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+.table-sticky-footer tfoot tr,
+.table-sticky-footer tfoot td,
+.table-sticky-footer tfoot th {
+  background-color: var(--bg-default);
+}
+.table-sticky-footer tfoot > tr:first-child > td,
+.table-sticky-footer tfoot > tr:first-child > th {
+  border-top: 1px solid var(--border-default);
+}
