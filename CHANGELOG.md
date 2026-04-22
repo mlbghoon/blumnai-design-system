@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.2] - 2026-04-22
+
+### Fixed
+
+- **`Table stickyFooter` 배경색 — `TableFooter` 의 기본 회색 톤 복원**: v1.7.1에서 sticky footer를 `var(--bg-default)` (흰색)로 바꿨는데, 원래 `TableFooter` 는 `bg-muted/50` 이므로 opaque 하게 만들 때도 회색 톤을 유지해야 합니다. 흰색으로 바뀌면서 header와 동일하게 보여 summary 행 식별이 어려웠습니다
+  - 수정: `.table-sticky-footer tfoot tr/td/th` 배경색을 `var(--bg-default)` → `var(--bg-muted)` (fully opaque 회색) 으로 변경
+
 ## [1.7.1] - 2026-04-22
 
 ### Fixed
