@@ -267,6 +267,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
     const selectId = React.useId();
     const triggerRef = React.useRef<HTMLButtonElement>(null);
     const searchInputRef = React.useRef<HTMLInputElement>(null);
+    const isComposingRef = React.useRef(false);
     const [internalOpen, setInternalOpen] = React.useState(false);
     const [internalValue, setInternalValue] = React.useState<string[]>(
       defaultValue || []
@@ -311,12 +312,14 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
         return options;
       }
       const query = searchQuery.toLowerCase().trim();
+      const selectedSet = new Set(selectedValues);
       return options.filter(
         (option) =>
+          selectedSet.has(option.id) ||
           option.label.toLowerCase().includes(query) ||
           option.description?.toLowerCase().includes(query)
       );
-    }, [options, searchQuery, searchable]);
+    }, [options, searchQuery, searchable, selectedValues]);
 
     const navigableOptions = React.useMemo(() => {
       return filteredOptions.filter((option) => !option.disabled);
@@ -730,9 +733,20 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                         role="searchbox"
                         aria-label={searchPlaceholder || '옵션'}
                         value={searchQuery}
+                        onCompositionStart={() => { isComposingRef.current = true; }}
+                        onCompositionEnd={() => { isComposingRef.current = false; }}
                         onChange={(e) => {
                           setSearchQuery(e.target.value);
-                          setTimeout(() => searchInputRef.current?.focus(), 0);
+                          if (!isComposingRef.current) {
+                            setTimeout(() => searchInputRef.current?.focus(), 0);
+                          }
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                        onKeyDown={(e) => {
+                          if (['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(e.key)) {
+                            return;
+                          }
+                          e.stopPropagation();
                         }}
                         placeholder={searchPlaceholder}
                         className="flex-1 bg-transparent border-none outline-none size-sm line-height-leading-5 letter-spacing-tracking-tight font-body text-default placeholder:text-hint"

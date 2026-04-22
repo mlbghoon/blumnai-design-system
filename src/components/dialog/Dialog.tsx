@@ -133,7 +133,7 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const DialogContentInner = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   DialogContentProps
->(({ className, children, hideCloseButton = false, disableEscapeClose = false, disableOutsideClose = false, width, fullScreen = false, overlayClassName, style, onEscapeKeyDown, onPointerDownOutside, onInteractOutside, ...props }, ref) => {
+>(({ className, children, hideCloseButton = false, disableEscapeClose = false, disableOutsideClose = false, width, fullScreen = false, overlayClassName, container, style, onEscapeKeyDown, onPointerDownOutside, onInteractOutside, ...props }, ref) => {
   const { isPending } = useDialogContext();
   const [contentEl, setContentEl] = React.useState<HTMLElement | null>(null);
 
@@ -156,7 +156,7 @@ const DialogContentInner = React.forwardRef<
   };
 
   return (
-    <DialogPortal>
+    <DialogPortal container={container ?? undefined}>
       <DialogOverlay className={overlayClassName} />
       <DialogPrimitive.Content
         ref={composedRef}

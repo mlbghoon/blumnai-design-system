@@ -145,5 +145,20 @@ hover 변환: `hover:text-gray-600` → `hover:text-subtle`
       ├─ 무채색(gray)인가?
       │   └─ YES → DS 토큰 중 가장 가까운 것을 사용 (§2~4 참조)
       └─ 유채색인가?
-          └─ YES → 브랜드 표현, 데이터 시각화, 이미지 데코레이션, 특수 구분 케이스인지 먼저 확인한 뒤 Tailwind 클래스 사용
+          ├─ 거의 흰색에 가까운 파스텔 wash/그라디언트 데코레이션인가?
+          │   └─ YES → `bg-basic-{hue}-wash` 사용 (다크 테마에서 near-black 색상으로 자동 전환)
+          │           지원 hue: emerald, blue, purple (필요 시 추가 요청)
+          └─ 그 외 브랜드 표현, 데이터 시각화, 이미지 데코레이션, 특수 구분 케이스 → Tailwind 클래스 사용
 ```
+
+### basic color tier 구조
+
+각 hue는 5단계 tier를 가집니다 (아래로 갈수록 더 진함):
+
+| Tier | 라이트 용도 | 다크 용도 | 비고 |
+|------|------|------|------|
+| `-wash` | 거의 흰색(#f5-f7 영역) | 거의 검은색 + hue 힌트 | 파스텔 wash / 그라디언트 데코 (현재 emerald/blue/purple만 제공) |
+| `-subtle` | 연한 파스텔 | 중간 어두운 hue | 배경 강조, 칩, 뱃지 bg |
+| `-accent` | 포화된 hue | 포화된 hue | 아이콘, 액션 버튼 |
+| `-strong` | 짙은 hue | 밝은 hue | 강조 텍스트, hover |
+| `-contrast` | 가장 진한 hue | 가장 밝은 hue | 반전 시나리오 |

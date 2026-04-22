@@ -1,5 +1,108 @@
 # Changelog
 
+## [1.6.11] - 2026-04-22
+
+### Fixed
+
+- **`Select` searchable — 옵션 클릭이 동작하지 않던 문제 (1.6.10 regression)**: cmdk `CommandPrimitive.Item`은 `data-disabled` 속성을 `"true"` / `"false"` 값과 무관하게 **항상** 설정합니다. Tailwind의 `data-[disabled]:pointer-events-none` 선택자는 속성 값이 아니라 **속성 존재 여부**에만 반응하므로, 모든 아이템에 `pointer-events: none`이 적용되어 클릭이 차단되고 있었습니다
+  - 수정: `data-[disabled]:*` 선택자 대신 `option.disabled ? 'pointer-events-none ...' : '...'` 조건부 className 사용
+- **`Select` searchable — 긴 라벨 텍스트가 truncate되지 않던 문제**: cmdk의 내부 `List`와 `list-sizer` wrapper에 width 제약이 없어서 긴 라벨이 popover 너비를 넘어 확장되었습니다 (`--radix-popover-trigger-width`로 Content는 제한되지만 내부 sizer가 natural width로 확장)
+  - 수정: `CommandPrimitive` 루트에 `w-full min-w-0 overflow-hidden`, `CommandPrimitive.List`와 padding wrapper에 `w-full min-w-0` 추가 → 각 레벨이 popover 너비로 shrink 가능하고 `TruncatedText`의 `truncate`가 정상 동작
+
+### Notes
+
+- Truncated label의 hover-to-tooltip은 1.6.10부터 이미 정상 동작 (각 `SearchableSelectItem`이 `<TruncatedText tooltipContent={option.label}>` 사용 — overflow 감지 시 자동 툴팁 표시). 옵션별 커스텀 tooltip은 `option.tooltip` prop으로 제공 가능
+
+## [1.6.10] - 2026-04-22
+
+### Fixed
+
+- **`Select` searchable — 한글 IME 포커스 탈취 근본 해결 (아키텍처 재구성)**: 기존에는 Radix Select 기반으로 구현되어 있었는데, Radix Select의 `focusSelectedItem` useEffect가 drop open 후 ~29ms 뒤에 선택된 Item으로 DOM 포커스를 이동시키며 한글 IME 조합 세션을 파괴하던 문제가 있었습니다. 어떤 bounce-back / redirect 방식으로도 해결 불가능 — 포커스가 input을 떠나는 순간 브라우저가 `compositionend`를 발생시켜 조합이 중단되기 때문. 근본적으로 해결하기 위해 **searchable mode만** Popover + cmdk(Command primitive) 아키텍처로 재구성했습니다
+  - **DOM 포커스는 항상 input에 유지** — cmdk는 roving focus 대신 `aria-selected`로 하이라이트 관리 (MUI Autocomplete, Ant Design Select와 같은 패턴)
+  - **키보드 네비게이션 그대로** — ArrowDown/ArrowUp은 하이라이트만 이동 (input은 포커스 유지), Enter로 선택, Escape로 닫기
+  - **공용 API 변경 없음** — `options`, `optionGroups`, `renderOption`, `renderValue`, `variant`, `clearable`, `loading`, `tooltip`, `selectType='checkbox'/'radio'` 등 모든 기존 기능 동일하게 동작
+  - **Non-searchable Select는 완전히 기존 그대로** — Radix Select 기반 유지, visual regression 없음
+  - 내부적으로 신규 `SearchableSelectItem` 컴포넌트(cmdk `CommandPrimitive.Item` 기반) 추가 — `ExtendedSelectItem`의 모든 시각적 기능(checkbox/radio/check indicator, avatar, icon, description, badge, tooltip) 보존
+  - Dialog portal integration(`PortalContainerContext`) 유지
+  - `onOpenAutoFocus={(e) => { e.preventDefault(); inputRef.current?.focus(); }}` — 팝업 열림 시 input이 즉시 포커스를 받아 Radix의 focus-trap 개입 여지 차단
+
+### Notes
+
+- Radix Select 2.2.6는 `Select.Content`에 `onOpenAutoFocus` prop을 제공하지 않고(`onCloseAutoFocus`만 있음) 내부 `focusSelectedItem` 로직이 항상 실행됩니다. 소비자가 이를 override할 수 있는 방법이 없어 searchable 기능은 구조적으로 다른 primitive(Popover+cmdk)로 재구성하는 것이 유일한 해결책이었습니다
+- MultiSelect / VirtualSelect(Combobox)는 이미 각자 구조가 달라(MultiSelect는 Popover, VirtualSelect는 Popover+cmdk) 영향 없음
+
+## [1.6.9] - 2026-04-22
+
+### Added
+
+- **`Select` searchable — `선택됨` pinned section**: 검색어가 현재 선택된 옵션의 label/description과 매치되지 않을 때 해당 옵션을 드롭다운 상단의 `선택됨` 그룹에 divider와 함께 고정 표시합니다. 사용자가 검색 중에도 "현재 선택한 옵션"을 잃어버리지 않고 인지할 수 있게 합니다
+  - MultiSelect / Combobox는 체크박스(또는 trigger의 `N개 선택됨`)가 이미 선택 상태를 전달하므로 pinned section을 적용하지 않음 — 많은 항목 선택 시 드롭다운이 비대해지는 문제 회피
+- **`TabsList` — `size` prop이 모든 variant에 적용**: 기존에는 `size`가 `variant="underline"`에만 반영되고 `segmented`/`pill`은 항상 hardcoded (height-28). 이제 세 variant 모두 `sm`/`lg` 지원
+  - Segmented/Pill `size="lg"`: `height-40 padding-x-12 padding-y-8 ds-gap-6` + 본문 `size-md line-height-leading-6` + icon 16px
+  - Segmented/Pill `size="sm"` (default): 기존과 동일 — visual regression 없음
+  - `TabsListProps.size` JSDoc 업데이트: "탭 크기 (underline 변형에만 적용)" → "탭 크기 (모든 variant에 적용)"
+
+### Fixed
+
+- **`Select` / `MultiSelect` / `VirtualSelect` searchable — 선택된 옵션이 필터에서 사라지던 문제 (한글 IME 포커스 탈취 근본 원인)**: `searchable` 필터가 현재 선택된 옵션(`option.id === value` 또는 `selectedValues.includes(option.id)`)을 label/description 매치 여부와 상관없이 항상 포함하도록 수정. 기존에는 `전체` 같은 sentinel 옵션이 선택된 상태에서 한글을 타이핑하면 해당 Item이 unmount → Radix roving focus가 남은 Item으로 이동 → IME 조합 중단으로 첫 음절만 입력되던 문제의 근본 원인이었습니다
+  - Combobox는 default filter branch에만 적용 (consumer-supplied `filterFunction`은 소비자가 authority)
+  - MultiSelect는 pending + committed 값 모두 보존 (action buttons 편집 중에도 정상)
+- **`MultiSelect` searchable — 검색 입력창에서 스페이스바가 동작하지 않던 문제**: MultiSelect의 outer wrapper `handleKeyDown`이 popover open 상태에서 스페이스바를 intercept해서 focused Item을 toggle하는데, 검색 input에 `onKeyDown` 가드가 없어 스페이스가 parent로 bubble → `preventDefault` → input이 공백을 받지 못하던 문제. RadixSelect와 동일하게 non-nav 키에 대해 `stopPropagation()` 추가. 이제 스페이스가 검색어에 정상 입력됩니다
+
+## [1.6.8] - 2026-04-22
+
+### Fixed
+
+- **`Select` / `MultiSelect` searchable — 1.6.7 IME 수정 후 첫 글자만 입력되고 포커스가 이탈하는 regression**: 1.6.7에서 제거한 `onChange`의 `setTimeout(() => input.focus(), 0)`가 실은 두 가지 역할을 겸하고 있었습니다 — (1) IME 조합 세션 중단(버그), (2) Radix Select Content의 item focus-trap이 키스트로크마다 빼앗는 포커스를 되돌려주기(기능). (1)을 제거하자 (2)가 깨지면서 한 글자 입력 후 포커스가 Item으로 이동, 이후 입력이 불가능했습니다
+  - **수정 방식**: `onCompositionStart` / `onCompositionEnd`로 조합 상태를 `isComposingRef`에 추적하고, `onChange`에서 `isComposingRef.current === false`일 때만 refocus `setTimeout` 실행
+  - 한글 조합 중에는 refocus를 건너뛰어 IME 조합이 깨지지 않고, 조합 종료 후(또는 영어 등 non-IME)에는 refocus로 focus-trap regression 방지
+  - 영향: `RadixSelect.tsx`, `RadixMultiSelect.tsx` — `VirtualSelect`(Combobox)는 cmdk 기반으로 영향 없음
+
+## [1.6.7] - 2026-04-22
+
+### Added
+
+- **`DialogContent` — `container?: HTMLElement | null` prop**: 다이얼로그(overlay+content)를 `document.body`가 아닌 특정 DOM 서브트리에 portal로 마운트할 수 있는 escape hatch. 오른쪽 패널 등 특정 영역 내부로 다이얼로그를 시각적으로 스코프하고 싶을 때 사용합니다
+  - 미지정 시 기존 동작(document.body)과 동일 — additive, non-breaking
+  - 내부적으로 `DialogPortal container={...}`에 그대로 전달 (Radix pass-through)
+  - 소비자는 타겟 엘리먼트의 CSS(position/overflow)를 직접 관리해야 합니다 — DS는 portal 위치만 결정
+
+### Fixed
+
+- **`Select` / `MultiSelect` searchable — 한글 IME 첫 글자 손실**: `searchable` 모드 검색 입력에서 `onChange` 핸들러마다 `setTimeout(() => input.focus(), 0)`로 강제 refocus하던 동작이 한글(일본어 가나/중국어 병음 등 IME 기반 언어 공통)의 활성 조합 세션을 중단시켜 `compositionend`가 조기 발생, 진행 중이던 음절이 폐기되는 문제 수정. onChange의 refocus를 제거 (`autoFocus`로 이미 초기 포커스가 보장되며, 입력 중 포커스를 뺏는 요소가 없어 불필요)
+  - 영향: 모든 `<Select searchable>`, `<MultiSelect searchable>` — 한글 입력 시 첫 음절부터 필터가 정상 동작
+  - Clear 버튼(X)의 refocus는 유지 — 버튼 클릭이 실제로 포커스를 이동시키므로 복귀가 필요 (조합 중이 아닌 상황)
+- **`BarList` — `maxHeight` prop이 `expanded` 상태에서만 적용되던 버그**: `showCount`보다 데이터가 적거나 같아서 "더보기" 버튼이 노출되지 않는 경우(`WithMaxHeight` 스토리: `showCount={10}` + 10 items) `expanded`가 끝까지 `false`라 `maxHeight`가 무시되던 문제. 이제 `maxHeight`가 설정되면 상태와 무관하게 항상 적용됩니다
+- **`BarList` — 네이티브 스크롤바 대신 DS `ScrollArea` 사용**: 기존에는 `overflowY: 'auto'`로 브라우저 기본 스크롤바가 그대로 노출돼 DS 스타일과 이질적이었습니다. 이제 `maxHeight` 설정 시 DS `ScrollArea`로 래핑되며 `type="always"`로 스크롤바가 항상 표시됩니다
+
+### Notes
+
+- Dialog `container` 사용 예:
+  ```tsx
+  const [targetEl, setTargetEl] = useState<HTMLElement | null>(null);
+  useEffect(() => { setTargetEl(document.querySelector('.ticket-detail') as HTMLElement); }, []);
+  <Dialog open={open} onOpenChange={setOpen}>
+    <DialogContent container={targetEl ?? undefined}>...</DialogContent>
+  </Dialog>
+  ```
+
+## [1.6.6] - 2026-04-21
+
+### Added
+
+- **basic color `-wash` tier (emerald/blue/purple)**: `-subtle`보다 한 단계 옅은 새 tier 추가. 라이트 테마에서는 거의 흰색에 가까운 파스텔 wash, 다크 테마에서는 near-black에 hue 힌트가 들어간 배경으로 자동 전환되어 파스텔 그라디언트 데코레이션의 dark-mode readability 이슈를 해소합니다
+  - 4개 테마 전체 커버: `:root`, `[data-theme="dark"]`, `[data-theme="theme-b-light"]`, `[data-theme="theme-b-dark"]`
+  - CSS 변수: `--bg-basic-{emerald,blue,purple}-wash`
+  - Tailwind 유틸: `bg-basic-emerald-wash`, `bg-basic-blue-wash`, `bg-basic-purple-wash`
+  - 라이트 값: `#f5fefb` / `#f6f9ff` / `#f7f5ff` (near-white with hue hint)
+  - 다크 값: `#122e24` / `#141e3c` / `#22123a` (near-black with hue hint)
+- **`ux-guideline/foundations/color.md` §7 업데이트**: basic color tier 구조 표 + 파스텔 wash/그라디언트 데코레이션 판단 플로우 추가
+
+### Notes
+
+- 현재 3개 hue(emerald/blue/purple)만 제공 — 추가 hue 필요 시 별도 요청
+- 다크 값은 엔지니어링 판단으로 제공된 초안 — 필요 시 디자이너 검토 후 micro-adjust 가능
+
 ## [1.6.5] - 2026-04-21
 
 ### Added
