@@ -267,6 +267,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
     const selectId = React.useId();
     const triggerRef = React.useRef<HTMLButtonElement>(null);
     const searchInputRef = React.useRef<HTMLInputElement>(null);
+    const isComposingRef = React.useRef(false);
     const [internalOpen, setInternalOpen] = React.useState(false);
     const [internalValue, setInternalValue] = React.useState<string[]>(
       defaultValue || []
@@ -730,8 +731,13 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                         role="searchbox"
                         aria-label={searchPlaceholder || '옵션'}
                         value={searchQuery}
+                        onCompositionStart={() => { isComposingRef.current = true; }}
+                        onCompositionEnd={() => { isComposingRef.current = false; }}
                         onChange={(e) => {
                           setSearchQuery(e.target.value);
+                          if (!isComposingRef.current) {
+                            setTimeout(() => searchInputRef.current?.focus(), 0);
+                          }
                         }}
                         placeholder={searchPlaceholder}
                         className="flex-1 bg-transparent border-none outline-none size-sm line-height-leading-5 letter-spacing-tracking-tight font-body text-default placeholder:text-hint"

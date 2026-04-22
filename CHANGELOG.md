@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.8] - 2026-04-22
+
+### Fixed
+
+- **`Select` / `MultiSelect` searchable — 1.6.7 IME 수정 후 첫 글자만 입력되고 포커스가 이탈하는 regression**: 1.6.7에서 제거한 `onChange`의 `setTimeout(() => input.focus(), 0)`가 실은 두 가지 역할을 겸하고 있었습니다 — (1) IME 조합 세션 중단(버그), (2) Radix Select Content의 item focus-trap이 키스트로크마다 빼앗는 포커스를 되돌려주기(기능). (1)을 제거하자 (2)가 깨지면서 한 글자 입력 후 포커스가 Item으로 이동, 이후 입력이 불가능했습니다
+  - **수정 방식**: `onCompositionStart` / `onCompositionEnd`로 조합 상태를 `isComposingRef`에 추적하고, `onChange`에서 `isComposingRef.current === false`일 때만 refocus `setTimeout` 실행
+  - 한글 조합 중에는 refocus를 건너뛰어 IME 조합이 깨지지 않고, 조합 종료 후(또는 영어 등 non-IME)에는 refocus로 focus-trap regression 방지
+  - 영향: `RadixSelect.tsx`, `RadixMultiSelect.tsx` — `VirtualSelect`(Combobox)는 cmdk 기반으로 영향 없음
+
 ## [1.6.7] - 2026-04-22
 
 ### Added
