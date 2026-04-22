@@ -17,7 +17,7 @@ const getBgClass = (color: BadgeColor, hasBorder: boolean): string => {
 };
 
 const getTextColor = (color: BadgeColor): string => {
-  if (color === 'white') return '#4E4E55';
+  if (color === 'white') return 'var(--text-dark-subtle)';
   if (color === 'neutral') {
     return 'var(--text-subtle)';
   }
@@ -25,7 +25,7 @@ const getTextColor = (color: BadgeColor): string => {
 };
 
 const getDotColor = (color: BadgeColor): string => {
-  if (color === 'white') return '#4E4E55';
+  if (color === 'white') return 'var(--text-dark-subtle)';
   if (color === 'neutral') {
     return 'var(--text-subtle)';
   }
@@ -33,7 +33,7 @@ const getDotColor = (color: BadgeColor): string => {
 };
 
 const getIconColor = (color: BadgeColor): string => {
-  if (color === 'white') return '#4E4E55';
+  if (color === 'white') return 'var(--text-dark-subtle)';
   if (color === 'neutral') {
     return 'var(--icon-default-muted)';
   }
@@ -114,8 +114,8 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
   const combinedStyle: React.CSSProperties = {
     color: getTextColor(color),
     ...(color === 'white' ? {
-      backgroundColor: '#FFFFFF',
-      borderColor: 'rgba(39, 39, 42, 0.1)',
+      backgroundColor: 'var(--bg-basic-white-accent)',
+      borderColor: 'var(--border-default)',
     } : {}),
     ...style,
   };
