@@ -9,6 +9,13 @@ import { useTableFontSize, getTableFontClasses } from '../components/TableFontSi
 
 interface CellTextProps {
   value: string | number | null | undefined;
+  /**
+   * 클립보드에 복사할 값 (미지정 시 `value` 사용).
+   *
+   * `value`를 truncate해서 짧게 표시하되, 복사 시에는 원문 전체를 넘겨야 할 때 사용합니다.
+   * 예: 5KB 메모를 100자만 표시하고 전체 텍스트를 복사하는 경우.
+   */
+  copyValue?: string;
   tooltip?: boolean | ReactNode;
   copyable?: boolean;
   onCopy?: (value: string) => void;
@@ -17,6 +24,7 @@ interface CellTextProps {
 
 export function CellText({
   value,
+  copyValue,
   tooltip = false,
   copyable = false,
   onCopy,
@@ -43,18 +51,19 @@ export function CellText({
 
   const handleCopy = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (value == null) return;
+    const payload = copyValue ?? (value == null ? null : String(value));
+    if (payload == null) return;
 
     try {
-      await navigator.clipboard.writeText(String(value));
+      await navigator.clipboard.writeText(payload);
       setCopied(true);
-      onCopy?.(String(value));
+      onCopy?.(payload);
       if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
       copyTimeoutRef.current = setTimeout(() => setCopied(false), 2000);
     } catch {
       // Failed to copy
     }
-  }, [value, onCopy]);
+  }, [value, copyValue, onCopy]);
 
   const getTooltipContent = useCallback((): ReactNode => {
     if (typeof tooltip === 'boolean') {

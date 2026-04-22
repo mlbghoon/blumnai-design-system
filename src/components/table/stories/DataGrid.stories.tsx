@@ -423,6 +423,59 @@ false: 선택 불가
         type: { summary: 'string' },
       },
     },
+    footerRow: {
+      control: false,
+      description: '하단 고정 요약/합계 행 (컬럼 ID → 셀 컨텐츠 맵)',
+      table: {
+        type: {
+          summary: 'Record<string, ReactNode>',
+          detail:
+            '키는 컬럼의 id 또는 accessorKey. 매칭되지 않는 컬럼은 빈 셀. ' +
+            '스크롤 viewport 하단에 sticky로 고정되며 본문 컬럼 너비·sticky 포지션을 공유합니다.\n' +
+            '예: footerRow={{ name: "합계", amount: total }}',
+        },
+      },
+    },
+    overscan: {
+      control: false,
+      description: '가상화 overscan (뷰포트 밖에 추가로 마운트할 개수)',
+      table: {
+        type: {
+          summary: 'number | { rows?: number; columns?: number }',
+          detail:
+            'number 로 주면 행 overscan만 설정 (열은 기본값 2). 축별 조정은 객체 사용.\n' +
+            '기본값: 10 (행), 2 (열).',
+        },
+        defaultValue: { summary: '10 rows / 2 cols' },
+      },
+    },
+    virtualizationThreshold: {
+      control: false,
+      description: '가상화 활성화 임계값 (행/열 개수가 이 값을 초과하면 가상화 활성)',
+      table: {
+        type: {
+          summary: 'number | { rows?: number; columns?: number }',
+          detail:
+            'number 로 주면 행 임계값만 설정 (열은 기본값 30). 축별 조정은 객체 사용.\n' +
+            '기본값: { rows: 100, columns: 30 }. 소규모 테스트 데이터셋에서 가상화 강제하거나 ' +
+            '컬럼 많은 그리드에서 더 낮은 행 수부터 가상화할 때 사용.',
+        },
+        defaultValue: { summary: '{ rows: 100, columns: 30 }' },
+      },
+    },
+    viewportRef: {
+      control: false,
+      description: '스크롤 가능한 뷰포트 요소에 대한 ref (programmatic scroll 제어용)',
+      table: {
+        type: {
+          summary: 'Ref<HTMLDivElement>',
+          detail:
+            '내부 ScrollArea viewport에 연결됩니다. 특정 위치로 scrollTo, 현재 scrollTop/scrollLeft 측정 등에 사용.\n' +
+            '예: const ref = useRef<HTMLDivElement>(null);\n' +
+            'ref.current?.scrollTo({ top: 0, behavior: "smooth" });',
+        },
+      },
+    },
   },
 };
 
@@ -2043,6 +2096,266 @@ export const FullFeaturedCombination: Story = {
         showItemCount
         limitOptionLabel={(n) => `${n}개씩 보기`}
         aria-label="Full featured DataGrid"
+      />
+    );
+  },
+};
+
+/**
+ * `footerRow` - 하단 고정 요약 행 (신규 v1.7.0)
+ *
+ * `footerRow` prop에 `{ [columnId]: ReactNode }` 맵을 전달하면 본문 아래에
+ * 컬럼 정렬된 sticky footer 행이 렌더됩니다. 통계 테이블의 "합계" 행용.
+ *
+ * **확인 포인트:**
+ * - 스크롤을 내리면 합계 행이 viewport 하단에 고정
+ * - 각 셀이 해당 컬럼 너비와 일치
+ * - sticky 컬럼 (이름)도 footer에서 동일하게 좌측 고정
+ * - footer 셀도 컬럼 정렬(`meta.align`) 준수
+ */
+export const WithFooterRow: Story = {
+  render: function Render() {
+    interface Stat {
+      id: string;
+      name: string;
+      calls: number;
+      resolved: number;
+      avgTime: number;
+    }
+    const data: Stat[] = Array.from({ length: 30 }, (_, i) => ({
+      id: String(i + 1),
+      name: `상담사 ${i + 1}`,
+      calls: Math.floor(Math.random() * 200) + 50,
+      resolved: Math.floor(Math.random() * 180) + 30,
+      avgTime: Math.floor(Math.random() * 300) + 60,
+    }));
+
+    const totalCalls = data.reduce((s, d) => s + d.calls, 0);
+    const totalResolved = data.reduce((s, d) => s + d.resolved, 0);
+    const avgAll = Math.round(
+      data.reduce((s, d) => s + d.avgTime, 0) / data.length
+    );
+
+    const columns: ColumnDef<Stat>[] = [
+      {
+        accessorKey: 'name',
+        header: '상담사',
+        cell: ({ row }) => <CellText value={row.original.name} />,
+        meta: { width: '160px', sticky: true },
+      },
+      {
+        accessorKey: 'calls',
+        header: '인입 건수',
+        cell: ({ row }) => <CellText value={row.original.calls} />,
+        meta: { width: '140px', align: 'right' },
+      },
+      {
+        accessorKey: 'resolved',
+        header: '처리 건수',
+        cell: ({ row }) => <CellText value={row.original.resolved} />,
+        meta: { width: '140px', align: 'right' },
+      },
+      {
+        accessorKey: 'avgTime',
+        header: '평균 응답 (초)',
+        cell: ({ row }) => <CellText value={row.original.avgTime} />,
+        meta: { width: '160px', align: 'right' },
+      },
+    ];
+
+    return (
+      <DataGrid
+        data={data}
+        columns={columns}
+        getRowId={(row) => row.id}
+        maxHeight="300px"
+        pagination={false}
+        footerRow={{
+          name: <span className="font-semibold">합계 / 평균</span>,
+          calls: totalCalls,
+          resolved: totalResolved,
+          avgTime: `~${avgAll}`,
+        }}
+        aria-label="Stats with footer row"
+      />
+    );
+  },
+};
+
+/**
+ * 수평 컬럼 가상화 - 44 컬럼 × 500 행 (신규 v1.7.0)
+ *
+ * 컬럼 수가 `virtualizationThreshold.columns` (기본 30)를 초과하면 자동으로
+ * 수평 컬럼 가상화가 활성됩니다. viewport 내 컬럼 + overscan만 마운트됩니다.
+ *
+ * **확인 포인트:**
+ * - 초기 렌더에 전체 44 × visibleRows 개의 셀이 아닌, viewport 내 컬럼만 마운트
+ * - 가로로 스크롤하면 새 컬럼이 나타나고 벗어나는 컬럼은 unmount
+ * - 첫 번째 컬럼 (sticky) 은 스크롤과 무관하게 항상 보임
+ * - 세로 스크롤도 정상 (행 가상화 - 500 > 100 threshold)
+ * - DevTools Elements 탭에서 실제 렌더된 `[role=gridcell]` 수를 확인하면 크게 줄어있음
+ */
+export const HorizontalColumnVirtualization: Story = {
+  render: function Render() {
+    interface Row {
+      id: string;
+      [key: string]: string;
+    }
+    const colCount = 44;
+    const rowCount = 500;
+
+    const data: Row[] = useMemo(
+      () =>
+        Array.from({ length: rowCount }, (_, r) => {
+          const row: Row = { id: String(r + 1) };
+          for (let c = 0; c < colCount; c++) {
+            row[`col${c}`] = `R${r + 1}C${c + 1}`;
+          }
+          return row;
+        }),
+      []
+    );
+
+    const columns: ColumnDef<Row>[] = useMemo(() => {
+      const cols: ColumnDef<Row>[] = [
+        {
+          accessorKey: 'id',
+          header: '#',
+          cell: ({ row }) => <CellText value={row.original.id} />,
+          meta: { width: '60px', sticky: true },
+        },
+      ];
+      for (let c = 0; c < colCount; c++) {
+        cols.push({
+          accessorKey: `col${c}`,
+          header: `Col ${c + 1}`,
+          cell: ({ row }) => <CellText value={row.original[`col${c}`]} />,
+          meta: { width: '140px' },
+        });
+      }
+      return cols;
+    }, []);
+
+    return (
+      <DataGrid
+        data={data}
+        columns={columns}
+        getRowId={(row) => row.id}
+        maxHeight="400px"
+        pagination={false}
+        aria-label="Virtualized 44 cols x 500 rows"
+      />
+    );
+  },
+};
+
+/**
+ * `overscan` 과 `virtualizationThreshold` 커스텀 (신규 v1.7.0)
+ *
+ * 두 prop은 `number` 또는 `{ rows, columns }` 형태를 허용합니다.
+ * 소규모 데이터셋에서 가상화를 강제하거나 (threshold 를 낮춰서),
+ * overscan 을 조정해 스크롤 부드러움 ↔ commit 시간 트레이드오프를 튜닝합니다.
+ *
+ * **확인 포인트:**
+ * - 10 행 / 10 컬럼이지만 threshold 가 낮아 가상화 활성
+ * - overscan 0 으로 설정되어 viewport 밖 셀이 즉시 unmount (빠른 commit)
+ */
+export const VirtualizationTuning: Story = {
+  render: function Render() {
+    interface Row {
+      id: string;
+      [key: string]: string;
+    }
+    const data: Row[] = Array.from({ length: 20 }, (_, r) => {
+      const row: Row = { id: String(r + 1) };
+      for (let c = 0; c < 10; c++) row[`col${c}`] = `R${r + 1}C${c + 1}`;
+      return row;
+    });
+
+    const columns: ColumnDef<Row>[] = [
+      {
+        accessorKey: 'id',
+        header: '#',
+        cell: ({ row }) => <CellText value={row.original.id} />,
+        meta: { width: '60px', sticky: true },
+      },
+      ...Array.from({ length: 10 }, (_, c) => ({
+        accessorKey: `col${c}`,
+        header: `Col ${c + 1}`,
+        cell: ({ row }: { row: { original: Row } }) => (
+          <CellText value={row.original[`col${c}`]} />
+        ),
+        meta: { width: '140px' },
+      })),
+    ];
+
+    return (
+      <DataGrid
+        data={data}
+        columns={columns}
+        getRowId={(row) => row.id}
+        maxHeight="300px"
+        pagination={false}
+        virtualizationThreshold={{ rows: 5, columns: 3 }}
+        overscan={{ rows: 2, columns: 0 }}
+        aria-label="Tuned virtualization"
+      />
+    );
+  },
+};
+
+/**
+ * `CellText` `copyValue` - display 와 copy 분리 (신규 v1.7.0)
+ *
+ * `value`는 truncate된 짧은 텍스트로 표시하고, `copyable` 클릭 시에는 `copyValue`
+ * (원문 전체)가 클립보드에 복사됩니다. 5KB 메모 필드처럼 CSS truncate 비용을
+ * 피하면서 copy 무결성을 유지해야 할 때 사용합니다.
+ *
+ * **확인 포인트:**
+ * - 셀 표시 텍스트는 짧은 "요약..." 버전
+ * - copy 아이콘 클릭 → 클립보드에 긴 원문 전체가 복사됨 (devtools console로 확인)
+ * - `onCopy` 콜백은 실제 복사된 긴 텍스트를 받음
+ */
+export const CellTextCopyValue: Story = {
+  render: function Render() {
+    const fullMemo =
+      '이것은 매우 긴 상담 메모입니다. 고객이 제품 사용 중 발생한 문제에 대해 상세히 설명했고, 담당자는 각 단계별로 해결 방안을 제시했습니다. 최종적으로 환불 처리 및 대체품 배송으로 마무리되었습니다.';
+    const shortSummary = fullMemo.slice(0, 30) + '...';
+
+    interface Item {
+      id: string;
+      memo: string;
+    }
+    const data: Item[] = [
+      { id: '1', memo: fullMemo },
+      { id: '2', memo: fullMemo },
+    ];
+
+    const columns: ColumnDef<Item>[] = [
+      {
+        accessorKey: 'memo',
+        header: '메모 (표시: 요약, 복사: 원문)',
+        cell: () => (
+          <CellText
+            value={shortSummary}
+            copyValue={fullMemo}
+            copyable
+            onCopy={(v) => {
+              console.log('Copied:', v);
+            }}
+          />
+        ),
+        meta: { width: '400px' },
+      },
+    ];
+
+    return (
+      <DataGrid
+        data={data}
+        columns={columns}
+        getRowId={(row) => row.id}
+        pagination={false}
+        aria-label="CellText copyValue demo"
       />
     );
   },

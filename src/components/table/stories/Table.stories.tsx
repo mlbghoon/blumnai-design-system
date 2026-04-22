@@ -5,6 +5,7 @@ import {
   Table,
   TableHeader,
   TableBody,
+  TableFooter,
   TableRow,
   TableHead,
   TableCell,
@@ -69,6 +70,33 @@ const meta: Meta<TableProps> = {
           detail: 'maxHeight와 함께 사용해야 효과 있음',
         },
         defaultValue: { summary: 'false' },
+      },
+    },
+    stickyFooter: {
+      control: 'boolean',
+      description: '스크롤 시 `<tfoot>` 하단 고정 여부',
+      table: {
+        type: {
+          summary: 'boolean',
+          detail:
+            'stickyHeader와 동시 사용 가능. maxHeight와 함께 사용해야 효과 있음. ' +
+            '내부적으로 tfoot 셀에 bg-default를 강제 적용하여 body 행 위를 덮습니다. ' +
+            'QA "합계 행 항상 노출" 요구사항 대응.',
+        },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    viewportRef: {
+      control: false,
+      description: '스크롤 가능한 뷰포트 요소에 대한 ref (programmatic scroll 제어용)',
+      table: {
+        type: {
+          summary: 'Ref<HTMLDivElement>',
+          detail:
+            '내부 ScrollArea viewport에 연결됩니다. 특정 위치로 scrollTo, 현재 scrollTop/scrollLeft 측정 등에 사용.\n' +
+            '예: const ref = useRef<HTMLDivElement>(null);\n' +
+            'ref.current?.scrollTo({ top: 0, behavior: "smooth" });',
+        },
       },
     },
     isLoading: {
@@ -650,6 +678,112 @@ export const ScrollWithStickyHeader: Story = {
           ))}
         </TableBody>
       </Table>
+    );
+  },
+};
+
+/**
+ * 헤더와 푸터 동시 고정 (QA "합계 행 항상 노출" 요구사항)
+ *
+ * `stickyHeader` + `stickyFooter` 을 같이 적용하면 스크롤 중에도 상단 헤더와
+ * 하단 합계(TableFooter) 행이 항상 보입니다.
+ *
+ * **확인 포인트:**
+ * - 스크롤 내리면 헤더가 상단에 고정
+ * - 스크롤 내리면 하단 합계 행이 하단에 고정 (body 행이 footer 아래로 사라짐)
+ * - 소비자가 별도 `overflow: auto` wrapper 없이도 동작
+ */
+export const StickyHeaderAndFooter: Story = {
+  render: function Render() {
+    const total = largeData.reduce((sum, u) => sum + Number(u.id), 0);
+    return (
+      <Table bordered maxHeight="300px" stickyHeader stickyFooter>
+        <TableHeader>
+          <TableRow>
+            <TableHead>ID</TableHead>
+            <TableHead>이름</TableHead>
+            <TableHead>이메일</TableHead>
+            <TableHead>역할</TableHead>
+            <TableHead>상태</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {largeData.map((user) => (
+            <TableRow key={user.id}>
+              <TableCell>{user.id}</TableCell>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.role}</TableCell>
+              <TableCell>{user.status}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell>합계</TableCell>
+            <TableCell>{largeData.length}명</TableCell>
+            <TableCell>-</TableCell>
+            <TableCell>-</TableCell>
+            <TableCell>{total}</TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+    );
+  },
+};
+
+/**
+ * TableCell `truncate` - 긴 텍스트 한 줄 말줄임
+ *
+ * `truncate` 적용 시: `overflow: hidden; text-overflow: ellipsis; white-space: nowrap`
+ * + `max-width: 0` (flex-grow로 컬럼 너비를 채우되 넘치지 않게).
+ *
+ * **확인 포인트:**
+ * - 왼쪽(기본) 행: 긴 텍스트가 자동 줄바꿈됨
+ * - 오른쪽(truncate) 행: 긴 텍스트가 `...`로 잘림, 한 줄 유지
+ * - 컬럼 너비가 좁아도 테이블 레이아웃이 깨지지 않음
+ */
+export const CellTruncate: Story = {
+  render: function Render() {
+    const longText =
+      '이 셀은 매우 긴 설명 텍스트를 담고 있습니다. 컬럼 너비가 좁을 때 한 줄로 잘려야 합니다 - 이것이 truncate 옵션의 동작입니다.';
+    return (
+      <div className="flex flex-col ds-gap-16">
+        <div>
+          <div className="size-sm font-medium margin-b-8">기본 (wrap)</div>
+          <Table bordered>
+            <TableHeader>
+              <TableRow>
+                <TableHead style={{ width: '120px' }}>이름</TableHead>
+                <TableHead style={{ width: '200px' }}>설명</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell>홍길동</TableCell>
+                <TableCell>{longText}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+        <div>
+          <div className="size-sm font-medium margin-b-8">truncate 적용</div>
+          <Table bordered>
+            <TableHeader>
+              <TableRow>
+                <TableHead style={{ width: '120px' }}>이름</TableHead>
+                <TableHead style={{ width: '200px' }}>설명</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell>홍길동</TableCell>
+                <TableCell truncate>{longText}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+      </div>
     );
   },
 };

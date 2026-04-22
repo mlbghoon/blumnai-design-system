@@ -13,6 +13,7 @@ interface DataGridRowProps<T> {
   stickyColumnPositions: Map<string, StickyColumnInfo>;
   rowHeight?: string;
   getRowHeight?: (row: T) => string | undefined;
+  visibleColumnIndices?: Set<number>;
 }
 
 function DataGridRowInner<T>({
@@ -23,6 +24,7 @@ function DataGridRowInner<T>({
   stickyColumnPositions,
   rowHeight,
   getRowHeight,
+  visibleColumnIndices,
 }: DataGridRowProps<T>) {
   const isSelected = row.getIsSelected();
   const canSelect = row.getCanSelect();
@@ -49,16 +51,22 @@ function DataGridRowInner<T>({
       aria-disabled={!canSelect || undefined}
       data-state={isSelected ? 'selected' : undefined}
     >
-      {row.getVisibleCells().map((cell, index) => (
-        <DataGridCell
-          key={cell.id}
-          cell={cell}
-          stickyInfo={stickyColumnPositions.get(cell.column.id)}
-          isRowSelected={isSelected && showSelectedRowBackground}
-          height={height}
-          colIndex={index + 1}
-        />
-      ))}
+      {row.getVisibleCells().map((cell, index) => {
+        if (visibleColumnIndices && !visibleColumnIndices.has(index)) {
+          return null;
+        }
+        return (
+          <DataGridCell
+            key={cell.id}
+            cell={cell}
+            stickyInfo={stickyColumnPositions.get(cell.column.id)}
+            isRowSelected={isSelected && showSelectedRowBackground}
+            height={height}
+            colIndex={index + 1}
+            gridColumn={visibleColumnIndices ? `${index + 1} / ${index + 2}` : undefined}
+          />
+        );
+      })}
     </div>
   );
 }

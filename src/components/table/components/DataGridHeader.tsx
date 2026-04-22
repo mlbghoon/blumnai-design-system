@@ -23,6 +23,7 @@ interface DataGridHeaderProps<T> {
   enableColumnResize?: boolean;
   columnSizing?: ColumnSizingState;
   onColumnSizingChange?: (sizing: ColumnSizingState) => void;
+  visibleColumnIndices?: Set<number>;
 }
 
 interface DataGridHeaderCellProps<T> {
@@ -34,7 +35,7 @@ interface DataGridHeaderCellProps<T> {
   onResizeStart?: (columnId: string, startX: number, startWidth: number) => void;
 }
 
-function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, enableColumnResize, onResizeStart }: DataGridHeaderCellProps<T>) {
+function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, enableColumnResize, onResizeStart, gridColumn }: DataGridHeaderCellProps<T> & { gridColumn?: string }) {
   const cellRef = useRef<HTMLDivElement>(null);
   const fontSize = useTableFontSize();
   const canSort = header.column.getCanSort();
@@ -76,6 +77,7 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
       )}
       style={{
         height: headerHeight,
+        ...(gridColumn ? { gridColumn } : undefined),
         ...(isSticky ? { left: stickyInfo.leftOffset, width: stickyInfo.width } : undefined),
       }}
       onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
@@ -137,7 +139,7 @@ interface SortableHeaderCellProps<T> {
 
 const noAnimateLayoutChanges = () => false;
 
-function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, enableColumnResize, onResizeStart }: SortableHeaderCellProps<T>) {
+function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, enableColumnResize, onResizeStart, gridColumn }: SortableHeaderCellProps<T> & { gridColumn?: string }) {
   const isFixed = !!stickyInfo || header.column.id === 'select';
   const cellRef = useRef<HTMLDivElement>(null);
   const fontSize = useTableFontSize();
@@ -172,6 +174,7 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
 
   const style: React.CSSProperties = {
     height: headerHeight,
+    ...(gridColumn ? { gridColumn } : undefined),
     ...(isSticky ? { left: stickyInfo.leftOffset, width: stickyInfo.width } : undefined),
     transform: CSS.Translate.toString(transform),
     transition,
@@ -272,6 +275,7 @@ interface SortableHeaderRowProps<T> {
   onColumnOrderChange: (updater: ColumnOrderState | ((prev: ColumnOrderState) => ColumnOrderState)) => void;
   enableColumnResize?: boolean;
   onResizeStart?: (columnId: string, startX: number, startWidth: number) => void;
+  visibleColumnIndices?: Set<number>;
 }
 
 function SortableHeaderRow<T>({
@@ -282,6 +286,7 @@ function SortableHeaderRow<T>({
   onColumnOrderChange,
   enableColumnResize,
   onResizeStart,
+  visibleColumnIndices,
 }: SortableHeaderRowProps<T>) {
   const columnIds = useMemo(
     () => headerGroup.headers.map((h) => h.column.id),
@@ -306,17 +311,23 @@ function SortableHeaderRow<T>({
     <DndContext onDragEnd={handleDragEnd}>
       <SortableContext items={columnIds} strategy={horizontalListSortingStrategy}>
         <div role="row" className="grid" style={{ gridTemplateColumns }}>
-          {headerGroup.headers.map((header, index) => (
-            <SortableHeaderCell
-              key={header.id}
-              header={header}
-              stickyInfo={stickyColumnPositions.get(header.column.id)}
-              headerHeight={headerHeight}
-              colIndex={index + 1}
-              enableColumnResize={enableColumnResize}
-              onResizeStart={onResizeStart}
-            />
-          ))}
+          {headerGroup.headers.map((header, index) => {
+            if (visibleColumnIndices && !visibleColumnIndices.has(index)) {
+              return null;
+            }
+            return (
+              <SortableHeaderCell
+                key={header.id}
+                header={header}
+                stickyInfo={stickyColumnPositions.get(header.column.id)}
+                headerHeight={headerHeight}
+                colIndex={index + 1}
+                enableColumnResize={enableColumnResize}
+                onResizeStart={onResizeStart}
+                gridColumn={visibleColumnIndices ? `${index + 1} / ${index + 2}` : undefined}
+              />
+            );
+          })}
         </div>
       </SortableContext>
     </DndContext>
@@ -333,6 +344,7 @@ export function DataGridHeader<T>({
   enableColumnResize,
   columnSizing,
   onColumnSizingChange,
+  visibleColumnIndices,
 }: DataGridHeaderProps<T>) {
   const [resizeState, setResizeState] = useState<{
     columnId: string;
@@ -400,6 +412,7 @@ export function DataGridHeader<T>({
             onColumnOrderChange={onColumnOrderChange}
             enableColumnResize={enableColumnResize}
             onResizeStart={handleResizeStart}
+            visibleColumnIndices={visibleColumnIndices}
           />
         ) : (
           <div
@@ -408,17 +421,23 @@ export function DataGridHeader<T>({
             className="grid"
             style={{ gridTemplateColumns }}
           >
-            {headerGroup.headers.map((header, index) => (
-              <DataGridHeaderCell
-                key={header.id}
-                header={header}
-                stickyInfo={stickyColumnPositions.get(header.column.id)}
-                headerHeight={headerHeight}
-                colIndex={index + 1}
-                enableColumnResize={enableColumnResize}
-                onResizeStart={handleResizeStart}
-              />
-            ))}
+            {headerGroup.headers.map((header, index) => {
+              if (visibleColumnIndices && !visibleColumnIndices.has(index)) {
+                return null;
+              }
+              return (
+                <DataGridHeaderCell
+                  key={header.id}
+                  header={header}
+                  stickyInfo={stickyColumnPositions.get(header.column.id)}
+                  headerHeight={headerHeight}
+                  colIndex={index + 1}
+                  enableColumnResize={enableColumnResize}
+                  onResizeStart={handleResizeStart}
+                  gridColumn={visibleColumnIndices ? `${index + 1} / ${index + 2}` : undefined}
+                />
+              );
+            })}
           </div>
         )
       )}

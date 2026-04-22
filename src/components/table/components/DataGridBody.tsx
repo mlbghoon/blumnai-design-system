@@ -6,7 +6,8 @@ import { cn } from '@/lib/utils';
 import { DataGridRow } from './DataGridRow';
 import type { StickyColumnInfo } from '../utils/stickyColumnUtils';
 
-const VIRTUALIZATION_THRESHOLD = 100;
+const DEFAULT_VIRTUALIZATION_THRESHOLD = 100;
+const DEFAULT_OVERSCAN = 10;
 
 function parseHeight(height: string | undefined): number {
   if (!height) return 32;
@@ -24,6 +25,9 @@ interface DataGridBodyProps<T> {
   stickyColumnPositions: Map<string, StickyColumnInfo>;
   rowHeight?: string;
   getRowHeight?: (row: T) => string | undefined;
+  overscan?: number;
+  virtualizationThreshold?: number;
+  visibleColumnIndices?: Set<number>;
 }
 
 export function DataGridBody<T>({
@@ -36,9 +40,12 @@ export function DataGridBody<T>({
   stickyColumnPositions,
   rowHeight,
   getRowHeight,
+  overscan = DEFAULT_OVERSCAN,
+  virtualizationThreshold = DEFAULT_VIRTUALIZATION_THRESHOLD,
+  visibleColumnIndices,
 }: DataGridBodyProps<T>) {
   const showLoadingOverlay = isLoading && preserveDataWhileLoading && rows.length > 0;
-  const useVirtual = rows.length > VIRTUALIZATION_THRESHOLD;
+  const useVirtual = rows.length > virtualizationThreshold;
 
   const [scrollElement, setScrollElement] = useState<Element | null>(null);
 
@@ -61,7 +68,7 @@ export function DataGridBody<T>({
       }
       return defaultRowHeight;
     },
-    overscan: 10,
+    overscan,
   });
 
   if (!useVirtual) {
@@ -83,6 +90,7 @@ export function DataGridBody<T>({
             stickyColumnPositions={stickyColumnPositions}
             rowHeight={rowHeight}
             getRowHeight={getRowHeight}
+            visibleColumnIndices={visibleColumnIndices}
           />
         ))}
       </div>

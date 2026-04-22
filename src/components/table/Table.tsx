@@ -45,6 +45,8 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
       minHeight,
       maxHeight,
       stickyHeader,
+      stickyFooter,
+      viewportRef,
       isLoading,
       pagination,
       page = 1,
@@ -120,8 +122,14 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
         <ScrollArea
           orientation="both"
           maxHeight={maxHeight}
+          viewportRef={viewportRef}
           className={cn(
-            stickyHeader && '[&_thead]:sticky [&_thead]:top-[0px] [&_thead]:z-10'
+            stickyHeader && '[&_thead]:sticky [&_thead]:top-[0px] [&_thead]:z-10',
+            stickyFooter && [
+              '[&_tfoot]:sticky [&_tfoot]:bottom-[0px] [&_tfoot]:z-10',
+              '[&_tfoot_tr]:bg-default [&_tfoot_td]:bg-default [&_tfoot_th]:bg-default',
+              '[&_tfoot>tr:first-child>td]:border-t-default [&_tfoot>tr:first-child>th]:border-t-default',
+            ]
           )}
           data-sticky-bordered={bordered && stickyHeader ? '' : undefined}
           style={{ minHeight }}
@@ -308,7 +316,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
 TableHead.displayName = 'TableHead';
 
 const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
-  ({ className, style, ...props }, ref) => {
+  ({ className, style, truncate, ...props }, ref) => {
     const fontSize = useTableFontSize();
     return (
       <td
@@ -318,6 +326,7 @@ const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
           'font-body letter-spacing-tracking-tight text-default',
           getTableFontClasses(fontSize),
           '[&:has([role=checkbox])]:[padding-right:0] [&>[role=checkbox]]:translate-y-[2px]',
+          truncate && 'max-w-0 overflow-hidden text-ellipsis whitespace-nowrap',
           className
         )}
         style={{ height: getDefaultRowHeight(fontSize), ...style }}

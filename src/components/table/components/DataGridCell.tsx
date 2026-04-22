@@ -13,9 +13,10 @@ interface DataGridCellProps<T> {
   isRowSelected?: boolean;
   height?: string;
   colIndex?: number;
+  gridColumn?: string;
 }
 
-function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colIndex }: DataGridCellProps<T>) {
+function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colIndex, gridColumn }: DataGridCellProps<T>) {
   const align = cell.column.columnDef.meta?.align ?? 'left';
   const isSticky = !!stickyInfo;
   const fontSize = useTableFontSize();
@@ -42,6 +43,7 @@ function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colInde
       style={{
         height: height,
         minWidth: 0,
+        ...(gridColumn ? { gridColumn } : undefined),
         ...(isSticky ? { left: stickyInfo.leftOffset, width: stickyInfo.width } : undefined),
       }}
     >

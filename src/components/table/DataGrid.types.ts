@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import type {
   ColumnDef,
   SortingState,
@@ -40,6 +40,19 @@ declare module '@tanstack/react-table' {
 }
 
 export type ColumnSizingState = Record<string, number>;
+
+/**
+ * 가상화 관련 축별 설정 (행/열 각각 다르게 튜닝 가능)
+ */
+export type DataGridAxisValue = number | { rows?: number; columns?: number };
+
+/**
+ * DataGrid 푸터 행 - 컬럼 ID를 키로 하는 셀 컨텐츠 맵.
+ *
+ * @example
+ * footerRow={{ name: '합계', amount: total, count: 100 }}
+ */
+export type DataGridFooterRow = Record<string, ReactNode>;
 
 export interface DataGridProps<T> {
   /**
@@ -326,6 +339,56 @@ export interface DataGridProps<T> {
    * 선택된 행 배경색 표시 여부
    */
   showSelectedRowBackground?: boolean;
+
+  // ============================================
+  // Footer Row
+  // ============================================
+  /**
+   * 하단 고정 요약/합계 행. 컬럼 ID를 키로 각 셀 컨텐츠를 전달합니다.
+   *
+   * 스크롤 viewport 하단에 sticky로 고정되며, 본문 컬럼과 너비가 정렬됩니다.
+   * 아무 키도 매칭되지 않는 컬럼은 빈 셀로 렌더됩니다.
+   *
+   * @example
+   * footerRow={{ name: '합계', totalAmount: sum, count: rows.length }}
+   */
+  footerRow?: DataGridFooterRow;
+
+  // ============================================
+  // Virtualization
+  // ============================================
+  /**
+   * 가상화 overscan (뷰포트 밖에 추가로 마운트할 개수).
+   *
+   * - `number` - 행 overscan만 설정 (열 overscan은 기본값 사용)
+   * - `{ rows, columns }` - 축별로 따로 지정
+   *
+   * 큰 값 = 부드러운 스크롤, 느린 commit.
+   * 작은 값 = 빠른 commit, 스크롤 중 빈 공간 깜빡임 가능.
+   * @default 10 (행), 2 (열)
+   */
+  overscan?: DataGridAxisValue;
+
+  /**
+   * 가상화 활성화 임계값 (해당 축의 행/열 개수가 이 값을 초과하면 가상화 활성).
+   *
+   * - `number` - 행 임계값 (열은 기본값 사용)
+   * - `{ rows, columns }` - 축별 임계값
+   *
+   * 테스트용 소규모 데이터셋에서 가상화를 강제하거나,
+   * 많은 컬럼을 가진 그리드에서 더 낮은 행 수부터 가상화하려면 조정하세요.
+   * @default { rows: 100, columns: 30 }
+   */
+  virtualizationThreshold?: DataGridAxisValue;
+
+  // ============================================
+  // Ref
+  // ============================================
+  /**
+   * 스크롤 가능한 뷰포트 요소에 대한 ref.
+   * programmatic scroll (특정 행으로 스크롤, 상단 복귀 등) 제어에 사용합니다.
+   */
+  viewportRef?: Ref<HTMLDivElement>;
 }
 
 export type { ColumnDef, SortingState, ColumnFiltersState, RowSelectionState, ColumnOrderState, OnChangeFn, Row };

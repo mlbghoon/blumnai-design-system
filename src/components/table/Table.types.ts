@@ -1,4 +1,4 @@
-import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from 'react';
+import type { HTMLAttributes, Ref, TdHTMLAttributes, ThHTMLAttributes } from 'react';
 import type { PaginationVariant } from '../pagination';
 import type { TableFontSize } from './components/TableFontSizeContext';
 
@@ -44,6 +44,24 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
    * 헤더 고정 여부 (스크롤 시 상단에 고정)
    */
   stickyHeader?: boolean;
+
+  /**
+   * 푸터(`<tfoot>`) 고정 여부 (스크롤 시 하단에 고정)
+   *
+   * `stickyHeader`와 동시에 사용 가능합니다. 내부 ScrollArea viewport를 기준으로
+   * `tfoot`이 하단에 고정되며, body 행이 푸터 아래로 스크롤됩니다. (요구사항 QA: 합계 행 항상 노출)
+   */
+  stickyFooter?: boolean;
+
+  /**
+   * 스크롤 가능한 뷰포트 요소에 대한 ref.
+   * programmatic scroll (특정 행으로 스크롤, 상단 복귀 등) 제어에 사용합니다.
+   *
+   * @example
+   * const viewportRef = useRef<HTMLDivElement>(null);
+   * viewportRef.current?.scrollTo({ top: 0 });
+   */
+  viewportRef?: Ref<HTMLDivElement>;
 
   // === Loading ===
 
@@ -176,6 +194,15 @@ export interface TableHeadProps extends ThHTMLAttributes<HTMLTableCellElement> {
   sortDirection?: 'asc' | 'desc' | false;
 }
 
-export type TableCellProps = TdHTMLAttributes<HTMLTableCellElement>;
+export interface TableCellProps extends TdHTMLAttributes<HTMLTableCellElement> {
+  /**
+   * 셀 내용을 한 줄로 truncate (말줄임표) 처리합니다.
+   * `overflow: hidden; text-overflow: ellipsis; white-space: nowrap` 을 적용합니다.
+   *
+   * 컬럼에 명시적 너비가 지정되어 있어야 효과가 보입니다.
+   * @default false
+   */
+  truncate?: boolean;
+}
 
 export type TableCaptionProps = HTMLAttributes<HTMLTableCaptionElement>;

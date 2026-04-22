@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.7.0] - 2026-04-22
+
+### Added — `Table` / `DataGrid`
+
+- **`Table` `stickyFooter` prop** — `<tfoot>`를 ScrollArea viewport 하단에 고정. `stickyHeader`와 동시 사용 가능. QA "합계 행 항상 노출" 요구사항 지원.
+  - 구현 메모: `TableFooter`의 기본 스타일이 `bg-muted/50` (반투명) 이므로 sticky 시 body 행이 비쳐보입니다. 이를 방지하기 위해 `stickyFooter` 활성 시 `tfoot` 내 `tr`/`td`/`th` 셀에 `bg-default`를 강제 적용 (`[&_tfoot_td]:bg-default` 등), 첫 번째 footer 행에는 `border-top`을 추가해 헤더와 시각적 구분
+- **`Table` `viewportRef` prop** — 내부 ScrollArea의 스크롤 viewport에 대한 ref. programmatic scroll 제어(특정 행으로 scroll, 상단 복귀 등)에 사용
+- **`TableCell` `truncate` prop** (additive, default `false`) — 단일 라인 말줄임표. `overflow: hidden; text-overflow: ellipsis; white-space: nowrap` + `max-width: 0` 적용. 컬럼 너비가 지정된 상태에서 사용. 미지정 시 기존 wrap 동작 유지 (non-breaking)
+- **`CellText` `copyValue` prop** — `copyable` 사용 시 복사 payload를 `value`가 아닌 별도 문자열로 지정. display는 truncate한 짧은 텍스트, copy는 원문 전체 같은 split 케이스용
+- **`DataGrid` `footerRow` prop** (`Record<columnId, ReactNode>`) — 하단 sticky 요약/합계 행. 컬럼 너비·sticky 포지션 공유하며 viewport 하단에 고정
+- **`DataGrid` `overscan` prop** (`number | { rows?: number; columns?: number }`, default `10` rows / `2` columns) — 가상화 overscan 축별 튜닝
+- **`DataGrid` `virtualizationThreshold` prop** (`number | { rows?: number; columns?: number }`, default `{ rows: 100, columns: 30 }`) — 가상화 활성 임계값. 소규모 데이터셋에서 가상화 강제 테스트나, 컬럼 많은 그리드의 행 임계값 낮추기
+- **`DataGrid` 수평 컬럼 가상화** — 컬럼 수가 `virtualizationThreshold.columns`를 초과하면 활성. viewport 내 컬럼만 마운트 + overscan. sticky 컬럼은 항상 렌더. `enableColumnResize`, `enableColumnReorder`, `columnSizing`과 호환. 내부 구현: `useColumnVirtualization` hook + CSS grid `gridColumn` 명시 배치
+- **`DataGrid` `viewportRef` prop** — `Table`과 동일. programmatic scroll 제어용
+
+### Internal
+
+- `DataGridBody` — hardcoded `VIRTUALIZATION_THRESHOLD = 100`, `overscan = 10` → props로 노출
+- 신규 파일: `src/components/table/components/DataGridFooter.tsx`, `src/components/table/hooks/useColumnVirtualization.ts`
+
 ## [1.6.13] - 2026-04-22
 
 ### Fixed

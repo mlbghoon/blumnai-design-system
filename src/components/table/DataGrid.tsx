@@ -1,11 +1,14 @@
 import * as React from 'react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { useMergeRefs } from '@/hooks/use-merge-refs';
 
 import { cn } from '@/lib/utils';
 import { useDataGridTable } from './hooks/useDataGridTable';
 import { useGridKeyboardNav } from './hooks/useGridKeyboardNav';
+import { useColumnVirtualization } from './hooks/useColumnVirtualization';
 import { DataGridHeader } from './components/DataGridHeader';
 import { DataGridBody } from './components/DataGridBody';
+import { DataGridFooter } from './components/DataGridFooter';
 import { DataGridPagination } from './components/DataGridPagination';
 import { DataGridLoading } from './components/DataGridLoading';
 import { DataGridEmpty } from './components/DataGridEmpty';
@@ -14,7 +17,25 @@ import { TableTooltipProvider } from './components/TableTooltip';
 import { TableFontSizeContext, getDefaultRowHeight } from './components/TableFontSizeContext';
 import { ScrollArea } from '../scroll-area';
 import { calculateStickyPositions } from './utils/stickyColumnUtils';
-import type { DataGridProps } from './DataGrid.types';
+import type { DataGridAxisValue, DataGridProps } from './DataGrid.types';
+
+const DEFAULT_ROW_OVERSCAN = 10;
+const DEFAULT_COL_OVERSCAN = 2;
+const DEFAULT_ROW_VIRT_THRESHOLD = 100;
+const DEFAULT_COL_VIRT_THRESHOLD = 30;
+
+function pickAxis(
+  value: DataGridAxisValue | undefined,
+  axis: 'rows' | 'columns',
+  fallback: number,
+): number {
+  if (value == null) return fallback;
+  if (typeof value === 'number') {
+    // Bare number only applies to rows (per spec); columns falls back.
+    return axis === 'rows' ? value : fallback;
+  }
+  return value[axis] ?? fallback;
+}
 
 /**
  * DataGrid 컴포넌트
@@ -75,6 +96,10 @@ function DataGridInner<T>(
     onRowClick,
     showSelectedRowBackground = true,
     fontSize = 'sm',
+    footerRow,
+    overscan,
+    virtualizationThreshold,
+    viewportRef,
   }: DataGridProps<T>,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
@@ -157,6 +182,32 @@ function DataGridInner<T>(
     }
     return columns;
   }, [enableColumnReorder, orderedHeaders, columns]);
+
+  const rowOverscan = pickAxis(overscan, 'rows', DEFAULT_ROW_OVERSCAN);
+  const colOverscan = pickAxis(overscan, 'columns', DEFAULT_COL_OVERSCAN);
+  const rowVirtThreshold = pickAxis(
+    virtualizationThreshold,
+    'rows',
+    DEFAULT_ROW_VIRT_THRESHOLD,
+  );
+  const colVirtThreshold = pickAxis(
+    virtualizationThreshold,
+    'columns',
+    DEFAULT_COL_VIRT_THRESHOLD,
+  );
+
+  const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(null);
+  const mergedViewportRef = useMergeRefs<HTMLDivElement>(setScrollElement, viewportRef);
+
+  const columnVirtEnabled = orderedColumns.length > colVirtThreshold;
+  const { visibleIndices } = useColumnVirtualization({
+    columns: orderedColumns,
+    columnSizing: enableColumnResize ? columnSizing : undefined,
+    scrollElement,
+    enabled: columnVirtEnabled,
+    overscan: colOverscan,
+  });
+
   const rows = table.getRowModel().rows;
   const hasData = displayData.length > 0;
   const showSkeletonLoading = isLoading && !preserveDataWhileLoading && !hasData;
@@ -201,6 +252,7 @@ function DataGridInner<T>(
         <ScrollArea
           orientation="both"
           maxHeight={maxHeight}
+          viewportRef={mergedViewportRef}
           style={{ minHeight }}
         >
           <DataGridHeader
@@ -213,6 +265,7 @@ function DataGridInner<T>(
             enableColumnResize={enableColumnResize}
             columnSizing={columnSizing}
             onColumnSizingChange={handleColumnSizingChange}
+            visibleColumnIndices={columnVirtEnabled ? visibleIndices : undefined}
           />
 
           {showErrorState ? (
@@ -238,6 +291,9 @@ function DataGridInner<T>(
               stickyColumnPositions={stickyColumnPositions}
               rowHeight={effectiveRowHeight}
               getRowHeight={getRowHeight}
+              overscan={rowOverscan}
+              virtualizationThreshold={rowVirtThreshold}
+              visibleColumnIndices={columnVirtEnabled ? visibleIndices : undefined}
             />
           )}
 
@@ -248,6 +304,17 @@ function DataGridInner<T>(
               overlay
               stickyColumnPositions={stickyColumnPositions}
               rowHeight={effectiveRowHeight}
+            />
+          )}
+
+          {footerRow && hasData && !showErrorState && (
+            <DataGridFooter
+              columns={orderedColumns}
+              gridTemplateColumns={gridTemplateColumns}
+              stickyColumnPositions={stickyColumnPositions}
+              rowHeight={effectiveRowHeight}
+              footerRow={footerRow}
+              visibleColumnIndices={columnVirtEnabled ? visibleIndices : undefined}
             />
           )}
         </ScrollArea>
