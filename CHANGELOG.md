@@ -1,11 +1,27 @@
 # Changelog
 
-## [1.7.2] - 2026-04-22
+## [1.8.0] - 2026-04-22
 
-### Fixed
+### Added (PR #9 — Badge / Chip / Tabs / Button / Dropdown)
 
-- **`Table stickyFooter` 배경색 — `TableFooter` 의 기본 회색 톤 복원**: v1.7.1에서 sticky footer를 `var(--bg-default)` (흰색)로 바꿨는데, 원래 `TableFooter` 는 `bg-muted/50` 이므로 opaque 하게 만들 때도 회색 톤을 유지해야 합니다. 흰색으로 바뀌면서 header와 동일하게 보여 summary 행 식별이 어려웠습니다
-  - 수정: `.table-sticky-footer tfoot tr/td/th` 배경색을 `var(--bg-default)` → `var(--bg-muted)` (fully opaque 회색) 으로 변경
+- **`Badge`**
+  - `sm` 사이즈 센터링 수정: 자식 span의 개별 `margin-*` 및 비대칭 `padding-l/r` 제거 → 컨테이너에 `ds-gap-4` + 대칭 `padding-x-6`(sm) / `padding-x-8`(lg) 적용
+  - **`white` 컬러 추가**: `var(--bg-basic-white-accent)` 배경 + `var(--text-dark-subtle)` 텍스트 + `var(--border-default)` 테두리 (raw hex 사용 X, 모두 토큰)
+- **`Chip` `customIcon` prop** (`ReactNode`) — `icon` 대신 커스텀 ReactNode를 아이콘 자리에 렌더. `BrandIcon`/`FlagIcon`/외부 SVG/이미지 등 사용 가능
+- **`Tabs`** — `TabsTrigger`에 `cursor-pointer` 적용 (hover 시 클릭 커서)
+- **`Button` `color="black"`** — 소셜 로그인 등에 사용. 4개 테마(A-Light/Dark, B-Light/Dark)에 `--bg-basic-black-*` 토큰 고정값으로 추가 (dark 테마 반투명 값 없음 — 모든 테마 동일). 기존 `getColorOverrideVars` + `LOADING_STYLE` 패턴과 동일하게 `WHITE_INVERTED_STYLE` 맵으로 상태 분기 (하드코딩 hex → 토큰 참조)
+- **`Dropdown` `DropdownMenuContent`에 `isSearch` prop** — `true` 설정 시 상단에 검색 UI 자동 렌더. `onSearch` / `searchValue` / `searchPlaceholder` props로 외부 필터링 처리. 기존 `DropdownMenuSearch` sub-component와 호환
+
+### Design tokens (PR #9)
+
+- `colors.css`: `--bg-basic-black-*`, `--bg-basic-white-*`, `--text-dark-*` 토큰 4개 테마 **고정값**으로 추가 (Option A — dark 테마 적응 안 함, "black"/"white" 이름대로 항상 동일)
+
+### Fixed — `Table stickyFooter`
+
+- **배경색 회색 톤 복원** — v1.7.1에서 sticky footer 배경을 `var(--bg-default)` (흰색)로 설정했지만, `TableFooter` 기본은 `bg-muted/50` 회색이므로 opaque 전환 시에도 회색을 유지해야 합니다. 흰색이 되면 header와 동일해져 summary 행 식별이 어려웠습니다
+  - 수정: `.table-sticky-footer tfoot tr/td/th` 배경색을 `var(--bg-default)` → `var(--bg-muted)` 로 변경
+- **footer 경계선 두꺼워지는 문제** — `TableFooter`는 이미 `<tfoot>`에 `border-t-default` 를 적용하는데, v1.7.1 CSS 규칙이 `tfoot > tr:first-child > td/th` 에도 `border-top: 1px solid var(--border-default)` 를 추가해 2px 로 보였습니다 (특히 스크롤 최하단에서 두드러짐)
+  - 수정: 중복된 `border-top` rule 제거. `tfoot` 자체의 `border-t-default` 만 사용
 
 ## [1.7.1] - 2026-04-22
 

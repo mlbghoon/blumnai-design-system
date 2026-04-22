@@ -2785,7 +2785,3 @@ table[data-striped] tbody tr:nth-child(even) {
 .table-sticky-footer tfoot th {
   background-color: var(--bg-muted);
 }
-.table-sticky-footer tfoot > tr:first-child > td,
-.table-sticky-footer tfoot > tr:first-child > th {
-  border-top: 1px solid var(--border-default);
-}
