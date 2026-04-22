@@ -312,14 +312,12 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
         return options;
       }
       const query = searchQuery.toLowerCase().trim();
-      const selectedSet = new Set(selectedValues);
       return options.filter(
         (option) =>
-          selectedSet.has(option.id) ||
           option.label.toLowerCase().includes(query) ||
           option.description?.toLowerCase().includes(query)
       );
-    }, [options, searchQuery, searchable, selectedValues]);
+    }, [options, searchQuery, searchable]);
 
     const navigableOptions = React.useMemo(() => {
       return filteredOptions.filter((option) => !option.disabled);

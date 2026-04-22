@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.12] - 2026-04-22
+
+### Fixed
+
+- **`MultiSelect` searchable — 선택된 항목이 검색에서 필터링되지 않던 문제**: v1.6.9 이전부터 `filteredOptions`에 `selectedSet.has(option.id) ||` 조건이 있어서, 이미 선택된 옵션은 검색 쿼리와 무관하게 항상 리스트에 표시되었습니다. 보이는 영역이 선택된 항목들로 채워져 있을 때 사용자가 타이핑해도 리스트가 변하지 않아 "검색이 동작하지 않는다"고 오인할 수 있었습니다
+  - 수정: `RadixMultiSelect.tsx` `filteredOptions` 필터에서 선택 여부 조건 제거 — 선택 여부와 관계없이 label/description이 쿼리에 매치되는 항목만 표시. 선택 상태는 체크박스로 이미 시각적으로 전달되므로 필터링해도 혼란 없음
+- **`Select` searchable — 긴 라벨 truncate 보강 (1.6.11 follow-up)**: cmdk의 내부 `cmdk-list-sizer` wrapper가 natural width로 확장되어 Popover trigger width 밖으로 리스트가 삐져나오는 케이스가 남아있었습니다
+  - 수정: `CommandPrimitive.List`의 `cmdk-list-sizer` 자식에도 `w-full min-w-0 max-w-full`를 강제 ( `[&>[cmdk-list-sizer]]:*` 유틸리티 ), 부모 padding wrapper에도 `max-w-full` 추가
+
 ## [1.6.11] - 2026-04-22
 
 ### Fixed

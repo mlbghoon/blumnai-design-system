@@ -1315,8 +1315,8 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                         </div>
                       </div>
                       <ScrollArea maxHeight={maxHeight}>
-                        <div className="padding-4 w-full min-w-0">
-                          <CommandPrimitive.List className="w-full min-w-0">
+                        <div className="padding-4 w-full min-w-0 max-w-full">
+                          <CommandPrimitive.List className="w-full min-w-0 max-w-full [&>[cmdk-list-sizer]]:w-full [&>[cmdk-list-sizer]]:min-w-0 [&>[cmdk-list-sizer]]:max-w-full">
                             {renderOptions()}
                           </CommandPrimitive.List>
                         </div>
