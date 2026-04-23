@@ -22,6 +22,39 @@ const meta: Meta<DefaultComboboxProps> = {
   parameters: {
     layout: 'padded',
     controls: { disable: true },
+    docs: {
+      description: {
+        component: `
+**Combobox — 타이핑이 주 상호작용인 editable 입력 + 자동완성**
+
+트리거 자체가 편집 가능한 입력 필드이며, 타이핑하면 옵션 목록이 실시간으로 필터링됩니다. WAI-ARIA *Editable Combobox with List Autocomplete* 패턴을 구현합니다.
+
+### Combobox vs Select — 언제 무엇을?
+
+| 상황 | 권장 |
+|---|---|
+| 타이핑해서 빠르게 찾는 게 주 용도 (검색 바, 긴 목록) | **Combobox** |
+| 새 항목 생성 필요 (\`creatable\` + \`onCreate\`) | **Combobox** |
+| 검색어 하이라이트(\`highlightSearch\`), 커스텀 필터(\`filterFunction\`) | **Combobox** |
+| 입력 필드가 항상 보이는 필터 바 UX | **Combobox** |
+| 일반 폼 셀렉트 필드 | \`Select\` |
+| 옵션 ~10개 이하, 검색 불필요 | \`Select\` |
+| 옵션 1000개 이상 | \`VirtualSelect\` |
+
+### Select의 \`searchable\`과 뭐가 다른가
+
+\`<Select searchable>\`은 **버튼 트리거 → popover 내부에 검색 입력**이 뜨는 shadcn-recipe 하이브리드입니다.
+\`Combobox\`는 **트리거 자체가 입력 필드**인 WAI-ARIA 표준 편집형 콤보박스입니다. 사용자가 입력에 포커스하면 바로 타이핑할 수 있어 검색 지향 UX에 더 자연스럽습니다.
+
+### variant
+
+- \`default\`: 단일 선택
+- \`avatar\`: 아바타가 있는 단일 선택
+- \`multi-select\`: 컴팩트한 "N selected" 표시의 다중 선택
+- \`tags\`: 태그로 표시되는 다중 선택
+        `.trim(),
+      },
+    },
   },
   argTypes: {
     selectStyle: {

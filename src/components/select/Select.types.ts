@@ -170,7 +170,13 @@ export interface SelectBaseProps {
    */
   options: SelectOption[];
   /**
-   * 검색 가능 여부
+   * 검색 가능 여부. `true`이면 드롭다운 내부에 검색 입력이 표시되는 하이브리드 UX가 활성화됩니다.
+   *
+   * @deprecated 타이핑이 주 상호작용이라면 `Combobox` 컴포넌트를 사용하세요.
+   * `Combobox`는 editable 입력 + 자동완성 패턴(WAI-ARIA Editable Combobox)을 제공하며,
+   * `creatable`, `highlightSearch`, `filterFunction` 등 검색 관련 기능이 더 완비되어 있습니다.
+   * 이 prop은 하위 호환을 위해 유지되지만 새 코드에서는 권장되지 않습니다.
+   *
    * @default false
    */
   searchable?: boolean;

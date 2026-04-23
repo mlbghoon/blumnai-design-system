@@ -127,6 +127,7 @@ type DefaultStoryArgs = {
   align: 'start' | 'center' | 'end';
   gap: number;
   indicatorVariant: CarouselIndicatorVariant;
+  arrowSize: 'sm' | 'md' | 'lg' | 'xl';
 };
 
 /**
@@ -144,6 +145,7 @@ export const Default: StoryObj<DefaultStoryArgs> = {
     align: 'center',
     gap: 16,
     indicatorVariant: 'dot',
+    arrowSize: 'xl',
   },
   argTypes: {
     loop: {
@@ -168,6 +170,16 @@ export const Default: StoryObj<DefaultStoryArgs> = {
       description: '인디케이터 스타일',
       table: { type: { summary: 'CarouselIndicatorVariant' } },
     },
+    arrowSize: {
+      control: 'select',
+      options: ['sm', 'md', 'lg', 'xl'],
+      description: '[CarouselPrevious/Next] 네비게이션 버튼 크기',
+      table: {
+        type: { summary: "'sm' | 'md' | 'lg' | 'xl'" },
+        defaultValue: { summary: 'xl' },
+        category: 'Navigation',
+      },
+    },
   },
   render: function Render(args) {
     return (
@@ -185,8 +197,8 @@ export const Default: StoryObj<DefaultStoryArgs> = {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            <CarouselPrevious size={args.arrowSize} />
+            <CarouselNext size={args.arrowSize} />
           </CarouselViewport>
           <div className="padding-y-16">
             <CarouselIndicators variant={args.indicatorVariant} />

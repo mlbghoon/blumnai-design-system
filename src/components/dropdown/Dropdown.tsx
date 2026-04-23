@@ -598,7 +598,7 @@ const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
       onClick={onClick}
       className={cn(
         "flex-1 padding-x-8 padding-y-4 rounded-sm font-body size-sm line-height-leading-5 text-default",
-        "bg-transparent border border-default",
+        "bg-transparent border border-default cursor-pointer",
         "hover:bg-accent focus:outline-none focus:shadow-component-focus",
         "disabled:opacity-50 disabled:cursor-not-allowed",
         className

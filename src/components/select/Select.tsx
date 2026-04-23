@@ -5,18 +5,30 @@ import { ExtendedSelect } from './RadixSelect';
 import { MultiSelect } from './RadixMultiSelect';
 
 /**
- * Select 컴포넌트
+ * Select — 클릭해서 여는 picker (폼 필드용 기본 선택 컴포넌트)
  *
- * 다양한 변형을 지원하는 통합 Select 컴포넌트입니다.
- * `variant` prop으로 원하는 선택 유형을 선택하세요.
+ * 버튼을 눌러 드롭다운을 여는 전통적인 select 패턴입니다.
+ * 옵션이 적거나(~20개 이하), 폼의 일반적인 선택 필드로 사용할 때 적합합니다.
  *
+ * **언제 Select를 쓸까 (vs Combobox)**
+ * - ✅ 폼 필드, 일반적인 드롭다운 — 기본값
+ * - ✅ 옵션이 많지 않고 스크롤/키보드 타입어헤드로 충분한 경우
+ * - ✅ 다중 선택(`multi-select` / `tags`) — 현재 Combobox에도 지원되지만 Select가 form context에 더 자연스러움
+ * - ❌ 사용자가 타이핑으로 빠르게 찾는 게 주 용도 → {@link Combobox}
+ * - ❌ 새 항목을 생성할 수 있어야 함(`creatable`) → {@link Combobox}
+ * - ❌ 옵션이 1000개 이상 → `VirtualSelect`
+ *
+ * `variant`:
  * - `default`: 단일 선택
  * - `avatar`: 아바타가 있는 단일 선택
  * - `multi-select`: 체크박스가 있는 다중 선택
  * - `tags`: 태그로 표시되는 다중 선택
  *
+ * `searchable` prop은 popover 안에 검색 입력을 띄우는 하이브리드 UX를 제공하지만,
+ * 타이핑이 주 상호작용이라면 {@link Combobox}를 사용하는 것이 더 명확합니다.
+ *
  * @example
- * <Select variant="default" label="선택" options={[{ label: 'A', value: 'a' }]} />
+ * <Select variant="default" label="선택" options={[{ id: 'a', label: 'A' }]} />
  */
 export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
   const variant = props.variant ?? 'default';

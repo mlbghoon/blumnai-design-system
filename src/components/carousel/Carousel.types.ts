@@ -2,6 +2,8 @@ import type { HTMLAttributes, ButtonHTMLAttributes } from 'react';
 import type useEmblaCarousel from 'embla-carousel-react';
 import type { EmblaOptionsType, EmblaPluginType } from 'embla-carousel';
 
+import type { ControlButtonSize } from '../button/ControlButton.types';
+
 export type CarouselApi = ReturnType<typeof useEmblaCarousel>[1];
 export type CarouselOrientation = 'horizontal' | 'vertical';
 
@@ -32,7 +34,13 @@ export interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
 
 export type CarouselContentProps = HTMLAttributes<HTMLDivElement>;
 
-export type CarouselNavProps = ButtonHTMLAttributes<HTMLButtonElement>;
+export interface CarouselNavProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /**
+   * 네비게이션 버튼 크기
+   * @default 'xl'
+   */
+  size?: ControlButtonSize;
+}
 
 export type CarouselIndicatorVariant = 'dot' | 'line' | 'number';
 

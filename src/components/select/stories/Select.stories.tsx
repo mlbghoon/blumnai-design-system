@@ -49,6 +49,38 @@ const meta: Meta<typeof Select> = {
   parameters: {
     layout: 'padded',
     controls: { disable: true },
+    docs: {
+      description: {
+        component: `
+**Select — 클릭해서 여는 picker (폼 필드용 기본 선택 컴포넌트)**
+
+버튼을 눌러 드롭다운을 여는 전통적인 select 패턴입니다. 폼 필드의 일반적인 선택 UI로 사용하세요.
+
+### Select vs Combobox — 언제 무엇을?
+
+| 상황 | 권장 |
+|---|---|
+| 일반 폼 필드, 드롭다운 | **Select** (기본값) |
+| 옵션 ~20개 이하, 스크롤/키보드로 충분 | **Select** |
+| 다중 선택(\`multi-select\` / \`tags\`) | **Select** (form context에 자연스러움) |
+| 타이핑해서 빠르게 찾는 게 주 용도 | **Combobox** |
+| 새 항목 생성 필요 (\`creatable\`) | **Combobox** |
+| 검색 하이라이트, 커스텀 필터 | **Combobox** |
+| 옵션 1000개 이상 | \`VirtualSelect\` |
+
+### \`searchable\` prop에 대해
+
+드롭다운 내부에 검색 입력을 띄우는 하이브리드 UX를 제공하지만, **타이핑이 주 상호작용이라면 \`Combobox\`가 더 적합합니다.** Combobox는 WAI-ARIA "Editable Combobox" 패턴으로 입력 필드 자체가 트리거이며, \`creatable\` / \`highlightSearch\` / \`filterFunction\` 등 검색 기능이 더 완비되어 있습니다. \`searchable\`은 하위 호환을 위해 유지되지만 새 코드에서는 권장되지 않습니다.
+
+### variant
+
+- \`default\`: 단일 선택
+- \`avatar\`: 아바타가 있는 단일 선택
+- \`multi-select\`: 체크박스가 있는 다중 선택
+- \`tags\`: 태그로 표시되는 다중 선택
+        `.trim(),
+      },
+    },
   },
   argTypes: {
     variant: {

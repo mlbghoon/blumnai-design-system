@@ -296,6 +296,31 @@ ComboboxItem.displayName = 'ComboboxItem';
 // Combobox Component
 // ============================================================================
 
+/**
+ * Combobox — 타이핑이 주 상호작용인 editable 입력 + 자동완성
+ *
+ * 트리거 자체가 편집 가능한 입력 필드이며, 타이핑하면 옵션 목록이 실시간으로 필터링됩니다.
+ * WAI-ARIA "Editable Combobox with List Autocomplete" 패턴에 해당합니다.
+ *
+ * **언제 Combobox를 쓸까 (vs Select)**
+ * - ✅ 사용자가 타이핑해서 빠르게 찾는 게 주 용도 (검색 바, 큰 옵션 목록)
+ * - ✅ 새 항목 생성이 필요함 — `creatable`, `onCreate`
+ * - ✅ 하이라이트된 검색 결과(`highlightSearch`)나 커스텀 필터(`filterFunction`) 필요
+ * - ✅ 입력 필드가 항상 보이는 필터 바 UX
+ * - ❌ 일반적인 폼 셀렉트 필드 → {@link Select}
+ * - ❌ 옵션이 적고(~10개 이하) 검색이 불필요 → {@link Select}
+ * - ❌ 옵션이 1000개 이상 → `VirtualSelect`
+ *
+ * `variant`:
+ * - `default`: 단일 선택
+ * - `avatar`: 아바타가 있는 단일 선택
+ * - `multi-select`: 컴팩트한 "N selected" 표시의 다중 선택
+ * - `tags`: 태그로 표시되는 다중 선택
+ *
+ * @example
+ * <Combobox variant="default" label="프레임워크" options={options}
+ *   creatable onCreate={(v) => addOption(v)} />
+ */
 export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
   (props, ref) => {
     const {

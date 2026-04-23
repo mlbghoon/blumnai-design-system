@@ -686,7 +686,11 @@ const SearchableSelectItem = React.forwardRef<HTMLDivElement, SearchableSelectIt
 
     const renderTrailContent = () => {
       if (option.badge) {
-        return <Badge size="sm" color="neutral" border label={option.badge} />;
+        return (
+          <div className="flex-shrink-0">
+            <Badge size="sm" color="neutral" border label={option.badge} />
+          </div>
+        );
       }
       return null;
     };
@@ -698,7 +702,9 @@ const SearchableSelectItem = React.forwardRef<HTMLDivElement, SearchableSelectIt
         disabled={option.disabled}
         onSelect={onSelect}
         className={cn(
-          'group flex w-full select-none items-center rounded-sm outline-none',
+          // `min-w-0`이 없으면 flex-item의 기본 `min-width: auto` 때문에 긴 라벨이
+          // `w-full`을 뚫고 커져 truncate 체인이 끊어짐.
+          'group flex w-full min-w-0 select-none items-center rounded-sm outline-none',
           sizeConfig.height,
           sizeConfig.padding,
           sizeConfig.gap,
@@ -715,7 +721,7 @@ const SearchableSelectItem = React.forwardRef<HTMLDivElement, SearchableSelectIt
       >
         {renderIndicator()}
         {renderLeadContent()}
-        <div className="flex-1 min-w-0 overflow-hidden">
+        <div className="flex-1 min-w-0 overflow-hidden" style={{ width: 0 }}>
           {option.description ? (
             <div className="flex flex-col ds-gap-1">
               <TruncatedText

@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useCallback } from 'react';
+import { forwardRef, useMemo, useCallback, useState } from 'react';
 import {
   BarChart as RBarChart,
   Bar,
@@ -77,6 +77,16 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
   const allKeys = useMemo(() => stacked ? (stackedKeys ?? []) : (dataKey ? [dataKey] : []), [stacked, stackedKeys, dataKey]);
   const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(allKeys, legendInteractive);
 
+  const [activeDataKey, setActiveDataKey] = useState<string | null>(null);
+  const isItemMode = tooltipTrigger === 'item';
+  const barHoverHandlers = (key: string) =>
+    isItemMode
+      ? {
+          onMouseEnter: () => setActiveDataKey(key),
+          onMouseLeave: () => setActiveDataKey(null),
+        }
+      : {};
+
   const legendItems = useMemo(() => buildLegendItems(allKeys), [buildLegendItems, allKeys]);
 
   const getBarColor = (key: string, index: number): string => {
@@ -125,6 +135,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
           name={getLabel(stackKey)}
           barSize={barSize}
           isAnimationActive={isAnimated}
+          {...barHoverHandlers(stackKey)}
         />
       );
     }
@@ -139,6 +150,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         name={getLabel(stackKey)}
         barSize={barSize}
         isAnimationActive={isAnimated}
+        {...barHoverHandlers(stackKey)}
         shape={(shapeProps: RectangleProps) => {
           const r = isTop
             ? (isHorizontal
@@ -215,7 +227,6 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       )}
       <Tooltip
         trigger={tooltipTrigger === 'click' ? 'click' : 'hover'}
-        shared={tooltipTrigger !== 'item'}
         content={
           <ChartTooltipAdapter
             renderTooltip={renderTooltip}
@@ -224,6 +235,8 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
             getTooltipLabel={getTooltipLabel}
             getColor={getColor}
             tooltipValueFormatter={tooltipValueFormatter}
+            tooltipTrigger={tooltipTrigger}
+            activeDataKey={activeDataKey}
           />
         }
         cursor={tooltipTrigger === 'item' ? false : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
@@ -237,6 +250,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
               name={getLabel(dataKey)}
               barSize={barSize}
               isAnimationActive={isAnimated}
+              {...barHoverHandlers(dataKey)}
               radius={barRadius
                 ? (isHorizontal
                   ? [0, barRadius, barRadius, 0] as [number, number, number, number]

@@ -20,6 +20,14 @@ interface ChartTooltipAdapterProps {
   getTooltipLabel?: (key: string) => string;
   getColor: (key: string, index: number) => string;
   tooltipValueFormatter?: (value: number) => string;
+  /**
+   * tooltipTrigger === 'item'일 때 현재 호버 중인 시리즈 키.
+   * Recharts가 LineChart/BarChart/ComposedChart에 대해 `shared={false}`를
+   * 'axis'로 되돌려버려 payload가 항상 전체 시리즈를 담고 있으므로,
+   * 이 prop을 통해 DS가 직접 필터링한다.
+   */
+  activeDataKey?: string | null;
+  tooltipTrigger?: 'hover' | 'click' | 'item';
 }
 
 export function ChartTooltipAdapter({
@@ -32,15 +40,27 @@ export function ChartTooltipAdapter({
   getTooltipLabel,
   getColor,
   tooltipValueFormatter,
+  activeDataKey,
+  tooltipTrigger,
 }: ChartTooltipAdapterProps) {
   if (!active || !payload?.length) return null;
 
+  const isItemMode = tooltipTrigger === 'item';
   const resolveLabel = getTooltipLabel ?? getLabel;
   const formatValue = tooltipValueFormatter ?? String;
 
+  // item 모드 + 추적된 시리즈가 있으면 그 시리즈만 필터.
+  // activeDataKey가 null(추적 실패/범위 밖)이면 전체 시리즈를 보여준다.
+  // ("안 보이는 것보다 낫다" — 추적 로직의 엣지 케이스에서 안전망)
+  const filteredPayload = isItemMode && activeDataKey
+    ? payload.filter((entry) => String(entry.dataKey ?? '') === activeDataKey)
+    : payload;
+
+  if (filteredPayload.length === 0) return null;
+
   const params: ChartTooltipParams = {
     xValue: label ?? '',
-    items: payload.map((entry, i) => ({
+    items: filteredPayload.map((entry, i) => ({
       dataKey: String(entry.dataKey ?? ''),
       label: resolveLabel(String(entry.dataKey ?? '')),
       value: Number(entry.value ?? 0),

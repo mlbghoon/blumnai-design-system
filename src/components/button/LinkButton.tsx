@@ -10,7 +10,7 @@ import { renderButtonIcon } from './buttonUtils';
 import type { LinkButtonProps, LinkButtonIconType, LinkButtonSize, LinkButtonType } from './LinkButton.types';
 
 const linkButtonVariants = cva(
-  'group inline-flex items-center font-medium bg-transparent no-underline hover:no-underline transition-colors duration-200 focus:outline-none',
+  'group inline-flex items-center font-medium cursor-pointer bg-transparent no-underline hover:no-underline transition-colors duration-200 focus:outline-none',
   {
     variants: {
       linkType: {

@@ -362,7 +362,7 @@ const SidebarTrigger = React.forwardRef<
       type="button"
       data-sidebar="trigger"
       className={cn(
-        "height-28 width-28 inline-flex items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+        "height-28 width-28 inline-flex items-center justify-center rounded-md cursor-pointer hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
         className
       )}
       onClick={(event) => {

@@ -1,5 +1,67 @@
 # Changelog
 
+## [1.9.1] - 2026-04-23
+
+### Fixed — Charts (follow-up to v1.9.0 `tooltipTrigger="item"`)
+
+- **LineChart / BarChart / ComboChart — `tooltipTrigger="item"` 이 실제로 동작하도록 수정**. v1.9.0 은 Recharts `shared={false}` 에 의존했는데, LineChart / BarChart / ComposedChart 는 내부적으로 `allowedTooltipTypes = ['axis']` 를 강제하여 `shared={false}` 가 무시됩니다 (payload 에 항상 전체 시리즈 포함). 결과적으로 v1.9.0 의 `tooltipTrigger="item"` 은 ScatterChart / PieChart / FunnelChart 에서만 동작했고, 가장 많이 쓰이는 LineChart 에서는 no-op 이었습니다
+  - **LineChart**: `onMouseMove` 에서 `activeCoordinate.y` (커서 픽셀 Y) + `activeTooltipIndex` (현재 X 인덱스) 로 **커서 Y 에 가장 가까운 시리즈**를 계산해 payload 필터링. activeDot onMouseEnter/Leave 핸들러 대신 nearest-by-Y 방식이어서 점 사이 빈 공간에서도 자연스럽게 추적됨
+  - **BarChart**: 각 `<Bar>` 의 `onMouseEnter` / `onMouseLeave` 로 호버 중인 bar dataKey 추적 (stacked 포함)
+  - **ComboChart**: bar 는 BarChart 와 동일한 hover 추적. line/area 는 dual-axis + 혼합 차트에서 nearest-by-Y 를 정확히 구현하기 어려워 일단 제거 (추후 별도 지원 예정)
+  - `ChartTooltipAdapter` 에 `tooltipTrigger` / `activeDataKey` prop 추가. 추적 실패 시 전체 payload 로 fallback 하여 툴팁이 완전히 사라지지 않게 처리
+  - `shared={tooltipTrigger !== 'item'}` override 제거 — Recharts 가 무시하므로 의미 없고, 툴팁 좌표 계산 간섭만 유발
+  - 추가 수정: `activeTooltipIndex` 는 Recharts 3.x 내부적으로 `String(activeIndex)` 로 문자열 변환되므로 `Number()` 코어시안 필요. 이 하나 때문에 초기 구현이 no-op 이었음
+- **Storybook 스토리 추가**: `DataDisplay/LineChart` 하위 `TooltipTriggerItem` — 점이 아닌 라인 영역 위 hover 시에도 가장 가까운 시리즈만 툴팁에 표시되는지 확인
+
+### Fixed — DropdownInput (Dialog 내부 portal 위치)
+
+- **`Input variant="lead-dropdown" / "tail-dropdown"` 이 Dialog 안에서 옵션 메뉴가 화면 우측으로 튀거나 Dialog 뒤에 숨던 버그 수정**. 세 가지 문제가 겹쳤음
+  - **Bug A (좌표계 혼동)**: `getBoundingClientRect()` (viewport 기준) 에 `window.scrollY` / `scrollX` 를 더해 놓고 `position: fixed` (역시 viewport 기준) 로 배치 → 스크롤된 페이지에서 드롭다운이 추가 offset 만큼 어긋남. 스크롤 오프셋 덧셈 제거
+  - **Bug B (transform containing-block)**: CSS 스펙상 `transform` / `filter` / `perspective` 를 가진 선조가 있으면 `position: fixed` 가 viewport 가 아닌 그 선조 기준으로 배치됨. Dialog 는 내용을 `transform: translate(-50%, -50%)` 로 중앙 정렬하므로 드롭다운 portal 이 `PortalContainerProvider` 를 구독하면 Dialog 의 transform 서브트리 안에 붙어 좌표가 엉망이 됨. Portal target 을 **항상 `document.body`** 로 고정하고 `usePortalContainer()` 구독 제거
+  - **Bug C (stacking)**: 위 수정 후 Portal 이 Dialog 서브트리 밖 `document.body` 에 붙게 되면서 Dialog (`z-[10000]`) 에 가려지는 문제. `DROPDOWN_MENU_BASE` 의 `z-50` → `z-[10100]` 로 bump. DropdownInput 만 이 상수를 사용 → 다른 컴포넌트 영향 없음
+- 참고: 근본적으로는 `createPortal` + 수동 좌표 계산을 `Radix Popover` 기반으로 바꾸는 것이 정석 (다른 DS floating 컴포넌트와 동일한 stacking 전략). 당장은 band-aid 로 스코프 유지, 리팩터는 후속 태스크로
+- **Storybook 스토리 추가**: `DataEntry/Input/DropdownInput` 하위 `InsideDialog` — Dialog 안의 lead-dropdown 옵션이 트리거 바로 아래, Dialog 위에 표시되는지 확인
+
+### Fixed — Searchable Select (긴 옵션 라벨 ellipsis)
+
+- **`Select searchable=true` 에서 긴 옵션 라벨이 `…` 없이 드롭다운 가장자리를 넘어 잘리던 버그 수정**. 원인은 `CommandPrimitive.Item` 에 `min-w-0` 가 없어 flex child 의 기본 `min-width: auto` 때문에 긴 라벨이 `w-full` 을 뚫고 자라면서 truncate 체인이 끊어진 것
+  - `SearchableSelectItem` 의 `CommandPrimitive.Item` className 에 `min-w-0` 추가
+  - 라벨 래퍼에 `style={{ width: 0 }}` 추가 (일부 브라우저의 `flex-basis: 0%` 불안정 대비 — belt & suspenders)
+  - trailing `Badge` 을 `flex-shrink-0` 로 감싸 라벨의 flex 공간을 침범하지 않도록
+- **Storybook 스토리 추가**: `DataEntry/Select` 하위 `SearchableLongLabels` — `contentWidth={240}` + 긴 라벨들로 ellipsis + hover tooltip 확인
+
+### Added — Select / Combobox 포지셔닝 정리 (non-breaking, docs-only)
+
+두 컴포넌트가 ARIA 상 서로 다른 두 패턴을 구현한다는 점을 문서/JSDoc 에서 명확히 했습니다. **런타임 동작 변경 없음.**
+
+- **`Select`**: "클릭해서 여는 picker" (WAI-ARIA *Select-Only Combobox*, Radix Select 기반). 폼 필드의 기본 선택 UI
+- **`Combobox`**: "editable 입력 + 자동완성" (WAI-ARIA *Editable Combobox with List Autocomplete*, Popover + cmdk 기반). 타이핑이 주 상호작용일 때
+- `Select.searchable` prop 에 `@deprecated` JSDoc 추가 — 동작은 유지되나 새 코드에서는 `Combobox` 사용 권장
+- `Select.tsx` / `Combobox.tsx` 컴포넌트 JSDoc 에 "언제 무엇을 쓸까" 결정 매트릭스 추가 (IDE hover + Storybook autodocs 에 노출)
+- `Select.stories.tsx` / `ComboboxDefault.stories.tsx` meta 에 `parameters.docs.description.component` 로 같은 결정 매트릭스 추가
+- `AI.md` Quick Reference 표와 Selection 결정 플로우 업데이트
+
+### Added — Carousel
+
+- **`CarouselPrevious` / `CarouselNext` 에 `size?: ControlButtonSize` prop 추가**, 기본값 기존 `'lg'` (24px) → **`'xl'` (32px)** 로 변경. 캐러셀 네비게이션 아이콘이 너무 작다는 피드백 반영. 이전 크기로 돌리려면 `<CarouselPrevious size="lg" />`
+- `CarouselNavProps` 를 `ButtonHTMLAttributes<HTMLButtonElement>` alias 에서 `interface` 로 승격하고 `size` 추가
+- `DataDisplay/Carousel → Default` 스토리에 `arrowSize` 컨트롤 추가 (Navigation 카테고리, `sm / md / lg / xl`)
+
+### Added — ControlButton
+
+- **신규 size `'xl'`** (32×32 container, 20px icon). 기존 `sm` (16/14) / `md` (20/16) / `lg` (24/16) 스케일 확장. Carousel 의 새 기본값이 사용
+- `ControlButtonSize` 타입에 `'xl'` 추가 (non-breaking)
+
+### Fixed — Buttons 중 `cursor-pointer` 누락
+
+`cursor: pointer` 가 enabled 상태에서 빠져있던 사이트들 일괄 추가. disabled 상태의 `cursor-not-allowed` 는 모두 기존과 동일
+
+- **`ControlButton`** — base CVA 에 `cursor-pointer`
+- **`AvatarButton`** — base CVA 에 `cursor-pointer`
+- **`LinkButton`** — base CVA 에 `cursor-pointer` (기본 `<a>` 는 브라우저가 pointer 를 주지만 `asChild` 로 `<button>` 렌더 시 빠지는 경우 대비)
+- **`Dropdown` 의 `MenuButton`** — enabled 상태에 `cursor-pointer` (기존엔 `disabled:cursor-not-allowed` 만)
+- **`SidebarTrigger`** — `cursor-pointer` (Sidebar rail 의 `cursor-w-resize` 는 의도된 리사이즈 커서라 유지)
+
 ## [1.9.0] - 2026-04-23
 
 ### Added — Charts

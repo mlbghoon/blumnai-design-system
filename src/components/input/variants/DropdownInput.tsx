@@ -5,7 +5,6 @@ import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/lib/spinner';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
-import { usePortalContainer } from '../../../utils/PortalContainerContext';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
   SIZE_CONFIG,
@@ -196,7 +195,6 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
   ...props
 }, ref) => {
   const dropdownId = useId();
-  const portalContainer = usePortalContainer();
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -231,9 +229,12 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
   useLayoutEffect(() => {
     if (isOpen && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
+      // `getBoundingClientRect()` is already viewport-relative.
+      // 메뉴가 `position: fixed` + `document.body` portal이므로 scrollY/scrollX를
+      // 더하면 안 됨. (이전 버그: Dialog 등 transform 선조 안에서 위치가 어긋남)
       setMenuPosition({
-        top: rect.bottom + window.scrollY + 4,
-        left: rect.left + window.scrollX,
+        top: rect.bottom + 4,
+        left: rect.left,
         width: rect.width,
       });
     }
@@ -397,7 +398,10 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
           </div>
         ))}
       </div>,
-      portalContainer ?? document.body
+      // 항상 document.body로 portal — 소속된 PortalContainerProvider가 Dialog 등
+      // `transform` 선조를 가지면 `position: fixed`가 viewport가 아닌 transform된
+      // 컨테이너 기준이 되어버리는 CSS containing-block 스펙 때문.
+      document.body
     );
   };
 

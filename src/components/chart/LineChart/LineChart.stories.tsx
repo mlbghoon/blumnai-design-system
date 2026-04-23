@@ -847,3 +847,38 @@ export const FormattedTooltip: Story = {
     />
   ),
 };
+
+/**
+ * 시리즈별 툴팁 (tooltipTrigger="item")
+ *
+ * 기본 `tooltipTrigger="hover"`는 x축에 걸린 모든 시리즈를 한 번에 보여주지만,
+ * `tooltipTrigger="item"`은 **마우스가 올려진 그 점(dot)의 시리즈만** 툴팁에 표시합니다.
+ * 시리즈가 많거나 값이 겹쳐서 "이 지점에서 A가 얼마?"를 확인하고 싶을 때 유용합니다.
+ *
+ * ### 동작
+ * - 점(activeDot) 위에 호버 → 해당 시리즈만 표시
+ * - 점 밖 영역(차트 빈 공간) 위 → 툴팁 숨김
+ * - BarChart/ComboChart도 동일한 동작을 지원합니다 (Bar 막대 호버 기준)
+ *
+ * ### 구현 메모
+ * Recharts는 LineChart/BarChart/ComposedChart에 대해 `shared={false}`를 내부적으로 'axis'로
+ * 되돌려버려 payload가 항상 전체 시리즈를 담습니다. 이 때문에 DS는 `activeDot`의
+ * `onMouseEnter`/`onMouseLeave`로 현재 호버 중인 `dataKey`를 추적하고, 어댑터에서 직접 필터링합니다.
+ */
+export const TooltipTriggerItem: Story = {
+  render: () => (
+    <LineChart
+      data={multiLineData}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'desktop' }}
+      dataKeys={['desktop', 'mobile']}
+      config={multiLineConfig}
+      width={600}
+      height={400}
+      tooltipTrigger="item"
+      showLegend
+      showXGrid
+      showPoints
+    />
+  ),
+};

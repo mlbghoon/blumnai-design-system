@@ -211,7 +211,7 @@ CarouselItem.displayName = 'CarouselItem';
 export const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   CarouselNavProps
->(({ className, style, ...props }, ref) => {
+>(({ className, style, size = 'xl', ...props }, ref) => {
   const { orientation, scrollPrev, canScrollPrev, opts } = useCarousel();
   const isDisabled = opts?.loop ? false : !canScrollPrev;
 
@@ -224,7 +224,7 @@ export const CarouselPrevious = React.forwardRef<
       ref={ref}
       icon={['arrows', 'arrow-left']}
       shape="circle"
-      size="lg"
+      size={size}
       disabled={isDisabled}
       onClick={scrollPrev}
       aria-label="Previous slide"
@@ -239,7 +239,7 @@ CarouselPrevious.displayName = 'CarouselPrevious';
 export const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   CarouselNavProps
->(({ className, style, ...props }, ref) => {
+>(({ className, style, size = 'xl', ...props }, ref) => {
   const { orientation, scrollNext, canScrollNext, opts } = useCarousel();
   const isDisabled = opts?.loop ? false : !canScrollNext;
 
@@ -252,7 +252,7 @@ export const CarouselNext = React.forwardRef<
       ref={ref}
       icon={['arrows', 'arrow-right']}
       shape="circle"
-      size="lg"
+      size={size}
       disabled={isDisabled}
       onClick={scrollNext}
       aria-label="Next slide"

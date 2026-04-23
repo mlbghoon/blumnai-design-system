@@ -3,7 +3,7 @@ import type { ButtonHTMLAttributes } from 'react';
 import type { IconType, IconTypeWithFill } from '../icons/Icon/Icon.types';
 import type { ButtonColor } from './Button.types';
 
-export type ControlButtonSize = 'sm' | 'md' | 'lg';
+export type ControlButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 
 export type ControlButtonShape = 'rounded' | 'circle';
 

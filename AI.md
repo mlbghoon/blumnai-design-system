@@ -55,9 +55,10 @@ import { CellText, CellBadge, CellAvatar } from '@blumnai-studio/blumnai-design-
 | Tags/chips input | `Input` | `<Input variant="tags" />` |
 | Multi-line text | `Textarea` | `<Textarea label="Bio" />` |
 | Rich text editor | `HtmlEditor` | `<HtmlEditor defaultValue={html} onChange={setHtml} label="내용" />` |
-| Select one | `Select` | `<Select variant="default" options={[...]} />` |
+| Select one (form picker) | `Select` | `<Select variant="default" options={[...]} />` |
 | Select multiple | `Select` | `<Select variant="multi-select" options={[...]} />` |
-| Searchable select | `Combobox` | `<Combobox options={[...]} />` |
+| Typeahead / autocomplete (type to filter) | `Combobox` | `<Combobox options={[...]} />` |
+| Create-as-you-type | `Combobox` | `<Combobox creatable onCreate={...} options={[...]} />` |
 | Large list (1000+) | `VirtualSelect` | `<VirtualSelect variant="single" options={[...]} />` |
 | Toggle | `Switch` | `<Switch label="Enabled" />` |
 | Checkbox | `Checkbox` | `<Checkbox label="Agree" />` |
@@ -169,11 +170,14 @@ Multi-line? → Textarea
 #### Selection
 ```
 Single, few options (≤5)? → RadioGroup or Select
-Single, many options? → Select or Combobox (with search)
+Single, many options? → Select (default) — or Combobox if typing is the primary interaction
 Multiple? → CheckboxList or Select variant="multi-select"
+Typeahead / creatable / live-filter UX? → Combobox (not Select with `searchable`)
 Large list (1000+)? → VirtualSelect
 On/Off? → Switch
 ```
+
+**Select vs Combobox:** `Select` is a click-to-open picker (form fields, dropdowns). `Combobox` is an editable input with live autocomplete (search-first, creatable). `Select`'s `searchable` prop is deprecated — use `Combobox` for search-first UX.
 
 #### Button
 ```

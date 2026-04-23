@@ -367,6 +367,42 @@ export const Searchable: Story = {
   },
 };
 
+/**
+ * Searchable + 긴 라벨 ellipsis (회귀 테스트)
+ *
+ * `contentWidth`를 좁게 잡고 매우 긴 라벨을 넣었을 때, 옵션 라벨이
+ * 드롭다운 가장자리를 넘어가지 않고 `…`로 잘리며, hover 시 전체 라벨이
+ * 툴팁으로 표시되어야 합니다.
+ *
+ * 이전 버그: `CommandPrimitive.Item`의 기본 `min-width: auto` 때문에
+ * flex child가 `w-full`을 뚫고 커져서 truncate 체인이 깨졌음.
+ */
+export const SearchableLongLabels: Story = {
+  render: function Render() {
+    const [value, setValue] = useState<string>();
+    const longOptions = [
+      { id: '1', label: 'abcABCabcABCabcABCabcABCabcABCabc' },
+      { id: '2', label: 'ㄱㄴㄷㄱㄴㄷㄱㄴㄷㄱㄴㄷㄱㄴㄷㄱㄴㄷㄱㄴㄷㄱㄴㄷ' },
+      { id: '3', label: 'This is a very long label that should definitely truncate with an ellipsis indicator' },
+      { id: '4', label: '상당히 길고 자세한 설명이 포함된 옵션 라벨 — 끝에 말줄임표가 붙어야 함' },
+      { id: '5', label: 'Short one' },
+    ];
+    return (
+      <Select
+        variant="default"
+        label="Long-label ellipsis"
+        placeholder="Select..."
+        options={longOptions}
+        value={value}
+        onChange={setValue}
+        searchable
+        width={240}
+        contentWidth={240}
+      />
+    );
+  },
+};
+
 // ============================================================================
 // STATES
 // ============================================================================

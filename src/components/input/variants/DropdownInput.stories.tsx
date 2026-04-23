@@ -2,6 +2,14 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 
 import { Input } from '../Input';
+import { Button } from '../../button/Button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '../../dialog';
 
 const currencyOptions = [
   { value: 'usd', label: 'USD' },
@@ -794,6 +802,64 @@ export const TailDropdownWithLeadButton: Story = {
         <div className="font-body size-sm text-muted">
           마지막 검색:{' '}
           <span className="text-default font-medium">{lastSearched ?? '(없음)'}</span>
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * Dialog 안에서 사용 (portal 위치 회귀 테스트)
+ *
+ * `Dialog`는 내용을 `transform: translate(-50%, -50%)`로 중앙 정렬합니다.
+ * CSS containing-block 스펙상 `position: fixed` 자식은 뷰포트가 아닌 transform된
+ * 컨테이너를 기준으로 배치되므로, 드롭다운이 화면 우측 끝이나 엉뚱한 위치에
+ * 나타나는 버그가 있었습니다.
+ *
+ * 이 스토리로 확인: **"Open Dialog"를 누르고 Dialog 안의 드롭다운을 열었을 때
+ * 옵션 리스트가 트리거 바로 아래에 나타나야 합니다.**
+ */
+export const InsideDialog: Story = {
+  render: function Render() {
+    const [open, setOpen] = useState(false);
+    const [searchField, setSearchField] = useState<string>('username');
+    const [value, setValue] = useState('');
+    const searchFields = [
+      { value: 'username', label: '아이디' },
+      { value: 'nickname', label: '이름' },
+      { value: 'email', label: '이메일' },
+      { value: 'phone', label: '전화번호' },
+    ];
+    return (
+      <div className="flex flex-col ds-gap-12 items-start">
+        <Dialog open={open} onOpenChange={setOpen}>
+          <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
+            Open Dialog
+          </Button>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>사용자 검색</DialogTitle>
+            </DialogHeader>
+            <div className="flex flex-col ds-gap-12 padding-y-16">
+              <Input
+                variant="lead-dropdown"
+                label="검색 기준"
+                placeholder="검색어를 입력하세요"
+                dropdownOptions={searchFields}
+                dropdownValue={searchField}
+                onDropdownChange={setSearchField}
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+              />
+            </div>
+            <DialogFooter>
+              <Button buttonStyle="ghost" onClick={() => setOpen(false)}>취소</Button>
+              <Button buttonStyle="primary" onClick={() => setOpen(false)}>검색</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+        <div className="font-body size-sm text-muted">
+          회귀 테스트: 드롭다운 옵션이 트리거 바로 아래에 나와야 함
         </div>
       </div>
     );

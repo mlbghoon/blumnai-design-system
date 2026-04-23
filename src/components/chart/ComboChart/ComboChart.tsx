@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useMemo } from 'react';
+import { forwardRef, useCallback, useMemo, useState } from 'react';
 import {
   ComposedChart,
   Bar,
@@ -76,6 +76,16 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
     ...lineSeries.map(s => s.dataKey),
   ], [barSeries, lineSeries]);
   const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(allKeys, legendInteractive);
+
+  const [activeDataKey, setActiveDataKey] = useState<string | null>(null);
+  const isItemMode = tooltipTrigger === 'item';
+  const barHoverHandlers = (key: string) =>
+    isItemMode
+      ? {
+          onMouseEnter: () => setActiveDataKey(key),
+          onMouseLeave: () => setActiveDataKey(null),
+        }
+      : {};
 
   const legendItems = useMemo(() => buildLegendItems(allKeys), [buildLegendItems, allKeys]);
   const isDualAxis = Array.isArray(yAxis);
@@ -200,7 +210,6 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
       )}
       <Tooltip
         trigger={tooltipTrigger === 'click' ? 'click' : 'hover'}
-        shared={tooltipTrigger !== 'item'}
         content={
           <ChartTooltipAdapter
             renderTooltip={renderTooltip}
@@ -209,6 +218,8 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
             getTooltipLabel={getTooltipLabel}
             getColor={getColor}
             tooltipValueFormatter={tooltipValueFormatter}
+            tooltipTrigger={tooltipTrigger}
+            activeDataKey={activeDataKey}
           />
         }
         cursor={tooltipTrigger === 'item' ? false : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
@@ -234,6 +245,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
               name={getLabel(series.dataKey)}
               barSize={series.barSize}
               isAnimationActive={isAnimated}
+              {...barHoverHandlers(series.dataKey)}
               shape={(shapeProps: RectangleProps) => {
                 const r = isStackTop
                   ? [radius, radius, 0, 0] as [number, number, number, number]
@@ -254,6 +266,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
             name={getLabel(series.dataKey)}
             barSize={series.barSize}
             isAnimationActive={isAnimated}
+            {...barHoverHandlers(series.dataKey)}
             radius={radius ? [radius, radius, radius, radius] : undefined}
           />
         );

@@ -9,7 +9,7 @@ import { cn } from '../../lib/utils';
 import type { ControlButtonProps, ControlButtonSize, ControlButtonShape, ControlButtonStyle } from './ControlButton.types';
 
 const controlButtonVariants = cva(
-  'inline-flex items-center justify-center transition-colors duration-200 focus:outline-none',
+  'inline-flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none',
   {
     variants: {
       buttonStyle: {
@@ -20,6 +20,7 @@ const controlButtonVariants = cva(
         sm: 'width-16 height-16',
         md: 'width-20 height-20',
         lg: 'width-24 height-24',
+        xl: 'width-32 height-32',
       },
       shape: {
         rounded: 'rounded-xs',
@@ -38,6 +39,7 @@ const ICON_SIZE = {
   sm: 14,
   md: 16,
   lg: 16,
+  xl: 20,
 } as const;
 
 const STYLE_CONFIG = {

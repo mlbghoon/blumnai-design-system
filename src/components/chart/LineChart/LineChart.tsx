@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useCallback } from 'react';
+import { forwardRef, useMemo, useCallback, useState } from 'react';
 
 import {
   LineChart as RLineChart,
@@ -68,7 +68,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     ref
   ) => {
   const baseMargin = variant === 'unstyled' ? UNSTYLED_CHART_MARGIN : DEFAULT_CHART_MARGIN;
-  const chartMargin = { ...baseMargin, ...margin };
+  const chartMargin = useMemo(() => ({ ...baseMargin, ...margin }), [baseMargin, margin]);
   const isAnimated = animated !== false;
 
   if (import.meta.env.DEV) {
@@ -87,6 +87,9 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   const { getLabel, getTooltipLabel, getColor, buildLegendItems } = useChartConfig(config, lineColors);
   const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(activeKeys, legendInteractive);
 
+  const [activeDataKey, setActiveDataKey] = useState<string | null>(null);
+  const isItemMode = tooltipTrigger === 'item';
+
   const legendItems = useMemo(() => buildLegendItems(activeKeys), [buildLegendItems, activeKeys]);
 
   const handleChartClick = useCallback((state: MouseHandlerDataParam) => {
@@ -96,6 +99,80 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       onDataPointClick(safeData[idx], idx);
     }
   }, [onDataPointClick, safeData]);
+
+  // item 모드용: 커서 Y에 가장 가까운 시리즈 추적
+  const yDomainNumeric = useMemo<readonly [number, number]>(() => {
+    if (Array.isArray(yAxis.domain)
+        && typeof yAxis.domain[0] === 'number'
+        && typeof yAxis.domain[1] === 'number') {
+      return [yAxis.domain[0], yAxis.domain[1]] as const;
+    }
+    let min = 0;
+    let max = 0;
+    for (const d of safeData) {
+      for (const k of activeKeys) {
+        const v = Number((d as Record<string, unknown>)[k] ?? 0);
+        if (Number.isFinite(v)) {
+          if (v < min) min = v;
+          if (v > max) max = v;
+        }
+      }
+    }
+    return [Math.min(min, 0), Math.ceil(Math.max(max, 1) * 1.05)] as const;
+  }, [yAxis.domain, safeData, activeKeys]);
+
+  // XAxis 기본 높이(~30) 차감하여 플롯 영역 높이 추정
+  const xAxisHeight = xAxis.show === false ? 0 : 30;
+
+  const handleMouseMove = useCallback((state: MouseHandlerDataParam | undefined) => {
+    if (!isItemMode) return;
+
+    // Recharts 3.x onMouseMove state has: activeCoordinate, activeTooltipIndex,
+    // activeLabel, activeDataKey, isTooltipActive. (Not activePayload/chartY.)
+    // activeTooltipIndex is coerced to STRING at runtime despite its numeric type
+    // — see combineActiveCartesianProps in recharts/es6/state/selectors/selectors.js.
+    const coord = state?.activeCoordinate;
+    const rawIdx = state?.activeTooltipIndex;
+    const idxNum = typeof rawIdx === 'string' ? Number(rawIdx) : rawIdx;
+
+    if (!coord || typeof idxNum !== 'number' || !Number.isFinite(idxNum)
+        || idxNum < 0 || idxNum >= safeData.length) {
+      setActiveDataKey(null);
+      return;
+    }
+
+    const row = safeData[idxNum] as Record<string, unknown> | undefined;
+    if (!row) {
+      setActiveDataKey(null);
+      return;
+    }
+
+    // Convert cursor pixel Y → data-space Y using y-domain + plot area dimensions
+    const plotTop = chartMargin.top ?? 0;
+    const plotBottom = (chartMargin.bottom ?? 0) + xAxisHeight;
+    const plotHeight = Math.max(1, height - plotTop - plotBottom);
+    const [yMin, yMax] = yDomainNumeric;
+    const normalized = (coord.y - plotTop) / plotHeight;
+    const cursorValue = yMax - normalized * (yMax - yMin);
+
+    let closestKey: string | null = null;
+    let closestDist = Infinity;
+    for (const key of activeKeys) {
+      if (isHidden(key)) continue;
+      const v = Number(row[key] ?? 0);
+      if (!Number.isFinite(v)) continue;
+      const dist = Math.abs(v - cursorValue);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closestKey = key;
+      }
+    }
+    setActiveDataKey(closestKey);
+  }, [isItemMode, yDomainNumeric, chartMargin, height, xAxisHeight, isHidden, activeKeys, safeData]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (isItemMode) setActiveDataKey(null);
+  }, [isItemMode]);
 
   const chartAriaLabel = ariaLabel || `Line chart showing ${activeKeys.join(', ') || 'data'}`;
   const yDomain = (yAxis.domain === 'auto' || yAxis.domain === undefined)
@@ -111,6 +188,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       data={safeData}
       margin={chartMargin}
       onClick={onDataPointClick ? handleChartClick : undefined}
+      onMouseMove={isItemMode ? handleMouseMove : undefined}
+      onMouseLeave={isItemMode ? handleMouseLeave : undefined}
     >
       <CartesianGrid
         horizontal={showXGrid}
@@ -141,7 +220,6 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       />
       <Tooltip
         trigger={tooltipTrigger === 'click' ? 'click' : 'hover'}
-        shared={tooltipTrigger !== 'item'}
         content={
           <ChartTooltipAdapter
             renderTooltip={renderTooltip}
@@ -150,6 +228,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             getTooltipLabel={getTooltipLabel}
             getColor={getColor}
             tooltipValueFormatter={tooltipValueFormatter}
+            tooltipTrigger={tooltipTrigger}
+            activeDataKey={activeDataKey}
           />
         }
         cursor={tooltipTrigger === 'item' ? false : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}

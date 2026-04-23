@@ -14,7 +14,10 @@ export const DROPDOWN_TRIGGER_TEXT_BASE = 'font-body letter-spacing-tracking-tig
 export const DROPDOWN_TRIGGER_PLACEHOLDER_BASE = 'font-body letter-spacing-tracking-tight text-hint whitespace-nowrap' as const;
 
 // Dropdown menu styles (positioning handled by component - supports portal)
-export const DROPDOWN_MENU_BASE = 'z-50 bg-card rounded-md shadow-modal-sm padding-4' as const;
+// z-[10100]: Dialog uses z-[10000]. DropdownInput은 transform containing-block
+// 회피를 위해 항상 document.body로 portal하므로, Dialog 위에 오려면 더 높은
+// z-index가 필요하다.
+export const DROPDOWN_MENU_BASE = 'z-[10100] bg-card rounded-md shadow-modal-sm padding-4' as const;
 
 // Dropdown option styles
 export const DROPDOWN_OPTION_BASE = 'flex items-center ds-gap-6 rounded-xs cursor-pointer hover:bg-state-ghost-hover transition-colors' as const;
