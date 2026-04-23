@@ -56,6 +56,7 @@ export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
   progress = 0,
   errorMessage,
   size = 'lg',
+  hideSize = false,
   onRemove,
   onRetry,
   className,
@@ -64,7 +65,12 @@ export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
   const iconSize = FILE_UPLOAD_CARD_ICON_SIZE[size];
 
   const fileTypeIcon = useMemo(() => getFileTypeIcon(file.type), [file.type]);
-  const formattedSize = useMemo(() => formatFileSize(file.size), [file.size]);
+  // size span 표시 여부: 명시적으로 hideSize 이거나, file.size 가 undefined 면 숨긴다.
+  const shouldShowSize = !hideSize && typeof file.size === 'number';
+  const formattedSize = useMemo(
+    () => (shouldShowSize ? formatFileSize(file.size as number) : null),
+    [shouldShowSize, file.size],
+  );
 
   const statusLabel = status === 'error' && errorMessage ? errorMessage : FILE_UPLOAD_STATUS_LABEL[status];
 
@@ -109,8 +115,12 @@ export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
           </div>
         ) : (
           <div className={FILE_UPLOAD_META}>
-            <span>{formattedSize}</span>
-            <span className={FILE_UPLOAD_META_DIVIDER}>|</span>
+            {shouldShowSize && (
+              <>
+                <span>{formattedSize}</span>
+                <span className={FILE_UPLOAD_META_DIVIDER}>|</span>
+              </>
+            )}
             <span className={FILE_UPLOAD_STATUS_TEXT[status]}>
               {statusLabel}
             </span>

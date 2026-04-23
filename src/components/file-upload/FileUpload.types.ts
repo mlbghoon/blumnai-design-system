@@ -91,7 +91,11 @@ export type FileUploadCardSize = 'sm' | 'lg';
  */
 export interface FileInfo {
   name: string;
-  size: number;
+  /**
+   * 파일 바이트 크기. 서버에서 불러온 항목처럼 크기를 모르는 경우 생략 가능.
+   * 미지정 시 FileUploadCard 의 메타 행에서 size span 이 자동으로 숨겨집니다.
+   */
+  size?: number;
   type: string;
 }
 
@@ -113,6 +117,17 @@ export interface FileUploadCardProps {
 
   /** 크기 */
   size?: FileUploadCardSize;
+
+  /**
+   * 메타 행에서 파일 크기를 숨김. `true` 이면 size 값이 있어도 표시하지 않고,
+   * 구분선(`|`)도 같이 제거됩니다. status 라벨(Uploaded/Error 등)만 남습니다.
+   *
+   * `file.size` 가 `undefined` 이면 자동으로 숨겨지므로 (서버에서 불러온 파일처럼
+   * 크기를 모르는 경우) 이 prop 은 "크기를 알고 있지만 일부러 숨기고 싶을 때" 사용합니다.
+   *
+   * @default false
+   */
+  hideSize?: boolean;
 
   /** 삭제 시 호출되는 콜백 */
   onRemove?: () => void;

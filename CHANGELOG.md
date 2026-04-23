@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.9.3] - 2026-04-23
+
+### Added — FileUploadCard (bridge: `hideSize` / optional size)
+
+- **`FileUploadCard` 에 `hideSize?: boolean` prop 추가**. 메타 행에서 파일 크기 span 과 구분자(`|`)를 함께 숨기고 status 라벨(Uploaded 등)만 남깁니다. 디자인상 특정 화면에서 크기를 일부러 감추고 싶을 때 사용
+- **`FileInfo.size` 를 `size?: number` (optional) 로 변경**. 서버에서 불러온 항목처럼 크기를 모르는 경우 생략 가능 — 미지정 시 메타 행의 size span 이 자동으로 숨겨짐
+- 소비자 워크어라운드 제거: 기존에는 `size: 0` 을 강제로 넘기고 `:has()` CSS 로 억지로 숨기던 패턴이 필요했음. 이제 prop/optional 타입으로 깔끔히 처리
+- **Storybook**: `DataEntry/FileUpload → CardHideSize` — 기본(크기 표시) / `hideSize` / `file.size` 미지정 세 가지 상태 비교
+
+### Fixed — HtmlEditor 본문 테두리 (case 2 후속 조치)
+
+v1.9.2 의 ScrollArea viewport outline 억제에 더해 ProseMirror 레이어에서도 테두리가 나올 수 있는 두 경로를 추가로 차단
+
+- **`.ProseMirror-selectednode` outline 제거** — `prosemirror-view` 기본 CSS 에 `outline: 2px solid #8cf` 규칙이 있음. 사용자가 Escape+방향키, 삼중 클릭, 또는 특정 focus 경로로 NodeSelection 상태가 되면 이 규칙이 발동해 본문 전체를 감싸는 2px 사각형이 나타남 (스크린샷/줌 레벨에 따라 짙은 회색/검은색처럼 보이기도 함). HtmlEditor 범위에서 `outline: none` 으로 덮어씀
+- **`.ProseMirror-focused` 클래스 기반 리셋 추가** — TipTap 이 포커스된 에디터에 이 클래스를 부착. 일부 user-agent / 3rd-party stylesheet 이 이 클래스를 타겟해 outline 을 그리는 경우 대비해 pseudo-class(`:focus`) 리셋과 별개로 클래스 단위로도 명시적 리셋
+
 ## [1.9.2] - 2026-04-23
 
 ### Fixed — HtmlEditor

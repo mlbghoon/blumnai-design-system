@@ -347,6 +347,42 @@ export const CardUploading: Story = {
 };
 
 /**
+ * FileUploadCard — `hideSize` / optional `FileInfo.size`
+ *
+ * 메타 행에서 파일 크기를 숨기는 두 가지 방법을 보여줍니다.
+ *
+ * - **`hideSize`**: 크기 값이 있어도 명시적으로 숨김 (상품 결정으로 특정 화면에서는 크기를 감추고 싶을 때)
+ * - **`file.size` 미지정**: 서버에서 불러온 파일처럼 크기를 모를 때 자동으로 숨김 — `FileInfo.size` 는 v1.9.2 부터 optional
+ *
+ * 두 경우 모두 구분자(`|`)도 함께 사라지고 status 라벨(Uploaded 등)만 남습니다.
+ */
+export const CardHideSize: Story = {
+  render: () => {
+    const loadedFromServer: FileInfo = {
+      name: 'photo-from-server.jpg',
+      type: 'image/jpeg',
+      // size intentionally omitted — auto-hides
+    };
+    return (
+      <div className="flex flex-col ds-gap-12 max-width-320">
+        <div className="flex flex-col ds-gap-4">
+          <span className="font-body size-xs text-muted">기본 (크기 표시):</span>
+          <FileUploadCard file={mockImageFile} status="uploaded" onRemove={() => {}} />
+        </div>
+        <div className="flex flex-col ds-gap-4">
+          <span className="font-body size-xs text-muted">hideSize (크기 있지만 숨김):</span>
+          <FileUploadCard file={mockImageFile} status="uploaded" hideSize onRemove={() => {}} />
+        </div>
+        <div className="flex flex-col ds-gap-4">
+          <span className="font-body size-xs text-muted">file.size 미지정 (자동 숨김):</span>
+          <FileUploadCard file={loadedFromServer} status="uploaded" onRemove={() => {}} />
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
  * FileUploadCard - 에러 상태
  */
 export const CardError: Story = {

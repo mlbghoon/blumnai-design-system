@@ -31,6 +31,24 @@
   box-shadow: none !important;
 }
 
+/* TipTap이 포커스된 에디터에 붙이는 `.ProseMirror-focused` 클래스 대응.
+   일부 user-agent나 3rd-party stylesheet이 이 클래스를 타겟해 outline/border를
+   그리는 경우가 있음. 위의 :focus pseudo와는 별개로 클래스 단위로도 리셋. */
+.blumnai-html-editor .ProseMirror-focused,
+.blumnai-html-editor .ProseMirror.ProseMirror-focused {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* prosemirror-view의 기본 `.ProseMirror-selectednode { outline: 2px solid #8cf }`
+   제거. 사용자가 ESC+방향키, triple-click, 또는 특정 focus 경로로 NodeSelection
+   상태가 되면 2px 파란/짙은 회색 사각형이 본문 전체를 감싸는 현상의 원인.
+   일반 텍스트 선택/입력 UX에서 이 피드백이 필요하지 않으므로 HtmlEditor 범위에서 비활성. */
+.blumnai-html-editor .ProseMirror-selectednode {
+  outline: none !important;
+}
+
 .blumnai-html-editor .ProseMirror > * + * {
   margin-top: 0.5em;
 }
