@@ -247,8 +247,9 @@ export function Toolbar({
 
   return (
     <div className={cn(TOOLBAR_CONTAINER, 'border-b-default')}>
-      {/* 스크롤 가능한 메인 툴바 */}
-      <ScrollArea orientation="horizontal" className="flex-1 min-w-0">
+      {/* 스크롤 가능한 메인 툴바 — offsetScrollbars 로 horizontal scrollbar가
+          아이콘 위로 떠서 겹치는 문제 방지 */}
+      <ScrollArea orientation="horizontal" offsetScrollbars className="flex-1 min-w-0">
         {scrollableContent}
       </ScrollArea>
 

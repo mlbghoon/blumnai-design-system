@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.9.2] - 2026-04-23
+
+### Fixed — HtmlEditor
+
+- **Toolbar 가로 스크롤바가 우측 아이콘과 겹치던 문제**. 툴바 버튼이 많아 가로 스크롤이 생기면 Radix ScrollArea 의 horizontal scrollbar thumb 가 아이콘 위에 떠서 시각적 충돌
+  - `Toolbar.tsx` 의 `<ScrollArea orientation="horizontal">` 에 `offsetScrollbars` 추가. viewport 하단에 scrollbar 크기만큼의 padding 이 들어가 thumb 가 아이콘 아래 별도 영역에 놓임 (1.9.0 BarList 수정과 동일 패턴)
+- **본문 선택/텍스트 입력 시 에디터 본문 주위에 1px 테두리가 생기던 문제** (Windows Chrome/Edge 에서 주로 발생). 원인: `HtmlEditor` 는 `EditorContent` 를 `<ScrollArea>` 로 감싸는데, Radix ScrollArea 의 `Viewport` 가 a11y 를 위해 `tabIndex={0}` 을 가지고 있음. 에디터 본문 클릭 시 focus 가 Viewport 를 거쳐 contenteditable 로 가며, Windows 브라우저는 비인터랙티브 요소에도 default focus ring 을 그림. 기존 CSS 는 `.ProseMirror` / `[contenteditable]` 에만 outline 을 제거했고 Viewport 엘리먼트는 놓치고 있었음
+  - `HtmlEditor.css` 에 `.blumnai-html-editor [data-radix-scroll-area-viewport]:focus` 대상 outline/box-shadow 제거 규칙 추가. HtmlEditor 범위 내로 scoped 되어 다른 ScrollArea 소비자 (키보드 focus ring 이 필요한 곳) 는 영향 없음
+
+### Fixed — Searchable Select truncate 툴팁 클립 문제
+
+- **Searchable `Select` (또는 `Combobox`) 옵션의 긴 라벨을 hover 했을 때 `TruncatedText` 의 툴팁이 popover 의 `overflow: hidden` 뷰포트 안에 portal 되어 잘리던 문제**. 원인: `RadixSelect` 의 searchable popover 가 `<PortalContainerProvider value={contentEl}>` 로 자식 floating 들의 portal 타겟을 popover content 로 설정. Tooltip 이 그 컨텍스트를 상속해서 popover 안쪽으로 portal → ScrollArea viewport 에 의해 clipping
+  - `TruncatedText.tsx` 의 `<TooltipTrigger>` 에 `escapePortalContext` 추가. 이 prop 은 기존에 이 시나리오 대비로 만들어져 있었고, 툴팁을 `document.body` + `z-index: 10001` 로 강제해 popover stacking/overflow 를 완전히 벗어나게 함
+  - 영향: Select-계열 드롭다운 아이템의 truncate 툴팁 모두 (RadixSelect searchable items, RadixMultiSelect items)
+
+### Case 3 진단 (변경 없음)
+
+사용자 리포트 "HtmlEditor 에서 BlockTypeDropdown 의 heading 선택 + bullet/ordered list 버튼 적용 안됨" — 코드 경로 상 문제 없음 (`editor.chain().focus().toggleHeading/toggleBulletList().run()` 표준 TipTap 호출, StarterKit 에 해당 extensions 등록됨). 추측: Dialog 의 focus trap 이나 Popover open 시 editor selection 이 collapsed 되어 command 가 no-op 이 되는 상호작용 버그일 수 있음. 재현 확보 후 후속 태스크로 처리 예정.
+
 ## [1.9.1] - 2026-04-23
 
 ### Fixed — Charts (follow-up to v1.9.0 `tooltipTrigger="item"`)

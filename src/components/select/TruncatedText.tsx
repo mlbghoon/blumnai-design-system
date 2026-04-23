@@ -45,6 +45,10 @@ const TruncatedText = React.memo<TruncatedTextProps>(
         placement="top"
         delay={100}
         asChild
+        // Searchable Select 등 `PortalContainerProvider` 가 걸린 popover 안에서
+        // 렌더될 때, 툴팁이 popover 의 overflow-hidden viewport 안으로 portal 되어
+        // 잘리는 문제 방지. 항상 document.body + z-index 10001 로 띄운다.
+        escapePortalContext
       >
         <span ref={textRef} className={cn('block truncate', className)}>
           {children}

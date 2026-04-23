@@ -21,6 +21,16 @@
   border: none !important;
 }
 
+/* Radix ScrollArea Viewport 포커스 링 제거 — Viewport 는 a11y 를 위해
+   tabIndex={0} 을 가지며, 에디터 본문 클릭 시 focus 가 Viewport 에 먼저
+   닿아 Windows Chrome/Edge 등에서 기본 focus ring 이 contenteditable
+   영역을 감싸는 네모로 보이는 문제 방지. HtmlEditor 범위 내에서만 적용. */
+.blumnai-html-editor [data-radix-scroll-area-viewport]:focus,
+.blumnai-html-editor [data-radix-scroll-area-viewport]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 .blumnai-html-editor .ProseMirror > * + * {
   margin-top: 0.5em;
 }
