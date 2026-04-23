@@ -13,16 +13,9 @@
 
 ### 우선순위
 
-색상 선택은 **영역 판단이 먼저**다. 영역을 정한 뒤 토큰을 고른다.
-
 ```
-영역 판단
-  ├─ 앱 레이아웃 영역인가? (GNB, 사이드바, 대화방, 컴포저, 모달 등)
-  │    └─ YES → 앱 레이아웃 토큰     bg-app-container, bg-app-gnb, bg-app-sidebar …
-  └─ 일반 surface인가? (카드, 패널, 콘텐츠, 리스트 등)
-       └─ YES → DS 시맨틱 토큰       bg-default, text-subtle, border-default …
-
-시맨틱 토큰에 없는 유채색만 → Tailwind 유채색 (bg-blue-500, text-red-600 등)
+DS 시맨틱 토큰 (무채색)   bg-default, text-subtle, border-default …
+Tailwind 유채색            bg-blue-500, text-red-600 …  (시맨틱 토큰에 없는 경우만)
 ─────────────────────────────────────────────────────────
 금지   Tailwind 무채색     bg-white, bg-gray-*, text-gray-*, border-gray-*
 금지   arbitrary 색상값    bg-[#437DFC], text-[rgba(…)]
@@ -115,28 +108,7 @@ hover 변환: `hover:text-gray-600` → `hover:text-subtle`
 4. **유채색 하드코딩 비허용**: 기본적으로 허용하지 않으며, 브랜드 컬러나 시맨틱 토큰에 없는 유채색만 예외적으로 허용
 5. **gray 계열 하드코딩 금지**: `color="#6b7280"` 등 → DS 토큰으로 대체
 
-## 6. 앱 레이아웃 영역별 배경색
-
-> CSS 변수(`--app-*`)를 Tailwind v4 `@theme`로 등록하여 `bg-app-*` 클래스로 사용.
-> `bg-[var(--app-*)]` arbitrary value 사용 금지.
-
-| 영역 | Tailwind 클래스 |
-|------|-----------------|
-| 전체 컨테이너 | `bg-app-container` |
-| GNB 배경 | `bg-app-gnb` |
-| GNB 텍스트 | `text-app-gnb-text` |
-| GNB 보더 | `border-app-gnb-border` |
-| 사이드바 | `bg-app-sidebar` |
-| 대화방 헤더 | `bg-app-room-header` |
-| 대화방 본문 | `bg-app-room-body` |
-| 컴포저 | `bg-app-composer` |
-| 참조패널 | `bg-app-ref-{info,contact,history,integration,assistant,default}` |
-| 우측 네비 | `bg-app-right-nav` |
-| 모달 | `bg-app-modal` |
-| 검색 | `bg-app-search` |
-| 공지 | `bg-app-notice`, `text-app-notice-text` |
-
-## 7. 판단 기준 요약
+## 6. 판단 기준 요약
 
 ```
 질문: 이 색상에 DS 토큰이 있는가?

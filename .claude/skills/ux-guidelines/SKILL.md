@@ -98,8 +98,7 @@ Then ask: "위 항목을 가이드라인에 맞게 수정할까요?"
 ### Priority
 
 1. DS semantic tokens (`bg-default`, `text-subtle`, `border-darker`)
-2. App layout variables (`bg-app-container`, `bg-app-gnb`)
-3. Tailwind chromatic colors (`bg-blue-500`, `text-red-600`)
+2. Tailwind chromatic colors (`bg-blue-500`, `text-red-600`)
 
 **Forbidden:** Tailwind grays (`bg-white`, `bg-gray-*`, `text-gray-*`) and arbitrary colors (`bg-[#437DFC]`)
 
