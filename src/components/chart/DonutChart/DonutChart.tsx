@@ -52,6 +52,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
       renderTooltip,
       wrapCustomTooltip,
       tooltipValueFormatter,
+      tooltipTrigger = 'hover',
       legendInteractive = false,
       legendPosition = 'bottom',
       legendValueFormatter,
@@ -155,6 +156,8 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
         ))}
       </Pie>
       <Tooltip
+        trigger={tooltipTrigger === 'click' ? 'click' : 'hover'}
+        shared={tooltipTrigger !== 'item'}
         content={
           <PieTooltipAdapter
             renderTooltip={renderTooltip}

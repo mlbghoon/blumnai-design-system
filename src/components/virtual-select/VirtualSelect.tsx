@@ -499,7 +499,7 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                 )}
 
                 <Icon
-                  iconType={['arrows', 'expand-up-down']}
+                  iconType={['arrows', isOpen ? 'arrow-up-s' : 'arrow-down-s']}
                   size={sizeConfig.iconSize}
                   color={iconColor}
                   className="flex-shrink-0"

@@ -1,5 +1,86 @@
 # Changelog
 
+## [1.9.0] - 2026-04-23
+
+### Added — Charts
+
+- **`tooltipTrigger` prop** (`'hover' | 'click' | 'item'`, default `'hover'`) — 모든 Recharts 기반 차트 (LineChart / BarChart / ComboChart / DonutChart / PieChart) 의 툴팁 트리거 모드 제어.
+  - `'hover'` (기본) — 축 호버 시 같은 x 좌표의 모든 시리즈가 payload 에 포함됨 (Recharts 기본 동작)
+  - `'item'` — **개별 데이터 포인트 호버 시에만 표시**, payload 에는 호버된 시리즈 하나만 포함됨. 내부적으로 Recharts `shared={false}` 로 매핑. 다수 시리즈 겹침 상황에서 특정 라인/바만 집중해서 보고 싶을 때 사용 (consumer 요청: 10+ 플로우 LineChart 에서 개별 라인 포커스)
+  - `'click'` — 클릭 시 표시. Recharts `trigger="click"` 으로 매핑
+  - `'item'` 모드에서는 cursor (점선 십자선) 도 자동 비활성화
+  - `renderTooltip` 사용 시 `items` 배열이 trigger 모드에 맞춰 필터링됨
+
+### Fixed — Charts
+
+- **`BarList` — 확장 시 스크롤바가 우측 값 숫자를 가리던 문제**: `maxHeight` + "더보기" 확장 시 내부 `ScrollArea` 가 `offsetScrollbars` 없이 렌더되어 vertical scrollbar thumb 가 right-aligned value 숫자와 겹쳤습니다 (특히 값이 3자리 이상일 때 잘려 보임)
+  - 수정: `ScrollArea` 에 `offsetScrollbars` prop 추가. viewport 에 scrollbar 만큼의 padding-right 가 적용되어 숫자가 겹치지 않습니다
+
+### Changed — Select / Combobox / VirtualSelect
+
+- **트리거 chevron 아이콘 동적화** — 기존 정적 `expand-up-down` (이중 삼각형) → 드롭다운 상태에 따라 **`arrow-down-s` (닫힘) / `arrow-up-s` (열림)** 으로 토글. Table/DataGrid 정렬 표시용 `expand-up-down` 는 그대로 유지 (용도 다름)
+- 적용 범위: `Combobox`, `RadixSelect` (searchable + non-searchable 양쪽), `RadixMultiSelect`, `VirtualSelect`
+
+### Added — Combobox (Select 기능 패리티)
+
+Combobox 가 Select 에 있던 모든 기능을 지원하도록 확장. 새로운 variant 와 다수의 props 추가.
+
+#### 신규 variant
+
+- **`variant="multi-select"`** — 태그로 펼치지 않고 **"N selected"** 컴팩트 표시. `showActions` (적용/취소 버튼 모드), `showSelectAll` (전체 선택), `canApply` 등 MultiSelect 전용 props 지원. Combobox 의 4번째 variant (기존: default / avatar / tags → default / avatar / **multi-select** / tags)
+
+#### `ComboboxBaseProps` 신규 props
+
+- **`clearable`** (`boolean`, default `false`) — 선택된 값이 있을 때 X 버튼 표시, 클릭 시 선택 초기화 (single → `''`, multi/tags → `[]`)
+- **`loading`** (`boolean`, default `false`) — 드롭다운 내 스피너 표시 (async fetch 등)
+- **`leadIcon`** (`IconTypeWithFill`) — 트리거 앞쪽 아이콘 (옵션 내 leadIcon 과 별개)
+- **`minWidth`** (`string | number`) — 트리거 최소 너비
+- **`searchPlaceholder`** (`string`) — 검색 중일 때 플레이스홀더 (미지정 시 `placeholder` 사용)
+- **`optionGroups`** (`ComboboxOptionGroup[]`) — 그룹 라벨 + 옵션 ID 목록으로 옵션들을 섹션별로 묶어 표시. 그룹에 속하지 않은 옵션은 마지막에 ungrouped 섹션으로 렌더
+- **`renderOption`** (`(option, isSelected) => ReactNode`) — 옵션 커스텀 렌더링
+- **`renderValue`** (`(option) => ReactNode`) — 트리거에 선택된 값 커스텀 렌더링 (single-select)
+- **`size="xs"`** — 24px 높이, 12px 텍스트 (SIZE_CONFIG 는 이미 xs 를 지원했으나 Combobox 타입에서 누락되어 있었음)
+
+#### `ComboboxOption` 신규 필드
+
+- **`tooltip`** (`ReactNode`) — 옵션 호버 툴팁. `disabled: true` 옵션에서도 작동하여 비활성화 사유 안내에 유용
+- **`tooltipPlacement`** (`'top' | 'right' | 'bottom' | 'left'`, default `'right'`)
+
+#### Variant 별 신규 props
+
+- **`DefaultComboboxProps`**:
+  - `defaultValue` (`string`) — 비제어 모드 초기값
+  - `selectType` (`'default' | 'checkbox' | 'radio'`, default `'default'`) — 선택 표시 방식. default (check 아이콘) / checkbox / radio
+- **`AvatarComboboxProps`**: `defaultValue`
+- **`TagsComboboxProps`**: `defaultValue`
+- **`MultiSelectComboboxProps`** (신규 variant):
+  - `defaultValue`, `value[]`, `onChange`, `onCreate`
+  - `maxSelections` — 최대 선택 개수 하드 캡
+  - `selectedText` (`string | (count) => string`, `'{count}'` 치환) — 트리거 요약 텍스트 커스텀
+  - `showSelectAll` + `selectAllLabel` — "전체 선택" 옵션 (indeterminate 상태 지원)
+  - `showActions` + `applyLabel` / `cancelLabel` — 적용/취소 버튼 모드 (즉시 반영 X, 일괄 commit). Cancel 또는 apply 없이 닫으면 pending 상태 revert
+  - `canApply` (`(pending, committed) => boolean`) — 적용 버튼 활성화 조건. 미지정 시 기본값은 "변경 사항이 있을 때만" (pending !== committed)
+
+#### 비제어 모드
+
+모든 variant (default / avatar / multi-select / tags)에서 `value` 없이 `defaultValue` 만 전달하면 Combobox 가 내부 상태를 관리합니다. `onChange` 는 여전히 호출되어 외부 리스너 사용 가능.
+
+### Changed — Combobox
+
+- **Stories 재편** — 기존 단일 `Combobox.stories.tsx` 를 삭제하고 `stories/` 서브폴더로 variant 별 분리:
+  - `stories/ComboboxDefault.stories.tsx` — `DataEntry/Combobox/Default` (28 stories)
+  - `stories/ComboboxAvatar.stories.tsx` — `DataEntry/Combobox/Avatar` (11 stories)
+  - `stories/ComboboxMultiSelect.stories.tsx` — `DataEntry/Combobox/Multi-select` (15 stories)
+  - `stories/ComboboxTags.stories.tsx` — `DataEntry/Combobox/Tags` (14 stories)
+  - `stories/_fixtures.ts` — 공용 옵션 데이터 (fruits, users, frameworks, tech groups 등)
+
+### Internal
+
+- `Combobox.tsx` 에 `TooltipTrigger` import 추가 (option.tooltip 지원)
+- `Combobox.tsx` 에 `Button` import 추가 (multi-select showActions 의 Apply/Cancel 버튼)
+- 내부 pending/committed state 분리 — multi-select showActions 모드에서 선택 지연 반영 지원
+- select-all 체크박스는 allSelected → check, someSelected → indeterminate (가로바), none → 빈 상태로 렌더
+
 ## [1.8.0] - 2026-04-22
 
 ### Added (PR #9 — Badge / Chip / Tabs / Button / Dropdown)

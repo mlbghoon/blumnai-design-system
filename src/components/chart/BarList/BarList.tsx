@@ -93,7 +93,7 @@ export const BarList = forwardRef<HTMLDivElement, BarListProps>(
     return (
       <div ref={ref} className={cn('flex flex-col', className)}>
         {maxHeight ? (
-          <ScrollArea orientation="vertical" maxHeight={maxHeight} type="always">
+          <ScrollArea orientation="vertical" maxHeight={maxHeight} type="always" offsetScrollbars>
             {itemsList}
           </ScrollArea>
         ) : (

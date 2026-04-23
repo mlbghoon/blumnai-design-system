@@ -58,6 +58,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
       renderTooltip,
       wrapCustomTooltip,
       tooltipValueFormatter,
+      tooltipTrigger = 'hover',
       legendInteractive = false,
       legendPosition = 'bottom',
       legendValueFormatter,
@@ -213,6 +214,8 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
         </>
       )}
       <Tooltip
+        trigger={tooltipTrigger === 'click' ? 'click' : 'hover'}
+        shared={tooltipTrigger !== 'item'}
         content={
           <ChartTooltipAdapter
             renderTooltip={renderTooltip}
@@ -223,7 +226,7 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
             tooltipValueFormatter={tooltipValueFormatter}
           />
         }
-        cursor={{ stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
+        cursor={tooltipTrigger === 'item' ? false : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
       />
       {stacked && stackedKeys && stackedKeys.length > 0
         ? stackedKeys.filter(k => !isHidden(k)).map((key, i) => renderStackedBar(key, i, stackedKeys.filter(k => !isHidden(k)).length))

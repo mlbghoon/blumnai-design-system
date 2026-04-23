@@ -179,6 +179,18 @@ export interface BaseChartProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
    */
   tooltipValueFormatter?: (value: number) => string;
   /**
+   * 툴팁 트리거 모드 (Recharts `<Tooltip trigger>` 와 동일).
+   *
+   * - `'hover'` (기본) — 축(axis) 호버 시 표시. 같은 x 좌표의 모든 시리즈가 payload 에 포함됩니다.
+   * - `'item'` — 각 데이터 포인트 (dot/bar) 호버 시에만 표시. payload 에는 호버된 시리즈 하나만 포함됩니다.
+   *   다수의 시리즈가 겹쳐 있을 때 특정 시리즈만 집중해서 보고 싶을 때 사용하세요.
+   * - `'click'` — 클릭 시 표시 (Recharts 지원).
+   *
+   * `renderTooltip` 사용 시 `items` 배열이 그에 맞춰 필터링됩니다.
+   * @default 'hover'
+   */
+  tooltipTrigger?: 'hover' | 'click' | 'item';
+  /**
    * 범례 위치
    * @default 'bottom'
    */

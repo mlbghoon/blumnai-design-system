@@ -58,6 +58,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
       renderTooltip,
       wrapCustomTooltip,
       tooltipValueFormatter,
+      tooltipTrigger = 'hover',
       legendInteractive = false,
       legendPosition = 'bottom',
       legendValueFormatter,
@@ -139,6 +140,8 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
         hide={yAxis.show === false}
       />
       <Tooltip
+        trigger={tooltipTrigger === 'click' ? 'click' : 'hover'}
+        shared={tooltipTrigger !== 'item'}
         content={
           <ChartTooltipAdapter
             renderTooltip={renderTooltip}
@@ -149,7 +152,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             tooltipValueFormatter={tooltipValueFormatter}
           />
         }
-        cursor={{ stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
+        cursor={tooltipTrigger === 'item' ? false : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
       />
       {activeKeys.filter(key => !isHidden(key)).map((key, index) => {
         const color = getColor(key, index);

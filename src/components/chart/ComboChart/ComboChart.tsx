@@ -54,6 +54,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
       renderTooltip,
       wrapCustomTooltip,
       tooltipValueFormatter,
+      tooltipTrigger = 'hover',
       legendInteractive = false,
       legendPosition = 'bottom',
       legendValueFormatter,
@@ -198,6 +199,8 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
         />
       )}
       <Tooltip
+        trigger={tooltipTrigger === 'click' ? 'click' : 'hover'}
+        shared={tooltipTrigger !== 'item'}
         content={
           <ChartTooltipAdapter
             renderTooltip={renderTooltip}
@@ -208,7 +211,7 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
             tooltipValueFormatter={tooltipValueFormatter}
           />
         }
-        cursor={{ stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
+        cursor={tooltipTrigger === 'item' ? false : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
       />
       {barSeries.filter(s => !isHidden(s.dataKey)).map((series, index) => {
         const color = getSeriesColor(series.dataKey, series.color, index);

@@ -7,7 +7,9 @@ import { InputWrapper } from '../../input/shared/InputWrapper';
 import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
 import { Avatar } from '../../avatar/Avatar';
 import { Badge } from '../../badge/Badge';
+import { Button } from '../../button/Button';
 import { ScrollArea } from '../../scroll-area/ScrollArea';
+import { TooltipTrigger } from '../../tooltip/Tooltip/TooltipTrigger';
 import { usePortalContainer, PortalContainerProvider } from '../../../utils/PortalContainerContext';
 import {
   SIZE_CONFIG,
@@ -18,8 +20,10 @@ import {
 import type {
   ComboboxProps,
   ComboboxOption,
+  ComboboxType,
   DefaultComboboxProps,
   AvatarComboboxProps,
+  MultiSelectComboboxProps,
   TagsComboboxProps,
 } from './Combobox.types';
 
@@ -49,14 +53,19 @@ const highlightText = (text: string, searchTerm: string): React.ReactNode => {
 interface ComboboxItemProps {
   option: ComboboxOption;
   selected: boolean;
-  variant: 'default' | 'avatar' | 'tags';
+  variant: 'default' | 'avatar' | 'multi-select' | 'tags';
+  /**
+   * default variant에서 선택 표시 방식. 'tags' / 'multi-select' 는 항상 checkbox.
+   */
+  selectType?: ComboboxType;
   onSelect: () => void;
   searchTerm?: string;
   highlightSearch?: boolean;
+  renderOption?: (option: ComboboxOption, isSelected: boolean) => React.ReactNode;
 }
 
 const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
-  ({ option, selected, variant, onSelect, searchTerm, highlightSearch = true }, ref) => {
+  ({ option, selected, variant, selectType = 'default', onSelect, searchTerm, highlightSearch = true, renderOption }, ref) => {
     const sizeConfig = option.description
       ? MENU_ITEM_SIZE_CONFIG.large
       : MENU_ITEM_SIZE_CONFIG.default;
@@ -64,9 +73,11 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
     const iconColor = option.iconColor
       ?? (option.disabled ? 'var(--icon-default-disabled)' : 'var(--icon-default)');
 
-    const renderCheckbox = () => {
-      if (variant !== 'tags') return null;
+    const useCheckbox = variant === 'tags' || variant === 'multi-select' || selectType === 'checkbox';
+    const useRadio = variant !== 'tags' && variant !== 'multi-select' && selectType === 'radio';
 
+    const renderCheckbox = () => {
+      if (!useCheckbox) return null;
       return (
         <div
           className={cn(
@@ -104,9 +115,39 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
       );
     };
 
-    const renderCheckIcon = () => {
-      if (variant === 'tags') return null;
+    const renderRadio = () => {
+      if (!useRadio) return null;
+      return (
+        <div
+          className={cn(
+            'relative width-16 height-16 rounded-full overflow-hidden flex-shrink-0 transition-colors',
+            option.disabled
+              ? 'bg-checkbox-disabled border-default'
+              : selected
+                ? 'border-none bg-checkbox-active'
+                : 'border-darker bg-checkbox-default'
+          )}
+        >
+          {selected && (
+            <div
+              className="absolute flex items-center justify-center"
+              style={{ inset: 0 }}
+            >
+              <div
+                className={cn(
+                  'width-8 height-8 rounded-full',
+                  option.disabled ? 'bg-default' : 'bg-default'
+                )}
+                style={{ background: option.disabled ? 'var(--icon-default-disabled)' : '#FFFFFF' }}
+              />
+            </div>
+          )}
+        </div>
+      );
+    };
 
+    const renderCheckIcon = () => {
+      if (useCheckbox || useRadio) return null;
       return (
         <span className="flex width-20 height-20 items-center justify-center flex-shrink-0">
           {selected && (
@@ -155,7 +196,7 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
       return null;
     };
 
-    return (
+    const itemNode = (
       <CommandPrimitive.Item
         ref={ref}
         value={option.id}
@@ -170,63 +211,83 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
           ]
         )}
       >
-        <div
-          className={cn(
-            'flex items-center w-full rounded-xs transition-colors duration-150',
-            sizeConfig.height,
-            sizeConfig.padding,
-            sizeConfig.gap,
-            option.disabled && 'cursor-not-allowed opacity-50'
-          )}
-        >
-          {renderCheckbox()}
-          {renderCheckIcon()}
-          {renderLeadContent()}
+        {renderOption ? (
+          <div className="flex items-center w-full">
+            {renderOption(option, selected)}
+          </div>
+        ) : (
+          <div
+            className={cn(
+              'flex items-center w-full rounded-xs transition-colors duration-150',
+              sizeConfig.height,
+              sizeConfig.padding,
+              sizeConfig.gap,
+              option.disabled && 'cursor-not-allowed opacity-50'
+            )}
+          >
+            {renderCheckbox()}
+            {renderRadio()}
+            {renderCheckIcon()}
+            {renderLeadContent()}
 
-          {option.description ? (
-            <div className="flex flex-col flex-1 min-w-0 padding-x-4 ds-gap-1">
-              <span
-                className={cn(
-                  'font-body',
-                  sizeConfig.text,
-                  option.disabled ? 'text-hint' : 'text-default',
-                  'flex-1 truncate'
-                )}
-              >
-                {highlightSearch && searchTerm ? highlightText(option.label, searchTerm) : option.label}
-              </span>
-              <span
-                className={cn(
-                  'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight truncate',
-                  option.disabled ? 'text-hint' : 'text-muted'
-                )}
-              >
-                {highlightSearch && searchTerm && option.description
-                  ? highlightText(option.description, searchTerm)
-                  : option.description}
-              </span>
-            </div>
-          ) : (
-            <div className="flex-1 min-w-0 padding-x-4">
-              <span
-                className={cn(
-                  'font-body block',
-                  sizeConfig.text,
-                  option.disabled ? 'text-hint' : 'text-default',
-                  'truncate'
-                )}
-              >
-                {highlightSearch && searchTerm ? highlightText(option.label, searchTerm) : option.label}
-              </span>
-            </div>
-          )}
+            {option.description ? (
+              <div className="flex flex-col flex-1 min-w-0 padding-x-4 ds-gap-1">
+                <span
+                  className={cn(
+                    'font-body',
+                    sizeConfig.text,
+                    option.disabled ? 'text-hint' : 'text-default',
+                    'flex-1 truncate'
+                  )}
+                >
+                  {highlightSearch && searchTerm ? highlightText(option.label, searchTerm) : option.label}
+                </span>
+                <span
+                  className={cn(
+                    'font-body size-xs line-height-leading-4 letter-spacing-tracking-tight truncate',
+                    option.disabled ? 'text-hint' : 'text-muted'
+                  )}
+                >
+                  {highlightSearch && searchTerm && option.description
+                    ? highlightText(option.description, searchTerm)
+                    : option.description}
+                </span>
+              </div>
+            ) : (
+              <div className="flex-1 min-w-0 padding-x-4">
+                <span
+                  className={cn(
+                    'font-body block',
+                    sizeConfig.text,
+                    option.disabled ? 'text-hint' : 'text-default',
+                    'truncate'
+                  )}
+                >
+                  {highlightSearch && searchTerm ? highlightText(option.label, searchTerm) : option.label}
+                </span>
+              </div>
+            )}
 
-          {option.badge && (
-            <Badge size="sm" color="neutral" border label={option.badge} />
-          )}
-        </div>
+            {option.badge && (
+              <Badge size="sm" color="neutral" border label={option.badge} />
+            )}
+          </div>
+        )}
       </CommandPrimitive.Item>
     );
+
+    if (option.tooltip) {
+      return (
+        <TooltipTrigger
+          content={option.tooltip}
+          placement={option.tooltipPlacement ?? 'right'}
+        >
+          {itemNode}
+        </TooltipTrigger>
+      );
+    }
+
+    return itemNode;
   }
 );
 ComboboxItem.displayName = 'ComboboxItem';
@@ -251,7 +312,10 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       success,
       disabled = false,
       placeholder = '검색...',
+      searchPlaceholder,
+      leadIcon,
       options,
+      optionGroups,
       noResultsText,
       emptyStateTitle = '검색 결과 없음',
       emptyStateDescription = '검색 결과와 일치하는 항목이 없습니다.',
@@ -262,10 +326,15 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       maxHeight = 300,
       contentWidth,
       width,
+      minWidth,
       className,
       highlightSearch = true,
       filterFunction,
       tailIcon,
+      clearable = false,
+      loading = false,
+      renderOption,
+      renderValue,
     } = props;
 
     const contextContainer = usePortalContainer();
@@ -284,15 +353,56 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
     const isOpen = isControlledOpen ? controlledOpen : internalOpen;
 
     const isTagsVariant = variant === 'tags';
+    const isMultiSelect = variant === 'multi-select';
+    const isMultiMode = isTagsVariant || isMultiSelect;
     const tagsProps = props as TagsComboboxProps;
+    const multiProps = props as MultiSelectComboboxProps;
     const singleProps = props as DefaultComboboxProps | AvatarComboboxProps;
+    const defaultProps = props as DefaultComboboxProps;
+
+    // Uncontrolled (defaultValue) support — track internal value when consumer doesn't pass `value`.
+    const singleControlled = singleProps.value !== undefined;
+    const multiControlled = isMultiMode
+      ? (isTagsVariant ? tagsProps.value : multiProps.value) !== undefined
+      : true;
+    const [internalSingleValue, setInternalSingleValue] = React.useState<string | undefined>(
+      !singleControlled && !isMultiMode ? singleProps.defaultValue : undefined,
+    );
+    const [internalMultiValue, setInternalMultiValue] = React.useState<string[]>(
+      () => {
+        if (isMultiMode && !multiControlled) {
+          return (isTagsVariant ? tagsProps.defaultValue : multiProps.defaultValue) ?? [];
+        }
+        return [];
+      },
+    );
+
+    // Multi-select: pending values when `showActions` is true (apply/cancel mode).
+    const useActions = isMultiSelect && multiProps.showActions === true;
+    const committedMultiValue = React.useMemo(() => {
+      if (!isMultiMode) return [];
+      const source = isTagsVariant ? tagsProps.value : multiProps.value;
+      return multiControlled ? (source ?? []) : internalMultiValue;
+    }, [isMultiMode, isTagsVariant, tagsProps.value, multiProps.value, multiControlled, internalMultiValue]);
+    const [pendingMultiValue, setPendingMultiValue] = React.useState<string[]>(committedMultiValue);
+
+    React.useEffect(() => {
+      if (useActions) {
+        setPendingMultiValue(committedMultiValue);
+      }
+    }, [useActions, committedMultiValue]);
 
     const selectedValues: string[] = React.useMemo(() => {
-      if (isTagsVariant) {
-        return tagsProps.value ?? [];
+      if (isMultiMode) {
+        if (useActions) return pendingMultiValue;
+        return committedMultiValue;
       }
-      return singleProps.value ? [singleProps.value] : [];
-    }, [isTagsVariant, tagsProps.value, singleProps.value]);
+      if (singleControlled) return singleProps.value ? [singleProps.value] : [];
+      return internalSingleValue ? [internalSingleValue] : [];
+    }, [
+      isMultiMode, useActions, pendingMultiValue, committedMultiValue,
+      singleControlled, singleProps.value, internalSingleValue,
+    ]);
 
     const selectedOptions = React.useMemo(() => {
       return options.filter((opt) => selectedValues.includes(opt.id));
@@ -331,10 +441,40 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
         if (!newOpen) {
           setInputValue('');
           setIsEditing(false);
+          // showActions: revert pending on close without apply
+          if (useActions) {
+            setPendingMultiValue(committedMultiValue);
+          }
         }
         onOpenChange?.(newOpen);
       },
-      [disabled, isControlledOpen, onOpenChange]
+      [disabled, isControlledOpen, onOpenChange, useActions, committedMultiValue]
+    );
+
+    const commitMulti = React.useCallback(
+      (next: string[]) => {
+        if (multiControlled) {
+          if (isTagsVariant) tagsProps.onChange?.(next);
+          else multiProps.onChange?.(next);
+        } else {
+          setInternalMultiValue(next);
+          if (isTagsVariant) tagsProps.onChange?.(next);
+          else multiProps.onChange?.(next);
+        }
+      },
+      [multiControlled, isTagsVariant, tagsProps, multiProps],
+    );
+
+    const commitSingle = React.useCallback(
+      (next: string) => {
+        if (singleControlled) {
+          singleProps.onChange?.(next);
+        } else {
+          setInternalSingleValue(next);
+          singleProps.onChange?.(next);
+        }
+      },
+      [singleControlled, singleProps],
     );
 
     const handleSelect = React.useCallback(
@@ -344,28 +484,37 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
         const option = options.find((o) => o.id === optionId);
         if (!option || option.disabled) return;
 
-        if (isTagsVariant) {
-          const currentValues = tagsProps.value ?? [];
+        if (isMultiMode) {
+          const currentValues = useActions ? pendingMultiValue : committedMultiValue;
           let newValues: string[];
 
           if (currentValues.includes(optionId)) {
             newValues = currentValues.filter((v) => v !== optionId);
           } else {
-            if (tagsProps.maxSelections && currentValues.length >= tagsProps.maxSelections) {
+            const cap = isTagsVariant ? tagsProps.maxSelections : multiProps.maxSelections;
+            if (cap && currentValues.length >= cap) {
               return;
             }
             newValues = [...currentValues, optionId];
           }
 
-          tagsProps.onChange?.(newValues);
+          if (useActions) {
+            setPendingMultiValue(newValues);
+          } else {
+            commitMulti(newValues);
+          }
         } else {
-          singleProps.onChange?.(optionId);
+          commitSingle(optionId);
           setOpen(false);
         }
 
         setInputValue('');
       },
-      [disabled, options, isTagsVariant, tagsProps, singleProps, setOpen]
+      [
+        disabled, options, isMultiMode, isTagsVariant, useActions,
+        pendingMultiValue, committedMultiValue, tagsProps.maxSelections, multiProps.maxSelections,
+        commitMulti, commitSingle, setOpen,
+      ],
     );
 
     const handleCreate = React.useCallback(() => {
@@ -373,26 +522,56 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 
       if (isTagsVariant) {
         tagsProps.onCreate?.(inputValue.trim());
+      } else if (isMultiSelect) {
+        multiProps.onCreate?.(inputValue.trim());
       } else {
         singleProps.onCreate?.(inputValue.trim());
       }
 
       setInputValue('');
-      if (!isTagsVariant) {
+      if (!isMultiMode) {
         setOpen(false);
       }
-    }, [creatable, inputValue, isTagsVariant, tagsProps, singleProps, setOpen]);
+    }, [creatable, inputValue, isTagsVariant, isMultiSelect, isMultiMode, tagsProps, multiProps, singleProps, setOpen]);
 
     const removeTag = React.useCallback(
       (id: string) => {
         if (disabled || !isTagsVariant) return;
 
-        const currentValues = tagsProps.value ?? [];
+        const currentValues = committedMultiValue;
         const newValues = currentValues.filter((v) => v !== id);
-        tagsProps.onChange?.(newValues);
+        commitMulti(newValues);
       },
-      [disabled, isTagsVariant, tagsProps]
+      [disabled, isTagsVariant, committedMultiValue, commitMulti],
     );
+
+    const handleClear = React.useCallback(
+      (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (disabled) return;
+        if (isMultiMode) {
+          if (useActions) {
+            setPendingMultiValue([]);
+          } else {
+            commitMulti([]);
+          }
+        } else {
+          commitSingle('');
+        }
+        setInputValue('');
+      },
+      [disabled, isMultiMode, useActions, commitMulti, commitSingle],
+    );
+
+    const handleApply = React.useCallback(() => {
+      commitMulti(pendingMultiValue);
+      setOpen(false);
+    }, [commitMulti, pendingMultiValue, setOpen]);
+
+    const handleCancel = React.useCallback(() => {
+      setPendingMultiValue(committedMultiValue);
+      setOpen(false);
+    }, [committedMultiValue, setOpen]);
 
     const getCreateText = () => {
       if (typeof createText === 'function') {
@@ -454,6 +633,33 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       (opt) => opt.label.toLowerCase() === inputValue.trim().toLowerCase()
     );
 
+    // ---- Select-All handling (multi-select) ----
+    const showSelectAll = isMultiSelect && multiProps.showSelectAll === true && !multiProps.maxSelections;
+    const selectableOptionIds = React.useMemo(
+      () => filteredOptions.filter((o) => !o.disabled).map((o) => o.id),
+      [filteredOptions],
+    );
+    const currentMultiValues = React.useMemo(
+      () => (isMultiMode ? (useActions ? pendingMultiValue : committedMultiValue) : []),
+      [isMultiMode, useActions, pendingMultiValue, committedMultiValue],
+    );
+    const allSelected = selectableOptionIds.length > 0 && selectableOptionIds.every((id) => currentMultiValues.includes(id));
+    const someSelected = selectableOptionIds.some((id) => currentMultiValues.includes(id));
+    const handleToggleAll = React.useCallback(() => {
+      if (disabled || !isMultiSelect) return;
+      const currentSet = new Set(currentMultiValues);
+      let next: string[];
+      if (allSelected) {
+        next = currentMultiValues.filter((v) => !selectableOptionIds.includes(v));
+      } else {
+        selectableOptionIds.forEach((id) => currentSet.add(id));
+        next = Array.from(currentSet);
+      }
+      if (useActions) setPendingMultiValue(next);
+      else commitMulti(next);
+    }, [disabled, isMultiSelect, allSelected, currentMultiValues, selectableOptionIds, useActions, commitMulti]);
+
+    // ---- Trigger selected-value render ----
     const renderSelectedValue = () => {
       if (isTagsVariant) {
         if (selectedOptions.length === 0) {
@@ -498,9 +704,25 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
         );
       }
 
+      if (isMultiSelect) {
+        const count = committedMultiValue.length;
+        if (count === 0) return null;
+        const text = multiProps.selectedText;
+        let label: React.ReactNode;
+        if (typeof text === 'function') label = text(count);
+        else if (typeof text === 'string') label = text.replace('{count}', String(count));
+        else label = `${count} selected`;
+        return (
+          <span className={cn('truncate flex-1 min-w-0', disabled ? 'text-hint' : 'text-default')}>
+            {label}
+          </span>
+        );
+      }
+
       return null;
     };
 
+    // ---- Trigger className ----
     const triggerClassName = React.useMemo(() => cn(
       'flex w-full items-center justify-between whitespace-nowrap transition-colors duration-150',
       sizeConfig.minHeight,
@@ -557,11 +779,107 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       );
     };
 
+    const renderLoading = () => (
+      <div
+        role="status"
+        className="flex items-center justify-center padding-y-24 ds-gap-8"
+      >
+        <div className="width-20 height-20 border-2 border-state-primary border-t-transparent rounded-full animate-spin" />
+        <span className="font-body size-sm text-subtle">로딩 중...</span>
+      </div>
+    );
+
+    const currentPlaceholder =
+      isEditing && searchPlaceholder ? searchPlaceholder : placeholder;
+
+    // ---- Rendering of list content (groups vs flat) ----
+    const renderOptionsList = () => {
+      if (loading) return renderLoading();
+      if (filteredOptions.length === 0) return renderEmptyState();
+
+      const idSet = new Set(filteredOptions.map((o) => o.id));
+
+      const renderItem = (option: ComboboxOption) => (
+        <ComboboxItem
+          key={option.id}
+          option={option}
+          selected={selectedValues.includes(option.id)}
+          variant={variant}
+          selectType={defaultProps.selectType}
+          onSelect={() => handleSelect(option.id)}
+          searchTerm={inputValue}
+          highlightSearch={highlightSearch}
+          renderOption={renderOption}
+        />
+      );
+
+      if (optionGroups && optionGroups.length > 0) {
+        const grouped: React.ReactNode[] = [];
+        const groupedIds = new Set<string>();
+
+        optionGroups.forEach((group, idx) => {
+          const groupOptions = group.optionIds
+            .map((id) => filteredOptions.find((o) => o.id === id))
+            .filter((o): o is ComboboxOption => !!o && idSet.has(o.id));
+          if (groupOptions.length === 0) return;
+
+          groupOptions.forEach((o) => groupedIds.add(o.id));
+
+          grouped.push(
+            <div key={`group-${idx}`} className="padding-y-4">
+              <div className="padding-x-10 padding-y-4 font-body size-xs font-medium text-muted uppercase letter-spacing-tracking-wide">
+                {group.label}
+              </div>
+              <CommandPrimitive.List>
+                {groupOptions.map(renderItem)}
+              </CommandPrimitive.List>
+            </div>,
+          );
+        });
+
+        const ungrouped = filteredOptions.filter((o) => !groupedIds.has(o.id));
+        if (ungrouped.length > 0) {
+          grouped.push(
+            <div key="ungrouped" className="padding-y-4">
+              <CommandPrimitive.List>
+                {ungrouped.map(renderItem)}
+              </CommandPrimitive.List>
+            </div>,
+          );
+        }
+
+        return <div className="padding-4">{grouped}</div>;
+      }
+
+      return (
+        <div className="padding-4">
+          <CommandPrimitive.List>
+            {filteredOptions.map(renderItem)}
+          </CommandPrimitive.List>
+        </div>
+      );
+    };
+
+    const applyEnabled = React.useMemo(() => {
+      if (!useActions) return false;
+      if (multiProps.canApply) return multiProps.canApply(pendingMultiValue, committedMultiValue);
+      // default: enabled only when changed
+      if (pendingMultiValue.length !== committedMultiValue.length) return true;
+      const committedSet = new Set(committedMultiValue);
+      return pendingMultiValue.some((v) => !committedSet.has(v));
+    }, [useActions, multiProps, pendingMultiValue, committedMultiValue]);
+
+    // ---- InputWrapper extra width/minWidth style passthrough ----
+    const widthStyle: React.CSSProperties = {};
+    if (minWidth !== undefined) {
+      widthStyle.minWidth = typeof minWidth === 'number' ? `${minWidth}px` : minWidth;
+    }
+
     return (
       <InputWrapper
         label={label}
-      labelPosition={labelPosition}
-      labelWidth={labelWidth}
+        labelPosition={labelPosition}
+        labelWidth={labelWidth}
         inputId={comboboxId}
         required={required}
         supportText={supportText}
@@ -571,7 +889,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
         width={width}
         className={className}
       >
-        <div ref={ref}>
+        <div ref={ref} style={Object.keys(widthStyle).length > 0 ? widthStyle : undefined}>
           <CommandPrimitive
             shouldFilter={false}
             onKeyDown={(e) => {
@@ -601,7 +919,20 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                   className={triggerClassName}
                   onClick={handleTriggerClick}
                 >
-                  {!isTagsVariant && selectedOptions.length === 0 && (
+                  {leadIcon && (() => {
+                    const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
+                    return (
+                      <Icon
+                        iconType={iconType}
+                        size={sizeConfig.iconSize}
+                        color={iconColor}
+                        className="flex-shrink-0"
+                        isFill={isFill}
+                      />
+                    );
+                  })()}
+
+                  {!isMultiMode && selectedOptions.length === 0 && !leadIcon && (
                     <div className="flex items-center ds-gap-6 flex-shrink-0">
                       <Icon
                         iconType={['system', 'search']}
@@ -613,7 +944,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
 
                   {renderSelectedValue()}
 
-                  {!isTagsVariant && selectedOptions.length === 1 && !isEditing && (
+                  {!isMultiMode && selectedOptions.length === 1 && !isEditing && (
                     <div className="flex items-center ds-gap-6 flex-1 min-w-0">
                       {variant === 'avatar' && selectedOptions[0].avatarSrc && (
                         <Avatar
@@ -624,7 +955,9 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                         />
                       )}
                       <span className={cn('truncate', disabled ? 'text-hint' : 'text-default')}>
-                        {selectedOptions[0].label}
+                        {renderValue
+                          ? renderValue(selectedOptions[0])
+                          : selectedOptions[0].label}
                       </span>
                     </div>
                   )}
@@ -646,19 +979,44 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                         }
                       }
                     }}
-                    placeholder={selectedOptions.length === 0 || isEditing ? placeholder : ''}
+                    placeholder={
+                      selectedOptions.length === 0 || isEditing
+                        ? currentPlaceholder
+                        : ''
+                    }
                     disabled={disabled}
                     className={cn(
                       'bg-transparent border-none outline-none',
                       sizeConfig.text,
                       'font-body text-default placeholder:text-hint',
                       disabled && 'cursor-not-allowed',
-                      !isTagsVariant && selectedOptions.length === 1 && !isEditing
+                      !isMultiMode && selectedOptions.length === 1 && !isEditing
                         ? 'absolute opacity-0 [width:0] [height:0]'
-                        : 'flex-1 min-w-[60px]'
+                        : isMultiSelect && committedMultiValue.length > 0 && !isEditing
+                          ? 'absolute opacity-0 [width:0] [height:0]'
+                          : 'flex-1 min-w-[60px]'
                     )}
                     id={comboboxId}
                   />
+
+                  {clearable && selectedOptions.length > 0 && !disabled && (
+                    <button
+                      type="button"
+                      aria-label="Clear selection"
+                      className={cn(
+                        'flex items-center justify-center flex-shrink-0 rounded-full',
+                        'width-16 height-16 hover:bg-state-ghost-hover cursor-pointer',
+                      )}
+                      onClick={handleClear}
+                      onMouseDown={(e) => e.preventDefault()}
+                    >
+                      <Icon
+                        iconType={['system', 'close']}
+                        size={12}
+                        color={iconColor}
+                      />
+                    </button>
+                  )}
 
                   {tailIcon && (() => {
                     const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
@@ -674,7 +1032,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                   })()}
 
                   <Icon
-                    iconType={['arrows', 'expand-up-down']}
+                    iconType={['arrows', isOpen ? 'arrow-up-s' : 'arrow-down-s']}
                     size={sizeConfig.iconSize}
                     color={iconColor}
                     className="flex-shrink-0"
@@ -721,51 +1079,75 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                   }}
                 >
                 <PortalContainerProvider value={contentEl}>
-                  {filteredOptions.length === 0 ? (
-                    renderEmptyState()
-                  ) : (
-                    <ScrollArea
-                      maxHeight={maxHeight}
-                      viewportRef={listRef}
-                      onScrollPositionChange={updateScrollButtons}
-                    >
-                      {canScrollUp && (
-                        <button
-                          type="button"
-                          onClick={handleScrollUp}
-                          className="sticky top-0 z-10 flex w-full cursor-default items-center justify-center padding-y-4 bg-card"
-                        >
-                          <Icon iconType={['arrows', 'arrow-drop-up']} size={16} color="default-muted" />
-                        </button>
-                      )}
-                      <div className="padding-4">
-                        <CommandPrimitive.List>
-                          {filteredOptions.map((option) => (
-                            <ComboboxItem
-                              key={option.id}
-                              option={option}
-                              selected={selectedValues.includes(option.id)}
-                              variant={variant}
-                              onSelect={() => handleSelect(option.id)}
-                              searchTerm={inputValue}
-                              highlightSearch={highlightSearch}
-                            />
-                          ))}
-                        </CommandPrimitive.List>
-                      </div>
-                      {canScrollDown && (
-                        <button
-                          type="button"
-                          onClick={handleScrollDown}
-                          className="sticky bottom-0 z-10 flex w-full cursor-default items-center justify-center padding-y-4 bg-card"
-                        >
-                          <Icon iconType={['arrows', 'arrow-drop-down']} size={16} color="default-muted" />
-                        </button>
-                      )}
-                    </ScrollArea>
-                  )}
+                  <ScrollArea
+                    maxHeight={maxHeight}
+                    viewportRef={listRef}
+                    onScrollPositionChange={updateScrollButtons}
+                  >
+                    {canScrollUp && (
+                      <button
+                        type="button"
+                        onClick={handleScrollUp}
+                        className="sticky top-0 z-10 flex w-full cursor-default items-center justify-center padding-y-4 bg-card"
+                      >
+                        <Icon iconType={['arrows', 'arrow-drop-up']} size={16} color="default-muted" />
+                      </button>
+                    )}
 
-                  {showCreateOption && (
+                    {showSelectAll && !loading && filteredOptions.length > 0 && (
+                      <div className="padding-x-4 padding-t-4">
+                        <button
+                          type="button"
+                          onClick={handleToggleAll}
+                          className={cn(
+                            'flex items-center w-full height-32 padding-x-6 ds-gap-6 rounded-xs',
+                            'cursor-pointer hover:bg-[var(--bg-state-ghost-hover)] outline-none',
+                          )}
+                        >
+                          <div
+                            className={cn(
+                              'relative width-16 height-16 rounded-default overflow-hidden flex-shrink-0 transition-colors',
+                              allSelected
+                                ? 'border-none bg-checkbox-active'
+                                : someSelected
+                                  ? 'border-none bg-checkbox-active'
+                                  : 'border-darker bg-checkbox-default',
+                            )}
+                          >
+                            {allSelected && (
+                              <div className="absolute flex items-center justify-center" style={{ inset: '1px' }}>
+                                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M1 4L3 6L7 2" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              </div>
+                            )}
+                            {!allSelected && someSelected && (
+                              <div className="absolute flex items-center justify-center" style={{ inset: 0 }}>
+                                <div className="width-8 height-2 rounded-full" style={{ background: '#FFFFFF' }} />
+                              </div>
+                            )}
+                          </div>
+                          <span className="flex-1 text-left size-sm font-body text-default">
+                            {multiProps.selectAllLabel ?? '전체 선택'}
+                          </span>
+                        </button>
+                      </div>
+                    )}
+
+                    {renderOptionsList()}
+
+                    {canScrollDown && (
+                      <button
+                        type="button"
+                        onClick={handleScrollDown}
+                        className="sticky bottom-0 z-10 flex w-full cursor-default items-center justify-center padding-y-4 bg-card"
+                      >
+                        <Icon iconType={['arrows', 'arrow-drop-down']} size={16} color="default-muted" />
+                      </button>
+                    )}
+                  </ScrollArea>
+
+                  {showCreateOption && !loading && (
                     <div className="border-t border-default">
                       <button
                         type="button"
@@ -782,6 +1164,26 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                         </span>
                         <Icon iconType={['arrows', 'arrow-drop-right']} size={16} color="default-muted" />
                       </button>
+                    </div>
+                  )}
+
+                  {useActions && (
+                    <div className="flex items-center justify-end ds-gap-6 padding-8 border-t border-default">
+                      <Button
+                        size="sm"
+                        buttonStyle="ghost"
+                        onClick={handleCancel}
+                      >
+                        {multiProps.cancelLabel ?? '취소'}
+                      </Button>
+                      <Button
+                        size="sm"
+                        buttonStyle="primary"
+                        disabled={!applyEnabled}
+                        onClick={handleApply}
+                      >
+                        {multiProps.applyLabel ?? '적용'}
+                      </Button>
                     </div>
                   )}
                 </PortalContainerProvider>

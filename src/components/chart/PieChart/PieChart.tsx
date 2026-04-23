@@ -46,6 +46,7 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
       renderTooltip,
       wrapCustomTooltip,
       tooltipValueFormatter,
+      tooltipTrigger = 'hover',
       legendInteractive = false,
       legendPosition = 'bottom',
       legendValueFormatter,
@@ -128,6 +129,8 @@ export const PieChart = forwardRef<HTMLDivElement, PieChartProps>(
         ))}
       </Pie>
       <Tooltip
+        trigger={tooltipTrigger === 'click' ? 'click' : 'hover'}
+        shared={tooltipTrigger !== 'item'}
         content={
           <PieTooltipAdapter
             renderTooltip={renderTooltip}

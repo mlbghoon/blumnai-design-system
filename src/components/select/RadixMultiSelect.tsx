@@ -688,7 +688,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                 })()}
 
                 <Icon
-                  iconType={['arrows', 'expand-up-down']}
+                  iconType={['arrows', isOpen ? 'arrow-up-s' : 'arrow-down-s']}
                   size={sizeConfig.iconSize}
                   color={iconColor}
                   className="flex-shrink-0"

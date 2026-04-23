@@ -112,6 +112,7 @@ const SelectTrigger = React.forwardRef<
       <SelectPrimitive.Trigger
         ref={ref}
         className={cn(
+          'group/trigger',
           'flex w-full items-center justify-between whitespace-nowrap transition-colors duration-150',
           sizeConfig.container,
           leadIcon ? sizeConfig.paddingWithLeadIcon : sizeConfig.padding,
@@ -168,12 +169,20 @@ const SelectTrigger = React.forwardRef<
           </button>
         )}
         <SelectPrimitive.Icon asChild>
-          <Icon
-            iconType={['arrows', 'expand-up-down']}
-            size={sizeConfig.iconSize}
-            color={iconColor}
-            className="flex-shrink-0"
-          />
+          <span className="flex-shrink-0 inline-flex items-center justify-center">
+            <Icon
+              iconType={['arrows', 'arrow-down-s']}
+              size={sizeConfig.iconSize}
+              color={iconColor}
+              className="group-data-[state=open]/trigger:hidden"
+            />
+            <Icon
+              iconType={['arrows', 'arrow-up-s']}
+              size={sizeConfig.iconSize}
+              color={iconColor}
+              className="hidden group-data-[state=open]/trigger:inline-flex"
+            />
+          </span>
         </SelectPrimitive.Icon>
       </SelectPrimitive.Trigger>
     );
@@ -1252,7 +1261,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                     </span>
                   )}
                   <Icon
-                    iconType={['arrows', 'expand-up-down']}
+                    iconType={['arrows', isOpen ? 'arrow-up-s' : 'arrow-down-s']}
                     size={sizeConfig.iconSize}
                     color={triggerIconColor}
                     className="flex-shrink-0"

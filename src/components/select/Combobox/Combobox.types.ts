@@ -9,12 +9,22 @@ export type ComboboxStyle = 'default' | 'shadow' | 'soft';
 /**
  * Combobox 크기 변형
  */
-export type ComboboxSize = 'sm' | 'lg';
+export type ComboboxSize = 'xs' | 'sm' | 'lg';
 
 /**
  * Combobox 변형 타입
  */
-export type ComboboxVariant = 'default' | 'avatar' | 'tags';
+export type ComboboxVariant = 'default' | 'avatar' | 'multi-select' | 'tags';
+
+/**
+ * Combobox 메뉴 아이템 선택 표시 타입
+ */
+export type ComboboxType = 'default' | 'checkbox' | 'radio';
+
+/**
+ * Combobox 옵션 툴팁 배치
+ */
+export type ComboboxOptionTooltipPlacement = 'top' | 'right' | 'bottom' | 'left';
 
 /**
  * Combobox 옵션 아이템 데이터
@@ -52,6 +62,30 @@ export interface ComboboxOption {
    * 비활성화 여부
    */
   disabled?: boolean;
+  /**
+   * 옵션 호버 시 표시되는 툴팁 내용. string/ReactNode 모두 자동으로 Tooltip으로 감싸짐.
+   * `disabled: true` 옵션에서도 동작하므로, 비활성화 사유를 안내할 때 유용.
+   */
+  tooltip?: ReactNode;
+  /**
+   * 툴팁 배치 (기본 'right')
+   * @default 'right'
+   */
+  tooltipPlacement?: ComboboxOptionTooltipPlacement;
+}
+
+/**
+ * Combobox 옵션 그룹
+ */
+export interface ComboboxOptionGroup {
+  /**
+   * 그룹 라벨
+   */
+  label: string;
+  /**
+   * 그룹에 포함되는 옵션 ID 목록
+   */
+  optionIds: string[];
 }
 
 /**
@@ -105,6 +139,10 @@ export interface ComboboxBaseProps {
    */
   width?: string | number;
   /**
+   * Combobox 컨테이너의 최소 너비 (숫자는 px, 문자열은 그대로 사용)
+   */
+  minWidth?: string | number;
+  /**
    * 비활성화 여부
    * @default false
    */
@@ -114,9 +152,27 @@ export interface ComboboxBaseProps {
    */
   placeholder?: string;
   /**
+   * 검색 필드 전용 플레이스홀더 (미지정 시 `placeholder` 사용)
+   */
+  searchPlaceholder?: string;
+  /**
+   * 트리거 앞에 표시되는 아이콘
+   */
+  leadIcon?: IconTypeWithFill;
+  /**
+   * 라벨 뒤, 화살표 앞에 표시되는 아이콘
+   */
+  tailIcon?: IconTypeWithFill;
+  /**
    * 선택 가능한 옵션 목록
    */
   options: ComboboxOption[];
+  /**
+   * 옵션 그룹 정의.
+   * 각 그룹에 라벨과 옵션 ID 목록을 지정합니다.
+   * `options`와 함께 사용하여 그룹별로 옵션을 구분합니다.
+   */
+  optionGroups?: ComboboxOptionGroup[];
   /**
    * 결과 없음 텍스트 (deprecated - use emptyStateTitle instead)
    * @default 'No results found'
@@ -173,9 +229,26 @@ export interface ComboboxBaseProps {
    */
   filterFunction?: (option: ComboboxOption, query: string) => boolean;
   /**
-   * 라벨 뒤, 화살표 앞에 표시되는 아이콘
+   * 선택 초기화 버튼 표시 여부.
+   * `true`이면 선택된 값이 있을 때 X 버튼이 표시됩니다.
+   * @default false
    */
-  tailIcon?: IconTypeWithFill;
+  clearable?: boolean;
+  /**
+   * 로딩 상태.
+   * `true`이면 드롭다운 내에 스피너가 표시됩니다.
+   * @default false
+   */
+  loading?: boolean;
+  /**
+   * 옵션 아이템의 커스텀 렌더링 함수
+   */
+  renderOption?: (option: ComboboxOption, isSelected: boolean) => ReactNode;
+  /**
+   * 트리거에 선택된 값을 커스텀 렌더링하는 함수
+   * 미지정 시 선택된 옵션의 label 텍스트 표시
+   */
+  renderValue?: (option: ComboboxOption) => ReactNode;
   /**
    * 외부 컨테이너에 적용할 추가 className
    */
@@ -192,6 +265,10 @@ export interface DefaultComboboxProps extends ComboboxBaseProps, Omit<HTMLAttrib
    */
   value?: string;
   /**
+   * 비제어 모드에서의 초기 선택 값
+   */
+  defaultValue?: string;
+  /**
    * 선택 변경 시 호출되는 콜백
    */
   onChange?: (value: string) => void;
@@ -199,6 +276,11 @@ export interface DefaultComboboxProps extends ComboboxBaseProps, Omit<HTMLAttrib
    * 새 항목 생성 시 호출되는 콜백
    */
   onCreate?: (value: string) => void;
+  /**
+   * 메뉴 아이템 선택 표시 타입 (기본값은 체크 아이콘)
+   * @default 'default'
+   */
+  selectType?: ComboboxType;
 }
 
 /**
@@ -211,6 +293,10 @@ export interface AvatarComboboxProps extends ComboboxBaseProps, Omit<HTMLAttribu
    */
   value?: string;
   /**
+   * 비제어 모드에서의 초기 선택 값
+   */
+  defaultValue?: string;
+  /**
    * 선택 변경 시 호출되는 콜백
    */
   onChange?: (value: string) => void;
@@ -218,6 +304,69 @@ export interface AvatarComboboxProps extends ComboboxBaseProps, Omit<HTMLAttribu
    * 새 항목 생성 시 호출되는 콜백
    */
   onCreate?: (value: string) => void;
+}
+
+/**
+ * Multi-select Combobox Props - 다중 선택 (컴팩트 "N selected" 표시)
+ */
+export interface MultiSelectComboboxProps extends ComboboxBaseProps, Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
+  variant: 'multi-select';
+  /**
+   * 현재 선택된 값들
+   */
+  value?: string[];
+  /**
+   * 비제어 모드에서의 초기 선택 값들
+   */
+  defaultValue?: string[];
+  /**
+   * 선택 변경 시 호출되는 콜백
+   */
+  onChange?: (value: string[]) => void;
+  /**
+   * 새 항목 생성 시 호출되는 콜백
+   */
+  onCreate?: (value: string) => void;
+  /**
+   * 최대 선택 개수
+   */
+  maxSelections?: number;
+  /**
+   * 다중 선택 시 트리거에 표시되는 텍스트
+   * 문자열 또는 (count: number) => string 함수
+   * @default '{count} selected'
+   */
+  selectedText?: string | ((count: number) => string);
+  /**
+   * 전체 선택 옵션 표시 여부 (maxSelections 설정 시 무시됨)
+   * @default false
+   */
+  showSelectAll?: boolean;
+  /**
+   * 전체 선택 라벨
+   * @default '전체 선택'
+   */
+  selectAllLabel?: string;
+  /**
+   * 적용 버튼 모드 — true면 선택을 즉시 반영하지 않고 적용/취소 버튼으로 일괄 반영
+   */
+  showActions?: boolean;
+  /**
+   * 적용 버튼 라벨
+   * @default '적용'
+   */
+  applyLabel?: string;
+  /**
+   * 취소 버튼 라벨
+   * @default '취소'
+   */
+  cancelLabel?: string;
+  /**
+   * 적용 버튼 활성화 조건 (showActions 모드에서만 동작).
+   * 반환값이 false면 적용 버튼이 비활성화됩니다.
+   * 미지정 시 기본값은 "변경 사항이 있을 때만 활성화" (pending !== committed).
+   */
+  canApply?: (pending: string[], committed: string[]) => boolean;
 }
 
 /**
@@ -229,6 +378,10 @@ export interface TagsComboboxProps extends ComboboxBaseProps, Omit<HTMLAttribute
    * 현재 선택된 값들
    */
   value?: string[];
+  /**
+   * 비제어 모드에서의 초기 선택 값들
+   */
+  defaultValue?: string[];
   /**
    * 선택 변경 시 호출되는 콜백
    */
@@ -260,4 +413,5 @@ export interface TagsComboboxProps extends ComboboxBaseProps, Omit<HTMLAttribute
 export type ComboboxProps =
   | DefaultComboboxProps
   | AvatarComboboxProps
+  | MultiSelectComboboxProps
   | TagsComboboxProps;
