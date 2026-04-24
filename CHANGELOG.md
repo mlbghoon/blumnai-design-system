@@ -1,5 +1,65 @@
 # Changelog
 
+## [1.9.5] - 2026-04-24
+
+### Fixed — HtmlEditor 출력 HTML 이 Consumer B (뷰어) 측에서 스타일 없이 렌더되던 문제
+
+`HtmlEditor` 에서 작성·저장된 HTML 을 **다른 consumer 앱이 `dangerouslySetInnerHTML` 로 렌더할 때** 목록 마커 / 헤딩 크기 / 인용 줄 / 코드 배경 / 링크 색 / 이미지 크기가 모두 사라지던 문제. 두 층으로 수정.
+
+**Editor 측 (DS 자체가 consumer 에서 정상 동작)**
+
+- `HtmlEditor.css` 가 `dist/index.css` 에 번들되지 않아 consumer 가 DS 를 설치해도 에디터 스타일이 적용 안 됨 → 순서 없는 목록 토글 등이 "먹히지 않는 것처럼" 보임 (실제로는 `<ul>` 로 토글되지만 Tailwind Preflight 가 `list-style: none` 으로 초기화)
+  - 원인: `vite.config.ts` 의 `treeshake.moduleSideEffects: false` 가 `HtmlEditor.tsx` 의 `import './HtmlEditor.css'` side-effect 를 제거. 이 패턴을 쓰는 컴포넌트가 `HtmlEditor` 하나뿐이라 다른 CSS 는 문제 없었음
+  - 해결: `src/index.css` 에 `@import "./components/html-editor/HtmlEditor.css"` 추가. 메인 CSS 번들에 포함되어 `dist/index.css` 한 번만 import 하는 기존 consumer 는 코드 변경 없이 즉시 작동
+
+**뷰어 측 (다른 consumer 가 DS CSS 없이도 HTML 을 정상 렌더)**
+
+- `editor.getHTML()` 출력이 각 노드에 inline `style="..."` 를 동반하도록 TipTap extension 재구성
+  - `src/components/html-editor/extensions.ts` (신규): `toStyle` helper + `INLINE_STYLES` per-node 선언 + 6단계 heading 별 font-size 맵을 가진 `StyledHeading` (`Heading.extend` 에서 `renderHTML` override, per-level style 을 `mergeAttributes` 마지막 인자로 전달해 option-level override 를 이기게 함)
+  - `useHtmlEditor.ts`: extension 구성을 `buildExtensions(features, placeholder)` 로 추출 (headless 테스트 가능). StarterKit 의 `bulletList / orderedList / listItem / blockquote / codeBlock / code` 각각에 `HTMLAttributes.style` 주입. `heading` 은 StarterKit 에서 disable 하고 `StyledHeading.configure({ levels: [1..6] })` 로 교체. `Link` / `Image` 도 `HTMLAttributes.style` 주입
+  - 색/크기 값은 모두 `var(--token, #hex)` 형태로 fallback 포함 → DS 토큰이 있으면 테마 적용, 없으면 하드코딩된 hex 사용. 가장 중요한 타협점: 인라인 스타일 방식은 viewer-side 에서 DS 의존성 0 달성
+- `HtmlEditor.css` 슬림 — inline style 이 담당하는 규칙 (heading 크기, blockquote, pre, 목록, 링크, 이미지) 제거. 에디터 전용 규칙 (focus/outline 리셋, placeholder, disabled/readonly, sibling margin) 은 유지. `pre code` 리셋과 중첩 목록 depth (`ul ul` `circle` 등) 는 `!important` 로 유지 — inline `background` / `list-style-type` 이 자식 요소에 직접 걸려 있어 descendant selector 가 specificity 로 못 이김
+- **Sanitizer 주의사항**: stored HTML 을 DOMPurify 등으로 정제하는 consumer 는 allowlist 에 `ul, ol, li, h1-h6, blockquote, pre, code, a, img` 의 `style` 속성 + `span` (TextStyle/Color) / `mark` (Highlight) 를 포함해야 함
+- **`calculateContentSize` / `maxContentSize` 의미 변화**: 같은 입력 콘텐츠가 inline style 만큼 (~20-40%) 더 크게 측정됨. 타이트한 `maxContentSize` 를 쓰던 consumer 는 한도 상향 검토 필요. 5MB 같은 넉넉한 한도는 영향 없음
+- **Tests**: `extensions.test.ts` (신규) — 32 케이스 (`toStyle` 유닛, `INLINE_STYLES` / `HEADING_STYLES` 순수 데이터 검증, 각 노드에서 `editor.getHTML()` 에 `style` 속성이 출력되는지 + 헤딩 font-size 값 정확도, 라운드트립 중복 방지)
+
+### Fixed — HtmlEditor Toolbar 우측 고정 영역 하단 정렬 (회귀)
+
+- 가로 스크롤바 (`offsetScrollbars` 로 viewport 하단 10px 여백) 가 생기는 좌측 스크롤 영역 과 오른쪽 고정 영역 (undo/redo + code view) 의 하단선이 어긋나 보이던 문제. 우측 고정 div 에 `style={{ paddingBottom: 10 }}` 추가해 ScrollArea 의 내부 gutter 와 일치시킴
+
+### Fixed — DropdownInput 옵션 클릭이 `Dialog disableOutsideClose` 안에서 먹히지 않던 문제
+
+- **증상**: `Input variant="lead-dropdown" / "tail-dropdown"` 이 DS `Dialog` (with `disableOutsideClose`) 안에 있을 때, 드롭다운 옵션 클릭이 아무 반응 없음 + 옵션 hover 시 `cursor: pointer` 도 안 먹음
+- **원인**: `createPortal(menu, document.body)` 로 dialog 서브트리 밖에 붙은 메뉴가 Radix `DismissableLayer` 의 `disableOutsidePointerEvents: true` (modal Dialog 가 항상 설정) 에 의한 `body { pointer-events: none }` 의 희생자가 됨. Radix 는 layer stack 에 등록된 DismissableLayer 에만 `pointer-events: auto` 를 inline 으로 복원하는데, 평범한 div 로 portal 된 메뉴는 layer 가 아니라 차단됨
+- **해결**: portal 내부 메뉴 컨테이너를 `DismissableLayerBranch` 가 아니라 `DismissableLayer` 로 감쌈. Dialog layer 위에 스택되어 pointer-events 가 복원되고 option click 이 정상 동작. ESC 키는 dropdown 이 자체 처리 (상위 Dialog 로 propagate 막음)
+- `@radix-ui/react-dismissable-layer` 를 transitive 의존성에서 **direct dependency 로 승격** (`^1.1.11`)
+
+### Fixed — Dialog 가 작은 뷰포트에서 헤더/푸터가 잘리던 문제 (회귀)
+
+- **증상**: `HtmlEditor` 포함 큰 폼을 담은 Dialog (예: 헬프데스크 등록) 를 작은 브라우저 창에서 열면, `fixed + translate(-50%, -50%)` 센터링 + 높이 제약 없음 때문에 콘텐츠가 뷰포트 위아래로 같이 삐져 나감. X 버튼과 하단 액션 버튼 모두에 접근 불가. 페이지 스크롤도 `position: fixed` 라 안 먹힘
+- **해결 — 3-region flex 레이아웃**
+  - `DialogContent` (non-fullScreen) 가 `max-height: calc(100vh - 32px)` + `overflow-hidden` + `flex flex-col` 컨테이너가 됨
+  - React child introspection 으로 `DialogHeader` / `DialogFooter` 를 뽑아내 **스크롤 영역 바깥** 의 flex-col 자식으로 렌더 → 절대 뷰포트 밖으로 안 나감
+  - 나머지 children 은 내부 body wrapper (`flex-1 min-h-0 overflow-y-auto padding-x-24 padding-y-16`) 안으로 들어가 스크롤만 담당
+  - 바디 wrapper 는 DS ScrollArea 대신 native `overflow-y-auto` + `::-webkit-scrollbar` / `scrollbar-width: thin` 커스텀 (Radix ScrollArea Viewport 가 `h-full` + flex-computed height 조합에서 일부 브라우저에서 0 으로 수축되는 이슈 회피). 시각 스타일은 DS ScrollArea 와 동일한 얇은 rounded thumb + hover 강조
+- **레이아웃 보존**: DialogHeader 는 `padding-x-24` + inline `paddingTop: 24 / paddingBottom: 0`, Body wrapper 는 `padding-y-16` 으로 스크롤 안쪽 breathing room + gap, DialogFooter 는 `padding-x-24` + inline `paddingTop: 0 / paddingBottom: 24`. 총 간격은 기존 `padding-24 + grid gap-16` 과 동일 (24 / 16 / 16 / 24)
+- **Close 버튼** 은 outer DialogContent 의 `absolute top-20 right-20` 로 스크롤 영역 바깥에 배치 → 스크롤과 무관하게 항상 우상단 고정
+- **Consumer 변경 불필요**: `<DialogHeader>` / `<DialogFooter>` 슬롯을 쓰는 기존 consumer 는 업그레이드만 하면 자동 적용. 슬롯을 안 쓰면 fullScreen 과 동일한 fallback (모든 children 이 body 로) 으로 동작하므로 기존 짧은 Dialog 는 변화 없음
+- Reporter: happytalk-front / 헬프데스크 등록 화면
+
+### Fixed — DataGridCell `align: 'center' | 'right'` 가 실제로 적용 안 되던 버그
+
+- `meta.align` 으로 컬럼 정렬을 주면 셀의 outer flex 에 `justify-center / justify-end` 가 붙지만, 내부 content wrapper 가 `w-full text-ellipsis whitespace-nowrap` 이라 항상 100% 폭을 차지해 `justify-*` 가 시각적으로 의미 없어짐. 결과적으로 텍스트는 항상 왼쪽 정렬
+- inner wrapper 에 `text-center` / `text-right` 을 추가해 실제 텍스트 정렬을 반영 (ellipsis 동작도 유지)
+
+### Added — FileUploadCard `hideFilename` + 유연한 썸네일 폭
+
+- **`hideFilename?: boolean`**: 기존 `hideSize` 와 한 쌍. 파일명 행을 숨겨 썸네일·상태·액션만 남기는 슬림 카드용
+- **썸네일 폭이 이미지 원본 비율에 맞춰 유연**: `thumbnail` 이 제공되면 높이는 고정, 폭은 **1:1 (최소) ~ 1:3 (최대)** 사이에서 자동. 이미지 `onLoad` 에서 `naturalWidth/naturalHeight` 로 종횡비를 읽어 clamp 한 값을 container 의 `aspect-ratio` 에 적용. 3:1 보다 긴 원본은 `object-fit: cover` 로 1:3 에서 가운데 크롭
+- 썸네일이 없는 (아이콘) 경우는 기존과 동일한 1:1 정사각형
+- `FILE_UPLOAD_CARD_THUMBNAIL_HEIGHT_PX` (lg=40, sm=32) + `FILE_UPLOAD_CARD_THUMBNAIL_MAX_ASPECT` (3) 상수 추가
+- **Storybook**: `DataEntry/FileUpload → CardHideSize` 에 `hideFilename` / `hideFilename + hideSize` 두 예시 추가. `CardThumbnailResponsive` (신규) 에 1:1 / 2:1 / 5:1 (clamp) / 1:2 세로 (clamp) 네 케이스 비교
+
 ## [1.9.3] - 2026-04-23
 
 ### Added — FileUploadCard (bridge: `hideSize` / optional size)

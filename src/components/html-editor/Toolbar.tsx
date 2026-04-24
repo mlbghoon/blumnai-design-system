@@ -253,9 +253,14 @@ export function Toolbar({
         {scrollableContent}
       </ScrollArea>
 
-      {/* 고정 영역: 실행 취소/다시 실행 + 코드 뷰 */}
+      {/* 고정 영역: 실행 취소/다시 실행 + 코드 뷰 — ScrollArea offsetScrollbars
+          가 viewport 에 주는 10px paddingBottom 과 동일한 하단 여백을 맞춰
+          toolbar 하단 정렬 일치 */}
       {(hasHistory || hasCodeView) && (
-        <div className="flex items-center ds-gap-4 shrink-0">
+        <div
+          className="flex items-center ds-gap-4 shrink-0"
+          style={{ paddingBottom: 10 }}
+        >
           {divider}
           {hasHistory && (
             <div className={TOOLBAR_GROUP}>

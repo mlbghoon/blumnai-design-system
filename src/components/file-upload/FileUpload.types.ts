@@ -129,6 +129,14 @@ export interface FileUploadCardProps {
    */
   hideSize?: boolean;
 
+  /**
+   * 파일명을 숨김. 썸네일·상태·액션만 남는 컴팩트 카드가 필요한 화면에서 사용.
+   * 프로그레스바/메타 행은 그대로 표시됩니다.
+   *
+   * @default false
+   */
+  hideFilename?: boolean;
+
   /** 삭제 시 호출되는 콜백 */
   onRemove?: () => void;
   /** 재시도 시 호출되는 콜백 */

@@ -45,6 +45,15 @@ export const FILE_UPLOAD_CARD_SIZE = {
   },
 } as const;
 
+// FileUploadCard thumbnail pixel heights — 이미지 썸네일의 유연한 폭 계산에 사용.
+// 이미지인 경우 height 는 고정, width 는 [height, height × 3] 사이로 원본 비율에 따라 신축.
+export const FILE_UPLOAD_CARD_THUMBNAIL_HEIGHT_PX = {
+  lg: 40,
+  sm: 32,
+} as const;
+// 썸네일 폭의 상한 배수 (1:3 까지 가로로 늘어남)
+export const FILE_UPLOAD_CARD_THUMBNAIL_MAX_ASPECT = 3;
+
 // FileUploadCard thumbnail styles
 export const FILE_UPLOAD_THUMBNAIL = 'rounded-sm overflow-hidden flex-shrink-0 flex items-center justify-center bg-subtle';
 

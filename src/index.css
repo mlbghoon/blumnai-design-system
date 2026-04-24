@@ -24,6 +24,7 @@
 @import "./styles/tokens/shadcn-bridge.css";
 @import "./styles/tokens/chart-tokens.css";
 @import "./styles/utilities.css";
+@import "./components/html-editor/HtmlEditor.css";
 @import "tw-animate-css";
 
 /* Dark mode variant for shadcn components */

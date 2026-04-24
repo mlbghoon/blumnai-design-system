@@ -48,7 +48,17 @@ function DataGridCellInner<T>({ cell, stickyInfo, isRowSelected, height, colInde
       }}
     >
       <DataGridCellContext.Provider value={cellContextValue}>
-        <div className="w-full text-ellipsis whitespace-nowrap" style={{ overflow: 'clip', overflowClipMargin: 4 }}>
+        {/* w-full + truncate 를 유지해야 text-ellipsis 가 동작. 이 경우 outer
+            flex 의 justify-* 는 먹지 않으므로 text-align 을 inner div 에 직접
+            적용해 align='center'/'right' 를 실제로 반영. */}
+        <div
+          className={cn(
+            'w-full text-ellipsis whitespace-nowrap',
+            align === 'center' && 'text-center',
+            align === 'right' && 'text-right',
+          )}
+          style={{ overflow: 'clip', overflowClipMargin: 4 }}
+        >
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </div>
       </DataGridCellContext.Provider>

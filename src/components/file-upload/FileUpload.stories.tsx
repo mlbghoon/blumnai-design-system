@@ -352,7 +352,8 @@ export const CardUploading: Story = {
  * 메타 행에서 파일 크기를 숨기는 두 가지 방법을 보여줍니다.
  *
  * - **`hideSize`**: 크기 값이 있어도 명시적으로 숨김 (상품 결정으로 특정 화면에서는 크기를 감추고 싶을 때)
- * - **`file.size` 미지정**: 서버에서 불러온 파일처럼 크기를 모를 때 자동으로 숨김 — `FileInfo.size` 는 v1.9.2 부터 optional
+ * - **`file.size` 미지정`**: 서버에서 불러온 파일처럼 크기를 모를 때 자동으로 숨김 — `FileInfo.size` 는 v1.9.2 부터 optional
+ * - **`hideFilename`**: 파일명 행 전체를 숨김. 썸네일·상태·액션만 남는 슬림 카드.
  *
  * 두 경우 모두 구분자(`|`)도 함께 사라지고 status 라벨(Uploaded 등)만 남습니다.
  */
@@ -376,6 +377,51 @@ export const CardHideSize: Story = {
         <div className="flex flex-col ds-gap-4">
           <span className="font-body size-xs text-muted">file.size 미지정 (자동 숨김):</span>
           <FileUploadCard file={loadedFromServer} status="uploaded" onRemove={() => {}} />
+        </div>
+        <div className="flex flex-col ds-gap-4">
+          <span className="font-body size-xs text-muted">hideFilename (파일명 숨김):</span>
+          <FileUploadCard file={mockImageFile} status="uploaded" hideFilename onRemove={() => {}} />
+        </div>
+        <div className="flex flex-col ds-gap-4">
+          <span className="font-body size-xs text-muted">hideFilename + hideSize (상태만):</span>
+          <FileUploadCard file={mockImageFile} status="uploaded" hideFilename hideSize onRemove={() => {}} />
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * FileUploadCard — 썸네일 폭 가변 (이미지 원본 비율 기반)
+ *
+ * `thumbnail` 이 제공되면 썸네일 높이는 고정, 폭은 원본 이미지 비율에 따라
+ * **1:1 (최소) ~ 1:3 (최대)** 범위에서 자동 조정됩니다. 3:1 보다 더 가로로 긴
+ * 원본은 1:3 에서 `object-fit: cover` 로 가운데가 크롭되어 표시됩니다.
+ */
+export const CardThumbnailResponsive: Story = {
+  render: () => {
+    // 원본 비율이 다른 샘플 이미지 (picsum).
+    const square = 'https://picsum.photos/seed/ds-square/200/200';
+    const wide2to1 = 'https://picsum.photos/seed/ds-wide/400/200';
+    const wide5to1 = 'https://picsum.photos/seed/ds-pano/1000/200';
+    const portrait = 'https://picsum.photos/seed/ds-portrait/200/400';
+    return (
+      <div className="flex flex-col ds-gap-12 max-width-480">
+        <div className="flex flex-col ds-gap-4">
+          <span className="font-body size-xs text-muted">1:1 원본 → 1:1 표시</span>
+          <FileUploadCard file={mockImageFile} thumbnail={square} status="uploaded" onRemove={() => {}} />
+        </div>
+        <div className="flex flex-col ds-gap-4">
+          <span className="font-body size-xs text-muted">2:1 원본 → 2:1 표시 (자연 비율)</span>
+          <FileUploadCard file={mockImageFile} thumbnail={wide2to1} status="uploaded" onRemove={() => {}} />
+        </div>
+        <div className="flex flex-col ds-gap-4">
+          <span className="font-body size-xs text-muted">5:1 원본 → 1:3 표시 (상한에서 크롭)</span>
+          <FileUploadCard file={mockImageFile} thumbnail={wide5to1} status="uploaded" onRemove={() => {}} />
+        </div>
+        <div className="flex flex-col ds-gap-4">
+          <span className="font-body size-xs text-muted">1:2 세로 원본 → 1:1 표시 (하한에서 크롭)</span>
+          <FileUploadCard file={mockImageFile} thumbnail={portrait} status="uploaded" onRemove={() => {}} />
         </div>
       </div>
     );

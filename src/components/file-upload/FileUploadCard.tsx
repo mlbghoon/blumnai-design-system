@@ -1,12 +1,13 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useCallback, useMemo, useState } from 'react';
 
-import { AspectRatio } from '../aspect-ratio';
 import { Icon } from '../icons/Icon';
 import { ControlButton } from '../button/ControlButton';
 import { cn } from '../../lib/utils';
 import {
   FILE_UPLOAD_CARD_BASE,
   FILE_UPLOAD_CARD_SIZE,
+  FILE_UPLOAD_CARD_THUMBNAIL_HEIGHT_PX,
+  FILE_UPLOAD_CARD_THUMBNAIL_MAX_ASPECT,
   FILE_UPLOAD_THUMBNAIL,
   FILE_UPLOAD_CONTENT,
   FILE_UPLOAD_FILENAME,
@@ -57,12 +58,14 @@ export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
   errorMessage,
   size = 'lg',
   hideSize = false,
+  hideFilename = false,
   onRemove,
   onRetry,
   className,
 }, ref) => {
   const sizeConfig = FILE_UPLOAD_CARD_SIZE[size];
   const iconSize = FILE_UPLOAD_CARD_ICON_SIZE[size];
+  const thumbH = FILE_UPLOAD_CARD_THUMBNAIL_HEIGHT_PX[size];
 
   const fileTypeIcon = useMemo(() => getFileTypeIcon(file.type), [file.type]);
   // size span 표시 여부: 명시적으로 hideSize 이거나, file.size 가 undefined 면 숨긴다.
@@ -74,6 +77,18 @@ export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
 
   const statusLabel = status === 'error' && errorMessage ? errorMessage : FILE_UPLOAD_STATUS_LABEL[status];
 
+  // 이미지 원본 비율 → [1, MAX_ASPECT] 로 clamp. 초기값 1 = 1:1 square.
+  const [imageAspect, setImageAspect] = useState(1);
+  const handleImageLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+      const natural = img.naturalWidth / img.naturalHeight;
+      setImageAspect(
+        Math.max(1, Math.min(FILE_UPLOAD_CARD_THUMBNAIL_MAX_ASPECT, natural)),
+      );
+    }
+  }, []);
+
   return (
     <div
       ref={ref}
@@ -83,28 +98,39 @@ export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
         className
       )}
     >
-      <div className={cn(FILE_UPLOAD_THUMBNAIL, sizeConfig.thumbnail)}>
-        {thumbnail ? (
-          <AspectRatio ratio={1}>
-            <img
-              src={thumbnail}
-              alt={file.name}
-              className="w-full h-full object-cover"
-            />
-          </AspectRatio>
-        ) : (
+      {thumbnail ? (
+        <div
+          className={FILE_UPLOAD_THUMBNAIL}
+          style={{
+            height: thumbH,
+            minWidth: thumbH,
+            maxWidth: thumbH * FILE_UPLOAD_CARD_THUMBNAIL_MAX_ASPECT,
+            aspectRatio: imageAspect,
+          }}
+        >
+          <img
+            src={thumbnail}
+            alt={file.name}
+            onLoad={handleImageLoad}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      ) : (
+        <div className={cn(FILE_UPLOAD_THUMBNAIL, sizeConfig.thumbnail)}>
           <Icon
             iconType={fileTypeIcon}
             size={iconSize}
             color="default-muted"
           />
-        )}
-      </div>
+        </div>
+      )}
 
       <div className={FILE_UPLOAD_CONTENT}>
-        <span className={FILE_UPLOAD_FILENAME} title={file.name}>
-          {file.name}
-        </span>
+        {!hideFilename && (
+          <span className={FILE_UPLOAD_FILENAME} title={file.name}>
+            {file.name}
+          </span>
+        )}
 
         {status === 'uploading' ? (
           <div className={FILE_UPLOAD_PROGRESS_TRACK}>

@@ -12,7 +12,93 @@ import { Placeholder } from '@tiptap/extension-placeholder';
 
 import { DEFAULT_FEATURES } from './HtmlEditor.constants';
 import { normalizeHtmlContent, calculateContentSize, validateImageFile } from './utils';
+import { INLINE_STYLES, StyledHeading, toStyle } from './extensions';
 import type { HtmlEditorProps, HtmlEditorFeature } from './HtmlEditor.types';
+
+export function buildExtensions(
+  enabledFeatures: Set<HtmlEditorFeature>,
+  placeholder?: string,
+): AnyExtension[] {
+  const exts: AnyExtension[] = [
+    StarterKit.configure({
+      heading: false,
+      blockquote: enabledFeatures.has('blockquote')
+        ? { HTMLAttributes: { style: toStyle(INLINE_STYLES.blockquote) } }
+        : false,
+      codeBlock: enabledFeatures.has('codeBlock')
+        ? { HTMLAttributes: { style: toStyle(INLINE_STYLES.codeBlock) } }
+        : false,
+      code: { HTMLAttributes: { style: toStyle(INLINE_STYLES.code) } },
+      bold: enabledFeatures.has('bold') ? {} : false,
+      italic: enabledFeatures.has('italic') ? {} : false,
+      strike: enabledFeatures.has('strikethrough') ? {} : false,
+      bulletList: enabledFeatures.has('bulletList')
+        ? { HTMLAttributes: { style: toStyle(INLINE_STYLES.bulletList) } }
+        : false,
+      orderedList: enabledFeatures.has('orderedList')
+        ? { HTMLAttributes: { style: toStyle(INLINE_STYLES.orderedList) } }
+        : false,
+      listItem: { HTMLAttributes: { style: toStyle(INLINE_STYLES.listItem) } },
+      undoRedo: enabledFeatures.has('history') ? {} : false,
+    }),
+  ];
+
+  if (enabledFeatures.has('heading')) {
+    exts.push(StyledHeading.configure({ levels: [1, 2, 3, 4, 5, 6] }));
+  }
+
+  if (enabledFeatures.has('underline')) {
+    exts.push(Underline);
+  }
+
+  if (enabledFeatures.has('textAlign')) {
+    exts.push(
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+    );
+  }
+
+  if (enabledFeatures.has('colorPicker')) {
+    exts.push(TextStyle);
+    exts.push(Color);
+    exts.push(
+      Highlight.configure({
+        multicolor: true,
+      }),
+    );
+  }
+
+  if (enabledFeatures.has('link')) {
+    exts.push(
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        HTMLAttributes: { style: toStyle(INLINE_STYLES.link) },
+      }),
+    );
+  }
+
+  if (enabledFeatures.has('image')) {
+    exts.push(
+      Image.configure({
+        inline: false,
+        allowBase64: true,
+        HTMLAttributes: { style: toStyle(INLINE_STYLES.image) },
+      }),
+    );
+  }
+
+  if (placeholder) {
+    exts.push(
+      Placeholder.configure({
+        placeholder,
+      }),
+    );
+  }
+
+  return exts;
+}
 
 type UseHtmlEditorOptions = Pick<
   HtmlEditorProps,
@@ -58,73 +144,10 @@ export function useHtmlEditor({
   // 트랜잭션마다 리렌더 강제 (툴바 active 상태 업데이트용)
   const [, setRenderKey] = useState(0);
 
-  const extensions = useMemo((): AnyExtension[] => {
-    const exts: AnyExtension[] = [
-      StarterKit.configure({
-        heading: enabledFeatures.has('heading')
-          ? { levels: [1, 2, 3, 4, 5, 6] }
-          : false,
-        blockquote: enabledFeatures.has('blockquote') ? {} : false,
-        codeBlock: enabledFeatures.has('codeBlock') ? {} : false,
-        bold: enabledFeatures.has('bold') ? {} : false,
-        italic: enabledFeatures.has('italic') ? {} : false,
-        strike: enabledFeatures.has('strikethrough') ? {} : false,
-        bulletList: enabledFeatures.has('bulletList') ? {} : false,
-        orderedList: enabledFeatures.has('orderedList') ? {} : false,
-        undoRedo: enabledFeatures.has('history') ? {} : false,
-      }),
-    ];
-
-    if (enabledFeatures.has('underline')) {
-      exts.push(Underline);
-    }
-
-    if (enabledFeatures.has('textAlign')) {
-      exts.push(
-        TextAlign.configure({
-          types: ['heading', 'paragraph'],
-        }),
-      );
-    }
-
-    if (enabledFeatures.has('colorPicker')) {
-      exts.push(TextStyle);
-      exts.push(Color);
-      exts.push(
-        Highlight.configure({
-          multicolor: true,
-        }),
-      );
-    }
-
-    if (enabledFeatures.has('link')) {
-      exts.push(
-        Link.configure({
-          openOnClick: false,
-          autolink: true,
-        }),
-      );
-    }
-
-    if (enabledFeatures.has('image')) {
-      exts.push(
-        Image.configure({
-          inline: false,
-          allowBase64: true,
-        }),
-      );
-    }
-
-    if (placeholder) {
-      exts.push(
-        Placeholder.configure({
-          placeholder,
-        }),
-      );
-    }
-
-    return exts;
-  }, [enabledFeatures, placeholder]);
+  const extensions = useMemo(
+    () => buildExtensions(enabledFeatures, placeholder),
+    [enabledFeatures, placeholder],
+  );
 
   const editor = useEditor({
     extensions,

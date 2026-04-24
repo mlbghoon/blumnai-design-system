@@ -1,6 +1,7 @@
 import { forwardRef, useState, useRef, useEffect, useId, useLayoutEffect, useCallback } from 'react';
 import type { InputHTMLAttributes, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+import { DismissableLayer } from '@radix-ui/react-dismissable-layer';
 
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/lib/spinner';
@@ -353,7 +354,17 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
     if (!isOpen || disabled || !dropdownOptions) return null;
 
     return createPortal(
-      <div
+      // DismissableLayer: Radix modal Dialog 는 `disableOutsidePointerEvents: true`
+      // 로 `body { pointer-events: none }` 을 걸고, 스택 상위 DismissableLayer 에만
+      // `pointer-events: auto` 를 inline style 로 복원한다. document.body 로 portal
+      // 된 우리 메뉴를 그냥 div 로 두면 pointer-events 가 계속 none 이라 옵션 클릭
+      // 자체가 안 되고 cursor:pointer 도 안 먹는다. DismissableLayer 로 감싸면 본인이
+      // 스택 layer 로 등록되면서 parent Dialog layer 보다 index 가 커져 pointer
+      // events 가 복원되고, parent Dialog 의 "outside pointer" 판정에서도 이 서브
+      // 트리 내부 클릭은 layer 내부로 취급되어 DS 의 onClick → onDropdownChange
+      // 체인이 정상 동작. document.body portal 은 transform containing-block 이슈
+      // 회피용으로 그대로 유지.
+      <DismissableLayer
         ref={menuRef}
         className={cn(
           DROPDOWN_MENU_BASE,
@@ -367,6 +378,14 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
         role="listbox"
         aria-labelledby={dropdownId}
         onKeyDown={handleMenuKeyDown}
+        onEscapeKeyDown={(e) => {
+          // Dialog 등 상위 레이어로 ESC 가 버블링되어 Dialog 까지 같이 닫히는 것
+          // 방지. DropdownInput 자체의 keydown 에서 이미 Escape 를 처리하지만
+          // 스택 동작과 일관되게 중단.
+          e.stopPropagation();
+          closeDropdown();
+          triggerRef.current?.focus();
+        }}
       >
         {dropdownOptions.map((option, index) => (
           <div
@@ -397,7 +416,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
             <span className={cn(DROPDOWN_OPTION_TEXT_BASE, dropdownSizeConfig.optionText)}>{option.label}</span>
           </div>
         ))}
-      </div>,
+      </DismissableLayer>,
       // 항상 document.body로 portal — 소속된 PortalContainerProvider가 Dialog 등
       // `transform` 선조를 가지면 `position: fixed`가 viewport가 아닌 transform된
       // 컨테이너 기준이 되어버리는 CSS containing-block 스펙 때문.
