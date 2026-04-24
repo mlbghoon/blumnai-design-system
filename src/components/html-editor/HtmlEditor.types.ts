@@ -56,10 +56,22 @@ export interface HtmlEditorProps {
   /** 컬러 피커 색상 목록 */
   colors?: string[];
 
-  /** 콘텐츠 크기 변경 콜백 (debounced ~300ms) */
+  /** 콘텐츠 크기 변경 콜백 (debounced ~300ms). 인디케이터 표시와 독립적. */
   onContentSizeChange?: (bytes: number) => void;
-  /** 최대 콘텐츠 크기 (bytes) */
+  /** 최대 콘텐츠 크기 (bytes). `showContentSize` 와 함께 쓰면 "X / max" 포맷,
+   *  단독 사용 시 제출 시점 검증용 한계값 (DS 런타임 enforcement 는 없음). */
   maxContentSize?: number;
+  /**
+   * 에디터 하단 우측에 콘텐츠 크기 인디케이터 ("0 Bytes / 5 MB" 등) 를 표시.
+   * `maxContentSize` 가 있으면 "current / max" 포맷, 없으면 current 만 표시.
+   * `contentSize >= maxContentSize` 이면 빨간색으로 경고.
+   *
+   * `onContentSizeChange` 와 독립적 — 콜백 없이 인디케이터만, 또는 인디케이터
+   * 없이 콜백만 사용 가능.
+   *
+   * @default false
+   */
+  showContentSize?: boolean;
 
   /** 비활성화 */
   disabled?: boolean;

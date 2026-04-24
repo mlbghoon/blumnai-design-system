@@ -381,7 +381,13 @@ export const ImageUpload: Story = {
   },
 };
 
-/** 콘텐츠 크기 추적 */
+/**
+ * 콘텐츠 크기 인디케이터 + 외부 콜백
+ *
+ * `showContentSize` 는 에디터 하단 우측의 내장 인디케이터 표시 여부.
+ * `onContentSizeChange` 는 bytes 가 바뀔 때마다 fire 되는 콜백. 두 prop 은 v1.9.6
+ * 부터 완전히 독립적 — 콜백만 쓰거나, 인디케이터만 쓰거나, 둘 다 쓸 수 있음.
+ */
 export const ContentSize: Story = {
   render: function Render() {
     const [size, setSize] = useState(0);
@@ -389,18 +395,57 @@ export const ContentSize: Story = {
     return (
       <div className="flex flex-col ds-gap-16 max-w-4xl">
         <HtmlEditor
-          label="크기 추적 에디터"
-          placeholder="내용을 입력하면 크기가 표시됩니다"
+          label="크기 추적 에디터 (인디케이터 + 콜백)"
+          placeholder="내용을 입력하면 하단 우측에 크기가 표시됩니다"
+          showContentSize
           onContentSizeChange={setSize}
           maxContentSize={5 * 1024 * 1024}
           minHeight={200}
         />
         <p className="font-body size-sm text-muted">
-          현재 크기: {size} bytes ({(size / 1024).toFixed(1)} KB)
+          외부 콜백 값: {size} bytes ({(size / 1024).toFixed(1)} KB)
         </p>
       </div>
     );
   },
+};
+
+/**
+ * 콘텐츠 크기 인디케이터 — 한도 초과 시 빨간색 경고
+ *
+ * `contentSize >= maxContentSize` 가 되면 인디케이터가 `text-destructive` 로
+ * 바뀌어 사용자가 제출 전에 시각적으로 인지할 수 있음. `maxContentSize` 를
+ * 일부러 작게 설정 (200 Bytes) 해서 금방 초과되도록.
+ */
+export const ContentSizeOverLimit: Story = {
+  render: () => (
+    <div className="max-w-4xl">
+      <HtmlEditor
+        label="작은 한도 (200 Bytes)"
+        placeholder="짧은 문장만 입력해도 한도를 초과합니다"
+        defaultValue="<p>이 텍스트만으로도 200 Bytes 한도를 넘으므로 인디케이터가 빨간색으로 표시됩니다. 추가 입력 시 계속 경고 유지.</p>"
+        showContentSize
+        maxContentSize={200}
+        minHeight={200}
+      />
+    </div>
+  ),
+};
+
+/**
+ * `maxContentSize` 없이 `showContentSize` 만 — current 만 표시 (no "/ max")
+ */
+export const ContentSizeNoMax: Story = {
+  render: () => (
+    <div className="max-w-4xl">
+      <HtmlEditor
+        label="한도 미설정 (current 만 표시)"
+        placeholder="입력해보세요"
+        showContentSize
+        minHeight={200}
+      />
+    </div>
+  ),
 };
 
 /** Disabled, ReadOnly, Error, Success 상태 */

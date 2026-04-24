@@ -110,6 +110,7 @@ type UseHtmlEditorOptions = Pick<
   | 'imageUpload'
   | 'onContentSizeChange'
   | 'maxContentSize'
+  | 'showContentSize'
   | 'disabled'
   | 'readOnly'
 >;
@@ -122,6 +123,7 @@ export function useHtmlEditor({
   features,
   imageUpload,
   onContentSizeChange,
+  showContentSize = false,
   disabled = false,
   readOnly = false,
 }: UseHtmlEditorOptions) {
@@ -167,13 +169,15 @@ export function useHtmlEditor({
 
       onChange?.(html);
 
-      // 콘텐츠 크기 (debounced)
-      if (onContentSizeChange) {
+      // 콘텐츠 크기 (debounced). onContentSizeChange (외부 콜백) 또는
+      // showContentSize (내장 인디케이터) 중 하나라도 켜져 있으면 계산.
+      // 콜백은 onContentSizeChange 가 제공된 경우에만 fire — 독립적 concern.
+      if (onContentSizeChange || showContentSize) {
         clearTimeout(debounceTimer.current);
         debounceTimer.current = setTimeout(() => {
           const size = calculateContentSize(html);
           setContentSize(size);
-          onContentSizeChange(size);
+          onContentSizeChange?.(size);
         }, 300);
       }
     },
@@ -223,13 +227,13 @@ export function useHtmlEditor({
       );
       onChange?.(normalized);
 
-      if (onContentSizeChange) {
+      if (onContentSizeChange || showContentSize) {
         const size = calculateContentSize(normalized);
         setContentSize(size);
-        onContentSizeChange(size);
+        onContentSizeChange?.(size);
       }
     },
-    [editor, onChange, onContentSizeChange],
+    [editor, onChange, onContentSizeChange, showContentSize],
   );
 
   const cancelCodeView = useCallback(() => {

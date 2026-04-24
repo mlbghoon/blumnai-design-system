@@ -31,6 +31,7 @@ export const HtmlEditor = forwardRef<HtmlEditorRef, HtmlEditorProps>(
       colors,
       onContentSizeChange,
       maxContentSize,
+      showContentSize = false,
       disabled = false,
       readOnly = false,
       error,
@@ -73,6 +74,7 @@ export const HtmlEditor = forwardRef<HtmlEditorRef, HtmlEditorProps>(
       imageUpload,
       onContentSizeChange,
       maxContentSize,
+      showContentSize,
       disabled,
       readOnly,
     });
@@ -83,8 +85,15 @@ export const HtmlEditor = forwardRef<HtmlEditorRef, HtmlEditorProps>(
       getHTML: () => editor?.getHTML() || '',
     }));
 
+    // maxContentSize 초과는 `error` prop 과 동일한 시각 상태 (빨간 테두리 + 빨간
+     // 인디케이터) 로 표시. 캡션 메시지는 건드리지 않음 (consumer 의 error prop
+     // 은 그대로 동작).
+    const isOverSize =
+      typeof maxContentSize === 'number' && contentSize >= maxContentSize;
     const hasError =
-      error === true || (typeof error === 'string' && error.length > 0);
+      error === true ||
+      (typeof error === 'string' && error.length > 0) ||
+      isOverSize;
     const hasSuccess =
       success === true || (typeof success === 'string' && success.length > 0);
 
@@ -108,22 +117,22 @@ export const HtmlEditor = forwardRef<HtmlEditorRef, HtmlEditorProps>(
     );
 
     const sizeDisplay = useMemo(() => {
-      if (!onContentSizeChange) return null;
+      if (!showContentSize) return null;
 
       const formatBytes = (bytes: number): string => {
         const kb = bytes / 1024;
         const mb = kb / 1024;
+        const gb = mb / 1024;
+        if (gb >= 1) return `${gb.toFixed(1)} GB`;
         if (mb >= 1) return `${mb.toFixed(1)} MB`;
         if (kb >= 1) return `${kb.toFixed(1)} KB`;
         return `${bytes} Bytes`;
       };
 
-      const maxDisplay = maxContentSize
-        ? formatBytes(maxContentSize)
-        : '5 MB';
-
-      return `${formatBytes(contentSize)} / ${maxDisplay}`;
-    }, [contentSize, maxContentSize, onContentSizeChange]);
+      return maxContentSize
+        ? `${formatBytes(contentSize)} / ${formatBytes(maxContentSize)}`
+        : formatBytes(contentSize);
+    }, [showContentSize, contentSize, maxContentSize]);
 
     return (
       <InputWrapper
@@ -174,7 +183,7 @@ export const HtmlEditor = forwardRef<HtmlEditorRef, HtmlEditorProps>(
           </ScrollArea>
 
           {sizeDisplay && (
-            <div className={COUNT_STYLE}>
+            <div className={cn(COUNT_STYLE, isOverSize && 'text-destructive')}>
               {sizeDisplay}
             </div>
           )}

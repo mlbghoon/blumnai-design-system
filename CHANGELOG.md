@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.9.6] - 2026-04-24
+
+### Added — HtmlEditor `showContentSize` prop + content-size indicator decoupling
+
+Consumer 요청 (`happytalk-front`): "모든 `HtmlEditor` 에 '0 Bytes / 5 MB' 같은 크기 인디케이터를 켤 수 있게 해달라. 단, `onContentSizeChange` 콜백과 독립적으로."
+
+- **`showContentSize?: boolean`** (default `false`) — 에디터 하단 우측의 내장 크기 인디케이터 표시 여부
+  - `maxContentSize` 가 설정되어 있으면 `"X / max"` 포맷, 없으면 `"X"` (current only)
+  - `contentSize >= maxContentSize` 이면 인디케이터 텍스트 + **에디터 외곽 테두리** 모두 `text-destructive` / `border-destructive` 로 전환 (consumer 의 `error` prop 과 동일한 시각 상태). 사용자가 제출 전에 시각적으로 인지 가능
+  - 바이트 포맷: `Bytes → KB → MB → GB` (이전엔 GB tier 없었음)
+- **`onContentSizeChange` 콜백과 완전 분리** — 두 prop 이 이제 독립적. 콜백만 / 인디케이터만 / 둘 다 자유롭게 선택
+- 내부 debounced 크기 계산은 둘 중 하나라도 켜져 있으면 동작
+
+### Changed — `onContentSizeChange` 단독으로는 더 이상 인디케이터 표시 안 함 (soft breaking)
+
+- 이전 v1.9.5 까지: `onContentSizeChange` 를 넘기면 **부작용으로** 인디케이터가 자동 표시 (문서화 안 됨)
+- v1.9.6 부터: 인디케이터는 `showContentSize={true}` 로 명시적 opt-in
+- **Migration**: 인디케이터가 보이던 consumer 는 `showContentSize` 를 추가. 콜백만 쓰던 consumer 는 아무 변경 불필요
+- 런타임 에러 없음 — 인디케이터가 조용히 사라질 뿐. 이 결합은 문서화된 적이 없어서 소수 consumer 만 영향받을 것으로 예상
+
+### Changed — `maxContentSize` 없이 인디케이터 사용 시 fallback 동작 수정
+
+- 이전: max 가 없어도 하드코딩된 `"/ 5 MB"` 가 suffix 로 붙었음 (항상 잘못된 값)
+- 변경: max 가 없으면 current 값만 표시 (`"123 Bytes"`). 의미상 정확
+
+### Storybook
+
+- **`ContentSize`** (업데이트) — `showContentSize` + `onContentSizeChange` 같이 사용하는 예시. 에디터 하단 우측 내장 인디케이터 + 외부 텍스트 표시 동시에
+- **`ContentSizeOverLimit`** (신규) — `maxContentSize={200}` + 미리 채워진 콘텐츠로 한도 초과 상태 즉시 확인. 빨간 테두리 + 빨간 인디케이터
+- **`ContentSizeNoMax`** (신규) — `showContentSize` 만, `maxContentSize` 없음 → current 만 표시
+
 ## [1.9.5] - 2026-04-24
 
 ### Fixed — HtmlEditor 출력 HTML 이 Consumer B (뷰어) 측에서 스타일 없이 렌더되던 문제
