@@ -350,6 +350,20 @@ false: 선택 불가
         },
       },
     },
+    fitLimitRowHeight: {
+      control: 'boolean',
+      description: '바디 높이를 `limit × rowHeight` 로 고정 (Dialog 안에서 페이지 간 높이 흔들림 방지)',
+      table: {
+        type: {
+          summary: 'boolean',
+          detail: `true 면 바디 최소 높이가 limit × rowHeight 로 고정됩니다.
+헤더와 페이지네이션은 영향 없음. getRowHeight 와 함께 쓰면 무시되며 dev 경고 출력.
+
+예시: Dialog 안에서 limit=10, rowHeight="36px" → 바디 360px 유지, 마지막 페이지에 행이 3개여도 Dialog 높이 동일.`,
+        },
+        defaultValue: { summary: 'false' },
+      },
+    },
     emptyText: {
       control: 'text',
       description: '데이터가 없을 때 표시할 메시지',
@@ -536,6 +550,7 @@ export const Default: Story = {
     maxHeight: undefined,
     minHeight: undefined,
     enableColumnResize: false,
+    fitLimitRowHeight: false,
   },
   render: function Render(args) {
     return (
@@ -557,6 +572,7 @@ export const Default: Story = {
         maxHeight={args.maxHeight}
         minHeight={args.minHeight}
         enableColumnResize={args.enableColumnResize}
+        fitLimitRowHeight={args.fitLimitRowHeight}
       />
     );
   },

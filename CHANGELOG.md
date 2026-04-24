@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.9.7] - 2026-04-24
+
+### Added — DataGrid `fitLimitRowHeight` prop
+
+Consumer 요청 (`happytalk-front`): Dialog 안에서 `DataGrid` 를 `limit={10}` 으로 쓸 때, 마지막 페이지에 행이 적게 남으면 Dialog 전체 높이가 줄어드는 문제. 기존에는 `minHeight="460px"` / `maxHeight="460px"` 같은 매직 넘버로 우회했지만, `limit × rowHeight` 와 정확히 맞추기 어렵고 `rowHeight` 변경 시 값이 어긋남.
+
+- **`fitLimitRowHeight?: boolean`** (default `false`) — 바디 영역(헤더·페이지네이션 제외) 을 `limit` 개 행 분량으로 고정. 마지막 페이지에 행이 부족하면 `(limit - rows.length)` 개의 빈 placeholder 행이 뒤에 채워집니다.
+  - Placeholder 행은 실제 행과 동일한 `rowHeight` · 셀 보더(`border-r` / `border-b`) · sticky 컬럼 포지션을 유지해, 마지막 페이지도 중간 페이지와 시각적으로 동일합니다.
+  - Placeholder 는 `aria-hidden` 처리되어 screen reader 는 skip 합니다.
+  - `getRowHeight` (동적 행 높이) 와 함께 사용 불가. 둘 다 설정되면 `fitLimitRowHeight` 는 무시되고 dev `console.warn` 출력.
+  - `pagination={false}` 일 때는 자동으로 비활성.
+- 이전 패턴과의 비교:
+  ```tsx
+  // Before — 매직 넘버 수동 계산
+  <DataGrid limit={10} rowHeight="36px" minHeight="460px" maxHeight="460px" />
+
+  // After — DataGrid 가 limit × rowHeight 를 스스로 계산
+  <DataGrid limit={10} rowHeight="36px" fitLimitRowHeight />
+  ```
+
+### Storybook
+
+- **DataGrid Default** — `fitLimitRowHeight` 컨트롤(argType + args + render) 추가. 토글로 on/off 전환해 마지막 페이지 동작을 바로 확인 가능.
+
 ## [1.9.6] - 2026-04-24
 
 ### Added — HtmlEditor `showContentSize` prop + content-size indicator decoupling

@@ -86,6 +86,7 @@ function DataGridInner<T>(
     headerHeight,
     rowHeight,
     getRowHeight,
+    fitLimitRowHeight,
     emptyText,
     emptyContent,
     error,
@@ -105,6 +106,16 @@ function DataGridInner<T>(
 ) {
   const effectiveRowHeight = rowHeight ?? getDefaultRowHeight(fontSize);
   const effectiveHeaderHeight = headerHeight ?? getDefaultRowHeight(fontSize);
+
+  const fitLimitRowHeightActive = fitLimitRowHeight && !getRowHeight;
+  React.useEffect(() => {
+    if (fitLimitRowHeight && getRowHeight && process.env.NODE_ENV !== 'production') {
+      console.warn(
+        '[DataGrid] `fitLimitRowHeight` is ignored when `getRowHeight` is set. ' +
+        'Dynamic row heights are incompatible with fixed body sizing.',
+      );
+    }
+  }, [fitLimitRowHeight, getRowHeight]);
   const {
     table,
     pagination: paginationInfo,
@@ -209,6 +220,9 @@ function DataGridInner<T>(
   });
 
   const rows = table.getRowModel().rows;
+  const paddingRowCount = fitLimitRowHeightActive && pagination !== false
+    ? Math.max(0, paginationInfo.limit - rows.length)
+    : 0;
   const hasData = displayData.length > 0;
   const showSkeletonLoading = isLoading && !preserveDataWhileLoading && !hasData;
   const showOverlayLoading = isLoading && preserveDataWhileLoading && hasData;
@@ -294,6 +308,8 @@ function DataGridInner<T>(
               overscan={rowOverscan}
               virtualizationThreshold={rowVirtThreshold}
               visibleColumnIndices={columnVirtEnabled ? visibleIndices : undefined}
+              paddingRowCount={paddingRowCount}
+              paddingColumns={orderedColumns}
             />
           )}
 

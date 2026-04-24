@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import type { Row } from '@tanstack/react-table';
+import type { ColumnDef, Row } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
 import { cn } from '@/lib/utils';
@@ -28,6 +28,16 @@ interface DataGridBodyProps<T> {
   overscan?: number;
   virtualizationThreshold?: number;
   visibleColumnIndices?: Set<number>;
+  /**
+   * fitLimitRowHeight 가 활성일 때, 바디 끝에 채워 넣을 placeholder 행 수.
+   * 실제 행과 동일한 높이 · 보더로 렌더되어 마지막 페이지 여백을 시각적으로 메꿉니다.
+   */
+  paddingRowCount?: number;
+  /**
+   * placeholder 행의 빈 셀을 렌더하기 위한 컬럼 정의.
+   * `paddingRowCount > 0` 일 때만 필요합니다.
+   */
+  paddingColumns?: ColumnDef<T>[];
 }
 
 export function DataGridBody<T>({
@@ -43,6 +53,8 @@ export function DataGridBody<T>({
   overscan = DEFAULT_OVERSCAN,
   virtualizationThreshold = DEFAULT_VIRTUALIZATION_THRESHOLD,
   visibleColumnIndices,
+  paddingRowCount = 0,
+  paddingColumns,
 }: DataGridBodyProps<T>) {
   const showLoadingOverlay = isLoading && preserveDataWhileLoading && rows.length > 0;
   const useVirtual = rows.length > virtualizationThreshold;
@@ -71,6 +83,9 @@ export function DataGridBody<T>({
     overscan,
   });
 
+  const placeholderCols = paddingColumns ?? [];
+  const renderPaddingRows = paddingRowCount > 0 && placeholderCols.length > 0;
+
   if (!useVirtual) {
     return (
       <div
@@ -93,6 +108,49 @@ export function DataGridBody<T>({
             visibleColumnIndices={visibleColumnIndices}
           />
         ))}
+        {renderPaddingRows &&
+          Array.from({ length: paddingRowCount }).map((_, rowIndex) => (
+            <div
+              key={`padding-${rowIndex}`}
+              role="row"
+              aria-hidden="true"
+              className="grid"
+              style={{ gridTemplateColumns }}
+            >
+              {placeholderCols.map((col, colIndex) => {
+                if (visibleColumnIndices && !visibleColumnIndices.has(colIndex)) {
+                  return null;
+                }
+                const columnId =
+                  col.id ?? (col as { accessorKey?: string }).accessorKey ?? `col-${colIndex}`;
+                const stickyInfo = stickyColumnPositions.get(columnId);
+                const isSticky = !!stickyInfo;
+                return (
+                  <div
+                    key={colIndex}
+                    role="gridcell"
+                    aria-hidden="true"
+                    className={cn(
+                      'padding-x-10 flex items-center',
+                      'border-r-default border-b-default last:border-r-0',
+                      'bg-default',
+                      isSticky ? 'sticky z-10' : 'relative z-[1]'
+                    )}
+                    style={{
+                      height: rowHeight,
+                      minWidth: 0,
+                      ...(visibleColumnIndices
+                        ? { gridColumn: `${colIndex + 1} / ${colIndex + 2}` }
+                        : undefined),
+                      ...(isSticky
+                        ? { left: stickyInfo.leftOffset, width: stickyInfo.width }
+                        : undefined),
+                    }}
+                  />
+                );
+              })}
+            </div>
+          ))}
       </div>
     );
   }

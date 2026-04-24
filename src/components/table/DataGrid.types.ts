@@ -276,6 +276,21 @@ export interface DataGridProps<T> {
   getRowHeight?: (row: T) => string | undefined;
 
   /**
+   * 바디 영역 높이를 `limit × rowHeight` 로 고정합니다 (헤더 / 페이지네이션 제외).
+   *
+   * Dialog 안에서 `limit={10}` 등으로 쓸 때, 마지막 페이지에 행이 적게 남아도
+   * 바디 높이가 줄지 않아 Dialog 전체 높이가 페이지마다 흔들리지 않습니다.
+   * 기존에 `minHeight`/`maxHeight` 에 `limit × rowHeight` 값을 직접 계산해 넣던
+   * 패턴을 대체합니다.
+   *
+   * `getRowHeight` (동적 행 높이) 와 함께 쓸 수 없습니다. 둘 다 설정되면
+   * `fitLimitRowHeight` 는 무시되고 dev 경고가 출력됩니다.
+   *
+   * @default false
+   */
+  fitLimitRowHeight?: boolean;
+
+  /**
    * 텍스트 크기 (행 높이 기본값도 함께 조정됨)
    * - xs: 12px / 행 32px
    * - sm: 14px / 행 36px (기본값)
