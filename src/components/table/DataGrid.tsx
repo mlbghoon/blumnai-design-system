@@ -109,7 +109,7 @@ function DataGridInner<T>(
 
   const fitLimitRowHeightActive = fitLimitRowHeight && !getRowHeight;
   React.useEffect(() => {
-    if (fitLimitRowHeight && getRowHeight && process.env.NODE_ENV !== 'production') {
+    if (import.meta.env.DEV && fitLimitRowHeight && getRowHeight) {
       console.warn(
         '[DataGrid] `fitLimitRowHeight` is ignored when `getRowHeight` is set. ' +
         'Dynamic row heights are incompatible with fixed body sizing.',
