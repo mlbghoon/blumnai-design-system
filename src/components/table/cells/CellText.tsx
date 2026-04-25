@@ -52,7 +52,7 @@ export function CellText({
   const handleCopy = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();
     const payload = copyValue ?? (value == null ? null : String(value));
-    if (payload == null) return;
+    if (payload == null || payload === '') return;
 
     try {
       await navigator.clipboard.writeText(payload);
