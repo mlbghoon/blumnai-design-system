@@ -1,6 +1,6 @@
 # BlumnAI Design System
 
-React 기반 UI 컴포넌트 라이브러리입니다. 40+ 컴포넌트, 4가지 테마, 접근성 지원.
+React 기반 UI 컴포넌트 라이브러리입니다. 50+ 컴포넌트, 3,782개 아이콘, 4가지 테마, 접근성 지원.
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?style=flat-square&logo=github)](https://github.com/BlumnAI-Studio/blumnai-design-system)
 
@@ -95,6 +95,8 @@ import { Button } from '@blumnai-studio/blumnai-design-system/button';
 
 | 서브패스 | 포함 컴포넌트 |
 |---------|-------------|
+| `/accordion` | AccordionGroup, AccordionItem |
+| `/aspect-ratio` | AspectRatio |
 | `/avatar` | Avatar, AvatarGroup |
 | `/badge` | Badge |
 | `/breadcrumbs` | Breadcrumbs |
@@ -109,23 +111,29 @@ import { Button } from '@blumnai-studio/blumnai-design-system/button';
 | `/context-menu` | ContextMenu |
 | `/dialog` | Dialog, AlertDialog, ConfirmDialog |
 | `/divider` | Divider |
+| `/dnd` | DndContext, Draggable, Droppable, DragHandle, DragOverlay, Sortable, SortableItem |
 | `/drawer` | Drawer, Sheet |
 | `/dropdown` | DropdownMenu |
+| `/empty-state` | EmptyState |
+| `/event-calendar` | EventCalendar |
 | `/file-upload` | FileUploadArea, FileUploadCard |
 | `/form` | Form, FormField, FormControl, FormItem, FormError |
 | `/hover-card` | HoverCard, HoverCardTrigger, HoverCardContent |
+| `/html-editor` | HtmlEditor |
 | `/info-box` | InfoBox |
 | `/icons` | 모든 아이콘 컴포넌트 |
 | `/icons/icon` | Icon (UI 아이콘) |
 | `/icons/brand` | BrandIcon |
 | `/icons/flag` | FlagIcon |
 | `/icons/file` | FileIcon |
+| `/icons/{category}` | 카테고리별 개별 아이콘 (arrows, buildings, business, communication, design, development, device, document, editor, finance, food, health, logos, map, media, others, system, user, weather, flags, brands, isometric, file-icons, cursors) |
 | `/input` | Input |
 | `/input-otp` | InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator |
 | `/menubar` | Menubar, MenubarMenu, MenubarTrigger, MenubarContent |
 | `/navigation-menu` | NavigationMenu, NavigationMenuList, NavigationMenuItem |
 | `/pagination` | Pagination |
 | `/popover` | Popover, PopoverTrigger, PopoverContent |
+| `/portal-container` | PortalContainerProvider, usePortalContainer |
 | `/progress` | Progress, ProgressCircular |
 | `/radio` | Radio, RadioGroup, RadioCard, RadioList |
 | `/resizable` | ResizablePanelGroup, ResizablePanel, ResizableHandle |
@@ -135,6 +143,7 @@ import { Button } from '@blumnai-studio/blumnai-design-system/button';
 | `/sidebar` | Sidebar, SidebarContent, SidebarMenu |
 | `/skeleton` | Skeleton |
 | `/slider` | Slider, SliderRange, SliderInput, SliderRangeInput, DataRangeSlider, DataRangeSliderInput |
+| `/status-dot` | StatusDot |
 | `/stepper` | Stepper |
 | `/switch` | Switch, SwitchList |
 | `/table` | Table, DataGrid, CellText, CellBadge, CellAvatar, CellProgress, CellLink, CellIcon, CellDate, CellDateRange |
