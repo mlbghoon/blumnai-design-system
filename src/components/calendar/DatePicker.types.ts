@@ -232,6 +232,17 @@ export interface DateRangePickerProps extends DatePickerBaseProps {
    * @default 2
    */
   numberOfMonths?: number;
+  /**
+   * 완성된 범위(`from`+`to` 모두 선택됨) 상태에서 사용자가 새 날짜를 클릭했을 때
+   * 그 날짜를 새 시작일(`from`)로 삼고 `to` 를 비워서 새 범위를 시작합니다.
+   *
+   * `false` 면 react-day-picker 의 기본 동작(가까운 끝점 확장 / 같은 날 클릭 시 collapse)
+   * 을 따릅니다 — 시작일을 앞으로 옮기려면 같은 날을 두 번 클릭해야 하는 RDP 기본 UX.
+   *
+   * React Aria / Mantine 등이 채택한 "3번째 클릭 = 새 범위 시작" UX 패턴.
+   * @default true
+   */
+  resetOnSelect?: boolean;
 }
 
 /**

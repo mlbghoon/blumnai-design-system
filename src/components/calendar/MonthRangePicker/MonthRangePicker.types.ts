@@ -126,4 +126,15 @@ export interface MonthRangePickerProps {
    * @default 현재 월
    */
   defaultMonth?: Date;
+  /**
+   * 완성된 범위(`from`+`to` 모두 선택됨) 상태에서 사용자가 새 월을 클릭했을 때
+   * 그 월을 새 시작월(`from`)로 삼고 `to` 를 비워서 새 범위를 시작합니다.
+   *
+   * `false` 면 가장 가까운 끝점을 확장하는 동작을 따릅니다 — 시작월보다 뒤의 월을
+   * 한 번 클릭하면 끝월(`to`)이 그 월로 이동하고, 시작월을 옮기려면 별도 단계가 필요합니다.
+   *
+   * `DateRangePicker.resetOnSelect` 와 동일한 의도. React Aria / Mantine 패턴.
+   * @default true
+   */
+  resetOnSelect?: boolean;
 }

@@ -418,6 +418,7 @@ export const DateRangePicker = ({
   onOpenChange,
   trigger,
   defaultMonth,
+  resetOnSelect = true,
 }: DateRangePickerProps) => {
   const [open, setOpen] = useControllableOpen({ open: openProp, onOpenChange });
   const [month, setMonth] = useState<Date>(() => {
@@ -434,6 +435,11 @@ export const DateRangePicker = ({
   const [selectionPhase, setSelectionPhase] = useState<'idle' | 'selecting-end'>('idle');
   const [stagedValue, setStagedValue] = useState<DateRange | undefined>(value);
   const snapshotRef = useRef<DateRange | undefined>(value);
+  const prevOpenRef = useRef(false);
+  const valueRef = useRef(value);
+  useEffect(() => {
+    valueRef.current = value;
+  }, [value]);
 
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
   const hasSuccess = success === true || (typeof success === 'string' && success.length > 0);
@@ -446,53 +452,81 @@ export const DateRangePicker = ({
   );
 
   useEffect(() => {
-    if (!open) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+    const wasOpen = prevOpenRef.current;
+    prevOpenRef.current = open;
+    if (open && !wasOpen) {
+      // 팝오버가 열린 시점의 value 를 snapshot. 어떤 경로로 열렸든 (Radix trigger,
+      // 외부 setOpen, 컨트롤드 prop) 일관되게 캡처되도록 useEffect 에서 처리한다.
+      snapshotRef.current = valueRef.current;
+      setStagedValue(valueRef.current);
+    } else if (!open && wasOpen) {
       setSelectionPhase('idle');
-      setStagedValue(value);
+      setStagedValue(valueRef.current);
     }
-  }, [open, value]);
+  }, [open]);
 
   const handleOpenChange = useCallback((nextOpen: boolean) => {
-    if (nextOpen) {
-      snapshotRef.current = value;
-      setStagedValue(value);
-    } else if (showActions) {
-      onChange?.(snapshotRef.current);
+    if (!nextOpen) {
+      if (showActions) {
+        onChange?.(snapshotRef.current);
+      } else if (selectionPhase === 'selecting-end') {
+        // 사용자가 시작일만 선택하고 (`to` 미선택) 캘린더를 닫으면 원래 값으로 되돌린다.
+        // RDP 의 첫 클릭은 `{from, to: date}` 단일일 범위를 즉시 만들어 onChange 가
+        // 발생하므로, 부분 선택 상태에서 외부 클릭 / ESC 로 닫혔을 때 명시적으로 revert 한다.
+        onChange?.(snapshotRef.current);
+      }
     }
     setOpen(nextOpen);
-  }, [showActions, value, onChange, setOpen]);
+  }, [showActions, onChange, setOpen, selectionPhase]);
 
-  const handleSelect = useCallback((range: DateRange | undefined) => {
+  const handleSelect = useCallback((range: DateRange | undefined, triggerDate?: Date) => {
+    // resetOnSelect: 팝오버를 새로 연 직후 (selectionPhase === 'idle') 에 이미
+    // 완성된 범위가 있는 상태에서 클릭이 들어오면, RDP 기본 동작 (`addToRange` 가
+    // 가까운 끝점을 확장) 대신 "새 범위 시작" 으로 강제 해석한다.
+    //
+    // 'idle' 게이트가 중요: RDP 는 빈 상태에서 첫 클릭에 `{from, to: date}` (단일일
+    // 완성 범위) 를 만든다. 이때 phase 는 이미 'selecting-end' 로 진입했으므로
+    // 두 번째 클릭은 override 를 타지 않고 RDP 기본 머지로 정상적으로 to 가 결정된다.
+    let nextRange = range;
+    if (
+      resetOnSelect &&
+      triggerDate &&
+      selectionPhase === 'idle' &&
+      displayValue?.from &&
+      displayValue?.to
+    ) {
+      nextRange = { from: triggerDate, to: undefined };
+    }
+
     if (showActions) {
-      setStagedValue(range);
+      setStagedValue(nextRange);
 
-      if (!range?.from) {
+      if (!nextRange?.from) {
         setSelectionPhase('idle');
         return;
       }
 
       if (selectionPhase === 'idle') {
         setSelectionPhase('selecting-end');
-      } else if (selectionPhase === 'selecting-end' && range?.to) {
+      } else if (selectionPhase === 'selecting-end' && nextRange?.to) {
         setSelectionPhase('idle');
       }
     } else {
-      onChange?.(range);
+      onChange?.(nextRange);
 
-      if (!range?.from) {
+      if (!nextRange?.from) {
         setSelectionPhase('idle');
         return;
       }
 
       if (selectionPhase === 'idle') {
         setSelectionPhase('selecting-end');
-      } else if (selectionPhase === 'selecting-end' && range?.to) {
+      } else if (selectionPhase === 'selecting-end' && nextRange?.to) {
         setOpen(false);
         setSelectionPhase('idle');
       }
     }
-  }, [onChange, selectionPhase, showActions, setOpen]);
+  }, [onChange, selectionPhase, showActions, setOpen, resetOnSelect, displayValue]);
 
   const handleInputChange = useCallback((range: DateRange | undefined) => {
     onChange?.(range);

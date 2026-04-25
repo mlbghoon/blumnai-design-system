@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.9.8] - 2026-04-25
+
+### Added — `DateRangePicker` / `MonthRangePicker` `resetOnSelect` prop (default `true`)
+
+Consumer 피드백 (`happytalk-front`): 완성된 범위가 표시된 상태에서 사용자가 시작일을 새 날짜로 옮기려면 같은 날을 두 번 클릭해야 하는 어색한 UX. 원인은 react-day-picker v9 의 `addToRange` 가 완성 범위 + 클릭을 "가까운 끝점 확장" 으로 해석하기 때문 — 시작일 뒤쪽의 어떤 날짜를 클릭해도 그 날짜가 새 `to` 가 되고 `from` 은 박혀 있음. React Aria / Mantine 등이 채택한 "완성된 범위 + 클릭 = 새 범위 시작" 패턴으로 통일.
+
+- **`resetOnSelect?: boolean`** (default `true`) — `DateRangePicker` 와 `MonthRangePicker` 양쪽에 추가
+  - `true`: 팝오버를 새로 연 직후 (selectionPhase = `idle`) 에 이미 완성된 범위가 있는 상태에서 클릭이 들어오면, 그 클릭을 "새 시작일" 로 해석. 기존 `to` 는 비워지고 다음 클릭으로 새 `to` 결정
+  - `false`: 기존 동작 유지 (RDP `addToRange` / MonthRangePicker 에서는 가까운 끝점 확장)
+  - **`'idle'` 게이트 중요**: RDP 는 빈 상태 첫 클릭에 `{from, to: date}` 단일일 완성 범위를 만들기 때문에 phase 가 즉시 `selecting-end` 로 진입. 이 게이트 덕분에 빈 상태 → 두 클릭으로 정상 범위 완성이 깨지지 않음
+- 기존 시그니처 호환: `triggerDate` 는 RDP `OnSelectHandler` 가 항상 두 번째 인자로 전달하던 값이라 wrapper 측 onSelect 시그니처만 보강
+- RDP 자체의 `resetOnSelect` (v9.14.0+) 에 의존하지 않고 wrapper 에서 구현 — 설치된 9.13.0 기준에서 그대로 동작, dep bump 불필요
+
+### Fixed — `DateRangePicker` 부분 선택 후 외부 닫기 시 원래 값으로 revert
+
+기존: 사용자가 시작일만 클릭하고 외부 클릭 / ESC 로 캘린더를 닫으면 RDP 의 첫 클릭 단일일 범위 (`{from, to: date}`) 가 이미 `onChange` 로 부모에 전파되어 의도치 않게 값이 바뀌어 있었음.
+
+- 팝오버 open 시점의 `value` 를 `snapshotRef` 로 캡처. `selectionPhase === 'selecting-end'` (= 시작일만 골라진 상태) 에서 닫히면 `onChange(snapshotRef.current)` 로 revert
+- snapshot 캡처를 `handleOpenChange` 가 아닌 **`open` 전환 useEffect** 로 이동. 기존엔 Radix 의 `onOpenChange` 콜백 안에서만 캡처 → input 의 캘린더 아이콘 클릭 (`handleOpenCalendar` → `setOpen(true)`) 이 그 콜백을 우회해 snapshot 이 stale (mount 시점 초기값, 보통 `undefined`) 로 남아 revert 가 빈 값으로 되던 버그도 동시에 해결
+- `valueRef` 도입으로 항상 최신 `value` snapshot. handleOpenChange 의 `value` 의존성 제거
+- 완성된 범위 (`from + to`) 를 새로 선택한 경우는 phase 가 `idle` 로 돌아가므로 revert 안 함 — 정상 커밋
+- `showActions` 모드 동작은 그대로 (취소 / 외부 / ESC 모두 항상 snapshot revert)
+- `MonthRangePicker` 는 부분 선택을 내부 `tempRange` 에만 보관하고 완성 시점에만 `onChange` 발생하므로 추가 변경 불필요
+
 ## [1.9.7] - 2026-04-24
 
 ### Added — DataGrid `fitLimitRowHeight` prop

@@ -65,6 +65,7 @@ export const MonthRangePicker = ({
   onOpenChange,
   trigger,
   defaultMonth,
+  resetOnSelect = true,
 }: MonthRangePickerProps) => {
   const [open, setOpen] = useControllableOpen({ open: openProp, onOpenChange });
   const [viewYear, setViewYear] = useState(() => {
@@ -109,6 +110,29 @@ export const MonthRangePicker = ({
   const handleMonthClick = useCallback((month: number) => {
     const clickedDate = new Date(viewYear, month, 1);
 
+    // resetOnSelect=false: 완성된 범위 상태에서 클릭하면 가장 가까운 끝점을 옮긴다.
+    // (DateRangePicker 의 RDP-default 동작과 동등한 시맨틱.)
+    if (!resetOnSelect && selecting === 'from' && tempRange.from && tempRange.to) {
+      let newRange: MonthRange;
+      if (clickedDate < tempRange.from) {
+        newRange = { from: clickedDate, to: tempRange.to };
+      } else if (clickedDate > tempRange.to) {
+        newRange = { from: tempRange.from, to: clickedDate };
+      } else {
+        const distFrom = clickedDate.getTime() - tempRange.from.getTime();
+        const distTo = tempRange.to.getTime() - clickedDate.getTime();
+        newRange = distFrom < distTo
+          ? { from: clickedDate, to: tempRange.to }
+          : { from: tempRange.from, to: clickedDate };
+      }
+      setTempRange(newRange);
+      setHoveredMonth(null);
+      if (showActions) return;
+      onChange?.(newRange);
+      setOpen(false);
+      return;
+    }
+
     if (selecting === 'from') {
       setTempRange({ from: clickedDate });
       setSelecting('to');
@@ -135,7 +159,7 @@ export const MonthRangePicker = ({
       onChange?.(newRange);
       setOpen(false);
     }
-  }, [viewYear, selecting, tempRange.from, onChange, showActions, setOpen]);
+  }, [viewYear, selecting, tempRange, onChange, showActions, setOpen, resetOnSelect]);
 
   const handleInputChange = useCallback((range: MonthRange) => {
     onChange?.(range);
