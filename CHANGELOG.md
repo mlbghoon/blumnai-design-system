@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.9.9] - 2026-04-26
+
+### Fixed — `Select` inside `Dialog` 시각적 이슈 (다이얼로그 시프트 / 드롭다운 클립)
+
+Consumer 보고 (`happytalk-front`): DS `Select` 를 DS `Dialog` 안에서 열 때 두 가지 시각 이슈 — (a) 다이얼로그 컨텐츠 전체가 스크롤바 폭(약 17px) 만큼 우측으로 밀림 (b) 드롭다운이 다이얼로그 영역 밖으로 클립됨.
+
+원인: 이전엔 `Select.Content` 가 `usePortalContainer()` 컨텍스트를 사용해 Dialog 의 contentEl 로 포털했는데, Dialog 의 `transform` 으로 인해 contentEl 이 containing-block 이 되고 `overflow-hidden` 이 드롭다운을 클립. 또한 `Dialog.Content` 와 `Select.Content` 가 각자 `react-remove-scroll` 을 활성화하면서 `body` 패딩 보정 충돌이 발생.
+
+- v1.9.1 에서 `DropdownInput` 에 적용했던 패턴을 `Select` 에도 동일 적용 — **항상 `document.body` 로 포털**, **`z-[10100]`** (Dialog `z-[10000]` 위로 스택).
+  - `SelectPrimitive.Portal` / `PopoverPrimitive.Portal` (searchable 경로) 에서 `container={contextContainer ?? undefined}` 제거 → 기본 (body) 포털.
+  - `SelectContent` / Popover content 의 `z-[100]` → `z-[10100]`.
+- Dialog 밖에서의 동작은 변경 없음 (기존에도 body 포털로 동작).
+- API 변경 없음, 컨슈머 코드 수정 불필요.
+
 ## [1.9.8] - 2026-04-25
 
 ### Added — `DateRangePicker` / `MonthRangePicker` `resetOnSelect` prop (default `true`)

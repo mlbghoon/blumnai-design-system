@@ -10,7 +10,7 @@ import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { TooltipTrigger } from '../tooltip/Tooltip/TooltipTrigger';
 import { ScrollArea } from '../scroll-area/ScrollArea';
-import { usePortalContainer, PortalContainerProvider } from '../../utils/PortalContainerContext';
+import { PortalContainerProvider } from '../../utils/PortalContainerContext';
 import type {
   SelectTriggerProps,
   SelectContentProps,
@@ -241,7 +241,6 @@ const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   SelectContentProps
 >(({ className, children, position = 'popper', sideOffset = 4, maxHeight, header, contentWidth, ...props }, ref) => {
-  const contextContainer = usePortalContainer();
   const [contentEl, setContentEl] = React.useState<HTMLElement | null>(null);
 
   type ContentElement = React.ElementRef<typeof SelectPrimitive.Content>;
@@ -267,13 +266,16 @@ const SelectContent = React.forwardRef<
     : undefined;
 
   return (
-    <SelectPrimitive.Portal container={contextContainer ?? undefined}>
+    // Dialog 의 transform containing-block / overflow-hidden 클립 회피를 위해
+    // 항상 document.body 로 포털 (v1.9.1 DropdownInput 패턴과 동일).
+    // z-[10100] 으로 Dialog z-[10000] 위에 스택.
+    <SelectPrimitive.Portal>
       <SelectPrimitive.Content
         ref={composedRef}
         sideOffset={sideOffset}
         collisionPadding={8}
         className={cn(
-          'relative z-[100] min-w-[128px] overflow-y-auto overflow-x-hidden scrollbar-thin',
+          'relative z-[10100] min-w-[128px] overflow-y-auto overflow-x-hidden scrollbar-thin',
           'bg-card rounded-lg shadow-modal-sm',
           'data-[state=open]:animate-in data-[state=closed]:animate-out',
           'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
@@ -824,7 +826,6 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
     const [internalOpen, setInternalOpen] = React.useState(false);
     const isOpen = open !== undefined ? open : internalOpen;
     const [contentEl, setContentEl] = React.useState<HTMLElement | null>(null);
-    const contextContainer = usePortalContainer();
 
     // Radix는 value=""를 허용하지 않으므로 sentinel로 매핑
     const safeOptions = React.useMemo(() =>
@@ -1274,7 +1275,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                   />
                 </button>
               </PopoverPrimitive.Anchor>
-              <PopoverPrimitive.Portal container={contextContainer ?? undefined}>
+              <PopoverPrimitive.Portal>
                 <PopoverPrimitive.Content
                   ref={setContentEl}
                   align="start"
@@ -1285,7 +1286,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                     searchInputRef.current?.focus();
                   }}
                   className={cn(
-                    'z-[100] min-w-[128px] overflow-hidden',
+                    'z-[10100] min-w-[128px] overflow-hidden',
                     'bg-card rounded-lg shadow-modal-sm',
                     'data-[state=open]:animate-in data-[state=closed]:animate-out',
                     'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',

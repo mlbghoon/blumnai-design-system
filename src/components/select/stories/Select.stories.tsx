@@ -4,6 +4,17 @@ import { useState } from 'react';
 
 import { Select } from '../Select';
 import type { SelectOption } from '../Select.types';
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from '../../dialog/Dialog';
+import { Button } from '../../button/Button';
 
 const defaultOptions: SelectOption[] = [
   { id: '1', label: 'Option 1' },
@@ -476,6 +487,93 @@ export const CustomRenderOption: Story = {
         renderOption={renderOption}
         width={300}
       />
+    );
+  },
+};
+
+const pageSizeOptions: SelectOption[] = [
+  { id: '10', label: '10건' },
+  { id: '30', label: '30건' },
+  { id: '50', label: '50건' },
+  { id: '70', label: '70건' },
+  { id: '100', label: '100건' },
+];
+
+/**
+ * Dialog 안에서의 Select (회귀 테스트)
+ *
+ * Dialog 내부에서 Select 를 열 때의 두 가지 회귀 — (a) 다이얼로그 시프트, (b) 드롭다운 클립 — 시각 검증.
+ * (v1.9.9 fix — `document.body` 포털 + `z-[10100]`, v1.9.1 `DropdownInput` 패턴과 동일)
+ *
+ * 검증 절차:
+ * 1. "다이얼로그 열기" 클릭
+ * 2. 각 Select 를 차례로 열고 다이얼로그 컨텐츠가 좌우로 이동하지 않는지 확인
+ * 3. 드롭다운이 다이얼로그 경계 밖으로 자연스럽게 표시되는지 (= 클립되지 않는지) 확인
+ * 4. 화살표 / Enter / Esc 키 동작 확인
+ */
+export const InsideDialog: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Select 가 Dialog 내부에서 열릴 때 다이얼로그 시프트가 없는지 검증하는 회귀 스토리입니다. 화살표 / Enter 키 네비게이션도 동시에 점검합니다.',
+      },
+    },
+  },
+  render: function Render() {
+    const [pageSize, setPageSize] = useState<string>('10');
+    const [framework, setFramework] = useState<string>();
+
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button buttonStyle="secondary">다이얼로그 열기</Button>
+        </DialogTrigger>
+        <DialogContent width="640px">
+          <DialogHeader>
+            <DialogTitle>Select 회귀 테스트</DialogTitle>
+            <DialogDescription>
+              Dialog 안의 Select 를 열어도 다이얼로그가 우측으로 밀리지 않아야 합니다.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col ds-gap-16">
+            <Select
+              variant="default"
+              label="프레임워크"
+              placeholder="선택..."
+              options={tagOptions}
+              value={framework}
+              onChange={setFramework}
+            />
+            <Select
+              variant="default"
+              label="검색 가능한 Select"
+              placeholder="선택..."
+              options={tagOptions}
+              value={framework}
+              onChange={setFramework}
+              searchable
+            />
+            <div className="flex items-center justify-end ds-gap-8">
+              <span className="font-body size-sm text-subtle">한 페이지</span>
+              <Select
+                variant="default"
+                options={pageSizeOptions}
+                value={pageSize}
+                onChange={setPageSize}
+                width={90}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button buttonStyle="secondary">취소</Button>
+            </DialogClose>
+            <DialogClose asChild>
+              <Button>저장</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     );
   },
 };
