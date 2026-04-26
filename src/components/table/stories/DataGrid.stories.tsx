@@ -1401,7 +1401,7 @@ export const ColumnWidthGuide: Story = {
     return (
       <div className="flex flex-col ds-gap-24">
         <div>
-          <h3 className="font-body size-md font-bold text-default padding-y-8">
+          <h3 className="font-body size-md font-semibold text-default padding-y-8">
             1. 픽셀 고정 너비
           </h3>
           <p className="font-body size-sm text-subtle padding-y-4">
@@ -1416,7 +1416,7 @@ export const ColumnWidthGuide: Story = {
         </div>
 
         <div>
-          <h3 className="font-body size-md font-bold text-default padding-y-8">
+          <h3 className="font-body size-md font-semibold text-default padding-y-8">
             2. fr 단위 (남은 공간 채움)
           </h3>
           <p className="font-body size-sm text-subtle padding-y-4">
@@ -1431,7 +1431,7 @@ export const ColumnWidthGuide: Story = {
         </div>
 
         <div>
-          <h3 className="font-body size-md font-bold text-default padding-y-8">
+          <h3 className="font-body size-md font-semibold text-default padding-y-8">
             3. minmax (최소/최대 범위)
           </h3>
           <p className="font-body size-sm text-subtle padding-y-4">
@@ -1506,7 +1506,7 @@ export const PaginationVariants: Story = {
     return (
       <div className="flex flex-col ds-gap-24">
         <div>
-          <h3 className="font-body size-md font-bold text-default padding-y-8">
+          <h3 className="font-body size-md font-semibold text-default padding-y-8">
             1. Numbered (기본값)
           </h3>
           <p className="font-body size-sm text-subtle padding-y-4">
@@ -1522,7 +1522,7 @@ export const PaginationVariants: Story = {
         </div>
 
         <div>
-          <h3 className="font-body size-md font-bold text-default padding-y-8">
+          <h3 className="font-body size-md font-semibold text-default padding-y-8">
             2. Dot
           </h3>
           <p className="font-body size-sm text-subtle padding-y-4">
@@ -1538,7 +1538,7 @@ export const PaginationVariants: Story = {
         </div>
 
         <div>
-          <h3 className="font-body size-md font-bold text-default padding-y-8">
+          <h3 className="font-body size-md font-semibold text-default padding-y-8">
             3. Simple
           </h3>
           <p className="font-body size-sm text-subtle padding-y-4">
@@ -1568,7 +1568,7 @@ export const PaginationAlignment: Story = {
     return (
       <div className="flex flex-col ds-gap-24">
         <div>
-          <h3 className="font-body size-md font-bold text-default padding-y-8">
+          <h3 className="font-body size-md font-semibold text-default padding-y-8">
             Left
           </h3>
           <DataGrid
@@ -1581,7 +1581,7 @@ export const PaginationAlignment: Story = {
         </div>
 
         <div>
-          <h3 className="font-body size-md font-bold text-default padding-y-8">
+          <h3 className="font-body size-md font-semibold text-default padding-y-8">
             Center
           </h3>
           <DataGrid
@@ -1594,7 +1594,7 @@ export const PaginationAlignment: Story = {
         </div>
 
         <div>
-          <h3 className="font-body size-md font-bold text-default padding-y-8">
+          <h3 className="font-body size-md font-semibold text-default padding-y-8">
             Right (기본값)
           </h3>
           <DataGrid

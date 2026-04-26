@@ -1,5 +1,40 @@
 # Changelog
 
+## [1.9.11] - 2026-04-26
+
+### Changed — DS 가이드라인 위반 정리 (token 사용 일관화)
+
+전수 audit 후 production 컴포넌트의 가이드라인 위반 사항을 일괄 수정. API / 시각 동작 변경 없음.
+
+**새 토큰 추가**
+- `width-1` (1px), `width-72` (72px), `width-160` (160px) — `src/styles/utilities.css`
+- `margin-l-4` (4px) — `src/styles/utilities.css`
+- `--shadow-inset-highlight` (Radio / RadioCard 의 1px white-25% inset accent) — `src/styles/tokens/shadow.css`
+
+**Tailwind 원시 색 → DS 토큰 (`text-white` → `text-white-default`)**
+- `stepper/Stepper.tsx` (×2)
+- `dialog/Dialog.tsx`, `dialog/AlertDialog.tsx`, `dialog/AlertDialogPrimitives.tsx`
+- `switch/Switch.tsx`
+
+**Overlay (`bg-black/80` → `bg-overlay`, Dialog 와 일관)**
+- `drawer-sheet/Drawer.tsx`, `drawer-sheet/Sheet.tsx`
+
+**Transition 명시 (`transition-all` 제거, 변경 속성만 지정)**
+- `calendar/Calendar.tsx` → `transition-colors`
+- `table/cells/CellProgress.tsx` → `transition-[width]`
+
+**Inline boxShadow → CSS var**
+- `radio/Radio.tsx`, `radio/RadioCard.tsx` → `var(--shadow-inset-highlight)`
+
+**Arbitrary px → DS 토큰**
+- `time-picker/TimeInput.tsx`, `time-picker/TimeRangeInput.tsx`: `ml-[4px]` → `margin-l-4`
+- `slider/SliderInput.tsx`, `slider/SliderRangeInput.tsx` (×2): `w-[72px]` → `width-72`
+- `slider/SliderTicks.tsx`: `w-[1px]` → `width-1`
+- `calendar/QuickPresets.tsx`: `w-[160px]` → `width-160`
+
+**Stories — 금지된 `font-bold` → `font-semibold`** (`font-light/bold/extrabold` 는 가이드라인상 금지)
+- `form/SignupForm.stories.tsx` (×4), `navigation-menu/NavigationMenu.stories.tsx`, `drawer-sheet/Drawer.stories.tsx`, `table/DataGrid.stories.tsx` (×9), `table/Table.stories.tsx` (×4)
+
 ## [1.9.10] - 2026-04-26
 
 ### Changed — DS font-family 유틸리티에 `!important` 적용

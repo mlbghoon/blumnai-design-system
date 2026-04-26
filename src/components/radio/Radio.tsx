@@ -156,7 +156,7 @@ const Radio = React.forwardRef<
       {checkedInnerShadow && (
         <div
           className="absolute rounded-full pointer-events-none"
-          style={{ inset: '1px', boxShadow: '0px 1px 0px rgba(255, 255, 255, 0.25) inset' }}
+          style={{ inset: '1px', boxShadow: 'var(--shadow-inset-highlight)' }}
         />
       )}
       <RadioGroupPrimitive.Indicator className="absolute flex items-center justify-center" style={{ inset: '1px' }}>

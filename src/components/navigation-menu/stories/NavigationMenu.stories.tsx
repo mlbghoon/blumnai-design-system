@@ -335,7 +335,7 @@ export const CustomContent: Story = {
               <div className="grid ds-gap-12 padding-16 md:w-[400px]">
                 <div className="flex items-center ds-gap-12 padding-12 rounded-md bg-muted/30">
                   <div className="width-40 height-40 rounded-full bg-accent flex items-center justify-center">
-                    <span className="size-lg font-body font-bold text-default">B</span>
+                    <span className="size-lg font-body font-semibold text-default">B</span>
                   </div>
                   <div>
                     <div className="size-sm font-body font-medium line-height-leading-5">

@@ -431,7 +431,7 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
             aria-label={`Toggle AM/PM, current: ${period}`}
             className={cn(
               'padding-x-4 padding-y-2 rounded-xs',
-              'ml-[4px]',
+              'margin-l-4',
               'font-body font-medium',
               isXs ? 'size-xs line-height-leading-4' : 'size-sm line-height-leading-5',
               'transition-colors duration-150',

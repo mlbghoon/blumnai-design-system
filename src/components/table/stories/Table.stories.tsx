@@ -1327,7 +1327,7 @@ export const ColumnWidthGuide: Story = {
     return (
       <div className="flex flex-col ds-gap-24">
         <div>
-          <h3 className="font-body size-md font-bold text-default padding-y-8">
+          <h3 className="font-body size-md font-semibold text-default padding-y-8">
             Table - 픽셀 고정 너비만 지원
           </h3>
           <p className="font-body size-sm text-subtle padding-y-4">
@@ -1359,7 +1359,7 @@ export const ColumnWidthGuide: Story = {
         </div>
 
         <div>
-          <h3 className="font-body size-md font-bold text-default padding-y-8">
+          <h3 className="font-body size-md font-semibold text-default padding-y-8">
             fr / minmax가 필요하면 DataGrid 사용
           </h3>
           <p className="font-body size-sm text-subtle padding-y-4">
@@ -1571,7 +1571,7 @@ export const ComparisonGuide: Story = {
     return (
       <div className="flex flex-col ds-gap-24">
         <div>
-          <h3 className="font-body size-lg font-bold text-default padding-y-8">
+          <h3 className="font-body size-lg font-semibold text-default padding-y-8">
             Table - rowSpan/colSpan 예시
           </h3>
           <Table bordered>
@@ -1611,7 +1611,7 @@ export const ComparisonGuide: Story = {
         </div>
 
         <div>
-          <h3 className="font-body size-lg font-bold text-default padding-y-8">
+          <h3 className="font-body size-lg font-semibold text-default padding-y-8">
             Table - 중첩 테이블 예시
           </h3>
           <Table bordered>

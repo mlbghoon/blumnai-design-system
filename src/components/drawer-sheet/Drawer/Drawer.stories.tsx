@@ -363,7 +363,7 @@ export const CartPreview: Story = {
           </div>
           <div className="flex justify-between items-center padding-x-16 padding-y-12 border-t border-default">
             <span className="font-body size-sm text-muted">총 금액</span>
-            <span className="font-body size-lg font-bold text-default">
+            <span className="font-body size-lg font-semibold text-default">
               ₩{total.toLocaleString()}
             </span>
           </div>

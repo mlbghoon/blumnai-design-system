@@ -147,7 +147,7 @@ export const SingleColumn: Story = {
 
     return (
       <Form form={form} onSubmit={onSubmit} className="flex flex-col ds-gap-16 max-w-md">
-        <h2 className="font-headline size-2xl font-bold text-default">회원가입</h2>
+        <h2 className="font-headline size-2xl font-semibold text-default">회원가입</h2>
         <p className="size-sm text-subtle">계정을 만들어 서비스를 시작하세요.</p>
 
         <FormField
@@ -283,7 +283,7 @@ export const WithSocialLogin: Story = {
       <div className="flex ds-gap-32 max-w-3xl">
         {/* 소셜 로그인 */}
         <div className="flex flex-col ds-gap-16 flex-1">
-          <h2 className="font-headline size-2xl font-bold text-default">회원가입</h2>
+          <h2 className="font-headline size-2xl font-semibold text-default">회원가입</h2>
           <p className="size-sm text-subtle">소셜 계정으로 간편하게 시작하세요.</p>
 
           <div className="flex flex-col ds-gap-12">
@@ -309,7 +309,7 @@ export const WithSocialLogin: Story = {
         {/* 이메일 회원가입 */}
         <div className="flex-1">
           <Form form={form} onSubmit={onSubmit} className="flex flex-col ds-gap-16">
-            <h3 className="font-headline size-lg font-bold text-default">이메일로 가입</h3>
+            <h3 className="font-headline size-lg font-semibold text-default">이메일로 가입</h3>
 
             <FormField
               control={form.control}
@@ -395,7 +395,7 @@ export const Minimal: Story = {
     return (
       <div className="flex flex-col items-center ds-gap-24 max-w-xs mx-auto">
         <div className="flex flex-col items-center ds-gap-4">
-          <h2 className="font-headline size-2xl font-bold text-default">시작하기</h2>
+          <h2 className="font-headline size-2xl font-semibold text-default">시작하기</h2>
           <p className="size-sm text-subtle">이메일로 간편하게 가입하세요.</p>
         </div>
 

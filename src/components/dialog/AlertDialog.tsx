@@ -167,7 +167,7 @@ const AlertDialogAction = React.forwardRef<
   <AlertDialogPrimitive.Action
     ref={ref}
     asChild={asChild}
-    className={asChild ? className : cn(buttonVariants(), 'bg-state-primary text-white border border-transparent', className)}
+    className={asChild ? className : cn(buttonVariants(), 'bg-state-primary text-white-default border border-transparent', className)}
     {...props}
   />
 ));

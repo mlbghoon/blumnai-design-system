@@ -431,7 +431,7 @@ const DialogAction = React.forwardRef<
       ref={ref}
       disabled={isDisabled}
       onClick={handleClick}
-      className={cn(buttonVariants(), 'bg-state-primary text-white border border-transparent', className)}
+      className={cn(buttonVariants(), 'bg-state-primary text-white-default border border-transparent', className)}
       {...props}
     >
       {children}

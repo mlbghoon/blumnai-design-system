@@ -195,7 +195,7 @@ function MonthNavButton({
       disabled={disabled}
       className={cn(
         'inline-flex items-center justify-center width-24 height-24 rounded-xs',
-        'transition-all duration-200 focus:outline-none',
+        'transition-colors duration-200 focus:outline-none',
         disabled
           ? 'cursor-not-allowed opacity-50'
           : 'cursor-pointer hover:bg-state-ghost-hover active:bg-state-ghost-press focus-visible:shadow-component-misc-focus'

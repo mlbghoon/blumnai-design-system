@@ -55,7 +55,7 @@ export const QuickPresets = ({
       aria-label="Quick presets"
       className={cn(
         'flex flex-col ds-gap-4 padding-8',
-        'w-[160px] self-stretch',
+        'width-160 self-stretch',
         'border-r-default',
         className
       )}

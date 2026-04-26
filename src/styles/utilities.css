@@ -2294,6 +2294,10 @@ table[data-striped] tbody tr:nth-child(even) {
   margin-left: var(--spacing-2);
 }
 
+.margin-l-4 {
+  margin-left: var(--spacing-4);
+}
+
 .padding-t-4 {
   padding-top: var(--spacing-4);
 }
@@ -2577,6 +2581,18 @@ table[data-striped] tbody tr:nth-child(even) {
 
 .width-68 {
   width: 68px;
+}
+
+.width-72 {
+  width: 72px;
+}
+
+.width-160 {
+  width: 160px;
+}
+
+.width-1 {
+  width: 1px;
 }
 
 /* ============================================

@@ -188,7 +188,7 @@ const Switch = React.forwardRef<
             <span
               className={cn(
                 'absolute left-0 top-0 bottom-0 flex items-center justify-center select-none pointer-events-none',
-                'font-body font-medium text-white transition-opacity duration-150',
+                'font-body font-medium text-white-default transition-opacity duration-150',
                 sizeConfig.labelFontClass,
                 checked ? 'opacity-100' : 'opacity-0',
               )}

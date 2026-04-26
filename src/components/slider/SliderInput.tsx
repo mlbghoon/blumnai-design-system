@@ -127,7 +127,7 @@ const SliderInput = React.forwardRef<
             onKeyDown={handleKeyDown}
             disabled={disabled}
             className={cn(
-              'w-[72px] height-32 padding-x-8',
+              'width-72 height-32 padding-x-8',
               'font-body size-sm line-height-leading-5 text-center text-default',
               'bg-card border-default rounded-md',
               'focus:outline-none focus:shadow-component-input-focus',

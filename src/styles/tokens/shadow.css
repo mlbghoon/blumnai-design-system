@@ -19,4 +19,7 @@
   --shadow-component-destructive-focus: 0 -1px 0 0 var(--bg-basic-gray-alpha-10) inset, 0 1px 2px 0 var(--bg-basic-gray-alpha-4), 0 0 0 1px var(--bg-default), 0 0 0 3px var(--border-highlight-destructive);
   --shadow-component-input-focus: 0px 0px 0px 3px var(--border-default), inset 0px 0px 0px 1px var(--border-input-highlight);
   --shadow-component-input-focus-error: 0px 0px 0px 3px var(--border-highlight-destructive), inset 0px 0px 0px 1px var(--border-destructive);
+
+  /* Subtle 1px white-25% inset highlight for accent-on-accent surfaces (Radio/RadioCard checked indicator) */
+  --shadow-inset-highlight: 0px 1px 0px rgba(255, 255, 255, 0.25) inset;
 }

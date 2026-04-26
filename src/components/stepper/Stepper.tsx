@@ -115,7 +115,7 @@ function NumberIndicator({
   );
 
   const textClass = cn(
-    status === 'pending' ? 'text-default' : 'text-white',
+    status === 'pending' ? 'text-default' : 'text-white-default',
   );
 
   return (
@@ -170,7 +170,7 @@ function IconIndicator({
         'flex items-center justify-center rounded-full shrink-0 transition-opacity',
         INDICATOR_SIZE_MAP[size],
         bgClass,
-        status !== 'pending' && 'text-white',
+        status !== 'pending' && 'text-white-default',
         clickable && 'group-hover/step:opacity-80',
       )}
     >

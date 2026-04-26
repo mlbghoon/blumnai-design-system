@@ -125,7 +125,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
           aria-disabled={disabled}
           {...headerProps}
         >
-          <span className="flex-1 size-md font-medium line-height-leading-6 text-left text-default">
+          <span className="flex-1 font-body size-md font-medium line-height-leading-6 text-left text-default">
             {header}
           </span>
           <span className={iconClassName}>
@@ -134,7 +134,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
         </button>
       </div>
       <div id={panelId} role="region" aria-labelledby={buttonId} className={contentClassName} aria-hidden={!isOpen} {...(!isOpen && { inert: true })}>
-        <div className="overflow-hidden"><div className="padding-y-8 size-md font-normal line-height-leading-6 text-subtle">{children}</div></div>
+        <div className="overflow-hidden"><div className="padding-y-8 font-body size-md font-normal line-height-leading-6 text-subtle">{children}</div></div>
       </div>
     </div>
   );

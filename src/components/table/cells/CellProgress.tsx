@@ -28,7 +28,7 @@ export function CellProgress({
     <div className="flex items-center ds-gap-8 w-full">
       <div className="flex-1 height-8 bg-basic-gray-alpha-10 rounded-full overflow-hidden">
         <div
-          className={cn('h-full rounded-full transition-all', colorStyles[color])}
+          className={cn('h-full rounded-full transition-[width]', colorStyles[color])}
           style={{ width: `${percentage}%` }}
         />
       </div>

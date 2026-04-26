@@ -67,7 +67,7 @@ const SliderTicks = React.forwardRef<HTMLDivElement, SliderTicksProps>(
             >
               <div className={cn(
                 'bg-basic-gray-alpha-10',
-                isVertical ? 'height-1 width-4' : 'w-[1px] height-4'
+                isVertical ? 'height-1 width-4' : 'width-1 height-4'
               )} />
               <span className="font-body size-xs line-height-leading-4 text-muted whitespace-nowrap">
                 {formatFn(tick)}
