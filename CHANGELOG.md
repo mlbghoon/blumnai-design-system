@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.9.12] - 2026-04-26
+
+### Changed (Breaking) — `DateRangePicker` 기본 모드: `onChange` 는 범위 완성 시점에만 발생
+
+**v1.9.8 의 "revert-on-partial-close" 패치를 commit-on-completion 시맨틱으로 정식화.** 기본 모드 (`showActions=false`) 의 `onChange` 발화 시점이 `MonthRangePicker` 와 동일하게 정렬됨.
+
+**이전 동작 (v1.9.11 이하)**
+- 첫 클릭: `onChange({from: date, to: date})` 즉시 발화 (RDP 의 단일일 완성 범위)
+- 두 번째 클릭: `onChange({from, to})` 발화
+- 두 번째 클릭 없이 닫음: `onChange(snapshot)` 으로 revert 발화 (v1.9.8 부터)
+
+**변경 후 동작 (v1.9.12+)**
+- 첫 클릭: 내부 `stagedValue` 만 업데이트, **`onChange` 미발화**
+- 두 번째 클릭 (= 범위 완성): `onChange({from, to})` 한 번만 발화, 팝오버 자동 닫힘
+- 두 번째 클릭 없이 닫음: `onChange` 미발화 (parent value 변경 없음)
+
+**세부**
+- 캘린더는 항상 `stagedValue` 를 표시 (이전: 기본 모드는 `value`, showActions 모드는 `stagedValue`).
+- `useEffect (open 전환)` 가 stagedValue 를 value 와 동기화 — 열 때 / 닫을 때 모두.
+- `showActions` 모드 (확인 버튼 사용) 는 동작 변경 없음 — confirm 시점에만 `onChange`.
+- `resetOnSelect=true` (기본) 동작 그대로 유지 — 완성 범위 + 클릭 = 새 시작일.
+
+**호환성**
+- 부분 선택 (single-day staging) 을 외부에서 관찰하던 컨슈머는 더 이상 그 시그널을 받지 못함. 대부분의 경우 의도하지 않은 transient 값이었으므로 영향 없음.
+- `MonthRangePicker` 가 이미 사용 중이던 패턴이라 두 컴포넌트의 시맨틱이 일치.
+
+자세한 내용은 [MIGRATION.md](./MIGRATION.md#v1911--v1912-daterangepicker-onchange-on-completion) 참고.
+
 ## [1.9.11] - 2026-04-26
 
 ### Changed — DS 가이드라인 위반 정리 (token 사용 일관화)

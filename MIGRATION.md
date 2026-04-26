@@ -11,6 +11,40 @@
 
 ---
 
+## v1.9.11 → v1.9.12 (`DateRangePicker` `onChange` on completion)
+
+### 요약
+
+기본 모드 (`showActions=false`) 의 `DateRangePicker` 가 더 이상 부분 선택 (첫 클릭) 에서 `onChange` 를 발화하지 않습니다. `onChange` 는 사용자가 두 번째 날짜 (= 범위 완성) 를 클릭한 시점에 한 번만 호출됩니다. 이는 `MonthRangePicker` 가 이미 사용하던 commit-on-completion 시맨틱과 정렬된 것입니다.
+
+### 변경 시그널
+
+| 이벤트 | v1.9.11 이하 | v1.9.12+ |
+|---|---|---|
+| 첫 날짜 클릭 | `onChange({from, to: from})` 즉시 | (no fire) |
+| 두 번째 날짜 클릭 | `onChange({from, to})` | `onChange({from, to})` |
+| 두 번째 클릭 없이 닫음 | `onChange(snapshot)` revert (v1.9.8+) | (no fire) |
+
+### 영향 받는 케이스
+
+대부분의 컨슈머는 영향 없음. 영향 가능 케이스:
+
+1. **부분 선택을 시각적으로 외부 표시:** 예) `value` 를 별도 sidebar 에 미리 보기. 이전에는 첫 클릭 시점에 single-day 범위가 잠깐 표시됐다가 사라짐 (revert 또는 두번째 클릭 시 갱신). 이제는 두 번째 클릭 후에만 표시됨.
+
+2. **첫 클릭에 분석 이벤트 / 로깅 트리거:** 이전에는 onChange 가 호출되어 분석 이벤트가 자동 발화. 이제는 호출되지 않음 → 별도 이벤트 핸들러 필요.
+
+### 마이그레이션
+
+대부분: 코드 변경 불필요. 더 깔끔한 시맨틱.
+
+부분 선택을 관찰하고 싶으면 `showActions={true}` 로 전환하여 사용자에게 명시적인 확인 단계를 부여하거나, 별도 prop 추가가 필요하면 issue 등록 부탁드립니다.
+
+### 이전 동작이 필요하면
+
+이전 동작 (단일일 즉시 발화 + 닫힘 시 revert) 으로 돌릴 수 있는 prop 은 제공되지 않습니다. 필요시 issue 등록.
+
+---
+
 ## 1.4.x → 1.5.x (Table / DataGrid 기본 폰트·행 높이 변경)
 
 ### 요약

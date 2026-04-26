@@ -445,7 +445,10 @@ export const DateRangePicker = ({
   const hasSuccess = success === true || (typeof success === 'string' && success.length > 0);
 
   const effectivePresets = presets || DEFAULT_RANGE_PRESETS;
-  const displayValue = showActions ? stagedValue : value;
+  // 항상 staged 값을 표시. 기본 모드에서도 부분 선택 (첫 클릭) 은 stagedValue 에만
+  // 반영되고 부모 onChange 는 두 번째 클릭 (완성) 에서만 발생 — MonthRangePicker 와
+  // 동일한 commit-on-completion 시맨틱.
+  const displayValue = stagedValue;
   const selectedPresetIndex = useMemo(
     () => findMatchingPresetIndex(effectivePresets, displayValue, true),
     [effectivePresets, displayValue]
@@ -466,18 +469,16 @@ export const DateRangePicker = ({
   }, [open]);
 
   const handleOpenChange = useCallback((nextOpen: boolean) => {
-    if (!nextOpen) {
-      if (showActions) {
-        onChange?.(snapshotRef.current);
-      } else if (selectionPhase === 'selecting-end') {
-        // 사용자가 시작일만 선택하고 (`to` 미선택) 캘린더를 닫으면 원래 값으로 되돌린다.
-        // RDP 의 첫 클릭은 `{from, to: date}` 단일일 범위를 즉시 만들어 onChange 가
-        // 발생하므로, 부분 선택 상태에서 외부 클릭 / ESC 로 닫혔을 때 명시적으로 revert 한다.
-        onChange?.(snapshotRef.current);
-      }
+    if (!nextOpen && showActions) {
+      // showActions: 사용자가 확인 버튼을 누르지 않고 닫은 경우 — 스테이지 폐기
+      // (parent value 는 confirm 시점에만 갱신되므로 별도 revert 불필요하지만,
+      // 기존 동작 호환을 위해 snapshot 으로 onChange 한 번 발생시킴.)
+      onChange?.(snapshotRef.current);
     }
+    // 기본 모드에서는 부분 선택 동안 onChange 가 발생하지 않으므로 닫힘 시 별도 revert 불필요.
+    // stagedValue 는 useEffect 가 close 전환에서 valueRef.current 로 동기화.
     setOpen(nextOpen);
-  }, [showActions, onChange, setOpen, selectionPhase]);
+  }, [showActions, onChange, setOpen]);
 
   const handleSelect = useCallback((range: DateRange | undefined, triggerDate?: Date) => {
     // resetOnSelect: 팝오버를 새로 연 직후 (selectionPhase === 'idle') 에 이미
@@ -492,41 +493,33 @@ export const DateRangePicker = ({
       resetOnSelect &&
       triggerDate &&
       selectionPhase === 'idle' &&
-      displayValue?.from &&
-      displayValue?.to
+      stagedValue?.from &&
+      stagedValue?.to
     ) {
       nextRange = { from: triggerDate, to: undefined };
     }
 
-    if (showActions) {
-      setStagedValue(nextRange);
+    // 부분 선택은 stagedValue 에만 반영. onChange 는 완성 시점 (= 두 번째 클릭) 에서만 발생.
+    // showActions 모드는 onChange 를 confirm 버튼에서만 발생시키는 기존 동작 그대로 유지.
+    setStagedValue(nextRange);
 
-      if (!nextRange?.from) {
-        setSelectionPhase('idle');
-        return;
-      }
+    if (!nextRange?.from) {
+      setSelectionPhase('idle');
+      return;
+    }
 
-      if (selectionPhase === 'idle') {
-        setSelectionPhase('selecting-end');
-      } else if (selectionPhase === 'selecting-end' && nextRange?.to) {
-        setSelectionPhase('idle');
-      }
-    } else {
-      onChange?.(nextRange);
-
-      if (!nextRange?.from) {
-        setSelectionPhase('idle');
-        return;
-      }
-
-      if (selectionPhase === 'idle') {
-        setSelectionPhase('selecting-end');
-      } else if (selectionPhase === 'selecting-end' && nextRange?.to) {
+    if (selectionPhase === 'idle') {
+      // 첫 클릭 — staging only, no onChange
+      setSelectionPhase('selecting-end');
+    } else if (selectionPhase === 'selecting-end' && nextRange?.to) {
+      // 두 번째 클릭 (완성) — 기본 모드에서 commit + close
+      setSelectionPhase('idle');
+      if (!showActions) {
+        onChange?.(nextRange);
         setOpen(false);
-        setSelectionPhase('idle');
       }
     }
-  }, [onChange, selectionPhase, showActions, setOpen, resetOnSelect, displayValue]);
+  }, [onChange, selectionPhase, showActions, setOpen, resetOnSelect, stagedValue]);
 
   const handleInputChange = useCallback((range: DateRange | undefined) => {
     onChange?.(range);
