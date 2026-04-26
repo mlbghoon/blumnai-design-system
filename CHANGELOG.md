@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.9.10] - 2026-04-26
+
+### Changed — DS font-family 유틸리티에 `!important` 적용
+
+`font-headline` / `font-body` / `font-quote` / `font-code` 의 `font-family` 선언에 `!important` 추가. 컨슈머 프로젝트의 전역 / 리셋 / 프레임워크 스타일이 DS 의 폰트 패밀리를 우회 적용하지 못하도록 보호.
+
+- 영향 범위: `font-family` 한 속성에만 적용. `font-size` / `font-weight` / `font-style` 등 다른 폰트 속성에는 영향 없음.
+- 다른 폰트 토큰 (size, weight, line-height) 은 기존대로 override 가능.
+
 ## [1.9.9] - 2026-04-26
 
 ### Fixed — `Select` inside `Dialog` 시각적 이슈 (다이얼로그 시프트 / 드롭다운 클립)

@@ -2653,19 +2653,19 @@ table[data-striped] tbody tr:nth-child(even) {
    Font Family Utilities
    ============================================ */
 .font-headline {
-  font-family: var(--font-headline);
+  font-family: var(--font-headline) !important;
 }
 
 .font-body {
-  font-family: var(--font-body);
+  font-family: var(--font-body) !important;
 }
 
 .font-quote {
-  font-family: var(--font-quote);
+  font-family: var(--font-quote) !important;
 }
 
 .font-code {
-  font-family: var(--font-code);
+  font-family: var(--font-code) !important;
 }
 
 /* ============================================
