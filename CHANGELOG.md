@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.9.15] - 2026-04-28
+
+### Fixed — `DataGrid` 컬럼 가상화가 `minmax()` / `1fr` 너비를 silent 하게 깨뜨리던 문제
+
+`useColumnVirtualization` 의 `parseWidth` 가 `^(\d+(?:\.\d+)?)(px)?$` 만 매칭하고 나머지는 모두 150px 로 폴백하고 있었음. `meta.width: 'minmax(100px, 1fr)'` / `'1fr'` 같은 fluid 너비를 쓰는 컨슈머는 컬럼이 30개 (`virtualizationThreshold.columns` 기본값) 를 넘는 순간 우측 컬럼이 렌더링되지 않고 horizontal scroll 로도 복구되지 않음.
+
+**수정 내용:**
+- `minmax(<min>px, <max>)` → `<min>` 을 floor estimate 로 파싱
+- 컬럼 중 하나라도 픽셀로 정확히 결정 불가능한 너비 (`1fr`, `auto`, `%`, 파싱 실패 등) 가 있으면 컬럼 가상화를 자동으로 비활성화 — 잘못된 위치 추정으로 컬럼이 사라지는 것을 방지
+- `columnSizing` 으로 측정된 너비가 있으면 그대로 deterministic 으로 처리
+
+**컨슈머 영향:**
+- 기존에 `virtualizationThreshold={{ columns: 100 }}` 같은 stopgap 을 적용한 곳은 제거 가능 (DS 가 자동 판단)
+- 컬럼 수가 많고 모두 `Npx` 로 명시한 경우 가상화는 그대로 동작
+
+```tsx
+// fluid 너비여도 안전 — 자동으로 가상화 off
+<DataGrid columns={[
+  { id: 'a', meta: { width: 'minmax(100px, 1fr)' } },
+  { id: 'b', meta: { width: '1fr' } },
+  // ...30+ columns
+]} />
+```
+
+- `src/components/table/hooks/useColumnVirtualization.ts`
+
 ## [1.9.14] - 2026-04-28
 
 ### Fixed — `CellText` `tooltip` + `copyable` 동시 사용 시 tooltip 미동작

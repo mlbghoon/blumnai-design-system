@@ -10,27 +10,59 @@ export interface ColumnMeasurement {
   sticky: boolean;
 }
 
-function parseWidth(w: string | undefined): number {
-  if (!w) return 150;
-  const m = w.match(/^(\d+(?:\.\d+)?)(px)?$/);
-  if (m) return parseFloat(m[1]);
-  return 150;
+interface ParsedWidth {
+  value: number;
+  /**
+   * 픽셀로 정확히 결정된 너비인지 여부.
+   * `false` 면 `minmax()` min 값 또는 fallback (150px) 으로 추정한 값.
+   */
+  deterministic: boolean;
+}
+
+function parseWidth(w: string | undefined): ParsedWidth {
+  if (!w) return { value: 150, deterministic: false };
+  const px = w.match(/^(\d+(?:\.\d+)?)(px)?$/);
+  if (px) return { value: parseFloat(px[1]), deterministic: true };
+  // minmax(<min>px, <max>) — min 값을 floor 로 사용 (정확한 픽셀이 아니므로 deterministic=false)
+  const minmax = w.match(/^minmax\(\s*(\d+(?:\.\d+)?)px\s*,/);
+  if (minmax) return { value: parseFloat(minmax[1]), deterministic: false };
+  // 1fr, auto, % 등 — 알 수 없음
+  return { value: 150, deterministic: false };
+}
+
+export interface MeasureResult {
+  measurements: ColumnMeasurement[];
+  /**
+   * 모든 컬럼의 너비가 픽셀로 정확히 결정되어 가상화 위치 계산이 정확한지.
+   * `false` 면 `minmax()` / `1fr` / `auto` 등이 섞여 있어 위치 추정이 부정확함.
+   */
+  allDeterministic: boolean;
 }
 
 export function measureColumns<T>(
   columns: ColumnDef<T>[],
   columnSizing?: ColumnSizingState,
-): ColumnMeasurement[] {
+): MeasureResult {
   let cursor = 0;
-  return columns.map((col, index) => {
+  let allDeterministic = true;
+  const measurements = columns.map((col, index) => {
     const id =
       col.id ?? (col as { accessorKey?: string }).accessorKey ?? `col-${index}`;
-    const width = columnSizing?.[id] ?? parseWidth(col.meta?.width);
+    const sized = columnSizing?.[id];
+    let width: number;
+    if (sized != null) {
+      width = sized;
+    } else {
+      const parsed = parseWidth(col.meta?.width);
+      width = parsed.value;
+      if (!parsed.deterministic) allDeterministic = false;
+    }
     const sticky = col.meta?.sticky === true || col.meta?.sticky === 'left';
     const left = cursor;
     cursor += width;
     return { id, index, left, width, sticky };
   });
+  return { measurements, allDeterministic };
 }
 
 interface UseColumnVirtualizationArgs<T> {
@@ -54,16 +86,20 @@ export function useColumnVirtualization<T>({
   enabled,
   overscan,
 }: UseColumnVirtualizationArgs<T>) {
-  const measurements = useMemo(
+  const { measurements, allDeterministic } = useMemo(
     () => measureColumns(columns, columnSizing),
     [columns, columnSizing],
   );
+
+  // 컬럼 너비를 정확히 픽셀로 알 수 없으면(`minmax()` / `1fr` / `auto` 등) 가상화를 비활성화.
+  // 잘못된 위치 추정으로 우측 컬럼이 silent 하게 사라지는 것을 방지.
+  const effectiveEnabled = enabled && allDeterministic;
 
   const [scrollLeft, setScrollLeft] = useState(0);
   const [viewportWidth, setViewportWidth] = useState(0);
 
   useEffect(() => {
-    if (!enabled || !scrollElement) return;
+    if (!effectiveEnabled || !scrollElement) return;
 
     const update = () => {
       setScrollLeft(scrollElement.scrollLeft);
@@ -90,11 +126,11 @@ export function useColumnVirtualization<T>({
       ro.disconnect();
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [enabled, scrollElement]);
+  }, [effectiveEnabled, scrollElement]);
 
   const visibleIndices = useMemo(() => {
     const all = new Set(measurements.map((m) => m.index));
-    if (!enabled || viewportWidth === 0) return all;
+    if (!effectiveEnabled || viewportWidth === 0) return all;
 
     const stickyWidth = measurements
       .filter((m) => m.sticky)
@@ -127,7 +163,7 @@ export function useColumnVirtualization<T>({
       result.add(nonSticky[i].index);
     }
     return result;
-  }, [measurements, enabled, scrollLeft, viewportWidth, overscan]);
+  }, [measurements, effectiveEnabled, scrollLeft, viewportWidth, overscan]);
 
-  return { visibleIndices, enabled };
+  return { visibleIndices, enabled: effectiveEnabled };
 }
