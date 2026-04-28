@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.9.18] - 2026-04-28
+
+### Added — `TabsTrigger` `badgeColor` prop
+
+`TabsTrigger` 의 배지 색상을 `Badge` 컴포넌트와 동일한 색상 토큰으로 지정 가능. 미지정 시 기존 muted 스타일 유지 (호환).
+
+```tsx
+// 기존 (muted) — 변경 없음
+<TabsTrigger badge={3}>받은편지함</TabsTrigger>
+
+// 신규 — 색상 지정
+<TabsTrigger badge={3} badgeColor="red">긴급</TabsTrigger>
+<TabsTrigger badge={12} badgeColor="blue">신규</TabsTrigger>
+<TabsTrigger badge={5} badgeColor="green">완료</TabsTrigger>
+```
+
+지원 색상: `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, `rose`, `neutral`, `white` (Badge 와 동일).
+
+- `src/components/tabs/Tabs.types.ts`
+- `src/components/tabs/Tabs.tsx`
+- `src/components/tabs/stories/Tabs.stories.tsx` — `WithColoredBadges` 스토리 추가
+
 ## [1.9.17] - 2026-04-28
 
 ### Changed — `minmax(<min>px, <max>)` 컬럼 너비도 컬럼 가상화 활성

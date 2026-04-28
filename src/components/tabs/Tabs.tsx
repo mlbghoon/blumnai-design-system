@@ -15,6 +15,7 @@ import type {
   TabsSize,
   TabsType,
 } from './Tabs.types';
+import type { BadgeColor } from '../badge/Badge/Badge.types';
 
 interface TabsContextValue {
   variant: TabsVariant;
@@ -275,12 +276,39 @@ const ICON_SIZE = {
   lg: 16,
 } as const;
 
+const getBadgeBgClass = (color: BadgeColor): string => {
+  if (color === 'white') return '';
+  if (color === 'neutral') return 'bg-badge-gray';
+  return `bg-badge-${color}`;
+};
+
+const getBadgeTextColor = (color: BadgeColor): string => {
+  if (color === 'white') return 'var(--text-dark-subtle)';
+  if (color === 'neutral') return 'var(--text-subtle)';
+  return `var(--bg-basic-${color}-strong)`;
+};
+
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
->(({ leadIcon, tailIcon, badge, closable = false, onClose, className, children, value, style, ...props }, ref) => {
+>(({ leadIcon, tailIcon, badge, badgeColor, closable = false, onClose, className, children, value, style, ...props }, ref) => {
   const { variant, shape, size, type, activeColor, activeTextColor, activeUnderlineColor, animatedIndicator } = useTabsContext();
   const iconSize = ICON_SIZE[size];
+
+  const badgeElement = badge !== undefined ? (
+    <span
+      className={cn(
+        'inline-flex items-center justify-center',
+        'min-width-16 height-16 padding-x-4',
+        'size-xs font-medium rounded-full',
+        badgeColor ? getBadgeBgClass(badgeColor) : 'bg-muted text-muted',
+        badgeColor === 'white' && 'border-solid border-[1px] border-default',
+      )}
+      style={badgeColor ? { color: getBadgeTextColor(badgeColor) } : undefined}
+    >
+      {badge}
+    </span>
+  ) : null;
 
   const renderIcon = (icon: IconTypeWithFill | React.ReactNode) => {
     if (!icon) return null;
@@ -385,18 +413,7 @@ const TabsTrigger = React.forwardRef<
           {leadIcon && renderIcon(leadIcon)}
           {children}
           {tailIcon && renderIcon(tailIcon)}
-          {badge !== undefined && (
-            <span
-              className={cn(
-                'inline-flex items-center justify-center',
-                'min-width-16 height-16 padding-x-4',
-                'size-xs font-medium rounded-full',
-                'bg-muted text-muted'
-              )}
-            >
-              {badge}
-            </span>
-          )}
+          {badgeElement}
           {closeButton}
         </span>
       ) : (
@@ -404,18 +421,7 @@ const TabsTrigger = React.forwardRef<
           {leadIcon && renderIcon(leadIcon)}
           {children}
           {tailIcon && renderIcon(tailIcon)}
-          {badge !== undefined && (
-            <span
-              className={cn(
-                'inline-flex items-center justify-center',
-                'min-width-16 height-16 padding-x-4',
-                'size-xs font-medium rounded-full',
-                'bg-muted text-muted'
-              )}
-            >
-              {badge}
-            </span>
-          )}
+          {badgeElement}
           {closeButton}
         </>
       )}

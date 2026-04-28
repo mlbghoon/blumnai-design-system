@@ -1,6 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type * as TabsPrimitive from '@radix-ui/react-tabs';
 import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { BadgeColor } from '../badge/Badge/Badge.types';
 
 export type TabsVariant = 'pill' | 'segmented' | 'underline';
 export type TabsShape = 'pill' | 'rounded';
@@ -86,6 +87,13 @@ export interface TabsTriggerProps extends ComponentPropsWithoutRef<typeof TabsPr
   tailIcon?: IconTypeWithFill | ReactNode;
   /** 배지 텍스트/숫자 */
   badge?: string | number;
+  /**
+   * 배지 색상 (Badge 컴포넌트와 동일한 색상 토큰)
+   *
+   * 미지정 시 기본 muted 스타일 (`bg-muted text-muted`) 적용.
+   * @example badgeColor="red"
+   */
+  badgeColor?: BadgeColor;
   /**
    * 탭 닫기 가능 여부
    * @default false

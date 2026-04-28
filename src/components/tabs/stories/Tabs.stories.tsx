@@ -22,6 +22,7 @@ interface TabsStoryProps {
   leadIcon?: TabsTriggerProps['leadIcon'];
   tailIcon?: TabsTriggerProps['tailIcon'];
   badge?: TabsTriggerProps['badge'];
+  badgeColor?: TabsTriggerProps['badgeColor'];
   closable?: boolean;
   disabled?: boolean;
   animated?: boolean;
@@ -211,6 +212,20 @@ IconTypeWithFill 또는 ReactNode를 사용할 수 있습니다.
       description: '[TabsTrigger] 배지 텍스트/숫자',
       table: {
         type: { summary: 'string | number' },
+        category: 'TabsTrigger',
+      },
+    },
+    badgeColor: {
+      control: 'select',
+      options: [
+        undefined,
+        'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald',
+        'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple',
+        'fuchsia', 'pink', 'rose', 'neutral', 'white',
+      ],
+      description: '[TabsTrigger] 배지 색상 (Badge 컴포넌트와 동일). 미지정 시 기본 muted 스타일.',
+      table: {
+        type: { summary: 'BadgeColor' },
         category: 'TabsTrigger',
       },
     },
@@ -721,6 +736,71 @@ export const WithBadges: Story = {
             <TabsTrigger value="tab1" leadIcon={['business', 'mail']} badge={5}>메시지</TabsTrigger>
             <TabsTrigger value="tab2" leadIcon={['media', 'notification']} badge="신규">업데이트</TabsTrigger>
             <TabsTrigger value="tab3" leadIcon={['system', 'settings']}>설정</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * 배지 색상 (`badgeColor`)
+ *
+ * `badgeColor` prop으로 배지 색상을 지정할 수 있습니다. Badge 컴포넌트와 동일한
+ * 색상 토큰 (`red`, `blue`, `green` 등)을 사용합니다.
+ *
+ * 미지정 시 기본 muted 스타일 (`bg-muted text-muted`) 적용 — 기존 동작과 동일.
+ *
+ * 사용 예: 알림 카운트는 빨강, 신규 항목은 파랑, 완료 상태는 초록 등.
+ */
+export const WithColoredBadges: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-24">
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">상태별 색상 (Segmented)</p>
+        <Tabs defaultValue="tab1">
+          <TabsList variant="segmented">
+            <TabsTrigger value="tab1" badge={3} badgeColor="red">긴급</TabsTrigger>
+            <TabsTrigger value="tab2" badge={12} badgeColor="blue">신규</TabsTrigger>
+            <TabsTrigger value="tab3" badge={5} badgeColor="green">완료</TabsTrigger>
+            <TabsTrigger value="tab4" badge={2} badgeColor="amber">대기</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">상태별 색상 (Underline)</p>
+        <Tabs defaultValue="tab1">
+          <TabsList variant="underline">
+            <TabsTrigger value="tab1" badge={3} badgeColor="red">긴급</TabsTrigger>
+            <TabsTrigger value="tab2" badge={12} badgeColor="blue">신규</TabsTrigger>
+            <TabsTrigger value="tab3" badge={5} badgeColor="green">완료</TabsTrigger>
+            <TabsTrigger value="tab4" badge={2} badgeColor="amber">대기</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">기본 vs 색상 지정 비교</p>
+        <Tabs defaultValue="tab1">
+          <TabsList variant="pill">
+            <TabsTrigger value="tab1" badge={3}>기본 (muted)</TabsTrigger>
+            <TabsTrigger value="tab2" badge={3} badgeColor="neutral">neutral</TabsTrigger>
+            <TabsTrigger value="tab3" badge={3} badgeColor="red">red</TabsTrigger>
+            <TabsTrigger value="tab4" badge={3} badgeColor="blue">blue</TabsTrigger>
+            <TabsTrigger value="tab5" badge={3} badgeColor="green">green</TabsTrigger>
+            <TabsTrigger value="tab6" badge={3} badgeColor="purple">purple</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      <div>
+        <p className="font-body size-sm text-muted margin-b-8">전체 색상 팔레트</p>
+        <Tabs defaultValue="tab-red">
+          <TabsList variant="segmented">
+            {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral', 'white'] as const).map((color) => (
+              <TabsTrigger key={color} value={`tab-${color}`} badge={9} badgeColor={color}>{color}</TabsTrigger>
+            ))}
           </TabsList>
         </Tabs>
       </div>
