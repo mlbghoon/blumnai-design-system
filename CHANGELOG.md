@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.9.17] - 2026-04-28
+
+### Changed — `minmax(<min>px, <max>)` 컬럼 너비도 컬럼 가상화 활성
+
+v1.9.15 의 안전장치가 너무 보수적이어서 `meta.width: 'minmax(270px, 1fr)'` 같은 fluid 너비를 쓰면 컬럼 가상화가 자동 비활성화되었음. 이번에 `minmax(Npx, ...)` 패턴은 deterministic 으로 처리하도록 완화.
+
+**근거:** `1fr` 류 max 는 "남는 공간이 있을 때만" 확장됨. 남는 공간이 있다 = 가로 스크롤 없음 = 모든 컬럼이 viewport 안에 있음 → 가상화로 unmount 할 컬럼이 없음. 컬럼 가상화가 실제로 의미 있는 경우 (총 너비 > viewport, 가로 스크롤 활성) 는 모든 `minmax()` 컬럼이 정확히 min 값에 고정되어 위치 추정이 실제와 일치.
+
+**효과:** `minmax(<min>px, 1fr)` 처럼 "최소 너비 보장 + 남는 공간 균등 분배" 패턴을 쓰면서도 30+ 컬럼에서 컬럼 가상화 혜택을 받을 수 있음.
+
+여전히 가상화 자동 비활성 대상: `1fr` 단독, `auto`, `%`, `minmax(0, 1fr)` (min 이 px 가 아님) 등.
+
+```tsx
+// v1.9.16 까지: 컬럼 가상화 OFF (안전장치 작동)
+// v1.9.17+:    컬럼 가상화 ON (총 너비 > viewport 일 때 정확히 동작)
+columns: [{ meta: { width: 'minmax(270px, 1fr)' } }, ...]
+```
+
+- `src/components/table/hooks/useColumnVirtualization.ts`
+
 ## [1.9.16] - 2026-04-28
 
 ### Fixed — `DataGrid` 행 가상화 활성 시 컬럼 가상화가 silent 하게 무시되던 문제

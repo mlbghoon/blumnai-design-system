@@ -23,10 +23,13 @@ function parseWidth(w: string | undefined): ParsedWidth {
   if (!w) return { value: 150, deterministic: false };
   const px = w.match(/^(\d+(?:\.\d+)?)(px)?$/);
   if (px) return { value: parseFloat(px[1]), deterministic: true };
-  // minmax(<min>px, <max>) — min 값을 floor 로 사용 (정확한 픽셀이 아니므로 deterministic=false)
+  // minmax(<min>px, <max>) — deterministic 처리.
+  // 근거: `1fr` 류 max 는 "남는 공간이 있을 때만" 확장됨. 남는 공간이 있다 = 가로 스크롤 없음
+  // = 가상화로 unmount 할 컬럼도 없음 (전부 viewport 안). 컬럼 가상화가 실제로 의미 있는 경우
+  // (총 너비 > viewport) 는 모든 `minmax()` 컬럼이 정확히 min 에 고정되어 추정값이 실제와 일치.
   const minmax = w.match(/^minmax\(\s*(\d+(?:\.\d+)?)px\s*,/);
-  if (minmax) return { value: parseFloat(minmax[1]), deterministic: false };
-  // 1fr, auto, % 등 — 알 수 없음
+  if (minmax) return { value: parseFloat(minmax[1]), deterministic: true };
+  // 1fr 단독, auto, % 등 — min floor 가 없어 정말 알 수 없음
   return { value: 150, deterministic: false };
 }
 

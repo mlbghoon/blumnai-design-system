@@ -2321,6 +2321,82 @@ export const VirtualizationTuning: Story = {
 };
 
 /**
+ * 행 + 컬럼 가상화 동시 활성 (v1.9.16 회귀 검증)
+ *
+ * 행 가상화 (`rows > virtualizationThreshold.rows`) 와 컬럼 가상화
+ * (`columns > virtualizationThreshold.columns`) 가 함께 동작하는지 확인하는 스토리.
+ *
+ * v1.9.15 까지 행 가상화 활성 분기에서 `visibleColumnIndices` 를 자식 `DataGridRow`
+ * 에 전달하지 않아, 두 가상화를 동시에 쓰면 컬럼 가상화가 silent 하게 무시됨.
+ * v1.9.16 에서 수정.
+ *
+ * **확인 포인트:**
+ * - 데이터셋 크기: 1000 rows × 50 cols (= 50,000 셀) — 가상화 없으면 브라우저가 멈춤
+ * - DevTools Elements 탭에서 `[role=gridcell]` 카운트가 viewport 내 셀 수 (≒ 행 × 컬럼) 만큼만 나와야 함
+ * - 가로 스크롤: 새 컬럼 mount, 벗어난 컬럼 unmount (← 이게 v1.9.16 의 fix)
+ * - 세로 스크롤: 새 행 mount, 벗어난 행 unmount
+ * - 양방향 스크롤 후에도 sticky 컬럼 (`#`) 은 항상 좌측 고정
+ * - 헤더 정렬과 본문 컬럼 정렬이 어긋나지 않음
+ *
+ * **회귀 시나리오:**
+ * 만약 컬럼 가상화가 깨지면 → 가로 스크롤해도 우측 컬럼이 안 나타나거나,
+ * `[role=gridcell]` 카운트가 (visibleRows × 50) 으로 나옴 (50 컬럼 전부 렌더).
+ */
+export const CombinedRowAndColumnVirtualization: Story = {
+  render: function Render() {
+    interface Row {
+      id: string;
+      [key: string]: string;
+    }
+    const colCount = 50;
+    const rowCount = 1000;
+
+    const data: Row[] = useMemo(
+      () =>
+        Array.from({ length: rowCount }, (_, r) => {
+          const row: Row = { id: String(r + 1) };
+          for (let c = 0; c < colCount; c++) {
+            row[`col${c}`] = `R${r + 1}C${c + 1}`;
+          }
+          return row;
+        }),
+      []
+    );
+
+    const columns: ColumnDef<Row>[] = useMemo(() => {
+      const cols: ColumnDef<Row>[] = [
+        {
+          accessorKey: 'id',
+          header: '#',
+          cell: ({ row }) => <CellText value={row.original.id} />,
+          meta: { width: '60px', sticky: true },
+        },
+      ];
+      for (let c = 0; c < colCount; c++) {
+        cols.push({
+          accessorKey: `col${c}`,
+          header: `Col ${c + 1}`,
+          cell: ({ row }) => <CellText value={row.original[`col${c}`]} />,
+          meta: { width: '120px' },
+        });
+      }
+      return cols;
+    }, []);
+
+    return (
+      <DataGrid
+        data={data}
+        columns={columns}
+        getRowId={(row) => row.id}
+        maxHeight="400px"
+        pagination={false}
+        aria-label="Combined row + column virtualization (1000 rows x 50 cols)"
+      />
+    );
+  },
+};
+
+/**
  * `CellText` `copyValue` - display 와 copy 분리 (신규 v1.7.0)
  *
  * `value`는 truncate된 짧은 텍스트로 표시하고, `copyable` 클릭 시에는 `copyValue`

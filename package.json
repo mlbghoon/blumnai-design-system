@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.9.16",
+  "version": "1.9.17",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
