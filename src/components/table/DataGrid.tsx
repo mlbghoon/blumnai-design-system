@@ -220,7 +220,7 @@ function DataGridInner<T>(
   });
 
   const rows = table.getRowModel().rows;
-  const paddingRowCount = fitLimitRowHeightActive && pagination !== false
+  const paddingRowCount = fitLimitRowHeightActive
     ? Math.max(0, paginationInfo.limit - rows.length)
     : 0;
   const hasData = displayData.length > 0;

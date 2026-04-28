@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.9.13] - 2026-04-28
+
+### Fixed — `DataGrid` `fitLimitRowHeight` 가 `pagination={false}` 일 때 동작하지 않던 문제
+
+`pagination !== false` 가드가 padding row 계산을 막고 있어, `pagination={false}` 와 함께 쓰면 `fitLimitRowHeight` 가 no-op 이었음. `paginationInfo.limit` 은 pagination 활성 여부와 무관하게 항상 채워지므로(미지정 시 기본 10, 또는 명시한 `limit` prop 값), 가드를 제거.
+
+이제 `pagination={false}` + `limit={N}` + `fitLimitRowHeight` 조합에서 바디가 `N × rowHeight` 로 고정되며, 데이터가 부족하면 placeholder 행으로 채워짐 — prop 의 본래 의도대로 동작.
+
+```tsx
+// 이제 정상 동작
+<DataGrid
+  pagination={false}
+  limit={10}
+  rowHeight="36px"
+  fitLimitRowHeight
+  data={fewRows}
+/>
+```
+
+- `src/components/table/DataGrid.tsx`
+
 ## [1.9.12] - 2026-04-26
 
 ### Changed (Breaking) — `DateRangePicker` 기본 모드: `onChange` 는 범위 완성 시점에만 발생
