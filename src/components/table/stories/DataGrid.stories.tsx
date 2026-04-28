@@ -2330,10 +2330,27 @@ export const VirtualizationTuning: Story = {
  * 에 전달하지 않아, 두 가상화를 동시에 쓰면 컬럼 가상화가 silent 하게 무시됨.
  * v1.9.16 에서 수정.
  *
+ * **컬럼 너비 규칙 (CRITICAL):**
+ * 컬럼 가상화는 모든 컬럼의 너비를 픽셀로 미리 계산할 수 있을 때만 활성됩니다.
+ * 하나라도 아래 패턴을 쓰면 안전을 위해 컬럼 가상화가 자동으로 OFF 됩니다.
+ *
+ * | `meta.width` | 컬럼 가상화 | 비고 |
+ * |---|---|---|
+ * | `'200px'`, `'200'` | ✅ ON | 명시적 px |
+ * | `'minmax(200px, 1fr)'` | ✅ ON (v1.9.17+) | min 이 px 면 OK — `1fr` 은 남는 공간만 분배하므로 스크롤 시 정확히 min 에 고정 |
+ * | `'minmax(200px, 500px)'` | ✅ ON (v1.9.17+) | 동일 — min 기준으로 추정 |
+ * | `'1fr'` 단독 | ❌ OFF | min floor 없음 → 위치 추정 불가 |
+ * | `'auto'` | ❌ OFF | content 의존 |
+ * | `'50%'` | ❌ OFF | container 의존 |
+ * | `'minmax(0, 1fr)'` | ❌ OFF | min 이 0 = 사실상 floor 없음 |
+ *
+ * 컬럼 가상화가 OFF 되어도 그리드 자체는 정상 동작 (행 가상화는 그대로 활성).
+ * 단지 가로 스크롤 시 모든 컬럼이 항상 마운트되어 perf 이점이 사라질 뿐.
+ *
  * **확인 포인트:**
  * - 데이터셋 크기: 1000 rows × 50 cols (= 50,000 셀) — 가상화 없으면 브라우저가 멈춤
  * - DevTools Elements 탭에서 `[role=gridcell]` 카운트가 viewport 내 셀 수 (≒ 행 × 컬럼) 만큼만 나와야 함
- * - 가로 스크롤: 새 컬럼 mount, 벗어난 컬럼 unmount (← 이게 v1.9.16 의 fix)
+ * - 가로 스크롤: 새 컬럼 mount, 벗어난 컬럼 unmount (← v1.9.16 의 fix)
  * - 세로 스크롤: 새 행 mount, 벗어난 행 unmount
  * - 양방향 스크롤 후에도 sticky 컬럼 (`#`) 은 항상 좌측 고정
  * - 헤더 정렬과 본문 컬럼 정렬이 어긋나지 않음
@@ -2391,6 +2408,80 @@ export const CombinedRowAndColumnVirtualization: Story = {
         maxHeight="400px"
         pagination={false}
         aria-label="Combined row + column virtualization (1000 rows x 50 cols)"
+      />
+    );
+  },
+};
+
+/**
+ * 컬럼 너비 vs 컬럼 가상화 — 어떤 너비가 가상화를 깨뜨리는가
+ *
+ * 컬럼 가상화는 모든 컬럼의 위치를 픽셀로 미리 알 수 있을 때만 활성됩니다.
+ * 이 스토리는 `1fr` 단독 사용이 컬럼 가상화를 자동 비활성화시키는 것을 보여줍니다.
+ *
+ * **이 스토리에서 일어나는 일:**
+ * - 50 컬럼 중 한 컬럼만 `meta.width: '1fr'` 로 지정 (나머지는 모두 px)
+ * - 컬럼 수 (50) > threshold (30) 이므로 컬럼 가상화 활성 조건은 충족
+ * - 그러나 `1fr` 컬럼이 하나라도 있으면 안전을 위해 컬럼 가상화 OFF
+ * - DevTools 에서 `[role=gridcell]` 카운트가 (visibleRows × 50) 으로 모든 컬럼 마운트되는 것을 확인
+ *
+ * **해결 방법:** `'1fr'` → `'minmax(200px, 1fr)'` 로 바꾸면 컬럼 가상화 ON.
+ * `minmax(<min>px, ...)` 은 가로 스크롤 시 정확히 `<min>` 에 고정되므로 위치 계산이 정확함.
+ *
+ * **이 동작이 의도된 이유:**
+ * `1fr` 만으로는 컬럼 너비를 미리 계산할 수 없음 → 잘못된 위치 추정으로 컬럼이 silent 하게
+ * 사라지는 것보다 가상화를 끄는 편이 안전 (v1.9.15 부터).
+ */
+export const ColumnVirtualizationWithFluidWidth: Story = {
+  render: function Render() {
+    interface Row {
+      id: string;
+      [key: string]: string;
+    }
+    const colCount = 50;
+    const rowCount = 200;
+
+    const data: Row[] = useMemo(
+      () =>
+        Array.from({ length: rowCount }, (_, r) => {
+          const row: Row = { id: String(r + 1) };
+          for (let c = 0; c < colCount; c++) {
+            row[`col${c}`] = `R${r + 1}C${c + 1}`;
+          }
+          return row;
+        }),
+      []
+    );
+
+    const columns: ColumnDef<Row>[] = useMemo(() => {
+      const cols: ColumnDef<Row>[] = [
+        {
+          accessorKey: 'id',
+          header: '#',
+          cell: ({ row }) => <CellText value={row.original.id} />,
+          meta: { width: '60px', sticky: true },
+        },
+      ];
+      for (let c = 0; c < colCount; c++) {
+        cols.push({
+          accessorKey: `col${c}`,
+          header: c === 0 ? `Col 1 (1fr — disables col virt)` : `Col ${c + 1}`,
+          cell: ({ row }) => <CellText value={row.original[`col${c}`]} />,
+          // 첫 컬럼만 1fr → 컬럼 가상화 자동 OFF
+          meta: { width: c === 0 ? '1fr' : '120px' },
+        });
+      }
+      return cols;
+    }, []);
+
+    return (
+      <DataGrid
+        data={data}
+        columns={columns}
+        getRowId={(row) => row.id}
+        maxHeight="400px"
+        pagination={false}
+        aria-label="Column virt disabled because of 1fr width"
       />
     );
   },
