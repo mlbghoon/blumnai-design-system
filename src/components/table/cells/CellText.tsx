@@ -92,7 +92,34 @@ export function CellText({
 
   const useSingletonTooltip = tooltip && tableTooltip;
 
-  const content = (
+  const content = copyable ? (
+    <button
+      ref={elementRef as React.RefObject<HTMLButtonElement>}
+      type="button"
+      onClick={handleCopy}
+      onMouseEnter={useSingletonTooltip ? handleMouseEnter : undefined}
+      onMouseLeave={useSingletonTooltip ? handleMouseLeave : undefined}
+      aria-label={`Copy ${displayValue}`}
+      className={cn(
+        'inline-flex items-center ds-gap-4 truncate max-w-full',
+        'font-body letter-spacing-tracking-tight text-default',
+        fontClasses,
+        'hover:text-state-primary cursor-pointer',
+        className
+      )}
+    >
+      <span className="truncate">{displayValue}</span>
+      <Icon
+        iconType={['document', copied ? 'file-check' : 'file-copy']}
+        size={12}
+        color={copied ? 'success' : 'default-subtle'}
+        className={cn(
+          'shrink-0 opacity-0 group-hover/cell:opacity-100 transition-opacity',
+          copied && 'opacity-100'
+        )}
+      />
+    </button>
+  ) : (
     <span
       ref={elementRef as React.RefObject<HTMLSpanElement>}
       className={cn(
@@ -109,36 +136,8 @@ export function CellText({
     </span>
   );
 
-  if (!tooltip && !copyable) {
+  if (!tooltip) {
     return content;
-  }
-
-  if (copyable) {
-    return (
-      <button
-        type="button"
-        onClick={handleCopy}
-        aria-label={`Copy ${displayValue}`}
-        className={cn(
-          'inline-flex items-center ds-gap-4 truncate max-w-full',
-          'font-body letter-spacing-tracking-tight text-default',
-          fontClasses,
-          'hover:text-state-primary cursor-pointer',
-          className
-        )}
-      >
-        <span className="truncate">{displayValue}</span>
-        <Icon
-          iconType={['document', copied ? 'file-check' : 'file-copy']}
-          size={12}
-          color={copied ? 'success' : 'default-subtle'}
-          className={cn(
-            'shrink-0 opacity-0 group-hover/cell:opacity-100 transition-opacity',
-            copied && 'opacity-100'
-          )}
-        />
-      </button>
-    );
   }
 
   if (useSingletonTooltip) {

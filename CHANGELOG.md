@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.9.14] - 2026-04-28
+
+### Fixed — `CellText` `tooltip` + `copyable` 동시 사용 시 tooltip 미동작
+
+`copyable=true` 분기가 button 을 그대로 반환하면서 tooltip wiring (`elementRef`, `onMouseEnter/Leave`, `TooltipTrigger` wrap) 을 모두 건너뛰고 있었음. 결과적으로 `<CellText tooltip copyable />` 형태로 함께 지정해도 tooltip 이 표시되지 않음.
+
+수정 후:
+- `copyable` 일 때 button 에도 `elementRef` 와 hover 핸들러를 부착
+- `useTableTooltip` 컨텍스트 (예: `DataGrid`) 가 있으면 싱글톤 tooltip, 없으면 `TooltipTrigger` 로 wrap
+
+```tsx
+// 이제 정상 동작 — 호버 시 tooltip + 클릭 시 복사
+<CellText value={longText} tooltip copyable />
+```
+
+- `src/components/table/cells/CellText.tsx`
+
 ## [1.9.13] - 2026-04-28
 
 ### Fixed — `DataGrid` `fitLimitRowHeight` 가 `pagination={false}` 일 때 동작하지 않던 문제
