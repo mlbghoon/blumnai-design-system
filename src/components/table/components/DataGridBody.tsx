@@ -188,6 +188,7 @@ export function DataGridBody<T>({
               stickyColumnPositions={stickyColumnPositions}
               rowHeight={rowHeight}
               getRowHeight={getRowHeight}
+              visibleColumnIndices={visibleColumnIndices}
             />
           </div>
         );

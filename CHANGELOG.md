@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.9.16] - 2026-04-28
+
+### Fixed — `DataGrid` 행 가상화 활성 시 컬럼 가상화가 silent 하게 무시되던 문제
+
+`DataGridBody` 의 행 가상화 분기 (`rows.length > virtualizationThreshold.rows`, 기본 100) 에서 `DataGridRow` 에 `visibleColumnIndices` 를 전달하지 않고 있었음. 결과적으로 행 100개 + 컬럼 30개를 동시에 넘기면 행은 viewport 만큼만 마운트되지만, **각 행 내부에서는 모든 컬럼이 렌더링** 됨 — 컬럼 가상화 효과가 사라짐.
+
+비가상화 분기 (line 99) 와 padding row 분기는 이미 `visibleColumnIndices` 를 올바르게 사용하고 있었음. 가상화 분기에 누락된 한 줄을 추가.
+
+이제 두 축 가상화가 함께 동작 — `virtualizationThreshold={{ rows: N, columns: M }}` 가 의도대로 작동:
+
+```tsx
+// 1000 rows × 50 columns 그리드 — 행/컬럼 양쪽 모두 가상화
+<DataGrid data={largeData} columns={manyColumns} />
+```
+
+- `src/components/table/components/DataGridBody.tsx`
+
 ## [1.9.15] - 2026-04-28
 
 ### Fixed — `DataGrid` 컬럼 가상화가 `minmax()` / `1fr` 너비를 silent 하게 깨뜨리던 문제
