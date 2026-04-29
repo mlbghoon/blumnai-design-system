@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.9.20] - 2026-04-29
+
+### Fixed — Combobox / Select 선택 체크 아이콘이 다크 테마에서 보이지 않던 문제
+
+`Combobox` 와 `RadixSelect` 의 선택 표시 체크 아이콘이 존재하지 않는 토큰 (`--icon-primary`) 을 참조하고 있어 SVG 가 색상 없이 렌더링됨. 라이트 모드에선 검정 (브라우저 기본값) 으로 표시되어 그럭저럭 보였지만 다크 모드에선 같은 검정이 어두운 배경에 묻혀 사실상 invisible.
+
+`'primary'` 는 Icon 의 `colorTokens` set 에 없어 raw 문자열 그대로 전달 → 유효하지 않은 CSS 색상값 → SVG 기본값 (검정). 디자인 의도는 명백히 "브랜드 색의 체크" 였으므로 `'informative'` (`#437dfc` light, `#9ac4fe` dark — 테마 대응) 로 교체.
+
+**시각적 변화:**
+- 라이트 모드: 검정 체크 → 파란 체크 (디자인 시스템 컨벤션과 일치)
+- 다크 모드: 보이지 않던 검정 체크 → 밝은 파란 체크 (이번 수정의 본래 목적)
+
+영향 컴포넌트:
+- `Combobox` — 선택 항목 (default variant, checkbox/radio 미사용)
+- `RadixSelect` — 5 곳 (Single / MultiSelect / Tags / Avatar / Default 모두)
+
+- `src/components/select/Combobox/Combobox.tsx`
+- `src/components/select/RadixSelect.tsx`
+
 ## [1.9.19] - 2026-04-29
 
 ### Changed — Toast 메시지에서 `\n` 줄바꿈 지원
