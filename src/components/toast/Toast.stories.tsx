@@ -191,6 +191,39 @@ export const LongMessage: Story = {
 };
 
 /**
+ * 줄바꿈 메시지
+ *
+ * 메시지 문자열에 `\n` 을 포함하면 자동으로 줄바꿈되어 렌더링됩니다.
+ * (`whitespace-pre-line` 적용 — 연속 공백은 collapse, 명시적 `\n` 만 줄바꿈)
+ */
+export const MultiLineMessage: Story = {
+  render: () => (
+    <div className="flex ds-gap-12">
+      <Button
+        buttonStyle="secondary"
+        onClick={() =>
+          toast.warning(
+            '해당 계정에 등록된 템플릿이 존재하지 않습니다.\n템플릿을 등록 후 다운로드하세요.'
+          )
+        }
+      >
+        2줄 메시지 (warning)
+      </Button>
+      <Button
+        buttonStyle="secondary"
+        onClick={() =>
+          toast.error(
+            '저장에 실패했습니다.\n네트워크 연결을 확인 후 다시 시도해주세요.\n문제가 지속되면 관리자에게 문의하세요.'
+          )
+        }
+      >
+        3줄 메시지 (error)
+      </Button>
+    </div>
+  ),
+};
+
+/**
  * 커스텀 라벨
  *
  * label 옵션을 사용하여 기본 라벨을 커스텀할 수 있습니다.

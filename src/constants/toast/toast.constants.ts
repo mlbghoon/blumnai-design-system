@@ -28,4 +28,4 @@ export const TOAST_LABEL = {
 
 export const TOAST_LABEL_STYLE = 'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal text-subtle font-semibold';
 
-export const TOAST_MESSAGE_STYLE = 'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal text-subtle';
+export const TOAST_MESSAGE_STYLE = 'font-body size-sm line-height-leading-5 letter-spacing-tracking-normal text-subtle whitespace-pre-line';

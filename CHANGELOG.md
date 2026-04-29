@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.9.19] - 2026-04-29
+
+### Changed — Toast 메시지에서 `\n` 줄바꿈 지원
+
+`TOAST_MESSAGE_STYLE` 에 `whitespace-pre-line` 추가. 이제 `message` 문자열에 포함된 `\n` 이 실제 줄바꿈으로 렌더링됨.
+
+```tsx
+// 1줄 — 기존과 동일
+toast.warning('템플릿이 존재하지 않습니다.');
+
+// 2줄 — 신규: \n 이 줄바꿈으로 렌더링
+toast.warning('해당 계정에 등록된 템플릿이 존재하지 않습니다.\n템플릿을 등록 후 다운로드하세요.');
+```
+
+`whitespace-pre-line` 특성: 명시적 `\n` 만 줄바꿈, 연속 공백은 collapse 됨 (단순 텍스트 wrapping 동작은 그대로).
+
+- `src/constants/toast/toast.constants.ts`
+- `src/components/toast/Toast.stories.tsx` — `MultiLineMessage` 스토리 추가
+
 ## [1.9.18] - 2026-04-28
 
 ### Added — `TabsTrigger` `badgeColor` prop
