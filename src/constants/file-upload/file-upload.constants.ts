@@ -72,9 +72,9 @@ export const FILE_UPLOAD_STATUS_TEXT = {
 
 // FileUploadCard status labels
 export const FILE_UPLOAD_STATUS_LABEL = {
-  uploaded: 'Uploaded',
-  uploading: 'Uploading',
-  error: 'Error',
+  uploaded: '업로드 완료',
+  uploading: '업로드 중',
+  error: '업로드 실패',
 } as const;
 
 // FileUploadCard progress bar styles

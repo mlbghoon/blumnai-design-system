@@ -20,11 +20,13 @@ declare module '@tanstack/react-table' {
      */
     width?: string;
     /**
-     * Text alignment
+     * 셀(body) 텍스트 정렬
+     * @default 'left'
      */
     align?: 'left' | 'center' | 'right';
     /**
-     * 헤더 텍스트 정렬 (미지정 시 align 값 사용)
+     * 헤더 텍스트 정렬 (셀과 독립적으로 결정 — `align` 을 따라가지 않음)
+     * @default 'center'
      */
     headerAlign?: 'left' | 'center' | 'right';
     /**

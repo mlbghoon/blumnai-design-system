@@ -11,6 +11,56 @@
 
 ---
 
+## v1.9.21 → v1.9.22 (`DataGrid` / `Table` 헤더 정렬 기본값 변경 + `align` 분리)
+
+### 요약
+
+테이블 헤더 정렬이 셀(body) 정렬과 독립적으로 결정됩니다. 헤더 기본값이 `'left'` 에서 `'center'` 로 변경되고, `meta.align` 은 더 이상 헤더에 영향을 주지 않습니다.
+
+### 변경 시그널
+
+- `DataGrid` 의 헤더가 가운데 정렬로 표시됨 (이전엔 왼쪽)
+- `meta: { align: 'right' }` 만 지정한 컬럼의 헤더가 더 이상 right 가 아니라 center
+- `Table` 컴포넌트의 `TableHead` 가 가운데 정렬됨 (이전엔 왼쪽)
+
+### 마이그레이션 단계
+
+#### 1. 헤더와 셀이 같은 정렬을 유지해야 하는 컬럼 — `headerAlign` 명시
+
+```tsx
+// Before
+{ accessorKey: 'amount', meta: { align: 'right' } }
+
+// After — 헤더도 right 로 유지하려면 명시 필요
+{ accessorKey: 'amount', meta: { align: 'right', headerAlign: 'right' } }
+```
+
+#### 2. 헤더를 left 로 유지해야 하는 컬럼
+
+```tsx
+// Before — 자동으로 left
+{ accessorKey: 'name' }
+
+// After — center 가 기본이므로 left 를 원하면 명시
+{ accessorKey: 'name', meta: { headerAlign: 'left' } }
+```
+
+#### 3. `Table` 컴포넌트의 `TableHead`
+
+```tsx
+// Before — text-left 가 디폴트
+<TableHead>이름</TableHead>
+
+// After — text-center 가 디폴트, 왼쪽 정렬은 className 으로 명시
+<TableHead className="text-left">이름</TableHead>
+```
+
+### 왜
+
+일반적인 데이터 테이블에서 헤더는 가운데, 셀은 데이터 타입에 맞게 정렬 (텍스트는 left, 숫자는 right) 하는 패턴이 표준. 기존 cascade 동작 (`headerAlign ?? align ?? 'left'`) 은 셀 기준 정렬이 헤더로 전파되는 부작용이 있어, 헤더만 가운데로 두려면 모든 컬럼에 `headerAlign: 'center'` 를 넣어야 했음.
+
+---
+
 ## v1.9.11 → v1.9.12 (`DateRangePicker` `onChange` on completion)
 
 ### 요약

@@ -273,7 +273,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         ref={ref}
         scope="col"
         className={cn(
-          'padding-x-10 text-left align-middle bg-default',
+          'padding-x-10 text-center align-middle bg-default',
           'font-body font-medium text-subtle',
           getTableFontClasses(fontSize),
           '[&:has([role=checkbox])]:[padding-right:0] [&>[role=checkbox]]:translate-y-[2px]',
@@ -294,7 +294,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         {...props}
       >
         {sortable ? (
-          <div className="flex items-center ds-gap-4">
+          <div className="inline-flex items-center ds-gap-4 align-middle">
             <span>{children}</span>
             <Icon
               iconType={['arrows', getSortIcon()]}

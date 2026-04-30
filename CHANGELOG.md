@@ -1,5 +1,42 @@
 # Changelog
 
+## [1.9.22] - 2026-04-30
+
+### Changed (Breaking) — `DataGrid` / `Table` 헤더 정렬 기본값 → `center` + `align` 과 분리
+
+테이블 헤더의 정렬 동작이 셀(body) 정렬과 독립적으로 결정됩니다. 헤더 기본값은 `'center'`, 셀 기본값은 `'left'`.
+
+**이전 동작 (v1.9.21 이하)**
+- `DataGrid` 헤더 정렬: `meta.headerAlign ?? meta.align ?? 'left'` — 헤더가 `align` 을 따라감
+- `Table` 의 `TableHead`: 항상 `text-left` 고정
+
+**변경 후 동작 (v1.9.22+)**
+- `DataGrid` 헤더 정렬: `meta.headerAlign ?? 'center'` — 헤더는 `headerAlign` 만 봄, `align` 영향 없음
+- `Table` 의 `TableHead`: 기본 `text-center`, `className` 으로 override 가능 (`<TableHead className="text-left">`)
+- `meta.align` 은 이제 셀(body) 에만 영향
+
+**왜:** 일반적인 데이터 테이블에서 헤더는 가운데, 셀은 데이터 타입에 맞게 (텍스트는 left, 숫자는 right 등) 정렬하는 패턴이 표준. 기존 cascade 동작은 `align: 'right'` 같은 셀 기준 정렬이 헤더까지 따라가는 부작용이 있었음.
+
+**컨슈머 영향:**
+- 헤더가 가운데 정렬로 바뀜 — 디자인 검토 필요
+- 기존에 `align: 'right'` 만 지정하고 헤더도 right 가 되길 원했다면 → 이제 명시적으로 `headerAlign: 'right'` 추가 필요
+- 기존에 모든 헤더가 left 였다면 → `headerAlign: 'left'` 명시 또는 디자인 변경 수용
+
+```tsx
+// 이전 (v1.9.21 이하): 헤더와 셀 모두 right
+{ accessorKey: 'amount', meta: { align: 'right' } }
+
+// 이후 (v1.9.22+): 셀만 right, 헤더는 center (기본)
+{ accessorKey: 'amount', meta: { align: 'right' } }
+
+// 이후 (v1.9.22+): 헤더와 셀 모두 right — 명시적으로 둘 다 지정
+{ accessorKey: 'amount', meta: { align: 'right', headerAlign: 'right' } }
+```
+
+- `src/components/table/DataGrid.types.ts`
+- `src/components/table/components/DataGridHeader.tsx`
+- `src/components/table/Table.tsx`
+
 ## [1.9.21] - 2026-04-30
 
 ### Fixed — `DonutChart` 툴팁이 중앙 라벨 뒤로 가려지던 z-index 이슈

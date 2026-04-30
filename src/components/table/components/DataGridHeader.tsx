@@ -41,7 +41,7 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
   const canSort = header.column.getCanSort();
   const sortDirection = header.column.getIsSorted();
   const sortIndex = header.column.getSortIndex();
-  const align = header.column.columnDef.meta?.headerAlign ?? header.column.columnDef.meta?.align ?? 'left';
+  const align = header.column.columnDef.meta?.headerAlign ?? 'center';
   const headerTooltip = header.column.columnDef.meta?.headerTooltip;
 
   const getSortIcon = () => {
@@ -162,7 +162,7 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
   const canSort = header.column.getCanSort();
   const sortDirection = header.column.getIsSorted();
   const sortIndex = header.column.getSortIndex();
-  const align = header.column.columnDef.meta?.headerAlign ?? header.column.columnDef.meta?.align ?? 'left';
+  const align = header.column.columnDef.meta?.headerAlign ?? 'center';
   const headerTooltip = header.column.columnDef.meta?.headerTooltip;
 
   const getSortIcon = () => {
