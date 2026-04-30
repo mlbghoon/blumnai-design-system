@@ -116,7 +116,7 @@ export function TimePickerPanel({
 
   return (
     <div className={cn('flex flex-col ds-gap-8', className)}>
-      <div className="flex ds-gap-4">
+      <div className="flex justify-between ">
         <TimeColumn
           label="시"
           items={hourItems}

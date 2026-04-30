@@ -179,7 +179,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
                 })}
               </div>
             )}
-            <div className="flex flex-col ds-gap-8 padding-8">
+            <div className="flex flex-col ds-gap-8 padding-12">
               <TimePickerPanel
                 value={panelValue}
                 onChange={handlePanelChange}
@@ -195,7 +195,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
                     type="button"
                     onClick={handleCancel}
                     className={cn(
-                      'padding-x-12 padding-y-6 rounded-md',
+                      'padding-x-10 padding-y-6 rounded-md',
                       'font-body size-sm line-height-leading-5 font-medium',
                       'text-default hover:bg-state-ghost-hover',
                       'transition-colors duration-150',
@@ -208,7 +208,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(({
                     type="button"
                     onClick={handleApply}
                     className={cn(
-                      'padding-x-12 padding-y-6 rounded-md',
+                      'padding-x-10 padding-y-6 rounded-md',
                       'font-body size-sm line-height-leading-5 font-medium',
                       'bg-state-primary text-white-default hover:bg-state-primary-hover',
                       'transition-colors duration-150',

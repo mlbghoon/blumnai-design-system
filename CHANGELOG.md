@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.9.23] - 2026-04-30
+
+### Fixed — `TimePicker` 패널 우측에 빈 컬럼 너비만큼의 여백이 발생하던 문제
+
+24h + `showSeconds=false` + `showQuickSelect=false` + `showActions=true` 조합에서 popover panel 우측에 빈 공간이 발생. 원인: 액션 버튼 row (`취소`/`적용` ~108px) 가 panel container 의 너비를 인플레이트시키지만, 시/분 두 컬럼 (~84px) 은 `flex` + `ds-gap-4` 만 적용되어 좌측에 모여 있어 우측에 ~24px 의 시각적 빈 공간 발생.
+
+**Fix:** `TimePickerPanel` 의 컬럼 row 에 `justify-between` 적용. 이제 액션 버튼 (혹은 다른 sibling) 으로 인해 panel container 너비가 컬럼 합보다 커질 때 컬럼들이 양 끝으로 분산되어 빈 공간을 자연스럽게 메꿈.
+
+영향 받는 케이스:
+- 컬럼 합 < panel container 너비 (e.g., 액션 버튼 row 가 더 넓을 때) → 컬럼들이 분산되어 균등 배치
+- 컬럼 합 == panel container 너비 (e.g., showSeconds 또는 12h 모드) → 시각적 변화 없음
+- TimePickerPanel 단독 사용 (popover 밖) → sibling 이 없으므로 시각적 변화 없음
+
+- `src/components/time-picker/shared/TimePickerPanel.tsx`
+
 ## [1.9.22] - 2026-04-30
 
 ### Changed (Breaking) — `DataGrid` / `Table` 헤더 정렬 기본값 → `center` + `align` 과 분리
