@@ -363,7 +363,7 @@ const SelectItem = React.forwardRef<
         <Icon
           iconType={['system', 'check']}
           size={16}
-          color="informative"
+          color="default"
         />
       </SelectPrimitive.ItemIndicator>
     </span>
@@ -451,7 +451,7 @@ const ExtendedSelectItem = React.forwardRef<
             <Icon
               iconType={['system', 'check']}
               size={16}
-              color={disabled ? 'default-disabled' : 'informative'}
+              color={disabled ? 'default-disabled' : 'default'}
             />
           </SelectPrimitive.ItemIndicator>
         </span>
@@ -644,7 +644,7 @@ const SearchableSelectItem = React.forwardRef<HTMLDivElement, SearchableSelectIt
             <Icon
               iconType={['system', 'check']}
               size={16}
-              color={option.disabled ? 'default-disabled' : 'informative'}
+              color={option.disabled ? 'default-disabled' : 'default'}
             />
           )}
         </span>
@@ -943,7 +943,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                   <Icon
                     iconType={['system', 'check']}
                     size={16}
-                    color={option.disabled ? 'default-disabled' : 'informative'}
+                    color={option.disabled ? 'default-disabled' : 'default'}
                   />
                 )}
               </span>
@@ -985,7 +985,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                 <Icon
                   iconType={['system', 'check']}
                   size={16}
-                  color={option.disabled ? 'default-disabled' : 'informative'}
+                  color={option.disabled ? 'default-disabled' : 'default'}
                 />
               </SelectPrimitive.ItemIndicator>
             </span>

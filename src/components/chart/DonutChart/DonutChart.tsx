@@ -158,6 +158,7 @@ export const DonutChart = forwardRef<HTMLDivElement, DonutChartProps>(
       <Tooltip
         trigger={tooltipTrigger === 'click' ? 'click' : 'hover'}
         shared={tooltipTrigger !== 'item'}
+        wrapperStyle={{ zIndex: 10 }}
         content={
           <PieTooltipAdapter
             renderTooltip={renderTooltip}

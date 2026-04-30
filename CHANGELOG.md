@@ -1,5 +1,50 @@
 # Changelog
 
+## [1.9.21] - 2026-04-30
+
+### Fixed — `DonutChart` 툴팁이 중앙 라벨 뒤로 가려지던 z-index 이슈
+
+`DonutChart` 의 중앙 라벨 (`centerLabel` / `centerValue` / 큰 퍼센트 텍스트) 이 차트와 같은 `relative` 부모 안에 absolute 로 형제 배치되어 있고, Recharts 툴팁도 absolute. 둘 다 z-index 미지정이라 DOM 순서대로 페인트됨 → 중앙 라벨이 더 늦은 sibling 이라 툴팁 위로 덮음. Recharts `<Tooltip>` 에 `wrapperStyle={{ zIndex: 10 }}` 추가하여 툴팁이 항상 위로.
+
+- `src/components/chart/DonutChart/DonutChart.tsx`
+
+### Added — `ProportionBar` 세그먼트 툴팁
+
+`ProportionBar` 의 각 세그먼트에 호버 툴팁이 추가됨. 표시 내용:
+- 세그먼트 이름
+- 값 (`valueFormatter` / `valueSuffix` 적용)
+- 전체 대비 비율 (%)
+
+`PieTooltipAdapter` 와 동일한 visual 구조로 다른 차트들과 일관성 유지. Hidden / 0-width 세그먼트는 툴팁 wrap 을 건너뜀.
+
+```tsx
+// 기존 코드 그대로 — 자동으로 툴팁 활성화
+<ProportionBar data={[
+  { name: '상담사 종료', value: 152, color: '#4fc660' },
+  { name: '매니저 종료', value: 66, color: '#9b6efc' },
+  // ...
+]} />
+```
+
+- `src/components/chart/ProportionBar/ProportionBar.tsx`
+
+### Changed — `Combobox` / `RadixSelect` 선택 체크 아이콘 색상: 텍스트 색상과 동일
+
+v1.9.20 에서 `'informative'` (브랜드 블루) 로 바꿨던 체크 아이콘을 `'default'` (테마 대응 텍스트 색) 로 다시 변경. 라이트 모드에서 검정, 다크 모드에서 흰색 — 옵션 텍스트와 동일한 색상.
+
+근거: 사용자 피드백 — 체크가 텍스트와 같은 색일 때 시각적 통일감이 더 자연스러움. v1.9.20 의 다크 모드 invisible 이슈는 그대로 해결됨 (`'default'` 도 테마 대응 토큰).
+
+- `src/components/select/Combobox/Combobox.tsx`
+- `src/components/select/RadixSelect.tsx`
+
+### Added — `RadioGroup` 전용 Storybook 스토리
+
+`RadioGroup` 의 그룹 레벨 props (`error`, `success`, `caption`, `required`, `orientation`, `disabled`, `value` / `defaultValue` / `onValueChange`, `name`) 를 명시적으로 보여주는 11 개 스토리. 기존 `RadioDefault` (개별 Radio props) 와 `RadioList` (data-driven wrapper) 에 더해 `DataEntry / Radio / RadioGroup` 위계를 분리하여 컴포넌트 구분이 명확해짐.
+
+스토리: Default (controls), Horizontal, WithCaption, WithError, WithSuccess, Required, DisabledGroup, PartiallyDisabled, Uncontrolled, Controlled, WithDescription.
+
+- `src/components/radio/stories/RadioGroup.stories.tsx` (신규)
+
 ## [1.9.20] - 2026-04-29
 
 ### Fixed — Combobox / Select 선택 체크 아이콘이 다크 테마에서 보이지 않던 문제

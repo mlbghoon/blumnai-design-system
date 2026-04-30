@@ -154,7 +154,7 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
             <Icon
               iconType={['system', 'check']}
               size={16}
-              color="informative"
+              color="default"
             />
           )}
         </span>

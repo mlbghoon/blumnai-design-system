@@ -3,6 +3,8 @@ import { cn } from '@/lib/utils';
 import { ChartWithLegend } from '../Chart/ChartWithLegend';
 import { useInteractiveLegend } from '../Chart/useInteractiveLegend';
 import type { LegendItem } from '../Chart/ChartLegend';
+import { AdvancedTooltip, TooltipTrigger } from '../../tooltip/Tooltip';
+import type { TooltipItemData } from '../../tooltip/Tooltip/Tooltip.types';
 import type { ProportionBarProps } from './ProportionBar.types';
 
 export const ProportionBar = forwardRef<HTMLDivElement, ProportionBarProps>(
@@ -36,6 +38,11 @@ export const ProportionBar = forwardRef<HTMLDivElement, ProportionBarProps>(
       [visibleData]
     );
 
+    const grandTotal = useMemo(
+      () => data.reduce((sum, d) => sum + d.value, 0),
+      [data]
+    );
+
     const legendItems: LegendItem[] = useMemo(
       () => data.map(d => ({
         key: d.name,
@@ -52,6 +59,12 @@ export const ProportionBar = forwardRef<HTMLDivElement, ProportionBarProps>(
       return undefined;
     }, [valueFormatter, valueSuffix]);
 
+    const formatTooltipValue = (value: number, name: string) => {
+      if (valueFormatter) return valueFormatter(value, name);
+      if (valueSuffix) return `${value}${valueSuffix}`;
+      return String(value);
+    };
+
     const barElement = (
       <div
         className="flex w-full overflow-hidden rounded-sm"
@@ -62,8 +75,9 @@ export const ProportionBar = forwardRef<HTMLDivElement, ProportionBarProps>(
           const widthPercent = visibleTotal > 0 && !hidden
             ? (item.value / visibleTotal) * 100
             : 0;
+          const sharePercent = grandTotal > 0 ? (item.value / grandTotal) * 100 : 0;
 
-          return (
+          const segmentWithKey = (
             <div
               key={`${item.name}-${index}`}
               style={{
@@ -73,6 +87,29 @@ export const ProportionBar = forwardRef<HTMLDivElement, ProportionBarProps>(
               }}
               className="h-full"
             />
+          );
+
+          if (hidden || widthPercent === 0) {
+            return segmentWithKey;
+          }
+
+          const tooltipItems: TooltipItemData[] = [
+            { type: 'label', label: item.name },
+            { type: 'divider' },
+            { type: 'item', label: item.name, caption: formatTooltipValue(item.value, item.name), indicatorColor: item.color },
+            { type: 'item', label: `${sharePercent.toFixed(1)}%`, indicatorColor: item.color },
+          ];
+
+          return (
+            <TooltipTrigger
+              key={`${item.name}-${index}`}
+              content={<AdvancedTooltip items={tooltipItems} />}
+              placement="top"
+              delay={100}
+              asChild
+            >
+              {segmentWithKey}
+            </TooltipTrigger>
           );
         })}
       </div>
