@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.9.25] - 2026-05-06
+
+### Changed — `ProportionBar` / `PieChart` / `DonutChart` 툴팁을 단일 행으로 통합
+
+기존 툴팁이 헤더(이름) + 항목(이름 + 값) + 항목(퍼센트) 의 3+ 행 구조라 동일한 데이터가 중복 표시됨. 단일 행 (이름 + 퍼센트) 으로 정리.
+
+```
+// 이전
+[Header] 카테고리 A
+[Divider]
+● 카테고리 A   30
+● 30.0%
+
+// 이후
+● 카테고리 A   30.0%
+```
+
+영향 컴포넌트:
+- `ProportionBar` — 세그먼트 호버 툴팁
+- `PieChart` — 슬라이스 호버 툴팁 (`PieTooltipAdapter`)
+- `DonutChart` — 슬라이스 호버 툴팁 (`PieTooltipAdapter` 공유)
+
+`Bar` / `Line` / `Combo` 차트의 `ChartTooltipAdapter` 는 헤더가 x축 값 (시리즈와 다른 정보) 이라 중복이 없어 변경 없음.
+
+`renderTooltip` 커스텀 prop 은 그대로 유지 — 기존 형식이 필요한 컨슈머는 override 가능.
+
+- `src/components/chart/ProportionBar/ProportionBar.tsx`
+- `src/components/chart/Chart/ChartTooltipAdapter.tsx`
+
 ## [1.9.24] - 2026-05-06
 
 ### Fixed — `ScrollArea` 내부에서 자식의 `truncate` 가 동작하지 않던 문제

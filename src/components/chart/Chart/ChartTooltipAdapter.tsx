@@ -122,7 +122,6 @@ export function PieTooltipAdapter({
   if (!active || !payload?.length) return null;
 
   const resolveLabel = getTooltipLabel ?? getLabel;
-  const formatValue = tooltipValueFormatter ?? String;
 
   const entry = payload[0];
   const name = String(entry.name ?? '');
@@ -142,10 +141,7 @@ export function PieTooltipAdapter({
   }
 
   const tooltipItems: TooltipItemData[] = [
-    { type: 'label', label: resolveLabel(name) },
-    { type: 'divider' },
-    { type: 'item', label: resolveLabel(name), caption: formatValue(value), indicatorColor: color },
-    { type: 'item', label: `${(percent * 100).toFixed(1)}%`, indicatorColor: color },
+    { type: 'item', label: resolveLabel(name), caption: `${(percent * 100).toFixed(1)}%`, indicatorColor: color },
   ];
 
   return <AdvancedTooltip items={tooltipItems} />;

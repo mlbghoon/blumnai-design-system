@@ -59,12 +59,6 @@ export const ProportionBar = forwardRef<HTMLDivElement, ProportionBarProps>(
       return undefined;
     }, [valueFormatter, valueSuffix]);
 
-    const formatTooltipValue = (value: number, name: string) => {
-      if (valueFormatter) return valueFormatter(value, name);
-      if (valueSuffix) return `${value}${valueSuffix}`;
-      return String(value);
-    };
-
     const barElement = (
       <div
         className="flex w-full overflow-hidden rounded-sm"
@@ -94,10 +88,7 @@ export const ProportionBar = forwardRef<HTMLDivElement, ProportionBarProps>(
           }
 
           const tooltipItems: TooltipItemData[] = [
-            { type: 'label', label: item.name },
-            { type: 'divider' },
-            { type: 'item', label: item.name, caption: formatTooltipValue(item.value, item.name), indicatorColor: item.color },
-            { type: 'item', label: `${sharePercent.toFixed(1)}%`, indicatorColor: item.color },
+            { type: 'item', label: item.name, caption: `${sharePercent.toFixed(1)}%`, indicatorColor: item.color },
           ];
 
           return (
