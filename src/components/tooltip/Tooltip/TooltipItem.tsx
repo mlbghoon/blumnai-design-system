@@ -71,7 +71,7 @@ export const TooltipItem = forwardRef<HTMLDivElement, TooltipItemProps>(
           className={cn('self-stretch padding-y-2 padding-x-4 flex items-center justify-start ds-gap-8', className)}
           {...props}
         >
-          <span className="flex-1 font-body size-xs line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
+          <span className="flex-1 font-body size-xs line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted break-words">
             {text}
           </span>
         </div>
@@ -86,12 +86,12 @@ export const TooltipItem = forwardRef<HTMLDivElement, TooltipItemProps>(
           {...props}
         >
           {label && (
-            <span className="flex-1 font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-default">
+            <span className="flex-1 font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-default break-words">
               {label}
             </span>
           )}
           {caption && (
-            <span className="font-body size-xs line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
+            <span className="font-body size-xs line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted break-words">
               {caption}
             </span>
           )}
@@ -123,12 +123,12 @@ export const TooltipItem = forwardRef<HTMLDivElement, TooltipItemProps>(
             );
           })()}
           {label && (
-            <span className="flex-1 font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-subtle">
+            <span className="flex-1 font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-subtle break-words">
               {label}
             </span>
           )}
           {caption && (
-            <span className="size-xs font-body line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted">
+            <span className="size-xs font-body line-height-leading-4 font-normal letter-spacing-tracking-normal text-muted break-words">
               {caption}
             </span>
           )}

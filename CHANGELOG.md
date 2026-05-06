@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.9.27] - 2026-05-06
+
+### Fixed — `Tooltip` / `AdvancedTooltip` 가 긴 unbroken 문자열에서 `maxWidth` 를 초과하던 문제
+
+Tooltip 컨텐츠 span 에 `whitespace-pre-line` 만 있어 공백과 `\n` 에서만 줄바꿈됨. URL / 해시 / 반복 테스트 데이터 같이 break opportunity 가 없는 긴 단일 토큰은 wrap 되지 않고 한 줄로 렌더되어 `maxWidth` 를 무시하고 viewport 까지 overflow.
+
+**Fix:** `break-words` (= `overflow-wrap: break-word`) 추가. 자연 break opportunity 가 없을 때만 단어 내부에서 강제 break 하여 컨테이너에 맞춤.
+
+- 일반 텍스트 (공백 포함): 동일하게 공백에서 wrap — 동작 변화 없음
+- CJK 텍스트: 각 글자가 이미 break opportunity → 동작 변화 없음
+- 긴 unbroken Latin 토큰 (`testtesttest...`, URLs, hashes): 이제 `maxWidth` 에 맞춰 단어 내부에서 wrap
+
+```tsx
+// 이전: maxWidth 무시하고 viewport 밖까지 한 줄로 펼쳐짐
+<TooltipTrigger content="testtesttesttesttesttesttesttesttest..." maxWidth={450}>...</TooltipTrigger>
+
+// 이후: 450px 안에서 줄바꿈
+```
+
+영향 컴포넌트:
+- `Tooltip` — 메인 content span
+- `AdvancedTooltip` — `TooltipItem` 의 `text` / `label` / `caption` 모든 텍스트 span
+
+- `src/components/tooltip/Tooltip/Tooltip.tsx`
+- `src/components/tooltip/Tooltip/TooltipItem.tsx`
+
 ## [1.9.26] - 2026-05-06
 
 ### Fixed — `Dialog` / `AlertDialog` 에 브라우저 기본 focus outline 이 모달 전체에 그려지던 문제
