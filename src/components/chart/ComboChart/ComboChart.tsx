@@ -222,7 +222,8 @@ export const ComboChart = forwardRef<HTMLDivElement, ComboChartProps>(
             activeDataKey={activeDataKey}
           />
         }
-        cursor={tooltipTrigger === 'item' ? false : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
+        cursor={tooltipTrigger === 'item' ? { stroke: 'transparent', strokeWidth: 0 } : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
+        wrapperStyle={tooltipTrigger === 'item' && activeDataKey == null ? { visibility: 'hidden' } : undefined}
       />
       {barSeries.filter(s => !isHidden(s.dataKey)).map((series, index) => {
         const color = getSeriesColor(series.dataKey, series.color, index);

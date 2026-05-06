@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.9.29] - 2026-05-06
+
+### Fixed — `LineChart` / `BarChart` / `ComboChart` `tooltipTrigger="item"` first-mouse-enter flash + position bugs
+
+`tooltipTrigger="item"` 에서 발생하던 두 가지 시각 버그 수정:
+
+**1. First-mouse-enter "전체 시리즈 flash"**
+
+차트 위로 마우스를 처음 올렸을 때 한 frame 동안 모든 시리즈가 한 번에 보였다가 단일 시리즈로 collapse 되는 잔상. `ChartTooltipAdapter` 에서 `activeDataKey === null` (resolve 되지 않은 초기 frame) 일 때 fallback 으로 전체 payload 를 렌더하던 것이 원인. 이제 미해결 상태에선 빈 배열 → tooltip 자체를 렌더하지 않음.
+
+**2. (LineChart 한정) Tooltip 이 좌상단에서 시작하고 같은 x 컬럼 안에선 위치가 멈춤**
+
+원인이 두 가지였음:
+- Recharts 의 `cursor={false}` 설정 시 `activeCoordinate` 추적이 비활성화되는 사이드 이펙트
+- Recharts 자체 tooltip position 이 `activeTooltipIndex` 변경 시에만 갱신 → 같은 x 컬럼 안에서 mouse 이동 시 위치가 갱신되지 않음
+- 첫 활성화 시 default 위치 (0, 0) 에서 wrapper 가 잠깐 그려졌다가 transform 으로 이동하는 "좌상단 잔상"
+
+Fix:
+- `cursor={false}` → `cursor={{ stroke: 'transparent', strokeWidth: 0 }}` 로 변경 (LineChart / BarChart / ComboChart 전체) — cursor 시각은 그대로 안 보이지만 Recharts position 추적은 정상 동작
+- LineChart 에서 직접 `activeCoord` 를 state 로 추적하고 `position` prop 으로 전달 — mouse 이동에 픽셀 단위로 정확히 따라감
+- `active` prop 직접 제어 — `activeDataKey` 와 `activeCoord` 가 모두 resolve 됐을 때만 `true`. Recharts 가 wrapper 를 default 위치에 그릴 기회 자체를 제거 → 좌상단 잔상 완전 제거
+
+### Added — `TooltipTriggerItemAllSamePosition` 회귀 테스트 스토리
+
+`Components / DataDisplay / Chart / LineChart / TooltipTriggerItemAllSamePosition` — 4 시리즈 모두 y=0 인 엣지 케이스에서 위 두 버그가 모두 수정됐는지 검증.
+
+- `src/components/chart/Chart/ChartTooltipAdapter.tsx`
+- `src/components/chart/LineChart/LineChart.tsx`
+- `src/components/chart/BarChart/BarChart.tsx`
+- `src/components/chart/ComboChart/ComboChart.tsx`
+- `src/components/chart/LineChart/LineChart.stories.tsx` — `TooltipTriggerItemAllSamePosition` 신규
+
 ## [1.9.28] - 2026-05-06
 
 ### Fixed — `Tooltip` / `AdvancedTooltip` 긴 unbroken 문자열 wrap (v1.9.27 follow-up)

@@ -49,11 +49,14 @@ export function ChartTooltipAdapter({
   const resolveLabel = getTooltipLabel ?? getLabel;
   const formatValue = tooltipValueFormatter ?? String;
 
-  // item 모드 + 추적된 시리즈가 있으면 그 시리즈만 필터.
-  // activeDataKey가 null(추적 실패/범위 밖)이면 전체 시리즈를 보여준다.
-  // ("안 보이는 것보다 낫다" — 추적 로직의 엣지 케이스에서 안전망)
-  const filteredPayload = isItemMode && activeDataKey
-    ? payload.filter((entry) => String(entry.dataKey ?? '') === activeDataKey)
+  // item 모드: activeDataKey 가 resolved 됐을 때만 해당 시리즈로 필터.
+  // resolved 되지 않은 상태 (초기 frame) 에서는 빈 배열 → 아래 length===0 가드로 tooltip
+  // 자체를 렌더링하지 않음. first-mouse-enter 의 "전체 시리즈 flash" 방지.
+  // hover 모드는 그대로 전체 payload 렌더.
+  const filteredPayload = isItemMode
+    ? (activeDataKey
+        ? payload.filter((entry) => String(entry.dataKey ?? '') === activeDataKey)
+        : [])
     : payload;
 
   if (filteredPayload.length === 0) return null;

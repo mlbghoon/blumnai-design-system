@@ -88,6 +88,7 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   const { hiddenSeries, toggleSeries, isHidden } = useInteractiveLegend(activeKeys, legendInteractive);
 
   const [activeDataKey, setActiveDataKey] = useState<string | null>(null);
+  const [activeCoord, setActiveCoord] = useState<{ x: number; y: number } | null>(null);
   const isItemMode = tooltipTrigger === 'item';
 
   const legendItems = useMemo(() => buildLegendItems(activeKeys), [buildLegendItems, activeKeys]);
@@ -138,8 +139,16 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
     if (!coord || typeof idxNum !== 'number' || !Number.isFinite(idxNum)
         || idxNum < 0 || idxNum >= safeData.length) {
       setActiveDataKey(null);
+      setActiveCoord(null);
       return;
     }
+
+    // Tooltip position 을 Recharts 자체 추적 대신 직접 제어. Recharts 는 activeTooltipIndex
+    // 변경 시점에만 transform 을 갱신하므로, 같은 x 컬럼 안에서 mouse 이동 시 위치가
+    // 갱신되지 않는 이슈가 있음. 또한 첫 활성화 시 default (0,0) 에서 잠깐 머무르는
+    // 잔상도 발생. 직접 coord 를 state 로 잡아 position prop 으로 전달하면 첫 frame 부터
+    // 정확한 위치에 그려짐.
+    setActiveCoord({ x: coord.x, y: coord.y });
 
     const row = safeData[idxNum] as Record<string, unknown> | undefined;
     if (!row) {
@@ -171,7 +180,10 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
   }, [isItemMode, yDomainNumeric, chartMargin, height, xAxisHeight, isHidden, activeKeys, safeData]);
 
   const handleMouseLeave = useCallback(() => {
-    if (isItemMode) setActiveDataKey(null);
+    if (isItemMode) {
+      setActiveDataKey(null);
+      setActiveCoord(null);
+    }
   }, [isItemMode]);
 
   const chartAriaLabel = ariaLabel || `Line chart showing ${activeKeys.join(', ') || 'data'}`;
@@ -232,7 +244,15 @@ export const LineChart = forwardRef<HTMLDivElement, LineChartProps>(
             activeDataKey={activeDataKey}
           />
         }
-        cursor={tooltipTrigger === 'item' ? false : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
+        cursor={tooltipTrigger === 'item' ? { stroke: 'transparent', strokeWidth: 0 } : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
+        // item 모드:
+        // - active 를 직접 제어 — activeDataKey 와 activeCoord 가 모두 resolve 됐을 때만 true.
+        //   이렇게 해야 Recharts 가 first-render 시 default 위치 (좌상단) 에서 wrapper 를
+        //   잠깐 그렸다가 transform 으로 이동시키는 잔상이 발생하지 않음.
+        // - position 을 직접 추적한 activeCoord 로 전달 — Recharts 자체 position 은
+        //   activeTooltipIndex 변경시에만 갱신되어 같은 컬럼 안 이동 시 위치가 멈춤.
+        active={tooltipTrigger === 'item' ? (activeDataKey != null && activeCoord != null) : undefined}
+        position={tooltipTrigger === 'item' && activeCoord ? activeCoord : undefined}
       />
       {activeKeys.filter(key => !isHidden(key)).map((key, index) => {
         const color = getColor(key, index);

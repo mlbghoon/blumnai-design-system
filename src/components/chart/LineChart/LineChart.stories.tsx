@@ -882,3 +882,51 @@ export const TooltipTriggerItem: Story = {
     />
   ),
 };
+
+/**
+ * `tooltipTrigger="item"` + 모든 시리즈가 같은 y 위치 (v1.9.29 회귀 테스트)
+ *
+ * 모든 데이터 포인트가 동일한 y 값 (예: 전부 0) 인 엣지 케이스. 이전 버전에선
+ * first-mouse-enter 의 한 frame 동안 모든 시리즈가 보이는 "flash" 가 발생하고,
+ * `cursor={false}` 사용으로 tooltip 위치가 첫 활성화 지점에서 멈춰 마우스 이동을
+ * 따라가지 않는 문제가 있었음.
+ *
+ * v1.9.29 fix:
+ * - 어댑터: `activeDataKey` 미해결 (초기 frame) 상태에서 tooltip 렌더하지 않음 → flash 제거
+ * - LineChart/BarChart/ComboChart: `cursor={false}` → 투명 cursor 로 변경 → Recharts 의
+ *   position 추적 로직이 정상 동작 → tooltip 위치가 마우스를 따라 이동
+ *
+ * **확인 포인트:**
+ * - 첫 mouse-enter 시 전체 시리즈 flash 없어야 함
+ * - 모든 시리즈가 같은 y 일 때 nearest 는 첫 시리즈가 됨 (tied → first wins; 디자인상 의도)
+ * - tooltip 위치가 마우스 이동에 따라 X 좌표를 따라 이동
+ */
+export const TooltipTriggerItemAllSamePosition: Story = {
+  render: () => (
+    <LineChart
+      data={[
+        { month: 'Jan', a: 0, b: 0, c: 0, d: 0 },
+        { month: 'Feb', a: 0, b: 0, c: 0, d: 0 },
+        { month: 'Mar', a: 0, b: 0, c: 0, d: 0 },
+        { month: 'Apr', a: 0, b: 0, c: 0, d: 0 },
+        { month: 'May', a: 0, b: 0, c: 0, d: 0 },
+        { month: 'Jun', a: 0, b: 0, c: 0, d: 0 },
+      ]}
+      xAxis={{ dataKey: 'month' }}
+      yAxis={{ dataKey: 'a' }}
+      dataKeys={['a', 'b', 'c', 'd']}
+      config={{
+        a: { label: '시리즈 A', color: 'var(--chart-1)' },
+        b: { label: '시리즈 B', color: 'var(--chart-2)' },
+        c: { label: '시리즈 C', color: 'var(--chart-3)' },
+        d: { label: '시리즈 D', color: 'var(--chart-4)' },
+      }}
+      width={600}
+      height={400}
+      tooltipTrigger="item"
+      showLegend
+      showXGrid
+      showPoints
+    />
+  ),
+};

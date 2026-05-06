@@ -239,7 +239,8 @@ export const BarChart = forwardRef<HTMLDivElement, BarChartProps>(
             activeDataKey={activeDataKey}
           />
         }
-        cursor={tooltipTrigger === 'item' ? false : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
+        cursor={tooltipTrigger === 'item' ? { stroke: 'transparent', strokeWidth: 0 } : { stroke: 'var(--chart-indicator)', strokeDasharray: '4 4', strokeOpacity: 0.5 }}
+        wrapperStyle={tooltipTrigger === 'item' && activeDataKey == null ? { visibility: 'hidden' } : undefined}
       />
       {stacked && stackedKeys && stackedKeys.length > 0
         ? stackedKeys.filter(k => !isHidden(k)).map((key, i) => renderStackedBar(key, i, stackedKeys.filter(k => !isHidden(k)).length))
