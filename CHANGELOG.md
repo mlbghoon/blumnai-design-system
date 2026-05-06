@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.9.26] - 2026-05-06
+
+### Fixed — `Dialog` / `AlertDialog` 에 브라우저 기본 focus outline 이 모달 전체에 그려지던 문제
+
+`DialogContent` 와 `AlertDialogContent` root 에 `focus:outline-none` 누락. Radix 는 두 컴포넌트에 `tabindex=-1` 을 설정하고 focus trap 의 fallback target 으로 사용함. 사용자가 다이얼로그 내부에서 focus 를 가진 요소가 사라지면 (예: 검색 후 빈 결과로 input 이 disabled 되거나, 비동기 unmount, focusable child 없는 빈 상태), Radix 가 focus 를 DialogContent 로 떨어뜨리고 → 브라우저 기본 `outline: auto` 가 모달 박스 전체에 굵은 ring 으로 그려짐.
+
+DialogContent / AlertDialogContent 자체는 인터랙티브 요소가 아니므로 `focus:outline-none` 으로 outline 제거 (close 버튼 등 자식 인터랙티브 요소들은 자체 focus ring 유지). 동일 컴포넌트의 close 버튼은 이미 같은 패턴 적용 중이라 root 만 누락된 상태였음 — 일관성도 개선됨.
+
+영향 받던 시나리오 (모든 컨슈머에 해당):
+- 다이얼로그 안 input 이 검색 중 disabled → focus 잃음 → 빈 결과로 focusable child 없음
+- 비동기 처리로 focused 요소 unmount
+- 빈 상태 (empty list, no data) 다이얼로그
+- 위 어떤 경우든 focus trap 이 DialogContent 로 fallback 시 outline 표시됨
+
+- `src/components/dialog/Dialog.tsx`
+- `src/components/dialog/AlertDialog.tsx`
+
 ## [1.9.25] - 2026-05-06
 
 ### Changed — `ProportionBar` / `PieChart` / `DonutChart` 툴팁을 단일 행으로 통합
