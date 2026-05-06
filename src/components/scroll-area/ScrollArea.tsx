@@ -92,7 +92,14 @@ const ScrollArea = React.forwardRef<
     >
       <ScrollAreaPrimitive.Viewport
         ref={mergedViewportRef}
-        className="h-full w-full max-w-full rounded-[inherit]"
+        className={cn(
+          'h-full w-full max-w-full rounded-[inherit]',
+          // Radix Viewport 의 내부 wrapper 는 기본으로 `display: table` 이라 콘텐츠 너비가
+          // children 의 intrinsic max 로 인플레이트됨 → 자식의 `truncate` 가 동작하지 않음.
+          // 수직 전용 스크롤에서는 `block` 으로 오버라이드하여 자식이 viewport 너비에 맞춰지도록 함.
+          // 수평 / 양방향 스크롤은 horizontal overflow 감지를 위해 `table` 동작을 유지.
+          orientation === 'vertical' && '[&>div]:!block',
+        )}
         tabIndex={0}
         style={{
           ...(Object.keys(viewportStyle).length > 0 ? viewportStyle : {}),

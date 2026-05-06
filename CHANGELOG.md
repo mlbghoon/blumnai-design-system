@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.9.24] - 2026-05-06
+
+### Fixed — `ScrollArea` 내부에서 자식의 `truncate` 가 동작하지 않던 문제
+
+Radix `ScrollAreaPrimitive.Viewport` 는 children 을 내부적으로 `<div style="min-width: 100%; display: table">` 로 감쌈. `display: table` 은 wrapper 너비를 children 의 intrinsic max 로 인플레이트시키므로, 안에 있는 `w-full` 자식이 viewport 너비가 아닌 가장 긴 콘텐츠 너비에 맞춰지고, 그 자식 안의 `truncate` (white-space: nowrap + text-overflow: ellipsis) 도 동작하지 않음. 결과적으로 long text 는 ellipsis 없이 popover 의 `overflow-hidden` 에 의해 그대로 잘림.
+
+**영향 받던 컴포넌트:** `Combobox`, `RadixSelect` 의 옵션 리스트 (긴 라벨 ellipsis 안 됨), 기타 ScrollArea 안에 truncate 자식이 있는 모든 위치.
+
+**Fix:** `orientation === 'vertical'` (기본값) 일 때 viewport 의 자식 div 에 `[&>div]:!block` 를 적용하여 Radix 의 inline `display: table` 을 `block` 으로 오버라이드. `display: block` 은 자식이 viewport 너비에 맞춰지므로 안쪽의 `truncate` 가 정상 동작. 수평/양방향 ScrollArea (`orientation === 'horizontal' | 'both'`) 는 horizontal overflow 감지를 위해 `table` 동작을 그대로 유지.
+
+```tsx
+// 이전: 긴 옵션 라벨이 ellipsis 없이 잘려서 표시됨
+<Combobox options={[
+  { id: '1', label: 'Extremely long option label that will not fit in this dropdown' },
+  ...
+]} />
+
+// 이후: 정상적으로 "Extremely long option label that will not f..." 로 truncate
+```
+
+- `src/components/scroll-area/ScrollArea.tsx`
+
 ## [1.9.23] - 2026-04-30
 
 ### Fixed — `TimePicker` 패널 우측에 빈 컬럼 너비만큼의 여백이 발생하던 문제
