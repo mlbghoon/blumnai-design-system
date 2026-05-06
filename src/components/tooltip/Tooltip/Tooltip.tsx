@@ -38,7 +38,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(({
       {...props}
     >
       <div className={cn('flex', 'min-height-20', 'padding-x-4', 'items-center')}>
-        <span className="font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-default whitespace-pre-line break-words">
+        <span className="font-body size-xs line-height-leading-4 font-medium letter-spacing-tracking-normal text-default whitespace-pre-line [overflow-wrap:anywhere]">
           {children}
         </span>
       </div>

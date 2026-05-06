@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.9.28] - 2026-05-06
+
+### Fixed — `Tooltip` / `AdvancedTooltip` 긴 unbroken 문자열 wrap (v1.9.27 follow-up)
+
+v1.9.27 의 `break-words` 적용은 시각적 wrap 만 제공하고 element 의 `min-content` 너비를 줄이지 않음. Tooltip 은 `inline-flex` 컨테이너이고 자식은 default `min-width: auto` (= min-content) 이므로, flex container 가 자식을 min-content 이하로 shrink 하지 않음 → `max-width` 무시되고 한 줄로 overflow.
+
+**Fix:** `break-words` → `[overflow-wrap:anywhere]`. `overflow-wrap: anywhere` 는 element 의 min-content 너비도 줄이므로 flex container 안에서 정상적으로 shrink → `max-width` 안에서 wrap.
+
+영향 컴포넌트:
+- `Tooltip` — main content span
+- `AdvancedTooltip` — `TooltipItem` 의 모든 텍스트 span (text / label / caption)
+
+```tsx
+// 이전 (v1.9.27): max-width 무시하고 한 줄로 펼쳐짐
+<TooltipTrigger content="testtesttesttest..." maxWidth={450}>...</TooltipTrigger>
+
+// 이후 (v1.9.28): 450px 안에서 정상 wrap
+```
+
+### Added — `LongUnbrokenString` 회귀 테스트 스토리
+
+`Components / Tooltip / TooltipTrigger / LongUnbrokenString` 스토리 추가. 6 개 케이스로 unbroken 토큰, URL, hash, 정상 텍스트 (한글/영문), AdvancedTooltip 모두 검증.
+
+- `src/components/tooltip/Tooltip/Tooltip.tsx`
+- `src/components/tooltip/Tooltip/TooltipItem.tsx`
+- `src/components/tooltip/Tooltip/TooltipTrigger.stories.tsx` — `LongUnbrokenString` 신규
+
 ## [1.9.27] - 2026-05-06
 
 ### Fixed — `Tooltip` / `AdvancedTooltip` 가 긴 unbroken 문자열에서 `maxWidth` 를 초과하던 문제

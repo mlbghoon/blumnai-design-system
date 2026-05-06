@@ -212,6 +212,79 @@ export const WideTooltip: Story = {
 };
 
 /**
+ * 긴 unbroken 문자열 wrap (v1.9.27 / v1.9.28)
+ *
+ * `maxWidth` 가 지정된 Tooltip 에 공백 없는 긴 문자열 (URL / hash / 반복 테스트 데이터 등) 을
+ * 넘겼을 때 정상적으로 wrap 되는지 확인하는 회귀 테스트 스토리.
+ *
+ * **확인 포인트:**
+ * - 각 버튼 hover 시 tooltip 이 지정한 `maxWidth` (200/300/450px) 안에서 멀티라인으로 wrap
+ * - viewport 밖으로 한 줄로 펼쳐지지 않음
+ * - 정상 텍스트 (공백 포함) 도 동일하게 wrap (마지막 케이스)
+ * - CJK 텍스트도 그대로 동작 (공백 없어도 글자 단위 wrap)
+ *
+ * **회귀 시나리오:**
+ * v1.9.27 (`break-words`) 까지는 tooltip 이 한 줄로 펼쳐지며 maxWidth 무시됨.
+ * v1.9.28 부터 `[overflow-wrap:anywhere]` 적용으로 flex container 안에서도 wrap 동작.
+ */
+export const LongUnbrokenString: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-16 items-start">
+      <TooltipTrigger
+        content="testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest"
+        maxWidth={200}
+      >
+        <Button buttonStyle="secondary">반복 토큰 (200px maxWidth)</Button>
+      </TooltipTrigger>
+
+      <TooltipTrigger
+        content="https://example.com/very/long/path/with/no/break/opportunities/that/needs/to/wrap/inside/the/tooltip/box"
+        maxWidth={300}
+      >
+        <Button buttonStyle="secondary">긴 URL (300px maxWidth)</Button>
+      </TooltipTrigger>
+
+      <TooltipTrigger
+        content="asdjhaskdhkasjsahdksahdkjsahdksjahdksahdksahdksahjdksahdkasjsahdksajhsdkasjhdkasjhdksahjdksahdksajhdksajhdksaj"
+        maxWidth={450}
+      >
+        <Button buttonStyle="secondary">긴 hash 문자열 (450px maxWidth)</Button>
+      </TooltipTrigger>
+
+      <TooltipTrigger
+        content={"이것은 일반적인 한글 메시지입니다. 공백과 줄바꿈이 모두 정상 동작합니다.\n다음 줄도 잘 표시됩니다."}
+        maxWidth={300}
+      >
+        <Button buttonStyle="secondary">정상 한글 텍스트 (회귀 확인)</Button>
+      </TooltipTrigger>
+
+      <TooltipTrigger
+        content="Normal English sentence with spaces wraps at word boundaries as expected when content exceeds maxWidth."
+        maxWidth={250}
+      >
+        <Button buttonStyle="secondary">정상 영문 텍스트 (회귀 확인)</Button>
+      </TooltipTrigger>
+
+      <TooltipTrigger
+        content={
+          <AdvancedTooltip
+            items={[
+              { type: 'label', label: 'asdjhaskdhkasjsahdksahdkjsahdksjahdksahdksah' },
+              { type: 'divider' },
+              { type: 'item', label: 'longvaluetokenwithnobreakopportunities', caption: 'verylongcaptiontokenalso' },
+              { type: 'text', text: 'Plain text item with a long value: testtesttesttesttesttesttesttesttesttesttest' },
+            ]}
+          />
+        }
+        maxWidth={300}
+      >
+        <Button buttonStyle="secondary">AdvancedTooltip + 긴 토큰 (300px)</Button>
+      </TooltipTrigger>
+    </div>
+  ),
+};
+
+/**
  * 복잡한 콘텐츠 (AdvancedTooltip)
  *
  * 차트 등에서 상세 정보를 표시할 때 사용합니다.
