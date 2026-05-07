@@ -76,10 +76,20 @@ import { Icon, RiCheckLine, RiArrowDownLine } from '@blumnai-studio/blumnai-desi
 
 #### 옵션 C — Codemod 사용 (대량 마이그레이션)
 
+DS 패키지에 내장된 codemod 를 사용합니다. `npm install @blumnai-studio/blumnai-design-system@1.10.2` 이후 즉시 사용 가능:
+
 ```bash
-# DS 내부에서 사용하는 codemod 와 동일 (publishing 예정)
-npx @blumnai-studio/icon-codemod ./src
+# Dry-run (변경 없이 결과 미리보기)
+npx blumnai-icon-codemod --dry --print ./src
+
+# 실제 변환
+npx blumnai-icon-codemod ./src
 ```
+
+내부적으로 `jscodeshift` 를 사용하며, 모든 추가 인자는 jscodeshift 로 그대로 전달됩니다.
+
+**변환 대상:** `<Icon iconType={['system', 'check']}>` 처럼 정적 literal 튜플.
+**건너뛰는 패턴:** 변수 / 조건문 / 함수 호출로 동적 결정되는 `iconType`. 이런 곳은 dynamic-string back-compat 으로 계속 동작합니다.
 
 ### 이름 변환 규칙
 

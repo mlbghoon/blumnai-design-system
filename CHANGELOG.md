@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.10.2] - 2026-05-07
+
+### Added — Icon migration codemod 가 패키지에 번들됨
+
+v1.10.0 에서 안내한 codemod 가 실제로 패키지에 포함되어 즉시 사용 가능해짐. v1.10.0 / 1.10.1 에서는 MIGRATION.md 가 `npx @blumnai-studio/icon-codemod` 라는 미존재 명령을 안내하고 있었던 문서 오류를 함께 수정.
+
+```bash
+# Dry-run (변경 없이 결과 미리보기)
+npx blumnai-icon-codemod --dry --print ./src
+
+# 실제 변환
+npx blumnai-icon-codemod ./src
+```
+
+내부적으로 jscodeshift 를 통해 `<Icon iconType={['system', 'check']}>` 같은 정적 literal 튜플을 `<Icon icon={RiCheckLine}>` 로 변환하고 필요한 `Ri*` import 를 자동 추가합니다. 변수/조건문/함수 호출로 동적 결정되는 `iconType` 은 건너뛰며, 이런 위치는 dynamic-string back-compat 으로 계속 동작합니다.
+
+- `package.json` — `bin: { "blumnai-icon-codemod": "./scripts/icon-codemod/cli.cjs" }` 추가, `files` 배열에 codemod 파일 3개 (`cli.cjs`, `transform.cjs`, `remixicon-export-map.json`) 포함
+- `scripts/icon-codemod/cli.cjs` — npx 로 jscodeshift 를 spawn 하는 wrapper (jscodeshift 를 runtime dep 로 추가하지 않기 위함)
+- `MIGRATION.md` — codemod 사용 명령을 실제로 동작하는 형태로 수정
+
 ## [1.10.1] - 2026-05-07
 
 ### Added — `Table` `scrollbarType` prop (가로 스크롤바 항상 노출)
@@ -70,7 +90,7 @@ DS 내부에서 더 이상 자체 SVG 카피본을 유지하지 않으므로 다
 - `src/components/icons/Icon/icons/{18 categories}.ts` 삭제 (~21,500 LOC 자동 생성 코드)
 - 새 파일: `remixicon-export-map.ts` (auto-generated; 2,802 key → Ri* export name)
 - 새 스크립트: `scripts/generate-remixicon-mapping.mjs`, `scripts/audit-ds-only-icons.mjs`
-- 새 codemod: `scripts/icon-codemod/` (jscodeshift; consumer 도 사용 가능 예정)
+- 새 codemod: `scripts/icon-codemod/` (jscodeshift; v1.10.2 부터 `npx blumnai-icon-codemod` 로 consumer 도 사용 가능)
 - `Icon` 컴포넌트 prop 분리 강화: `iconType` / `icon` exclusive discriminated union
 - Bundle: dist 14M → 12M (~14% 감소; consumer 측은 더 큰 감소 예상)
 
