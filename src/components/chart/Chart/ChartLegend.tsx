@@ -52,7 +52,7 @@ export function ChartLegend({
             className={cn(
               'flex items-center ds-gap-2',
               isRight && formattedValue && 'justify-between ds-gap-12',
-              interactive && 'cursor-pointer select-none hover:opacity-80 transition-opacity'
+              interactive && 'cursor-pointer hover:opacity-80 transition-opacity'
             )}
             role={interactive ? 'button' : 'listitem'}
             aria-pressed={interactive ? !isHidden : undefined}

@@ -175,7 +175,7 @@ export const Chip = memo(forwardRef<HTMLButtonElement, ChipProps>(
       'inline-flex items-center justify-center ds-gap-4',
       'box-border',
       disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
-      'select-none group',
+      'group',
       'transition-colors duration-150',
       currentSize.padding,
       fixedHeightClass,

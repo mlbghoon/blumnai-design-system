@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.9.32] - 2026-05-07
+
+### Changed — `Badge` / `Chip` / `ChartLegend` / `NavigationMenu` 텍스트가 selectable
+
+다음 컴포넌트에서 `select-none` (= `user-select: none`) 제거하여 마우스 드래그/더블클릭으로 텍스트 선택/복사 가능하게 함:
+
+- `Badge` — label, dot, image, icon variant 모두
+- `Chip` — chip label
+- `ChartLegend` — `interactive=true` 일 때만 적용되어 있던 `select-none` 제거 (legend label 텍스트 선택 가능)
+- `NavigationMenu` — nav link 텍스트
+
+이전 동작: 컨테이너 자체의 클릭/포커스/UX 를 위해 텍스트 선택을 막고 있었음. 하지만 위 컴포넌트들은 텍스트 자체가 의미 있는 정보 (배지/칩 라벨, 차트 시리즈 이름, 네비 항목 이름) 라 선택/복사 needs 가 더 자주 발생함.
+
+다른 `select-none` 사용처 (slider drag handle, scrollbar thumb, dropdown/menubar/contextmenu/select 메뉴 항목, 캘린더 day cell, sortable 테이블 헤더 등) 는 인터랙션 정합성을 위해 유지.
+
+- `src/components/badge/Badge/Badge.tsx`
+- `src/components/chip/Chip/Chip.tsx`
+- `src/components/chart/Chart/ChartLegend.tsx`
+- `src/components/navigation-menu/NavigationMenu.tsx`
+
 ## [1.9.31] - 2026-05-07
 
 ### Fixed — `DataGrid` `fitLimitRowHeight` 가 pagination footer 높이도 흡수하도록

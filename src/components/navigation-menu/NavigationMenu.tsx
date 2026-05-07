@@ -186,7 +186,7 @@ const NavigationMenuListItem = React.forwardRef<
           ref={ref}
           href={href}
           className={cn(
-            'block select-none rounded-md padding-12 no-underline outline-none transition-colors',
+            'block rounded-md padding-12 no-underline outline-none transition-colors',
             'hover:bg-accent focus:bg-accent',
             'focus-visible:shadow-component-misc-focus',
             className

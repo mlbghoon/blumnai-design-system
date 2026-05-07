@@ -73,7 +73,7 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
   const containerClassName = useMemo(() => {
     const classes = [
       'relative inline-flex items-center justify-center ds-gap-4',
-      'font-body font-medium select-none whitespace-nowrap',
+      'font-body font-medium whitespace-nowrap',
     ];
 
     if (onClick) {
