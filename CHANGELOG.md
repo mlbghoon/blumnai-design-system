@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.9.31] - 2026-05-07
+
+### Fixed — `DataGrid` `fitLimitRowHeight` 가 pagination footer 높이도 흡수하도록
+
+v1.9.30 의 `fitLimitRowHeight` 빈/에러 상태 일관성 fix 가 body 높이만 고정하고 pagination footer 영역은 고려하지 못해, `pagination` 활성 + 데이터 있을 때 vs 빈 상태일 때 grid 전체 높이에 ~49px 차이가 남아 있었음.
+
+**Fix:** 빈 상태에서 `pagination` 이 데이터 있을 때 표시될 예정이라면 (= `pagination=true && !error`), body 의 `fixedHeight` 에 pagination footer 의 높이 (~49px) 를 추가로 더함. pagination 자체는 그대로 숨김 (검색 결과 0 일 때 페이지 네비게이션 의미 없음) — 대신 body 가 그 영역을 흡수.
+
+```tsx
+// 데이터 있을 때:    header + body(360px) + pagination footer(49px) ≈ 445px + header
+// 빈 상태일 때:     header + body(409px) + (footer 없음)            ≈ 445px + header  ✓
+// pagination 비활성: header + body(360px)                           ≈ 360px + header
+// 에러 상태:        header + body(360px) + (pagination 의도적 숨김)   ≈ 360px + header
+```
+
+- `src/components/table/DataGrid.tsx` — `fitBodyHeightPx` 계산에 pagination footer 높이 합산
+- `src/components/table/stories/DataGrid.stories.tsx` — `FitLimitRowHeightEmptyState` 스토리 업데이트
+
 ## [1.9.30] - 2026-05-07
 
 ### Added — `DataGrid` `fitLimitRowHeight` 가 빈/에러 상태에서도 동일한 body 높이 유지

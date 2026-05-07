@@ -954,20 +954,22 @@ export const ErrorState: Story = {
 };
 
 /**
- * `fitLimitRowHeight` + 빈 상태 / 에러 상태 — body 높이 일관성 (v1.9.30)
+ * `fitLimitRowHeight` + 빈 상태 / 에러 상태 — body 높이 일관성 (v1.9.30+)
  *
- * `fitLimitRowHeight={true}` 가 활성일 때 빈 상태나 에러 상태에서도 body 높이가
- * `limit × rowHeight` 로 고정됩니다. 데이터가 있을 때와 없을 때 grid 의 전체 높이가
- * 동일하게 유지되어, 모달이나 페이지 레이아웃이 검색 결과에 따라 갑자기 축소되지 않습니다.
+ * `fitLimitRowHeight={true}` 가 활성일 때 빈 상태나 에러 상태에서도 grid 의 전체 높이가
+ * 데이터 있을 때와 동일하게 유지됩니다.
+ *
+ * 동작:
+ * - 빈 상태: pagination footer 는 의도적으로 숨김 (검색 결과 0 일 때 페이지 의미 없음).
+ *   대신 body 가 `limit × rowHeight + (pagination 이 데이터 있을 때 차지하는 높이 ≈ 49px)` 로
+ *   확장되어 grid 전체 높이가 동일하게 유지됨.
+ * - 에러 상태: pagination footer 숨김. body 도 동일한 방식으로 확장 (단, error 시 pagination
+ *   자체가 안 보이므로 footer 분 추가 X).
  *
  * **확인 포인트:**
- * - 두 grid 모두 body 가 정확히 `5 × 36px = 180px` 높이로 동일
- * - 빈 상태 / 에러 상태의 아이콘 + 메시지 (+ 재시도 버튼) 가 그 영역 안에 수직 중앙 정렬
+ * - pagination 활성 case 에서 빈 상태 grid 와 데이터 있는 grid 의 전체 높이가 동일
+ * - 빈/에러 상태의 아이콘 + 메시지 (+ 재시도 버튼) 가 그 영역 안에 수직 중앙 정렬
  * - `fitLimitRowHeight={false}` (이전 동작) 와 비교 시 빈 상태가 훨씬 짧아 grid 가 축소됨
- *
- * **회귀 시나리오 (이전 동작):**
- * 모달 안에 DataGrid 가 있고, 검색이 빈 결과를 반환하면 grid body 가 축소되어 모달
- * 자체도 함께 축소되어 보임 (사용자에게 jarring). 이번 fix 로 모달 사이즈가 일정하게 유지됨.
  */
 export const FitLimitRowHeightEmptyState: Story = {
   render: function Render() {
@@ -975,7 +977,36 @@ export const FitLimitRowHeightEmptyState: Story = {
       <div className="flex flex-col ds-gap-24">
         <div>
           <p className="font-body size-sm text-muted margin-b-8">
-            <code>fitLimitRowHeight=true</code> + 빈 상태 (body 높이 = 10 × 36 = 360px 고정)
+            <code>fitLimitRowHeight=true</code> + pagination 활성 + 빈 상태 — body 가 footer 영역까지 흡수해서 확장
+          </p>
+          <DataGrid
+            data={[]}
+            columns={baseColumns}
+            getRowId={(row) => row.id}
+            emptyText="검색된 내용이 없습니다."
+            limit={10}
+            rowHeight="36px"
+            fitLimitRowHeight
+          />
+        </div>
+
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">
+            <code>fitLimitRowHeight=true</code> + pagination 활성 + 데이터 있을 때 — 위 빈 상태와 같은 전체 높이
+          </p>
+          <DataGrid
+            data={sampleUsers.slice(0, 3)}
+            columns={baseColumns}
+            getRowId={(row) => row.id}
+            limit={10}
+            rowHeight="36px"
+            fitLimitRowHeight
+          />
+        </div>
+
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">
+            <code>fitLimitRowHeight=true</code> + pagination 비활성 + 빈 상태 — body 360px 고정 (pagination footer 없음)
           </p>
           <DataGrid
             data={[]}
@@ -991,7 +1022,7 @@ export const FitLimitRowHeightEmptyState: Story = {
 
         <div>
           <p className="font-body size-sm text-muted margin-b-8">
-            <code>fitLimitRowHeight=true</code> + 에러 상태 (body 높이 = 10 × 36 = 360px 고정)
+            <code>fitLimitRowHeight=true</code> + 에러 상태 — body 360px 고정 (error 시 pagination 은 의도적으로 숨김)
           </p>
           <DataGrid
             data={[]}
@@ -1002,7 +1033,6 @@ export const FitLimitRowHeightEmptyState: Story = {
             limit={10}
             rowHeight="36px"
             fitLimitRowHeight
-            pagination={false}
           />
         </div>
 
@@ -1018,21 +1048,6 @@ export const FitLimitRowHeightEmptyState: Story = {
             limit={10}
             rowHeight="36px"
             fitLimitRowHeight={false}
-            pagination={false}
-          />
-        </div>
-
-        <div>
-          <p className="font-body size-sm text-muted margin-b-8">
-            데이터가 있을 때 — 같은 10 × 36 = 360px 높이 (위 빈 상태와 동일해야 함)
-          </p>
-          <DataGrid
-            data={sampleUsers.slice(0, 2)}
-            columns={baseColumns}
-            getRowId={(row) => row.id}
-            limit={10}
-            rowHeight="36px"
-            fitLimitRowHeight
             pagination={false}
           />
         </div>

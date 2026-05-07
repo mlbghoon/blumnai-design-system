@@ -223,13 +223,17 @@ function DataGridInner<T>(
   const paddingRowCount = fitLimitRowHeightActive
     ? Math.max(0, paginationInfo.limit - rows.length)
     : 0;
+  const hasData = displayData.length > 0;
   // empty / error 상태에서도 body 높이가 변하지 않도록, fitLimitRowHeight 활성 시
-  // limit × rowHeight 를 고정 높이로 사용. 이렇게 하면 검색 결과가 0 이거나 에러일 때
-  // 모달/페이지가 갑자기 축소되지 않음.
+  // limit × rowHeight 를 고정 높이로 사용. 데이터가 있을 때 표시되는 pagination footer
+  // (≈49px) 만큼의 공간도 empty/error body 가 흡수하여 grid 전체 높이가 일관됨.
+  // pagination 자체는 hasData 일 때만 렌더 (검색 결과 0 이면 footer 없음).
+  const PAGINATION_FOOTER_HEIGHT = 49; // padding-y-8 + Select sm height(32) + border-t(1) ≈ 49
+  const wouldShowPagination = pagination && !error;
   const fitBodyHeightPx = fitLimitRowHeightActive
     ? paginationInfo.limit * (parseInt(effectiveRowHeight, 10) || 32)
+      + (wouldShowPagination && !hasData ? PAGINATION_FOOTER_HEIGHT : 0)
     : undefined;
-  const hasData = displayData.length > 0;
   const showSkeletonLoading = isLoading && !preserveDataWhileLoading && !hasData;
   const showOverlayLoading = isLoading && preserveDataWhileLoading && hasData;
   const showEmptyState = !isLoading && !hasData && !error;
