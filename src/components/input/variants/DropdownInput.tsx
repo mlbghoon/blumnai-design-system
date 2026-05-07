@@ -5,7 +5,7 @@ import { DismissableLayer } from '@radix-ui/react-dismissable-layer';
 
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/lib/spinner';
-import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import { Icon, parseIconTypeWithFill, RiArrowDownSLine, RiCloseCircleLine } from '../../icons/Icon';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
   SIZE_CONFIG,
@@ -470,7 +470,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
           {selectedOption?.label || dropdownPlaceholder}
         </span>
         <Icon
-          iconType={['arrows', 'arrow-down-s']}
+          icon={RiArrowDownSLine}
           size={12}
           color={iconColor}
           className={cn('transition-transform', isOpen && 'rotate-180')}
@@ -585,7 +585,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
                   aria-label="Clear input"
                 >
                   <Icon
-                    iconType={['system', 'close-circle']}
+                    icon={RiCloseCircleLine}
                     size={SIZE_CONFIG[size].iconSize}
                     color={iconColor}
                   />

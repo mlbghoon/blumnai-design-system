@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../icons/Icon';
+import { Icon, RiCheckLine } from '../icons/Icon';
 import { Badge } from '../badge/Badge';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 import { usePortalContainer } from '../../utils/PortalContainerContext';
@@ -196,7 +196,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
       style={{ left: '8px' }}
     >
       <ContextMenuPrimitive.ItemIndicator>
-        <Icon iconType={['system', 'check']} size={16} color="default" />
+        <Icon icon={RiCheckLine} size={16} color="default" />
       </ContextMenuPrimitive.ItemIndicator>
     </span>
     {children}

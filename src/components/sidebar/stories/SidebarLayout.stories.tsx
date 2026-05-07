@@ -18,7 +18,7 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from '../Sidebar';
-import { Icon } from '../../icons/Icon';
+import { Icon, RiArrowLeftRightLine } from '../../icons/Icon';
 
 type SidebarStoryProps = {
   open: boolean;
@@ -528,7 +528,7 @@ export const ToggleButtonCustomIcon: Story = {
           toggleButtonPosition="center"
           toggleButtonIcon={
             <div className="width-24 height-24 rounded-full bg-state-primary flex items-center justify-center">
-              <Icon iconType={['arrows', 'arrow-left-right']} size={14} color="white" />
+              <Icon icon={RiArrowLeftRightLine} size={14} color="white" />
             </div>
           }
         >

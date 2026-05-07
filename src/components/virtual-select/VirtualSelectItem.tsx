@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
-import { Icon, parseIconTypeWithFill } from '../icons/Icon';
+import { Icon, parseIconTypeWithFill, RiCheckLine } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { MENU_ITEM_SIZE_CONFIG } from '@/constants/select/Select/Select.constants';
@@ -118,7 +118,7 @@ const VirtualSelectItem = React.memo<VirtualSelectItemProps>(
       if (!isMulti && selectType === 'default' && selected) {
         return (
           <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
-            <Icon iconType={['system', 'check']} size={16} color="primary" />
+            <Icon icon={RiCheckLine} size={16} color="primary" />
           </div>
         );
       }

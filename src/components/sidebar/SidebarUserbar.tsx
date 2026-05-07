@@ -2,7 +2,7 @@
 import { forwardRef } from 'react';
 import { cva } from 'class-variance-authority';
 
-import { Icon } from '../icons/Icon';
+import { Icon, RiArrowDropDownLine } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar/Avatar';
 import { cn } from '../../lib/utils';
 import { useSidebar } from './SidebarPrimitives';
@@ -103,7 +103,7 @@ export const SidebarUserbar = forwardRef<HTMLButtonElement, SidebarUserbarProps>
 
     const renderDropdownIcon = () => (
       <Icon
-        iconType={['arrows', 'arrow-drop-down']}
+        icon={RiArrowDropDownLine}
         size={16}
         color="var(--icon-default-muted)"
         className={cn(

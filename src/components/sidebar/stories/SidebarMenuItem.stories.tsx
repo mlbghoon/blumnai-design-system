@@ -6,7 +6,7 @@ import {
   SidebarProvider,
   SidebarMenuItem,
 } from '../Sidebar';
-import { Icon } from '../../icons/Icon';
+import { Icon, RiDeleteBinLine, RiEditLine } from '../../icons/Icon';
 
 type SidebarMenuItemStoryProps = {
   label: string;
@@ -338,10 +338,10 @@ export const ButtonsVariant: Story = {
               actions={
                 <>
                   <button className="cursor-pointer bg-transparent border-none padding-0 hover:opacity-70">
-                    <Icon iconType={['design', 'edit']} size={18} color="var(--icon-default-muted)" />
+                    <Icon icon={RiEditLine} size={18} color="var(--icon-default-muted)" />
                   </button>
                   <button className="cursor-pointer bg-transparent border-none padding-0 hover:opacity-70">
-                    <Icon iconType={['system', 'delete-bin']} size={18} color="var(--icon-default-muted)" />
+                    <Icon icon={RiDeleteBinLine} size={18} color="var(--icon-default-muted)" />
                   </button>
                 </>
               }
@@ -353,10 +353,10 @@ export const ButtonsVariant: Story = {
               actions={
                 <>
                   <button className="cursor-pointer bg-transparent border-none padding-0 hover:opacity-70">
-                    <Icon iconType={['design', 'edit']} size={18} color="var(--icon-default-muted)" />
+                    <Icon icon={RiEditLine} size={18} color="var(--icon-default-muted)" />
                   </button>
                   <button className="cursor-pointer bg-transparent border-none padding-0 hover:opacity-70">
-                    <Icon iconType={['system', 'delete-bin']} size={18} color="var(--icon-default-muted)" />
+                    <Icon icon={RiDeleteBinLine} size={18} color="var(--icon-default-muted)" />
                   </button>
                 </>
               }
@@ -369,10 +369,10 @@ export const ButtonsVariant: Story = {
               actions={
                 <>
                   <button className="cursor-pointer bg-transparent border-none padding-0 hover:opacity-70">
-                    <Icon iconType={['design', 'edit']} size={18} color="var(--icon-default-muted)" />
+                    <Icon icon={RiEditLine} size={18} color="var(--icon-default-muted)" />
                   </button>
                   <button className="cursor-pointer bg-transparent border-none padding-0 hover:opacity-70">
-                    <Icon iconType={['system', 'delete-bin']} size={18} color="var(--icon-default-muted)" />
+                    <Icon icon={RiDeleteBinLine} size={18} color="var(--icon-default-muted)" />
                   </button>
                 </>
               }

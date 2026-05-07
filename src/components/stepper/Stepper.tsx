@@ -1,6 +1,6 @@
 import { forwardRef, createContext, useContext, useCallback, useMemo } from 'react';
 import { cn } from '../../lib/utils';
-import { Icon } from '../icons/Icon';
+import { Icon, RiCheckLine } from '../icons/Icon';
 import type { IconType } from '../icons/Icon/Icon.types';
 import type {
   StepperProps,
@@ -131,7 +131,7 @@ function NumberIndicator({
       )}
     >
       {showCheck ? (
-        <Icon iconType={['system', 'check']} size={ICON_SIZE_MAP[size]} />
+        <Icon icon={RiCheckLine} size={ICON_SIZE_MAP[size]} />
       ) : (
         index + 1
       )}

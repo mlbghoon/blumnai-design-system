@@ -3,7 +3,7 @@ import * as TabsPrimitive from '@radix-ui/react-tabs';
 
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '../scroll-area/ScrollArea';
-import { Icon } from '../icons/Icon';
+import { Icon, RiArrowLeftSLine, RiArrowRightSLine } from '../icons/Icon';
 import { parseIconTypeWithFill } from '../icons/Icon/Icon.types';
 import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
 import type {
@@ -105,10 +105,12 @@ const useTabsContext = () => React.useContext(TabsContext);
  * 탭 기반 콘텐츠 전환 컴포넌트입니다. TabsList, TabsTrigger, TabsContent와 함께 사용합니다.
  *
  * @example
+ * ```tsx
  * <Tabs defaultValue="tab1">
  *   <TabsList><TabsTrigger value="tab1">탭 1</TabsTrigger></TabsList>
  *   <TabsContent value="tab1">내용</TabsContent>
  * </Tabs>
+ * ```
  */
 const Tabs = TabsPrimitive.Root;
 
@@ -227,7 +229,7 @@ const TabsList = React.forwardRef<
               aria-label="이전 탭"
               className="flex-shrink-0 flex items-center justify-center width-24 height-24 rounded-sm bg-default border-default cursor-pointer hover:bg-subtle transition-colors z-[1]"
             >
-              <Icon iconType={['arrows', 'arrow-left-s']} size={14} />
+              <Icon icon={RiArrowLeftSLine} size={14} />
             </button>
           )}
           <ScrollArea
@@ -245,7 +247,7 @@ const TabsList = React.forwardRef<
               aria-label="다음 탭"
               className="flex-shrink-0 flex items-center justify-center width-24 height-24 rounded-sm bg-default border-default cursor-pointer hover:bg-subtle transition-colors z-[1]"
             >
-              <Icon iconType={['arrows', 'arrow-right-s']} size={14} />
+              <Icon icon={RiArrowRightSLine} size={14} />
             </button>
           )}
         </div>
@@ -333,17 +335,29 @@ const TabsTrigger = React.forwardRef<
 
   const shapeClass = shape === 'pill' ? 'rounded-full' : 'rounded-sm';
 
+  const handleCloseKey = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
+      if (value) onClose?.(value);
+    }
+  };
+
+  // Use a non-button element here because TabsTrigger renders a parent <button>;
+  // nested <button> is invalid HTML and triggers SSR hydration warnings.
   const closeButton = closable ? (
-    <button
-      type="button"
+    <span
+      role="button"
+      tabIndex={0}
       onClick={handleClose}
+      onKeyDown={handleCloseKey}
       aria-label="탭 닫기"
       className="inline-flex items-center justify-center width-14 height-14 rounded-xs text-muted hover:text-default transition-colors cursor-pointer shrink-0"
     >
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
         <path d="M7.5 2.5L2.5 7.5M2.5 2.5L7.5 7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
-    </button>
+    </span>
   ) : null;
 
   return (

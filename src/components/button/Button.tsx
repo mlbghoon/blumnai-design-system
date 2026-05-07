@@ -145,7 +145,9 @@ const COLOR_OVERRIDE_LOADING_STYLE: Record<ButtonStyle, string> = {
  * 다양한 스타일, 크기, 아이콘을 지원하는 범용 버튼입니다.
  *
  * @example
+ * ```tsx
  * <Button buttonStyle="primary" size="md">저장</Button>
+ * ```
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   buttonStyle = 'primary',

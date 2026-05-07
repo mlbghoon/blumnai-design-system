@@ -3,7 +3,13 @@ import { useState } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '@/components/icons/Icon';
+import {
+  Icon,
+  RiArrowDropDownLine,
+  RiArrowDropLeftLine,
+  RiArrowDropRightLine,
+  RiArrowDropUpLine,
+} from '@/components/icons/Icon';
 import type {
   ResizablePanelGroupProps,
   ResizablePanelProps,
@@ -43,14 +49,14 @@ const CollapseButton = ({
   const getIcon = () => {
     if (orientation === 'horizontal') {
       if (direction === 'before') {
-        return isCollapsed ? <Icon iconType={['arrows', 'arrow-drop-right']} size={12} /> : <Icon iconType={['arrows', 'arrow-drop-left']} size={12} />;
+        return isCollapsed ? <Icon icon={RiArrowDropRightLine} size={12} /> : <Icon icon={RiArrowDropLeftLine} size={12} />;
       }
-      return isCollapsed ? <Icon iconType={['arrows', 'arrow-drop-left']} size={12} /> : <Icon iconType={['arrows', 'arrow-drop-right']} size={12} />;
+      return isCollapsed ? <Icon icon={RiArrowDropLeftLine} size={12} /> : <Icon icon={RiArrowDropRightLine} size={12} />;
     }
     if (direction === 'before') {
-      return isCollapsed ? <Icon iconType={['arrows', 'arrow-drop-down']} size={12} /> : <Icon iconType={['arrows', 'arrow-drop-up']} size={12} />;
+      return isCollapsed ? <Icon icon={RiArrowDropDownLine} size={12} /> : <Icon icon={RiArrowDropUpLine} size={12} />;
     }
-    return isCollapsed ? <Icon iconType={['arrows', 'arrow-drop-up']} size={12} /> : <Icon iconType={['arrows', 'arrow-drop-down']} size={12} />;
+    return isCollapsed ? <Icon icon={RiArrowDropUpLine} size={12} /> : <Icon icon={RiArrowDropDownLine} size={12} />;
   };
 
   const getPositionStyles = (): React.CSSProperties | undefined => {

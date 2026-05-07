@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState, useRef, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
-import { Icon } from '../../icons/Icon/Icon';
+import { Icon, RiCalendarLine } from '../../icons/Icon/Icon';
 import {
   SIZE_CONFIG,
   STYLE_CONFIG,
@@ -224,7 +224,7 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
         )}
       >
         <Icon
-          iconType={['business', 'calendar']}
+          icon={RiCalendarLine}
           size={sizeConfig.iconSize}
           color={iconColor}
         />

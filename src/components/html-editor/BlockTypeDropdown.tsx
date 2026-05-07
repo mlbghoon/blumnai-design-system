@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from '../popover';
-import { Icon } from '../icons/Icon';
+import { Icon, RiArrowDropDownLine } from '../icons/Icon';
 import { BLOCK_TYPE_OPTIONS } from './HtmlEditor.constants';
 import type { HtmlEditorFeature } from './HtmlEditor.types';
 
@@ -93,7 +93,7 @@ export function BlockTypeDropdown({
         >
           <span className="width-40 text-left">{currentLabel}</span>
           <Icon
-            iconType={['arrows', 'arrow-drop-down']}
+            icon={RiArrowDropDownLine}
             size={14}
             color="default-subtle"
           />

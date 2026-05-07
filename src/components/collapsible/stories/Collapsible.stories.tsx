@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '../Collapsible';
-import { Icon } from '../../icons/Icon';
+import { Icon, RiArrowDownSLine, RiInformationLine, RiSettingsLine } from '../../icons/Icon';
 
 const meta: Meta<typeof Collapsible> = {
   title: 'Layout/Collapsible',
@@ -70,7 +70,7 @@ export const Default: Story = {
               disabled={args.disabled}
             >
               <Icon
-                iconType={['arrows', 'arrow-down-s']}
+                icon={RiArrowDownSLine}
                 size={16}
                 className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
               />
@@ -111,7 +111,7 @@ export const MultipleItems: Story = {
           <CollapsibleTrigger asChild>
             <button className="padding-4 rounded-md hover:bg-muted/50 transition-colors">
               <Icon
-                iconType={['arrows', 'arrow-down-s']}
+                icon={RiArrowDownSLine}
                 size={16}
                 className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
               />
@@ -147,7 +147,7 @@ export const DefaultOpen: Story = {
           <span className="size-sm font-body font-medium">설정</span>
           <CollapsibleTrigger asChild>
             <button className="padding-4 rounded-md hover:bg-muted/50 transition-colors">
-              <Icon iconType={['system', 'settings']} size={16} />
+              <Icon icon={RiSettingsLine} size={16} />
             </button>
           </CollapsibleTrigger>
         </div>
@@ -190,11 +190,11 @@ export const ContentPanel: Story = {
         <CollapsibleTrigger asChild>
           <button className="flex items-center justify-between w-full padding-12 bg-subtle hover:bg-muted/30 transition-colors cursor-pointer">
             <div className="flex items-center ds-gap-8">
-              <Icon iconType={['system', 'information']} size={16} />
+              <Icon icon={RiInformationLine} size={16} />
               <span className="size-sm font-body font-medium">프로젝트 정보</span>
             </div>
             <Icon
-              iconType={['arrows', 'arrow-down-s']}
+              icon={RiArrowDownSLine}
               size={16}
               className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
             />
@@ -243,7 +243,7 @@ export const FilterPanel: Story = {
           <button className="flex items-center justify-between w-full padding-y-8 cursor-pointer">
             <span className="size-sm font-body font-medium">{title}</span>
             <Icon
-              iconType={['arrows', 'arrow-down-s']}
+              icon={RiArrowDownSLine}
               size={14}
               className={`transition-transform text-muted ${sectionOpen[name] ? 'rotate-180' : ''}`}
             />

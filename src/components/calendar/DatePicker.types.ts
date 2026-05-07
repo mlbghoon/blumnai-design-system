@@ -182,6 +182,7 @@ export interface DatePickerBaseProps {
    * `pickerOnly` prop은 무시됩니다. 라벨/레이아웃은 소비자가 직접 구성하세요.
    *
    * @example
+   * ```tsx
    * <DateRangePicker
    *   open={isOpen}
    *   onOpenChange={setIsOpen}
@@ -189,6 +190,7 @@ export interface DatePickerBaseProps {
    *   value={range}
    *   onChange={setRange}
    * />
+   * ```
    */
   trigger?: ReactElement;
 }

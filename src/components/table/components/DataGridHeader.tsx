@@ -5,7 +5,7 @@ import { SortableContext, useSortable, horizontalListSortingStrategy, arrayMove 
 import { CSS } from '@dnd-kit/utilities';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../../icons/Icon';
+import { Icon, RiDraggable } from '../../icons/Icon';
 import { TooltipTrigger } from '../../tooltip';
 import { DndContext } from '../../dnd';
 import { useMergeRefs } from '../../../hooks/use-merge-refs';
@@ -222,7 +222,7 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
           {...listeners}
         >
           <Icon
-            iconType={['editor', 'draggable']}
+            icon={RiDraggable}
             size={12}
             className="text-hint"
           />

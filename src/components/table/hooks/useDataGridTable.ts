@@ -179,12 +179,14 @@ export function useDataGridTable<T>(options: UseDataGridTableOptions<T>) {
   );
 
   const previousDataRef = useRef<T[]>(data);
+  const previousTotalRef = useRef<number | undefined>(total);
 
   useEffect(() => {
     if (!isLoading && data.length > 0) {
       previousDataRef.current = data;
+      previousTotalRef.current = total;
     }
-  }, [data, isLoading]);
+  }, [data, isLoading, total]);
 
   const displayData = useMemo(() => {
     if (isLoading && preserveDataWhileLoading && previousDataRef.current.length > 0) {
@@ -193,7 +195,14 @@ export function useDataGridTable<T>(options: UseDataGridTableOptions<T>) {
     return data;
   }, [data, isLoading, preserveDataWhileLoading]);
 
-  const totalRows = total ?? displayData.length;
+  // preserveDataWhileLoading 활성 시 pagination 도 함께 동결.
+  // 그렇지 않으면 consumer 가 loading 중 total 을 0 으로 reset 할 때 pagination footer 가
+  // "1-0 / 0" 으로 축소되어 grid 높이/모양이 깜빡거림. 데이터를 보존하는 의도와 일관되게
+  // pagination 도 이전 값을 유지하여 시각적 안정성 확보.
+  const effectiveTotal = (isLoading && preserveDataWhileLoading && previousDataRef.current.length > 0)
+    ? (previousTotalRef.current ?? previousDataRef.current.length)
+    : total;
+  const totalRows = effectiveTotal ?? displayData.length;
   const totalPages = Math.ceil(totalRows / limit);
 
   // eslint-disable-next-line react-hooks/incompatible-library -- TanStack Table is a known incompatible library

@@ -60,7 +60,9 @@ const DISABLED_STYLE = {
  * 필터 토글 버튼입니다. 선택 상태와 활성 필터 수를 배지로 표시합니다.
  *
  * @example
+ * ```tsx
  * <FilterButton label="필터" selected={hasFilters} icon={['system', 'filter']} />
+ * ```
  */
 export const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(({
   size = 'md',

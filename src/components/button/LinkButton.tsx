@@ -48,7 +48,9 @@ const DISABLED_STYLE = {
  * 텍스트 링크 스타일의 네비게이션 버튼입니다.
  *
  * @example
+ * ```tsx
  * <LinkButton href="/page" label="페이지 이동" />
+ * ```
  */
 export const LinkButton = forwardRef<HTMLElement, LinkButtonProps>(({
   linkType = 'default',

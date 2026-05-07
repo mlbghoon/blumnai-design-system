@@ -8,9 +8,11 @@ import type { FormProps } from './Form.types';
  * react-hook-form의 FormProvider를 래핑하고 form 요소를 렌더링합니다.
  *
  * @example
+ * ```tsx
  * <Form form={form} onSubmit={handleSubmit}>
  *   <FormField name="email" render={({ field }) => <Input {...field} />} />
  * </Form>
+ * ```
  */
 export const Form = <TFieldValues extends FieldValues = FieldValues>({
   form,

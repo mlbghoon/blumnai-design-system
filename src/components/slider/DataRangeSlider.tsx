@@ -11,7 +11,9 @@ import { SliderThumb, SliderTrack, SliderRangeFilled, SliderChart, SliderTicks }
  * 데이터 분포 차트가 포함된 범위 슬라이더입니다.
  *
  * @example
+ * ```tsx
  * <DataRangeSlider chartData={[10, 30, 50, 40, 20]} value={[20, 80]} onChange={setRange} />
+ * ```
  */
 const DataRangeSlider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,

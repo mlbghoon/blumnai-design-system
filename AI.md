@@ -644,12 +644,51 @@ function AsyncForm() {
 
 ## Icons
 
+The DS provides two equivalent APIs for `<Icon>`. **Prefer direct-import for tree-shaking** — bundles only the icons you actually use (~1KB per icon vs the legacy ~50-200KB per-category chunk).
+
+### Direct-import API (recommended)
+
 ```tsx
-import { Icon, BrandIcon, FlagIcon, FileIcon, IsometricIcon, CursorIcon } from '@blumnai-studio/blumnai-design-system';
+import { Icon, RiCheckLine, RiAddFill, RiCloseLine, RiHeartFill } from '@blumnai-studio/blumnai-design-system';
+
+<Icon icon={RiCheckLine} size={16} color="default" />
+<Icon icon={RiAddFill} size={20} color="informative" />
+<Icon icon={RiHeartFill} size={24} color="destructive" />
+```
+
+The `icon` prop accepts any `@remixicon/react` component (`Ri*Line` / `Ri*Fill`) plus DS-custom components. All Remixicon icons are re-exported from the DS — you don't need to install `@remixicon/react` separately.
+
+**⚠️ Anti-pattern** — never pass an inline component:
+```tsx
+// BAD — new function every render, breaks memoization
+<Icon icon={() => <RiCheckLine />} />
+
+// BAD — variable assigned in render scope
+<Icon icon={React.memo(RiCheckLine)} />
+
+// GOOD — module-level import, stable reference
+<Icon icon={RiCheckLine} />
+```
+
+### Dynamic-string API (back-compat)
+
+Existing code using `iconType` continues to work. Behind the scenes the registry lazy-loads `@remixicon/react` once and resolves names from there.
+
+```tsx
+import { Icon } from '@blumnai-studio/blumnai-design-system';
 
 <Icon iconType={['system', 'check']} />
 <Icon iconType={['system', 'close']} size={24} />
 <Icon iconType={['system', 'heart']} isFill />
+```
+
+**When to use which:** new code → direct-import (tree-shake, no Suspense flicker on first paint). Existing code → keep dynamic-string until you decide to migrate.
+
+A codemod is available to mechanically convert: `npx @blumnai-studio/icon-codemod ./src` (95% auto-conversion + report on edge cases).
+
+### Other icon components (unchanged)
+
+```tsx
 <BrandIcon brandType="github" size={24} />
 <FlagIcon country="south korea" size={24} />
 <FileIcon fileType="pdf" size="lg" />
@@ -657,13 +696,15 @@ import { Icon, BrandIcon, FlagIcon, FileIcon, IsometricIcon, CursorIcon } from '
 <CursorIcon cursorType="pointer" />
 ```
 
-**Preloading:** `preloadIconCategory('system')` or `preloadIcons([['system', 'check'], ['arrows', 'arrow-down']])`
+These have their own component systems (not Remixicon-derived) and aren't affected by the migration.
 
-**Categories:** `arrows`, `buildings`, `business`, `communication`, `design`, `development`, `device`, `document`, `editor`, `finance`, `food`, `health`, `map`, `media`, `others`, `system`, `user`, `weather`
+**Preloading:** `preloadIconCategory('system')` or `preloadIcons([['system', 'check']])` — both now warm up `@remixicon/react` (per-category preload no longer meaningful since Remixicon ships as a single bundle).
+
+**Categories:** `arrows`, `buildings`, `business`, `communication`, `design`, `development`, `device`, `document`, `editor`, `finance`, `food`, `health`, `map`, `media`, `others`, `system`, `user`, `weather`. Plus the new `game & sports` category from Remixicon 4.x.
 
 **Common system icons:** `add`, `check`, `close`, `search`, `settings`, `menu`, `more`, `delete-bin`, `download`, `upload`, `eye`, `eye-off`, `filter`, `star`, `share`, `lock`, `information`, `error-warning`, `time`, `refresh`, `external-link`
 
-> For full icon lists, see `ICONS.md`. For props, read `.types.ts` files in `src/components/icons/`.
+> Full icon list browsable via Storybook (`Components / Icons / Icon / Category`). For TS prop types, read `.types.ts` files in `src/components/icons/`.
 
 ---
 

@@ -2,7 +2,7 @@ import { forwardRef, useCallback } from 'react';
 import type { InputHTMLAttributes, ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../../icons/Icon/Icon';
+import { Icon, RiAddLine, RiArrowDownSLine, RiArrowUpSLine, RiSubtractLine } from '../../icons/Icon/Icon';
 import {
   STATE_CONFIG,
   INPUT_WRAPPER_BASE,
@@ -244,7 +244,7 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
             aria-label="Decrease value"
           >
             <Icon
-              iconType={['system', 'subtract']}
+              icon={RiSubtractLine}
               size={sizeConfig.iconSize}
               color={disabled || !canDecrement ? 'default-disabled' : iconColor}
             />
@@ -282,7 +282,7 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
             aria-label="Increase value"
           >
             <Icon
-              iconType={['system', 'add']}
+              icon={RiAddLine}
               size={sizeConfig.iconSize}
               color={disabled || !canIncrement ? 'default-disabled' : iconColor}
             />
@@ -373,7 +373,7 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
             aria-label="Increase value"
           >
             <Icon
-              iconType={['arrows', 'arrow-up-s']}
+              icon={RiArrowUpSLine}
               size={compactConfig.iconSize}
               color={disabled || !canIncrement ? 'default-disabled' : iconColor}
             />
@@ -392,7 +392,7 @@ export const QuantityInput = forwardRef<HTMLInputElement, QuantityInputProps>(({
             aria-label="Decrease value"
           >
             <Icon
-              iconType={['arrows', 'arrow-down-s']}
+              icon={RiArrowDownSLine}
               size={compactConfig.iconSize}
               color={disabled || !canDecrement ? 'default-disabled' : iconColor}
             />

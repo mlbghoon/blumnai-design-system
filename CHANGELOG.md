@@ -1,5 +1,52 @@
 # Changelog
 
+## [1.10.0] - 2026-04-28
+
+### Added — `@remixicon/react` 직접 import API + tree-shakeable Icon
+
+기존 `<Icon iconType={['system', 'check']}>` (dynamic-string) 와 함께, tree-shaking 친화적인 직접 import API 를 추가:
+
+```tsx
+// 기존 (계속 동작 — back-compat)
+import { Icon } from '@blumnai-studio/blumnai-design-system';
+<Icon iconType={['system', 'check']} size={16} color="default" />
+
+// 신규 (tree-shaking 권장)
+import { Icon, RiCheckLine } from '@blumnai-studio/blumnai-design-system';
+<Icon icon={RiCheckLine} size={16} color="default" />
+```
+
+- DS 가 `@remixicon/react` 의 모든 export 를 re-export 하므로 별도 설치 불필요
+- 직접 import 한 아이콘만 번들에 포함되어 페이지당 ~1KB/icon
+- DS 내부 105개 컴포넌트가 codemod 로 직접-import 방식으로 마이그레이션됨 → consumer 코드 변경 없이도 자동 번들 사이즈 감소
+- 411 개 기존에 빠져 있던 Remixicon 아이콘이 즉시 사용 가능 (Remixicon 4.6 → 4.9 차이)
+
+### Removed — 18 개 Remixicon-derived icon category 의 subpath export
+
+DS 내부에서 더 이상 자체 SVG 카피본을 유지하지 않으므로 다음 subpath 들이 제거됨:
+
+- `@blumnai-studio/blumnai-design-system/icons/{arrows, buildings, business, communication, design, development, device, document, editor, finance, food, health, map, media, others, system, user, weather}`
+
+**유지되는 subpath (DS-custom 또는 별도 시스템):**
+- `icons/logos`, `icons/flags`, `icons/brands`, `icons/isometric`, `icons/file-icons`, `icons/cursors`
+- `icons`, `icons/icon`, `icons/brand`, `icons/flag`, `icons/file` (메인 entry)
+
+→ `MIGRATION.md` 에 단계별 마이그레이션 가이드 추가.
+
+### Changed — DS 내부 Icon 사용
+
+105 개 컴포넌트가 `<Icon iconType={['cat', 'name']}>` → `<Icon icon={Ri*Line}>` 으로 마이그레이션됨. 사용자 측 동작/모양은 동일.
+
+### Internal
+
+- `src/icons/svg-source/{18 categories}/*.svg` 삭제 (~3,800 SVG)
+- `src/components/icons/Icon/icons/{18 categories}.ts` 삭제 (~21,500 LOC 자동 생성 코드)
+- 새 파일: `remixicon-export-map.ts` (auto-generated; 2,802 key → Ri* export name)
+- 새 스크립트: `scripts/generate-remixicon-mapping.mjs`, `scripts/audit-ds-only-icons.mjs`
+- 새 codemod: `scripts/icon-codemod/` (jscodeshift; consumer 도 사용 가능 예정)
+- `Icon` 컴포넌트 prop 분리 강화: `iconType` / `icon` exclusive discriminated union
+- Bundle: dist 14M → 12M (~14% 감소; consumer 측은 더 큰 감소 예상)
+
 ## [1.9.32] - 2026-05-07
 
 ### Changed — `Badge` / `Chip` / `ChartLegend` / `NavigationMenu` 텍스트가 selectable

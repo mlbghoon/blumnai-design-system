@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect, forwardRef, useMemo } from 'react';
 import { cn } from '@/lib/utils';
-import { Icon } from '../../icons/Icon/Icon';
+import { Icon, RiTimeLine } from '../../icons/Icon/Icon';
 import {
   SIZE_CONFIG,
   STYLE_CONFIG,
@@ -477,7 +477,7 @@ export const TimeRangeInput = forwardRef<HTMLDivElement, TimeRangeInputProps>(({
           )}
         >
           <Icon
-            iconType={['system', 'time']}
+            icon={RiTimeLine}
             size={sizeConfig.iconSize}
             color={iconColor}
           />

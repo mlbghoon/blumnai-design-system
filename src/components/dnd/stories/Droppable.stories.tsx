@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { DndContext, Draggable, Droppable } from '../index';
 import type { DroppableProps, DragEndEvent } from '../dnd.types';
-import { Icon } from '@/components/icons';
+import { Icon, RiImageLine, RiText } from '@/components/icons';
 
 const meta: Meta<DroppableProps> = {
   title: 'DnD/Droppable',
@@ -157,25 +157,25 @@ export const TypeFiltering: Story = {
           <div className="flex ds-gap-12">
             <Draggable id="text-1" data={{ type: 'text' }}>
               <div className="padding-12 bg-blue-50 border-default rounded-md cursor-grab flex items-center ds-gap-8">
-                <Icon iconType={['editor', 'text']} size={16} />
+                <Icon icon={RiText} size={16} />
                 <span className="size-sm font-body">텍스트 1</span>
               </div>
             </Draggable>
             <Draggable id="text-2" data={{ type: 'text' }}>
               <div className="padding-12 bg-blue-50 border-default rounded-md cursor-grab flex items-center ds-gap-8">
-                <Icon iconType={['editor', 'text']} size={16} />
+                <Icon icon={RiText} size={16} />
                 <span className="size-sm font-body">텍스트 2</span>
               </div>
             </Draggable>
             <Draggable id="image-1" data={{ type: 'image' }}>
               <div className="padding-12 bg-green-50 border-default rounded-md cursor-grab flex items-center ds-gap-8">
-                <Icon iconType={['media', 'image']} size={16} />
+                <Icon icon={RiImageLine} size={16} />
                 <span className="size-sm font-body">이미지 1</span>
               </div>
             </Draggable>
             <Draggable id="image-2" data={{ type: 'image' }}>
               <div className="padding-12 bg-green-50 border-default rounded-md cursor-grab flex items-center ds-gap-8">
-                <Icon iconType={['media', 'image']} size={16} />
+                <Icon icon={RiImageLine} size={16} />
                 <span className="size-sm font-body">이미지 2</span>
               </div>
             </Draggable>

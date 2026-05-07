@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react';
+import type { ComponentType, SVGProps } from 'react';
 
 /**
  * 아이콘 색상 토큰
@@ -1612,20 +1612,24 @@ export function parseIconTypeWithFill(icon: IconTypeWithFill): { iconType: IconT
   };
 }
 
-export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'children' | 'cursor'> {
-  /**
-   * [카테고리, 이름] 튜플 형식의 아이콘 타입
-   *
-   * @example
-   * iconType={['system', 'add']}
-   * iconType={['arrows', 'arrow-down']}
-   */
-  iconType: IconType;
-  /**
-   * 채워진(fill) 스타일 사용 여부
-   * @default false
-   */
-  isFill?: boolean;
+/**
+ * Remixicon-style component shape (matches `@remixicon/react` exports like `RiCheckLine`).
+ * Used for the direct-import API: `<Icon icon={RiCheckLine} />`.
+ *
+ * Note: This is intentionally minimal. We rely on a structural match — any component
+ * accepting `size` and `color` props will work, including custom DS icons.
+ */
+export type RemixiconLikeComponent = ComponentType<{
+  size?: number | string;
+  color?: string;
+  className?: string;
+  [key: string]: unknown;
+}>;
+
+/**
+ * Shared props for both API variants.
+ */
+export interface SharedIconProps extends Omit<SVGProps<SVGSVGElement>, 'children' | 'cursor'> {
   /**
    * 아이콘 크기 (픽셀 단위)
    * @default 24
@@ -1647,3 +1651,62 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'children' | 'c
    */
   disabled?: boolean;
 }
+
+/**
+ * Dynamic-string API (back-compat). Resolves icon at runtime via the registry.
+ */
+export interface IconPropsWithType extends SharedIconProps {
+  /**
+   * [카테고리, 이름] 튜플 형식의 아이콘 타입
+   *
+   * @example
+   * iconType={['system', 'add']}
+   * iconType={['arrows', 'arrow-down']}
+   */
+  iconType: IconType;
+  /**
+   * 채워진(fill) 스타일 사용 여부
+   * @default false
+   */
+  isFill?: boolean;
+  icon?: never;
+}
+
+/**
+ * Direct-import API (preferred for tree-shaking). Pass a Remixicon component or any
+ * component matching `RemixiconLikeComponent` shape.
+ *
+ * @example
+ * ```tsx
+ * import { Icon, RiCheckLine } from '@blumnai-studio/blumnai-design-system';
+ * <Icon icon={RiCheckLine} size={16} color="default" />
+ *
+ * **Anti-pattern**: do NOT pass an inline component (e.g., `icon={() => <RiCheckLine/>}`).
+ * The reference must be stable across renders for memoization to work. Always use a
+ * top-level imported component reference.
+ * ```
+ */
+export interface IconPropsWithComponent extends SharedIconProps {
+  /**
+   * 아이콘 컴포넌트 직접 전달 (tree-shaking 지원).
+   * Module 최상위에서 import 한 안정적인 컴포넌트 참조여야 함.
+   *
+   * @example
+   * ```tsx
+   * import { RiCheckLine } from '@blumnai-studio/blumnai-design-system';
+   * <Icon icon={RiCheckLine} />
+   * ```
+   */
+  icon: RemixiconLikeComponent;
+  iconType?: never;
+  isFill?: never;
+}
+
+/**
+ * `<Icon>` props.
+ *
+ * Provide EXACTLY ONE of:
+ * - `iconType={[category, name]}` — dynamic-string API (back-compat)
+ * - `icon={RiCheckLine}` — direct-import API (recommended for tree-shaking)
+ */
+export type IconProps = IconPropsWithType | IconPropsWithComponent;

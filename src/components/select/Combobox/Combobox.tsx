@@ -4,7 +4,17 @@ import { Command as CommandPrimitive } from 'cmdk';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../../input/shared/InputWrapper';
-import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import {
+  Icon,
+  parseIconTypeWithFill,
+  RiAddLine,
+  RiArrowDropDownLine,
+  RiArrowDropRightLine,
+  RiArrowDropUpLine,
+  RiCheckLine,
+  RiCloseLine,
+  RiSearchLine,
+} from '../../icons/Icon';
 import { Avatar } from '../../avatar/Avatar';
 import { Badge } from '../../badge/Badge';
 import { Button } from '../../button/Button';
@@ -152,7 +162,7 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
         <span className="flex width-20 height-20 items-center justify-center flex-shrink-0">
           {selected && (
             <Icon
-              iconType={['system', 'check']}
+              icon={RiCheckLine}
               size={16}
               color="default"
             />
@@ -318,8 +328,10 @@ ComboboxItem.displayName = 'ComboboxItem';
  * - `tags`: 태그로 표시되는 다중 선택
  *
  * @example
+ * ```tsx
  * <Combobox variant="default" label="프레임워크" options={options}
  *   creatable onCreate={(v) => addOption(v)} />
+ * ```
  */
 export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
   (props, ref) => {
@@ -788,7 +800,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
       return (
         <div className="flex flex-col items-center padding-24 ds-gap-12">
           <Icon
-            iconType={['system', 'search']}
+            icon={RiSearchLine}
             size={40}
             color="default-muted"
           />
@@ -960,7 +972,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                   {!isMultiMode && selectedOptions.length === 0 && !leadIcon && (
                     <div className="flex items-center ds-gap-6 flex-shrink-0">
                       <Icon
-                        iconType={['system', 'search']}
+                        icon={RiSearchLine}
                         size={16}
                         color="default-muted"
                       />
@@ -1036,7 +1048,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                       onMouseDown={(e) => e.preventDefault()}
                     >
                       <Icon
-                        iconType={['system', 'close']}
+                        icon={RiCloseLine}
                         size={12}
                         color={iconColor}
                       />
@@ -1115,7 +1127,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                         onClick={handleScrollUp}
                         className="sticky top-0 z-10 flex w-full cursor-default items-center justify-center padding-y-4 bg-card"
                       >
-                        <Icon iconType={['arrows', 'arrow-drop-up']} size={16} color="default-muted" />
+                        <Icon icon={RiArrowDropUpLine} size={16} color="default-muted" />
                       </button>
                     )}
 
@@ -1167,7 +1179,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                         onClick={handleScrollDown}
                         className="sticky bottom-0 z-10 flex w-full cursor-default items-center justify-center padding-y-4 bg-card"
                       >
-                        <Icon iconType={['arrows', 'arrow-drop-down']} size={16} color="default-muted" />
+                        <Icon icon={RiArrowDropDownLine} size={16} color="default-muted" />
                       </button>
                     )}
                   </ScrollArea>
@@ -1183,11 +1195,11 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                           'outline-none focus:bg-state-ghost-hover'
                         )}
                       >
-                        <Icon iconType={['system', 'add']} size={16} color="default-muted" />
+                        <Icon icon={RiAddLine} size={16} color="default-muted" />
                         <span className="flex-1 text-left size-sm font-body text-default">
                           {getCreateText()}
                         </span>
-                        <Icon iconType={['arrows', 'arrow-drop-right']} size={16} color="default-muted" />
+                        <Icon icon={RiArrowDropRightLine} size={16} color="default-muted" />
                       </button>
                     </div>
                   )}

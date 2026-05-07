@@ -3,7 +3,7 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
-import { Icon, parseIconTypeWithFill } from '../icons/Icon';
+import { Icon, parseIconTypeWithFill, RiCloseLine, RiSearchLine } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { TooltipTrigger } from '../tooltip/Tooltip/TooltipTrigger';
@@ -670,7 +670,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                     onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClearAll(e as unknown as React.MouseEvent); }}}
                     className="flex items-center justify-center width-16 height-16 flex-shrink-0 text-muted hover:text-default cursor-pointer"
                   >
-                    <Icon iconType={['system', 'close']} size={12} />
+                    <Icon icon={RiCloseLine} size={12} />
                   </span>
                 )}
 
@@ -723,7 +723,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   <div className="border-b-default">
                     <div className="flex items-center ds-gap-2 padding-x-8 height-36">
                       <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
-                        <Icon iconType={['system', 'search']} size={16} color="default-muted" />
+                        <Icon icon={RiSearchLine} size={16} color="default-muted" />
                       </div>
                       <input
                         ref={searchInputRef}
@@ -759,7 +759,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                           }}
                           className="flex items-center justify-center width-20 height-20 flex-shrink-0 text-muted hover:text-default"
                         >
-                          <Icon iconType={['system', 'close']} size={14} />
+                          <Icon icon={RiCloseLine} size={14} />
                         </button>
                       )}
                     </div>

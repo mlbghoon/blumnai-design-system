@@ -82,10 +82,12 @@ export interface SwitchProps
   /**
    * 썸(토글 핸들) 내부에 표시할 아이콘. ReactNode 또는 상태별 아이콘 함수
    * @example
+   * ```tsx
    * // 고정 아이콘
    * <Switch thumbIcon={<Icon iconType={['system', 'check']} size={10} />} />
    * // 상태별 아이콘
    * <Switch thumbIcon={(checked) => <Icon iconType={checked ? ['system', 'check'] : ['system', 'close']} size={10} />} />
+   * ```
    */
   thumbIcon?: ReactNode | ((checked: boolean) => ReactNode);
   /**

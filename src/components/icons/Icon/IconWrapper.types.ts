@@ -11,6 +11,7 @@ export type IconCursor = 'default' | 'pointer' | 'not-allowed' | 'wait' | 'text'
  * 최대한의 유연성을 위해 유효한 CSS 색상 문자열(hex, rgb, named colors 등)도 사용할 수 있습니다.
  * 
  * @example
+ * ```tsx
  * // 권장: 디자인 토큰 사용
  * <Icon color={color.text.muted} />
  * <Icon color={color.bg.state.primary} />
@@ -18,6 +19,7 @@ export type IconCursor = 'default' | 'pointer' | 'not-allowed' | 'wait' | 'text'
  * // 지원됨: 유효한 CSS 색상
  * <Icon color="#6F6F77" />
  * <Icon color="currentColor" />
+ * ```
  */
 export type IconColorToken =
   // 텍스트 색상
@@ -62,6 +64,7 @@ export interface Props extends Omit<SVGProps<SVGSVGElement>, 'children' | 'style
    * 아이콘 색상 (`fill` 또는 `color` CSS 속성에 적용).
    * 
    * @example
+   * ```tsx
    * // 권장: 일관성을 위해 디자인 토큰 사용
    * <Icon color={color.text.muted} />
    * <Icon color={color.bg.state.primary} />
@@ -70,6 +73,7 @@ export interface Props extends Omit<SVGProps<SVGSVGElement>, 'children' | 'style
    * <Icon color="#6F6F77" />
    * <Icon color="rgb(111, 111, 119)" />
    * <Icon color="currentColor" />
+   * ```
    */
   color?: string | IconColorToken;
   /** 아이콘의 커서 스타일 */
@@ -79,7 +83,9 @@ export interface Props extends Omit<SVGProps<SVGSVGElement>, 'children' | 'style
    * 기본값은 false입니다. true로 설정하면 탭으로 포커스할 수 있습니다.
    * 
    * @example
+   * ```tsx
    * <Icon focusable={true} title="Clickable icon" onClick={handleClick} />
+   * ```
    */
   focusable?: boolean;
   /** 추가 CSS 클래스 이름 */

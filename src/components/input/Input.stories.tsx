@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { Input } from './Input';
 import { Select } from '../select';
-import { Icon } from '../icons/Icon';
+import { Icon, RiLightbulbLine } from '../icons/Icon';
 import type { DefaultVariantProps } from './Input.types';
 
 const meta: Meta<DefaultVariantProps> = {
@@ -434,7 +434,7 @@ export const ReactNodeLabel: Story = {
         label={
           <span className="inline-flex items-center ds-gap-4">
             비밀번호
-            <Icon iconType={['others', 'lightbulb']} size={14} className="text-muted cursor-pointer" />
+            <Icon icon={RiLightbulbLine} size={14} className="text-muted cursor-pointer" />
           </span>
         }
         placeholder="비밀번호 입력..."

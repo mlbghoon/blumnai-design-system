@@ -28,7 +28,9 @@ const isIconTypeWithFill = (icon: unknown): icon is IconTypeWithFill =>
  * 다양한 크기, 구분자, 아이템 축소 기능을 지원합니다.
  *
  * @example
+ * ```tsx
  * <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Products' }]} />
+ * ```
  */
 export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
   items,

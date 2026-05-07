@@ -3,7 +3,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 
 import { cn } from '@/lib/utils';
 import { getPixelValue } from '@/lib/css-utils';
-import { Icon } from '../icons/Icon';
+import { Icon, RiCloseLine } from '../icons/Icon';
 import { buttonVariants } from '../button/Button';
 import { ScrollArea } from '../scroll-area';
 import { PortalContainerProvider } from '../../utils/PortalContainerContext';
@@ -41,11 +41,13 @@ const useDialogContext = () => {
  * 모달 다이얼로그입니다. DialogContent, DialogHeader, DialogFooter와 함께 사용합니다.
  *
  * @example
+ * ```tsx
  * <Dialog open={open} onOpenChange={setOpen}>
  *   <DialogContent>
  *     <DialogHeader><DialogTitle>제목</DialogTitle></DialogHeader>
  *   </DialogContent>
  * </Dialog>
+ * ```
  */
 const Dialog = ({ children, open, onOpenChange, defaultOpen, ...props }: DialogProps) => {
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen ?? false);
@@ -284,7 +286,7 @@ const DialogContentInner = React.forwardRef<
               'disabled:pointer-events-none disabled:opacity-50'
             )}
           >
-            <Icon iconType={['system', 'close']} size={20} />
+            <Icon icon={RiCloseLine} size={20} />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         )}

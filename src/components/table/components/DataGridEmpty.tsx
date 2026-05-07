@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../../icons/Icon';
+import { Icon, RiSearchLine } from '../../icons/Icon';
 
 interface DataGridEmptyProps {
   text?: string;
@@ -43,7 +43,7 @@ export function DataGridEmpty({
       style={heightStyle}
     >
       <Icon
-        iconType={['system', 'search']}
+        icon={RiSearchLine}
         size={32}
         color="default-muted"
       />

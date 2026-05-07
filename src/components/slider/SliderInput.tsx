@@ -11,7 +11,9 @@ import { SliderThumb, SliderTrack, SliderRangeFilled, SliderTicks } from './shar
  * 숫자 입력 필드가 포함된 슬라이더입니다. 라벨과 접미사를 지원합니다.
  *
  * @example
+ * ```tsx
  * <SliderInput label="볼륨" value={50} onChange={setValue} />
+ * ```
  */
 const SliderInput = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,

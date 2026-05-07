@@ -2,7 +2,7 @@ import * as React from "react"
 import { Drawer as DrawerPrimitive } from "vaul"
 
 import { cn } from "@/lib/utils"
-import { Icon } from "@/components/icons/Icon"
+import { Icon, RiCloseLine } from "@/components/icons/Icon";
 import { PortalContainerProvider } from "../../../utils/PortalContainerContext"
 
 type DrawerDirection = "top" | "bottom" | "left" | "right"
@@ -80,14 +80,14 @@ const DrawerContent = React.forwardRef<
       >
         <PortalContainerProvider value={contentEl}>
           <DrawerPrimitive.Close className="absolute [right:16px] [top:16px] rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-            <Icon iconType={['system', 'close']} size={16} />
+            <Icon icon={RiCloseLine} size={16} />
             <span className="sr-only">Close</span>
           </DrawerPrimitive.Close>
           {children}
         </PortalContainerProvider>
       </DrawerPrimitive.Content>
     </DrawerPortal>
-  )
+  );
 })
 DrawerContent.displayName = "DrawerContent"
 

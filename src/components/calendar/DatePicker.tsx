@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverAnchor, PopoverTrigger } from '../popover/Popover';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import { Button } from '../button/Button';
-import { Icon } from '../icons/Icon/Icon';
+import { Icon, RiCalendarLine } from '../icons/Icon/Icon';
 import { Calendar } from './Calendar';
 import { DateInput, DateRangeInput, QuickPresets } from './components';
 import { useControllableOpen } from './hooks/useControllableOpen';
@@ -75,7 +75,9 @@ const findMatchingPresetIndex = (
  * 캘린더 기반 날짜 선택 컴포넌트입니다. 빠른 선택 프리셋을 지원합니다.
  *
  * @example
+ * ```tsx
  * <DatePicker value={date} onChange={setDate} label="날짜 선택" />
+ * ```
  */
 export const DatePicker = ({
   datePickerStyle = 'default',
@@ -363,7 +365,7 @@ const CompactRangeTrigger = ({
         {displayText || dateFormat.toLowerCase()}
       </span>
       <Icon
-        iconType={['business', 'calendar']}
+        icon={RiCalendarLine}
         size={sizeConfig.iconSize}
         color={iconColor}
         className="flex-shrink-0"
@@ -381,7 +383,9 @@ const CompactRangeTrigger = ({
  * 시작일~종료일 범위를 선택하는 날짜 범위 선택 컴포넌트입니다.
  *
  * @example
+ * ```tsx
  * <DateRangePicker value={range} onChange={setRange} label="기간 선택" />
+ * ```
  */
 export const DateRangePicker = ({
   datePickerStyle = 'default',

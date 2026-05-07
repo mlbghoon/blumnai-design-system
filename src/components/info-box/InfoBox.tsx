@@ -1,6 +1,6 @@
 import { forwardRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Icon } from '../icons/Icon';
+import { Icon, RiCloseLine } from '../icons/Icon';
 import type { InfoBoxProps, InfoBoxVariant } from './InfoBox.types';
 import type { IconType } from '../icons/Icon/Icon.types';
 import {
@@ -64,7 +64,6 @@ export const InfoBox = forwardRef<HTMLDivElement, InfoBoxProps>(
             )}
           />
         )}
-
         <div className={cn('flex-shrink-0 flex items-center', INFOBOX_ICON_COLOR[variant])} style={{ height: '20px' }}>
           <Icon
             iconType={resolvedIcon}
@@ -72,7 +71,6 @@ export const InfoBox = forwardRef<HTMLDivElement, InfoBoxProps>(
             color={isSubtle ? 'var(--icon-default-muted)' : VARIANT_ICON_CSS_COLOR[variant]}
           />
         </div>
-
         <div className="flex flex-col ds-gap-2 flex-1 min-w-0">
           {collapsible ? (
             <div
@@ -120,7 +118,6 @@ export const InfoBox = forwardRef<HTMLDivElement, InfoBoxProps>(
             </div>
           )}
         </div>
-
         {closable && (
           <button
             type="button"
@@ -128,7 +125,7 @@ export const InfoBox = forwardRef<HTMLDivElement, InfoBoxProps>(
             aria-label="Close"
             className="flex-shrink-0 inline-flex items-center justify-center width-16 height-16 rounded-xs text-muted hover:text-default transition-colors cursor-pointer focus:outline-none focus-visible:shadow-component-misc-focus"
           >
-            <Icon iconType={['system', 'close']} size={16} />
+            <Icon icon={RiCloseLine} size={16} />
           </button>
         )}
       </div>

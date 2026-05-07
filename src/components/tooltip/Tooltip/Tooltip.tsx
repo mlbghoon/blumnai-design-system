@@ -10,7 +10,9 @@ import type { TooltipProps } from './Tooltip.types';
  * 선택적 배지와 함께 컨텍스트 정보를 표시하는 간단한 툴팁입니다.
  *
  * @example
+ * ```tsx
  * <Tooltip badge="Ctrl+S">저장 단축키</Tooltip>
+ * ```
  */
 export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(({
   className,

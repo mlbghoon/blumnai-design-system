@@ -1,7 +1,7 @@
 import { forwardRef, memo, useMemo } from 'react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
-import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import { Icon, parseIconTypeWithFill, RiCloseLine } from '../../icons/Icon';
 import { cn } from '@/lib/utils';
 
 import type { BadgeColor, BadgeProps } from './Badge.types';
@@ -48,7 +48,9 @@ const getIconColor = (color: BadgeColor): string => {
  * 색상은 현재 테마(라이트/다크 모드)에 자동으로 적응합니다.
  *
  * @example
+ * ```tsx
  * <Badge label="New" color="blue" size="md" />
+ * ```
  */
 export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
   variant = 'default',
@@ -127,7 +129,6 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
           <Icon iconType={parsedIcon.iconType} size={iconSize} color={getIconColor(color)} isFill={parsedIcon.isFill} />
         </span>
       )}
-
       {variant === 'image' && (
         <span
           className="inline-flex items-center shrink-0 overflow-hidden rounded-full line-height-leading-none border-darker"
@@ -143,7 +144,6 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
           />
         </span>
       )}
-
       {variant === 'dot' && (
         <span
           className="inline-flex items-center shrink-0 rounded-full line-height-leading-none"
@@ -154,9 +154,7 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
           }}
         />
       )}
-
       {(variant === 'default' || label) && <span className="shrink-0 line-height-leading-none">{label}</span>}
-
       {closeIcon && (
         <button
           type="button"
@@ -169,7 +167,7 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
           aria-disabled={closeDisabled}
           aria-label="Close badge"
         >
-          <Icon iconType={['system', 'close']} size={iconSize} color={getIconColor(closeColor ?? color)} />
+          <Icon icon={RiCloseLine} size={iconSize} color={getIconColor(closeColor ?? color)} />
         </button>
       )}
     </div>

@@ -12,7 +12,9 @@ import type { AvatarGroupProps } from './AvatarGroup.types';
  * 여러 아바타를 겹쳐서 표시하는 그룹 컴포넌트입니다. +N 오버레이를 지원합니다.
  *
  * @example
+ * ```tsx
  * <AvatarGroup avatars={[{ src: '/a.jpg' }, { name: '홍길동' }]} max={5} />
+ * ```
  */
 export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
   (

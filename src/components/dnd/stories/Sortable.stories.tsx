@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Sortable, SortableItem, DragHandle } from '../index';
 import type { DndItem } from '../dnd.types';
-import { Icon } from '@/components/icons';
+import { Icon, RiDraggable } from '@/components/icons';
 
 const meta: Meta<typeof Sortable> = {
   title: 'DnD/Sortable',
@@ -271,7 +271,7 @@ export const ImageGallery: Story = {
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
                     <Icon
-                      iconType={['editor', 'draggable']}
+                      icon={RiDraggable}
                       size={24}
                       className="text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-lg"
                     />
@@ -316,7 +316,7 @@ export const RenderProps: Story = {
                     <div className="flex items-center justify-between">
                       <span>{item.title}</span>
                       {isDragging && (
-                        <Icon iconType={['editor', 'draggable']} size={16} />
+                        <Icon icon={RiDraggable} size={16} />
                       )}
                     </div>
                   </div>

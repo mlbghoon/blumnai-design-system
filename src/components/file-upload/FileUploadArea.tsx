@@ -30,11 +30,13 @@ const DEFAULT_DESCRIPTION = '최대 10개 파일, 총 100MB 제한';
  * 드래그 앤 드롭 파일 업로드 영역입니다. 파일 타입/크기 제한을 지원합니다.
  *
  * @example
+ * ```tsx
  * <FileUploadArea
  *   accept="image/*,.pdf"
  *   maxFiles={5}
  *   onFilesSelected={handleFiles}
  * />
+ * ```
  */
 export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
   onFilesSelected,

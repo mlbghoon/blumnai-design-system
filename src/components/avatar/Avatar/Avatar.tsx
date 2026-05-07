@@ -38,7 +38,9 @@ const EMPTY_VARIANT_PLACEHOLDER_ICON = avatarPlaceholderIcon;
  * 다양한 크기, 모양(원형/둥근 사각형), 상태 인디케이터를 지원합니다.
  *
  * @example
+ * ```tsx
  * <Avatar variant="initials" initials="AB" size="md" />
+ * ```
  */
 export const Avatar = memo(forwardRef<HTMLDivElement, AvatarProps>(
   (

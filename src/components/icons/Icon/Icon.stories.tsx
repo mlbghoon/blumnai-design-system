@@ -1,6 +1,16 @@
 import { useRef, useState, useMemo } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import {
+  RiCheckLine,
+  RiCheckFill,
+  RiAddLine,
+  RiCloseLine,
+  RiSearchLine,
+  RiArrowDownLine,
+  RiHeartFill,
+  RiStarFill,
+} from '@remixicon/react';
 
 import { Icon } from './Icon';
 import { getIconNamesByCategory } from './ui-icon-registry';
@@ -123,10 +133,11 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
+    const iconType = args.iconType ?? (['system', 'add'] as const);
     return (
       <Icon
         ref={iconRef}
-        iconType={args.iconType}
+        iconType={iconType}
         size={args.size}
         disabled={args.disabled}
         className={args.className}
@@ -251,6 +262,137 @@ export const Clickable: Story = {
       <div style={{ textAlign: 'center' }}>
         <Icon iconType={['system', 'refresh']} size={32} />
         <div style={{ fontSize: '10px', marginTop: '4px' }}>no onClick</div>
+      </div>
+    </div>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+/**
+ * Direct-import API (권장 — tree-shake 가능)
+ *
+ * `@remixicon/react` 의 component 를 직접 prop 으로 전달하면 사용한 아이콘만 번들에 포함됩니다.
+ * Module 최상위에서 import 한 안정적인 component 참조여야 함 (인라인 함수 X).
+ *
+ * Color 토큰 (`'default'`, `'success'` 등) 도 `<Icon iconType=...>` 와 동일하게 작동합니다.
+ *
+ * ```tsx
+ * import { Icon, RiCheckLine } from '@blumnai-studio/blumnai-design-system';
+ *
+ * <Icon icon={RiCheckLine} size={16} color="default" />
+ * <Icon icon={RiHeartFill} size={20} color="destructive" />
+ * ```
+ */
+export const DirectImport: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div>
+        <h4 style={{ fontSize: '12px', marginBottom: '8px', color: 'var(--text-muted)' }}>기본 — Line variants</h4>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <Icon icon={RiCheckLine} size={24} />
+          <Icon icon={RiAddLine} size={24} />
+          <Icon icon={RiCloseLine} size={24} />
+          <Icon icon={RiSearchLine} size={24} />
+          <Icon icon={RiArrowDownLine} size={24} />
+        </div>
+      </div>
+
+      <div>
+        <h4 style={{ fontSize: '12px', marginBottom: '8px', color: 'var(--text-muted)' }}>Fill variants</h4>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <Icon icon={RiCheckFill} size={24} />
+          <Icon icon={RiHeartFill} size={24} color="destructive" />
+          <Icon icon={RiStarFill} size={24} color="warning" />
+        </div>
+      </div>
+
+      <div>
+        <h4 style={{ fontSize: '12px', marginBottom: '8px', color: 'var(--text-muted)' }}>Color tokens</h4>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <div style={{ textAlign: 'center' }}>
+            <Icon icon={RiCheckLine} size={32} color="default" />
+            <div style={{ fontSize: '10px', marginTop: '4px' }}>default</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <Icon icon={RiCheckLine} size={32} color="informative" />
+            <div style={{ fontSize: '10px', marginTop: '4px' }}>informative</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <Icon icon={RiCheckLine} size={32} color="success" />
+            <div style={{ fontSize: '10px', marginTop: '4px' }}>success</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <Icon icon={RiCheckLine} size={32} color="warning" />
+            <div style={{ fontSize: '10px', marginTop: '4px' }}>warning</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <Icon icon={RiCheckLine} size={32} color="destructive" />
+            <div style={{ fontSize: '10px', marginTop: '4px' }}>destructive</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 style={{ fontSize: '12px', marginBottom: '8px', color: 'var(--text-muted)' }}>
+          Sizes — 12 / 16 / 20 / 24 / 32 / 48
+        </h4>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          <Icon icon={RiCheckLine} size={12} />
+          <Icon icon={RiCheckLine} size={16} />
+          <Icon icon={RiCheckLine} size={20} />
+          <Icon icon={RiCheckLine} size={24} />
+          <Icon icon={RiCheckLine} size={32} />
+          <Icon icon={RiCheckLine} size={48} />
+        </div>
+      </div>
+
+      <div>
+        <h4 style={{ fontSize: '12px', marginBottom: '8px', color: 'var(--text-muted)' }}>
+          Disabled + onClick
+        </h4>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <Icon icon={RiCheckLine} size={24} onClick={() => alert('clicked')} />
+          <Icon icon={RiCheckLine} size={24} disabled />
+          <Icon icon={RiCheckLine} size={24} disabled onClick={() => alert('disabled — should not fire')} />
+        </div>
+      </div>
+    </div>
+  ),
+  parameters: { controls: { disable: true } },
+};
+
+/**
+ * 두 API 비교 — 같은 시각 결과
+ *
+ * 좌: dynamic-string API (`iconType`) - 런타임 lookup, 1MB lazy chunk
+ * 우: direct-import API (`icon`) - tree-shake 가능, 1KB per icon
+ *
+ * 시각적으로 동일해야 함.
+ */
+export const ApiComparison: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', maxWidth: '600px' }}>
+      <div>
+        <h4 style={{ fontSize: '12px', marginBottom: '12px', color: 'var(--text-muted)' }}>
+          Dynamic-string (back-compat)
+        </h4>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Icon iconType={['system', 'check']} size={20} color="default" />
+          <Icon iconType={['system', 'add']} size={20} color="informative" />
+          <Icon iconType={['system', 'close']} size={20} color="destructive" />
+          <Icon iconType={['health', 'heart']} isFill size={20} color="destructive" />
+        </div>
+      </div>
+      <div>
+        <h4 style={{ fontSize: '12px', marginBottom: '12px', color: 'var(--text-muted)' }}>
+          Direct-import (recommended)
+        </h4>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <Icon icon={RiCheckLine} size={20} color="default" />
+          <Icon icon={RiAddLine} size={20} color="informative" />
+          <Icon icon={RiCloseLine} size={20} color="destructive" />
+          <Icon icon={RiHeartFill} size={20} color="destructive" />
+        </div>
       </div>
     </div>
   ),

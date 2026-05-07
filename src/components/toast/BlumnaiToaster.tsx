@@ -9,7 +9,9 @@ import type { BlumnaiToasterProps } from './Toast.types';
  * 앱 루트에 한 번만 마운트하세요.
  *
  * @example
+ * ```tsx
  * <BlumnaiToaster />
+ * ```
  */
 export const BlumnaiToaster = ({
   visibleToasts = 3,

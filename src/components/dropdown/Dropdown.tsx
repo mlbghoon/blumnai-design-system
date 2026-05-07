@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../icons/Icon';
+import { Icon, RiCheckLine, RiSearchLine } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { Button } from '../button';
@@ -33,12 +33,14 @@ import type {
  * 드롭다운 메뉴입니다. DropdownMenuTrigger, DropdownMenuContent와 함께 사용합니다.
  *
  * @example
+ * ```tsx
  * <DropdownMenu>
  *   <DropdownMenuTrigger asChild><Button>메뉴</Button></DropdownMenuTrigger>
  *   <DropdownMenuContent>
  *     <DropdownMenuItem>항목 1</DropdownMenuItem>
  *   </DropdownMenuContent>
  * </DropdownMenu>
+ * ```
  */
 const DropdownMenu = DropdownMenuPrimitive.Root;
 
@@ -250,7 +252,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     >
       <span className="flex items-center justify-center width-16 height-16 flex-shrink-0">
         <DropdownMenuPrimitive.ItemIndicator>
-          <Icon iconType={['system', 'check']} size={14} color="primary" />
+          <Icon icon={RiCheckLine} size={14} color="primary" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {leadIcon && (
@@ -636,7 +638,7 @@ const DropdownMenuSearch = React.forwardRef<HTMLInputElement, DropdownMenuSearch
       <div className={cn("padding-x-4 padding-y-4", className)}>
         <div className="relative">
           <Icon
-            iconType={['system', 'search']}
+            icon={RiSearchLine}
             size={16}
             color="default-muted"
             className="absolute left-8 top-1/2 -translate-y-1/2"

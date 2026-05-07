@@ -29,7 +29,9 @@ const BUTTON_PADDING = {
  * WAI-ARIA toolbar 패턴으로 ArrowLeft/Right, Home/End 키보드 탐색을 지원합니다.
  *
  * @example
+ * ```tsx
  * <ButtonGroup items={[{ label: "A" }, { label: "B" }]} size="md" />
+ * ```
  */
 export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
   ({ items, size = 'md', className, 'aria-label': ariaLabelProp, ...restProps }, ref) => {

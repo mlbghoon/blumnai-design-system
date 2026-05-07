@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../../dialog/Dialog';
-import { Icon } from '../../icons/Icon/Icon';
+import { Icon, RiInformationLine } from '../../icons/Icon/Icon';
 
 const meta: Meta<typeof TooltipTrigger> = {
   title: 'DataDisplay/Tooltip/TooltipTrigger',
@@ -368,7 +368,7 @@ export const InsideDialog: Story = {
                 content="해당 분류에서 처리할 업무의 가이드를 미리 설정할 수 있습니다."
                 placement="right"
               >
-                <Icon iconType={['system', 'information']} size={14} />
+                <Icon icon={RiInformationLine} size={14} />
               </TooltipTrigger>
             </div>
             <div className="flex items-center ds-gap-8">
@@ -378,7 +378,7 @@ export const InsideDialog: Story = {
                 placement="right"
                 escapePortalContext
               >
-                <Icon iconType={['system', 'information']} size={14} />
+                <Icon icon={RiInformationLine} size={14} />
               </TooltipTrigger>
             </div>
           </div>

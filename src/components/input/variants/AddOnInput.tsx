@@ -3,7 +3,7 @@ import type { InputHTMLAttributes, ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/lib/spinner';
-import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import { Icon, parseIconTypeWithFill, RiCloseCircleLine } from '../../icons/Icon';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
   STATE_CONFIG,
@@ -276,7 +276,7 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
                     aria-label="Clear input"
                   >
                     <Icon
-                      iconType={['system', 'close-circle']}
+                      icon={RiCloseCircleLine}
                       size={sizeConfig.iconSize}
                       color={iconColor}
                     />
@@ -400,7 +400,7 @@ export const AddOnInput = forwardRef<HTMLInputElement, AddOnInputProps>(({
                 aria-label="Clear input"
               >
                 <Icon
-                  iconType={['system', 'close-circle']}
+                  icon={RiCloseCircleLine}
                   size={sizeConfig.iconSize}
                   color={iconColor}
                 />

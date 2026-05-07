@@ -30,8 +30,10 @@ import type { DividerProps } from './Divider.types';
  * 텍스트, 아이콘, 버튼과 함께 사용할 수 있습니다.
  *
  * @example
+ * ```tsx
  * <Divider />
  * <Divider type="text-center" label="or" />
+ * ```
  */
 export const Divider = forwardRef<HTMLDivElement, DividerProps>(
   (

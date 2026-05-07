@@ -43,7 +43,9 @@ function pickAxis(
  * TanStack Table 기반의 데이터 그리드입니다. 정렬, 필터, 페이지네이션, 행 선택을 지원합니다.
  *
  * @example
+ * ```tsx
  * <DataGrid columns={columns} data={data} enableSorting enableRowSelection />
+ * ```
  */
 function DataGridInner<T>(
   {

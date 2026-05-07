@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState, useEffect } from 'react';
 
 import { Switch } from '../Switch';
-import { Icon } from '../../icons/Icon';
+import { Icon, RiCheckLine } from '../../icons/Icon';
 import type { SwitchColor } from '../Switch.types';
 
 const meta: Meta<typeof Switch> = {
@@ -540,7 +540,7 @@ export const WithThumbIcon: Story = {
             checked={checked2}
             onCheckedChange={setChecked2}
             thumbIcon={
-              <Icon iconType={['system', 'check']} size={14} color="default-muted" />
+              <Icon icon={RiCheckLine} size={14} color="default-muted" />
             }
           />
           <span className="font-body size-sm text-subtle">고정 아이콘 (✓)</span>

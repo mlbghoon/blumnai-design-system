@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.9.32",
+  "version": "1.10.0",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -104,62 +104,8 @@
       "icons/file": [
         "dist/components/icons/FileIcon/index.d.ts"
       ],
-      "icons/arrows": [
-        "dist/components/icons/Icon/icons/arrows.d.ts"
-      ],
-      "icons/buildings": [
-        "dist/components/icons/Icon/icons/buildings.d.ts"
-      ],
-      "icons/business": [
-        "dist/components/icons/Icon/icons/business.d.ts"
-      ],
-      "icons/communication": [
-        "dist/components/icons/Icon/icons/communication.d.ts"
-      ],
-      "icons/design": [
-        "dist/components/icons/Icon/icons/design.d.ts"
-      ],
-      "icons/development": [
-        "dist/components/icons/Icon/icons/development.d.ts"
-      ],
-      "icons/device": [
-        "dist/components/icons/Icon/icons/device.d.ts"
-      ],
-      "icons/document": [
-        "dist/components/icons/Icon/icons/document.d.ts"
-      ],
-      "icons/editor": [
-        "dist/components/icons/Icon/icons/editor.d.ts"
-      ],
-      "icons/finance": [
-        "dist/components/icons/Icon/icons/finance.d.ts"
-      ],
-      "icons/food": [
-        "dist/components/icons/Icon/icons/food.d.ts"
-      ],
-      "icons/health": [
-        "dist/components/icons/Icon/icons/health & medical.d.ts"
-      ],
       "icons/logos": [
         "dist/components/icons/Icon/icons/logos.d.ts"
-      ],
-      "icons/map": [
-        "dist/components/icons/Icon/icons/map.d.ts"
-      ],
-      "icons/media": [
-        "dist/components/icons/Icon/icons/media.d.ts"
-      ],
-      "icons/others": [
-        "dist/components/icons/Icon/icons/others.d.ts"
-      ],
-      "icons/system": [
-        "dist/components/icons/Icon/icons/system.d.ts"
-      ],
-      "icons/user": [
-        "dist/components/icons/Icon/icons/user & faces.d.ts"
-      ],
-      "icons/weather": [
-        "dist/components/icons/Icon/icons/weather.d.ts"
       ],
       "icons/flags": [
         "dist/components/icons/FlagIcon/icons/all.d.ts"
@@ -382,81 +328,9 @@
       "types": "./dist/components/icons/FileIcon/index.d.ts",
       "import": "./dist/components/icons/FileIcon/index.mjs"
     },
-    "./icons/arrows": {
-      "types": "./dist/components/icons/Icon/icons/arrows.d.ts",
-      "import": "./dist/components/icons/Icon/icons/arrows.mjs"
-    },
-    "./icons/buildings": {
-      "types": "./dist/components/icons/Icon/icons/buildings.d.ts",
-      "import": "./dist/components/icons/Icon/icons/buildings.mjs"
-    },
-    "./icons/business": {
-      "types": "./dist/components/icons/Icon/icons/business.d.ts",
-      "import": "./dist/components/icons/Icon/icons/business.mjs"
-    },
-    "./icons/communication": {
-      "types": "./dist/components/icons/Icon/icons/communication.d.ts",
-      "import": "./dist/components/icons/Icon/icons/communication.mjs"
-    },
-    "./icons/design": {
-      "types": "./dist/components/icons/Icon/icons/design.d.ts",
-      "import": "./dist/components/icons/Icon/icons/design.mjs"
-    },
-    "./icons/development": {
-      "types": "./dist/components/icons/Icon/icons/development.d.ts",
-      "import": "./dist/components/icons/Icon/icons/development.mjs"
-    },
-    "./icons/device": {
-      "types": "./dist/components/icons/Icon/icons/device.d.ts",
-      "import": "./dist/components/icons/Icon/icons/device.mjs"
-    },
-    "./icons/document": {
-      "types": "./dist/components/icons/Icon/icons/document.d.ts",
-      "import": "./dist/components/icons/Icon/icons/document.mjs"
-    },
-    "./icons/editor": {
-      "types": "./dist/components/icons/Icon/icons/editor.d.ts",
-      "import": "./dist/components/icons/Icon/icons/editor.mjs"
-    },
-    "./icons/finance": {
-      "types": "./dist/components/icons/Icon/icons/finance.d.ts",
-      "import": "./dist/components/icons/Icon/icons/finance.mjs"
-    },
-    "./icons/food": {
-      "types": "./dist/components/icons/Icon/icons/food.d.ts",
-      "import": "./dist/components/icons/Icon/icons/food.mjs"
-    },
-    "./icons/health": {
-      "types": "./dist/components/icons/Icon/icons/health & medical.d.ts",
-      "import": "./dist/components/icons/Icon/icons/health & medical.mjs"
-    },
     "./icons/logos": {
       "types": "./dist/components/icons/Icon/icons/logos.d.ts",
       "import": "./dist/components/icons/Icon/icons/logos.mjs"
-    },
-    "./icons/map": {
-      "types": "./dist/components/icons/Icon/icons/map.d.ts",
-      "import": "./dist/components/icons/Icon/icons/map.mjs"
-    },
-    "./icons/media": {
-      "types": "./dist/components/icons/Icon/icons/media.d.ts",
-      "import": "./dist/components/icons/Icon/icons/media.mjs"
-    },
-    "./icons/others": {
-      "types": "./dist/components/icons/Icon/icons/others.d.ts",
-      "import": "./dist/components/icons/Icon/icons/others.mjs"
-    },
-    "./icons/system": {
-      "types": "./dist/components/icons/Icon/icons/system.d.ts",
-      "import": "./dist/components/icons/Icon/icons/system.mjs"
-    },
-    "./icons/user": {
-      "types": "./dist/components/icons/Icon/icons/user & faces.d.ts",
-      "import": "./dist/components/icons/Icon/icons/user & faces.mjs"
-    },
-    "./icons/weather": {
-      "types": "./dist/components/icons/Icon/icons/weather.d.ts",
-      "import": "./dist/components/icons/Icon/icons/weather.mjs"
     },
     "./icons/flags": {
       "types": "./dist/components/icons/FlagIcon/icons/all.d.ts",
@@ -659,7 +533,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "build:lib": "npm run prebuild:lib && vite build --mode lib && tsc --project tsconfig.lib.json && tsc-alias --project tsconfig.lib.json && node scripts/strip-css-layers.mjs && node scripts/prefix-transform-classes.mjs && node scripts/inject-use-client.mjs && node scripts/generate-subpath-proxies.mjs",
-    "prebuild:lib": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons && npm run generate:icon-catalog",
+    "prebuild:lib": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:remixicon-mapping && npm run generate:isometric-icons && npm run generate:icon-catalog",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -670,11 +544,13 @@
     "generate:file-icons": "node scripts/generate-file-icons.mjs",
     "generate:flag-registry": "node scripts/generate-flags-icons.mjs",
     "generate:ui-icon-registry": "node scripts/generate-ui-icon-registry.mjs",
+    "generate:remixicon-mapping": "node scripts/generate-remixicon-mapping.mjs",
+    "audit:ds-only-icons": "node scripts/audit-ds-only-icons.mjs",
     "generate:isometric-icons": "node scripts/generate-isometric-icons.mjs",
     "generate:icon-catalog": "node scripts/generate-icon-catalog.mjs",
     "clean:thumbnail-sources": "node scripts/clean-svg-source-thumbnails.mjs && node scripts/clean-thumbnail-base64.mjs",
-    "prebuild": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons",
-    "prestorybook": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:ui-icon-registry && npm run generate:isometric-icons",
+    "prebuild": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:remixicon-mapping && npm run generate:isometric-icons",
+    "prestorybook": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:remixicon-mapping && npm run generate:isometric-icons",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:visual": "playwright test",
@@ -778,6 +654,7 @@
     "@radix-ui/react-toggle": "^1.1.10",
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "@remixicon/react": "^4.9.0",
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/react-virtual": "^3.13.21",
     "class-variance-authority": "^0.7.1",
@@ -820,6 +697,7 @@
     "@tiptap/pm": "^3.22.3",
     "@tiptap/react": "^3.22.3",
     "@tiptap/starter-kit": "^3.22.3",
+    "@types/jscodeshift": "^17.3.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
@@ -837,6 +715,7 @@
     "globals": "^16.5.0",
     "happy-dom": "^20.8.9",
     "i18n-iso-countries": "^7.14.0",
+    "jscodeshift": "^17.3.0",
     "jsdom": "^29.0.1",
     "postcss": "^8.5.6",
     "react": "^19.2.0",

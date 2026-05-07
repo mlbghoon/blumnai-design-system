@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as MenubarPrimitive from '@radix-ui/react-menubar';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../icons/Icon';
+import { Icon, RiArrowRightSLine, RiCheckLine } from '../icons/Icon';
 import { Badge } from '../badge/Badge';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 import { usePortalContainer } from '../../utils/PortalContainerContext';
@@ -160,7 +160,7 @@ const MenubarSubTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <Icon iconType={['arrows', 'arrow-right-s']} size={16} color="default-subtle" className="ml-auto" />
+    <Icon icon={RiArrowRightSLine} size={16} color="default-subtle" className="ml-auto" />
   </MenubarPrimitive.SubTrigger>
 ));
 MenubarSubTrigger.displayName = 'MenubarSubTrigger';
@@ -290,7 +290,7 @@ const MenubarCheckboxItem = React.forwardRef<
   >
     <span className="absolute flex height-16 width-16 items-center justify-center" style={{ left: '8px' }}>
       <MenubarPrimitive.ItemIndicator>
-        <Icon iconType={['system', 'check']} size={16} color="default" />
+        <Icon icon={RiCheckLine} size={16} color="default" />
       </MenubarPrimitive.ItemIndicator>
     </span>
     {children}

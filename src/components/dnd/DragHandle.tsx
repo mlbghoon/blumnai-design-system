@@ -2,7 +2,7 @@
 
 import { forwardRef } from 'react';
 import { cn } from '@/lib/utils';
-import { Icon } from '@/components/icons';
+import { Icon, RiDraggable } from '@/components/icons';
 import { useDraggableContext } from './useDraggableContext';
 import { useSortableItemContext } from './Sortable/useSortableItemContext';
 import type { DragHandleProps } from './dnd.types';
@@ -35,7 +35,7 @@ export const DragHandle = forwardRef<HTMLButtonElement, DragHandleProps>(
         {...attributes}
         {...listeners}
       >
-        {children || <Icon iconType={['editor', 'draggable']} size={16} />}
+        {children || <Icon icon={RiDraggable} size={16} />}
       </button>
     );
   }

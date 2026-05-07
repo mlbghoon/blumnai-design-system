@@ -5,7 +5,17 @@ import { Command as CommandPrimitive } from 'cmdk';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
-import { Icon, parseIconTypeWithFill } from '../icons/Icon';
+import {
+  Icon,
+  parseIconTypeWithFill,
+  RiArrowDownSLine,
+  RiArrowDropDownLine,
+  RiArrowDropUpLine,
+  RiArrowUpSLine,
+  RiCheckLine,
+  RiCloseLine,
+  RiSearchLine,
+} from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { TooltipTrigger } from '../tooltip/Tooltip/TooltipTrigger';
@@ -165,19 +175,19 @@ const SelectTrigger = React.forwardRef<
             onClick={onClear}
             className="flex items-center justify-center width-16 height-16 flex-shrink-0 text-muted hover:text-default cursor-pointer"
           >
-            <Icon iconType={['system', 'close']} size={12} />
+            <Icon icon={RiCloseLine} size={12} />
           </button>
         )}
         <SelectPrimitive.Icon asChild>
           <span className="flex-shrink-0 inline-flex items-center justify-center">
             <Icon
-              iconType={['arrows', 'arrow-down-s']}
+              icon={RiArrowDownSLine}
               size={sizeConfig.iconSize}
               color={iconColor}
               className="group-data-[state=open]/trigger:hidden"
             />
             <Icon
-              iconType={['arrows', 'arrow-up-s']}
+              icon={RiArrowUpSLine}
               size={sizeConfig.iconSize}
               color={iconColor}
               className="hidden group-data-[state=open]/trigger:inline-flex"
@@ -206,7 +216,7 @@ const SelectScrollUpButton = React.forwardRef<
     )}
     {...props}
   >
-    <Icon iconType={['arrows', 'arrow-drop-up']} size={16} color="default-muted" />
+    <Icon icon={RiArrowDropUpLine} size={16} color="default-muted" />
   </SelectPrimitive.ScrollUpButton>
 ));
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
@@ -227,7 +237,7 @@ const SelectScrollDownButton = React.forwardRef<
     )}
     {...props}
   >
-    <Icon iconType={['arrows', 'arrow-drop-down']} size={16} color="default-muted" />
+    <Icon icon={RiArrowDropDownLine} size={16} color="default-muted" />
   </SelectPrimitive.ScrollDownButton>
 ));
 SelectScrollDownButton.displayName =
@@ -361,7 +371,7 @@ const SelectItem = React.forwardRef<
     <span className="flex width-20 height-20 items-center justify-center flex-shrink-0">
       <SelectPrimitive.ItemIndicator>
         <Icon
-          iconType={['system', 'check']}
+          icon={RiCheckLine}
           size={16}
           color="default"
         />
@@ -449,7 +459,7 @@ const ExtendedSelectItem = React.forwardRef<
         <span className="flex width-20 height-20 items-center justify-center flex-shrink-0">
           <SelectPrimitive.ItemIndicator>
             <Icon
-              iconType={['system', 'check']}
+              icon={RiCheckLine}
               size={16}
               color={disabled ? 'default-disabled' : 'default'}
             />
@@ -642,7 +652,7 @@ const SearchableSelectItem = React.forwardRef<HTMLDivElement, SearchableSelectIt
         <span className="flex width-20 height-20 items-center justify-center flex-shrink-0">
           {isSelected && (
             <Icon
-              iconType={['system', 'check']}
+              icon={RiCheckLine}
               size={16}
               color={option.disabled ? 'default-disabled' : 'default'}
             />
@@ -941,7 +951,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
               <span className="flex width-20 height-20 items-center justify-center flex-shrink-0">
                 {isSelected && (
                   <Icon
-                    iconType={['system', 'check']}
+                    icon={RiCheckLine}
                     size={16}
                     color={option.disabled ? 'default-disabled' : 'default'}
                   />
@@ -983,7 +993,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
             <span className="flex width-20 height-20 items-center justify-center flex-shrink-0">
               <SelectPrimitive.ItemIndicator>
                 <Icon
-                  iconType={['system', 'check']}
+                  icon={RiCheckLine}
                   size={16}
                   color={option.disabled ? 'default-disabled' : 'default'}
                 />
@@ -1264,7 +1274,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                       onClick={(e) => { e.stopPropagation(); handleClear(e); }}
                       className="flex items-center justify-center width-16 height-16 flex-shrink-0 text-muted hover:text-default cursor-pointer"
                     >
-                      <Icon iconType={['system', 'close']} size={12} />
+                      <Icon icon={RiCloseLine} size={12} />
                     </span>
                   )}
                   <Icon
@@ -1306,7 +1316,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                       <div className="border-b-default">
                         <div className="flex items-center ds-gap-2 padding-x-8 height-36">
                           <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
-                            <Icon iconType={['system', 'search']} size={16} color="default-muted" />
+                            <Icon icon={RiSearchLine} size={16} color="default-muted" />
                           </div>
                           <CommandPrimitive.Input
                             ref={searchInputRef}
@@ -1325,7 +1335,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                               }}
                               className="flex items-center justify-center width-20 height-20 flex-shrink-0 text-muted hover:text-default"
                             >
-                              <Icon iconType={['system', 'close']} size={14} />
+                              <Icon icon={RiCloseLine} size={14} />
                             </button>
                           )}
                         </div>

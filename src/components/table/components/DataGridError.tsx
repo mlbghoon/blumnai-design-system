@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../../icons/Icon';
+import { Icon, RiErrorWarningLine } from '../../icons/Icon';
 import { Button } from '../../button/Button';
 
 interface DataGridErrorProps {
@@ -27,7 +27,7 @@ export function DataGridError({ error, onRetry, fixedHeight }: DataGridErrorProp
       style={heightStyle}
     >
       <Icon
-        iconType={['system', 'error-warning']}
+        icon={RiErrorWarningLine}
         size={32}
         color="destructive"
       />

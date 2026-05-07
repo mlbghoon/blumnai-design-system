@@ -82,7 +82,9 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
    * from shrinking when the label is replaced by a spinner.
    * @default false
    * @example
+   * ```tsx
    * <Button loading width={120}>Save</Button>
+   * ```
    */
   loading?: boolean;
   /**

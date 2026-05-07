@@ -11,9 +11,11 @@ import type { RadioCardProps } from './RadioCard.types';
  * 카드 형태의 라디오 버튼입니다. RadioGroup 안에서 사용합니다.
  *
  * @example
+ * ```tsx
  * <RadioGroup value={value} onValueChange={setValue}>
  *   <RadioCard value="a" title="옵션 A" description="설명" />
  * </RadioGroup>
+ * ```
  */
 const RadioCard = React.forwardRef<HTMLLabelElement, RadioCardProps>(
   (

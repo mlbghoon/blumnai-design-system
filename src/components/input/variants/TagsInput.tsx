@@ -4,7 +4,7 @@ import type { InputHTMLAttributes } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/lib/spinner';
-import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import { Icon, parseIconTypeWithFill, RiCloseLine } from '../../icons/Icon';
 import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
 import {
   STATE_CONFIG,
@@ -61,7 +61,7 @@ const Tag = ({ label, onRemove, disabled, size, variant, removable = true }: Tag
           aria-label={`Remove ${label}`}
         >
           <Icon
-            iconType={['system', 'close']}
+            icon={RiCloseLine}
             size={tagSizeConfig.iconSize}
             color="default-subtle"
           />

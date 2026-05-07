@@ -44,7 +44,9 @@ const DISABLED_STYLE = {
  * 아바타가 포함된 사용자 프로필 버튼입니다. 드롭다운 표시를 지원합니다.
  *
  * @example
+ * ```tsx
  * <AvatarButton avatar="/avatar.jpg" alt="홍길동" showDropdown />
+ * ```
  */
 export const AvatarButton = forwardRef<HTMLButtonElement, AvatarButtonProps>(({
   buttonStyle = 'default',

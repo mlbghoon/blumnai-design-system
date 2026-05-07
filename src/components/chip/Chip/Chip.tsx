@@ -26,7 +26,9 @@ const getColorTextClass = (color: ChipColor): string => {
  * 작은 정보나 태그를 표시하는 컴포넌트입니다.
  *
  * @example
+ * ```tsx
  * <Chip label="Tag" size="md" style="default" />
+ * ```
  */
 export const Chip = memo(forwardRef<HTMLButtonElement, ChipProps>(
   (

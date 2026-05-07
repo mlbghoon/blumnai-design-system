@@ -11,6 +11,93 @@
 
 ---
 
+## v1.9.x → v1.10.0 (Remixicon-derived icon subpath import 제거)
+
+### 요약
+
+DS 가 자체 SVG 카피본을 유지하지 않고 `@remixicon/react` 를 직접 사용하도록 변경됨. 18 개 Remixicon-derived 카테고리의 subpath import 가 제거됨.
+
+### 변경 시그널
+
+빌드 시 다음과 같은 에러:
+
+```
+Module not found: Can't resolve '@blumnai-studio/blumnai-design-system/icons/system'
+Module not found: Can't resolve '@blumnai-studio/blumnai-design-system/icons/arrows'
+... (등 18개 카테고리)
+```
+
+### 영향받는 카테고리 (제거됨)
+
+`arrows`, `buildings`, `business`, `communication`, `design`, `development`, `device`, `document`, `editor`, `finance`, `food`, `health`, `map`, `media`, `others`, `system`, `user`, `weather`
+
+### 영향받지 **않는** subpath (그대로 사용 가능)
+
+- `icons/logos` — DS-custom 로고
+- `icons/flags` — DS 자체 국가 깃발 시스템 (`<FlagIcon>`)
+- `icons/brands` — DS 자체 브랜드 시스템 (`<BrandIcon>`)
+- `icons/isometric` — DS 자체 isometric 일러스트
+- `icons/file-icons` — DS 자체 파일 타입 아이콘
+- `icons/cursors` — DS 자체 커서 아이콘
+
+### 마이그레이션 단계
+
+#### 옵션 A — `<Icon iconType=...>` 로 전환 (가장 안전)
+
+```tsx
+// Before
+import { CheckIcon } from '@blumnai-studio/blumnai-design-system/icons/system';
+<CheckIcon size={16} />
+
+// After
+import { Icon } from '@blumnai-studio/blumnai-design-system';
+<Icon iconType={['system', 'check']} size={16} />
+```
+
+장점: dynamic-string API 변경 없음. 모든 기존 아이콘 이름 그대로 사용 가능.
+단점: 첫 사용 시 ~1MB lazy chunk 1회 로드 (이후 캐시).
+
+#### 옵션 B — 직접 import (tree-shaking 권장)
+
+```tsx
+// Before
+import { CheckIcon, ArrowDownIcon } from '@blumnai-studio/blumnai-design-system/icons/system';
+<CheckIcon size={16} />
+<ArrowDownIcon size={16} />
+
+// After
+import { Icon, RiCheckLine, RiArrowDownLine } from '@blumnai-studio/blumnai-design-system';
+<Icon icon={RiCheckLine} size={16} />
+<Icon icon={RiArrowDownLine} size={16} />
+```
+
+장점: 사용한 아이콘만 번들에 포함 (페이지당 ~1KB/icon).
+단점: import 이름 변경 필요 (kebab-case → PascalCase + `Ri` prefix + `Line`/`Fill` suffix).
+
+#### 옵션 C — Codemod 사용 (대량 마이그레이션)
+
+```bash
+# DS 내부에서 사용하는 codemod 와 동일 (publishing 예정)
+npx @blumnai-studio/icon-codemod ./src
+```
+
+### 이름 변환 규칙
+
+`<category>/<kebab-name>` → `Ri<PascalCase>{Line|Fill}`
+
+- `system/check` → `RiCheckLine`
+- `system/check-double` → `RiCheckDoubleLine`
+- `arrows/arrow-down` → `RiArrowDownLine`
+- `system/check` (`isFill={true}`) → `RiCheckFill`
+
+### Breaking 아닌 변경
+
+- `<Icon iconType={...}>` API 는 그대로 동작 (back-compat)
+- `BrandIcon`, `FlagIcon`, `IsometricIcon`, `FileIcon`, `CursorIcon` 변경 없음
+- 메인 entry (`from '@blumnai-studio/blumnai-design-system'`) 의 모든 export 그대로 유지
+
+---
+
 ## v1.9.21 → v1.9.22 (`DataGrid` / `Table` 헤더 정렬 기본값 변경 + `align` 분리)
 
 ### 요약

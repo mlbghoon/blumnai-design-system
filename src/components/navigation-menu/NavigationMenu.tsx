@@ -4,7 +4,7 @@ import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
 import { cva } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../icons/Icon';
+import { Icon, RiArrowDownSLine } from '../icons/Icon';
 import type {
   NavigationMenuProps,
   NavigationMenuListProps,
@@ -75,7 +75,7 @@ const NavigationMenuTrigger = React.forwardRef<
   >
     {children}{' '}
     <Icon
-      iconType={['arrows', 'arrow-down-s']}
+      icon={RiArrowDownSLine}
       size={16}
       color="default-subtle"
       className="relative transition duration-300 group-data-[state=open]:rotate-180"

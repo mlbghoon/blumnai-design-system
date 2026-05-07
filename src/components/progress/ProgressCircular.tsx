@@ -68,7 +68,9 @@ const VARIANT_TEXT_MAP: Record<ProgressCircularVariant, string | null> = {
  * 원형 프로그레스 인디케이터입니다. 크기, 색상, 퍼센트 텍스트를 지원합니다.
  *
  * @example
+ * ```tsx
  * <ProgressCircular value={75} size={60} showValue />
+ * ```
  */
 const ProgressCircular = React.forwardRef<HTMLDivElement, ProgressCircularProps>(
   (

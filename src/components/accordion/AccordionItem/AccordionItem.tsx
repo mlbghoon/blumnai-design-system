@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useId, useMemo, useState } from 'react';
 
-import { ArrowDownIcon } from '../../icons/Icon/icons/arrows';
+import { RiArrowDownLine } from '@remixicon/react';
 import { cn } from '@/lib/utils';
 import {
   BOX_SHADOW,
@@ -129,7 +129,7 @@ export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
             {header}
           </span>
           <span className={iconClassName}>
-            <ArrowDownIcon size={20} />
+            <RiArrowDownLine size={20} />
           </span>
         </button>
       </div>

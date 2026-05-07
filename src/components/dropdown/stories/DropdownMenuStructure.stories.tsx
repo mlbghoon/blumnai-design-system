@@ -14,7 +14,7 @@ import {
 } from '../Dropdown';
 import type { DropdownMenuLabelProps } from '../Dropdown.types';
 import { Button } from '../../button';
-import { Icon } from '../../icons/Icon';
+import { Icon, RiAddLine, RiMailLine, RiMessage3Line, RiUserLine } from '../../icons/Icon';
 
 const meta: Meta<DropdownMenuLabelProps> = {
   title: 'Overlay/Dropdown/Structure',
@@ -162,21 +162,21 @@ export const Submenu: Story = {
           <DropdownMenuSeparator />
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <Icon iconType={['user', 'user']} size={16} />
+              <Icon icon={RiUserLine} size={16} />
               사용자 초대
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
               <DropdownMenuItem>
-                <Icon iconType={['business', 'mail']} size={16} />
+                <Icon icon={RiMailLine} size={16} />
                 이메일
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Icon iconType={['communication', 'message-3']} size={16} />
+                <Icon icon={RiMessage3Line} size={16} />
                 메시지
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Icon iconType={['system', 'add']} size={16} />
+                <Icon icon={RiAddLine} size={16} />
                 더 보기...
               </DropdownMenuItem>
             </DropdownMenuSubContent>

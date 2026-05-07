@@ -1,7 +1,7 @@
 import { useCallback, useRef, useEffect, type ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../../icons/Icon';
+import { Icon, RiExternalLinkLine } from '../../icons/Icon';
 import { useTableTooltipOptional } from '../components/useTableTooltip';
 import { useTableFontSize, getTableFontClasses } from '../components/TableFontSizeContext';
 
@@ -78,7 +78,7 @@ export function CellLink({
       <span className="truncate group-hover:underline">{displayLabel}</span>
       {external && (
         <Icon
-          iconType={['system', 'external-link']}
+          icon={RiExternalLinkLine}
           size={12}
           aria-hidden="true"
         />

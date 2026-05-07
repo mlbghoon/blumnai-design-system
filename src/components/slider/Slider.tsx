@@ -11,7 +11,9 @@ import { SliderThumb, SliderTrack, SliderRangeFilled, SliderTicks } from './shar
  * 단일 값 슬라이더입니다. 틱 마크, 라벨, 다양한 색상을 지원합니다.
  *
  * @example
+ * ```tsx
  * <Slider value={50} onChange={setValue} min={0} max={100} />
+ * ```
  */
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,

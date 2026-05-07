@@ -4,7 +4,7 @@ import { addMonths } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverAnchor, PopoverTrigger } from '../../popover/Popover';
 import { InputWrapper } from '../../input/shared/InputWrapper';
-import { Icon } from '../../icons/Icon';
+import { Icon, RiArrowDropLeftLine, RiArrowDropRightLine } from '../../icons/Icon';
 import { MonthInput } from '../components/MonthInput';
 import { QuickPresets } from '../components/QuickPresets';
 import { MONTHS_KO, MONTHS_EN, isMonthDisabled as checkMonthDisabled } from '../utils';
@@ -165,7 +165,7 @@ export const MonthPicker = ({
                 onClick={() => setViewYear((y) => y - 1)}
                 className="flex items-center justify-center width-28 height-28 rounded-sm hover:bg-state-ghost-hover transition-colors"
               >
-                <Icon iconType={['arrows', 'arrow-drop-left']} size={16} color="default" />
+                <Icon icon={RiArrowDropLeftLine} size={16} color="default" />
               </button>
               <span className="font-body size-sm line-height-leading-5 font-medium text-default">
                 {viewYear}
@@ -175,7 +175,7 @@ export const MonthPicker = ({
                 onClick={() => setViewYear((y) => y + 1)}
                 className="flex items-center justify-center width-28 height-28 rounded-sm hover:bg-state-ghost-hover transition-colors"
               >
-                <Icon iconType={['arrows', 'arrow-drop-right']} size={16} color="default" />
+                <Icon icon={RiArrowDropRightLine} size={16} color="default" />
               </button>
             </div>
 

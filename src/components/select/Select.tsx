@@ -28,7 +28,9 @@ import { MultiSelect } from './RadixMultiSelect';
  * 타이핑이 주 상호작용이라면 {@link Combobox}를 사용하는 것이 더 명확합니다.
  *
  * @example
+ * ```tsx
  * <Select variant="default" label="선택" options={[{ id: 'a', label: 'A' }]} />
+ * ```
  */
 export const Select = forwardRef<HTMLDivElement, SelectProps>((props, ref) => {
   const variant = props.variant ?? 'default';

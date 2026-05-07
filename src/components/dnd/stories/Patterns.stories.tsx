@@ -10,7 +10,15 @@ import {
   SortableItem,
 } from '../index';
 import type { DragEndEvent, DragStartEvent, DndItem } from '../dnd.types';
-import { Icon } from '@/components/icons';
+import {
+  Icon,
+  RiCheckLine,
+  RiCloseLine,
+  RiFileUploadLine,
+  RiMoreLine,
+  RiMusicLine,
+  RiUploadLine,
+} from '@/components/icons';
 import type { IconType } from '@/components/icons';
 import { closestCorners } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
@@ -393,7 +401,7 @@ export const FormBuilder: Story = {
                           onClick={() => removeComponent(component.id)}
                           className="opacity-0 group-hover:opacity-100 transition-opacity text-muted hover:text-default"
                         >
-                          <Icon iconType={['system', 'close']} size={16} />
+                          <Icon icon={RiCloseLine} size={16} />
                         </button>
                       </div>
                     </SortableItem>
@@ -493,7 +501,7 @@ export const FileUploadZone: Story = {
               activeClassName="border-highlight"
               overClassName="bg-state-soft border-highlight"
             >
-              <Icon iconType={['document', 'file-upload']} size={32} className="text-muted [margin-bottom:48px]" />
+              <Icon icon={RiFileUploadLine} size={32} className="text-muted [margin-bottom:48px]" />
               <p className="size-sm text-muted font-body text-center">
                 파일을 여기로 드래그하여
                 <br />
@@ -521,13 +529,13 @@ export const FileUploadZone: Story = {
                         onClick={() => uploadFile(file)}
                         className="padding-4 text-state-primary hover:bg-state-soft rounded"
                       >
-                        <Icon iconType={['system', 'upload']} size={16} />
+                        <Icon icon={RiUploadLine} size={16} />
                       </button>
                       <button
                         onClick={() => removeFromQueue(file.id)}
                         className="padding-4 text-muted hover:text-default"
                       >
-                        <Icon iconType={['system', 'close']} size={16} />
+                        <Icon icon={RiCloseLine} size={16} />
                       </button>
                     </div>
                   ))}
@@ -543,7 +551,7 @@ export const FileUploadZone: Story = {
                         key={file.id}
                         className="flex items-center ds-gap-8 padding-12 bg-green-50 border border-green-200 rounded-lg"
                       >
-                        <Icon iconType={['system', 'check']} size={16} className="text-green-600" />
+                        <Icon icon={RiCheckLine} size={16} className="text-green-600" />
                         <span className="size-sm font-body">{file.name}</span>
                       </div>
                     ))}
@@ -702,7 +710,6 @@ export const Playlist: Story = {
           <h2 className="font-medium size-lg font-body">내 플레이리스트</h2>
           <p className="size-sm text-muted font-body margin-t-16">{songs.length}곡</p>
         </div>
-
         <Sortable items={songs} onReorder={setSongs}>
           <div>
             {songs.map((song, index) => (
@@ -712,14 +719,14 @@ export const Playlist: Story = {
                   <span className="width-24 text-center text-muted size-sm font-body">
                     {index + 1}
                   </span>
-                  <Icon iconType={['media', 'music']} size={20} className="text-muted" />
+                  <Icon icon={RiMusicLine} size={20} className="text-muted" />
                   <div className="flex-1 min-w-0">
                     <p className="size-sm font-body truncate">{song.title}</p>
                     <p className="size-xs text-muted font-body">{song.artist}</p>
                   </div>
                   <span className="size-sm text-muted font-body">{song.duration}</span>
                   <button className="opacity-0 group-hover:opacity-100 padding-4 text-muted hover:text-default">
-                    <Icon iconType={['system', 'more']} size={16} />
+                    <Icon icon={RiMoreLine} size={16} />
                   </button>
                 </div>
               </SortableItem>

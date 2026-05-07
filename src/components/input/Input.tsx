@@ -19,7 +19,9 @@ import {
  * `variant` prop으로 원하는 입력 유형을 선택하세요.
  *
  * @example
+ * ```tsx
  * <Input variant="default" label="이름" placeholder="이름을 입력하세요" />
+ * ```
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   switch (props.variant) {

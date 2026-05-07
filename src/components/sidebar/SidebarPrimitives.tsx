@@ -3,7 +3,7 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import * as SeparatorPrimitive from "@radix-ui/react-separator"
 import { cva, type VariantProps } from "class-variance-authority"
-import { Icon } from "@/components/icons/Icon"
+import { Icon, RiSideBarLine } from "@/components/icons/Icon";
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn, isEditableTarget } from "@/lib/utils"
@@ -371,10 +371,10 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <Icon iconType={['system', 'side-bar']} size={16} />
+      <Icon icon={RiSideBarLine} size={16} />
       <span className="sr-only">Toggle Sidebar</span>
     </button>
-  )
+  );
 })
 SidebarTrigger.displayName = "SidebarTrigger"
 

@@ -58,8 +58,10 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
    * programmatic scroll (특정 행으로 스크롤, 상단 복귀 등) 제어에 사용합니다.
    *
    * @example
+   * ```tsx
    * const viewportRef = useRef<HTMLDivElement>(null);
    * viewportRef.current?.scrollTo({ top: 0 });
+   * ```
    */
   viewportRef?: Ref<HTMLDivElement>;
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { OTPInput, OTPInputContext } from 'input-otp';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../icons/Icon';
+import { Icon, RiSubtractLine } from '../icons/Icon';
 import type {
   InputOTPProps,
   InputOTPGroupProps,
@@ -96,7 +96,7 @@ const InputOTPSeparator = React.forwardRef<
   InputOTPSeparatorProps
 >(({ ...props }, ref) => (
   <div ref={ref} role="separator" {...props}>
-    <Icon iconType={['system', 'subtract']} size={16} color="muted" />
+    <Icon icon={RiSubtractLine} size={16} color="muted" />
   </div>
 ));
 InputOTPSeparator.displayName = 'InputOTPSeparator';
