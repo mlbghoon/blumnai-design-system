@@ -1,5 +1,48 @@
 # Changelog
 
+## [1.9.30] - 2026-05-07
+
+### Added — `DataGrid` `fitLimitRowHeight` 가 빈/에러 상태에서도 동일한 body 높이 유지
+
+`fitLimitRowHeight={true}` 가 활성일 때 빈 상태 (`emptyText` / `emptyContent`) 와 에러 상태 (`error`) 도 body 높이가 `limit × rowHeight` 로 고정됨. 데이터가 있을 때와 없을 때 grid 의 전체 높이가 동일하게 유지되어 모달 / 페이지 레이아웃이 검색 결과에 따라 갑자기 축소되지 않음.
+
+이전: 빈 결과나 에러 시 body 가 `<DataGridEmpty>` / `<DataGridError>` 의 intrinsic 높이 (~200px) 로 축소 → 모달/페이지가 함께 축소되어 jarring한 시각 변화 발생.
+
+이후: 빈/에러 상태 wrapper 가 `limit × rowHeight` 정확한 높이로 렌더되고, 아이콘/메시지/재시도 버튼이 그 영역 안에 수직 중앙 정렬.
+
+```tsx
+// 데이터 있을 때, 없을 때, 에러일 때 — 모두 동일한 body 높이
+<DataGrid
+  data={searchResults}
+  columns={columns}
+  fitLimitRowHeight
+  limit={10}
+  rowHeight="36px"
+  // → body 항상 360px 고정
+/>
+```
+
+`fitLimitRowHeight={false}` (기본) → 동작 변화 없음.
+`getRowHeight` 사용 시 → `fitLimitRowHeightActive` false 라 동작 변화 없음.
+
+- `src/components/table/components/DataGridEmpty.tsx` — `fixedHeight?: number` prop
+- `src/components/table/components/DataGridError.tsx` — `fixedHeight?: number` prop
+- `src/components/table/DataGrid.tsx` — empty/error 상태에 `fitBodyHeightPx` 전달
+- `src/components/table/stories/DataGrid.stories.tsx` — `FitLimitRowHeightEmptyState` 스토리 추가
+
+### Fixed — `ScrollArea` viewport 가 keyboard scroll 키 입력 시 focus ring 표시되던 문제
+
+ScrollArea Viewport 의 `tabIndex={0}` 은 keyboard scroll (PageUp/Down/Home/End/arrow 키) 동작을 위해 필요하지만, scroll 키 입력 시 focus 가 viewport 로 떨어지면서 `:focus-visible` 이 발동해 viewport 전체에 큰 outline 이 그려지는 시각 버그 발생. 특히 `DialogScrollArea` (긴 약관 등 스크롤 컨텐츠 dialog) 에서 두드러짐.
+
+`focus:outline-none focus-visible:outline-none` 추가로 viewport 자체의 focus ring 제거. tabIndex={0} 은 그대로 유지되므로 keyboard scroll 은 정상 동작. inner content 의 focusable 요소들 (link / button 등) 은 자체 focus ring 유지.
+
+영향:
+- `Dialog` / `AlertDialog` 의 `DialogScrollArea`
+- `DataGrid` body 스크롤
+- 일반 `ScrollArea` 모든 사용처
+
+- `src/components/scroll-area/ScrollArea.tsx`
+
 ## [1.9.29] - 2026-05-06
 
 ### Fixed — `LineChart` / `BarChart` / `ComboChart` `tooltipTrigger="item"` first-mouse-enter flash + position bugs

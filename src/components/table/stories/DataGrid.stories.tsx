@@ -954,6 +954,94 @@ export const ErrorState: Story = {
 };
 
 /**
+ * `fitLimitRowHeight` + 빈 상태 / 에러 상태 — body 높이 일관성 (v1.9.30)
+ *
+ * `fitLimitRowHeight={true}` 가 활성일 때 빈 상태나 에러 상태에서도 body 높이가
+ * `limit × rowHeight` 로 고정됩니다. 데이터가 있을 때와 없을 때 grid 의 전체 높이가
+ * 동일하게 유지되어, 모달이나 페이지 레이아웃이 검색 결과에 따라 갑자기 축소되지 않습니다.
+ *
+ * **확인 포인트:**
+ * - 두 grid 모두 body 가 정확히 `5 × 36px = 180px` 높이로 동일
+ * - 빈 상태 / 에러 상태의 아이콘 + 메시지 (+ 재시도 버튼) 가 그 영역 안에 수직 중앙 정렬
+ * - `fitLimitRowHeight={false}` (이전 동작) 와 비교 시 빈 상태가 훨씬 짧아 grid 가 축소됨
+ *
+ * **회귀 시나리오 (이전 동작):**
+ * 모달 안에 DataGrid 가 있고, 검색이 빈 결과를 반환하면 grid body 가 축소되어 모달
+ * 자체도 함께 축소되어 보임 (사용자에게 jarring). 이번 fix 로 모달 사이즈가 일정하게 유지됨.
+ */
+export const FitLimitRowHeightEmptyState: Story = {
+  render: function Render() {
+    return (
+      <div className="flex flex-col ds-gap-24">
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">
+            <code>fitLimitRowHeight=true</code> + 빈 상태 (body 높이 = 10 × 36 = 360px 고정)
+          </p>
+          <DataGrid
+            data={[]}
+            columns={baseColumns}
+            getRowId={(row) => row.id}
+            emptyText="검색된 내용이 없습니다."
+            limit={10}
+            rowHeight="36px"
+            fitLimitRowHeight
+            pagination={false}
+          />
+        </div>
+
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">
+            <code>fitLimitRowHeight=true</code> + 에러 상태 (body 높이 = 10 × 36 = 360px 고정)
+          </p>
+          <DataGrid
+            data={[]}
+            columns={baseColumns}
+            getRowId={(row) => row.id}
+            error="데이터를 불러오는데 실패했습니다."
+            onRetry={() => alert('재시도')}
+            limit={10}
+            rowHeight="36px"
+            fitLimitRowHeight
+            pagination={false}
+          />
+        </div>
+
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">
+            비교: <code>fitLimitRowHeight=false</code> (이전 동작) — 빈 상태가 훨씬 짧음
+          </p>
+          <DataGrid
+            data={[]}
+            columns={baseColumns}
+            getRowId={(row) => row.id}
+            emptyText="검색된 내용이 없습니다."
+            limit={10}
+            rowHeight="36px"
+            fitLimitRowHeight={false}
+            pagination={false}
+          />
+        </div>
+
+        <div>
+          <p className="font-body size-sm text-muted margin-b-8">
+            데이터가 있을 때 — 같은 10 × 36 = 360px 높이 (위 빈 상태와 동일해야 함)
+          </p>
+          <DataGrid
+            data={sampleUsers.slice(0, 2)}
+            columns={baseColumns}
+            getRowId={(row) => row.id}
+            limit={10}
+            rowHeight="36px"
+            fitLimitRowHeight
+            pagination={false}
+          />
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
  * 최대 높이 제한
  *
  * `maxHeight`로 테이블 높이를 제한하고 스크롤을 활성화합니다.

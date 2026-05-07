@@ -223,6 +223,12 @@ function DataGridInner<T>(
   const paddingRowCount = fitLimitRowHeightActive
     ? Math.max(0, paginationInfo.limit - rows.length)
     : 0;
+  // empty / error 상태에서도 body 높이가 변하지 않도록, fitLimitRowHeight 활성 시
+  // limit × rowHeight 를 고정 높이로 사용. 이렇게 하면 검색 결과가 0 이거나 에러일 때
+  // 모달/페이지가 갑자기 축소되지 않음.
+  const fitBodyHeightPx = fitLimitRowHeightActive
+    ? paginationInfo.limit * (parseInt(effectiveRowHeight, 10) || 32)
+    : undefined;
   const hasData = displayData.length > 0;
   const showSkeletonLoading = isLoading && !preserveDataWhileLoading && !hasData;
   const showOverlayLoading = isLoading && preserveDataWhileLoading && hasData;
@@ -283,9 +289,9 @@ function DataGridInner<T>(
           />
 
           {showErrorState ? (
-            <DataGridError error={error} onRetry={onRetry} />
+            <DataGridError error={error} onRetry={onRetry} fixedHeight={fitBodyHeightPx} />
           ) : showEmptyState ? (
-            <DataGridEmpty text={emptyText} content={emptyContent} />
+            <DataGridEmpty text={emptyText} content={emptyContent} fixedHeight={fitBodyHeightPx} />
           ) : showSkeletonLoading ? (
             <DataGridLoading
               columns={orderedColumns}

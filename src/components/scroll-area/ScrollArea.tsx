@@ -99,6 +99,12 @@ const ScrollArea = React.forwardRef<
           // 수직 전용 스크롤에서는 `block` 으로 오버라이드하여 자식이 viewport 너비에 맞춰지도록 함.
           // 수평 / 양방향 스크롤은 horizontal overflow 감지를 위해 `table` 동작을 유지.
           orientation === 'vertical' && '[&>div]:!block',
+          // viewport 자체에는 focus ring 표시하지 않음. tabIndex=0 은 keyboard scroll 키
+          // (PageUp/Down/Home/End/arrow) 가 동작하도록 유지하지만, scroll 키 입력 시 focus 가
+          // viewport 로 떨어지면서 :focus-visible 이 발동해 viewport 전체에 큰 outline 이
+          // 그려지는 시각 버그가 발생함. inner 콘텐츠의 focusable 요소들은 자체 focus ring
+          // 을 유지하므로 viewport 자체의 ring 은 불필요.
+          'focus:outline-none focus-visible:outline-none',
         )}
         tabIndex={0}
         style={{
