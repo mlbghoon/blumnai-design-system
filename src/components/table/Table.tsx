@@ -48,6 +48,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
       maxHeight,
       stickyHeader,
       stickyFooter,
+      scrollbarType,
       viewportRef,
       isLoading,
       pagination,
@@ -124,6 +125,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
         <ScrollArea
           orientation="both"
           maxHeight={maxHeight}
+          type={scrollbarType}
           viewportRef={viewportRef}
           className={cn(
             stickyHeader && '[&_thead]:sticky [&_thead]:top-[0px] [&_thead]:z-10',

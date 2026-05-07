@@ -54,6 +54,18 @@ export interface TableProps extends HTMLAttributes<HTMLTableElement> {
   stickyFooter?: boolean;
 
   /**
+   * 스크롤바 표시 방식 (내부 ScrollArea 의 `type` prop 으로 전달).
+   * - `'hover'` — 포인터 호버 시 표시 (기본값)
+   * - `'scroll'` — 스크롤 중 표시
+   * - `'auto'` — 콘텐츠 오버플로 시 표시
+   * - `'always'` — 항상 표시
+   *
+   * 가로 스크롤 가능 여부를 사용자에게 항상 시각적으로 보여주려면 `'always'` 사용.
+   * @default 'hover'
+   */
+  scrollbarType?: 'hover' | 'scroll' | 'auto' | 'always';
+
+  /**
    * 스크롤 가능한 뷰포트 요소에 대한 ref.
    * programmatic scroll (특정 행으로 스크롤, 상단 복귀 등) 제어에 사용합니다.
    *

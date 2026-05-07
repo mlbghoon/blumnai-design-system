@@ -86,6 +86,20 @@ const meta: Meta<TableProps> = {
         defaultValue: { summary: 'false' },
       },
     },
+    scrollbarType: {
+      control: 'select',
+      options: ['hover', 'scroll', 'auto', 'always'],
+      description: '스크롤바 표시 방식 (내부 ScrollArea의 type 으로 전달)',
+      table: {
+        type: {
+          summary: "'hover' | 'scroll' | 'auto' | 'always'",
+          detail:
+            "hover: 호버 시 표시 (기본). scroll: 스크롤 중 표시. auto: 오버플로 시 표시. always: 항상 표시.\n" +
+            '가로 스크롤 가능 여부를 사용자에게 시각적으로 알리려면 always 사용.',
+        },
+        defaultValue: { summary: "'hover'" },
+      },
+    },
     viewportRef: {
       control: false,
       description: '스크롤 가능한 뷰포트 요소에 대한 ref (programmatic scroll 제어용)',
@@ -728,6 +742,60 @@ export const StickyHeaderAndFooter: Story = {
           </TableRow>
         </TableFooter>
       </Table>
+    );
+  },
+};
+
+/**
+ * 가로 스크롤바 항상 노출 (`scrollbarType="always"`)
+ *
+ * 컬럼이 많아 가로 오버플로가 발생할 때, 스크롤바를 항상 노출하여
+ * 사용자가 우측에 더 많은 컨텐츠가 있음을 즉시 인지할 수 있게 합니다.
+ *
+ * **확인 포인트:**
+ * - 마우스 호버 없이도 가로 스크롤바가 보임
+ * - 기본 (`scrollbarType` 미지정 / `'hover'`) 와 비교: 호버 시에만 표시
+ *
+ * QA 요구사항: 통계 내역 테이블 등 가로 스크롤이 필요한 곳에서 사용.
+ */
+export const ScrollbarAlwaysVisible: Story = {
+  render: function Render() {
+    const wideColumns = [
+      'ID', '이름', '이메일', '역할', '상태', '부서', '직급', '입사일',
+      '전화번호', '주소', '비상연락처', '메모',
+    ];
+    return (
+      <div className="width-40 max-width-full" style={{ width: 600 }}>
+        <Table bordered maxHeight="300px" stickyHeader scrollbarType="always">
+          <TableHeader>
+            <TableRow>
+              {wideColumns.map((col) => (
+                <TableHead key={col} className="whitespace-nowrap padding-x-16">
+                  {col}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {largeData.slice(0, 12).map((user) => (
+              <TableRow key={user.id}>
+                <TableCell className="whitespace-nowrap padding-x-16">{user.id}</TableCell>
+                <TableCell className="whitespace-nowrap padding-x-16">{user.name}</TableCell>
+                <TableCell className="whitespace-nowrap padding-x-16">{user.email}</TableCell>
+                <TableCell className="whitespace-nowrap padding-x-16">{user.role}</TableCell>
+                <TableCell className="whitespace-nowrap padding-x-16">{user.status}</TableCell>
+                <TableCell className="whitespace-nowrap padding-x-16">개발팀</TableCell>
+                <TableCell className="whitespace-nowrap padding-x-16">사원</TableCell>
+                <TableCell className="whitespace-nowrap padding-x-16">2024-01-01</TableCell>
+                <TableCell className="whitespace-nowrap padding-x-16">010-1234-5678</TableCell>
+                <TableCell className="whitespace-nowrap padding-x-16">서울시 강남구</TableCell>
+                <TableCell className="whitespace-nowrap padding-x-16">010-9876-5432</TableCell>
+                <TableCell className="whitespace-nowrap padding-x-16">-</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     );
   },
 };

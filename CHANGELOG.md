@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.10.1] - 2026-05-07
+
+### Added — `Table` `scrollbarType` prop (가로 스크롤바 항상 노출)
+
+`Table` 에 `scrollbarType` prop 추가. 내부 `ScrollArea` 의 `type` prop 으로 forward 됩니다. 가로 오버플로가 있을 때 사용자에게 즉시 가시성을 제공하기 위해 스크롤바를 항상 노출하는 용도.
+
+```tsx
+<Table
+  bordered
+  stickyHeader
+  scrollbarType="always"   // 호버 없이도 가로 스크롤바 항상 표시
+  maxHeight="500px"
+>
+  ...
+</Table>
+```
+
+값: `'hover'` (기본, 기존 동작) | `'scroll'` | `'auto'` | `'always'`.
+
+기본값이 `'hover'` 라 모든 기존 호출부의 동작은 변경되지 않음.
+
+요청 컨텍스트: happytalk-front 통계 내역 테이블에서 가로 스크롤이 호버 시에만 노출되어 사용자가 우측 컬럼 존재 여부를 인지하지 못한다는 QA 피드백 (S04-5219).
+
+- `src/components/table/Table.tsx` — `ScrollArea` 에 `type={scrollbarType}` forward
+- `src/components/table/Table.types.ts` — `scrollbarType?: 'hover' | 'scroll' | 'auto' | 'always'`
+- `src/components/table/stories/Table.stories.tsx` — `ScrollbarAlwaysVisible` 스토리 추가
+
 ## [1.10.0] - 2026-04-28
 
 ### Added — `@remixicon/react` 직접 import API + tree-shakeable Icon
