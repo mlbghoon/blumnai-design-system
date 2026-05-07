@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.10.3] - 2026-05-07
+
+### Added — `DataGrid` `scrollbarType` prop
+
+`DataGrid` 에도 `scrollbarType` prop 추가. v1.10.1 에서 `Table` 에 추가된 동일한 prop 이며, `DataGrid` 가 내부적으로 사용하는 `ScrollArea` 의 `type` prop 으로 forward 됩니다.
+
+```tsx
+<DataGrid
+  data={historyList}
+  columns={columns}
+  scrollbarType="always"   // 호버 없이도 가로 스크롤바 항상 표시
+  maxHeight="500px"
+/>
+```
+
+값: `'hover'` (기본, 기존 동작) | `'scroll'` | `'auto'` | `'always'`. 기본값 `'hover'` 라 모든 기존 호출부 동작 변경 없음.
+
+요청 컨텍스트: happytalk-front 의 통계/이력 DataGrid 화면들 (예: 상담 내역 페이지 `HistoryList.tsx`) 에서 가로 스크롤 가시성 동일 요구.
+
+- `src/components/table/DataGrid.tsx` — `ScrollArea` 에 `type={scrollbarType}` forward
+- `src/components/table/DataGrid.types.ts` — `scrollbarType?: 'hover' | 'scroll' | 'auto' | 'always'`
+- `src/components/table/stories/DataGrid.stories.tsx` — argType + `ScrollbarAlwaysVisible` 스토리 추가
+
 ## [1.10.2] - 2026-05-07
 
 ### Added — Icon migration codemod 가 패키지에 번들됨

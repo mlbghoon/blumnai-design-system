@@ -315,6 +315,20 @@ false: 선택 불가
         },
       },
     },
+    scrollbarType: {
+      control: 'select',
+      options: ['hover', 'scroll', 'auto', 'always'],
+      description: '스크롤바 표시 방식 (내부 ScrollArea의 type 으로 전달)',
+      table: {
+        type: {
+          summary: "'hover' | 'scroll' | 'auto' | 'always'",
+          detail:
+            "hover: 호버 시 표시 (기본). scroll: 스크롤 중 표시. auto: 오버플로 시 표시. always: 항상 표시.\n" +
+            '가로 스크롤 가능 여부를 사용자에게 시각적으로 알리려면 always 사용.',
+        },
+        defaultValue: { summary: "'hover'" },
+      },
+    },
     headerHeight: {
       control: 'text',
       description: '헤더 행 높이',
@@ -1071,6 +1085,77 @@ export const WithMaxHeight: Story = {
         maxHeight="300px"
         pagination={false}
       />
+    );
+  },
+};
+
+/**
+ * 가로 스크롤바 항상 노출 (`scrollbarType="always"`)
+ *
+ * 컬럼이 많아 가로 오버플로가 발생할 때, 스크롤바를 항상 노출하여
+ * 사용자가 우측에 더 많은 컨텐츠가 있음을 즉시 인지할 수 있게 합니다.
+ *
+ * **확인 포인트:**
+ * - 마우스 호버 없이도 가로 스크롤바가 보임
+ * - 기본 (`scrollbarType` 미지정 / `'hover'`) 와 비교: 호버 시에만 표시
+ *
+ * QA 요구사항: 통계/이력 DataGrid 등 가로 스크롤이 필요한 곳에서 사용.
+ */
+export const ScrollbarAlwaysVisible: Story = {
+  render: function Render() {
+    type WideRow = {
+      id: string;
+      name: string;
+      email: string;
+      role: string;
+      status: string;
+      department: string;
+      position: string;
+      hireDate: string;
+      phone: string;
+      address: string;
+      emergency: string;
+      memo: string;
+    };
+    const wideColumns: ColumnDef<WideRow>[] = [
+      { accessorKey: 'id', header: 'ID', size: 60 },
+      { accessorKey: 'name', header: '이름', size: 120 },
+      { accessorKey: 'email', header: '이메일', size: 200 },
+      { accessorKey: 'role', header: '역할', size: 100 },
+      { accessorKey: 'status', header: '상태', size: 100 },
+      { accessorKey: 'department', header: '부서', size: 120 },
+      { accessorKey: 'position', header: '직급', size: 100 },
+      { accessorKey: 'hireDate', header: '입사일', size: 120 },
+      { accessorKey: 'phone', header: '전화번호', size: 140 },
+      { accessorKey: 'address', header: '주소', size: 200 },
+      { accessorKey: 'emergency', header: '비상연락처', size: 140 },
+      { accessorKey: 'memo', header: '메모', size: 120 },
+    ];
+    const wideData: WideRow[] = sampleUsers.slice(0, 10).map((u) => ({
+      id: u.id,
+      name: u.name,
+      email: u.email,
+      role: u.role,
+      status: u.status,
+      department: '개발팀',
+      position: '사원',
+      hireDate: '2024-01-01',
+      phone: '010-1234-5678',
+      address: '서울시 강남구',
+      emergency: '010-9876-5432',
+      memo: '-',
+    }));
+    return (
+      <div style={{ width: 600 }}>
+        <DataGrid
+          data={wideData}
+          columns={wideColumns}
+          getRowId={(row) => row.id}
+          maxHeight="320px"
+          scrollbarType="always"
+          pagination={false}
+        />
+      </div>
     );
   },
 };

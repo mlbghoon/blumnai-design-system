@@ -103,6 +103,7 @@ function DataGridInner<T>(
     overscan,
     virtualizationThreshold,
     viewportRef,
+    scrollbarType,
   }: DataGridProps<T>,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
@@ -278,6 +279,7 @@ function DataGridInner<T>(
         <ScrollArea
           orientation="both"
           maxHeight={maxHeight}
+          type={scrollbarType}
           viewportRef={mergedViewportRef}
           style={{ minHeight }}
         >
