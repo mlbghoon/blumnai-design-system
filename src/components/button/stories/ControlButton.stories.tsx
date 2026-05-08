@@ -24,12 +24,12 @@ const meta: Meta<typeof ControlButton> = {
     },
     size: {
       control: 'select',
-      options: ['sm', 'md', 'lg'],
-      description: '컨트롤 버튼의 크기를 설정합니다. sm(작게), md(보통), lg(크게) 중 선택할 수 있습니다',
+      options: ['sm', 'md', 'lg', 'xl'],
+      description: '컨트롤 버튼의 크기를 설정합니다. sm(작게), md(보통), lg(크게), xl(매우 크게) 중 선택할 수 있습니다',
       table: {
         type: {
           summary: 'ControlButtonSize',
-          detail: `'sm' | 'md' | 'lg'`,
+          detail: `'sm' | 'md' | 'lg' | 'xl'`,
         },
       },
     },
@@ -147,6 +147,7 @@ export const AllSizes: Story = {
       <ControlButton icon={['media', 'play']} aria-label="Play" size="sm" />
       <ControlButton icon={['media', 'play']} aria-label="Play" size="md" />
       <ControlButton icon={['media', 'play']} aria-label="Play" size="lg" />
+      <ControlButton icon={['media', 'play']} aria-label="Play" size="xl" />
     </div>
   ),
 };

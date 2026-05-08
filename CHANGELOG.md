@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.10.5] - 2026-05-08
+
+### Fixed — `ControlButton` lg/md 가 시각적으로 동일하게 보이던 문제 + xl 노출 누락
+
+**1. Icon size 가 size variant 마다 제대로 step 되도록 수정**
+
+기존:
+```ts
+{ sm: 14, md: 16, lg: 16, xl: 20 }   // ← lg 가 md 와 동일
+```
+
+수정 후:
+```ts
+{ sm: 14, md: 16, lg: 20, xl: 24 }
+```
+
+`size="md"` 와 `size="lg"` 가 거의 같은 크기로 보이던 문제 해결. 버튼 컨테이너 크기 (sm 16 / md 20 / lg 24 / xl 32) 와 icon 사이즈가 일관된 시각 step 을 가지게 됨.
+
+**2. Storybook argTypes 가 `xl` 를 누락하던 문제 수정**
+
+`ControlButtonSize` 타입은 `'sm' | 'md' | 'lg' | 'xl'` 인데 story argTypes 의 `options` 가 `['sm', 'md', 'lg']` 만 노출하고 있어 `xl` 을 control 에서 선택 불가. `AllSizes` 스토리에도 xl 추가.
+
+- `src/components/button/ControlButton.tsx` — `ICON_SIZE.lg` 16 → 20, `ICON_SIZE.xl` 20 → 24
+- `src/components/button/stories/ControlButton.stories.tsx` — argTypes options 에 `'xl'` 추가, `AllSizes` 스토리에 xl 인스턴스 추가
+
 ## [1.10.4] - 2026-05-08
 
 ### Fixed — Truncate ellipsis tooltip 이 Select dropdown 옵션 뒤에 가려지던 문제
