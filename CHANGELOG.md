@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.10.4] - 2026-05-08
+
+### Fixed — Truncate ellipsis tooltip 이 Select dropdown 옵션 뒤에 가려지던 문제
+
+`TruncatedText` (Select option ellipsis 등) 가 사용하는 `escapePortalContext` Tooltip 의 default zIndex 가 `10001` 이었는데, Select dropdown content (`RadixSelect`, `RadixMultiSelect`) 가 `z-[10100]` 이라 같은 `document.body` 로 portal 되었을 때 tooltip 이 dropdown 뒤로 스택됨.
+
+`escapePortalContext` 의 default zIndex 를 `10200` 으로 상향. DS 내부의 모든 floating layer (Dialog `10000`, Select dropdown `10100`) 위에 안전하게 떠 있게 됨.
+
+증상: Searchable Select 등에서 긴 옵션 라벨에 마우스를 올리면 tooltip 이 살짝 보이지만 옵션 박스 뒤로 가려짐.
+
+- `src/components/tooltip/Tooltip/TooltipTrigger.tsx` — `escapePortalContext` default zIndex `10001` → `10200`
+- `src/components/tooltip/Tooltip/TooltipTrigger.stories.tsx` — 주석 업데이트
+
 ## [1.10.3] - 2026-05-07
 
 ### Added — `DataGrid` `scrollbarType` prop

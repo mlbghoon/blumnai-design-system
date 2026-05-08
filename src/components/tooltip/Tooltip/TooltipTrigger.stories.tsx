@@ -345,7 +345,7 @@ export const CustomDelay: Story = {
  * Dialog는 내부적으로 `PortalContainerProvider`로 `DialogContent`(grid + padding + gap)를
  * portal 타겟으로 지정합니다. 그 상태에서 Tooltip을 그대로 쓰면 레이아웃이 왜곡될 수 있습니다.
  * `escapePortalContext` prop을 `true`로 주면 Tooltip이 `document.body`로 강제 portal되고
- * `zIndex`가 10001로 자동 조정되어 Dialog(z-10000) 위에 올바르게 떠있습니다.
+ * `zIndex`가 10200으로 자동 조정되어 Dialog(z-10000) / Select dropdown(z-10100) 위에 올바르게 떠있습니다.
  *
  * 비교: 왼쪽(기본)은 Dialog grid 컨텍스트 안에 portal되어 레이아웃 이슈 잠재. 오른쪽(`escapePortalContext`)은 정상.
  */

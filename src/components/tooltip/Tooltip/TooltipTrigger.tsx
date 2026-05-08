@@ -111,7 +111,7 @@ export interface TooltipTriggerProps {
    *
    * `true`로 지정하면:
    * - PortalContainerContext / `container` prop을 무시하고 `document.body`로 강제 portal
-   * - `zIndex` 미지정 시 `10001` 자동 적용 (DS Dialog z-10000 위에 안전하게 겹쳐짐)
+   * - `zIndex` 미지정 시 `10200` 자동 적용 (DS Dialog z-10000, Select dropdown z-10100 위에 안전하게 겹쳐짐)
    *
    * @default false
    */
@@ -242,14 +242,15 @@ export function TooltipTrigger({
 
   const shouldShow = isOpen && !disabled && anchor !== null;
 
-  // escapePortalContext 우선: 항상 document.body + zIndex 10001
+  // escapePortalContext 우선: 항상 document.body + zIndex 10200
   // container 명시 다음: undefined → context, null → body 강제, HTMLElement → 그대로
   const effectivePortalTarget = escapePortalContext
     ? null
     : container === undefined ? portalContainer : container;
   const usingContextContainer =
     !escapePortalContext && container === undefined && portalContainer !== null;
-  const defaultZIndex = escapePortalContext ? 10001 : usingContextContainer ? 10 : 50;
+  // 10200 은 DS 내부 floating 컴포넌트 z-index 들 (Dialog 10000, Select dropdown 10100) 위.
+  const defaultZIndex = escapePortalContext ? 10200 : usingContextContainer ? 10 : 50;
 
   const portalElement = shouldShow &&
     typeof document !== 'undefined' &&
