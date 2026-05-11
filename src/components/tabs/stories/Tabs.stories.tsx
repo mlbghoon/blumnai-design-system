@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiArrowDropDownLine, RiBookmarkFill, RiExternalLinkLine, RiHeartFill, RiHomeFill, RiInformationLine, RiMailLine, RiNotificationLine, RiSettingsFill, RiSettingsLine, RiStarFill, RiStarLine, RiUserFill, RiUserLine } from '../../icons/Icon';
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../Tabs';
 import type { TabsTriggerProps, TabsType, TabsVariant, TabsShape, TabsSize } from '../Tabs.types';
@@ -168,41 +169,40 @@ const meta: Meta<TabsStoryProps> = {
     // TabsTrigger props
     leadIcon: {
       control: 'object',
-      description: `[TabsTrigger] 앞에 표시되는 아이콘
-
-IconTypeWithFill 또는 ReactNode를 사용할 수 있습니다.
-- \`['system', 'settings']\` - 기본 아이콘
-- \`['system', 'star', true]\` - filled 아이콘
-- \`<CustomIcon />\` - ReactNode`,
+      description: '[TabsTrigger] 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'IconTypeWithFill | ReactNode',
-          detail: `IconTypeWithFill = [category, name] | [category, name, isFill]
+          detail: `Remixicon component (권장, tree-shakeable):
+  leadIcon={RiSettings3Line}
+  leadIcon={RiStarFill}
+  leadIcon={RiHeartFill}
 
-예시:
-  ['system', 'check']        - 기본 아이콘
-  ['system', 'star', true]   - filled 아이콘
-  ['health', 'heart', true]  - filled heart`,
+또는 tuple form (deprecated, dev console warning):
+  leadIcon={['system', 'settings']}
+  leadIcon={['system', 'star', true]}
+
+또는 ReactNode (이미 렌더된 JSX)`,
         },
         category: 'TabsTrigger',
       },
     },
     tailIcon: {
       control: 'object',
-      description: `[TabsTrigger] 뒤에 표시되는 아이콘
-
-IconTypeWithFill 또는 ReactNode를 사용할 수 있습니다.
-- \`['arrows', 'arrow-right']\` - 기본 아이콘
-- \`['health', 'heart', true]\` - filled 아이콘
-- \`<CustomIcon />\` - ReactNode`,
+      description: '[TabsTrigger] 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'IconTypeWithFill | ReactNode',
-          detail: `IconTypeWithFill = [category, name] | [category, name, isFill]
+          detail: `Remixicon component (권장, tree-shakeable):
+  tailIcon={RiArrowRightLine}
+  tailIcon={RiArrowDownLine}
+  tailIcon={RiHeartFill}
 
-예시:
-  ['arrows', 'arrow-down']   - 기본 아이콘
-  ['health', 'heart', true]  - filled 아이콘`,
+또는 tuple form (deprecated, dev console warning):
+  tailIcon={['arrows', 'arrow-right']}
+  tailIcon={['health', 'heart', true]}
+
+또는 ReactNode (이미 렌더된 JSX)`,
         },
         category: 'TabsTrigger',
       },
@@ -547,9 +547,9 @@ export const WithIcons: Story = {
         <p className="font-body size-sm text-muted margin-b-8">Segmented - 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented">
-            <TabsTrigger value="tab1" leadIcon={['user', 'user']}>프로필</TabsTrigger>
-            <TabsTrigger value="tab2" leadIcon={['system', 'settings']}>설정</TabsTrigger>
-            <TabsTrigger value="tab3" leadIcon={['media', 'notification']}>알림</TabsTrigger>
+            <TabsTrigger value="tab1" leadIcon={RiUserLine}>프로필</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={RiSettingsLine}>설정</TabsTrigger>
+            <TabsTrigger value="tab3" leadIcon={RiNotificationLine}>알림</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -558,9 +558,9 @@ export const WithIcons: Story = {
         <p className="font-body size-sm text-muted margin-b-8">Pill - 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="pill">
-            <TabsTrigger value="tab1" leadIcon={['user', 'user']}>프로필</TabsTrigger>
-            <TabsTrigger value="tab2" leadIcon={['system', 'settings']}>설정</TabsTrigger>
-            <TabsTrigger value="tab3" leadIcon={['media', 'notification']}>알림</TabsTrigger>
+            <TabsTrigger value="tab1" leadIcon={RiUserLine}>프로필</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={RiSettingsLine}>설정</TabsTrigger>
+            <TabsTrigger value="tab3" leadIcon={RiNotificationLine}>알림</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -569,9 +569,9 @@ export const WithIcons: Story = {
         <p className="font-body size-sm text-muted margin-b-8">Underline - 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline">
-            <TabsTrigger value="tab1" leadIcon={['user', 'user']}>프로필</TabsTrigger>
-            <TabsTrigger value="tab2" leadIcon={['system', 'settings']}>설정</TabsTrigger>
-            <TabsTrigger value="tab3" leadIcon={['media', 'notification']}>알림</TabsTrigger>
+            <TabsTrigger value="tab1" leadIcon={RiUserLine}>프로필</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={RiSettingsLine}>설정</TabsTrigger>
+            <TabsTrigger value="tab3" leadIcon={RiNotificationLine}>알림</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -733,9 +733,9 @@ export const WithBadges: Story = {
         <p className="font-body size-sm text-muted margin-b-8">아이콘 + 배지</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented">
-            <TabsTrigger value="tab1" leadIcon={['business', 'mail']} badge={5}>메시지</TabsTrigger>
-            <TabsTrigger value="tab2" leadIcon={['media', 'notification']} badge="신규">업데이트</TabsTrigger>
-            <TabsTrigger value="tab3" leadIcon={['system', 'settings']}>설정</TabsTrigger>
+            <TabsTrigger value="tab1" leadIcon={RiMailLine} badge={5}>메시지</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={RiNotificationLine} badge="신규">업데이트</TabsTrigger>
+            <TabsTrigger value="tab3" leadIcon={RiSettingsLine}>설정</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -1072,8 +1072,8 @@ export const WithFilledIcons: Story = {
         <p className="font-body size-sm text-muted margin-b-8">기본 아이콘 vs Filled 아이콘</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented">
-            <TabsTrigger value="tab1" leadIcon={['system', 'star']}>기본 별</TabsTrigger>
-            <TabsTrigger value="tab2" leadIcon={['system', 'star', true]}>Filled 별</TabsTrigger>
+            <TabsTrigger value="tab1" leadIcon={RiStarLine}>기본 별</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={RiStarFill}>Filled 별</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -1082,9 +1082,9 @@ export const WithFilledIcons: Story = {
         <p className="font-body size-sm text-muted margin-b-8">Filled 아이콘 탭들</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="pill">
-            <TabsTrigger value="tab1" leadIcon={['health', 'heart', true]}>즐겨찾기</TabsTrigger>
-            <TabsTrigger value="tab2" leadIcon={['business', 'bookmark', true]}>북마크</TabsTrigger>
-            <TabsTrigger value="tab3" leadIcon={['system', 'settings']}>설정</TabsTrigger>
+            <TabsTrigger value="tab1" leadIcon={RiHeartFill}>즐겨찾기</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={RiBookmarkFill}>북마크</TabsTrigger>
+            <TabsTrigger value="tab3" leadIcon={RiSettingsLine}>설정</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -1093,9 +1093,9 @@ export const WithFilledIcons: Story = {
         <p className="font-body size-sm text-muted margin-b-8">Underline - Filled 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline">
-            <TabsTrigger value="tab1" leadIcon={['buildings', 'home', true]}>홈</TabsTrigger>
-            <TabsTrigger value="tab2" leadIcon={['user', 'user', true]}>프로필</TabsTrigger>
-            <TabsTrigger value="tab3" leadIcon={['system', 'settings', true]}>설정</TabsTrigger>
+            <TabsTrigger value="tab1" leadIcon={RiHomeFill}>홈</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={RiUserFill}>프로필</TabsTrigger>
+            <TabsTrigger value="tab3" leadIcon={RiSettingsFill}>설정</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -1115,9 +1115,9 @@ export const WithTailIcon: Story = {
         <p className="font-body size-sm text-muted margin-b-8">Segmented - Tail 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="segmented">
-            <TabsTrigger value="tab1" tailIcon={['arrows', 'arrow-drop-down']}>개요</TabsTrigger>
-            <TabsTrigger value="tab2" tailIcon={['system', 'external-link']}>외부 링크</TabsTrigger>
-            <TabsTrigger value="tab3" tailIcon={['system', 'information']}>정보</TabsTrigger>
+            <TabsTrigger value="tab1" tailIcon={RiArrowDropDownLine}>개요</TabsTrigger>
+            <TabsTrigger value="tab2" tailIcon={RiExternalLinkLine}>외부 링크</TabsTrigger>
+            <TabsTrigger value="tab3" tailIcon={RiInformationLine}>정보</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -1126,9 +1126,9 @@ export const WithTailIcon: Story = {
         <p className="font-body size-sm text-muted margin-b-8">Pill - Lead + Tail 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="pill">
-            <TabsTrigger value="tab1" leadIcon={['user', 'user']} tailIcon={['arrows', 'arrow-drop-down']}>프로필</TabsTrigger>
-            <TabsTrigger value="tab2" leadIcon={['system', 'settings']} tailIcon={['arrows', 'arrow-drop-down']}>설정</TabsTrigger>
-            <TabsTrigger value="tab3" leadIcon={['media', 'notification']}>알림</TabsTrigger>
+            <TabsTrigger value="tab1" leadIcon={RiUserLine} tailIcon={RiArrowDropDownLine}>프로필</TabsTrigger>
+            <TabsTrigger value="tab2" leadIcon={RiSettingsLine} tailIcon={RiArrowDropDownLine}>설정</TabsTrigger>
+            <TabsTrigger value="tab3" leadIcon={RiNotificationLine}>알림</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -1137,8 +1137,8 @@ export const WithTailIcon: Story = {
         <p className="font-body size-sm text-muted margin-b-8">Underline - Tail 아이콘 포함</p>
         <Tabs defaultValue="tab1">
           <TabsList variant="underline">
-            <TabsTrigger value="tab1" tailIcon={['system', 'external-link']}>문서</TabsTrigger>
-            <TabsTrigger value="tab2" tailIcon={['system', 'external-link']}>API 레퍼런스</TabsTrigger>
+            <TabsTrigger value="tab1" tailIcon={RiExternalLinkLine}>문서</TabsTrigger>
+            <TabsTrigger value="tab2" tailIcon={RiExternalLinkLine}>API 레퍼런스</TabsTrigger>
             <TabsTrigger value="tab3">변경 이력</TabsTrigger>
           </TabsList>
         </Tabs>

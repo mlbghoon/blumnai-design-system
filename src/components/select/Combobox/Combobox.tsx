@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { InputWrapper } from '../../input/shared/InputWrapper';
 import {
   Icon,
-  parseIconTypeWithFill,
+  renderIconProp,
   RiAddLine,
   RiArrowDropDownLine,
   RiArrowDropRightLine,
@@ -185,7 +185,6 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
       }
 
       if (option.leadIcon) {
-        const { iconType, isFill } = parseIconTypeWithFill(option.leadIcon);
         return (
           <div
             className={cn(
@@ -193,12 +192,7 @@ const ComboboxItem = React.forwardRef<HTMLDivElement, ComboboxItemProps>(
               sizeConfig.iconFrame
             )}
           >
-            <Icon
-              iconType={iconType}
-              size={sizeConfig.iconSize}
-              color={iconColor}
-              isFill={isFill}
-            />
+            {renderIconProp(option.leadIcon, { size: sizeConfig.iconSize, color: iconColor })}
           </div>
         );
       }
@@ -956,18 +950,11 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                   className={triggerClassName}
                   onClick={handleTriggerClick}
                 >
-                  {leadIcon && (() => {
-                    const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
-                    return (
-                      <Icon
-                        iconType={iconType}
-                        size={sizeConfig.iconSize}
-                        color={iconColor}
-                        className="flex-shrink-0"
-                        isFill={isFill}
-                      />
-                    );
-                  })()}
+                  {leadIcon && renderIconProp(leadIcon, {
+                    size: sizeConfig.iconSize,
+                    color: iconColor,
+                    className: 'flex-shrink-0',
+                  })}
 
                   {!isMultiMode && selectedOptions.length === 0 && !leadIcon && (
                     <div className="flex items-center ds-gap-6 flex-shrink-0">
@@ -1055,18 +1042,11 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                     </button>
                   )}
 
-                  {tailIcon && (() => {
-                    const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
-                    return (
-                      <Icon
-                        iconType={iconType}
-                        size={sizeConfig.iconSize}
-                        color={iconColor}
-                        className="flex-shrink-0"
-                        isFill={isFill}
-                      />
-                    );
-                  })()}
+                  {tailIcon && renderIconProp(tailIcon, {
+                    size: sizeConfig.iconSize,
+                    color: iconColor,
+                    className: 'flex-shrink-0',
+                  })}
 
                   <Icon
                     iconType={['arrows', isOpen ? 'arrow-up-s' : 'arrow-down-s']}

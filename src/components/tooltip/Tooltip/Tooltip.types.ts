@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import type { IconTypeWithFill } from '../../icons/Icon';
+import type { IconProp } from '../../icons/Icon';
 
 export type TooltipItemType = 'divider' | 'label' | 'item' | 'text';
 
@@ -26,7 +26,7 @@ export interface TooltipItemData {
    * @example icon={['system', 'info']}
    * @example icon={['system', 'star', true]} - filled icon
    */
-  icon?: IconTypeWithFill;
+  icon?: IconProp;
   /**
    * The text content (for text type).
    */

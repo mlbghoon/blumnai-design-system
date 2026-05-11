@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as MenubarPrimitive from '@radix-ui/react-menubar';
 
 import { cn } from '@/lib/utils';
-import { Icon, RiArrowRightSLine, RiCheckLine } from '../icons/Icon';
+import { Icon, renderIconProp, RiArrowRightSLine, RiCheckLine } from '../icons/Icon';
 import { Badge } from '../badge/Badge';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 import { usePortalContainer } from '../../utils/PortalContainerContext';
@@ -229,12 +229,7 @@ const MenubarItem = React.forwardRef<
           "flex items-center justify-center flex-shrink-0",
           isLarge ? "width-28 height-28 rounded-sm bg-muted" : "width-20 height-20"
         )}>
-          <Icon
-            iconType={leadIcon}
-            size={16}
-            color={effectiveIconColor}
-            isFill={leadIconFill}
-          />
+          {renderIconProp(leadIcon, { size: 16, color: effectiveIconColor, isFill: leadIconFill })}
         </div>
       )}
 
@@ -259,12 +254,7 @@ const MenubarItem = React.forwardRef<
 
       {tailIcon && (
         <div className="flex items-center justify-center flex-shrink-0 width-20 height-20">
-          <Icon
-            iconType={tailIcon}
-            size={16}
-            color={effectiveIconColor}
-            isFill={tailIconFill}
-          />
+          {renderIconProp(tailIcon, { size: 16, color: effectiveIconColor, isFill: tailIconFill })}
         </div>
       )}
     </MenubarPrimitive.Item>

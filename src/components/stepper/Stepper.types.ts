@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconProp } from '../icons/Icon';
 
 export type StepperOrientation = 'horizontal' | 'vertical';
 
@@ -39,7 +39,7 @@ export interface StepItem {
   label: string;
   caption?: string;
   supportText?: string;
-  icon?: IconType;
+  icon?: IconProp;
   error?: boolean;
   children?: ReactNode;
 }

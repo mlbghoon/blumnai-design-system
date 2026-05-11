@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import {
   Icon,
-  parseIconTypeWithFill,
+  renderIconProp,
   RiArrowDownSLine,
   RiArrowDropDownLine,
   RiArrowDropUpLine,
@@ -143,31 +143,17 @@ const SelectTrigger = React.forwardRef<
         )}
         {...props}
       >
-        {leadIcon && (() => {
-          const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
-          return (
-            <Icon
-              iconType={iconType}
-              size={sizeConfig.iconSize}
-              color={iconColor}
-              className="flex-shrink-0"
-              isFill={isFill}
-            />
-          );
-        })()}
+        {leadIcon && renderIconProp(leadIcon, {
+          size: sizeConfig.iconSize,
+          color: iconColor,
+          className: 'flex-shrink-0',
+        })}
         <span className="flex-1 min-w-0 truncate">{children}</span>
-        {tailIcon && (() => {
-          const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
-          return (
-            <Icon
-              iconType={iconType}
-              size={sizeConfig.iconSize}
-              color={iconColor}
-              className="flex-shrink-0"
-              isFill={isFill}
-            />
-          );
-        })()}
+        {tailIcon && renderIconProp(tailIcon, {
+          size: sizeConfig.iconSize,
+          color: iconColor,
+          className: 'flex-shrink-0',
+        })}
         {showClear && (
           <button
             type="button"
@@ -482,7 +468,6 @@ const ExtendedSelectItem = React.forwardRef<
       }
 
       if (leadIcon) {
-        const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
         return (
           <div
             className={cn(
@@ -490,12 +475,7 @@ const ExtendedSelectItem = React.forwardRef<
               sizeConfig.iconFrame
             )}
           >
-            <Icon
-              iconType={iconType}
-              size={sizeConfig.iconSize}
-              color={iconColor}
-              isFill={isFill}
-            />
+            {renderIconProp(leadIcon, { size: sizeConfig.iconSize, color: iconColor })}
           </div>
         );
       }
@@ -675,7 +655,6 @@ const SearchableSelectItem = React.forwardRef<HTMLDivElement, SearchableSelectIt
       }
 
       if (option.leadIcon) {
-        const { iconType, isFill } = parseIconTypeWithFill(option.leadIcon);
         return (
           <div
             className={cn(
@@ -683,12 +662,7 @@ const SearchableSelectItem = React.forwardRef<HTMLDivElement, SearchableSelectIt
               sizeConfig.iconFrame
             )}
           >
-            <Icon
-              iconType={iconType}
-              size={sizeConfig.iconSize}
-              color={iconColor}
-              isFill={isFill}
-            />
+            {renderIconProp(option.leadIcon, { size: sizeConfig.iconSize, color: iconColor })}
           </div>
         );
       }
@@ -1240,33 +1214,19 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                     'focus:outline-none',
                   )}
                 >
-                  {leadIcon && (() => {
-                    const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
-                    return (
-                      <Icon
-                        iconType={iconType}
-                        size={sizeConfig.iconSize}
-                        color={triggerIconColor}
-                        className="flex-shrink-0"
-                        isFill={isFill}
-                      />
-                    );
-                  })()}
+                  {leadIcon && renderIconProp(leadIcon, {
+                    size: sizeConfig.iconSize,
+                    color: triggerIconColor,
+                    className: 'flex-shrink-0',
+                  })}
                   <span className={cn('flex-1 min-w-0 truncate text-left', !normalizedValue && 'text-hint')}>
                     {popoverTriggerContent}
                   </span>
-                  {tailIcon && (() => {
-                    const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
-                    return (
-                      <Icon
-                        iconType={iconType}
-                        size={sizeConfig.iconSize}
-                        color={triggerIconColor}
-                        className="flex-shrink-0"
-                        isFill={isFill}
-                      />
-                    );
-                  })()}
+                  {tailIcon && renderIconProp(tailIcon, {
+                    size: sizeConfig.iconSize,
+                    color: triggerIconColor,
+                    className: 'flex-shrink-0',
+                  })}
                   {clearable && !!normalizedValue && !isDisabled && (
                     <span
                       role="button"

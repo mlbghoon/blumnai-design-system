@@ -1,7 +1,7 @@
 import { forwardRef, memo, useMemo } from 'react';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
-import { Icon, parseIconTypeWithFill, RiCloseLine } from '../../icons/Icon';
+import { Icon, renderIconProp, RiCloseLine } from '../../icons/Icon';
 import { cn } from '@/lib/utils';
 
 import type { BadgeColor, BadgeProps } from './Badge.types';
@@ -111,7 +111,7 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
 
   const iconSize = size === 'sm' ? 12 : 14;
 
-  const parsedIcon = variant === 'icon' && icon ? parseIconTypeWithFill(icon) : null;
+  const showIcon = variant === 'icon' && icon;
 
   const combinedStyle: React.CSSProperties = {
     color: getTextColor(color),
@@ -124,9 +124,9 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
 
   return (
     <div ref={ref} className={containerClassName} style={combinedStyle} onClick={onClick} {...props}>
-      {parsedIcon && (
+      {showIcon && (
         <span className="inline-flex items-center shrink-0 line-height-leading-none">
-          <Icon iconType={parsedIcon.iconType} size={iconSize} color={getIconColor(color)} isFill={parsedIcon.isFill} />
+          {renderIconProp(icon, { size: iconSize, color: getIconColor(color) })}
         </span>
       )}
       {variant === 'image' && (

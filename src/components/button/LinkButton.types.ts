@@ -1,13 +1,18 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconType, RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 
 /**
- * LinkButton 아이콘 타입 (isFill 옵션 지원)
- * @example ['system', 'external-link'] - 일반 아이콘
- * @example ['system', 'external-link', true] - 채워진 아이콘
+ * LinkButton 아이콘 타입.
+ *
+ * - tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat)
+ * - Remixicon component (`RiExternalLinkLine` 등; tree-shaking 권장)
+ *
+ * @example ['system', 'external-link']
+ * @example ['system', 'external-link', true]
+ * @example RiExternalLinkLine
  */
-export type LinkButtonIconType = IconType | [...IconType, boolean];
+export type LinkButtonIconType = IconType | [...IconType, boolean] | RemixiconLikeComponent;
 
 export type LinkButtonSize = 'sm' | 'md' | 'lg';
 

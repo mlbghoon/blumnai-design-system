@@ -2,7 +2,8 @@ import type { ComponentPropsWithoutRef, HTMLAttributes, ReactNode } from 'react'
 import type * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import type { BadgeColor } from '../badge/Badge/Badge.types';
 import type { ButtonStyle } from '../button/Button.types';
-import type { IconColor, IconType } from '../icons/Icon/Icon.types';
+import type { IconProp } from '../icons/Icon';
+import type { IconColor } from '../icons/Icon/Icon.types';
 
 export type DropdownMenuProps = ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root>;
 
@@ -69,7 +70,7 @@ export interface DropdownMenuItemProps
   /**
    * 라벨 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconProp;
   /**
    * 리드 아이콘 filled 스타일 사용 여부
    * @default false
@@ -78,7 +79,7 @@ export interface DropdownMenuItemProps
   /**
    * 라벨 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconType;
+  tailIcon?: IconProp;
   /**
    * 테일 아이콘 filled 스타일 사용 여부
    * @default false
@@ -179,7 +180,7 @@ export interface DropdownMenuAvatarProps extends Omit<HTMLAttributes<HTMLDivElem
   /**
    * 라벨 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconType;
+  tailIcon?: IconProp;
   /**
    * 캡션 텍스트
    */
@@ -250,11 +251,11 @@ export interface DropdownMenuButtonProps extends Omit<HTMLAttributes<HTMLDivElem
   /**
    * 버튼 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconProp;
   /**
    * 버튼 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconType;
+  tailIcon?: IconProp;
   /**
    * 비활성화 여부
    * @default false
@@ -305,7 +306,7 @@ export interface DropdownMenuCheckboxItemProps
   /**
    * 라벨 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconProp;
   /**
    * 아이콘 색상
    */
@@ -333,7 +334,7 @@ export interface DropdownMenuRadioItemProps
   /**
    * 라벨 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconProp;
   /**
    * 아이콘 색상
    */

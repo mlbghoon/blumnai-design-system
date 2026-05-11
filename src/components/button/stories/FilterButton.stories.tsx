@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiFilterLine, RiSearchLine, RiSettingsLine } from '../../icons/Icon';
 
 import { FilterButton } from '../FilterButton';
 
@@ -35,13 +36,18 @@ const meta: Meta<typeof FilterButton> = {
     },
     icon: {
       control: 'object',
-      description: '필터 버튼에 표시할 아이콘입니다. 기본값은 필터 아이콘이며, 다른 아이콘으로 변경할 수 있습니다',
+      description: '필터 버튼에 표시할 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated). 미지정 시 기본 필터 아이콘이 표시됩니다',
       table: {
         type: {
           summary: 'IconType',
-          detail: `[category, name] 튜플 형식
-예시: ['system', 'filter']
-기본값: ['system', 'filter']`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  icon={RiFilter3Line}
+  icon={RiEqualizerLine}
+
+또는 tuple form (deprecated, dev console warning):
+  icon={['system', 'filter']}
+
+기본값: 필터 아이콘`,
         },
       },
     },
@@ -176,9 +182,9 @@ export const States: Story = {
 export const WithCustomIcon: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-      <FilterButton label="필터" icon={['system', 'filter']} />
-      <FilterButton label="설정" icon={['system', 'settings']} />
-      <FilterButton label="검색" icon={['system', 'search']} />
+      <FilterButton label="필터" icon={RiFilterLine} />
+      <FilterButton label="설정" icon={RiSettingsLine} />
+      <FilterButton label="검색" icon={RiSearchLine} />
     </div>
   ),
 };

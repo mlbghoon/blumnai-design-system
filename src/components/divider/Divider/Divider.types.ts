@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
+import type { IconProp } from '../../icons/Icon';
 import type { ButtonIconType } from '../../button/Button.types';
 
 /**
@@ -75,7 +75,7 @@ export interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chil
    * @example icon={['system', 'add']}
    * @example icon={['system', 'add', true]} - 채워진 아이콘
    */
-  icon?: IconTypeWithFill;
+  icon?: IconProp;
   /**
    * 버튼 라벨 (button-* 타입에서 사용)
    */

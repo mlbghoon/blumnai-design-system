@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
+import type { IconProp } from '../../icons/Icon';
 
 /**
  * EmptyState 크기
@@ -16,9 +16,9 @@ export type EmptyStateVariant = 'default' | 'inline' | 'fill';
  */
 export interface EmptyStateProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'title'> {
   /**
-   * 아이콘 (IconTypeWithFill 형식)
+   * 아이콘 — tuple `[category, name]` / `[category, name, isFill]` 또는 Remixicon component (`RiInboxLine` 등).
    */
-  icon?: IconTypeWithFill;
+  icon?: IconProp;
   /**
    * 커스텀 일러스트레이션 (SVG, img, 애니메이션 등). icon 대신 렌더링됩니다
    */

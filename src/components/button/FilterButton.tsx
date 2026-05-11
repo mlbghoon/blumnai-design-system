@@ -3,7 +3,7 @@ import { forwardRef, useMemo } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 
-import { Icon } from '../icons/Icon';
+import { renderIconProp } from '../icons/Icon';
 import { cn } from '../../lib/utils';
 import { getPixelValue } from '../../lib/css-utils';
 
@@ -142,11 +142,7 @@ export const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(({
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      <Icon
-        iconType={icon}
-        size={iconSize}
-        color={iconColor}
-      />
+      {renderIconProp(icon, { size: iconSize, color: iconColor })}
       <span>{label}</span>
     </Comp>
   );

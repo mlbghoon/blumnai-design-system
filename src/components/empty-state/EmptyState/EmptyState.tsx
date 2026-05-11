@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 
 import { cn } from '@/lib/utils';
-import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import { renderIconProp } from '../../icons/Icon';
 import type { EmptyStateProps, EmptyStateSize, EmptyStateVariant } from './EmptyState.types';
 
 const SIZE_CONFIG: Record<EmptyStateSize, { icon: number; title: string; description: string; gap: string; textGap: string }> = {
@@ -60,17 +60,10 @@ export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
           <div className="flex items-center justify-center">
             {illustration}
           </div>
-        ) : icon ? (() => {
-          const { iconType, isFill } = parseIconTypeWithFill(icon);
-          return (
-            <Icon
-              iconType={iconType}
-              isFill={isFill}
-              size={config.icon}
-              color="default-muted"
-            />
-          );
-        })() : null}
+        ) : icon ? renderIconProp(icon, {
+          size: config.icon,
+          color: 'default-muted',
+        }) : null}
         <div className={cn('flex flex-col items-center', config.textGap)}>
           <span className={config.title}>{title}</span>
           {description && (

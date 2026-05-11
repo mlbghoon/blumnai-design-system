@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiLightbulbLine, RiShieldCheckLine } from '../icons/Icon';
 
 import { InfoBox } from './InfoBox';
 import type { InfoBoxProps } from './InfoBox.types';
@@ -39,11 +40,16 @@ const meta: Meta<InfoBoxProps> = {
     },
     icon: {
       control: 'object',
-      description: '커스텀 아이콘. 미지정 시 variant에 따라 기본 아이콘이 표시됩니다',
+      description: '커스텀 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated). 미지정 시 variant에 따라 기본 아이콘이 표시됩니다',
       table: {
         type: {
           summary: 'IconType',
-          detail: "[category, name] 튜플. 예: ['system', 'information']",
+          detail: `Remixicon component (권장, tree-shakeable):
+  icon={RiInformationLine}
+  icon={RiAlertLine}
+
+또는 tuple form (deprecated, dev console warning):
+  icon={['system', 'information']}`,
         },
       },
     },
@@ -280,10 +286,10 @@ export const Closable: Story = {
 export const CustomIcon: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-12" style={{ width: 400 }}>
-      <InfoBox variant="info" icon={['others', 'lightbulb']}>
+      <InfoBox variant="info" icon={RiLightbulbLine}>
         커스텀 아이콘을 사용한 안내 메시지입니다.
       </InfoBox>
-      <InfoBox variant="success" icon={['system', 'shield-check']}>
+      <InfoBox variant="success" icon={RiShieldCheckLine}>
         보안 인증이 완료되었습니다.
       </InfoBox>
     </div>

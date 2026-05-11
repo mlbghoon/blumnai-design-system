@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
-import { Icon, parseIconTypeWithFill, RiCheckLine } from '../icons/Icon';
+import { Icon, renderIconProp, RiCheckLine } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { MENU_ITEM_SIZE_CONFIG } from '@/constants/select/Select/Select.constants';
@@ -103,10 +103,9 @@ const VirtualSelectItem = React.memo<VirtualSelectItemProps>(
       }
 
       if (option.leadIcon) {
-        const { iconType, isFill } = parseIconTypeWithFill(option.leadIcon);
         return (
           <div className={cn('flex items-center justify-center flex-shrink-0', sizeConfig.iconFrame)}>
-            <Icon iconType={iconType} size={sizeConfig.iconSize} color={iconColor} isFill={isFill} />
+            {renderIconProp(option.leadIcon, { size: sizeConfig.iconSize, color: iconColor })}
           </div>
         );
       }

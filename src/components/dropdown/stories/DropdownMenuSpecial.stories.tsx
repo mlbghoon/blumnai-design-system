@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiAddLine, RiArrowRightSLine, RiBankCardLine, RiBowlLine, RiEditLine, RiLogoutBoxRLine, RiNotificationLine, RiQuestionLine, RiSettingsLine, RiUserLine, RiVipCrownLine } from '../../icons/Icon';
 
 import {
   DropdownMenu,
@@ -51,17 +52,17 @@ const meta: Meta<DropdownMenuAvatarProps> = {
     },
     tailIcon: {
       control: 'object',
-      description: '뒤에 표시되는 아이콘',
+      description: '뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'IconType',
-          detail: `[category, iconName] 튜플 형식
+          detail: `Remixicon component (권장, tree-shakeable):
+  tailIcon={RiArrowRightSLine}
+  tailIcon={RiExternalLinkLine}
 
-카테고리: 'arrows' | 'buildings' | 'business' | 'communication' | 'design' | 'development' | 'device' | 'document' | 'editor' | 'finance' | 'food' | 'health' | 'map' | 'media' | 'others' | 'system' | 'user' | 'weather'
-
-예시:
-['arrows', 'arrow-right-s']
-['arrows', 'external-link']`,
+또는 tuple form (deprecated, dev console warning):
+  tailIcon={['arrows', 'arrow-right-s']}
+  tailIcon={['arrows', 'external-link']}`,
         },
       },
     },
@@ -170,7 +171,7 @@ export const Default: Story = {
           <DropdownMenuAvatar
             label="박지민"
             avatarAlt="박지민"
-            tailIcon={['arrows', 'arrow-right-s']}
+            tailIcon={RiArrowRightSLine}
             onClick={() => console.log('박지민 clicked')}
           />
         </DropdownMenuContent>
@@ -266,10 +267,10 @@ export const Userbar: Story = {
             avatarAlt="김철수"
           />
           <DropdownMenuSeparator />
-          <DropdownMenuItem leadIcon={['user', 'user']}>내 프로필</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['system', 'settings']}>설정</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiUserLine}>내 프로필</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiSettingsLine}>설정</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem leadIcon={['system', 'logout-box-r']}>로그아웃</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiLogoutBoxRLine}>로그아웃</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -296,8 +297,8 @@ export const UserbarWithBadge: Story = {
             badgeColor="blue"
           />
           <DropdownMenuSeparator />
-          <DropdownMenuItem leadIcon={['finance', 'bank-card']}>구독 관리</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['finance', 'vip-crown']}>멤버십 업그레이드</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiBankCardLine}>구독 관리</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiVipCrownLine}>멤버십 업그레이드</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -322,12 +323,12 @@ export const MenuButtonItem: Story = {
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>설정</DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['system', 'settings']}>일반 설정</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['media', 'notification']}>알림 설정</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiSettingsLine}>일반 설정</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiNotificationLine}>알림 설정</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuButton
             label="새 워크스페이스 만들기"
-            leadIcon={['system', 'add']}
+            leadIcon={RiAddLine}
             onClick={() => console.log('버튼 클릭')}
           />
         </DropdownMenuContent>
@@ -350,7 +351,7 @@ export const ButtonGroup: Story = {
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>작업</DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['design', 'edit']}>항목 편집</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiEditLine}>항목 편집</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuButtonGroup>
             <MenuButton label="취소" onClick={() => console.log('Cancel')} />
@@ -394,7 +395,7 @@ export const Search: Story = {
             autoFocus={false}
           />
           {filteredItems.map((item) => (
-            <DropdownMenuItem key={item} leadIcon={['food', 'bowl']}>
+            <DropdownMenuItem key={item} leadIcon={RiBowlLine}>
               {item}
             </DropdownMenuItem>
           ))}
@@ -421,7 +422,7 @@ export const Caption: Story = {
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>워크스페이스</DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['system', 'settings']}>프로젝트 설정</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiSettingsLine}>프로젝트 설정</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuCaption>
             워크스페이스를 관리하고 팀원을 초대하려면 설정 메뉴를 이용하세요.
@@ -473,16 +474,16 @@ export const AllVariants: Story = {
           <DropdownMenuSeparator />
 
           <DropdownMenuLabel>작업</DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['system', 'settings']} shortcut="⌘,">
+          <DropdownMenuItem leadIcon={RiSettingsLine} shortcut="⌘,">
             설정
           </DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['system', 'question']} tailIcon={['arrows', 'arrow-right-s']}>
+          <DropdownMenuItem leadIcon={RiQuestionLine} tailIcon={RiArrowRightSLine}>
             도움말
           </DropdownMenuItem>
 
           <DropdownMenuItem
             size="large"
-            leadIcon={['system', 'add']}
+            leadIcon={RiAddLine}
             description="새로운 프로젝트를 생성합니다"
           >
             새 프로젝트

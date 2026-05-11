@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiArchiveLine, RiArrowRightSLine, RiArtboardLine, RiChat1Line, RiCheckDoubleLine, RiCheckLine, RiCheckboxCircleLine, RiCloseLine, RiCodeBoxLine, RiDeleteBinLine, RiEditLine, RiErrorWarningLine, RiExternalLinkLine, RiFileAddLine, RiFileCopyLine, RiFileTextLine, RiFolderOpenLine, RiInformationLine, RiLockLine, RiLogoutBoxRLine, RiSaveLine, RiSettingsLine, RiUserLine } from '../../icons/Icon';
 
 import {
   Menubar,
@@ -59,18 +60,18 @@ const meta: Meta<MenubarItemProps> = {
     },
     leadIcon: {
       control: 'object',
-      description: '앞에 표시되는 아이콘',
+      description: '앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'IconType',
-          detail: `[category, iconName] 튜플 형식
+          detail: `Remixicon component (권장, tree-shakeable):
+  leadIcon={RiAddLine}
+  leadIcon={RiFileAddLine}
+  leadIcon={RiArrowRightSLine}
 
-카테고리: 'arrows' | 'buildings' | 'business' | 'communication' | 'design' | 'development' | 'device' | 'document' | 'editor' | 'finance' | 'food' | 'health' | 'map' | 'media' | 'others' | 'system' | 'user' | 'weather'
-
-예시:
-['system', 'add']
-['document', 'file-add']
-['arrows', 'arrow-right-s']`,
+또는 tuple form (deprecated, dev console warning):
+  leadIcon={['system', 'add']}
+  leadIcon={['document', 'file-add']}`,
         },
       },
     },
@@ -84,17 +85,17 @@ const meta: Meta<MenubarItemProps> = {
     },
     tailIcon: {
       control: 'object',
-      description: '뒤에 표시되는 아이콘',
+      description: '뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'IconType',
-          detail: `[category, iconName] 튜플 형식
+          detail: `Remixicon component (권장, tree-shakeable):
+  tailIcon={RiArrowRightSLine}
+  tailIcon={RiExternalLinkLine}
 
-카테고리: 'arrows' | 'buildings' | 'business' | 'communication' | 'design' | 'development' | 'device' | 'document' | 'editor' | 'finance' | 'food' | 'health' | 'map' | 'media' | 'others' | 'system' | 'user' | 'weather'
-
-예시:
-['arrows', 'arrow-right-s']
-['arrows', 'external-link']`,
+또는 tuple form (deprecated, dev console warning):
+  tailIcon={['arrows', 'arrow-right-s']}
+  tailIcon={['arrows', 'external-link']}`,
         },
       },
     },
@@ -225,9 +226,9 @@ export const WithLeadIcon: Story = {
         <MenubarMenu value="file">
           <MenubarTrigger>파일</MenubarTrigger>
           <MenubarContent width={280}>
-            <MenubarItem leadIcon={['document', 'file-add']}>새 파일</MenubarItem>
-            <MenubarItem leadIcon={['document', 'folder-open']}>열기</MenubarItem>
-            <MenubarItem leadIcon={['device', 'save']}>저장</MenubarItem>
+            <MenubarItem leadIcon={RiFileAddLine}>새 파일</MenubarItem>
+            <MenubarItem leadIcon={RiFolderOpenLine}>열기</MenubarItem>
+            <MenubarItem leadIcon={RiSaveLine}>저장</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
@@ -245,8 +246,8 @@ export const WithTailIcon: Story = {
         <MenubarMenu value="actions">
           <MenubarTrigger>작업</MenubarTrigger>
           <MenubarContent width={250}>
-            <MenubarItem tailIcon={['arrows', 'arrow-right-s']}>더보기</MenubarItem>
-            <MenubarItem tailIcon={['system', 'external-link']}>외부 링크</MenubarItem>
+            <MenubarItem tailIcon={RiArrowRightSLine}>더보기</MenubarItem>
+            <MenubarItem tailIcon={RiExternalLinkLine}>외부 링크</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
@@ -265,13 +266,13 @@ export const WithCaption: Story = {
           <MenubarTrigger>최근 항목</MenubarTrigger>
           <MenubarContent width={280}>
             <MenubarLabel>최근 파일</MenubarLabel>
-            <MenubarItem leadIcon={['design', 'artboard']} caption="2분 전">
+            <MenubarItem leadIcon={RiArtboardLine} caption="2분 전">
               design-system.fig
             </MenubarItem>
-            <MenubarItem leadIcon={['development', 'code-box']} caption="1시간 전">
+            <MenubarItem leadIcon={RiCodeBoxLine} caption="1시간 전">
               components.tsx
             </MenubarItem>
-            <MenubarItem leadIcon={['document', 'file-text']} caption="어제">
+            <MenubarItem leadIcon={RiFileTextLine} caption="어제">
               notes.md
             </MenubarItem>
           </MenubarContent>
@@ -291,13 +292,13 @@ export const WithShortcut: Story = {
         <MenubarMenu value="file">
           <MenubarTrigger>파일</MenubarTrigger>
           <MenubarContent width={250}>
-            <MenubarItem leadIcon={['document', 'file-add']} shortcut="⌘J">
+            <MenubarItem leadIcon={RiFileAddLine} shortcut="⌘J">
               새 항목
             </MenubarItem>
-            <MenubarItem leadIcon={['document', 'folder-open']} shortcut="⌘O">
+            <MenubarItem leadIcon={RiFolderOpenLine} shortcut="⌘O">
               열기
             </MenubarItem>
-            <MenubarItem leadIcon={['device', 'save']} shortcut="⌘E">
+            <MenubarItem leadIcon={RiSaveLine} shortcut="⌘E">
               내보내기
             </MenubarItem>
           </MenubarContent>
@@ -319,21 +320,21 @@ export const WithDescription: Story = {
           <MenubarContent width={300}>
             <MenubarItem
               size="large"
-              leadIcon={['user', 'user']}
+              leadIcon={RiUserLine}
               description="사용자 정보와 프로필 사진을 변경합니다"
             >
               프로필 설정
             </MenubarItem>
             <MenubarItem
               size="large"
-              leadIcon={['communication', 'chat-1']}
+              leadIcon={RiChat1Line}
               description="알림 환경설정을 관리합니다"
             >
               알림 설정
             </MenubarItem>
             <MenubarItem
               size="large"
-              leadIcon={['system', 'lock']}
+              leadIcon={RiLockLine}
               description="비밀번호와 보안 옵션을 설정합니다"
             >
               보안 설정
@@ -359,9 +360,9 @@ export const SizeDefault: Story = {
         <MenubarMenu value="menu">
           <MenubarTrigger>기본 크기</MenubarTrigger>
           <MenubarContent width={250}>
-            <MenubarItem leadIcon={['system', 'settings']}>설정</MenubarItem>
-            <MenubarItem leadIcon={['user', 'user']}>프로필</MenubarItem>
-            <MenubarItem leadIcon={['system', 'logout-box-r']}>로그아웃</MenubarItem>
+            <MenubarItem leadIcon={RiSettingsLine}>설정</MenubarItem>
+            <MenubarItem leadIcon={RiUserLine}>프로필</MenubarItem>
+            <MenubarItem leadIcon={RiLogoutBoxRLine}>로그아웃</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
@@ -381,21 +382,21 @@ export const SizeLarge: Story = {
           <MenubarContent width={300}>
             <MenubarItem
               size="large"
-              leadIcon={['system', 'settings']}
+              leadIcon={RiSettingsLine}
               description="앱 환경설정을 변경합니다"
             >
               설정
             </MenubarItem>
             <MenubarItem
               size="large"
-              leadIcon={['user', 'user']}
+              leadIcon={RiUserLine}
               description="프로필 정보를 수정합니다"
             >
               프로필
             </MenubarItem>
             <MenubarItem
               size="large"
-              leadIcon={['system', 'logout-box-r']}
+              leadIcon={RiLogoutBoxRLine}
               description="계정에서 로그아웃합니다"
             >
               로그아웃
@@ -421,9 +422,9 @@ export const Disabled: Story = {
         <MenubarMenu value="options">
           <MenubarTrigger>옵션</MenubarTrigger>
           <MenubarContent width={200}>
-            <MenubarItem leadIcon={['system', 'check']}>활성 아이템</MenubarItem>
-            <MenubarItem leadIcon={['system', 'close']} disabled>비활성 아이템</MenubarItem>
-            <MenubarItem leadIcon={['system', 'settings']}>또 다른 활성 아이템</MenubarItem>
+            <MenubarItem leadIcon={RiCheckLine}>활성 아이템</MenubarItem>
+            <MenubarItem leadIcon={RiCloseLine} disabled>비활성 아이템</MenubarItem>
+            <MenubarItem leadIcon={RiSettingsLine}>또 다른 활성 아이템</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
@@ -441,12 +442,12 @@ export const Destructive: Story = {
         <MenubarMenu value="actions">
           <MenubarTrigger>더 보기</MenubarTrigger>
           <MenubarContent width={200}>
-            <MenubarItem leadIcon={['design', 'edit']}>편집</MenubarItem>
-            <MenubarItem leadIcon={['document', 'file-copy']}>복제</MenubarItem>
+            <MenubarItem leadIcon={RiEditLine}>편집</MenubarItem>
+            <MenubarItem leadIcon={RiFileCopyLine}>복제</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem leadIcon={['business', 'archive']}>보관</MenubarItem>
+            <MenubarItem leadIcon={RiArchiveLine}>보관</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem destructive leadIcon={['system', 'delete-bin']}>
+            <MenubarItem destructive leadIcon={RiDeleteBinLine}>
               삭제
             </MenubarItem>
           </MenubarContent>
@@ -471,20 +472,20 @@ export const IconColors: Story = {
           <MenubarTrigger>상태</MenubarTrigger>
           <MenubarContent width={200}>
             <MenubarLabel>아이콘 색상 옵션</MenubarLabel>
-            <MenubarItem leadIcon={['system', 'checkbox-circle']} iconColor="success">
+            <MenubarItem leadIcon={RiCheckboxCircleLine} iconColor="success">
               성공
             </MenubarItem>
-            <MenubarItem leadIcon={['system', 'error-warning']} iconColor="warning">
+            <MenubarItem leadIcon={RiErrorWarningLine} iconColor="warning">
               경고
             </MenubarItem>
-            <MenubarItem leadIcon={['system', 'delete-bin']} iconColor="destructive">
+            <MenubarItem leadIcon={RiDeleteBinLine} iconColor="destructive">
               위험
             </MenubarItem>
-            <MenubarItem leadIcon={['system', 'information']} iconColor="informative">
+            <MenubarItem leadIcon={RiInformationLine} iconColor="informative">
               정보
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem leadIcon={['system', 'check-double']} iconColor="success" disabled>
+            <MenubarItem leadIcon={RiCheckDoubleLine} iconColor="success" disabled>
               Disabled (색상 무시됨)
             </MenubarItem>
           </MenubarContent>
@@ -518,14 +519,14 @@ export const KeyboardShortcutBinding: Story = {
             <MenubarTrigger>파일</MenubarTrigger>
             <MenubarContent width={220}>
               <MenubarItem
-                leadIcon={['document', 'file-add']}
+                leadIcon={RiFileAddLine}
                 shortcut="⌘J"
                 onClick={() => addLog('새 항목 (⌘J)')}
               >
                 새 항목
               </MenubarItem>
               <MenubarItem
-                leadIcon={['system', 'check']}
+                leadIcon={RiCheckLine}
                 shortcut="⌘E"
                 onClick={() => addLog('내보내기 (⌘E)')}
               >
@@ -533,7 +534,7 @@ export const KeyboardShortcutBinding: Story = {
               </MenubarItem>
               <MenubarSeparator />
               <MenubarItem
-                leadIcon={['system', 'close']}
+                leadIcon={RiCloseLine}
                 shortcut="⌘B"
                 onClick={() => addLog('사이드바 전환 (⌘B)')}
               >

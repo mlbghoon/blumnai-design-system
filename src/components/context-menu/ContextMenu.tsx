@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu';
 
 import { cn } from '@/lib/utils';
-import { Icon, RiCheckLine } from '../icons/Icon';
+import { Icon, renderIconProp, RiCheckLine } from '../icons/Icon';
 import { Badge } from '../badge/Badge';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 import { usePortalContainer } from '../../utils/PortalContainerContext';
@@ -132,12 +132,11 @@ const ContextMenuItem = React.forwardRef<
           "flex items-center justify-center flex-shrink-0",
           isLarge ? "width-28 height-28 rounded-sm bg-muted" : "width-20 height-20"
         )}>
-          <Icon
-            iconType={leadIcon}
-            size={16}
-            color={effectiveIconColor}
-            isFill={leadIconFill}
-          />
+          {renderIconProp(leadIcon, {
+            size: 16,
+            color: effectiveIconColor,
+            isFill: leadIconFill,
+          })}
         </div>
       )}
 
@@ -162,12 +161,11 @@ const ContextMenuItem = React.forwardRef<
 
       {tailIcon && (
         <div className="flex items-center justify-center flex-shrink-0 width-20 height-20">
-          <Icon
-            iconType={tailIcon}
-            size={16}
-            color={effectiveIconColor}
-            isFill={tailIconFill}
-          />
+          {renderIconProp(tailIcon, {
+            size: 16,
+            color: effectiveIconColor,
+            isFill: tailIconFill,
+          })}
         </div>
       )}
     </ContextMenuPrimitive.Item>

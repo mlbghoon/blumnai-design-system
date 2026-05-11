@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiArrowGoBackLine, RiArrowGoForwardLine, RiBugLine, RiClipboardLine, RiCloseLine, RiDeleteBinLine, RiFileAddLine, RiFileCopyLine, RiFolderAddLine, RiFolderOpenLine, RiInformationLine, RiLink, RiMailLine, RiQuestionLine, RiSaveLine, RiScissorsLine } from '../../icons/Icon';
 
 import {
   Menubar,
@@ -92,20 +93,20 @@ export const WithIcons: Story = {
         <MenubarMenu>
           <MenubarTrigger>파일</MenubarTrigger>
           <MenubarContent width={220}>
-            <MenubarItem leadIcon={['document', 'file-add']} shortcut="⌘N">
+            <MenubarItem leadIcon={RiFileAddLine} shortcut="⌘N">
               새 파일
             </MenubarItem>
-            <MenubarItem leadIcon={['document', 'folder-open']} shortcut="⌘O">
+            <MenubarItem leadIcon={RiFolderOpenLine} shortcut="⌘O">
               열기
             </MenubarItem>
-            <MenubarItem leadIcon={['device', 'save']} shortcut="⌘S">
+            <MenubarItem leadIcon={RiSaveLine} shortcut="⌘S">
               저장
             </MenubarItem>
-            <MenubarItem leadIcon={['device', 'save']} shortcut="⇧⌘S">
+            <MenubarItem leadIcon={RiSaveLine} shortcut="⇧⌘S">
               다른 이름으로 저장...
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem leadIcon={['system', 'close']} shortcut="⌘Q">
+            <MenubarItem leadIcon={RiCloseLine} shortcut="⌘Q">
               종료
             </MenubarItem>
           </MenubarContent>
@@ -113,24 +114,24 @@ export const WithIcons: Story = {
         <MenubarMenu>
           <MenubarTrigger>편집</MenubarTrigger>
           <MenubarContent width={220}>
-            <MenubarItem leadIcon={['arrows', 'arrow-go-back']} shortcut="⌘Z">
+            <MenubarItem leadIcon={RiArrowGoBackLine} shortcut="⌘Z">
               실행 취소
             </MenubarItem>
-            <MenubarItem leadIcon={['arrows', 'arrow-go-forward']} shortcut="⇧⌘Z">
+            <MenubarItem leadIcon={RiArrowGoForwardLine} shortcut="⇧⌘Z">
               다시 실행
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem leadIcon={['design', 'scissors']} shortcut="⌘X">
+            <MenubarItem leadIcon={RiScissorsLine} shortcut="⌘X">
               잘라내기
             </MenubarItem>
-            <MenubarItem leadIcon={['document', 'file-copy']} shortcut="⌘C">
+            <MenubarItem leadIcon={RiFileCopyLine} shortcut="⌘C">
               복사
             </MenubarItem>
-            <MenubarItem leadIcon={['document', 'clipboard']} shortcut="⌘V">
+            <MenubarItem leadIcon={RiClipboardLine} shortcut="⌘V">
               붙여넣기
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem leadIcon={['system', 'delete-bin']} destructive>
+            <MenubarItem leadIcon={RiDeleteBinLine} destructive>
               삭제
             </MenubarItem>
           </MenubarContent>
@@ -239,8 +240,8 @@ export const WithSubmenu: Story = {
             <MenubarSub>
               <MenubarSubTrigger>공유</MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarItem leadIcon={['business', 'mail']}>이메일</MenubarItem>
-                <MenubarItem leadIcon={['editor', 'link']}>링크 복사</MenubarItem>
+                <MenubarItem leadIcon={RiMailLine}>이메일</MenubarItem>
+                <MenubarItem leadIcon={RiLink}>링크 복사</MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
             <MenubarSeparator />
@@ -269,10 +270,10 @@ export const FullAppMenubar: Story = {
         <MenubarMenu>
           <MenubarTrigger>파일</MenubarTrigger>
           <MenubarContent width={220}>
-            <MenubarItem leadIcon={['document', 'file-add']} shortcut="⌘N">
+            <MenubarItem leadIcon={RiFileAddLine} shortcut="⌘N">
               새 파일
             </MenubarItem>
-            <MenubarItem leadIcon={['document', 'folder-open']} shortcut="⌘O">
+            <MenubarItem leadIcon={RiFolderOpenLine} shortcut="⌘O">
               열기
             </MenubarItem>
             <MenubarSub>
@@ -286,7 +287,7 @@ export const FullAppMenubar: Story = {
               </MenubarSubContent>
             </MenubarSub>
             <MenubarSeparator />
-            <MenubarItem leadIcon={['device', 'save']} shortcut="⌘S">
+            <MenubarItem leadIcon={RiSaveLine} shortcut="⌘S">
               저장
             </MenubarItem>
             <MenubarItem shortcut="⇧⌘S">다른 이름으로 저장...</MenubarItem>
@@ -305,20 +306,20 @@ export const FullAppMenubar: Story = {
         <MenubarMenu>
           <MenubarTrigger>편집</MenubarTrigger>
           <MenubarContent width={220}>
-            <MenubarItem leadIcon={['arrows', 'arrow-go-back']} shortcut="⌘Z">
+            <MenubarItem leadIcon={RiArrowGoBackLine} shortcut="⌘Z">
               실행 취소
             </MenubarItem>
-            <MenubarItem leadIcon={['arrows', 'arrow-go-forward']} shortcut="⇧⌘Z">
+            <MenubarItem leadIcon={RiArrowGoForwardLine} shortcut="⇧⌘Z">
               다시 실행
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem leadIcon={['design', 'scissors']} shortcut="⌘X">
+            <MenubarItem leadIcon={RiScissorsLine} shortcut="⌘X">
               잘라내기
             </MenubarItem>
-            <MenubarItem leadIcon={['document', 'file-copy']} shortcut="⌘C">
+            <MenubarItem leadIcon={RiFileCopyLine} shortcut="⌘C">
               복사
             </MenubarItem>
-            <MenubarItem leadIcon={['document', 'clipboard']} shortcut="⌘V">
+            <MenubarItem leadIcon={RiClipboardLine} shortcut="⌘V">
               붙여넣기
             </MenubarItem>
             <MenubarSeparator />
@@ -359,14 +360,14 @@ export const FullAppMenubar: Story = {
         <MenubarMenu>
           <MenubarTrigger>도움말</MenubarTrigger>
           <MenubarContent width={180}>
-            <MenubarItem leadIcon={['system', 'question']}>
+            <MenubarItem leadIcon={RiQuestionLine}>
               문서
             </MenubarItem>
-            <MenubarItem leadIcon={['development', 'bug']}>
+            <MenubarItem leadIcon={RiBugLine}>
               문제 신고
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem leadIcon={['system', 'information']}>
+            <MenubarItem leadIcon={RiInformationLine}>
               정보
             </MenubarItem>
           </MenubarContent>
@@ -391,14 +392,14 @@ export const CodeEditorMenubar: Story = {
         <MenubarMenu>
           <MenubarTrigger>파일</MenubarTrigger>
           <MenubarContent width={240}>
-            <MenubarItem leadIcon={['document', 'file-add']} shortcut="⌘N">
+            <MenubarItem leadIcon={RiFileAddLine} shortcut="⌘N">
               새 파일
             </MenubarItem>
-            <MenubarItem leadIcon={['document', 'folder-add']} shortcut="⇧⌘N">
+            <MenubarItem leadIcon={RiFolderAddLine} shortcut="⇧⌘N">
               새 폴더
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem leadIcon={['document', 'folder-open']} shortcut="⌘O">
+            <MenubarItem leadIcon={RiFolderOpenLine} shortcut="⌘O">
               파일 열기...
             </MenubarItem>
             <MenubarItem shortcut="⌘K ⌘O">폴더 열기...</MenubarItem>
@@ -424,12 +425,12 @@ export const CodeEditorMenubar: Story = {
               자동 저장
             </MenubarCheckboxItem>
             <MenubarSeparator />
-            <MenubarItem leadIcon={['device', 'save']} shortcut="⌘S">
+            <MenubarItem leadIcon={RiSaveLine} shortcut="⌘S">
               저장
             </MenubarItem>
             <MenubarItem shortcut="⌥⌘S">모두 저장</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem leadIcon={['system', 'close']} shortcut="⌘W">
+            <MenubarItem leadIcon={RiCloseLine} shortcut="⌘W">
               편집기 닫기
             </MenubarItem>
             <MenubarItem shortcut="⌘K W">모두 닫기</MenubarItem>
@@ -532,14 +533,14 @@ export const LargeItems: Story = {
         <MenubarContent width={280}>
           <MenubarItem
             size="large"
-            leadIcon={['document', 'file-add']}
+            leadIcon={RiFileAddLine}
             description="새 문서를 생성합니다"
           >
             새 파일
           </MenubarItem>
           <MenubarItem
             size="large"
-            leadIcon={['document', 'folder-open']}
+            leadIcon={RiFolderOpenLine}
             description="기존 파일을 엽니다"
           >
             파일 열기
@@ -547,7 +548,7 @@ export const LargeItems: Story = {
           <MenubarSeparator />
           <MenubarItem
             size="large"
-            leadIcon={['device', 'save']}
+            leadIcon={RiSaveLine}
             description="현재 파일을 저장합니다"
           >
             저장
@@ -572,8 +573,8 @@ export const WithCaptions: Story = {
           <MenubarItem caption="v2.0.0">정보</MenubarItem>
           <MenubarItem caption="Latest">업데이트 확인</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem leadIcon={['system', 'question']}>문서</MenubarItem>
-          <MenubarItem leadIcon={['development', 'bug']} caption="Beta">
+          <MenubarItem leadIcon={RiQuestionLine}>문서</MenubarItem>
+          <MenubarItem leadIcon={RiBugLine} caption="Beta">
             문제 신고
           </MenubarItem>
         </MenubarContent>

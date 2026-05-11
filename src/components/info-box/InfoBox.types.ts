@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconProp } from '../icons/Icon';
 
 export type InfoBoxVariant = 'default' | 'info' | 'success' | 'warning' | 'error';
 
@@ -14,7 +14,7 @@ export interface InfoBoxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'titl
    * @default 'default'
    */
   styleType?: InfoBoxStyle;
-  icon?: IconType;
+  icon?: IconProp;
   visible?: boolean;
   title?: ReactNode;
   closable?: boolean;

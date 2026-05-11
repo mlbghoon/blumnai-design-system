@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { RiSearchLine } from '../../icons/Icon';
 
 import { Input } from '../Input';
 
@@ -385,7 +386,7 @@ export const WithClearButton: Story = {
         variant="tail-button"
         label="검색"
         placeholder="검색..."
-        leadIcon={['system', 'search']}
+        leadIcon={RiSearchLine}
         buttonLabel="검색"
         value={value}
         onChange={(e) => setValue(e.target.value)}

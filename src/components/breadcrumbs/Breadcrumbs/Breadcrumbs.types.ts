@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
+import type { IconProp } from '../../icons/Icon';
 
 export type BreadcrumbsSize = 'sm' | 'lg';
 
@@ -16,12 +16,16 @@ export interface BreadcrumbItem {
    */
   href?: string;
   /**
-   * 브레드크럼 아이템의 아이콘 타입 (선택사항)
-   * IconTypeWithFill 튜플 또는 커스텀 ReactNode 가능
+   * 브레드크럼 아이템의 아이콘.
+   *
+   * - tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat; dev warning)
+   * - Remixicon component (`RiHomeLine` 등; tree-shaking 권장)
+   * - ReactNode (커스텀 노드)
+   *
+   * @example icon={RiHomeLine}
    * @example icon={['system', 'home']}
-   * @example icon={['system', 'home', true]} - 채워진 아이콘
    */
-  icon?: IconTypeWithFill | ReactNode;
+  icon?: IconProp | ReactNode;
   /**
    * 아바타/이미지 변형용 이미지 URL (선택사항)
    */

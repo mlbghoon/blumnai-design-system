@@ -3,8 +3,8 @@ import type { InputHTMLAttributes, ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/lib/spinner';
-import { Icon, parseIconTypeWithFill, RiCloseCircleLine } from '../../icons/Icon';
-import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
+import { Icon, renderIconProp, RiCloseCircleLine } from '../../icons/Icon';
+import type { IconProp } from '../../icons/Icon';
 import {
   STYLE_CONFIG,
   STATE_CONFIG,
@@ -68,11 +68,11 @@ export interface ButtonInputProps extends Omit<InputHTMLAttributes<HTMLInputElem
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   /**
    * 입력 필드 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconTypeWithFill;
+  tailIcon?: IconProp;
   /**
    * 입력 필드 컨테이너의 커스텀 너비 (숫자는 px, 문자열은 그대로 사용)
    * 미지정 시 전체 너비 사용
@@ -89,11 +89,11 @@ export interface ButtonInputProps extends Omit<InputHTMLAttributes<HTMLInputElem
   /**
    * 버튼 앞에 표시되는 아이콘
    */
-  buttonLeadIcon?: IconTypeWithFill;
+  buttonLeadIcon?: IconProp;
   /**
    * 버튼 뒤에 표시되는 아이콘
    */
-  buttonTailIcon?: IconTypeWithFill;
+  buttonTailIcon?: IconProp;
   /**
    * 버튼 위치 - lead (입력 필드 앞) 또는 tail (입력 필드 뒤)
    * @default 'tail'
@@ -230,31 +230,17 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
         tabIndex={isButtonDisabled ? -1 : 0}
         aria-label={buttonLabel || 'Action button'}
       >
-        {buttonLeadIcon && (() => {
-          const { iconType, isFill } = parseIconTypeWithFill(buttonLeadIcon);
-          return (
-            <Icon
-              iconType={iconType}
-              isFill={isFill}
-              size={sizeConfig.iconSize}
-              color={isButtonDisabled ? 'default-disabled' : 'default-subtle'}
-              className="flex-shrink-0"
-            />
-          );
-        })()}
+        {buttonLeadIcon && renderIconProp(buttonLeadIcon, {
+          size: sizeConfig.iconSize,
+          color: isButtonDisabled ? 'default-disabled' : 'default-subtle',
+          className: 'flex-shrink-0',
+        })}
         {buttonLabel && <span>{buttonLabel}</span>}
-        {buttonTailIcon && (() => {
-          const { iconType, isFill } = parseIconTypeWithFill(buttonTailIcon);
-          return (
-            <Icon
-              iconType={iconType}
-              isFill={isFill}
-              size={sizeConfig.iconSize}
-              color={isButtonDisabled ? 'default-disabled' : 'default-subtle'}
-              className="flex-shrink-0"
-            />
-          );
-        })()}
+        {buttonTailIcon && renderIconProp(buttonTailIcon, {
+          size: sizeConfig.iconSize,
+          color: isButtonDisabled ? 'default-disabled' : 'default-subtle',
+          className: 'flex-shrink-0',
+        })}
       </button>
     );
   };
@@ -286,18 +272,11 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
         {/* Input Area */}
         <div className={inputAreaClassName}>
           {/* Lead Icon */}
-          {showLeadIcon && leadIcon && (() => {
-            const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
-            return (
-              <Icon
-                iconType={iconType}
-                isFill={isFill}
-                size={sizeConfig.iconSize}
-                color={iconColor}
-                className="flex-shrink-0"
-              />
-            );
-          })()}
+          {showLeadIcon && leadIcon && renderIconProp(leadIcon, {
+            size: sizeConfig.iconSize,
+            color: iconColor,
+            className: 'flex-shrink-0',
+          })}
 
           {/* Input Field */}
           <input
@@ -337,18 +316,11 @@ export const ButtonInput = forwardRef<HTMLInputElement, ButtonInputProps>(({
               )}
 
               {/* Tail Icon */}
-              {showTailIcon && !hasClearButton && tailIcon && (() => {
-                const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
-                return (
-                  <Icon
-                    iconType={iconType}
-                    isFill={isFill}
-                    size={sizeConfig.iconSize}
-                    color={iconColor}
-                    className="flex-shrink-0"
-                  />
-                );
-              })()}
+              {showTailIcon && !hasClearButton && tailIcon && renderIconProp(tailIcon, {
+                size: sizeConfig.iconSize,
+                color: iconColor,
+                className: 'flex-shrink-0',
+              })}
             </>
           )}
 

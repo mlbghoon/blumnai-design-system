@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiClipboardLine, RiDeleteBinLine, RiFileAddLine, RiFileCopyLine, RiFolderAddLine, RiFormatClear, RiLink, RiMailLine, RiRefreshLine, RiScissorsLine, RiSettingsLine, RiShareLine } from '../../icons/Icon';
 
 import {
   ContextMenu,
@@ -117,24 +118,24 @@ export const WithIcons: Story = {
           우클릭하세요
         </ContextMenuTrigger>
         <ContextMenuContent width={220}>
-          <ContextMenuItem leadIcon={['document', 'file-copy']} shortcut="⌘C">
+          <ContextMenuItem leadIcon={RiFileCopyLine} shortcut="⌘C">
             복사
           </ContextMenuItem>
-          <ContextMenuItem leadIcon={['document', 'clipboard']} shortcut="⌘V">
+          <ContextMenuItem leadIcon={RiClipboardLine} shortcut="⌘V">
             붙여넣기
           </ContextMenuItem>
-          <ContextMenuItem leadIcon={['design', 'scissors']} shortcut="⌘X">
+          <ContextMenuItem leadIcon={RiScissorsLine} shortcut="⌘X">
             잘라내기
           </ContextMenuItem>
           <ContextMenuSeparator />
-          <ContextMenuItem leadIcon={['document', 'file-add']} shortcut="⌘N">
+          <ContextMenuItem leadIcon={RiFileAddLine} shortcut="⌘N">
             새 파일
           </ContextMenuItem>
-          <ContextMenuItem leadIcon={['document', 'folder-add']} shortcut="⇧⌘N">
+          <ContextMenuItem leadIcon={RiFolderAddLine} shortcut="⇧⌘N">
             새 폴더
           </ContextMenuItem>
           <ContextMenuSeparator />
-          <ContextMenuItem leadIcon={['system', 'delete-bin']} destructive>
+          <ContextMenuItem leadIcon={RiDeleteBinLine} destructive>
             삭제
           </ContextMenuItem>
         </ContextMenuContent>
@@ -227,10 +228,10 @@ export const WithSubmenu: Story = {
           우클릭하세요
         </ContextMenuTrigger>
         <ContextMenuContent width={220}>
-          <ContextMenuItem leadIcon={['document', 'file-add']} shortcut="⌘N">
+          <ContextMenuItem leadIcon={RiFileAddLine} shortcut="⌘N">
             새 파일
           </ContextMenuItem>
-          <ContextMenuItem leadIcon={['document', 'folder-add']}>
+          <ContextMenuItem leadIcon={RiFolderAddLine}>
             새 폴더
           </ContextMenuItem>
           <ContextMenuSeparator />
@@ -247,13 +248,13 @@ export const WithSubmenu: Story = {
           <ContextMenuSub>
             <ContextMenuSubTrigger>공유</ContextMenuSubTrigger>
             <ContextMenuSubContent>
-              <ContextMenuItem leadIcon={['business', 'mail']}>이메일</ContextMenuItem>
-              <ContextMenuItem leadIcon={['system', 'share']}>공유</ContextMenuItem>
-              <ContextMenuItem leadIcon={['editor', 'link']}>링크 복사</ContextMenuItem>
+              <ContextMenuItem leadIcon={RiMailLine}>이메일</ContextMenuItem>
+              <ContextMenuItem leadIcon={RiShareLine}>공유</ContextMenuItem>
+              <ContextMenuItem leadIcon={RiLink}>링크 복사</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSeparator />
-          <ContextMenuItem leadIcon={['system', 'delete-bin']} destructive>
+          <ContextMenuItem leadIcon={RiDeleteBinLine} destructive>
             삭제
           </ContextMenuItem>
         </ContextMenuContent>
@@ -313,17 +314,17 @@ export const FileExplorerExample: Story = {
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSeparator />
-          <ContextMenuItem leadIcon={['document', 'file-add']} shortcut="⌘N">
+          <ContextMenuItem leadIcon={RiFileAddLine} shortcut="⌘N">
             새 파일
           </ContextMenuItem>
-          <ContextMenuItem leadIcon={['document', 'folder-add']} shortcut="⇧⌘N">
+          <ContextMenuItem leadIcon={RiFolderAddLine} shortcut="⇧⌘N">
             새 폴더
           </ContextMenuItem>
           <ContextMenuSeparator />
-          <ContextMenuItem leadIcon={['system', 'refresh']}>
+          <ContextMenuItem leadIcon={RiRefreshLine}>
             새로 고침
           </ContextMenuItem>
-          <ContextMenuItem leadIcon={['system', 'settings']}>
+          <ContextMenuItem leadIcon={RiSettingsLine}>
             속성
           </ContextMenuItem>
         </ContextMenuContent>
@@ -355,17 +356,17 @@ export const TextEditorExample: Story = {
           </div>
         </ContextMenuTrigger>
         <ContextMenuContent width={220}>
-          <ContextMenuItem leadIcon={['design', 'scissors']} shortcut="⌘X">
+          <ContextMenuItem leadIcon={RiScissorsLine} shortcut="⌘X">
             잘라내기
           </ContextMenuItem>
-          <ContextMenuItem leadIcon={['document', 'file-copy']} shortcut="⌘C">
+          <ContextMenuItem leadIcon={RiFileCopyLine} shortcut="⌘C">
             복사
           </ContextMenuItem>
-          <ContextMenuItem leadIcon={['document', 'clipboard']} shortcut="⌘V">
+          <ContextMenuItem leadIcon={RiClipboardLine} shortcut="⌘V">
             붙여넣기
           </ContextMenuItem>
           <ContextMenuSeparator />
-          <ContextMenuItem leadIcon={['editor', 'format-clear']} shortcut="⌘A">
+          <ContextMenuItem leadIcon={RiFormatClear} shortcut="⌘A">
             전체 선택
           </ContextMenuItem>
           <ContextMenuSeparator />

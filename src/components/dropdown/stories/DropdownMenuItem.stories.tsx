@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiArchiveLine, RiArrowRightSLine, RiArtboardLine, RiChat1Line, RiCheckDoubleLine, RiCheckLine, RiCheckboxCircleLine, RiCloseLine, RiCodeBoxLine, RiDeleteBinLine, RiEditLine, RiErrorWarningLine, RiExternalLinkLine, RiFileAddLine, RiFileCopyLine, RiFileTextLine, RiFolderOpenLine, RiInformationLine, RiLockLine, RiLogoutBoxRLine, RiSaveLine, RiSettingsLine, RiUserLine } from '../../icons/Icon';
 
 import {
   DropdownMenu,
@@ -59,18 +60,18 @@ const meta: Meta<DropdownMenuItemProps> = {
     },
     leadIcon: {
       control: 'object',
-      description: '앞에 표시되는 아이콘',
+      description: '앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'IconType',
-          detail: `[category, iconName] 튜플 형식
+          detail: `Remixicon component (권장, tree-shakeable):
+  leadIcon={RiAddLine}
+  leadIcon={RiFileAddLine}
+  leadIcon={RiArrowRightSLine}
 
-카테고리: 'arrows' | 'buildings' | 'business' | 'communication' | 'design' | 'development' | 'device' | 'document' | 'editor' | 'finance' | 'food' | 'health' | 'map' | 'media' | 'others' | 'system' | 'user' | 'weather'
-
-예시:
-['system', 'add']
-['document', 'file-add']
-['arrows', 'arrow-right-s']`,
+또는 tuple form (deprecated, dev console warning):
+  leadIcon={['system', 'add']}
+  leadIcon={['document', 'file-add']}`,
         },
       },
     },
@@ -84,17 +85,17 @@ const meta: Meta<DropdownMenuItemProps> = {
     },
     tailIcon: {
       control: 'object',
-      description: '뒤에 표시되는 아이콘',
+      description: '뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'IconType',
-          detail: `[category, iconName] 튜플 형식
+          detail: `Remixicon component (권장, tree-shakeable):
+  tailIcon={RiArrowRightSLine}
+  tailIcon={RiExternalLinkLine}
 
-카테고리: 'arrows' | 'buildings' | 'business' | 'communication' | 'design' | 'development' | 'device' | 'document' | 'editor' | 'finance' | 'food' | 'health' | 'map' | 'media' | 'others' | 'system' | 'user' | 'weather'
-
-예시:
-['arrows', 'arrow-right-s']
-['arrows', 'external-link']`,
+또는 tuple form (deprecated, dev console warning):
+  tailIcon={['arrows', 'arrow-right-s']}
+  tailIcon={['arrows', 'external-link']}`,
         },
       },
     },
@@ -226,9 +227,9 @@ export const WithLeadIcon: Story = {
           <Button buttonStyle="secondary">메뉴 열기</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
-          <DropdownMenuItem leadIcon={['document', 'file-add']}>새 파일</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['document', 'folder-open']}>열기</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['device', 'save']}>저장</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiFileAddLine}>새 파일</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiFolderOpenLine}>열기</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiSaveLine}>저장</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -246,8 +247,8 @@ export const WithTailIcon: Story = {
           <Button buttonStyle="secondary">메뉴 열기</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={250}>
-          <DropdownMenuItem tailIcon={['arrows', 'arrow-right-s']}>더보기</DropdownMenuItem>
-          <DropdownMenuItem tailIcon={['system', 'external-link']}>외부 링크</DropdownMenuItem>
+          <DropdownMenuItem tailIcon={RiArrowRightSLine}>더보기</DropdownMenuItem>
+          <DropdownMenuItem tailIcon={RiExternalLinkLine}>외부 링크</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -266,13 +267,13 @@ export const WithCaption: Story = {
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>최근 파일</DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['design', 'artboard']} caption="2분 전">
+          <DropdownMenuItem leadIcon={RiArtboardLine} caption="2분 전">
             design-system.fig
           </DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['development', 'code-box']} caption="1시간 전">
+          <DropdownMenuItem leadIcon={RiCodeBoxLine} caption="1시간 전">
             components.tsx
           </DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['document', 'file-text']} caption="어제">
+          <DropdownMenuItem leadIcon={RiFileTextLine} caption="어제">
             notes.md
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -292,13 +293,13 @@ export const WithShortcut: Story = {
           <Button buttonStyle="secondary">메뉴 열기</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={250}>
-          <DropdownMenuItem leadIcon={['document', 'file-add']} shortcut="⌘J">
+          <DropdownMenuItem leadIcon={RiFileAddLine} shortcut="⌘J">
             새 항목
           </DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['document', 'folder-open']} shortcut="⌘O">
+          <DropdownMenuItem leadIcon={RiFolderOpenLine} shortcut="⌘O">
             열기
           </DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['device', 'save']} shortcut="⌘E">
+          <DropdownMenuItem leadIcon={RiSaveLine} shortcut="⌘E">
             내보내기
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -320,21 +321,21 @@ export const WithDescription: Story = {
         <DropdownMenuContent width={300}>
           <DropdownMenuItem
             size="large"
-            leadIcon={['user', 'user']}
+            leadIcon={RiUserLine}
             description="사용자 정보와 프로필 사진을 변경합니다"
           >
             프로필 설정
           </DropdownMenuItem>
           <DropdownMenuItem
             size="large"
-            leadIcon={['communication', 'chat-1']}
+            leadIcon={RiChat1Line}
             description="알림 환경설정을 관리합니다"
           >
             알림 설정
           </DropdownMenuItem>
           <DropdownMenuItem
             size="large"
-            leadIcon={['system', 'lock']}
+            leadIcon={RiLockLine}
             description="비밀번호와 보안 옵션을 설정합니다"
           >
             보안 설정
@@ -360,9 +361,9 @@ export const SizeDefault: Story = {
           <Button buttonStyle="secondary">기본 크기</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={250}>
-          <DropdownMenuItem leadIcon={['system', 'settings']}>설정</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['user', 'user']}>프로필</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['system', 'logout-box-r']}>로그아웃</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiSettingsLine}>설정</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiUserLine}>프로필</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiLogoutBoxRLine}>로그아웃</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -382,21 +383,21 @@ export const SizeLarge: Story = {
         <DropdownMenuContent width={300}>
           <DropdownMenuItem
             size="large"
-            leadIcon={['system', 'settings']}
+            leadIcon={RiSettingsLine}
             description="앱 환경설정을 변경합니다"
           >
             설정
           </DropdownMenuItem>
           <DropdownMenuItem
             size="large"
-            leadIcon={['user', 'user']}
+            leadIcon={RiUserLine}
             description="프로필 정보를 수정합니다"
           >
             프로필
           </DropdownMenuItem>
           <DropdownMenuItem
             size="large"
-            leadIcon={['system', 'logout-box-r']}
+            leadIcon={RiLogoutBoxRLine}
             description="계정에서 로그아웃합니다"
           >
             로그아웃
@@ -422,9 +423,9 @@ export const Disabled: Story = {
           <Button buttonStyle="secondary">옵션</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={200}>
-          <DropdownMenuItem leadIcon={['system', 'check']}>활성 아이템</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['system', 'close']} disabled>비활성 아이템</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['system', 'settings']}>또 다른 활성 아이템</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiCheckLine}>활성 아이템</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiCloseLine} disabled>비활성 아이템</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiSettingsLine}>또 다른 활성 아이템</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -442,12 +443,12 @@ export const Destructive: Story = {
           <Button buttonStyle="secondary">더 보기</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent width={200}>
-          <DropdownMenuItem leadIcon={['design', 'edit']}>편집</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['document', 'file-copy']}>복제</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiEditLine}>편집</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiFileCopyLine}>복제</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem leadIcon={['business', 'archive']}>보관</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiArchiveLine}>보관</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem destructive leadIcon={['system', 'delete-bin']}>
+          <DropdownMenuItem destructive leadIcon={RiDeleteBinLine}>
             삭제
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -472,20 +473,20 @@ export const IconColors: Story = {
         </DropdownMenuTrigger>
         <DropdownMenuContent width={200}>
           <DropdownMenuLabel>아이콘 색상 옵션</DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['system', 'checkbox-circle']} iconColor="success">
+          <DropdownMenuItem leadIcon={RiCheckboxCircleLine} iconColor="success">
             성공
           </DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['system', 'error-warning']} iconColor="warning">
+          <DropdownMenuItem leadIcon={RiErrorWarningLine} iconColor="warning">
             경고
           </DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['system', 'delete-bin']} iconColor="destructive">
+          <DropdownMenuItem leadIcon={RiDeleteBinLine} iconColor="destructive">
             위험
           </DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['system', 'information']} iconColor="informative">
+          <DropdownMenuItem leadIcon={RiInformationLine} iconColor="informative">
             정보
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem leadIcon={['system', 'check-double']} iconColor="success" disabled>
+          <DropdownMenuItem leadIcon={RiCheckDoubleLine} iconColor="success" disabled>
             Disabled (색상 무시됨)
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -519,14 +520,14 @@ export const KeyboardShortcutBinding: Story = {
           </DropdownMenuTrigger>
           <DropdownMenuContent width={220}>
             <DropdownMenuItem
-              leadIcon={['document', 'file-add']}
+              leadIcon={RiFileAddLine}
               shortcut="⌘J"
               onClick={() => addLog('새 항목 (⌘J)')}
             >
               새 항목
             </DropdownMenuItem>
             <DropdownMenuItem
-              leadIcon={['system', 'check']}
+              leadIcon={RiCheckLine}
               shortcut="⌘E"
               onClick={() => addLog('내보내기 (⌘E)')}
             >
@@ -534,7 +535,7 @@ export const KeyboardShortcutBinding: Story = {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              leadIcon={['system', 'delete-bin']}
+              leadIcon={RiDeleteBinLine}
               shortcut="⌘⌫"
               destructive
               onClick={() => addLog('삭제 (⌘⌫)')}

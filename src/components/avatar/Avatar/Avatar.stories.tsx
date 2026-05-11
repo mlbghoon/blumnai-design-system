@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { RiMoonLine } from '../../icons/Icon';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -111,12 +112,16 @@ const meta = {
     },
     icon: {
       control: 'object',
-      description: 'status가 icon일 때 상태 배지에 표시할 아이콘입니다. [카테고리, 이름] 형식의 튜플로 지정합니다',
+      description: 'status가 icon일 때 상태 배지에 표시할 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'IconType',
-          detail: `[category, name] 튜플
-예시: ['weather', 'moon']`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  icon={RiMoonLine}
+  icon={RiCheckLine}
+
+또는 tuple form (deprecated, dev console warning):
+  icon={['weather', 'moon']}`,
         },
       },
     },
@@ -262,7 +267,7 @@ export const StatusBadges: Story = {
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <span style={{ width: '100px' }}>아이콘</span>
-        <Avatar variant="initials" size="md" initials="JD" status="icon" icon={['weather', 'moon']} />
+        <Avatar variant="initials" size="md" initials="JD" status="icon" icon={RiMoonLine} />
       </div>
     </div>
   ),

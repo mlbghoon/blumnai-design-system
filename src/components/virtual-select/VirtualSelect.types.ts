@@ -6,7 +6,7 @@ import type {
   SelectSize,
   SelectType,
 } from '../select/Select.types';
-import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { IconProp } from '../icons/Icon';
 
 export type VirtualSelectVariant = 'single' | 'multi';
 
@@ -25,7 +25,7 @@ export interface VirtualSelectBaseProps {
   minWidth?: string | number;
   disabled?: boolean;
   placeholder?: string;
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   options: SelectOption[];
   searchable?: boolean;
   searchPlaceholder?: string;

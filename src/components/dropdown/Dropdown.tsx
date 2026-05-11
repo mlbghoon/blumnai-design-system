@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 
 import { cn } from '@/lib/utils';
-import { Icon, RiCheckLine, RiSearchLine } from '../icons/Icon';
+import { Icon, renderIconProp, RiCheckLine, RiSearchLine } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { Button } from '../button';
@@ -186,12 +186,11 @@ const DropdownMenuItem = React.forwardRef<
           "flex items-center justify-center flex-shrink-0",
           isLarge ? "width-28 height-28 rounded-sm bg-muted" : "width-20 height-20"
         )}>
-          <Icon
-            iconType={leadIcon}
-            size={isLarge ? 16 : 16}
-            color={effectiveIconColor}
-            isFill={leadIconFill}
-          />
+          {renderIconProp(leadIcon, {
+            size: isLarge ? 16 : 16,
+            color: effectiveIconColor,
+            isFill: leadIconFill,
+          })}
         </div>
       )}
 
@@ -216,12 +215,11 @@ const DropdownMenuItem = React.forwardRef<
 
       {tailIcon && (
         <div className="flex items-center justify-center flex-shrink-0 width-20 height-20">
-          <Icon
-            iconType={tailIcon}
-            size={16}
-            color={effectiveIconColor}
-            isFill={tailIconFill}
-          />
+          {renderIconProp(tailIcon, {
+            size: 16,
+            color: effectiveIconColor,
+            isFill: tailIconFill,
+          })}
         </div>
       )}
     </DropdownMenuPrimitive.Item>
@@ -257,7 +255,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
       </span>
       {leadIcon && (
         <div className="flex items-center justify-center flex-shrink-0 width-20 height-20">
-          <Icon iconType={leadIcon} size={16} color={effectiveIconColor} />
+          {renderIconProp(leadIcon, { size: 16, color: effectiveIconColor })}
         </div>
       )}
       <span className="flex-1 min-w-0 truncate">{children}</span>
@@ -297,7 +295,7 @@ const DropdownMenuRadioItem = React.forwardRef<
       </span>
       {leadIcon && (
         <div className="flex items-center justify-center flex-shrink-0 width-20 height-20">
-          <Icon iconType={leadIcon} size={16} color={effectiveIconColor} />
+          {renderIconProp(leadIcon, { size: 16, color: effectiveIconColor })}
         </div>
       )}
       <span className="flex-1 min-w-0 truncate">{children}</span>
@@ -482,11 +480,10 @@ const DropdownMenuAvatar = React.forwardRef<HTMLDivElement, DropdownMenuAvatarPr
 
         {tailIcon && (
           <div className="flex items-center justify-center flex-shrink-0 width-20 height-20">
-            <Icon
-              iconType={tailIcon}
-              size={16}
-              color={effectiveIconColor}
-            />
+            {renderIconProp(tailIcon, {
+              size: 16,
+              color: effectiveIconColor,
+            })}
           </div>
         )}
       </DropdownMenuPrimitive.Item>

@@ -7,19 +7,12 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '../../dropdown';
-import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
-import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
+import { renderIconProp } from '../../icons/Icon';
 import { cn } from '@/lib/utils';
 
 import type { BreadcrumbsProps } from './Breadcrumbs.types';
 
 const ELLIPSIS_MARKER = '__breadcrumb_ellipsis__';
-
-const isIconTypeWithFill = (icon: unknown): icon is IconTypeWithFill =>
-  Array.isArray(icon) &&
-  (icon.length === 2 || icon.length === 3) &&
-  typeof icon[0] === 'string' &&
-  typeof icon[1] === 'string';
 
 /**
  * Breadcrumbs 컴포넌트
@@ -92,20 +85,11 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(({
     }
 
     if (item.icon) {
-      if (isIconTypeWithFill(item.icon)) {
-        const { iconType, isFill } = parseIconTypeWithFill(item.icon);
-        return (
-          <span className="inline-flex items-center shrink-0">
-            <Icon
-              iconType={iconType}
-              isFill={isFill}
-              size={iconSize}
-              color="default"
-            />
-          </span>
-        );
-      }
-      return <span className="inline-flex items-center shrink-0">{item.icon}</span>;
+      return (
+        <span className="inline-flex items-center shrink-0">
+          {renderIconProp(item.icon, { size: iconSize, color: 'default' })}
+        </span>
+      );
     }
 
     return null;

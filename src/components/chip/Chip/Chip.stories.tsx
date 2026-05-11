@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { RiAddLine, RiAtLine } from '../../icons/Icon';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -70,12 +71,16 @@ const meta: Meta<typeof Chip> = {
     },
     icon: {
       control: 'object',
-      description: '칩에 표시할 아이콘입니다. [카테고리, 이름] 형식의 튜플로 지정합니다',
+      description: '칩에 표시할 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'IconType',
-          detail: `[category, name] 튜플 형식
-예시: ['system', 'add']`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  icon={RiAddLine}
+  icon={RiCheckLine}
+
+또는 tuple form (deprecated, dev console warning):
+  icon={['system', 'add']}`,
         },
       },
     },
@@ -178,7 +183,7 @@ export const Default: Story = {
  */
 export const IconOnly: Story = {
   render: () => (
-    <Chip icon={['system', 'add']} variant="iconOnly" style="default" shape="rounded" size="md" />
+    <Chip icon={RiAddLine} variant="iconOnly" style="default" shape="rounded" size="md" />
   ),
 };
 
@@ -188,9 +193,9 @@ export const IconOnly: Story = {
 export const Sizes: Story = {
   render: () => (
     <div className="flex items-center ds-gap-4">
-      <Chip label="칩" icon={['business', 'at']} variant="default" style="default" size="sm" />
-      <Chip label="칩" icon={['business', 'at']} variant="default" style="default" size="md" />
-      <Chip label="칩" icon={['business', 'at']} variant="default" style="default" size="lg" />
+      <Chip label="칩" icon={RiAtLine} variant="default" style="default" size="sm" />
+      <Chip label="칩" icon={RiAtLine} variant="default" style="default" size="md" />
+      <Chip label="칩" icon={RiAtLine} variant="default" style="default" size="lg" />
     </div>
   ),
 };
@@ -202,16 +207,16 @@ export const Styles: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-4">
       <div className="flex items-center ds-gap-4">
-        <Chip label="칩" icon={['business', 'at']} variant="default" style="default" />
-        <Chip label="칩" icon={['business', 'at']} variant="default" style="soft" />
-        <Chip label="칩" icon={['business', 'at']} variant="default" style="ghost" />
-        <Chip label="칩" icon={['business', 'at']} variant="default" style="ghostMuted" />
+        <Chip label="칩" icon={RiAtLine} variant="default" style="default" />
+        <Chip label="칩" icon={RiAtLine} variant="default" style="soft" />
+        <Chip label="칩" icon={RiAtLine} variant="default" style="ghost" />
+        <Chip label="칩" icon={RiAtLine} variant="default" style="ghostMuted" />
       </div>
       <div className="flex items-center ds-gap-4">
-        <Chip icon={['business', 'at']} variant="iconOnly" style="default" />
-        <Chip icon={['business', 'at']} variant="iconOnly" style="soft" />
-        <Chip icon={['business', 'at']} variant="iconOnly" style="ghost" />
-        <Chip icon={['business', 'at']} variant="iconOnly" style="ghostMuted" />
+        <Chip icon={RiAtLine} variant="iconOnly" style="default" />
+        <Chip icon={RiAtLine} variant="iconOnly" style="soft" />
+        <Chip icon={RiAtLine} variant="iconOnly" style="ghost" />
+        <Chip icon={RiAtLine} variant="iconOnly" style="ghostMuted" />
       </div>
     </div>
   ),
@@ -223,8 +228,8 @@ export const Styles: Story = {
 export const Shapes: Story = {
   render: () => (
     <div className="flex items-center ds-gap-4">
-      <Chip label="칩" icon={['business', 'at']} variant="default" style="default" shape="rounded" />
-      <Chip label="칩" icon={['business', 'at']} variant="default" style="default" shape="pill" />
+      <Chip label="칩" icon={RiAtLine} variant="default" style="default" shape="rounded" />
+      <Chip label="칩" icon={RiAtLine} variant="default" style="default" shape="pill" />
     </div>
   ),
 };
@@ -236,16 +241,16 @@ export const Selected: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-4">
       <div className="flex items-center ds-gap-4">
-        <Chip label="칩" icon={['business', 'at']} variant="default" style="default" selected />
-        <Chip label="칩" icon={['business', 'at']} variant="default" style="soft" selected />
-        <Chip label="칩" icon={['business', 'at']} variant="default" style="ghost" selected />
-        <Chip label="칩" icon={['business', 'at']} variant="default" style="ghostMuted" selected />
+        <Chip label="칩" icon={RiAtLine} variant="default" style="default" selected />
+        <Chip label="칩" icon={RiAtLine} variant="default" style="soft" selected />
+        <Chip label="칩" icon={RiAtLine} variant="default" style="ghost" selected />
+        <Chip label="칩" icon={RiAtLine} variant="default" style="ghostMuted" selected />
       </div>
       <div className="flex items-center ds-gap-4">
-        <Chip icon={['business', 'at']} variant="iconOnly" style="default" selected />
-        <Chip icon={['business', 'at']} variant="iconOnly" style="soft" selected />
-        <Chip icon={['business', 'at']} variant="iconOnly" style="ghost" selected />
-        <Chip icon={['business', 'at']} variant="iconOnly" style="ghostMuted" selected />
+        <Chip icon={RiAtLine} variant="iconOnly" style="default" selected />
+        <Chip icon={RiAtLine} variant="iconOnly" style="soft" selected />
+        <Chip icon={RiAtLine} variant="iconOnly" style="ghost" selected />
+        <Chip icon={RiAtLine} variant="iconOnly" style="ghostMuted" selected />
       </div>
     </div>
   ),
@@ -259,7 +264,7 @@ export const Colors: Story = {
     <div className="flex flex-wrap items-center ds-gap-4">
       {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
         (c) => (
-          <Chip key={c} label={c} icon={['business', 'at']} color={c} />
+          <Chip key={c} label={c} icon={RiAtLine} color={c} />
         )
       )}
     </div>
@@ -274,7 +279,7 @@ export const ColorsSelected: Story = {
     <div className="flex flex-wrap items-center ds-gap-4">
       {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
         (c) => (
-          <Chip key={c} label={c} icon={['business', 'at']} selected color={c} />
+          <Chip key={c} label={c} icon={RiAtLine} selected color={c} />
         )
       )}
     </div>
@@ -338,14 +343,14 @@ export const ColorsIconOnly: Story = {
       <div className="flex flex-wrap items-center ds-gap-4">
         {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
           (c) => (
-            <Chip key={c} icon={['business', 'at']} variant="iconOnly" color={c} />
+            <Chip key={c} icon={RiAtLine} variant="iconOnly" color={c} />
           )
         )}
       </div>
       <div className="flex flex-wrap items-center ds-gap-4">
         {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
           (c) => (
-            <Chip key={c} icon={['business', 'at']} variant="iconOnly" selected color={c} />
+            <Chip key={c} icon={RiAtLine} variant="iconOnly" selected color={c} />
           )
         )}
       </div>

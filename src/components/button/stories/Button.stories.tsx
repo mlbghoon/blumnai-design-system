@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Button } from '../Button';
+import { RiAddLine, RiArrowDownLine, RiArrowRightLine, RiBookmarkFill, RiBookmarkLine, RiCheckLine, RiCloseLine, RiDeleteBinLine, RiExternalLinkLine, RiHeartFill, RiHeartLine, RiNotificationLine, RiSearchLine, RiSettingsFill, RiSettingsLine, RiStarFill, RiStarLine, RiVolumeMuteLine } from '../../icons/Icon';
 
 const meta: Meta<typeof Button> = {
   title: 'Actions/Button',
@@ -97,26 +98,39 @@ const meta: Meta<typeof Button> = {
     },
     leadIcon: {
       control: 'object',
-      description: '라벨 앞에 표시되는 아이콘 (iconOnly 변형에서는 버튼 아이콘)',
+      description: '라벨 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated). iconOnly 변형에서는 버튼 아이콘',
       table: {
         type: {
           summary: 'ButtonIconType | ReactNode',
-          detail: `[category, name] 또는 [category, name, isFill] 튜플 형식
-예시: ['system', 'add']
-예시: ['system', 'star', true] (채워진 아이콘)
-카테고리: system, arrows, media, editor, health, business 등`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  leadIcon={RiAddLine}
+  leadIcon={RiCheckLine}
+  leadIcon={RiHeartFill}
+
+또는 tuple form (deprecated, dev console warning):
+  leadIcon={['system', 'add']}
+  leadIcon={['system', 'star', true]}
+
+또는 ReactNode (이미 렌더된 JSX)`,
         },
       },
     },
     tailIcon: {
       control: 'object',
-      description: '라벨 뒤에 표시되는 아이콘',
+      description: '라벨 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'ButtonIconType | ReactNode',
-          detail: `[category, name] 또는 [category, name, isFill] 튜플 형식
-예시: ['arrows', 'chevron-down']
-예시: ['system', 'check', true] (채워진 아이콘)`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  tailIcon={RiArrowDownSLine}
+  tailIcon={RiExternalLinkLine}
+  tailIcon={RiCheckFill}
+
+또는 tuple form (deprecated, dev console warning):
+  tailIcon={['arrows', 'chevron-down']}
+  tailIcon={['system', 'check', true]}
+
+또는 ReactNode (이미 렌더된 JSX)`,
         },
       },
     },
@@ -293,13 +307,13 @@ export const WithIcons: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-        <Button leadIcon={['system', 'delete-bin']}>삭제</Button>
-        <Button tailIcon={['system', 'external-link']}>미리보기</Button>
-        <Button leadIcon={['system', 'add']}>새로 추가</Button>
-        <Button leadIcon={['media', 'volume-mute']}>음소거</Button>
+        <Button leadIcon={RiDeleteBinLine}>삭제</Button>
+        <Button tailIcon={RiExternalLinkLine}>미리보기</Button>
+        <Button leadIcon={RiAddLine}>새로 추가</Button>
+        <Button leadIcon={RiVolumeMuteLine}>음소거</Button>
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-        <Button leadIcon={['system', 'check']} tailIcon={['arrows', 'arrow-down']}>확인</Button>
+        <Button leadIcon={RiCheckLine} tailIcon={RiArrowDownLine}>확인</Button>
       </div>
     </div>
   ),
@@ -314,16 +328,16 @@ export const WithFilledIcons: Story = {
     <div className="flex flex-col ds-gap-16">
       <p className="margin-0 size-sm text-subtle">일반 아이콘 vs 채워진 아이콘 (isFill=true)</p>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-        <Button leadIcon={['system', 'star']}>일반</Button>
-        <Button leadIcon={['system', 'star', true]}>채움</Button>
-        <Button leadIcon={['health', 'heart']}>일반</Button>
-        <Button leadIcon={['health', 'heart', true]}>채움</Button>
+        <Button leadIcon={RiStarLine}>일반</Button>
+        <Button leadIcon={RiStarFill}>채움</Button>
+        <Button leadIcon={RiHeartLine}>일반</Button>
+        <Button leadIcon={RiHeartFill}>채움</Button>
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-        <Button buttonStyle="secondary" leadIcon={['system', 'settings']}>일반</Button>
-        <Button buttonStyle="secondary" leadIcon={['system', 'settings', true]}>채움</Button>
-        <Button buttonStyle="secondary" leadIcon={['business', 'bookmark']}>일반</Button>
-        <Button buttonStyle="secondary" leadIcon={['business', 'bookmark', true]}>채움</Button>
+        <Button buttonStyle="secondary" leadIcon={RiSettingsLine}>일반</Button>
+        <Button buttonStyle="secondary" leadIcon={RiSettingsFill}>채움</Button>
+        <Button buttonStyle="secondary" leadIcon={RiBookmarkLine}>일반</Button>
+        <Button buttonStyle="secondary" leadIcon={RiBookmarkFill}>채움</Button>
       </div>
     </div>
   ),
@@ -335,11 +349,11 @@ export const WithFilledIcons: Story = {
 export const IconOnlyVariant: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-      <Button variant="iconOnly" leadIcon={['system', 'settings']} size="2xs" />
-      <Button variant="iconOnly" leadIcon={['system', 'settings']} size="xs" />
-      <Button variant="iconOnly" leadIcon={['system', 'settings']} size="sm" />
-      <Button variant="iconOnly" leadIcon={['system', 'settings']} size="md" />
-      <Button variant="iconOnly" leadIcon={['system', 'settings']} size="lg" />
+      <Button variant="iconOnly" leadIcon={RiSettingsLine} size="2xs" />
+      <Button variant="iconOnly" leadIcon={RiSettingsLine} size="xs" />
+      <Button variant="iconOnly" leadIcon={RiSettingsLine} size="sm" />
+      <Button variant="iconOnly" leadIcon={RiSettingsLine} size="md" />
+      <Button variant="iconOnly" leadIcon={RiSettingsLine} size="lg" />
     </div>
   ),
 };
@@ -390,7 +404,7 @@ export const KeyboardShortcutBinding: Story = {
         <div className="flex flex-wrap ds-gap-12 items-center justify-center">
           <Button
             buttonStyle="secondary"
-            leadIcon={['system', 'search']}
+            leadIcon={RiSearchLine}
             shortcut="/"
             onClick={() => addLog('검색 클릭됨 (단축키: /)')}
           >
@@ -398,7 +412,7 @@ export const KeyboardShortcutBinding: Story = {
           </Button>
           <Button
             buttonStyle="secondary"
-            leadIcon={['system', 'add']}
+            leadIcon={RiAddLine}
             shortcut="⌘K"
             onClick={() => addLog('명령 팔레트 클릭됨 (단축키: ⌘K)')}
           >
@@ -504,22 +518,22 @@ export const LoadingState: Story = {
             텍스트만텍스트만텍스트만
           </Button>
           <Button
-            leadIcon={['system', 'add']}
+            leadIcon={RiAddLine}
             loading={loadingStates['leadIcon']}
             onClick={() => handleClick('leadIcon')}
           >
             앞 아이콘
           </Button>
           <Button
-            tailIcon={['arrows', 'arrow-down']}
+            tailIcon={RiArrowDownLine}
             loading={loadingStates['tailIcon']}
             onClick={() => handleClick('tailIcon')}
           >
             뒤 아이콘
           </Button>
           <Button
-            leadIcon={['system', 'check']}
-            tailIcon={['arrows', 'arrow-right']}
+            leadIcon={RiCheckLine}
+            tailIcon={RiArrowRightLine}
             loading={loadingStates['bothIcons']}
             onClick={() => handleClick('bothIcons')}
           >
@@ -537,7 +551,7 @@ export const LoadingState: Story = {
           </Button>
           <Button
             buttonStyle="secondary"
-            leadIcon={['system', 'search']}
+            leadIcon={RiSearchLine}
             shortcut="⌘K"
             loading={loadingStates['iconShortcut']}
             onClick={() => handleClick('iconShortcut')}
@@ -548,14 +562,14 @@ export const LoadingState: Story = {
         <div className="flex flex-wrap ds-gap-12 items-center justify-center">
           <Button
             variant="iconOnly"
-            leadIcon={['system', 'settings']}
+            leadIcon={RiSettingsLine}
             loading={loadingStates['iconOnly']}
             onClick={() => handleClick('iconOnly')}
           />
           <Button
             variant="iconOnly"
             buttonStyle="secondary"
-            leadIcon={['system', 'close']}
+            leadIcon={RiCloseLine}
             loading={loadingStates['iconOnlySecondary']}
             onClick={() => handleClick('iconOnlySecondary')}
           />
@@ -612,13 +626,13 @@ export const WithTooltip: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-        <Button tooltip="저장합니다" leadIcon={['system', 'check']}>저장</Button>
-        <Button tooltip="삭제합니다" tooltipPlacement="bottom" buttonStyle="destructive" leadIcon={['system', 'delete-bin']}>삭제</Button>
-        <Button tooltip="설정 열기" tooltipPlacement="right" buttonStyle="secondary" leadIcon={['system', 'settings']}>설정</Button>
+        <Button tooltip="저장합니다" leadIcon={RiCheckLine}>저장</Button>
+        <Button tooltip="삭제합니다" tooltipPlacement="bottom" buttonStyle="destructive" leadIcon={RiDeleteBinLine}>삭제</Button>
+        <Button tooltip="설정 열기" tooltipPlacement="right" buttonStyle="secondary" leadIcon={RiSettingsLine}>설정</Button>
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-        <Button variant="iconOnly" tooltip="검색" leadIcon={['system', 'search']} buttonStyle="ghost" />
-        <Button variant="iconOnly" tooltip="알림" tooltipPlacement="bottom" leadIcon={['system', 'notification']} buttonStyle="ghost" />
+        <Button variant="iconOnly" tooltip="검색" leadIcon={RiSearchLine} buttonStyle="ghost" />
+        <Button variant="iconOnly" tooltip="알림" tooltipPlacement="bottom" leadIcon={RiNotificationLine} buttonStyle="ghost" />
         <Button variant="iconOnly" tooltip="더보기" tooltipPlacement="left" leadIcon={['system', 'more-vertical']} buttonStyle="ghost" />
       </div>
     </div>
@@ -645,8 +659,8 @@ export const BlackColor: Story = {
         <Button color="black" buttonStyle="soft">Soft</Button>
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-        <Button color="black" buttonStyle="primary" leadIcon={['system', 'add']}>소셜 버튼</Button>
-        <Button color="black" buttonStyle="primary" variant="iconOnly" leadIcon={['system', 'add']} aria-label="추가" />
+        <Button color="black" buttonStyle="primary" leadIcon={RiAddLine}>소셜 버튼</Button>
+        <Button color="black" buttonStyle="primary" variant="iconOnly" leadIcon={RiAddLine} aria-label="추가" />
       </div>
     </div>
   ),
@@ -667,8 +681,42 @@ export const WhiteColor: Story = {
         <Button color="white" buttonStyle="primary" loading width={120}>Loading</Button>
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 bg-inverted rounded-lg">
-        <Button color="white" buttonStyle="primary" leadIcon={['system', 'add']}>소셜 버튼</Button>
-        <Button color="white" buttonStyle="primary" variant="iconOnly" leadIcon={['system', 'add']} aria-label="추가" />
+        <Button color="white" buttonStyle="primary" leadIcon={RiAddLine}>소셜 버튼</Button>
+        <Button color="white" buttonStyle="primary" variant="iconOnly" leadIcon={RiAddLine} aria-label="추가" />
+      </div>
+    </div>
+  ),
+};
+
+/**
+ * Remixicon 컴포넌트 직접 전달 (tree-shakeable)
+ *
+ * `leadIcon` / `tailIcon` 에 `['system', 'add']` 같은 tuple 대신 `RiAddLine` 등의
+ * Remixicon 컴포넌트 참조를 그대로 전달할 수 있습니다. v1.10.6+. 두 API 는 동시에
+ * 지원되며 (tuple 은 dynamic-string back-compat 으로 계속 작동), 신규 코드에서는
+ * tree-shaking 이점을 위해 컴포넌트 참조를 권장합니다.
+ *
+ * - `import { RiCheckLine } from '@blumnai-studio/blumnai-design-system'`
+ * - `<Button leadIcon={RiCheckLine}>확인</Button>`
+ * - `<Button tailIcon={RiArrowRightLine}>다음</Button>`
+ *
+ * 같은 prop 에 ReactNode (이미 렌더된 JSX) 도 그대로 전달 가능합니다 — 기존 동작 변경 없음.
+ */
+export const WithRemixiconComponent: Story = {
+  render: () => (
+    <div className="flex flex-col ds-gap-16">
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
+        <Button leadIcon={RiAddLine}>추가</Button>
+        <Button leadIcon={RiCheckLine} buttonStyle="secondary">확인</Button>
+        <Button tailIcon={RiArrowRightLine} buttonStyle="ghost">다음</Button>
+        <Button leadIcon={RiSearchLine} tailIcon={RiArrowRightLine}>검색</Button>
+        <Button leadIcon={RiHeartFill} buttonStyle="primary" color="rose">좋아요</Button>
+        <Button variant="iconOnly" leadIcon={RiAddLine} aria-label="추가" />
+      </div>
+      <div className="flex flex-wrap ds-gap-12 items-center justify-center">
+        {/* Mixed: tuple form 도 동시 지원 */}
+        <Button leadIcon={RiAddLine}>tuple form</Button>
+        <Button leadIcon={RiAddLine}>component form</Button>
       </div>
     </div>
   ),

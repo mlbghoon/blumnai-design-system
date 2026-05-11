@@ -3,9 +3,8 @@ import * as TabsPrimitive from '@radix-ui/react-tabs';
 
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '../scroll-area/ScrollArea';
-import { Icon, RiArrowLeftSLine, RiArrowRightSLine } from '../icons/Icon';
-import { parseIconTypeWithFill } from '../icons/Icon/Icon.types';
-import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
+import { Icon, renderIconProp, RiArrowLeftSLine, RiArrowRightSLine } from '../icons/Icon';
+import type { IconPropOrNode } from '../icons/Icon';
 import type {
   TabsListProps,
   TabsTriggerProps,
@@ -312,20 +311,8 @@ const TabsTrigger = React.forwardRef<
     </span>
   ) : null;
 
-  const renderIcon = (icon: IconTypeWithFill | React.ReactNode) => {
-    if (!icon) return null;
-
-    if (Array.isArray(icon) && icon.length >= 2 && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
-      const { iconType, isFill } = parseIconTypeWithFill(icon as IconTypeWithFill);
-      return <Icon iconType={iconType} isFill={isFill} size={iconSize} className="shrink-0" />;
-    }
-
-    if (React.isValidElement(icon)) {
-      return <span className="inline-flex items-center shrink-0">{icon}</span>;
-    }
-
-    return null;
-  };
+  const renderIcon = (icon: IconPropOrNode) =>
+    renderIconProp(icon, { size: iconSize, className: 'shrink-0' });
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation();

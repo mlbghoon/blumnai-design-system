@@ -1,6 +1,6 @@
 import { forwardRef, memo, useCallback } from 'react';
 
-import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import { renderIconProp } from '../../icons/Icon';
 import { cn } from '@/lib/utils';
 
 import type { ChipColor, ChipProps, ChipShape, ChipStyle } from './Chip.types';
@@ -212,10 +212,7 @@ export const Chip = memo(forwardRef<HTMLButtonElement, ChipProps>(
               activeStyle.icon
             )}
           >
-            {(() => {
-              const { iconType, isFill } = parseIconTypeWithFill(icon);
-              return <Icon iconType={iconType} size={currentSize.iconSize} isFill={isFill} />;
-            })()}
+            {renderIconProp(icon, { size: currentSize.iconSize })}
           </span>
         ) : null}
 

@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { RiAddLine, RiStarFill, RiStarLine } from '../../icons/Icon';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -57,11 +58,17 @@ const meta: Meta<typeof Divider> = {
     },
     icon: {
       control: 'object',
-      description: '아이콘 타입 (icon-* 타입에서 사용)',
+      description: '아이콘 타입 (icon-* 타입에서 사용) (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'DividerIconType',
-          detail: `[category, name] 또는 [category, name, isFill] 튜플 형식`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  icon={RiStarLine}
+  icon={RiHeartFill}
+
+또는 tuple form (deprecated, dev console warning):
+  icon={['system', 'star']}
+  icon={['health', 'heart', true]}`,
         },
       },
     },
@@ -74,21 +81,37 @@ const meta: Meta<typeof Divider> = {
     },
     buttonLeadIcon: {
       control: 'object',
-      description: '버튼 앞에 표시되는 아이콘 (button-* 타입에서 사용)',
+      description: '버튼 앞에 표시되는 아이콘 (button-* 타입에서 사용) (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'ButtonIconType | ReactNode',
-          detail: `[category, name] 또는 [category, name, isFill] 튜플 형식`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  buttonLeadIcon={RiAddLine}
+  buttonLeadIcon={RiStarFill}
+
+또는 tuple form (deprecated, dev console warning):
+  buttonLeadIcon={['system', 'add']}
+  buttonLeadIcon={['system', 'star', true]}
+
+또는 ReactNode (이미 렌더된 JSX)`,
         },
       },
     },
     buttonTailIcon: {
       control: 'object',
-      description: '버튼 뒤에 표시되는 아이콘 (button-* 타입에서 사용)',
+      description: '버튼 뒤에 표시되는 아이콘 (button-* 타입에서 사용) (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'ButtonIconType | ReactNode',
-          detail: `[category, name] 또는 [category, name, isFill] 튜플 형식`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  buttonTailIcon={RiArrowRightLine}
+  buttonTailIcon={RiArrowDownSLine}
+
+또는 tuple form (deprecated, dev console warning):
+  buttonTailIcon={['arrows', 'arrow-right']}
+  buttonTailIcon={['arrows', 'chevron-down', true]}
+
+또는 ReactNode (이미 렌더된 JSX)`,
         },
       },
     },
@@ -257,8 +280,8 @@ export const TextRight: Story = {
 export const IconLeft: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
-      <Divider type="icon-left" icon={['system', 'star']} />
-      <Divider type="icon-left" icon={['system', 'star']} lineStyle="dashed" />
+      <Divider type="icon-left" icon={RiStarLine} />
+      <Divider type="icon-left" icon={RiStarLine} lineStyle="dashed" />
     </div>
   ),
 };
@@ -269,8 +292,8 @@ export const IconLeft: Story = {
 export const IconCenter: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
-      <Divider type="icon-center" icon={['system', 'star']} />
-      <Divider type="icon-center" icon={['system', 'star']} lineStyle="dashed" />
+      <Divider type="icon-center" icon={RiStarLine} />
+      <Divider type="icon-center" icon={RiStarLine} lineStyle="dashed" />
     </div>
   ),
 };
@@ -281,8 +304,8 @@ export const IconCenter: Story = {
 export const IconRight: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
-      <Divider type="icon-right" icon={['system', 'star']} />
-      <Divider type="icon-right" icon={['system', 'star']} lineStyle="dashed" />
+      <Divider type="icon-right" icon={RiStarLine} />
+      <Divider type="icon-right" icon={RiStarLine} lineStyle="dashed" />
     </div>
   ),
 };
@@ -295,11 +318,11 @@ export const IconFilled: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%', maxWidth: '400px' }}>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>일반 아이콘</span>
-        <Divider type="icon-center" icon={['system', 'star']} />
+        <Divider type="icon-center" icon={RiStarLine} />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>채워진 아이콘 (isFill)</span>
-        <Divider type="icon-center" icon={['system', 'star', true]} />
+        <Divider type="icon-center" icon={RiStarFill} />
       </div>
     </div>
   ),
@@ -352,7 +375,7 @@ export const ButtonWithFeatures: Story = {
         <Divider
           type="button-center"
           buttonLabel="버튼"
-          buttonLeadIcon={['system', 'add']}
+          buttonLeadIcon={RiAddLine}
           onButtonClick={() => console.log('clicked')}
         />
       </div>
@@ -379,7 +402,7 @@ export const ButtonWithFeatures: Story = {
         <Divider
           type="button-center"
           buttonLabel="더 보기"
-          buttonLeadIcon={['system', 'add']}
+          buttonLeadIcon={RiAddLine}
           buttonTailIcon={['arrows', 'chevron-down']}
           buttonBadge="12"
           onButtonClick={() => console.log('clicked')}
@@ -413,15 +436,15 @@ export const AllTypesDefault: Story = {
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>아이콘 왼쪽</span>
-        <Divider type="icon-left" icon={['system', 'star']} />
+        <Divider type="icon-left" icon={RiStarLine} />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>아이콘 가운데</span>
-        <Divider type="icon-center" icon={['system', 'star']} />
+        <Divider type="icon-center" icon={RiStarLine} />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>아이콘 오른쪽</span>
-        <Divider type="icon-right" icon={['system', 'star']} />
+        <Divider type="icon-right" icon={RiStarLine} />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>버튼 왼쪽</span>
@@ -463,15 +486,15 @@ export const AllTypesDashed: Story = {
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>아이콘 왼쪽</span>
-        <Divider type="icon-left" icon={['system', 'star']} lineStyle="dashed" />
+        <Divider type="icon-left" icon={RiStarLine} lineStyle="dashed" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>아이콘 가운데</span>
-        <Divider type="icon-center" icon={['system', 'star']} lineStyle="dashed" />
+        <Divider type="icon-center" icon={RiStarLine} lineStyle="dashed" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>아이콘 오른쪽</span>
-        <Divider type="icon-right" icon={['system', 'star']} lineStyle="dashed" />
+        <Divider type="icon-right" icon={RiStarLine} lineStyle="dashed" />
       </div>
       <div>
         <span style={{ fontSize: '12px', color: '#6f6f77', marginBottom: '8px', display: 'block' }}>버튼 왼쪽</span>

@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react';
 
-import type { IconType } from '../../icons/Icon/Icon.types';
+import type { IconProp } from '../../icons/Icon';
 
 export type AvatarSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
 
@@ -78,7 +78,7 @@ export interface AvatarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'child
    * Only used when `status='icon'`.
    * @example icon={['system', 'check']}
    */
-  icon?: IconType;
+  icon?: IconProp;
   /**
    * The location of the status badge.
    * @default 'top'

@@ -1,6 +1,6 @@
 import type { TextareaHTMLAttributes, ReactNode } from 'react';
 
-import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { IconProp } from '../icons/Icon';
 import type { ButtonStyle, ButtonColor } from '../button/Button.types';
 
 /**
@@ -25,7 +25,7 @@ export interface TextareaToolbarAction {
   /**
    * 아이콘 (Button의 leadIcon으로 전달)
    */
-  icon?: IconTypeWithFill;
+  icon?: IconProp;
   /**
    * 라벨 텍스트 (없으면 아이콘만 표시)
    */

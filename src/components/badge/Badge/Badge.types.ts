@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react';
 
-import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
+import type { IconProp } from '../../icons/Icon';
 
 export type BadgeVariant = 'default' | 'icon' | 'image' | 'dot';
 
@@ -73,7 +73,7 @@ export interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childr
    * @example icon={['system', 'check']}
    * @example icon={['system', 'star', true]} - filled icon
    */
-  icon?: IconTypeWithFill;
+  icon?: IconProp;
   /**
    * The image source URL (for image variant).
    */

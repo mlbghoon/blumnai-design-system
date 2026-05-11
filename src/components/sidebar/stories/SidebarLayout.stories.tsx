@@ -18,7 +18,7 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from '../Sidebar';
-import { Icon, RiArrowLeftRightLine } from '../../icons/Icon';
+import { Icon, RiArrowLeftRightLine, RiLogoutBoxLine } from '../../icons/Icon';
 
 type SidebarStoryProps = {
   open: boolean;
@@ -305,7 +305,7 @@ export const Footer: Story = {
             <SidebarMenu>
               <SidebarMenuItem
                 variant="default"
-                icon={['system', 'logout-box']}
+                icon={RiLogoutBoxLine}
                 label="Log out"
               />
             </SidebarMenu>

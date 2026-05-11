@@ -1,13 +1,18 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconType, RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 
 /**
- * 아이콘 타입 - isFill 옵션 지원
- * @example ['system', 'add'] - 일반 아이콘
- * @example ['system', 'add', true] - 채워진 아이콘
+ * AvatarButton 아이콘 타입.
+ *
+ * - tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat)
+ * - Remixicon component (`RiArrowDownSLine` 등; tree-shaking 권장)
+ *
+ * @example ['arrows', 'arrow-down-s']
+ * @example ['arrows', 'arrow-down-s', true]
+ * @example RiArrowDownSLine
  */
-export type AvatarButtonIconType = IconType | [...IconType, boolean];
+export type AvatarButtonIconType = IconType | [...IconType, boolean] | RemixiconLikeComponent;
 
 export type AvatarButtonSize = 'sm' | 'lg';
 

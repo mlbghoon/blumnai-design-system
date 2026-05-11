@@ -1,14 +1,18 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconType, RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 
 /**
- * Extended icon type for Button that supports isFill option.
- * Can be a standard IconType tuple or a 3-element tuple with isFill.
- * @example ['system', 'add'] - regular icon
- * @example ['system', 'add', true] - filled icon
+ * Extended icon type for Button.
+ *
+ * - Tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat)
+ * - Remixicon component reference like `RiCheckLine` (tree-shaking 권장)
+ *
+ * @example ['system', 'add']
+ * @example ['system', 'add', true]
+ * @example RiCheckLine
  */
-export type ButtonIconType = IconType | [...IconType, boolean];
+export type ButtonIconType = IconType | [...IconType, boolean] | RemixiconLikeComponent;
 
 export type ButtonStyle =
   | 'primary'
@@ -60,16 +64,24 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   type?: ButtonType;
   /**
    * Icon to display before the label (or as the icon for iconOnly variant).
-   * Can be a ButtonIconType tuple or a ReactNode.
-   * @example leadIcon={['system', 'add']} - regular icon
-   * @example leadIcon={['system', 'add', true]} - filled icon
+   *
+   * 받는 형식:
+   * - tuple `[category, name]` / `[category, name, isFill]` — dynamic-string back-compat
+   * - Remixicon component (`RiCheckLine` 등) — tree-shaking 권장
+   * - ReactNode — 직접 렌더된 노드
+   *
+   * @example leadIcon={['system', 'add']}
+   * @example leadIcon={['system', 'add', true]}
+   * @example leadIcon={RiAddLine}
    */
   leadIcon?: ButtonIconType | ReactNode;
   /**
    * Icon to display after the label.
-   * Can be a ButtonIconType tuple or a ReactNode.
-   * @example tailIcon={['arrows', 'arrow-right']} - regular icon
-   * @example tailIcon={['arrows', 'arrow-right', true]} - filled icon
+   *
+   * 받는 형식은 `leadIcon` 과 동일.
+   *
+   * @example tailIcon={['arrows', 'arrow-right']}
+   * @example tailIcon={RiArrowRightLine}
    */
   tailIcon?: ButtonIconType | ReactNode;
   /**

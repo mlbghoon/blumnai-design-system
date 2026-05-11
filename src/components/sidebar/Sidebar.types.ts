@@ -1,6 +1,6 @@
 import type { ReactNode, HTMLAttributes, ButtonHTMLAttributes, ComponentProps } from 'react';
 
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconType, RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 import type { BadgeProps } from '../badge/Badge/Badge.types';
 
 // ============================================
@@ -74,9 +74,12 @@ export type SidebarMenuItemVariant =
   | 'children';
 
 /**
- * Extended icon type for SidebarMenuItem that supports isFill option.
+ * Extended icon type for SidebarMenuItem.
+ *
+ * - tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat)
+ * - Remixicon component (`RiHomeLine` 등; tree-shaking 권장)
  */
-export type SidebarMenuItemIconType = IconType | [...IconType, boolean];
+export type SidebarMenuItemIconType = IconType | [...IconType, boolean] | RemixiconLikeComponent;
 
 export interface SidebarMenuItemBaseProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
   /**

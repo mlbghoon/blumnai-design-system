@@ -5,8 +5,8 @@ import { useKeyboardShortcut } from '../../../hooks/use-keyboard-shortcut';
 
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/lib/spinner';
-import { Icon, parseIconTypeWithFill, RiCloseCircleLine } from '../../icons/Icon';
-import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
+import { Icon, renderIconProp, RiCloseCircleLine } from '../../icons/Icon';
+import type { IconProp } from '../../icons/Icon';
 import {
   STATE_CONFIG,
   SHORTCUT_STYLE,
@@ -59,11 +59,11 @@ export interface DefaultInputProps extends Omit<InputHTMLAttributes<HTMLInputEle
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   /**
    * 입력 필드 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconTypeWithFill;
+  tailIcon?: IconProp;
   /**
    * 끝에 표시되는 단축키 뱃지 텍스트
    */
@@ -219,18 +219,11 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
       {/* Input Wrapper */}
       <div className={wrapperClassName}>
         {/* Lead Icon */}
-        {hasLeadIcon && leadIcon && (() => {
-          const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
-          return (
-            <Icon
-              iconType={iconType}
-              isFill={isFill}
-              size={sizeConfig.iconSize}
-              color={iconColor}
-              className="flex-shrink-0"
-            />
-          );
-        })()}
+        {hasLeadIcon && leadIcon && renderIconProp(leadIcon, {
+          size: sizeConfig.iconSize,
+          color: iconColor,
+          className: 'flex-shrink-0',
+        })}
 
         {/* Input Field */}
         <input
@@ -279,18 +272,11 @@ export const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>(({
             )}
 
             {/* Tail Icon */}
-            {tailIcon && !shortcut && !hasClearButton && (() => {
-              const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
-              return (
-                <Icon
-                  iconType={iconType}
-                  isFill={isFill}
-                  size={sizeConfig.iconSize}
-                  color={iconColor}
-                  className="flex-shrink-0"
-                />
-              );
-            })()}
+            {tailIcon && !shortcut && !hasClearButton && renderIconProp(tailIcon, {
+              size: sizeConfig.iconSize,
+              color: iconColor,
+              className: 'flex-shrink-0',
+            })}
           </>
         )}
 

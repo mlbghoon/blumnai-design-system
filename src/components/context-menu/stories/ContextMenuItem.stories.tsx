@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiArchiveLine, RiArrowRightSLine, RiArtboardLine, RiChat1Line, RiCheckDoubleLine, RiCheckLine, RiCheckboxCircleLine, RiClipboardLine, RiCloseLine, RiCodeBoxLine, RiDeleteBinLine, RiEditLine, RiErrorWarningLine, RiExternalLinkLine, RiFileAddLine, RiFileCopyLine, RiFileTextLine, RiFolderOpenLine, RiInformationLine, RiLockLine, RiLogoutBoxRLine, RiSaveLine, RiScissorsLine, RiSettingsLine, RiUserLine } from '../../icons/Icon';
 
 import {
   ContextMenu,
@@ -58,18 +59,18 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     leadIcon: {
       control: 'object',
-      description: '아이템 라벨 앞에 표시되는 아이콘입니다. [카테고리, 아이콘명] 튜플 형식으로 지정합니다',
+      description: '아이템 라벨 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'IconType',
-          detail: `[category, iconName] 튜플 형식
+          detail: `Remixicon component (권장, tree-shakeable):
+  leadIcon={RiAddLine}
+  leadIcon={RiFileAddLine}
+  leadIcon={RiArrowRightSLine}
 
-카테고리: 'arrows' | 'buildings' | 'business' | 'communication' | 'design' | 'development' | 'device' | 'document' | 'editor' | 'finance' | 'food' | 'health' | 'map' | 'media' | 'others' | 'system' | 'user' | 'weather'
-
-예시:
-['system', 'add']
-['document', 'file-add']
-['arrows', 'arrow-right-s']`,
+또는 tuple form (deprecated, dev console warning):
+  leadIcon={['system', 'add']}
+  leadIcon={['document', 'file-add']}`,
         },
       },
     },
@@ -83,17 +84,17 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     tailIcon: {
       control: 'object',
-      description: '아이템 라벨 뒤쪽에 표시되는 아이콘입니다. 서브메뉴 화살표나 외부 링크 표시에 주로 사용됩니다',
+      description: '아이템 라벨 뒤쪽에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated). 서브메뉴 화살표나 외부 링크 표시에 주로 사용됩니다',
       table: {
         type: {
           summary: 'IconType',
-          detail: `[category, iconName] 튜플 형식
+          detail: `Remixicon component (권장, tree-shakeable):
+  tailIcon={RiArrowRightSLine}
+  tailIcon={RiExternalLinkLine}
 
-카테고리: 'arrows' | 'buildings' | 'business' | 'communication' | 'design' | 'development' | 'device' | 'document' | 'editor' | 'finance' | 'food' | 'health' | 'map' | 'media' | 'others' | 'system' | 'user' | 'weather'
-
-예시:
-['arrows', 'arrow-right-s']
-['arrows', 'external-link']`,
+또는 tuple form (deprecated, dev console warning):
+  tailIcon={['arrows', 'arrow-right-s']}
+  tailIcon={['arrows', 'external-link']}`,
         },
       },
     },
@@ -224,9 +225,9 @@ export const WithLeadIcon: Story = {
         우클릭하세요
       </ContextMenuTrigger>
       <ContextMenuContent width={280}>
-        <ContextMenuItem leadIcon={['document', 'file-add']}>새 파일</ContextMenuItem>
-        <ContextMenuItem leadIcon={['document', 'folder-open']}>열기</ContextMenuItem>
-        <ContextMenuItem leadIcon={['device', 'save']}>저장</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiFileAddLine}>새 파일</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiFolderOpenLine}>열기</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiSaveLine}>저장</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   ),
@@ -242,8 +243,8 @@ export const WithTailIcon: Story = {
         우클릭하세요
       </ContextMenuTrigger>
       <ContextMenuContent width={250}>
-        <ContextMenuItem tailIcon={['arrows', 'arrow-right-s']}>더보기</ContextMenuItem>
-        <ContextMenuItem tailIcon={['system', 'external-link']}>외부 링크</ContextMenuItem>
+        <ContextMenuItem tailIcon={RiArrowRightSLine}>더보기</ContextMenuItem>
+        <ContextMenuItem tailIcon={RiExternalLinkLine}>외부 링크</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   ),
@@ -260,13 +261,13 @@ export const WithCaption: Story = {
       </ContextMenuTrigger>
       <ContextMenuContent width={280}>
         <ContextMenuLabel>최근 파일</ContextMenuLabel>
-        <ContextMenuItem leadIcon={['design', 'artboard']} caption="2분 전">
+        <ContextMenuItem leadIcon={RiArtboardLine} caption="2분 전">
           design-system.fig
         </ContextMenuItem>
-        <ContextMenuItem leadIcon={['development', 'code-box']} caption="1시간 전">
+        <ContextMenuItem leadIcon={RiCodeBoxLine} caption="1시간 전">
           components.tsx
         </ContextMenuItem>
-        <ContextMenuItem leadIcon={['document', 'file-text']} caption="어제">
+        <ContextMenuItem leadIcon={RiFileTextLine} caption="어제">
           notes.md
         </ContextMenuItem>
       </ContextMenuContent>
@@ -284,13 +285,13 @@ export const WithShortcut: Story = {
         우클릭하세요
       </ContextMenuTrigger>
       <ContextMenuContent width={250}>
-        <ContextMenuItem leadIcon={['document', 'file-add']} shortcut="⌘N">
+        <ContextMenuItem leadIcon={RiFileAddLine} shortcut="⌘N">
           새 파일
         </ContextMenuItem>
-        <ContextMenuItem leadIcon={['document', 'folder-open']} shortcut="⌘O">
+        <ContextMenuItem leadIcon={RiFolderOpenLine} shortcut="⌘O">
           열기
         </ContextMenuItem>
-        <ContextMenuItem leadIcon={['device', 'save']} shortcut="⌘S">
+        <ContextMenuItem leadIcon={RiSaveLine} shortcut="⌘S">
           저장
         </ContextMenuItem>
       </ContextMenuContent>
@@ -310,21 +311,21 @@ export const WithDescription: Story = {
       <ContextMenuContent width={300}>
         <ContextMenuItem
           size="large"
-          leadIcon={['user', 'user']}
+          leadIcon={RiUserLine}
           description="사용자 정보와 프로필 사진을 변경합니다"
         >
           프로필 설정
         </ContextMenuItem>
         <ContextMenuItem
           size="large"
-          leadIcon={['communication', 'chat-1']}
+          leadIcon={RiChat1Line}
           description="알림 환경설정을 관리합니다"
         >
           알림 설정
         </ContextMenuItem>
         <ContextMenuItem
           size="large"
-          leadIcon={['system', 'lock']}
+          leadIcon={RiLockLine}
           description="비밀번호와 보안 옵션을 설정합니다"
         >
           보안 설정
@@ -348,9 +349,9 @@ export const SizeDefault: Story = {
         우클릭하세요
       </ContextMenuTrigger>
       <ContextMenuContent width={250}>
-        <ContextMenuItem leadIcon={['system', 'settings']}>설정</ContextMenuItem>
-        <ContextMenuItem leadIcon={['user', 'user']}>프로필</ContextMenuItem>
-        <ContextMenuItem leadIcon={['system', 'logout-box-r']}>로그아웃</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiSettingsLine}>설정</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiUserLine}>프로필</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiLogoutBoxRLine}>로그아웃</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   ),
@@ -368,21 +369,21 @@ export const SizeLarge: Story = {
       <ContextMenuContent width={300}>
         <ContextMenuItem
           size="large"
-          leadIcon={['system', 'settings']}
+          leadIcon={RiSettingsLine}
           description="앱 환경설정을 변경합니다"
         >
           설정
         </ContextMenuItem>
         <ContextMenuItem
           size="large"
-          leadIcon={['user', 'user']}
+          leadIcon={RiUserLine}
           description="프로필 정보를 수정합니다"
         >
           프로필
         </ContextMenuItem>
         <ContextMenuItem
           size="large"
-          leadIcon={['system', 'logout-box-r']}
+          leadIcon={RiLogoutBoxRLine}
           description="계정에서 로그아웃합니다"
         >
           로그아웃
@@ -406,9 +407,9 @@ export const Disabled: Story = {
         우클릭하세요
       </ContextMenuTrigger>
       <ContextMenuContent width={200}>
-        <ContextMenuItem leadIcon={['system', 'check']}>활성 아이템</ContextMenuItem>
-        <ContextMenuItem leadIcon={['system', 'close']} disabled>비활성 아이템</ContextMenuItem>
-        <ContextMenuItem leadIcon={['system', 'settings']}>또 다른 활성 아이템</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiCheckLine}>활성 아이템</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiCloseLine} disabled>비활성 아이템</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiSettingsLine}>또 다른 활성 아이템</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   ),
@@ -424,12 +425,12 @@ export const Destructive: Story = {
         우클릭하세요
       </ContextMenuTrigger>
       <ContextMenuContent width={200}>
-        <ContextMenuItem leadIcon={['design', 'edit']}>편집</ContextMenuItem>
-        <ContextMenuItem leadIcon={['document', 'file-copy']}>복제</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiEditLine}>편집</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiFileCopyLine}>복제</ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem leadIcon={['business', 'archive']}>보관</ContextMenuItem>
+        <ContextMenuItem leadIcon={RiArchiveLine}>보관</ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem destructive leadIcon={['system', 'delete-bin']}>
+        <ContextMenuItem destructive leadIcon={RiDeleteBinLine}>
           삭제
         </ContextMenuItem>
       </ContextMenuContent>
@@ -452,20 +453,20 @@ export const IconColors: Story = {
       </ContextMenuTrigger>
       <ContextMenuContent width={200}>
         <ContextMenuLabel>아이콘 색상 옵션</ContextMenuLabel>
-        <ContextMenuItem leadIcon={['system', 'checkbox-circle']} iconColor="success">
+        <ContextMenuItem leadIcon={RiCheckboxCircleLine} iconColor="success">
           성공
         </ContextMenuItem>
-        <ContextMenuItem leadIcon={['system', 'error-warning']} iconColor="warning">
+        <ContextMenuItem leadIcon={RiErrorWarningLine} iconColor="warning">
           경고
         </ContextMenuItem>
-        <ContextMenuItem leadIcon={['system', 'delete-bin']} iconColor="destructive">
+        <ContextMenuItem leadIcon={RiDeleteBinLine} iconColor="destructive">
           위험
         </ContextMenuItem>
-        <ContextMenuItem leadIcon={['system', 'information']} iconColor="informative">
+        <ContextMenuItem leadIcon={RiInformationLine} iconColor="informative">
           정보
         </ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem leadIcon={['system', 'check-double']} iconColor="success" disabled>
+        <ContextMenuItem leadIcon={RiCheckDoubleLine} iconColor="success" disabled>
           비활성화 (색상 무시됨)
         </ContextMenuItem>
       </ContextMenuContent>
@@ -498,21 +499,21 @@ export const KeyboardShortcutBinding: Story = {
           </ContextMenuTrigger>
           <ContextMenuContent width={220}>
             <ContextMenuItem
-              leadIcon={['design', 'scissors']}
+              leadIcon={RiScissorsLine}
               shortcut="⌘X"
               onClick={() => addLog('잘라내기 (⌘X)')}
             >
               잘라내기
             </ContextMenuItem>
             <ContextMenuItem
-              leadIcon={['document', 'file-copy']}
+              leadIcon={RiFileCopyLine}
               shortcut="⌘C"
               onClick={() => addLog('복사 (⌘C)')}
             >
               복사
             </ContextMenuItem>
             <ContextMenuItem
-              leadIcon={['document', 'clipboard']}
+              leadIcon={RiClipboardLine}
               shortcut="⌘V"
               onClick={() => addLog('붙여넣기 (⌘V)')}
             >

@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from 'react';
 
-import type { IconType, IconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { IconType, IconTypeWithFill, RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 import type { ButtonColor } from './Button.types';
 
 export type ControlButtonSize = 'sm' | 'md' | 'lg' | 'xl';
@@ -26,11 +26,16 @@ export interface ControlButtonProps extends Omit<ButtonHTMLAttributes<HTMLButton
    */
   shape?: ControlButtonShape;
   /**
-   * 아이콘 타입 (필수). 3-tuple로 isFill 지정 가능
+   * 아이콘 (필수).
+   *
+   * - tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat)
+   * - Remixicon component (`RiPlayLine` 등; tree-shaking 권장)
+   *
    * @example icon={['media', 'play']}
    * @example icon={['system', 'star', true]}
+   * @example icon={RiPlayLine}
    */
-  icon: IconType | IconTypeWithFill;
+  icon: IconType | IconTypeWithFill | RemixiconLikeComponent;
   /**
    * 아이콘 색상 오버라이드. 배경/호버 스타일에는 영향 없음
    * @example colorOverride="yellow"

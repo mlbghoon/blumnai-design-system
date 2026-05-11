@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiBookmarkLine, RiInboxLine, RiSearchLine } from '../../icons/Icon';
 
 import { EmptyState } from './EmptyState';
 import { Button } from '../../button/Button';
@@ -14,9 +15,19 @@ const meta: Meta<typeof EmptyState> = {
   argTypes: {
     icon: {
       control: 'object',
-      description: '빈 상태 영역 상단에 표시되는 아이콘입니다. [카테고리, 아이콘명] 형식으로 전달합니다',
+      description: '빈 상태 영역 상단에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
-        type: { summary: 'IconTypeWithFill' },
+        type: {
+          summary: 'IconTypeWithFill',
+          detail: `Remixicon component (권장, tree-shakeable):
+  icon={RiInboxLine}
+  icon={RiFolderOpenLine}
+  icon={RiStarFill}
+
+또는 tuple form (deprecated, dev console warning):
+  icon={['system', 'inbox']}
+  icon={['document', 'folder-open', true]}`,
+        },
       },
     },
     illustration: {
@@ -101,7 +112,7 @@ export const Default: Story = {
 export const WithAction: Story = {
   render: () => (
     <EmptyState
-      icon={['business', 'inbox']}
+      icon={RiInboxLine}
       title="데이터가 없습니다"
       description="새로운 항목을 추가하여 시작하세요."
       action={<Button size="md">항목 추가</Button>}
@@ -127,7 +138,7 @@ export const WithoutIcon: Story = {
 export const Small: Story = {
   render: () => (
     <EmptyState
-      icon={['system', 'search']}
+      icon={RiSearchLine}
       title="결과 없음"
       description="검색어를 변경해 보세요."
       size="sm"
@@ -175,7 +186,7 @@ export const InlineVariant: Story = {
       <EmptyState
         variant="inline"
         size="sm"
-        icon={['business', 'bookmark']}
+        icon={RiBookmarkLine}
         title="등록된 태그가 없습니다."
       />
     </div>
@@ -216,7 +227,7 @@ export const FillVariant: Story = {
 export const ExtraSmall: Story = {
   render: () => (
     <EmptyState
-      icon={['system', 'search']}
+      icon={RiSearchLine}
       title="결과 없음"
       size="xs"
     />
@@ -231,7 +242,7 @@ export const ExtraSmall: Story = {
 export const Large: Story = {
   render: () => (
     <EmptyState
-      icon={['system', 'search']}
+      icon={RiSearchLine}
       title="검색 결과가 없습니다"
       description="다른 키워드로 다시 검색해 보세요. 필터를 변경하거나 새로운 검색어를 입력해 주세요."
       size="lg"

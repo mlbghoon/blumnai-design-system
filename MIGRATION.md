@@ -11,6 +11,128 @@
 
 ---
 
+## v1.10.x → v1.10.6 (모든 icon prop 에 Remixicon component 사용 — 강력 권장)
+
+### 한 줄 요약
+
+> **이제부터 모든 컴포넌트에서 `leadIcon` / `tailIcon` / `icon` 같은 prop 에 `RiCheckLine` 같은 Remixicon 컴포넌트 참조를 사용하세요.** Tuple form (`['system', 'check']`) 은 여전히 동작하지만 dev 콘솔에 deprecation 경고가 출력됩니다.
+
+### 이건 breaking change 가 아닙니다
+
+기존 tuple 코드는 **그대로 작동합니다.** API 가 widening 된 것 뿐 — 새 형식과 기존 형식을 모두 받습니다. 다만 다음 이유로 마이그레이션을 강력 권장합니다:
+
+- **Tree-shaking** — 직접 import 한 아이콘만 번들에 포함 (페이지당 ~1KB/아이콘 vs 전체 카탈로그 chunk)
+- **타입 안전성** — TypeScript 가 오타를 빌드 타임에 잡아냄 (tuple 은 런타임에야 missing icon 으로 드러남)
+- **Suspense flicker 없음** — dynamic-string API 는 첫 렌더에 lazy chunk 를 기다리지만, component ref 는 즉시 렌더
+- **IDE auto-import** — `RiCh...` 만 쳐도 `RiCheckLine` 자동 완성
+- **Dev console deprecation warning** — tuple form 을 쓰면 매 unique tuple 마다 한 번씩 경고 출력 (production 빌드에서는 dead-code elimination 으로 제거됨)
+
+### 마이그레이션
+
+**자동 (권장):**
+
+```bash
+npx blumnai-icon-codemod --dry --print ./src   # 미리보기
+npx blumnai-icon-codemod ./src                 # 실제 변환
+```
+
+Codemod 가 처리하는 prop 들 (DS 컴포넌트 어디든):
+- `iconType` (`<Icon>` 의 dynamic API; 이건 `icon` 으로 prop 이름까지 변경됨)
+- `icon` (Chip, Badge, Avatar, ControlButton, FilterButton, Divider, InfoBox, Tooltip, EmptyState, FileUpload, Breadcrumbs, Stepper, NavigationMenu, Sidebar, Tabs item icon, ...)
+- `leadIcon` (Button, LinkButton, Input, Select, Combobox, Menubar, ContextMenu, Dropdown, Tabs, Sidebar, ...)
+- `tailIcon` (위와 동일)
+- `buttonLeadIcon`, `buttonTailIcon` (Input ButtonInput variant, Divider button variant)
+
+**Before / After:**
+
+```tsx
+// Before
+<Button leadIcon={['system', 'add']}>추가</Button>
+<Input leadIcon={['system', 'search']} placeholder="검색..." />
+<Chip icon={['health', 'heart', true]} label="찜" />
+<ControlButton icon={['system', 'settings']} aria-label="설정" />
+<Icon iconType={['system', 'check']} size={16} />
+
+// After (codemod 자동 적용 — Ri* import 까지 추가됨)
+import { Button, Input, Chip, ControlButton, Icon,
+         RiAddLine, RiSearchLine, RiHeartFill, RiSettingsLine, RiCheckLine }
+       from '@blumnai-studio/blumnai-design-system';
+
+<Button leadIcon={RiAddLine}>추가</Button>
+<Input leadIcon={RiSearchLine} placeholder="검색..." />
+<Chip icon={RiHeartFill} label="찜" />
+<ControlButton icon={RiSettingsLine} aria-label="설정" />
+<Icon icon={RiCheckLine} size={16} />
+```
+
+### Codemod 가 건드리지 않는 코드
+
+정적 literal 이 아닌 경우 — 변수, 삼항, 함수 호출:
+
+```tsx
+// 이런 동적 코드는 그대로 둠 (계속 작동)
+const iconName = getIconForStatus(status);
+<Button leadIcon={iconName}>...</Button>
+
+<Button leadIcon={isLoading ? ['system', 'loader'] : ['system', 'check']}>...</Button>
+```
+
+동적 lookup 이 정말 필요하면 dynamic-string back-compat path 가 계속 작동합니다. 다만 dev 콘솔 경고는 계속 뜨므로, 가능한 경우 `const RiCmp = isLoading ? RiLoaderLine : RiCheckLine` 처럼 컴포넌트 참조로 분기하는 것을 권장.
+
+### 자주 쓰는 매핑
+
+| Tuple | Ri 컴포넌트 |
+|-------|------------|
+| `['system', 'add']` | `RiAddLine` |
+| `['system', 'add', true]` | `RiAddFill` |
+| `['system', 'check']` | `RiCheckLine` |
+| `['system', 'close']` | `RiCloseLine` |
+| `['system', 'search']` | `RiSearchLine` |
+| `['system', 'settings']` | `RiSettingsLine` |
+| `['system', 'menu']` | `RiMenuLine` |
+| `['system', 'delete-bin']` | `RiDeleteBinLine` |
+| `['system', 'edit']` | `RiEditLine` |
+| `['system', 'eye']` / `'eye-off'` | `RiEyeLine` / `RiEyeOffLine` |
+| `['arrows', 'arrow-right']` | `RiArrowRightLine` |
+| `['arrows', 'arrow-down-s']` | `RiArrowDownSLine` |
+| `['health', 'heart', true]` | `RiHeartFill` |
+| `['user', 'user']` | `RiUserLine` |
+| `['business', 'star', true]` | `RiStarFill` |
+
+전체 매핑은 Storybook 의 `Components / Icons / Icon / Category` 페이지에서 검색 가능 (모든 아이콘에 `Ri*` 이름 표시).
+
+### 새로운 export
+
+```tsx
+import {
+  // 이미 있던 것
+  Icon, RiCheckLine /* 등 모든 Ri* */,
+
+  // v1.10.6 신규
+  renderIconProp,           // 유틸: tuple/component/ReactNode 를 React 노드로 렌더
+  isIconTuple,              // 유틸: tuple 인지 판별
+  isRemixiconComponent,     // 유틸: Ri* component 인지 판별
+  type IconProp,            // IconTypeWithFill | RemixiconLikeComponent
+  type IconPropOrNode,      // IconProp | ReactNode
+  type RenderIconPropOptions,
+} from '@blumnai-studio/blumnai-design-system';
+```
+
+`renderIconProp` 은 custom 컴포넌트에서 icon-shape prop 을 받아 렌더할 때 유용:
+
+```tsx
+function MyCustomCard({ icon }: { icon?: IconPropOrNode }) {
+  return (
+    <div>
+      {renderIconProp(icon, { size: 20, color: 'default-subtle' })}
+      <span>...</span>
+    </div>
+  );
+}
+```
+
+---
+
 ## v1.9.x → v1.10.0 (Remixicon-derived icon subpath import 제거)
 
 ### 요약

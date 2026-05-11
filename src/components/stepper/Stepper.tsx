@@ -1,6 +1,7 @@
 import { forwardRef, createContext, useContext, useCallback, useMemo } from 'react';
 import { cn } from '../../lib/utils';
-import { Icon, RiCheckLine } from '../icons/Icon';
+import { Icon, renderIconProp, RiCheckLine } from '../icons/Icon';
+import type { IconProp } from '../icons/Icon';
 import type { IconType } from '../icons/Icon/Icon.types';
 import type {
   StepperProps,
@@ -151,7 +152,7 @@ function IconIndicator({
 
   const checkIcon: IconType = ['system', 'check'];
   const showCheck = status === 'completed' && showCheckOnCompleted;
-  const displayIcon: IconType = showCheck
+  const displayIcon: IconProp = showCheck
     ? checkIcon
     : icon ?? checkIcon;
 
@@ -174,11 +175,7 @@ function IconIndicator({
         clickable && 'group-hover/step:opacity-80',
       )}
     >
-      <Icon
-        iconType={displayIcon}
-        size={ICON_SIZE_MAP[size]}
-        color={iconColor}
-      />
+      {renderIconProp(displayIcon, { size: ICON_SIZE_MAP[size], color: iconColor })}
     </div>
   );
 }

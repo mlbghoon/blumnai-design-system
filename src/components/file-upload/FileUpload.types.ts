@@ -1,4 +1,4 @@
-import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { IconProp } from '../icons/Icon';
 
 /**
  * 파일 선택 소스
@@ -56,7 +56,7 @@ export interface FileUploadAreaProps {
   /** 설명 텍스트 */
   description?: string;
   /** 커스텀 아이콘 */
-  icon?: IconTypeWithFill;
+  icon?: IconProp;
 
   /**
    * 컴팩트 모드 — 패딩과 아이콘 크기를 줄여 높이를 축소합니다

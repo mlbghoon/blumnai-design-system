@@ -14,7 +14,7 @@ import {
 } from '../Dropdown';
 import type { DropdownMenuLabelProps } from '../Dropdown.types';
 import { Button } from '../../button';
-import { Icon, RiAddLine, RiMailLine, RiMessage3Line, RiUserLine } from '../../icons/Icon';
+import { Icon, RiAddLine, RiArrowGoBackLine, RiArrowGoForwardLine, RiArtboardLine, RiCodeBoxLine, RiCommandLine, RiFileAddLine, RiFileTextLine, RiFolderOpenLine, RiGroupLine, RiLogoutBoxRLine, RiMailLine, RiMessage3Line, RiSettingsLine, RiUserAddLine, RiUserLine } from '../../icons/Icon';
 
 const meta: Meta<DropdownMenuLabelProps> = {
   title: 'Overlay/Dropdown/Structure',
@@ -82,12 +82,12 @@ export const Default: Story = {
           <DropdownMenuLabel caption={caption} inset={args.inset}>
             파일
           </DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['document', 'file-add']}>새 파일</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['document', 'folder-open']}>열기</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiFileAddLine}>새 파일</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiFolderOpenLine}>열기</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuLabel inset={args.inset}>편집</DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['arrows', 'arrow-go-back']} shortcut="⌘Z">실행 취소</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['arrows', 'arrow-go-forward']} shortcut="⇧⌘Z">다시 실행</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiArrowGoBackLine} shortcut="⌘Z">실행 취소</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiArrowGoForwardLine} shortcut="⇧⌘Z">다시 실행</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -106,12 +106,12 @@ export const LabelWithCaption: Story = {
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel caption="3개">최근 파일</DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['design', 'artboard']}>design-system.fig</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['development', 'code-box']}>components.tsx</DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['document', 'file-text']}>notes.md</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiArtboardLine}>design-system.fig</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiCodeBoxLine}>components.tsx</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiFileTextLine}>notes.md</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuLabel caption="Ctrl+K">빠른 실행</DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['development', 'command']}>명령 팔레트</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiCommandLine}>명령 팔레트</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -245,17 +245,17 @@ export const MenuGroups: Story = {
         <DropdownMenuContent width={200}>
           <DropdownMenuGroup>
             <DropdownMenuLabel>계정</DropdownMenuLabel>
-            <DropdownMenuItem leadIcon={['user', 'user']}>프로필</DropdownMenuItem>
-            <DropdownMenuItem leadIcon={['system', 'settings']}>설정</DropdownMenuItem>
+            <DropdownMenuItem leadIcon={RiUserLine}>프로필</DropdownMenuItem>
+            <DropdownMenuItem leadIcon={RiSettingsLine}>설정</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuLabel>팀</DropdownMenuLabel>
-            <DropdownMenuItem leadIcon={['user', 'group']}>팀원</DropdownMenuItem>
-            <DropdownMenuItem leadIcon={['user', 'user-add']}>초대</DropdownMenuItem>
+            <DropdownMenuItem leadIcon={RiGroupLine}>팀원</DropdownMenuItem>
+            <DropdownMenuItem leadIcon={RiUserAddLine}>초대</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem leadIcon={['system', 'logout-box-r']}>로그아웃</DropdownMenuItem>
+          <DropdownMenuItem leadIcon={RiLogoutBoxRLine}>로그아웃</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );

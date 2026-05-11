@@ -1,7 +1,7 @@
 import { forwardRef, useCallback, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 
-import { Icon } from '../icons/Icon';
-import type { IconType } from '../icons/Icon/Icon.types';
+import { renderIconProp } from '../icons/Icon';
+import type { IconPropOrNode } from '../icons/Icon';
 import { cn } from '../../lib/utils';
 
 import type { ButtonGroupProps, ButtonGroupSize, ButtonGroupItem } from './ButtonGroup.types';
@@ -107,24 +107,14 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
       </span>
     );
 
-    const renderIcon = (icon: IconType | React.ReactNode, disabled: boolean, key: string) => {
-      if (Array.isArray(icon) && icon.length === 2 && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
-        return (
-          <span key={key} className="inline-flex items-center justify-center shrink-0">
-            <Icon
-              iconType={icon as IconType}
-              size={iconSize}
-              color={disabled ? 'var(--icon-default-disabled)' : 'var(--icon-default-muted)'}
-            />
-          </span>
-        );
-      }
-      return (
-        <span key={key} className="inline-flex items-center justify-center shrink-0">
-          {icon}
-        </span>
-      );
-    };
+    const renderIcon = (icon: IconPropOrNode, disabled: boolean, key: string) => (
+      <span key={key} className="inline-flex items-center justify-center shrink-0">
+        {renderIconProp(icon, {
+          size: iconSize,
+          color: disabled ? 'var(--icon-default-disabled)' : 'var(--icon-default-muted)',
+        })}
+      </span>
+    );
 
     return (
       <div ref={ref} {...restProps} role="toolbar" aria-orientation="horizontal" aria-label={ariaLabelProp ?? 'Button group'} className={containerClassName}>

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { RiSearchLine } from '../../icons/Icon';
 
 import { Select } from '../Select';
 import type { SelectOption, SelectOptionGroup } from '../Select.types';
@@ -197,8 +198,18 @@ const meta: Meta<typeof Select> = {
     },
     tailIcon: {
       control: 'object',
-      description: '라벨 뒤, 화살표 앞에 표시되는 아이콘입니다',
-      table: { type: { summary: 'IconTypeWithFill' } },
+      description: '라벨 뒤, 화살표 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      table: {
+        type: {
+          summary: 'IconTypeWithFill',
+          detail: `Remixicon component (권장, tree-shakeable):
+  tailIcon={RiSearchLine}
+  tailIcon={RiArrowDownSLine}
+
+또는 tuple form (deprecated, dev console warning):
+  tailIcon={['arrows', 'arrow-down-s']}`,
+        },
+      },
     },
     minWidth: {
       control: 'text',
@@ -829,7 +840,7 @@ export const WithLeadIcon: Story = {
       <Select
         variant="default"
         label="With Lead Icon"
-        leadIcon={['system', 'search']}
+        leadIcon={RiSearchLine}
         placeholder="Search..."
         options={defaultOptions}
         value={value}

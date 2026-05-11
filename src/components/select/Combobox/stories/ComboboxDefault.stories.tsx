@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React, { useState } from 'react';
+import { RiSearchLine } from '../../../icons/Icon';
 
 import { Combobox } from '../Combobox';
 import type { ComboboxOption, DefaultComboboxProps } from '../Combobox.types';
@@ -197,13 +198,33 @@ const meta: Meta<DefaultComboboxProps> = {
     },
     leadIcon: {
       control: 'object',
-      description: '트리거 앞에 표시되는 아이콘',
-      table: { type: { summary: 'IconTypeWithFill' } },
+      description: '트리거 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      table: {
+        type: {
+          summary: 'IconTypeWithFill',
+          detail: `Remixicon component (권장, tree-shakeable):
+  leadIcon={RiSearchLine}
+  leadIcon={RiUserLine}
+
+또는 tuple form (deprecated, dev console warning):
+  leadIcon={['system', 'search']}`,
+        },
+      },
     },
     tailIcon: {
       control: 'object',
-      description: '라벨 뒤, 화살표 앞에 표시되는 아이콘',
-      table: { type: { summary: 'IconTypeWithFill' } },
+      description: '라벨 뒤, 화살표 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      table: {
+        type: {
+          summary: 'IconTypeWithFill',
+          detail: `Remixicon component (권장, tree-shakeable):
+  tailIcon={RiSearchLine}
+  tailIcon={RiArrowDownSLine}
+
+또는 tuple form (deprecated, dev console warning):
+  tailIcon={['arrows', 'arrow-down-s']}`,
+        },
+      },
     },
     options: {
       control: 'object',
@@ -447,7 +468,7 @@ export const WithLeadIcon: Story = {
           options={fruitOptions}
           value={value}
           onChange={setValue}
-          leadIcon={['system', 'search']}
+          leadIcon={RiSearchLine}
         />
       </div>
     );
@@ -469,7 +490,7 @@ export const WithTailIcon: Story = {
           options={fruitOptions}
           value={value}
           onChange={setValue}
-          tailIcon={['system', 'search']}
+          tailIcon={RiSearchLine}
         />
       </div>
     );

@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import { forwardRef } from 'react';
 
 import { cn } from '@/lib/utils';
-import { Icon, parseIconTypeWithFill } from '../../icons/Icon';
+import { renderIconProp } from '../../icons/Icon';
 import { Button } from '../../button/Button';
 
 import {
@@ -97,10 +97,9 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
       }
 
       if (type.startsWith('icon-') && icon) {
-        const { iconType, isFill } = parseIconTypeWithFill(icon);
         return (
           <span className={ICON_CONTAINER}>
-            <Icon iconType={iconType} isFill={isFill} size={ICON_SIZE} color={ICON_COLOR} />
+            {renderIconProp(icon, { size: ICON_SIZE, color: ICON_COLOR })}
           </span>
         );
       }

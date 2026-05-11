@@ -1,7 +1,8 @@
 import { forwardRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Icon, RiCloseLine } from '../icons/Icon';
+import { Icon, renderIconProp, RiCloseLine } from '../icons/Icon';
 import type { InfoBoxProps, InfoBoxVariant } from './InfoBox.types';
+import type { IconProp } from '../icons/Icon';
 import type { IconType } from '../icons/Icon/Icon.types';
 import {
   INFOBOX_VARIANT_BG,
@@ -41,7 +42,7 @@ export const InfoBox = forwardRef<HTMLDivElement, InfoBoxProps>(
     if (!visible) return null;
 
     const role = variant === 'warning' || variant === 'error' ? 'alert' : 'status';
-    const resolvedIcon: IconType = icon ?? (INFOBOX_DEFAULT_ICON[variant] as IconType);
+    const resolvedIcon: IconProp = icon ?? (INFOBOX_DEFAULT_ICON[variant] as IconType);
     const isSubtle = styleType === 'subtle';
     const showContent = !collapsible || isOpen;
 
@@ -65,11 +66,10 @@ export const InfoBox = forwardRef<HTMLDivElement, InfoBoxProps>(
           />
         )}
         <div className={cn('flex-shrink-0 flex items-center', INFOBOX_ICON_COLOR[variant])} style={{ height: '20px' }}>
-          <Icon
-            iconType={resolvedIcon}
-            size={isSubtle ? 14 : 16}
-            color={isSubtle ? 'var(--icon-default-muted)' : VARIANT_ICON_CSS_COLOR[variant]}
-          />
+          {renderIconProp(resolvedIcon, {
+            size: isSubtle ? 14 : 16,
+            color: isSubtle ? 'var(--icon-default-muted)' : VARIANT_ICON_CSS_COLOR[variant],
+          })}
         </div>
         <div className="flex flex-col ds-gap-2 flex-1 min-w-0">
           {collapsible ? (

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiArrowRightSLine, RiArtboardLine, RiCodeBoxLine, RiFileAddLine, RiFileTextLine, RiFolderAddLine } from '../../icons/Icon';
 
 import {
   DropdownMenu,
@@ -264,25 +265,25 @@ export const ComplexExample: Story = {
         </DropdownMenuTrigger>
         <DropdownMenuContent width={280}>
           <DropdownMenuLabel>빠른 작업</DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['document', 'file-add']} shortcut="⌘N">
+          <DropdownMenuItem leadIcon={RiFileAddLine} shortcut="⌘N">
             새 문서
           </DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['document', 'folder-add']} shortcut="⇧⌘N">
+          <DropdownMenuItem leadIcon={RiFolderAddLine} shortcut="⇧⌘N">
             새 폴더
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuLabel>최근 파일</DropdownMenuLabel>
-          <DropdownMenuItem leadIcon={['design', 'artboard']} caption="2분 전">
+          <DropdownMenuItem leadIcon={RiArtboardLine} caption="2분 전">
             design-system.fig
           </DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['development', 'code-box']} caption="1시간 전">
+          <DropdownMenuItem leadIcon={RiCodeBoxLine} caption="1시간 전">
             components.tsx
           </DropdownMenuItem>
-          <DropdownMenuItem leadIcon={['document', 'file-text']} caption="어제">
+          <DropdownMenuItem leadIcon={RiFileTextLine} caption="어제">
             notes.md
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem tailIcon={['arrows', 'arrow-right-s']}>모두 보기</DropdownMenuItem>
+          <DropdownMenuItem tailIcon={RiArrowRightSLine}>모두 보기</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     );

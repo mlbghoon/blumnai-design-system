@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from 'react';
 
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconType, RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 
 export type FilterButtonSize = 'xs' | 'md' | 'lg';
 
@@ -32,10 +32,15 @@ export interface FilterButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonE
    */
   label: string;
   /**
-   * 아이콘 타입
+   * 아이콘.
+   *
+   * - tuple `[category, name]` (dynamic-string back-compat)
+   * - Remixicon component (`RiFilterLine` 등; tree-shaking 권장)
+   *
    * @default ['system', 'filter']
+   * @example icon={RiFilterLine}
    */
-  icon?: IconType;
+  icon?: IconType | RemixiconLikeComponent;
   /**
    * If true, renders the component as its child element using Radix Slot.
    * @default false

@@ -12,9 +12,16 @@ import {
   RiStarFill,
 } from '@remixicon/react';
 
+import * as RemixiconAll from '@remixicon/react';
+import type { ComponentType } from 'react';
+
 import { Icon } from './Icon';
 import { getIconNamesByCategory } from './ui-icon-registry';
-import type { IconCategory, IconType } from './Icon.types';
+import { REMIXICON_EXPORT_MAP } from './remixicon-export-map';
+import type { RemixiconLikeComponent } from './Icon.types';
+
+const RemixiconRegistry = RemixiconAll as unknown as Record<string, ComponentType<{ size?: number | string; color?: string; className?: string }>>;
+const kebabToRegistryKey = (s: string) => s.replace(/-/g, '').toLowerCase();
 
 const iconColorOptions = [
   'default',
@@ -146,35 +153,38 @@ export const Default: Story = {
   },
 };
 
-/** 레지스트리 카테고리 → IconType 카테고리 매핑 */
-const registryCategoryMap: Record<string, IconCategory> = {
-  'arrows': 'arrows',
-  'buildings': 'buildings',
-  'business': 'business',
-  'communication': 'communication',
-  'design': 'design',
-  'development': 'development',
-  'device': 'device',
-  'document': 'document',
-  'editor': 'editor',
-  'finance': 'finance',
-  'food': 'food',
-  'health & medical': 'health',
-  'map': 'map',
-  'media': 'media',
-  'others': 'others',
-  'system': 'system',
-  'user & faces': 'user',
-  'weather': 'weather',
-};
+/**
+ * Resolve a manifest entry (`category` + `name` + optional `isFill`) to a Remixicon
+ * component reference using the auto-generated export map. Returns `null` if the
+ * icon name has no matching Ri* export.
+ */
+function resolveRemixicon(name: string, isFill: boolean): { component: RemixiconLikeComponent; exportName: string } | null {
+  const key = kebabToRegistryKey(name) + (isFill ? 'fill' : '');
+  const exportName = REMIXICON_EXPORT_MAP[key];
+  if (!exportName) return null;
+  const component = RemixiconRegistry[exportName];
+  if (!component) return null;
+  return { component, exportName };
+}
 
 export const Category: Story = {
   render: function Render() {
     const allByCategory = useMemo(() => getIconNamesByCategory(), []);
+    // 20 categories from REMIXICON_CATEGORY_MANIFEST (Remixicon 4.9 full set).
+    // Includes 'logos' and 'game & sports' which the legacy `IconCategory` type
+    // doesn't cover — that's fine because we render via the component API now.
     const registryCategories = Object.keys(allByCategory).sort();
     const [selectedRegistry, setSelectedRegistry] = useState(registryCategories[0]);
-    const iconCategory = registryCategoryMap[selectedRegistry] ?? selectedRegistry as IconCategory;
-    const iconNames = allByCategory[selectedRegistry] ?? [];
+    const [variant, setVariant] = useState<'line' | 'fill'>('line');
+    const iconNames = useMemo(() => allByCategory[selectedRegistry] ?? [], [allByCategory, selectedRegistry]);
+
+    const renderedIcons = useMemo(() => {
+      return iconNames
+        .map((iconName) => ({ iconName, resolved: resolveRemixicon(iconName, variant === 'fill') }))
+        .filter((x): x is { iconName: string; resolved: NonNullable<ReturnType<typeof resolveRemixicon>> } => x.resolved !== null);
+    }, [iconNames, variant]);
+
+    const missing = iconNames.length - renderedIcons.length;
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -194,16 +204,59 @@ export const Category: Story = {
                 color: selectedRegistry === cat ? '#fff' : 'var(--text-default)',
               }}
             >
-              {registryCategoryMap[cat] ?? cat} ({allByCategory[cat]?.length ?? 0})
+              {cat} ({allByCategory[cat]?.length ?? 0})
             </button>
           ))}
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, 140px)', gap: '8px' }}>
-          {iconNames.map((iconName) => (
-            <div key={iconName} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Icon iconType={[iconCategory, iconName] as IconType} size={20} />
-              <div style={{ fontSize: '11px', color: 'var(--text-subtle)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {iconName}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: 'var(--text-muted)' }}>
+          <button
+            type="button"
+            onClick={() => setVariant(variant === 'line' ? 'fill' : 'line')}
+            style={{
+              padding: '4px 10px',
+              fontSize: '12px',
+              fontWeight: 500,
+              borderRadius: '6px',
+              border: '1px solid var(--border-default)',
+              cursor: 'pointer',
+              background: 'var(--bg-card)',
+              color: 'var(--text-default)',
+            }}
+          >
+            Variant: {variant === 'line' ? 'Line (RiXxxLine)' : 'Fill (RiXxxFill)'}
+          </button>
+          <span>
+            {renderedIcons.length} icon{renderedIcons.length === 1 ? '' : 's'}
+            {missing > 0 ? ` (${missing} missing in current Remixicon build)` : ''}
+          </span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '8px' }}>
+          {renderedIcons.map(({ iconName, resolved }) => (
+            <div
+              key={iconName}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 8px',
+                borderRadius: '6px',
+                border: '1px solid var(--border-default)',
+                background: 'var(--bg-card)',
+              }}
+              title={iconName}
+            >
+              <Icon icon={resolved.component} size={20} color="default" />
+              <div
+                style={{
+                  fontSize: '11px',
+                  fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                  color: 'var(--text-subtle)',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {resolved.exportName}
               </div>
             </div>
           ))}

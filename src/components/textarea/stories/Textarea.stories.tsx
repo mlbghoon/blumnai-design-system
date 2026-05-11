@@ -174,6 +174,8 @@ const meta: Meta<typeof Textarea> = {
           detail: `{
   key: string;                // 고유 키
   icon?: IconTypeWithFill;    // 아이콘 (Button의 leadIcon)
+                              //   Remixicon component 권장 (tree-shakeable): icon: RiImageLine
+                              //   또는 tuple form (deprecated, dev console warning): icon: ['media', 'image']
   label?: string;             // 라벨 (없으면 아이콘만 표시)
   onClick?: () => void;       // 클릭 핸들러
   disabled?: boolean;         // 비활성화 여부

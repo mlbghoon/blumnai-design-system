@@ -1,7 +1,7 @@
 import type React from 'react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconProp } from '../icons/Icon';
 
 export type NavigationMenuProps = ComponentPropsWithoutRef<
   typeof NavigationMenuPrimitive.Root
@@ -63,7 +63,7 @@ export interface NavigationMenuListItemProps
   /**
    * 아이콘
    */
-  icon?: IconType;
+  icon?: IconProp;
   /**
    * 아이콘 filled 스타일
    * @default false

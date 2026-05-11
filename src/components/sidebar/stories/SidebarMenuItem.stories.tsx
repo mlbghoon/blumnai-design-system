@@ -6,7 +6,7 @@ import {
   SidebarProvider,
   SidebarMenuItem,
 } from '../Sidebar';
-import { Icon, RiDeleteBinLine, RiEditLine } from '../../icons/Icon';
+import { Icon, RiCheckLine, RiCloseLine, RiDeleteBinLine, RiEditLine, RiFileLine, RiFolderLine, RiHomeLine, RiSearchLine, RiSettingsLine, RiStarLine } from '../../icons/Icon';
 
 type SidebarMenuItemStoryProps = {
   label: string;
@@ -35,8 +35,21 @@ const meta: Meta<SidebarMenuItemStoryProps> = {
     },
     icon: {
       control: 'object',
-      description: '메뉴 아이템 앞에 표시되는 아이콘입니다. [카테고리, 아이콘명] 튜플 형식으로 전달하며, null로 설정하면 아이콘이 표시되지 않습니다',
-      table: { type: { summary: 'IconType | null' } },
+      description: '메뉴 아이템 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated). null로 설정하면 아이콘이 표시되지 않습니다',
+      table: {
+        type: {
+          summary: 'IconType | null',
+          detail: `Remixicon component (권장, tree-shakeable):
+  icon={RiHome5Line}
+  icon={RiSettings3Line}
+
+또는 tuple form (deprecated, dev console warning):
+  icon={['system', 'home']}
+  icon={['system', 'settings']}
+
+또는 null (아이콘 숨김)`,
+        },
+      },
     },
     isActive: {
       control: 'boolean',
@@ -113,14 +126,14 @@ const isValidIcon = (icon: unknown): icon is [string, string] => {
  *
  * ```tsx
  * // Default - 아이콘 + 라벨
- * <SidebarMenuItem variant="default" icon={['buildings', 'home']} label="Dashboard" />
+ * <SidebarMenuItem variant="default" icon={RiHomeLine} label="Dashboard" />
  *
  * // With badge
- * <SidebarMenuItem variant="default" icon={['system', 'star']} label="Favorites" badge="5" />
+ * <SidebarMenuItem variant="default" icon={RiStarLine} label="Favorites" badge="5" />
  * <SidebarMenuItem variant="default" label="New" badge={{ label: "New", color: "blue", shape: "pill" }} />
  *
  * // With shortcut
- * <SidebarMenuItem variant="default" icon={['system', 'search']} label="Search" shortcut="⌘K" />
+ * <SidebarMenuItem variant="default" icon={RiSearchLine} label="Search" shortcut="⌘K" />
  *
  * // Label - 섹션 헤더
  * <SidebarMenuItem variant="label" label="Settings" />
@@ -202,30 +215,30 @@ export const AllVariants: Story = {
             <SidebarMenu>
               <SidebarMenuItem
                 variant="default"
-                icon={['buildings', 'home']}
+                icon={RiHomeLine}
                 label="기본 항목"
               />
               <SidebarMenuItem
                 variant="default"
-                icon={['system', 'star']}
+                icon={RiStarLine}
                 label="배지 포함"
                 badge="5"
               />
               <SidebarMenuItem
                 variant="default"
-                icon={['system', 'search']}
+                icon={RiSearchLine}
                 label="단축키 포함"
                 shortcut="⌘K"
               />
               <SidebarMenuItem
                 variant="default"
-                icon={['system', 'check']}
+                icon={RiCheckLine}
                 label="활성 항목"
                 isActive={true}
               />
               <SidebarMenuItem
                 variant="default"
-                icon={['system', 'close']}
+                icon={RiCloseLine}
                 label="비활성 항목"
                 disabled={true}
               />
@@ -240,7 +253,7 @@ export const AllVariants: Story = {
               <SidebarMenuItem variant="label" label="섹션 헤더" />
               <SidebarMenuItem
                 variant="default"
-                icon={['document', 'file']}
+                icon={RiFileLine}
                 label="라벨 하위 항목"
               />
             </SidebarMenu>
@@ -296,7 +309,7 @@ export const AllVariants: Story = {
             <SidebarMenu>
               <SidebarMenuItem
                 variant="default"
-                icon={['document', 'folder']}
+                icon={RiFolderLine}
                 label="상위 항목"
               />
               <SidebarMenuItem
@@ -333,7 +346,7 @@ export const ButtonsVariant: Story = {
           <SidebarMenu>
             <SidebarMenuItem
               variant="buttons"
-              icon={['document', 'file']}
+              icon={RiFileLine}
               label="document.pdf"
               actions={
                 <>
@@ -348,7 +361,7 @@ export const ButtonsVariant: Story = {
             />
             <SidebarMenuItem
               variant="buttons"
-              icon={['document', 'file']}
+              icon={RiFileLine}
               label="report.xlsx"
               actions={
                 <>
@@ -363,7 +376,7 @@ export const ButtonsVariant: Story = {
             />
             <SidebarMenuItem
               variant="buttons"
-              icon={['document', 'file']}
+              icon={RiFileLine}
               label="presentation.pptx"
               isActive={true}
               actions={
@@ -400,18 +413,18 @@ export const States: Story = {
           <SidebarMenu>
             <SidebarMenuItem
               variant="default"
-              icon={['buildings', 'home']}
+              icon={RiHomeLine}
               label="기본 상태"
             />
             <SidebarMenuItem
               variant="default"
-              icon={['system', 'check']}
+              icon={RiCheckLine}
               label="활성 상태"
               isActive={true}
             />
             <SidebarMenuItem
               variant="default"
-              icon={['system', 'close']}
+              icon={RiCloseLine}
               label="비활성 상태"
               disabled={true}
             />
@@ -446,28 +459,28 @@ export const KeyboardShortcutBinding: Story = {
             <SidebarMenu>
               <SidebarMenuItem
                 variant="default"
-                icon={['buildings', 'home']}
+                icon={RiHomeLine}
                 label="홈"
                 shortcut="⌘1"
                 onClick={() => addLog('홈 클릭됨 (⌘1)')}
               />
               <SidebarMenuItem
                 variant="default"
-                icon={['system', 'search']}
+                icon={RiSearchLine}
                 label="검색"
                 shortcut="⌘K"
                 onClick={() => addLog('검색 클릭됨 (⌘K)')}
               />
               <SidebarMenuItem
                 variant="default"
-                icon={['system', 'settings']}
+                icon={RiSettingsLine}
                 label="설정"
                 shortcut="⌘,"
                 onClick={() => addLog('설정 클릭됨 (⌘,)')}
               />
               <SidebarMenuItem
                 variant="default"
-                icon={['system', 'close']}
+                icon={RiCloseLine}
                 label="비활성"
                 shortcut="⌘D"
                 disabled

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { RiMoneyDollarCircleLine, RiPhoneLine, RiSearchLine } from '../../icons/Icon';
 
 import { Input } from '../Input';
 import { Button } from '../../button/Button';
@@ -362,7 +363,7 @@ export const WithLeadIcon: Story = {
         label="가격"
         placeholder="0.00"
         dropdownOptions={currencyOptions}
-        leadIcon={['finance', 'money-dollar-circle']}
+        leadIcon={RiMoneyDollarCircleLine}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         dropdownValue={currency}
@@ -386,7 +387,7 @@ export const WithTailIcon: Story = {
         label="연락처"
         placeholder="전화번호를 입력하세요"
         dropdownOptions={countryOptions}
-        tailIcon={['device', 'phone']}
+        tailIcon={RiPhoneLine}
         dropdownValue={country}
         onDropdownChange={setCountry}
       />
@@ -750,7 +751,7 @@ export const LeadDropdownWithTailButton: Story = {
           onKeyDown={(e) => {
             if (e.key === 'Enter') runSearch();
           }}
-          buttonTailIcon={['system', 'search']}
+          buttonTailIcon={RiSearchLine}
           onButtonClick={runSearch}
         />
         <div className="font-body size-sm text-muted">
@@ -796,7 +797,7 @@ export const TailDropdownWithLeadButton: Story = {
           onKeyDown={(e) => {
             if (e.key === 'Enter') runSearch();
           }}
-          buttonLeadIcon={['system', 'search']}
+          buttonLeadIcon={RiSearchLine}
           onButtonClick={runSearch}
         />
         <div className="font-body size-sm text-muted">

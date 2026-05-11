@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiExternalLinkLine, RiLink } from '../../icons/Icon';
 
 import { LinkButton } from '../LinkButton';
 
@@ -35,24 +36,37 @@ const meta: Meta<typeof LinkButton> = {
     },
     leadIcon: {
       control: 'object',
-      description: '라벨 앞에 표시되는 아이콘',
+      description: '라벨 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'LinkButtonIconType | ReactNode',
-          detail: `[category, name] 튜플 형식
-예시: ['system', 'link']`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  leadIcon={RiLinkM}
+  leadIcon={RiFileTextLine}
+
+또는 tuple form (deprecated, dev console warning):
+  leadIcon={['system', 'link']}
+
+또는 ReactNode (이미 렌더된 JSX)`,
         },
       },
     },
     tailIcon: {
       control: 'object',
-      description: '라벨 뒤에 표시되는 아이콘',
+      description: '라벨 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'LinkButtonIconType | ReactNode',
-          detail: `[category, name] 튜플 형식
-예시: ['system', 'external-link']
-기본값: ['system', 'external-link']`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  tailIcon={RiExternalLinkLine}
+  tailIcon={RiArrowRightLine}
+
+또는 tuple form (deprecated, dev console warning):
+  tailIcon={['system', 'external-link']}
+
+또는 ReactNode (이미 렌더된 JSX)
+
+기본값: 외부 링크 아이콘`,
         },
       },
     },
@@ -186,9 +200,9 @@ export const AllSizes: Story = {
 export const IconPositions: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-      <LinkButton label="앞 아이콘" leadIcon={['system', 'link']} tailIcon={undefined} />
-      <LinkButton label="뒤 아이콘" tailIcon={['system', 'external-link']} />
-      <LinkButton label="양쪽 아이콘" leadIcon={['system', 'link']} tailIcon={['system', 'external-link']} />
+      <LinkButton label="앞 아이콘" leadIcon={RiLink} tailIcon={undefined} />
+      <LinkButton label="뒤 아이콘" tailIcon={RiExternalLinkLine} />
+      <LinkButton label="양쪽 아이콘" leadIcon={RiLink} tailIcon={RiExternalLinkLine} />
     </div>
   ),
 };

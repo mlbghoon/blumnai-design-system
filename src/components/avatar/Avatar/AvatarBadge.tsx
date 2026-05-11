@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import { Icon } from '../../icons/Icon';
-import type { IconType } from '../../icons/Icon/Icon.types';
+import { renderIconProp } from '../../icons/Icon';
+import type { IconProp } from '../../icons/Icon';
 import { cn } from '@/lib/utils';
 
 import { sizes, statusBadgePositions } from 'constants/avatar/Avatar/Avatar.constants';
@@ -13,7 +13,7 @@ interface AvatarBadgeProps {
   shape: AvatarShape;
   badgeLocation: AvatarBadgeLocation;
   logoImage?: string;
-  icon?: IconType;
+  icon?: IconProp;
   color?: string;
 }
 
@@ -188,11 +188,10 @@ export const AvatarBadge = ({
           {/* Icon - centered */}
           {icon && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">
-              <Icon
-                iconType={icon}
-                size={innerSize}
-                color={color}
-              />
+              {renderIconProp(icon, {
+                size: innerSize,
+                color,
+              })}
             </div>
           )}
         </>

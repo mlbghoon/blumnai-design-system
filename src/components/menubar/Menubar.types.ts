@@ -1,6 +1,7 @@
 import type { ComponentPropsWithoutRef, HTMLAttributes, ReactNode } from 'react';
 import type * as MenubarPrimitive from '@radix-ui/react-menubar';
-import type { IconColor, IconType } from '../icons/Icon/Icon.types';
+import type { IconProp } from '../icons/Icon';
+import type { IconColor } from '../icons/Icon/Icon.types';
 
 export type MenubarProps = ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>;
 
@@ -42,7 +43,7 @@ export interface MenubarItemProps
   /**
    * 라벨 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconProp;
   /**
    * 리드 아이콘 filled 스타일 사용 여부
    * @default false
@@ -51,7 +52,7 @@ export interface MenubarItemProps
   /**
    * 라벨 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconType;
+  tailIcon?: IconProp;
   /**
    * 테일 아이콘 filled 스타일 사용 여부
    * @default false

@@ -4,8 +4,8 @@ import type { InputHTMLAttributes } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/lib/spinner';
-import { Icon, parseIconTypeWithFill, RiCloseLine } from '../../icons/Icon';
-import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
+import { Icon, renderIconProp, RiCloseLine } from '../../icons/Icon';
+import type { IconProp } from '../../icons/Icon';
 import {
   STATE_CONFIG,
   INPUT_WRAPPER_BASE,
@@ -112,7 +112,7 @@ export interface TagsInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   /**
    * 입력 필드 컨테이너의 커스텀 너비 (숫자는 px, 문자열은 그대로 사용)
    * 미지정 시 전체 너비 사용
@@ -338,18 +338,11 @@ export const TagsInput = forwardRef<HTMLInputElement, TagsInputProps>(({
       {/* Input Wrapper */}
       <div className={wrapperClassName}>
         {/* Lead Icon */}
-        {leadIcon && (() => {
-          const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
-          return (
-            <Icon
-              iconType={iconType}
-              isFill={isFill}
-              size={sizeConfig.iconSize}
-              color={iconColor}
-              className="flex-shrink-0"
-            />
-          );
-        })()}
+        {leadIcon && renderIconProp(leadIcon, {
+          size: sizeConfig.iconSize,
+          color: iconColor,
+          className: 'flex-shrink-0',
+        })}
 
         {/* Inline Tags (inside input) */}
         {inline && tags.length > 0 && (

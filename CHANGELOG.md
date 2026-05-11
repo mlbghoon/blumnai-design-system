@@ -1,5 +1,91 @@
 # Changelog
 
+## [1.10.6] - 2026-05-08
+
+### Added — 모든 icon-prop 이 Remixicon 컴포넌트 직접 전달 지원
+
+v1.10.0 에서 `<Icon icon={RiCheckLine}>` 직접-import API 가 도입됐지만, `<Button leadIcon={...}>`, `<Input tailIcon={...}>`, `<Chip icon={...}>` 같은 다른 컴포넌트의 icon prop 들은 여전히 `['system', 'check']` tuple 만 받았습니다. v1.10.6 부터 **모든 icon-accepting prop** 이 tuple 또는 Remixicon component (`RiCheckLine`, `RiAddLine` 등) 를 동일하게 받습니다.
+
+```tsx
+// 기존 (계속 동작)
+<Button leadIcon={['system', 'add']}>추가</Button>
+<Input leadIcon={['system', 'search']} />
+
+// 신규 (tree-shaking 권장)
+import { Button, Input, RiAddLine, RiSearchLine } from '@blumnai-studio/blumnai-design-system';
+<Button leadIcon={RiAddLine}>추가</Button>
+<Input leadIcon={RiSearchLine} />
+```
+
+공유 type `IconProp = IconTypeWithFill | RemixiconLikeComponent` 와 utility `renderIconProp(icon, { size, color, ... })` 가 추가됐고, DS 내부 28+ component 가 이를 사용하도록 마이그레이션됨.
+
+### Added — Dev-only deprecation warning for legacy tuple form
+
+`leadIcon` / `tailIcon` / `icon` 같은 prop 에 tuple 을 전달하면 개발 모드에서 1회 (per unique tuple) `console.warn` 으로 마이그레이션 예시를 출력합니다. 가능한 경우 정확한 `Ri*` 컴포넌트 이름까지 매핑 테이블에서 찾아 안내합니다.
+
+```
+[blumnai-design-system] icon prop tuple ['system', 'add'] is deprecated.
+Replace with `RiAddLine` (import { RiAddLine } from '@blumnai-studio/blumnai-design-system').
+See CHANGELOG v1.10.6 for the migration.
+```
+
+- Production 빌드에서는 `process.env.NODE_ENV === 'production'` 체크로 완전히 제거됨 (consumer 번들러가 dead-code elimination).
+- 같은 tuple 은 한 번만 경고 (per process). 콘솔 도배 방지.
+- `<Icon iconType={...}>` 직접 사용은 경고하지 않음 — 명시적인 dynamic-string API path 로 간주.
+
+### Internal — DS stories migrated to component form
+
+자체 Storybook 의 31 개 story 파일 (412 tuple → component 치환) 을 신규 API 로 마이그레이션. 우리 스토리북을 켰을 때 우리가 출시한 deprecation 경고가 도배되는 일을 방지하고, 소비자가 권장 API 예시로 복붙하기 좋게 만듦. Default `args` 의 tuple 값은 Storybook 컨트롤 직렬화 제약으로 그대로 유지 (런타임에 한 번 warn).
+
+### Changed — `blumnai-icon-codemod` 가 `leadIcon`/`tailIcon`/`icon`/`buttonLeadIcon`/`buttonTailIcon` 도 변환
+
+기존 codemod 는 `<Icon iconType={...}>` 만 변환했지만, 이제 DS 컴포넌트의 모든 icon-tuple prop 을 일관되게 변환합니다:
+
+```bash
+npx blumnai-icon-codemod --dry --print ./src
+npx blumnai-icon-codemod ./src
+```
+
+```tsx
+// Before
+<Button leadIcon={['system', 'add']}>추가</Button>
+<Input leadIcon={['system', 'search']} />
+<Chip icon={['health', 'heart', true]} label="찜" />
+
+// After (자동 변환 + Ri* import 추가)
+<Button leadIcon={RiAddLine}>추가</Button>
+<Input leadIcon={RiSearchLine} />
+<Chip icon={RiHeartFill} label="찜" />
+```
+
+여전히 정적 literal tuple 만 변환. 동적 값 (변수, 삼항, 함수 호출) 은 그대로 두고 dynamic-string back-compat 으로 계속 동작.
+
+**적용된 prop 들 (대표):**
+- `Button.leadIcon`, `Button.tailIcon`, `LinkButton.leadIcon`/`tailIcon`, `AvatarButton.tailIcon`, `ControlButton.icon`, `FilterButton.icon`, `ButtonGroup.items[].icon`/`tailIcon`
+- `Input.leadIcon`/`tailIcon`/`buttonLeadIcon`/`buttonTailIcon` (모든 variant: Default, AddOn, Button, Password, Shortcut, Tags, Dropdown)
+- `Textarea.icon` (toolbar action)
+- `Select.leadIcon`/`tailIcon`, `Combobox.leadIcon`/`tailIcon`, `VirtualSelect.leadIcon`, `RadixMultiSelect.leadIcon`/`tailIcon`, option `leadIcon`
+- `Tabs.TabsTrigger.leadIcon`/`tailIcon`
+- `Sidebar.menuItem.icon` (default/avatar/children variant)
+- `Dropdown.MenuItem.leadIcon`/`tailIcon` (+ Checkbox/Radio/Avatar variants)
+- `Menubar.MenuItem.leadIcon`/`tailIcon`
+- `ContextMenu.MenuItem.leadIcon`/`tailIcon`
+- `NavigationMenu.ListItem.icon`
+- `Chip.icon`, `Badge.icon`, `Avatar.icon` (status="icon")
+- `Breadcrumbs.items[].icon`, `Stepper.steps[].icon`
+- `Divider.icon`, `Tooltip.TooltipItem.icon`
+- `EmptyState.icon`, `InfoBox.icon`, `FileUpload.icon`
+
+**신규 export:**
+- `IconProp`, `IconPropOrNode`, `RenderIconPropOptions` types
+- `renderIconProp()`, `isIconTuple()`, `isRemixiconComponent()` utilities
+
+기존 호출부는 변경 없음 — 추가 union 으로의 widening 만 발생 (back-compat 보장).
+
+- 신규 파일: `src/components/icons/Icon/iconProp.tsx`
+- DS 내부 25+ 컴포넌트의 render 사이트가 `parseIconTypeWithFill + <Icon iconType=...>` IIFE 패턴 → `renderIconProp(icon, { ... })` 로 통합
+- Button stories: `WithRemixiconComponent` 데모 추가
+
 ## [1.10.5] - 2026-05-08
 
 ### Fixed — `ControlButton` lg/md 가 시각적으로 동일하게 보이던 문제 + xl 노출 누락

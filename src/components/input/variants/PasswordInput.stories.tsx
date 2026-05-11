@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { RiLockLine } from '../../icons/Icon';
 
 import { Input } from '../Input';
 import type { PasswordStrength } from '../Input.types';
@@ -552,7 +553,7 @@ export const LoginForm: Story = {
           variant="password"
           label="비밀번호"
           placeholder="비밀번호를 입력하세요"
-          leadIcon={['system', 'lock']}
+          leadIcon={RiLockLine}
           showToggle
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -577,7 +578,7 @@ export const RegistrationForm: Story = {
           variant="password"
           label="비밀번호 만들기"
           placeholder="강력한 비밀번호를 입력하세요"
-          leadIcon={['system', 'lock']}
+          leadIcon={RiLockLine}
           showToggle
           showStrength
           autoCalculateStrength
@@ -589,7 +590,7 @@ export const RegistrationForm: Story = {
           variant="password"
           label="비밀번호 확인"
           placeholder="비밀번호를 다시 입력하세요"
-          leadIcon={['system', 'lock']}
+          leadIcon={RiLockLine}
           showToggle
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}

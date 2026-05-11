@@ -5,8 +5,8 @@ import { DismissableLayer } from '@radix-ui/react-dismissable-layer';
 
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/lib/spinner';
-import { Icon, parseIconTypeWithFill, RiArrowDownSLine, RiCloseCircleLine } from '../../icons/Icon';
-import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
+import { Icon, renderIconProp, RiArrowDownSLine, RiCloseCircleLine } from '../../icons/Icon';
+import type { IconProp } from '../../icons/Icon';
 import {
   SIZE_CONFIG,
   STATE_CONFIG,
@@ -40,7 +40,7 @@ export type DropdownPosition = 'lead' | 'tail';
 export interface DropdownOption {
   value: string;
   label: string;
-  icon?: IconTypeWithFill;
+  icon?: IconProp;
 }
 
 export interface DropdownInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -84,11 +84,11 @@ export interface DropdownInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
   /**
    * 입력 필드 앞에 표시되는 아이콘 (드롭다운이 lead가 아닐 때)
    */
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   /**
    * 입력 필드 뒤에 표시되는 아이콘 (드롭다운이 tail이 아닐 때)
    */
-  tailIcon?: IconTypeWithFill;
+  tailIcon?: IconProp;
   /**
    * 입력 필드 컨테이너의 커스텀 너비 (숫자는 px, 문자열은 그대로 사용)
    * 미지정 시 전체 너비 사용
@@ -139,13 +139,13 @@ export interface DropdownInputProps extends Omit<InputHTMLAttributes<HTMLInputEl
    * `dropdownPosition='tail'`: 무시됨.
    * 지정 시 `tailIcon`과 `onClear` clear 버튼은 숨겨지고 이 버튼이 우선 표시됨.
    */
-  buttonTailIcon?: IconTypeWithFill;
+  buttonTailIcon?: IconProp;
   /**
    * `dropdownPosition='tail'`: 왼쪽에 표시될 클릭 가능한 아이콘 버튼.
    * `dropdownPosition='lead'`: 무시됨.
    * 지정 시 `leadIcon`은 숨겨지고 이 버튼이 우선 표시됨.
    */
-  buttonLeadIcon?: IconTypeWithFill;
+  buttonLeadIcon?: IconProp;
   /**
    * 버튼 클릭 시 호출되는 콜백
    */
@@ -402,17 +402,10 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
             )}
             onClick={() => handleSelectOption(option.value)}
           >
-            {option.icon && (() => {
-              const { iconType, isFill } = parseIconTypeWithFill(option.icon);
-              return (
-                <Icon
-                  iconType={iconType}
-                  isFill={isFill}
-                  size={dropdownSizeConfig.iconSize}
-                  color="default-subtle"
-                />
-              );
-            })()}
+            {option.icon && renderIconProp(option.icon, {
+              size: dropdownSizeConfig.iconSize,
+              color: 'default-subtle',
+            })}
             <span className={cn(DROPDOWN_OPTION_TEXT_BASE, dropdownSizeConfig.optionText)}>{option.label}</span>
           </div>
         ))}
@@ -452,17 +445,10 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
-        {selectedOption?.icon && (() => {
-          const { iconType, isFill } = parseIconTypeWithFill(selectedOption.icon);
-          return (
-            <Icon
-              iconType={iconType}
-              isFill={isFill}
-              size={dropdownSizeConfig.iconSize}
-              color={iconColor}
-            />
-          );
-        })()}
+        {selectedOption?.icon && renderIconProp(selectedOption.icon, {
+          size: dropdownSizeConfig.iconSize,
+          color: iconColor,
+        })}
         <span className={cn(
           selectedOption ? DROPDOWN_TRIGGER_TEXT_BASE : DROPDOWN_TRIGGER_PLACEHOLDER_BASE,
           dropdownSizeConfig.optionText
@@ -507,49 +493,35 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
         {/* Lead Icon */}
         {showLeadIcon && leadIcon && (
           <div className="padding-l-8">
-            {(() => {
-              const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
-              return (
-                <Icon
-                  iconType={iconType}
-                  isFill={isFill}
-                  size={SIZE_CONFIG[size].iconSize}
-                  color={iconColor}
-                  className="flex-shrink-0"
-                />
-              );
-            })()}
+            {renderIconProp(leadIcon, {
+              size: SIZE_CONFIG[size].iconSize,
+              color: iconColor,
+              className: 'flex-shrink-0',
+            })}
           </div>
         )}
 
         {/* Clickable lead button icon (tail-dropdown variant) */}
         {showButtonLead && buttonLeadIcon && (
           <div className="padding-l-8">
-            {(() => {
-              const { iconType, isFill } = parseIconTypeWithFill(buttonLeadIcon);
-              return (
-                <button
-                  type="button"
-                  onClick={isButtonDisabled ? undefined : onButtonClick}
-                  disabled={isButtonDisabled}
-                  tabIndex={isButtonDisabled ? -1 : 0}
-                  aria-label="Action button"
-                  className={cn(
-                    'flex-shrink-0 flex items-center justify-center rounded-xs transition-colors',
-                    isButtonDisabled
-                      ? 'cursor-not-allowed'
-                      : 'cursor-pointer hover:bg-state-ghost-hover',
-                  )}
-                >
-                  <Icon
-                    iconType={iconType}
-                    isFill={isFill}
-                    size={SIZE_CONFIG[size].iconSize}
-                    color={isButtonDisabled ? 'default-disabled' : iconColor}
-                  />
-                </button>
-              );
-            })()}
+            <button
+              type="button"
+              onClick={isButtonDisabled ? undefined : onButtonClick}
+              disabled={isButtonDisabled}
+              tabIndex={isButtonDisabled ? -1 : 0}
+              aria-label="Action button"
+              className={cn(
+                'flex-shrink-0 flex items-center justify-center rounded-xs transition-colors',
+                isButtonDisabled
+                  ? 'cursor-not-allowed'
+                  : 'cursor-pointer hover:bg-state-ghost-hover',
+              )}
+            >
+              {renderIconProp(buttonLeadIcon, {
+                size: SIZE_CONFIG[size].iconSize,
+                color: isButtonDisabled ? 'default-disabled' : iconColor,
+              })}
+            </button>
           </div>
         )}
 
@@ -593,45 +565,33 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
               )}
 
               {/* Tail Icon */}
-              {showTailIcon && !hasClearButton && tailIcon && (() => {
-                const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
-                return (
-                  <Icon
-                    iconType={iconType}
-                    isFill={isFill}
-                    size={SIZE_CONFIG[size].iconSize}
-                    color={iconColor}
-                    className="flex-shrink-0"
-                  />
-                );
-              })()}
+              {showTailIcon && !hasClearButton && tailIcon && renderIconProp(tailIcon, {
+                size: SIZE_CONFIG[size].iconSize,
+                color: iconColor,
+                className: 'flex-shrink-0',
+              })}
 
               {/* Clickable tail button icon (lead-dropdown variant) */}
-              {showButtonTail && buttonTailIcon && (() => {
-                const { iconType, isFill } = parseIconTypeWithFill(buttonTailIcon);
-                return (
-                  <button
-                    type="button"
-                    onClick={isButtonDisabled ? undefined : onButtonClick}
-                    disabled={isButtonDisabled}
-                    tabIndex={isButtonDisabled ? -1 : 0}
-                    aria-label="Action button"
-                    className={cn(
-                      'flex-shrink-0 flex items-center justify-center rounded-xs transition-colors',
-                      isButtonDisabled
-                        ? 'cursor-not-allowed'
-                        : 'cursor-pointer hover:bg-state-ghost-hover',
-                    )}
-                  >
-                    <Icon
-                      iconType={iconType}
-                      isFill={isFill}
-                      size={SIZE_CONFIG[size].iconSize}
-                      color={isButtonDisabled ? 'default-disabled' : iconColor}
-                    />
-                  </button>
-                );
-              })()}
+              {showButtonTail && buttonTailIcon && (
+                <button
+                  type="button"
+                  onClick={isButtonDisabled ? undefined : onButtonClick}
+                  disabled={isButtonDisabled}
+                  tabIndex={isButtonDisabled ? -1 : 0}
+                  aria-label="Action button"
+                  className={cn(
+                    'flex-shrink-0 flex items-center justify-center rounded-xs transition-colors',
+                    isButtonDisabled
+                      ? 'cursor-not-allowed'
+                      : 'cursor-pointer hover:bg-state-ghost-hover',
+                  )}
+                >
+                  {renderIconProp(buttonTailIcon, {
+                    size: SIZE_CONFIG[size].iconSize,
+                    color: isButtonDisabled ? 'default-disabled' : iconColor,
+                  })}
+                </button>
+              )}
             </>
           )}
 

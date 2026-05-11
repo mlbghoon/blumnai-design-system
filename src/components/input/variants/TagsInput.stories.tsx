@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { RiCodeLine } from '../../icons/Icon';
 
 import type { IconType } from '../../icons/Icon/Icon.types';
 import { Input } from '../Input';
@@ -316,7 +317,7 @@ export const WithLeadIcon: Story = {
         variant="inline-tags"
         label="언어"
         placeholder="언어 추가..."
-        leadIcon={['development', 'code']}
+        leadIcon={RiCodeLine}
         tags={tags}
         onTagsChange={setTags}
       />

@@ -1,7 +1,6 @@
 import { forwardRef, useRef, useState, useCallback } from 'react';
 
-import { Icon } from '../icons/Icon';
-import { parseIconTypeWithFill } from '../icons/Icon/Icon.types';
+import { renderIconProp } from '../icons/Icon';
 import { cn } from '../../lib/utils';
 import {
   FILE_UPLOAD_AREA_BASE,
@@ -195,8 +194,6 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
     return FILE_UPLOAD_AREA_STATE.default;
   };
 
-  const { iconType, isFill } = parseIconTypeWithFill(icon);
-
   const hasError = error === true || (typeof error === 'string' && error.length > 0);
   const errorText = typeof error === 'string' && error.length > 0 ? error : undefined;
   const captionText = errorText || caption;
@@ -243,13 +240,11 @@ export const FileUploadArea = forwardRef<HTMLDivElement, FileUploadAreaProps>(({
           disabled={disabled}
         />
 
-        <Icon
-          iconType={iconType}
-          isFill={isFill}
-          size={compact ? 24 : FILE_UPLOAD_AREA_ICON_SIZE}
-          color={disabled ? 'default-disabled' : 'default-muted'}
-          className="flex-shrink-0"
-        />
+        {renderIconProp(icon, {
+          size: compact ? 24 : FILE_UPLOAD_AREA_ICON_SIZE,
+          color: disabled ? 'default-disabled' : 'default-muted',
+          className: 'flex-shrink-0',
+        })}
 
         <div className={cn('flex flex-col ds-gap-4', !compact && 'items-center')}>
           <span className={titleClassName}>

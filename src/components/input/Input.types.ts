@@ -1,6 +1,6 @@
 import type { InputHTMLAttributes, ReactNode } from 'react';
 
-import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { IconProp } from '../icons/Icon';
 import type { PasswordStrength } from './variants/PasswordInput';
 import type { DropdownOption } from './variants/DropdownInput';
 
@@ -118,11 +118,11 @@ export interface DefaultVariantProps extends InputBaseProps, Omit<InputHTMLAttri
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   /**
    * 입력 필드 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconTypeWithFill;
+  tailIcon?: IconProp;
   /**
    * 끝에 표시되는 단축키 뱃지 텍스트
    */
@@ -141,7 +141,7 @@ export interface PasswordVariantProps extends InputBaseProps, Omit<InputHTMLAttr
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   /**
    * 비밀번호 표시/숨김 토글 버튼 표시 여부
    * @default true
@@ -217,7 +217,7 @@ interface TagsBaseProps extends InputBaseProps, Omit<InputHTMLAttributes<HTMLInp
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   /**
    * 현재 태그 배열
    * @default []
@@ -285,11 +285,11 @@ interface AddOnBaseProps extends InputBaseProps, Omit<InputHTMLAttributes<HTMLIn
   /**
    * 입력 필드 앞에 표시되는 아이콘 (인라인이거나 접두사가 없을 때)
    */
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   /**
    * 입력 필드 뒤에 표시되는 아이콘 (인라인이거나 접미사가 없을 때)
    */
-  tailIcon?: IconTypeWithFill;
+  tailIcon?: IconProp;
   /**
    * 접두사 애드온 컨텐츠 (문자열 또는 ReactNode)
    */
@@ -326,7 +326,7 @@ export interface LeadButtonVariantProps extends InputBaseProps, Omit<InputHTMLAt
   /**
    * 입력 필드 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconTypeWithFill;
+  tailIcon?: IconProp;
   /**
    * 지우기 버튼 클릭 시 호출되는 콜백 (제공 시 지우기 버튼 표시)
    */
@@ -338,11 +338,11 @@ export interface LeadButtonVariantProps extends InputBaseProps, Omit<InputHTMLAt
   /**
    * 버튼 앞에 표시되는 아이콘
    */
-  buttonLeadIcon?: IconTypeWithFill;
+  buttonLeadIcon?: IconProp;
   /**
    * 버튼 뒤에 표시되는 아이콘
    */
-  buttonTailIcon?: IconTypeWithFill;
+  buttonTailIcon?: IconProp;
   /**
    * 버튼 클릭 시 호출되는 콜백
    */
@@ -362,7 +362,7 @@ export interface TailButtonVariantProps extends InputBaseProps, Omit<InputHTMLAt
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   /**
    * 지우기 버튼 클릭 시 호출되는 콜백 (제공 시 지우기 버튼 표시)
    */
@@ -374,11 +374,11 @@ export interface TailButtonVariantProps extends InputBaseProps, Omit<InputHTMLAt
   /**
    * 버튼 앞에 표시되는 아이콘
    */
-  buttonLeadIcon?: IconTypeWithFill;
+  buttonLeadIcon?: IconProp;
   /**
    * 버튼 뒤에 표시되는 아이콘
    */
-  buttonTailIcon?: IconTypeWithFill;
+  buttonTailIcon?: IconProp;
   /**
    * 버튼 클릭 시 호출되는 콜백
    */
@@ -398,7 +398,7 @@ export interface LeadDropdownVariantProps extends InputBaseProps, Omit<InputHTML
   /**
    * 입력 필드 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconTypeWithFill;
+  tailIcon?: IconProp;
   /**
    * 지우기 버튼 클릭 시 호출되는 콜백 (제공 시 지우기 버튼 표시)
    */
@@ -429,7 +429,7 @@ export interface LeadDropdownVariantProps extends InputBaseProps, Omit<InputHTML
    * 지정 시 장식용 `tailIcon` 및 `onClear` 기반 clear 버튼은 무시되고 이 버튼이 우선 표시됩니다.
    * "dropdown + 키워드 + magnifier 검색" 같은 패턴에 사용.
    */
-  buttonTailIcon?: IconTypeWithFill;
+  buttonTailIcon?: IconProp;
   /**
    * `buttonTailIcon` 버튼 클릭 시 호출되는 콜백
    */
@@ -449,7 +449,7 @@ export interface TailDropdownVariantProps extends InputBaseProps, Omit<InputHTML
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   /**
    * 지우기 버튼 클릭 시 호출되는 콜백 (제공 시 지우기 버튼 표시)
    */
@@ -479,7 +479,7 @@ export interface TailDropdownVariantProps extends InputBaseProps, Omit<InputHTML
    * 입력 필드 왼쪽에 표시되는 클릭 가능한 아이콘 버튼.
    * 지정 시 장식용 `leadIcon`은 무시되고 이 버튼이 우선 표시됩니다.
    */
-  buttonLeadIcon?: IconTypeWithFill;
+  buttonLeadIcon?: IconProp;
   /**
    * `buttonLeadIcon` 버튼 클릭 시 호출되는 콜백
    */
@@ -499,7 +499,7 @@ export interface ShortcutVariantProps extends InputBaseProps, Omit<InputHTMLAttr
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconTypeWithFill;
+  leadIcon?: IconProp;
   /**
    * 끝에 표시되는 단축키 뱃지 텍스트 (이 변형에서 필수)
    */

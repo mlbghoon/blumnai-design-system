@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiArrowDownSLine } from '../../icons/Icon';
 
 import avatarPlaceholderIcon from '../../../assets/avatar-placeholder-icon.png';
 
@@ -58,14 +59,19 @@ const meta: Meta<typeof AvatarButton> = {
     },
     tailIcon: {
       control: 'object',
-      description: '라벨 뒤에 표시되는 아이콘',
+      description: '라벨 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'AvatarButtonIconType | ReactNode',
-          detail: `[category, name] 또는 [category, name, isFill] 튜플 형식
-예시: ['arrows', 'arrow-down-s']
-예시: ['arrows', 'chevron-down', true] (채워진 아이콘)
-카테고리: system, arrows, media, editor, health, business 등`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  tailIcon={RiArrowDownSLine}
+  tailIcon={RiArrowDownSFill}
+
+또는 tuple form (deprecated, dev console warning):
+  tailIcon={['arrows', 'arrow-down-s']}
+  tailIcon={['arrows', 'chevron-down', true]}
+
+또는 ReactNode (이미 렌더된 JSX)`,
         },
       },
     },
@@ -135,9 +141,9 @@ export const Default: Story = {
 export const AllStyles: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-      <AvatarButton avatar={avatarPlaceholderIcon} label="Default" buttonStyle="default" tailIcon={['arrows', 'arrow-down-s']} />
-      <AvatarButton avatar={avatarPlaceholderIcon} label="Dashed" buttonStyle="dashed" tailIcon={['arrows', 'arrow-down-s']} />
-      <AvatarButton avatar={avatarPlaceholderIcon} label="Soft" buttonStyle="soft" tailIcon={['arrows', 'arrow-down-s']} />
+      <AvatarButton avatar={avatarPlaceholderIcon} label="Default" buttonStyle="default" tailIcon={RiArrowDownSLine} />
+      <AvatarButton avatar={avatarPlaceholderIcon} label="Dashed" buttonStyle="dashed" tailIcon={RiArrowDownSLine} />
+      <AvatarButton avatar={avatarPlaceholderIcon} label="Soft" buttonStyle="soft" tailIcon={RiArrowDownSLine} />
     </div>
   ),
 };
@@ -148,8 +154,8 @@ export const AllStyles: Story = {
 export const AllSizes: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-      <AvatarButton avatar={avatarPlaceholderIcon} label="Small" size="sm" tailIcon={['arrows', 'arrow-down-s']} />
-      <AvatarButton avatar={avatarPlaceholderIcon} label="Large" size="lg" tailIcon={['arrows', 'arrow-down-s']} />
+      <AvatarButton avatar={avatarPlaceholderIcon} label="Small" size="sm" tailIcon={RiArrowDownSLine} />
+      <AvatarButton avatar={avatarPlaceholderIcon} label="Large" size="lg" tailIcon={RiArrowDownSLine} />
     </div>
   ),
 };
@@ -161,16 +167,16 @@ export const States: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-16">
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-        <AvatarButton avatar={avatarPlaceholderIcon} label="Default" tailIcon={['arrows', 'arrow-down-s']} />
-        <AvatarButton avatar={avatarPlaceholderIcon} label="Disabled" tailIcon={['arrows', 'arrow-down-s']} disabled />
+        <AvatarButton avatar={avatarPlaceholderIcon} label="Default" tailIcon={RiArrowDownSLine} />
+        <AvatarButton avatar={avatarPlaceholderIcon} label="Disabled" tailIcon={RiArrowDownSLine} disabled />
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-        <AvatarButton avatar={avatarPlaceholderIcon} label="Dashed" buttonStyle="dashed" tailIcon={['arrows', 'arrow-down-s']} />
-        <AvatarButton avatar={avatarPlaceholderIcon} label="Disabled" buttonStyle="dashed" tailIcon={['arrows', 'arrow-down-s']} disabled />
+        <AvatarButton avatar={avatarPlaceholderIcon} label="Dashed" buttonStyle="dashed" tailIcon={RiArrowDownSLine} />
+        <AvatarButton avatar={avatarPlaceholderIcon} label="Disabled" buttonStyle="dashed" tailIcon={RiArrowDownSLine} disabled />
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-        <AvatarButton avatar={avatarPlaceholderIcon} label="Soft" buttonStyle="soft" tailIcon={['arrows', 'arrow-down-s']} />
-        <AvatarButton avatar={avatarPlaceholderIcon} label="Disabled" buttonStyle="soft" tailIcon={['arrows', 'arrow-down-s']} disabled />
+        <AvatarButton avatar={avatarPlaceholderIcon} label="Soft" buttonStyle="soft" tailIcon={RiArrowDownSLine} />
+        <AvatarButton avatar={avatarPlaceholderIcon} label="Disabled" buttonStyle="soft" tailIcon={RiArrowDownSLine} disabled />
       </div>
     </div>
   ),
@@ -183,7 +189,7 @@ export const WithoutIcon: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center justify-center">
       <AvatarButton avatar={avatarPlaceholderIcon} label="No Icon" />
-      <AvatarButton avatar={avatarPlaceholderIcon} label="With Icon" tailIcon={['arrows', 'arrow-down-s']} />
+      <AvatarButton avatar={avatarPlaceholderIcon} label="With Icon" tailIcon={RiArrowDownSLine} />
     </div>
   ),
 };

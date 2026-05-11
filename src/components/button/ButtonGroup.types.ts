@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { IconProp } from '../icons/Icon';
 
 /**
  * ButtonGroup 크기
@@ -19,12 +19,12 @@ interface ButtonGroupItemBase {
    * 아이콘 (lead icon)
    * @example icon={['system', 'settings']}
    */
-  icon?: IconType | ReactNode;
+  icon?: IconProp | ReactNode;
   /**
    * Tail icon (우측 아이콘)
    * @example tailIcon={['arrows', 'chevron-down']}
    */
-  tailIcon?: IconType | ReactNode;
+  tailIcon?: IconProp | ReactNode;
   /**
    * 버튼이 비활성화되었는지 여부
    */
@@ -39,7 +39,7 @@ interface ButtonGroupItemBase {
  * 아이콘 전용 버튼 (label/badge 없이 icon만 표시, ariaLabel 필수)
  */
 interface IconOnlyItem extends ButtonGroupItemBase {
-  icon: IconType | ReactNode;
+  icon: IconProp | ReactNode;
   /**
    * 접근성 라벨 (icon-only 시 필수)
    */

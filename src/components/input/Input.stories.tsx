@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { Input } from './Input';
 import { Select } from '../select';
-import { Icon, RiLightbulbLine } from '../icons/Icon';
+import { Icon, RiLightbulbLine, RiSearchLine } from '../icons/Icon';
 import type { DefaultVariantProps } from './Input.types';
 
 const meta: Meta<DefaultVariantProps> = {
@@ -259,7 +259,7 @@ export const AllVariants: Story = {
             label="빠른 검색"
             placeholder="검색..."
             shortcut="⌘K"
-            leadIcon={['system', 'search']}
+            leadIcon={RiSearchLine}
           />
         </div>
 

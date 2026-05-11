@@ -4,7 +4,7 @@ import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
 import { cva } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
-import { Icon, RiArrowDownSLine } from '../icons/Icon';
+import { Icon, renderIconProp, RiArrowDownSLine } from '../icons/Icon';
 import type {
   NavigationMenuProps,
   NavigationMenuListProps,
@@ -197,12 +197,7 @@ const NavigationMenuListItem = React.forwardRef<
             <div className="flex items-start ds-gap-12">
               {icon && (
                 <div className="flex items-center justify-center width-24 height-24 flex-shrink-0" style={{ marginTop: '1px' }}>
-                  <Icon
-                    iconType={icon}
-                    size={20}
-                    color="default-subtle"
-                    isFill={iconFill}
-                  />
+                  {renderIconProp(icon, { size: 20, color: 'default-subtle', isFill: iconFill })}
                 </div>
               )}
               <div className="flex flex-col ds-gap-2">

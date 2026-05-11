@@ -3,7 +3,7 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
-import { Icon, parseIconTypeWithFill, RiCloseLine, RiSearchLine } from '../icons/Icon';
+import { Icon, renderIconProp, RiCloseLine, RiSearchLine } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { TooltipTrigger } from '../tooltip/Tooltip/TooltipTrigger';
@@ -113,7 +113,6 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
       }
 
       if (option.leadIcon) {
-        const { iconType, isFill } = parseIconTypeWithFill(option.leadIcon);
         return (
           <div
             className={cn(
@@ -121,12 +120,7 @@ const MultiSelectItem = React.forwardRef<HTMLDivElement, MultiSelectItemProps>(
               sizeConfig.iconFrame
             )}
           >
-            <Icon
-              iconType={iconType}
-              size={sizeConfig.iconSize}
-              color={iconColor}
-              isFill={isFill}
-            />
+            {renderIconProp(option.leadIcon, { size: sizeConfig.iconSize, color: iconColor })}
           </div>
         );
       }
@@ -639,18 +633,11 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                 className={triggerClassName}
                 id={selectId}
               >
-                {leadIcon && (() => {
-                  const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
-                  return (
-                    <Icon
-                      iconType={iconType}
-                      size={sizeConfig.iconSize}
-                      color={iconColor}
-                      className="flex-shrink-0"
-                      isFill={isFill}
-                    />
-                  );
-                })()}
+                {leadIcon && renderIconProp(leadIcon, {
+                  size: sizeConfig.iconSize,
+                  color: iconColor,
+                  className: 'flex-shrink-0',
+                })}
 
                 <div
                   className={cn(
@@ -674,18 +661,11 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                   </span>
                 )}
 
-                {tailIcon && (() => {
-                  const { iconType, isFill } = parseIconTypeWithFill(tailIcon);
-                  return (
-                    <Icon
-                      iconType={iconType}
-                      size={sizeConfig.iconSize}
-                      color={iconColor}
-                      className="flex-shrink-0"
-                      isFill={isFill}
-                    />
-                  );
-                })()}
+                {tailIcon && renderIconProp(tailIcon, {
+                  size: sizeConfig.iconSize,
+                  color: iconColor,
+                  className: 'flex-shrink-0',
+                })}
 
                 <Icon
                   iconType={['arrows', isOpen ? 'arrow-up-s' : 'arrow-down-s']}

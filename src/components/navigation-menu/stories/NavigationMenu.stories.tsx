@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiBuildingLine, RiCodeSSlashLine, RiLineChartLine, RiLink, RiPaletteLine, RiRocketLine, RiSettingsLine, RiShieldCheckLine } from '../../icons/Icon';
 
 import {
   NavigationMenu,
@@ -125,25 +126,25 @@ export const MegaMenuWithIcons: Story = {
                   href="/products/analytics"
                   title="분석"
                   description="웹사이트 성능을 추적하고 분석합니다."
-                  icon={['business', 'line-chart']}
+                  icon={RiLineChartLine}
                 />
                 <NavigationMenuListItem
                   href="/products/automation"
                   title="자동화"
                   description="워크플로우를 자동화하고 시간을 절약합니다."
-                  icon={['system', 'settings']}
+                  icon={RiSettingsLine}
                 />
                 <NavigationMenuListItem
                   href="/products/security"
                   title="보안"
                   description="데이터를 안전하게 보호합니다."
-                  icon={['system', 'shield-check']}
+                  icon={RiShieldCheckLine}
                 />
                 <NavigationMenuListItem
                   href="/products/integrations"
                   title="통합"
                   description="즐겨 사용하는 도구와 연결합니다."
-                  icon={['editor', 'link']}
+                  icon={RiLink}
                 />
               </ul>
             </NavigationMenuContent>
@@ -156,27 +157,27 @@ export const MegaMenuWithIcons: Story = {
                   href="/solutions/startup"
                   title="스타트업"
                   description="스타트업 솔루션으로 비즈니스를 확장하세요."
-                  icon={['map', 'rocket']}
+                  icon={RiRocketLine}
                   iconFill
                 />
                 <NavigationMenuListItem
                   href="/solutions/enterprise"
                   title="기업"
                   description="대규모 팀을 위한 엔터프라이즈급 솔루션입니다."
-                  icon={['buildings', 'building']}
+                  icon={RiBuildingLine}
                   iconFill
                 />
                 <NavigationMenuListItem
                   href="/solutions/developers"
                   title="개발자"
                   description="개발자를 위한 도구 및 API입니다."
-                  icon={['development', 'code-sslash']}
+                  icon={RiCodeSSlashLine}
                 />
                 <NavigationMenuListItem
                   href="/solutions/designers"
                   title="디자이너"
                   description="디자인 도구 및 리소스입니다."
-                  icon={['design', 'palette']}
+                  icon={RiPaletteLine}
                 />
               </ul>
             </NavigationMenuContent>

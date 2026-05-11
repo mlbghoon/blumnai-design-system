@@ -97,12 +97,16 @@ const meta: Meta<typeof Badge> = {
     },
     icon: {
       control: 'object',
-      description: '표시할 아이콘 타입 (icon 변형용)',
+      description: '표시할 아이콘 타입 (icon 변형용) (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
           summary: 'IconType',
-          detail: `[category, name] 튜플 형식
-예시: ['system', 'check']`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  icon={RiCheckLine}
+  icon={RiStarLine}
+
+또는 tuple form (deprecated, dev console warning):
+  icon={['system', 'check']}`,
         },
       },
     },

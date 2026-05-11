@@ -3,7 +3,7 @@ import { forwardRef, useMemo } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 
-import { Icon, parseIconTypeWithFill } from '../icons/Icon';
+import { renderIconProp } from '../icons/Icon';
 import { cn } from '../../lib/utils';
 
 import type { ControlButtonProps, ControlButtonSize, ControlButtonShape, ControlButtonStyle } from './ControlButton.types';
@@ -79,7 +79,6 @@ export const ControlButton = forwardRef<HTMLButtonElement, ControlButtonProps>((
 }, ref) => {
   const Comp = asChild ? Slot : 'button';
   const iconSize = ICON_SIZE[size] ?? 16;
-  const { iconType, isFill } = parseIconTypeWithFill(icon);
 
   const containerClassName = cn(
     controlButtonVariants({ ...(disabled ? {} : { buttonStyle }), size, shape }),
@@ -117,12 +116,7 @@ export const ControlButton = forwardRef<HTMLButtonElement, ControlButtonProps>((
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      <Icon
-        iconType={iconType}
-        size={iconSize}
-        color={getIconColor}
-        isFill={isFill}
-      />
+      {renderIconProp(icon, { size: iconSize, color: getIconColor })}
     </Comp>
   );
 });

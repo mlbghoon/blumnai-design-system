@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiPauseLine, RiPlayLine, RiSkipBackLine, RiSkipForwardLine, RiStopLine } from '../../icons/Icon';
 
 import { ControlButton } from '../ControlButton';
 
@@ -46,11 +47,18 @@ const meta: Meta<typeof ControlButton> = {
     },
     icon: {
       control: 'object',
-      description: '버튼에 표시할 아이콘입니다. [카테고리, 이름] 또는 [카테고리, 이름, isFill] 형식의 튜플로 지정합니다 (필수)',
+      description: '버튼에 표시할 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated, 필수)',
       table: {
         type: {
           summary: 'IconType | IconTypeWithFill',
-          detail: `[category, name] | [category, name, boolean]`,
+          detail: `Remixicon component (권장, tree-shakeable):
+  icon={RiAddLine}
+  icon={RiSettings3Line}
+  icon={RiStarFill}
+
+또는 tuple form (deprecated, dev console warning):
+  icon={['system', 'add']}
+  icon={['system', 'star', true]}`,
         },
       },
     },
@@ -144,10 +152,10 @@ export const Default: Story = {
 export const AllSizes: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 rounded-md border-default">
-      <ControlButton icon={['media', 'play']} aria-label="Play" size="sm" />
-      <ControlButton icon={['media', 'play']} aria-label="Play" size="md" />
-      <ControlButton icon={['media', 'play']} aria-label="Play" size="lg" />
-      <ControlButton icon={['media', 'play']} aria-label="Play" size="xl" />
+      <ControlButton icon={RiPlayLine} aria-label="Play" size="sm" />
+      <ControlButton icon={RiPlayLine} aria-label="Play" size="md" />
+      <ControlButton icon={RiPlayLine} aria-label="Play" size="lg" />
+      <ControlButton icon={RiPlayLine} aria-label="Play" size="xl" />
     </div>
   ),
 };
@@ -158,8 +166,8 @@ export const AllSizes: Story = {
 export const AllShapes: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 rounded-md border-default">
-      <ControlButton icon={['media', 'play']} aria-label="Play" shape="rounded" />
-      <ControlButton icon={['media', 'play']} aria-label="Play" shape="circle" />
+      <ControlButton icon={RiPlayLine} aria-label="Play" shape="rounded" />
+      <ControlButton icon={RiPlayLine} aria-label="Play" shape="circle" />
     </div>
   ),
 };
@@ -172,15 +180,15 @@ export const AllStyles: Story = {
     <div className="flex flex-col ds-gap-16">
       <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 rounded-md border-default">
         <span className="text-default size-sm">Default:</span>
-        <ControlButton icon={['media', 'play']} aria-label="Play" buttonStyle="default" />
-        <ControlButton icon={['media', 'pause']} aria-label="Pause" buttonStyle="default" />
-        <ControlButton icon={['media', 'skip-forward']} aria-label="Skip" buttonStyle="default" />
+        <ControlButton icon={RiPlayLine} aria-label="Play" buttonStyle="default" />
+        <ControlButton icon={RiPauseLine} aria-label="Pause" buttonStyle="default" />
+        <ControlButton icon={RiSkipForwardLine} aria-label="Skip" buttonStyle="default" />
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center bg-subtle padding-16 rounded-md">
         <span className="text-white size-sm">Inverted:</span>
-        <ControlButton icon={['media', 'play']} aria-label="Play" buttonStyle="inverted" />
-        <ControlButton icon={['media', 'pause']} aria-label="Pause" buttonStyle="inverted" />
-        <ControlButton icon={['media', 'skip-forward']} aria-label="Skip" buttonStyle="inverted" />
+        <ControlButton icon={RiPlayLine} aria-label="Play" buttonStyle="inverted" />
+        <ControlButton icon={RiPauseLine} aria-label="Pause" buttonStyle="inverted" />
+        <ControlButton icon={RiSkipForwardLine} aria-label="Skip" buttonStyle="inverted" />
       </div>
     </div>
   ),
@@ -192,11 +200,11 @@ export const AllStyles: Story = {
 export const CommonControls: Story = {
   render: () => (
     <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 rounded-md border-default">
-      <ControlButton icon={['media', 'play']} aria-label="Play" />
-      <ControlButton icon={['media', 'pause']} aria-label="Pause" />
-      <ControlButton icon={['media', 'skip-forward']} aria-label="Skip forward" />
-      <ControlButton icon={['media', 'skip-back']} aria-label="Skip back" />
-      <ControlButton icon={['media', 'stop']} aria-label="Stop" />
+      <ControlButton icon={RiPlayLine} aria-label="Play" />
+      <ControlButton icon={RiPauseLine} aria-label="Pause" />
+      <ControlButton icon={RiSkipForwardLine} aria-label="Skip forward" />
+      <ControlButton icon={RiSkipBackLine} aria-label="Skip back" />
+      <ControlButton icon={RiStopLine} aria-label="Stop" />
     </div>
   ),
 };
@@ -209,13 +217,13 @@ export const States: Story = {
     <div className="flex flex-col ds-gap-16">
       <div className="flex flex-wrap ds-gap-12 items-center justify-center padding-16 rounded-md border-default">
         <span className="text-default size-sm">Default:</span>
-        <ControlButton icon={['media', 'play']} aria-label="Play" />
-        <ControlButton icon={['media', 'play']} aria-label="Play" disabled />
+        <ControlButton icon={RiPlayLine} aria-label="Play" />
+        <ControlButton icon={RiPlayLine} aria-label="Play" disabled />
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center bg-subtle padding-16 rounded-md">
         <span className="text-white size-sm">Inverted:</span>
-        <ControlButton icon={['media', 'play']} aria-label="Play" buttonStyle="inverted" />
-        <ControlButton icon={['media', 'play']} aria-label="Play" buttonStyle="inverted" disabled />
+        <ControlButton icon={RiPlayLine} aria-label="Play" buttonStyle="inverted" />
+        <ControlButton icon={RiPlayLine} aria-label="Play" buttonStyle="inverted" disabled />
       </div>
     </div>
   ),

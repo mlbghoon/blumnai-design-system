@@ -1,8 +1,17 @@
 /**
- * jscodeshift transform: convert `<Icon iconType={[cat, name]} isFill? />` → `<Icon icon={Ri*Line|Fill} />`.
+ * jscodeshift transform — convert legacy icon-tuple usage to Remixicon component refs.
  *
- * Static literal tuples only. Variables, function calls, conditionals → left alone.
- * Looks up `Ri*` export name via `remixicon-export-map.json` (auto-generated).
+ * Two modes, applied in a single pass:
+ *
+ * 1. `<Icon iconType={[cat, name]} isFill? />` → `<Icon icon={Ri*Line|Fill} />`
+ *    Renames the prop (`iconType` → `icon`), drops `isFill`, swaps value.
+ *
+ * 2. `<AnyComponent leadIcon={['cat','name']}>` → `<AnyComponent leadIcon={RiNameLine}>`
+ *    (and `tailIcon`, `icon`, `buttonLeadIcon`, `buttonTailIcon`)
+ *    Same prop name, just swaps the value. Covers Button/Input/Select/etc.
+ *
+ * Static literal tuples only. Variables / function calls / conditionals → left alone
+ * (they continue to work via dynamic-string back-compat).
  *
  * Usage:
  *   npx jscodeshift -t scripts/icon-codemod/transform.cjs --parser=tsx <files...>
@@ -27,6 +36,46 @@ function lookupRemixiconExport(name, isFill) {
   return exportMap[key] ?? null;
 }
 
+// Props on DS components (other than <Icon>) that accept the tuple form.
+const ICON_PROP_NAMES = new Set([
+  'icon',
+  'leadIcon',
+  'tailIcon',
+  'buttonLeadIcon',
+  'buttonTailIcon',
+]);
+
+/**
+ * Read a JSX attribute value and extract `{ cat, name, isFill }` if it's a static
+ * 2- or 3-element literal tuple of strings (3rd element optional boolean).
+ * Returns null for dynamic values (variables, function calls, etc.) — those are
+ * intentionally skipped.
+ */
+function extractTuple(attrValue) {
+  if (!attrValue || attrValue.type !== 'JSXExpressionContainer') return null;
+  const expr = attrValue.expression;
+  if (expr.type !== 'ArrayExpression') return null;
+
+  const elements = expr.elements;
+  if (elements.length < 2 || elements.length > 3) return null;
+
+  const catEl = elements[0];
+  const nameEl = elements[1];
+  const fillEl = elements[2];
+
+  if (!catEl || (catEl.type !== 'StringLiteral' && catEl.type !== 'Literal')) return null;
+  if (!nameEl || (nameEl.type !== 'StringLiteral' && nameEl.type !== 'Literal')) return null;
+  if (fillEl && fillEl.type !== 'BooleanLiteral' && fillEl.type !== 'Literal') return null;
+
+  let inlineFill = false;
+  if (fillEl) {
+    if (fillEl.type === 'BooleanLiteral') inlineFill = fillEl.value;
+    else if (fillEl.type === 'Literal' && typeof fillEl.value === 'boolean') inlineFill = fillEl.value;
+  }
+
+  return { cat: catEl.value, name: nameEl.value, isFill: inlineFill };
+}
+
 module.exports = function transformer(file, api) {
   const j = api.jscodeshift;
   const root = j(file.source);
@@ -34,6 +83,7 @@ module.exports = function transformer(file, api) {
   let modified = false;
   const importsToAdd = new Set();
 
+  // --- Mode 1: <Icon iconType={[...]}> → <Icon icon={Ri*}> ---
   root
     .find(j.JSXElement, {
       openingElement: { name: { type: 'JSXIdentifier', name: 'Icon' } },
@@ -42,7 +92,6 @@ module.exports = function transformer(file, api) {
       const opening = path.value.openingElement;
       const attrs = opening.attributes ?? [];
 
-      // Find iconType={...}
       const iconTypeAttr = attrs.find(
         (attr) =>
           attr.type === 'JSXAttribute' &&
@@ -51,65 +100,39 @@ module.exports = function transformer(file, api) {
       );
       if (!iconTypeAttr) return;
 
-      // Validate value: { ['cat', 'name'] }
-      const value = iconTypeAttr.value;
-      if (!value || value.type !== 'JSXExpressionContainer') return;
-      const expr = value.expression;
-      if (expr.type !== 'ArrayExpression') return;
+      const tuple = extractTuple(iconTypeAttr.value);
+      if (!tuple) return;
 
-      const elements = expr.elements;
-      if (elements.length < 2 || elements.length > 3) return;
-
-      const catEl = elements[0];
-      const nameEl = elements[1];
-      const fillEl = elements[2];
-
-      // Both must be string literals
-      if (!catEl || (catEl.type !== 'StringLiteral' && catEl.type !== 'Literal')) return;
-      if (!nameEl || (nameEl.type !== 'StringLiteral' && nameEl.type !== 'Literal')) return;
-      if (fillEl && fillEl.type !== 'BooleanLiteral' && fillEl.type !== 'Literal') return;
-
-      const iconName = nameEl.value;
-      let inlineFill = false;
-      if (fillEl) {
-        if (fillEl.type === 'BooleanLiteral') inlineFill = fillEl.value;
-        else if (fillEl.type === 'Literal' && typeof fillEl.value === 'boolean') inlineFill = fillEl.value;
-      }
-
-      // Check for separate isFill attr
+      // Check for separate isFill={...} attribute (overrides inline isFill).
       const isFillAttr = attrs.find(
         (attr) =>
           attr.type === 'JSXAttribute' &&
           attr.name.type === 'JSXIdentifier' &&
           attr.name.name === 'isFill',
       );
-      let isFill = inlineFill;
+      let isFill = tuple.isFill;
       if (isFillAttr) {
         if (!isFillAttr.value) {
-          // <Icon iconType={...} isFill /> — boolean shorthand
+          // `<Icon iconType={...} isFill />` — boolean shorthand
           isFill = true;
         } else if (isFillAttr.value.type === 'JSXExpressionContainer') {
           const fillExpr = isFillAttr.value.expression;
           if (fillExpr.type === 'BooleanLiteral' || fillExpr.type === 'Literal') {
             isFill = Boolean(fillExpr.value);
           } else {
-            // Dynamic — bail
-            return;
+            return; // Dynamic isFill — bail
           }
         } else if (isFillAttr.value.type === 'StringLiteral' || isFillAttr.value.type === 'Literal') {
-          // <Icon isFill="true"> rare but possible
           isFill = isFillAttr.value.value === 'true' || isFillAttr.value.value === true;
         }
       }
 
-      const remixiconName = lookupRemixiconExport(iconName, isFill);
-      if (!remixiconName) return; // Unknown icon — leave as-is
+      const remixiconName = lookupRemixiconExport(tuple.name, isFill);
+      if (!remixiconName) return;
 
-      // Replace iconType → icon, value → identifier reference
       iconTypeAttr.name = j.jsxIdentifier('icon');
       iconTypeAttr.value = j.jsxExpressionContainer(j.identifier(remixiconName));
 
-      // Remove isFill attr
       if (isFillAttr) {
         opening.attributes = (opening.attributes ?? []).filter((a) => a !== isFillAttr);
       }
@@ -118,23 +141,64 @@ module.exports = function transformer(file, api) {
       modified = true;
     });
 
+  // --- Mode 2: <AnyComponent leadIcon/tailIcon/icon/buttonLeadIcon/buttonTailIcon={[...]}> ---
+  root.find(j.JSXAttribute).forEach((path) => {
+    const attr = path.value;
+    if (attr.name.type !== 'JSXIdentifier') return;
+    const propName = attr.name.name;
+    if (!ICON_PROP_NAMES.has(propName)) return;
+
+    // Skip if this is the <Icon icon={...}> direct-import API — already a component ref.
+    // We only care if the value is a tuple literal. extractTuple bails on non-tuples.
+    const tuple = extractTuple(attr.value);
+    if (!tuple) return;
+
+    const remixiconName = lookupRemixiconExport(tuple.name, tuple.isFill);
+    if (!remixiconName) return;
+
+    // Skip if the parent element is <Icon> and prop is `icon` — already handled by Mode 1 path
+    // if it had been `iconType`. A literal tuple on `<Icon icon={[...]}>` is technically wrong
+    // (the type expects a component ref), but if someone wrote it we'll fix it the same way.
+    // No special-case needed — proceed.
+
+    attr.value = j.jsxExpressionContainer(j.identifier(remixiconName));
+    importsToAdd.add(remixiconName);
+    modified = true;
+  });
+
   if (!modified) return undefined;
 
-  // Find the Icon import to attach Ri* imports.
-  const iconImport = root
-    .find(j.ImportDeclaration)
-    .filter((p) => {
-      const specs = p.value.specifiers ?? [];
-      return specs.some(
-        (spec) =>
-          spec.type === 'ImportSpecifier' &&
-          ((spec.imported && spec.imported.name === 'Icon') ||
-            (spec.local && spec.local.name === 'Icon')),
+  // --- Attach Ri* imports ---
+  // Preference order for where to attach the new imports:
+  //   1. An existing import that already pulls `Icon` or any `Ri*` specifier.
+  //   2. Any existing import from `@blumnai-studio/blumnai-design-system`.
+  //   3. Create a new import line from `@blumnai-studio/blumnai-design-system`.
+  const DS_PACKAGE = '@blumnai-studio/blumnai-design-system';
+
+  const allImports = root.find(j.ImportDeclaration);
+  let candidateImport = allImports.filter((p) => {
+    const specs = p.value.specifiers ?? [];
+    return specs.some((spec) => {
+      if (spec.type !== 'ImportSpecifier') return false;
+      const importedName = (spec.imported && spec.imported.name) || '';
+      const localName = (spec.local && spec.local.name) || '';
+      return (
+        importedName === 'Icon' ||
+        localName === 'Icon' ||
+        importedName.startsWith('Ri') ||
+        localName.startsWith('Ri')
       );
     });
+  });
 
-  if (iconImport.size() > 0) {
-    const importNode = iconImport.at(0).get().value;
+  if (candidateImport.size() === 0) {
+    candidateImport = allImports.filter(
+      (p) => p.value.source && p.value.source.value === DS_PACKAGE,
+    );
+  }
+
+  if (candidateImport.size() > 0) {
+    const importNode = candidateImport.at(0).get().value;
     const existingNames = new Set(
       (importNode.specifiers ?? [])
         .filter((s) => s.type === 'ImportSpecifier')
@@ -144,17 +208,15 @@ module.exports = function transformer(file, api) {
       if (existingNames.has(name)) continue;
       importNode.specifiers.push(j.importSpecifier(j.identifier(name)));
     }
-    // Sort for stable output
     importNode.specifiers.sort((a, b) => {
       const an = (a.imported && a.imported.name) || '';
       const bn = (b.imported && b.imported.name) || '';
       return an.localeCompare(bn);
     });
   } else {
-    // No existing Icon import — happens for tests/stories. Find any Ri* import or add new one.
     const newImport = j.importDeclaration(
       [...importsToAdd].map((name) => j.importSpecifier(j.identifier(name))),
-      j.stringLiteral('@blumnai-studio/blumnai-design-system'),
+      j.stringLiteral(DS_PACKAGE),
     );
     root.get().node.program.body.unshift(newImport);
   }

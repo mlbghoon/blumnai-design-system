@@ -1,6 +1,6 @@
 import type { InputHTMLAttributes } from 'react';
 
-import type { IconType } from '../../icons/Icon/Icon.types';
+import type { IconProp } from '../../icons/Icon';
 
 /**
  * 입력 필드 스타일 변형
@@ -54,11 +54,11 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
   /**
    * 입력 필드 앞에 표시되는 아이콘
    */
-  leadIcon?: IconType;
+  leadIcon?: IconProp;
   /**
    * 입력 필드 뒤에 표시되는 아이콘
    */
-  tailIcon?: IconType;
+  tailIcon?: IconProp;
   /**
    * 끝에 표시되는 단축키 뱃지 텍스트
    */

@@ -4,7 +4,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
-import { Icon, parseIconTypeWithFill, RiCloseLine, RiSearchLine } from '../icons/Icon';
+import { Icon, renderIconProp, RiCloseLine, RiSearchLine } from '../icons/Icon';
 import { usePortalContainer, PortalContainerProvider } from '../../utils/PortalContainerContext';
 import {
   SIZE_CONFIG,
@@ -463,18 +463,11 @@ const VirtualSelect = React.forwardRef<HTMLDivElement, VirtualSelectProps>(
                 className={triggerClassName}
                 id={selectId}
               >
-                {leadIcon && (() => {
-                  const { iconType, isFill } = parseIconTypeWithFill(leadIcon);
-                  return (
-                    <Icon
-                      iconType={iconType}
-                      size={sizeConfig.iconSize}
-                      color={iconColor}
-                      className="flex-shrink-0"
-                      isFill={isFill}
-                    />
-                  );
-                })()}
+                {leadIcon && renderIconProp(leadIcon, {
+                  size: sizeConfig.iconSize,
+                  color: iconColor,
+                  className: 'flex-shrink-0',
+                })}
 
                 <div className="flex-1 min-w-0 text-left overflow-hidden">
                   {renderSelectedValue()}

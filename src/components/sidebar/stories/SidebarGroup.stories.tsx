@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiAddLine, RiBarChartLine, RiFileLine, RiFolderLine, RiHomeLine, RiQuestionLine, RiSettingsLine, RiUserLine } from '../../icons/Icon';
 
 import {
   SidebarGroup,
@@ -86,7 +87,7 @@ export const Default: Story = {
                   buttonStyle="ghost"
                   variant="iconOnly"
                   size="2xs"
-                  leadIcon={['system', 'add']}
+                  leadIcon={RiAddLine}
                 />
               </SidebarGroupAction>
             )}
@@ -94,18 +95,18 @@ export const Default: Story = {
               <SidebarMenu>
                 <SidebarMenuItem
                   variant="default"
-                  icon={['buildings', 'home']}
+                  icon={RiHomeLine}
                   label="대시보드"
                   isActive={true}
                 />
                 <SidebarMenuItem
                   variant="default"
-                  icon={['business', 'bar-chart']}
+                  icon={RiBarChartLine}
                   label="분석"
                 />
                 <SidebarMenuItem
                   variant="default"
-                  icon={['system', 'settings']}
+                  icon={RiSettingsLine}
                   label="설정"
                 />
               </SidebarMenu>
@@ -134,25 +135,25 @@ export const WithAction: Story = {
                 buttonStyle="ghost"
                 variant="iconOnly"
                 size="2xs"
-                leadIcon={['system', 'add']}
+                leadIcon={RiAddLine}
               />
             </SidebarGroupAction>
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem
                   variant="default"
-                  icon={['document', 'folder']}
+                  icon={RiFolderLine}
                   label="프로젝트 알파"
                   badge="3"
                 />
                 <SidebarMenuItem
                   variant="default"
-                  icon={['document', 'folder']}
+                  icon={RiFolderLine}
                   label="프로젝트 베타"
                 />
                 <SidebarMenuItem
                   variant="default"
-                  icon={['document', 'folder']}
+                  icon={RiFolderLine}
                   label="프로젝트 감마"
                   badge="12"
                 />
@@ -181,13 +182,13 @@ export const MultipleGroups: Story = {
               <SidebarMenu>
                 <SidebarMenuItem
                   variant="default"
-                  icon={['buildings', 'home']}
+                  icon={RiHomeLine}
                   label="대시보드"
                   isActive={true}
                 />
                 <SidebarMenuItem
                   variant="default"
-                  icon={['business', 'bar-chart']}
+                  icon={RiBarChartLine}
                   label="분석"
                 />
               </SidebarMenu>
@@ -202,12 +203,12 @@ export const MultipleGroups: Story = {
               <SidebarMenu>
                 <SidebarMenuItem
                   variant="default"
-                  icon={['user', 'user']}
+                  icon={RiUserLine}
                   label="프로필"
                 />
                 <SidebarMenuItem
                   variant="default"
-                  icon={['system', 'settings']}
+                  icon={RiSettingsLine}
                   label="환경설정"
                 />
               </SidebarMenu>
@@ -222,12 +223,12 @@ export const MultipleGroups: Story = {
               <SidebarMenu>
                 <SidebarMenuItem
                   variant="default"
-                  icon={['system', 'question']}
+                  icon={RiQuestionLine}
                   label="도움말"
                 />
                 <SidebarMenuItem
                   variant="default"
-                  icon={['document', 'file']}
+                  icon={RiFileLine}
                   label="문서"
                 />
               </SidebarMenu>
@@ -254,18 +255,18 @@ export const WithoutLabel: Story = {
               <SidebarMenu>
                 <SidebarMenuItem
                   variant="default"
-                  icon={['buildings', 'home']}
+                  icon={RiHomeLine}
                   label="대시보드"
                   isActive={true}
                 />
                 <SidebarMenuItem
                   variant="default"
-                  icon={['business', 'bar-chart']}
+                  icon={RiBarChartLine}
                   label="분석"
                 />
                 <SidebarMenuItem
                   variant="default"
-                  icon={['system', 'settings']}
+                  icon={RiSettingsLine}
                   label="설정"
                 />
               </SidebarMenu>

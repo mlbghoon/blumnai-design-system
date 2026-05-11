@@ -47,7 +47,7 @@ import { CellText, CellBadge, CellAvatar } from '@blumnai-studio/blumnai-design-
 |------|-----------|---------------|
 | Clickable action | `Button` | `<Button buttonStyle="primary">Save</Button>` |
 | Navigation link | `LinkButton` | `<LinkButton href="/page">Go</LinkButton>` |
-| Icon-only button | `ControlButton` | `<ControlButton icon={['system', 'settings']} />` or `icon={['system', 'star', true]} color="yellow"` |
+| Icon-only button | `ControlButton` | `<ControlButton icon={RiSettingsLine} />` or `icon={RiStarFill} color="yellow"` |
 | Quick actions menu | `MenuButton` | `<MenuButton items={[...]} />` |
 | Text input | `Input` | `<Input variant="default" label="Name" />` |
 | Password input | `Input` | `<Input variant="password" showStrength />` |
@@ -441,7 +441,7 @@ import { useState } from 'react';
 function SearchInput() {
   const [value, setValue] = useState('');
   return (
-    <Input variant="default" placeholder="검색..." leadIcon={['system', 'search']}
+    <Input variant="default" placeholder="검색..." leadIcon={RiSearchLine}
       value={value} onChange={(e) => setValue(e.target.value)} onClear={() => setValue('')} />
   );
 }
@@ -458,7 +458,7 @@ import { Button } from '@blumnai-studio/blumnai-design-system';
 <Button buttonStyle="destructive">Destructive</Button>
 <Button size="sm">Small</Button>
 <Button size="lg">Large</Button>
-<Button leadIcon={['system', 'add']}>추가</Button>
+<Button leadIcon={RiAddLine}>추가</Button>
 <Button loading width={120}>저장 중...</Button>
 <Button fullWidth>전체 너비</Button>
 
@@ -670,6 +670,20 @@ The `icon` prop accepts any `@remixicon/react` component (`Ri*Line` / `Ri*Fill`)
 <Icon icon={RiCheckLine} />
 ```
 
+### Icon props on every DS component (`leadIcon`, `tailIcon`, `icon`, ...)
+
+Same API surface — every icon-accepting prop in the DS (Button, Input, Chip, Badge, Select, Tabs, Sidebar, Dropdown, Menubar, etc.) accepts the component form:
+
+```tsx
+import { Button, Input, Chip, RiAddLine, RiSearchLine, RiHeartFill } from '@blumnai-studio/blumnai-design-system';
+
+<Button leadIcon={RiAddLine}>추가</Button>
+<Input leadIcon={RiSearchLine} placeholder="검색..." />
+<Chip icon={RiHeartFill} label="찜" />
+```
+
+The legacy tuple form (`leadIcon={['system', 'add']}`) still works but emits a dev-console deprecation warning per unique tuple with the exact `Ri*` replacement to use. Production builds strip the warning.
+
 ### Dynamic-string API (back-compat)
 
 Existing code using `iconType` continues to work. Behind the scenes the registry lazy-loads `@remixicon/react` once and resolves names from there.
@@ -682,9 +696,18 @@ import { Icon } from '@blumnai-studio/blumnai-design-system';
 <Icon iconType={['system', 'heart']} isFill />
 ```
 
-**When to use which:** new code → direct-import (tree-shake, no Suspense flicker on first paint). Existing code → keep dynamic-string until you decide to migrate.
+**When to use which:** new code → direct-import (tree-shake, no Suspense flicker on first paint). Existing code → keep dynamic-string until you migrate, or run the codemod.
 
-A codemod is available to mechanically convert: `npx @blumnai-studio/icon-codemod ./src` (95% auto-conversion + report on edge cases).
+### Codemod
+
+`blumnai-icon-codemod` mechanically converts both `<Icon iconType={...}>` and `<Button leadIcon={...}>` / `<Input tailIcon={...}>` / `<Chip icon={...}>` / `buttonLeadIcon` / `buttonTailIcon` patterns, adding the right `Ri*` imports automatically.
+
+```bash
+npx blumnai-icon-codemod --dry --print ./src   # preview
+npx blumnai-icon-codemod ./src                 # apply
+```
+
+Static literal tuples only; dynamic values (variables, ternaries, function calls) are left alone and continue to work via dynamic-string back-compat.
 
 ### Other icon components (unchanged)
 
@@ -700,7 +723,7 @@ These have their own component systems (not Remixicon-derived) and aren't affect
 
 **Preloading:** `preloadIconCategory('system')` or `preloadIcons([['system', 'check']])` — both now warm up `@remixicon/react` (per-category preload no longer meaningful since Remixicon ships as a single bundle).
 
-**Categories:** `arrows`, `buildings`, `business`, `communication`, `design`, `development`, `device`, `document`, `editor`, `finance`, `food`, `health`, `map`, `media`, `others`, `system`, `user`, `weather`. Plus the new `game & sports` category from Remixicon 4.x.
+**Categories (20, full Remixicon 4.9 manifest):** `arrows`, `buildings`, `business`, `communication`, `design`, `development`, `device`, `document`, `editor`, `finance`, `food`, `game & sports`, `health & medical`, `logos`, `map`, `media`, `others`, `system`, `user & faces`, `weather`.
 
 **Common system icons:** `add`, `check`, `close`, `search`, `settings`, `menu`, `more`, `delete-bin`, `download`, `upload`, `eye`, `eye-off`, `filter`, `star`, `share`, `lock`, `information`, `error-warning`, `time`, `refresh`, `external-link`
 
