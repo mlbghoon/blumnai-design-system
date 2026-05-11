@@ -7,16 +7,27 @@ import type { ChipColor, ChipProps, ChipShape, ChipStyle } from './Chip.types';
 
 const getBadgeBgClass = (color: ChipColor): string => {
   if (color === 'neutral') return 'bg-badge-gray';
+  // 'black' uses the theme-flipping `--bg-badge-inverted` token so the chip
+  // stays high-contrast in both themes: solid dark on light themes, solid
+  // light on dark themes. (Plain `--bg-basic-black-accent` is theme-invariant
+  // and blends into a dark theme background.)
+  if (color === 'black') return '[background-color:var(--bg-badge-inverted)]';
   return `bg-badge-${color}`;
 };
 
 const getSubtleBgClass = (color: ChipColor): string => {
   if (color === 'neutral') return 'bg-basic-gray-subtle';
+  // Selected 'black': same theme-flipping bg as unselected. The selected state
+  // is signaled by the `border-darker` class added in selectedStyles.
+  if (color === 'black') return '[background-color:var(--bg-badge-inverted)]';
   return `bg-basic-${color}-subtle`;
 };
 
 const getColorTextClass = (color: ChipColor): string => {
   if (color === 'neutral') return 'text-subtle';
+  // Text flips opposite of bg-badge-inverted: white on light theme (against
+  // black bg), dark on dark theme (against white bg).
+  if (color === 'black') return '[color:var(--text-inverted-default)]';
   return `text-basic-${color}-strong`;
 };
 

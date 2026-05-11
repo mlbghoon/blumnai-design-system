@@ -95,12 +95,12 @@ const meta: Meta<typeof Chip> = {
     },
     color: {
       control: 'select',
-      options: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'],
-      description: '칩의 색상 테마를 설정합니다. 18가지 색상 중 선택할 수 있으며, 기본값은 neutral입니다',
+      options: ['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral', 'black'],
+      description: '칩의 색상 테마를 설정합니다. 19가지 색상 중 선택할 수 있으며, 기본값은 neutral입니다',
       table: {
         type: {
           summary: 'ChipColor',
-          detail: `'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose' | 'neutral'`,
+          detail: `'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue' | 'indigo' | 'violet' | 'purple' | 'fuchsia' | 'pink' | 'rose' | 'neutral' | 'black'`,
         },
       },
     },
@@ -262,7 +262,7 @@ export const Selected: Story = {
 export const Colors: Story = {
   render: () => (
     <div className="flex flex-wrap items-center ds-gap-4">
-      {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
+      {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral', 'black'] as const).map(
         (c) => (
           <Chip key={c} label={c} icon={RiAtLine} color={c} />
         )
@@ -277,7 +277,7 @@ export const Colors: Story = {
 export const ColorsSelected: Story = {
   render: () => (
     <div className="flex flex-wrap items-center ds-gap-4">
-      {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
+      {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral', 'black'] as const).map(
         (c) => (
           <Chip key={c} label={c} icon={RiAtLine} selected color={c} />
         )
@@ -341,14 +341,14 @@ export const ColorsIconOnly: Story = {
   render: () => (
     <div className="flex flex-col ds-gap-8">
       <div className="flex flex-wrap items-center ds-gap-4">
-        {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
+        {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral', 'black'] as const).map(
           (c) => (
             <Chip key={c} icon={RiAtLine} variant="iconOnly" color={c} />
           )
         )}
       </div>
       <div className="flex flex-wrap items-center ds-gap-4">
-        {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral'] as const).map(
+        {(['red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose', 'neutral', 'black'] as const).map(
           (c) => (
             <Chip key={c} icon={RiAtLine} variant="iconOnly" selected color={c} />
           )

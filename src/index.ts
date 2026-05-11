@@ -867,6 +867,7 @@ export type {
   IconType,
   IconCategory,
   IconTypeWithFill as IconTypeWithFillFromIcon,
+  RemixiconLikeComponent,
   BrandType,
   CursorType,
   FileVariant,
@@ -875,6 +876,26 @@ export type {
   IsometricIconType,
   IsometricView,
 } from './components/icons';
+
+// Icon-prop union + renderer utility (v1.10.6+).
+// Lets every DS icon-accepting prop receive a Remixicon component ref
+// (`RiAddLine`, `RiCheckLine`, ...) in addition to the legacy tuple form.
+export {
+  renderIconProp,
+  isIconTuple,
+  isRemixiconComponent,
+} from './components/icons/Icon';
+export type {
+  IconProp,
+  IconPropOrNode,
+  RenderIconPropOptions,
+} from './components/icons/Icon';
+
+// Re-export every `Ri*` component from `@remixicon/react` at the package root
+// so the documented direct-import pattern works without a subpath:
+//   import { Button, RiAddLine } from '@blumnai-studio/blumnai-design-system';
+// Tree-shake-safe via `sideEffects: ["*.css", "dist/*.css"]` in package.json.
+export * from '@remixicon/react';
 
 export { FileIcon } from './components/icons/FileIcon';
 export type { FileIconProps } from './components/icons/FileIcon';

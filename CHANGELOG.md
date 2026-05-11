@@ -1,5 +1,44 @@
 # Changelog
 
+## [1.10.8] - 2026-05-11
+
+### Added — `Chip` `color="black"` 추가 (theme-aware)
+
+`ChipColor` union 에 `'black'` 값 추가. 시각적으로는 "현재 테마의 배경과 반대 방향으로 강한 대비를 가지는 솔리드 칩" 의미로 동작:
+
+- Light 테마: 솔리드 검정 (`#111115`) 배경 + 흰 텍스트
+- Dark 테마: 솔리드 흰색 배경 + 어두운 텍스트
+- Theme-B Light/Dark: 각 테마의 inverted 색상
+
+```tsx
+<Chip color="black" label="Black" icon={RiAtLine} />
+```
+
+구현은 기존 `--bg-badge-inverted` / `--text-inverted-default` 테마 플립 토큰을 사용해서 별도 토큰 추가 없이 모든 4개 테마에서 가시성 보장. Selected 상태는 다른 색상과 동일하게 `border-darker` 로 표시.
+
+- `src/components/chip/Chip/Chip.types.ts` — `ChipColor` 에 `'black'` 추가
+- `src/components/chip/Chip/Chip.tsx` — 세 helper 함수에 `'black'` 분기 추가 (arbitrary-value 클래스로 inverted 토큰 참조)
+- `src/components/chip/Chip/Chip.stories.tsx` — `argTypes.color.options` / detail 에 `'black'` 추가, `Colors` / `ColorsSelected` / `ColorsIconOnly` 스토리에 데모 인스턴스 추가
+
+### Fixed — `Ri*` 컴포넌트 + 새 icon-prop API 가 root entry 에서 import 가능해짐
+
+v1.10.0 부터 `src/components/icons/index.ts` 가 `export * from '@remixicon/react'` 를 했지만, 패키지 root entry (`src/index.ts`) 는 명시적 named re-export 만 하고 `export *` 를 하지 않아서 `Ri*` 컴포넌트들이 root 에서 import 불가능했음. 결과적으로 v1.10.0 부터 v1.10.7 까지 CHANGELOG / AI.md / MIGRATION.md / deprecation 경고가 모두 안내하던 패턴:
+
+```tsx
+// 이 줄이 v1.10.7 까지 실제로는 작동하지 않았음
+import { Button, RiAddLine } from '@blumnai-studio/blumnai-design-system';
+```
+
+이 PR 부터 root entry 에 `export * from '@remixicon/react'` 추가 → 위 줄이 의도대로 작동합니다. 또한 v1.10.6 에서 신규 추가된 다음 export 들도 root 에서 사용 가능:
+- `renderIconProp`, `isIconTuple`, `isRemixiconComponent`
+- `IconProp`, `IconPropOrNode`, `RenderIconPropOptions`, `RemixiconLikeComponent` (types)
+
+기존 subpath import (`'@blumnai-studio/blumnai-design-system/icons'`, `'.../icons/icon'`) 도 그대로 작동. Tree-shaking 은 `package.json` 의 `sideEffects: ["*.css", "dist/*.css"]` 로 보장됨 — 사용 안 한 `Ri*` 는 consumer bundle 에서 DCE 됨.
+
+요청 컨텍스트: 사용자가 v1.10.7 publish 후 codemod / deprecation 경고가 안내하는 root import path 가 실제로는 export 되어 있지 않다는 점을 지적함.
+
+- `src/index.ts` — `export * from '@remixicon/react'` 추가, `renderIconProp` / `isIconTuple` / `isRemixiconComponent` / `IconProp` / `IconPropOrNode` / `RenderIconPropOptions` / `RemixiconLikeComponent` re-export 추가
+
 ## [1.10.7] - 2026-05-11
 
 ### Fixed — Storybook 컨트롤 타입 chip 이 여전히 legacy `IconType` 으로 표시되던 문제

@@ -54,7 +54,8 @@ export type ChipColor =
   | 'fuchsia'
   | 'pink'
   | 'rose'
-  | 'neutral';
+  | 'neutral'
+  | 'black';
 
 /**
  * Chip 컴포넌트 Props
