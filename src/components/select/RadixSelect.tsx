@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { Command as CommandPrimitive } from 'cmdk';
+import { RemoveScroll } from 'react-remove-scroll';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
@@ -1272,42 +1273,47 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                   }}
                 >
                   <PortalContainerProvider value={contentEl}>
-                    <CommandPrimitive shouldFilter={false} className="flex flex-col w-full min-w-0 overflow-hidden">
-                      <div className="border-b-default">
-                        <div className="flex items-center ds-gap-2 padding-x-8 height-36">
-                          <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
-                            <Icon icon={RiSearchLine} size={16} color="default-muted" />
+                    {/* Dialog(modal) 의 react-remove-scroll 이 body 로 포털된 이 컨텐츠 위의
+                        wheel/touch 이벤트를 차단하므로, 자체 RemoveScroll 로 감싸 내부 스크롤을 허용.
+                        (native Radix Select 의 SelectContent 와 동일한 패턴) */}
+                    <RemoveScroll allowPinchZoom className="w-full min-w-0 overflow-hidden">
+                      <CommandPrimitive shouldFilter={false} className="flex flex-col w-full min-w-0 overflow-hidden">
+                        <div className="border-b-default">
+                          <div className="flex items-center ds-gap-2 padding-x-8 height-36">
+                            <div className="flex items-center justify-center width-20 height-20 flex-shrink-0">
+                              <Icon icon={RiSearchLine} size={16} color="default-muted" />
+                            </div>
+                            <CommandPrimitive.Input
+                              ref={searchInputRef}
+                              value={searchQuery}
+                              onValueChange={setSearchQuery}
+                              placeholder={searchPlaceholder}
+                              className="flex-1 bg-transparent border-none outline-none size-sm line-height-leading-5 letter-spacing-tracking-tight font-body text-default placeholder:text-hint"
+                            />
+                            {searchQuery && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSearchQuery('');
+                                  searchInputRef.current?.focus();
+                                }}
+                                className="flex items-center justify-center width-20 height-20 flex-shrink-0 text-muted hover:text-default"
+                              >
+                                <Icon icon={RiCloseLine} size={14} />
+                              </button>
+                            )}
                           </div>
-                          <CommandPrimitive.Input
-                            ref={searchInputRef}
-                            value={searchQuery}
-                            onValueChange={setSearchQuery}
-                            placeholder={searchPlaceholder}
-                            className="flex-1 bg-transparent border-none outline-none size-sm line-height-leading-5 letter-spacing-tracking-tight font-body text-default placeholder:text-hint"
-                          />
-                          {searchQuery && (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSearchQuery('');
-                                searchInputRef.current?.focus();
-                              }}
-                              className="flex items-center justify-center width-20 height-20 flex-shrink-0 text-muted hover:text-default"
-                            >
-                              <Icon icon={RiCloseLine} size={14} />
-                            </button>
-                          )}
                         </div>
-                      </div>
-                      <ScrollArea maxHeight={maxHeight}>
-                        <div className="padding-4 w-full min-w-0 max-w-full">
-                          <CommandPrimitive.List className="w-full min-w-0 max-w-full [&>[cmdk-list-sizer]]:w-full [&>[cmdk-list-sizer]]:min-w-0 [&>[cmdk-list-sizer]]:max-w-full">
-                            {renderOptions()}
-                          </CommandPrimitive.List>
-                        </div>
-                      </ScrollArea>
-                    </CommandPrimitive>
+                        <ScrollArea maxHeight={maxHeight}>
+                          <div className="padding-4 w-full min-w-0 max-w-full">
+                            <CommandPrimitive.List className="w-full min-w-0 max-w-full [&>[cmdk-list-sizer]]:w-full [&>[cmdk-list-sizer]]:min-w-0 [&>[cmdk-list-sizer]]:max-w-full">
+                              {renderOptions()}
+                            </CommandPrimitive.List>
+                          </div>
+                        </ScrollArea>
+                      </CommandPrimitive>
+                    </RemoveScroll>
                   </PortalContainerProvider>
                 </PopoverPrimitive.Content>
               </PopoverPrimitive.Portal>

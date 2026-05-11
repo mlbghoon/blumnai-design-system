@@ -577,3 +577,70 @@ export const InsideDialog: Story = {
     );
   },
 };
+
+const manyManagerOptions: SelectOption[] = Array.from({ length: 40 }, (_, i) => ({
+  id: `mgr-${i + 1}`,
+  label: `담당 매니저 ${String(i + 1).padStart(2, '0')}`,
+  description: `manager${i + 1}@example.com`,
+}));
+
+/**
+ * 모달 Dialog 안에서 `searchable` Select 휠 스크롤 (회귀 테스트)
+ *
+ * `<Dialog modal>` 은 `react-remove-scroll` 로 body 스크롤을 잠그는데, `searchable` Select 의
+ * 드롭다운은 `document.body` 로 포털되므로 그 위의 wheel 이벤트가 차단되어 옵션 리스트를
+ * 스크롤할 수 없었습니다. 드롭다운 컨텐츠를 자체 `RemoveScroll` 로 감싸 해결.
+ *
+ * 검증 절차:
+ * 1. "다이얼로그 열기" 클릭
+ * 2. "담당 매니저" Select 를 열기 (옵션 40개 — `maxHeight` 초과)
+ * 3. 옵션 리스트 위에서 마우스 휠로 스크롤 → 아래쪽 옵션까지 정상 도달하는지 확인
+ * 4. 검색어 입력 후에도 결과 리스트가 스크롤되는지 확인
+ */
+export const SearchableScrollInsideModalDialog: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: '모달 Dialog 내부에서 `searchable` Select 드롭다운이 마우스 휠로 스크롤되는지 검증하는 회귀 스토리입니다.',
+      },
+    },
+  },
+  render: function Render() {
+    const [manager, setManager] = useState<string>();
+
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button buttonStyle="secondary">다이얼로그 열기</Button>
+        </DialogTrigger>
+        <DialogContent width="480px">
+          <DialogHeader>
+            <DialogTitle>상담사 등록</DialogTitle>
+            <DialogDescription>
+              담당 매니저 드롭다운을 열고 마우스 휠로 스크롤되는지 확인하세요.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col ds-gap-16">
+            <Select
+              label="담당 매니저"
+              placeholder="매니저 선택..."
+              searchPlaceholder="매니저 검색..."
+              options={manyManagerOptions}
+              value={manager}
+              onChange={setManager}
+              searchable
+            />
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button buttonStyle="secondary">취소</Button>
+            </DialogClose>
+            <DialogClose asChild>
+              <Button>저장</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  },
+};

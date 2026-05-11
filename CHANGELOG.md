@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.10.9] - 2026-05-11
+
+### Fixed — 모달 `Dialog` 안에서 `<Select searchable>` 드롭다운이 휠 스크롤되지 않던 문제
+
+`<Dialog modal>` 은 `react-remove-scroll` 로 body 스크롤을 잠그는데, `searchable` Select 의 드롭다운 컨텐츠는 (Dialog 의 `transform` containing-block / `overflow-hidden` 클립을 피하려고) `document.body` 로 포털됩니다. body 에 포털된 그 노드는 Dialog content 의 DOM 하위가 아니고 `react-remove-scroll` 의 `shards` 로도 등록돼 있지 않아, 옵션 리스트 위에서 발생한 wheel/touch 이벤트가 차단되어 `maxHeight`(기본 300px) 를 넘는 옵션을 스크롤할 방법이 없었습니다. (native Radix `Select` 는 자체 `RemoveScroll` 래퍼가 있어 같은 상황에서 동작.)
+
+수정: searchable Select 의 Popover 컨텐츠 내부를 자체 `RemoveScroll` 로 감쌌습니다 — native Radix `Select` 의 `SelectContent` 와 동일한 패턴. 드롭다운이 열려 있는 동안 그 컨텐츠가 활성 scroll-lock 이 되어 내부 `ScrollArea` 가 정상 스크롤됩니다. 드롭다운이 닫히면 다시 Dialog 의 lock 으로 복귀.
+
+부수 효과: standalone (Dialog 밖) 에서 `searchable` Select 를 열 때도 페이지 스크롤이 잠깁니다 — non-searchable Radix `Select` 와 동일한 동작이라 일관성 측면에서 의도된 변경입니다.
+
+- `src/components/select/RadixSelect.tsx` — `react-remove-scroll` 의 `RemoveScroll` 로 Popover 컨텐츠 래핑
+- `package.json` — `react-remove-scroll` 을 명시적 dependency 로 추가 (이미 Radix 들의 transitive dep)
+- `src/components/select/stories/Select.stories.tsx` — `SearchableScrollInsideModalDialog` 회귀 스토리 추가 (모달 Dialog + 옵션 40개 searchable Select)
+
 ## [1.10.8] - 2026-05-11
 
 ### Added — `Chip` `color="black"` 추가 (theme-aware)
