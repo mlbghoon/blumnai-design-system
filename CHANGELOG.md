@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.10.10] - 2026-05-11
+
+### Fixed — `<Select searchable>` 드롭다운이 모달 `Dialog` 안에서 옵션 리스트 위 휠 스크롤이 안 되던 문제 (v1.10.9 후속)
+
+v1.10.9 에서 드롭다운 컨텐츠를 `RemoveScroll` 로 감쌌지만 부분적으로만 고쳐졌습니다 — (커스텀) 스크롤바 위에서의 휠은 동작했으나(Radix `ScrollAreaScrollbar` 가 `viewport.scrollTop` 을 직접 조작하는 프로그래밍 스크롤이라 영향 없음) 옵션 리스트 위에서의 휠은 여전히 막혔습니다.
+
+진짜 원인: 드롭다운 안 옵션 리스트는 DS `<ScrollArea>` (= Radix ScrollArea) 로 감싸여 있는데, `<ScrollArea>` 가 `type` 미지정 시 Radix 기본값 `"hover"` 를 씁니다. `type="hover"` 일 때 Radix 는 스크롤바가 보이지 않는 동안 viewport 의 `overflow-y` 를 `'hidden'` 으로 둡니다. `react-remove-scroll` (부모 `<Dialog modal>` 의 lock) 은 wheel 타깃에서 위로 올라가며 `overflow: auto|scroll` 인 스크롤 가능 조상을 찾는데, viewport 가 `overflow-y: hidden` 이면 "스크롤 가능 영역 없음" 으로 판단해 wheel 을 `preventDefault()` 합니다 → 네이티브 스크롤 차단.
+
+수정: searchable 드롭다운 안의 `<ScrollArea>` 에 `type="auto"` 지정. `auto` 는 컨텐츠가 오버플로하는 동안 viewport `overflow-y` 를 항상 `'scroll'` 로 유지하므로 `react-remove-scroll` 이 해당 영역을 스크롤 가능으로 인식 → 옵션 리스트 위에서 휠/터치 스크롤 정상 동작. 부수적으로 오버플로 시 DS 스타일 스크롤바가 호버 없이도 보입니다(드롭다운에 더 적합한 동작).
+
+- `src/components/select/RadixSelect.tsx` — searchable 드롭다운의 `<ScrollArea>` 에 `type="auto"` 추가
+- (참고: `Combobox` / `VirtualSelect` 의 드롭다운은 Dialog content **안으로** 포털되어 이 문제의 영향이 적지만, 동일하게 `type="auto"` 가 더 안전합니다 — 이번 변경 범위에는 미포함.)
+
 ## [1.10.9] - 2026-05-11
 
 ### Fixed — 모달 `Dialog` 안에서 `<Select searchable>` 드롭다운이 휠 스크롤되지 않던 문제

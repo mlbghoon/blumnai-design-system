@@ -1305,7 +1305,11 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                             )}
                           </div>
                         </div>
-                        <ScrollArea maxHeight={maxHeight}>
+                        {/* type="auto": Radix ScrollArea 가 type="hover"(기본) 일 땐 호버 전까지
+                            viewport 의 overflow-y 가 'hidden' 이라 react-remove-scroll 이 이 영역을
+                            스크롤 가능 영역으로 인식하지 못해 모달 Dialog 안에서 휠 스크롤이 막힘.
+                            'auto' 는 오버플로 시 항상 viewport overflow-y='scroll' 을 유지. */}
+                        <ScrollArea maxHeight={maxHeight} type="auto">
                           <div className="padding-4 w-full min-w-0 max-w-full">
                             <CommandPrimitive.List className="w-full min-w-0 max-w-full [&>[cmdk-list-sizer]]:w-full [&>[cmdk-list-sizer]]:min-w-0 [&>[cmdk-list-sizer]]:max-w-full">
                               {renderOptions()}
