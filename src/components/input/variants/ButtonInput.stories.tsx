@@ -113,16 +113,34 @@ const meta: Meta<typeof Input> = {
     },
     leadIcon: {
       control: 'object',
-      description: '입력 필드 앞에 표시되는 아이콘',
+      description: '입력 필드 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
-        type: { summary: 'IconType' },
+        type: {
+          summary: 'IconProp',
+          detail: `Remixicon component (권장, tree-shakeable):
+  leadIcon={RiSearchLine}
+  leadIcon={RiGlobalLine}
+
+또는 tuple form (deprecated, dev console warning):
+  leadIcon={['system', 'search']}
+  leadIcon={['business', 'global']}`,
+        },
       },
     },
     tailIcon: {
       control: 'object',
-      description: '입력 필드 뒤에 표시되는 아이콘',
+      description: '입력 필드 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
-        type: { summary: 'IconType' },
+        type: {
+          summary: 'IconProp',
+          detail: `Remixicon component (권장, tree-shakeable):
+  tailIcon={RiCloseLine}
+  tailIcon={RiInformationLine}
+
+또는 tuple form (deprecated, dev console warning):
+  tailIcon={['system', 'close']}
+  tailIcon={['system', 'information']}`,
+        },
       },
     },
     onClear: {
@@ -141,16 +159,34 @@ const meta: Meta<typeof Input> = {
     },
     buttonLeadIcon: {
       control: 'object',
-      description: '버튼 앞에 표시되는 아이콘',
+      description: '버튼 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
-        type: { summary: 'IconType' },
+        type: {
+          summary: 'IconProp',
+          detail: `Remixicon component (권장, tree-shakeable):
+  buttonLeadIcon={RiAddLine}
+  buttonLeadIcon={RiSearchLine}
+
+또는 tuple form (deprecated, dev console warning):
+  buttonLeadIcon={['system', 'add']}
+  buttonLeadIcon={['system', 'search']}`,
+        },
       },
     },
     buttonTailIcon: {
       control: 'object',
-      description: '버튼 뒤에 표시되는 아이콘',
+      description: '버튼 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
-        type: { summary: 'IconType' },
+        type: {
+          summary: 'IconProp',
+          detail: `Remixicon component (권장, tree-shakeable):
+  buttonTailIcon={RiArrowRightLine}
+  buttonTailIcon={RiExternalLinkLine}
+
+또는 tuple form (deprecated, dev console warning):
+  buttonTailIcon={['arrows', 'arrow-right']}
+  buttonTailIcon={['system', 'external-link']}`,
+        },
       },
     },
     buttonDisabled: {

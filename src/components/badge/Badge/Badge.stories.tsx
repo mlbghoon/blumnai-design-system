@@ -100,7 +100,7 @@ const meta: Meta<typeof Badge> = {
       description: '표시할 아이콘 타입 (icon 변형용) (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconType',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   icon={RiCheckLine}
   icon={RiStarLine}

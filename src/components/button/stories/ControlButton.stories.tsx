@@ -50,7 +50,7 @@ const meta: Meta<typeof ControlButton> = {
       description: '버튼에 표시할 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated, 필수)',
       table: {
         type: {
-          summary: 'IconType | IconTypeWithFill',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   icon={RiAddLine}
   icon={RiSettings3Line}

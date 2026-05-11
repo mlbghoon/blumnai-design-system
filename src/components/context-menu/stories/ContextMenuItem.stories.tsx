@@ -62,7 +62,7 @@ const meta: Meta<ContextMenuItemProps> = {
       description: '아이템 라벨 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconType',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   leadIcon={RiAddLine}
   leadIcon={RiFileAddLine}
@@ -87,7 +87,7 @@ const meta: Meta<ContextMenuItemProps> = {
       description: '아이템 라벨 뒤쪽에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated). 서브메뉴 화살표나 외부 링크 표시에 주로 사용됩니다',
       table: {
         type: {
-          summary: 'IconType',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   tailIcon={RiArrowRightSLine}
   tailIcon={RiExternalLinkLine}

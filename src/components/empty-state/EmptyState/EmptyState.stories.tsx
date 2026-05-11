@@ -18,7 +18,7 @@ const meta: Meta<typeof EmptyState> = {
       description: '빈 상태 영역 상단에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconTypeWithFill',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   icon={RiInboxLine}
   icon={RiFolderOpenLine}

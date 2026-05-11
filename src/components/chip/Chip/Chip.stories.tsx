@@ -74,7 +74,7 @@ const meta: Meta<typeof Chip> = {
       description: '칩에 표시할 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconType',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   icon={RiAddLine}
   icon={RiCheckLine}

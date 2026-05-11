@@ -38,7 +38,7 @@ const meta: Meta<SidebarMenuItemStoryProps> = {
       description: '메뉴 아이템 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated). null로 설정하면 아이콘이 표시되지 않습니다',
       table: {
         type: {
-          summary: 'IconType | null',
+          summary: 'SidebarMenuItemIconType | ReactNode',
           detail: `Remixicon component (권장, tree-shakeable):
   icon={RiHome5Line}
   icon={RiSettings3Line}

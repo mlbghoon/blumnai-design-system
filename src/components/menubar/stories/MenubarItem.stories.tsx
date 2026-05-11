@@ -63,7 +63,7 @@ const meta: Meta<MenubarItemProps> = {
       description: '앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconType',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   leadIcon={RiAddLine}
   leadIcon={RiFileAddLine}
@@ -88,7 +88,7 @@ const meta: Meta<MenubarItemProps> = {
       description: '뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconType',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   tailIcon={RiArrowRightSLine}
   tailIcon={RiExternalLinkLine}

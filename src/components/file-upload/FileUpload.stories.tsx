@@ -21,7 +21,7 @@ const meta: Meta<FileUploadStoryProps> = {
       description: '[FileUploadArea] 커스텀 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconTypeWithFill',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   icon={RiUploadCloud2Line}
   icon={RiFileAddLine}

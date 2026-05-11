@@ -115,7 +115,7 @@ const meta = {
       description: 'status가 icon일 때 상태 배지에 표시할 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconType',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   icon={RiMoonLine}
   icon={RiCheckLine}

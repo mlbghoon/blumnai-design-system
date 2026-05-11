@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.10.7] - 2026-05-11
+
+### Fixed — Storybook 컨트롤 타입 chip 이 여전히 legacy `IconType` 으로 표시되던 문제
+
+v1.10.6 에서 story 의 `description` / `table.type.detail` 은 신규 API 로 업데이트했지만, `table.type.summary` 가 그대로 남아 controls 패널의 type chip 이 여전히 `IconType` / `IconTypeWithFill` 로 보였음. 23 개 story 파일의 `summary` 를 실제 prop 타입에 맞춰 `IconProp` / `IconProp | ReactNode` / `ButtonIconType | ReactNode` 등으로 수정.
+
+또한 v1.10.6 에서 누락됐던 Input variant story 들 (DefaultInput, AddOnInput, ButtonInput, DropdownInput, PasswordInput, ShortcutInput, TagsInput) 의 icon argTypes 도 같은 템플릿으로 마이그레이션 — `leadIcon`, `tailIcon`, `buttonLeadIcon`, `buttonTailIcon` 의 description/summary/detail 모두 신규 API 안내.
+
+`Icon.stories.tsx` 의 `iconType` argType 은 dynamic-string API 를 의도적으로 문서화하므로 `summary: 'IconType'` 유지.
+
 ## [1.10.6] - 2026-05-08
 
 ### Added — 모든 icon-prop 이 Remixicon 컴포넌트 직접 전달 지원

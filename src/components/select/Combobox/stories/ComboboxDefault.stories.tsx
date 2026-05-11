@@ -201,7 +201,7 @@ const meta: Meta<DefaultComboboxProps> = {
       description: '트리거 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconTypeWithFill',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   leadIcon={RiSearchLine}
   leadIcon={RiUserLine}
@@ -216,7 +216,7 @@ const meta: Meta<DefaultComboboxProps> = {
       description: '라벨 뒤, 화살표 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconTypeWithFill',
+          summary: 'IconProp',
           detail: `Remixicon component (권장, tree-shakeable):
   tailIcon={RiSearchLine}
   tailIcon={RiArrowDownSLine}

@@ -172,7 +172,7 @@ const meta: Meta<TabsStoryProps> = {
       description: '[TabsTrigger] 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconTypeWithFill | ReactNode',
+          summary: 'IconProp | ReactNode',
           detail: `Remixicon component (권장, tree-shakeable):
   leadIcon={RiSettings3Line}
   leadIcon={RiStarFill}
@@ -192,7 +192,7 @@ const meta: Meta<TabsStoryProps> = {
       description: '[TabsTrigger] 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
       table: {
         type: {
-          summary: 'IconTypeWithFill | ReactNode',
+          summary: 'IconProp | ReactNode',
           detail: `Remixicon component (권장, tree-shakeable):
   tailIcon={RiArrowRightLine}
   tailIcon={RiArrowDownLine}
