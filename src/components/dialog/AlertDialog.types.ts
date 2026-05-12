@@ -1,22 +1,26 @@
-import type { ComponentPropsWithoutRef, HTMLAttributes } from 'react';
-import type * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
+import type { HTMLAttributes } from 'react';
+import type {
+  AlertDialogProps as RadixAlertDialogProps,
+  AlertDialogTriggerProps as RadixAlertDialogTriggerProps,
+  AlertDialogPortalProps as RadixAlertDialogPortalProps,
+  AlertDialogOverlayProps as RadixAlertDialogOverlayProps,
+  AlertDialogContentProps as RadixAlertDialogContentProps,
+  AlertDialogTitleProps as RadixAlertDialogTitleProps,
+  AlertDialogDescriptionProps as RadixAlertDialogDescriptionProps,
+  AlertDialogActionProps as RadixAlertDialogActionProps,
+  AlertDialogCancelProps as RadixAlertDialogCancelProps,
+} from '@radix-ui/react-alert-dialog';
 
-export type AlertDialogProps = ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Root>;
+export type AlertDialogProps = RadixAlertDialogProps;
 
-export type AlertDialogTriggerProps = ComponentPropsWithoutRef<
-  typeof AlertDialogPrimitive.Trigger
->;
+export type AlertDialogTriggerProps = RadixAlertDialogTriggerProps;
 
-export type AlertDialogPortalProps = ComponentPropsWithoutRef<
-  typeof AlertDialogPrimitive.Portal
->;
+export type AlertDialogPortalProps = RadixAlertDialogPortalProps;
 
-export type AlertDialogOverlayProps = ComponentPropsWithoutRef<
-  typeof AlertDialogPrimitive.Overlay
->;
+export type AlertDialogOverlayProps = RadixAlertDialogOverlayProps;
 
 export interface AlertDialogContentProps
-  extends ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content> {
+  extends RadixAlertDialogContentProps {
   /**
    * 다이얼로그의 커스텀 너비
    * @example width={400} - 400px
@@ -30,21 +34,17 @@ export type AlertDialogHeaderProps = HTMLAttributes<HTMLDivElement>;
 
 export type AlertDialogFooterProps = HTMLAttributes<HTMLDivElement>;
 
-export type AlertDialogTitleProps = ComponentPropsWithoutRef<
-  typeof AlertDialogPrimitive.Title
->;
+export type AlertDialogTitleProps = RadixAlertDialogTitleProps;
 
-export type AlertDialogDescriptionProps = ComponentPropsWithoutRef<
-  typeof AlertDialogPrimitive.Description
->;
+export type AlertDialogDescriptionProps = RadixAlertDialogDescriptionProps;
 
 export interface AlertDialogActionProps
-  extends ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action> {
+  extends RadixAlertDialogActionProps {
   asChild?: boolean;
 }
 
 export interface AlertDialogCancelProps
-  extends ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel> {
+  extends RadixAlertDialogCancelProps {
   asChild?: boolean;
 }
 

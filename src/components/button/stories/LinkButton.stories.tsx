@@ -140,7 +140,7 @@ export const Default: Story = {
     linkType: 'default',
     size: 'md',
     leadIcon: undefined,
-    tailIcon: ['system', 'external-link'],
+    tailIcon: RiExternalLinkLine,
     href: undefined,
     openInNewTab: false,
     disabled: false,

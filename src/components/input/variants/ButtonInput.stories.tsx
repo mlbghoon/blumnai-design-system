@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { RiSearchLine } from '../../icons/Icon';
+import { RiArrowRightSLine, RiExternalLinkLine, RiFileCopyLine, RiFolderLine, RiGlobalLine, RiMailLine, RiSearchLine, RiSendPlane2Line } from '../../icons/Icon';
 
 import { Input } from '../Input';
 
@@ -316,7 +316,7 @@ export const LeadButton: Story = {
     label: '파일 업로드',
     placeholder: '파일을 선택하세요...',
     buttonLabel: '찾아보기',
-    buttonLeadIcon: ['document', 'folder'],
+    buttonLeadIcon: RiFolderLine,
   },
 };
 
@@ -335,7 +335,7 @@ export const WithButtonLeadIcon: Story = {
     label: '검색',
     placeholder: '값을 입력하세요...',
     buttonLabel: '검색',
-    buttonLeadIcon: ['system', 'search'],
+    buttonLeadIcon: RiSearchLine,
   },
 };
 
@@ -350,7 +350,7 @@ export const WithButtonTailIcon: Story = {
     label: '제출',
     placeholder: '값을 입력하세요...',
     buttonLabel: '제출',
-    buttonTailIcon: ['arrows', 'arrow-right-s'],
+    buttonTailIcon: RiArrowRightSLine,
   },
 };
 
@@ -365,8 +365,8 @@ export const WithButtonBothIcons: Story = {
     label: '보내기',
     placeholder: '값을 입력하세요...',
     buttonLabel: '보내기',
-    buttonLeadIcon: ['business', 'send-plane-2'],
-    buttonTailIcon: ['arrows', 'arrow-right-s'],
+    buttonLeadIcon: RiSendPlane2Line,
+    buttonTailIcon: RiArrowRightSLine,
   },
 };
 
@@ -384,7 +384,7 @@ export const WithInputLeadIcon: Story = {
     variant: 'tail-button',
     label: '검색',
     placeholder: '검색...',
-    leadIcon: ['system', 'search'],
+    leadIcon: RiSearchLine,
     buttonLabel: '이동',
   },
 };
@@ -399,8 +399,8 @@ export const WithLeadAndButtonIcons: Story = {
     variant: 'tail-button',
     label: '웹사이트',
     placeholder: 'URL을 입력하세요...',
-    leadIcon: ['business', 'global'],
-    buttonTailIcon: ['system', 'external-link'],
+    leadIcon: RiGlobalLine,
+    buttonTailIcon: RiExternalLinkLine,
     buttonLabel: '이동',
   },
 };
@@ -624,7 +624,7 @@ export const EmailSignup: Story = {
     label: '뉴스레터',
     placeholder: 'you@example.com',
     buttonLabel: '구독',
-    leadIcon: ['business', 'mail'],
+    leadIcon: RiMailLine,
   },
 };
 
@@ -637,7 +637,7 @@ export const Search: Story = {
     label: '검색',
     placeholder: '상품을 검색하세요...',
     buttonLabel: '검색',
-    leadIcon: ['system', 'search'],
+    leadIcon: RiSearchLine,
   },
 };
 
@@ -650,7 +650,7 @@ export const FileBrowser: Story = {
     label: '파일 업로드',
     placeholder: '선택된 파일 없음',
     buttonLabel: '찾아보기',
-    buttonLeadIcon: ['document', 'folder'],
+    buttonLeadIcon: RiFolderLine,
   },
 };
 
@@ -663,6 +663,6 @@ export const CopyLink: Story = {
     label: '링크 공유',
     placeholder: 'https://example.com/share/abc123',
     buttonLabel: '복사',
-    buttonLeadIcon: ['document', 'file-copy'],
+    buttonLeadIcon: RiFileCopyLine,
   },
 };

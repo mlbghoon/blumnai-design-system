@@ -1,5 +1,6 @@
-import type { ComponentPropsWithoutRef } from 'react';
-import * as SliderPrimitive from '@radix-ui/react-slider';
+import type {
+  SliderProps as RadixSliderProps,
+} from '@radix-ui/react-slider';
 
 /**
  * 슬라이더 색상 옵션
@@ -97,7 +98,7 @@ export interface SliderOrientationProps {
 }
 
 type SliderPrimitiveProps = Omit<
-  ComponentPropsWithoutRef<typeof SliderPrimitive.Root>,
+  RadixSliderProps,
   'onChange' | 'value' | 'defaultValue' | 'color' | 'orientation'
 >;
 

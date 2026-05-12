@@ -41,6 +41,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
   (
     {
       className,
+      wrapperClassName,
       fontSize = 'sm',
       striped,
       bordered,
@@ -119,7 +120,8 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
       <div
         className={cn(
           'relative w-full overflow-hidden',
-          bordered && 'bg-default border-default rounded-lg'
+          bordered && 'bg-default border-default rounded-lg',
+          wrapperClassName
         )}
       >
         <ScrollArea

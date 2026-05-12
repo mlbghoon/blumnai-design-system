@@ -8,6 +8,12 @@ export type { TableFontSize };
 
 export interface TableProps extends HTMLAttributes<HTMLTableElement> {
   /**
+   * 최상위 래퍼 `<div>`(스크롤 영역 + 페이지네이션 + 로딩 오버레이를 감싸는 컨테이너)에 적용할 className.
+   * `className`은 내부 `<table>` 엘리먼트에만 적용되므로, 컴포넌트 전체에 스타일을 주려면 이 prop을 사용하세요.
+   */
+  wrapperClassName?: string;
+
+  /**
    * 텍스트 크기 (행 높이도 함께 조정됨)
    * - xs: 12px / 행 32px
    * - sm: 14px / 행 36px (기본값)

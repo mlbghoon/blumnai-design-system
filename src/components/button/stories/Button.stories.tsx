@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Button } from '../Button';
-import { RiAddLine, RiArrowDownLine, RiArrowRightLine, RiBookmarkFill, RiBookmarkLine, RiCheckLine, RiCloseLine, RiDeleteBinLine, RiExternalLinkLine, RiHeartFill, RiHeartLine, RiNotificationLine, RiSearchLine, RiSettingsFill, RiSettingsLine, RiStarFill, RiStarLine, RiVolumeMuteLine } from '../../icons/Icon';
+import { RiAddLine, RiArrowDownLine, RiArrowRightLine, RiBookmarkFill, RiBookmarkLine, RiCheckLine, RiCloseLine, RiDeleteBinLine, RiExternalLinkLine, RiHeartFill, RiHeartLine, RiMore2Line, RiNotificationLine, RiSearchLine, RiSettingsFill, RiSettingsLine, RiStarFill, RiStarLine, RiVolumeMuteLine } from '../../icons/Icon';
 
 const meta: Meta<typeof Button> = {
   title: 'Actions/Button',
@@ -204,7 +204,7 @@ export const Default: Story = {
     size: 'md',
     shape: 'rounded',
     color: undefined,
-    leadIcon: ['system', 'add'],
+    leadIcon: RiAddLine,
     tailIcon: undefined,
     shortcut: undefined,
     tooltip: undefined,
@@ -633,7 +633,7 @@ export const WithTooltip: Story = {
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
         <Button variant="iconOnly" tooltip="검색" leadIcon={RiSearchLine} buttonStyle="ghost" />
         <Button variant="iconOnly" tooltip="알림" tooltipPlacement="bottom" leadIcon={RiNotificationLine} buttonStyle="ghost" />
-        <Button variant="iconOnly" tooltip="더보기" tooltipPlacement="left" leadIcon={['system', 'more-vertical']} buttonStyle="ghost" />
+        <Button variant="iconOnly" tooltip="더보기" tooltipPlacement="left" leadIcon={RiMore2Line} buttonStyle="ghost" />
       </div>
     </div>
   ),

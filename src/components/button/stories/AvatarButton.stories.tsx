@@ -125,7 +125,7 @@ export const Default: Story = {
     buttonStyle: 'default',
     size: 'lg',
     alt: undefined,
-    tailIcon: ['arrows', 'arrow-down-s'],
+    tailIcon: RiArrowDownSLine,
     disabled: false,
     asChild: false,
     width: undefined,

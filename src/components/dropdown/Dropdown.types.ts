@@ -1,16 +1,31 @@
-import type { ComponentPropsWithoutRef, HTMLAttributes, ReactNode } from 'react';
-import type * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+import type { HTMLAttributes, ReactNode } from 'react';
+import type {
+  DropdownMenuProps as RadixDropdownMenuProps,
+  DropdownMenuTriggerProps as RadixDropdownMenuTriggerProps,
+  DropdownMenuContentProps as RadixDropdownMenuContentProps,
+  DropdownMenuItemProps as RadixDropdownMenuItemProps,
+  DropdownMenuLabelProps as RadixDropdownMenuLabelProps,
+  DropdownMenuSeparatorProps as RadixDropdownMenuSeparatorProps,
+  DropdownMenuSubTriggerProps as RadixDropdownMenuSubTriggerProps,
+  DropdownMenuSubContentProps as RadixDropdownMenuSubContentProps,
+  DropdownMenuGroupProps as RadixDropdownMenuGroupProps,
+  DropdownMenuPortalProps as RadixDropdownMenuPortalProps,
+  DropdownMenuSubProps as RadixDropdownMenuSubProps,
+  DropdownMenuCheckboxItemProps as RadixDropdownMenuCheckboxItemProps,
+  DropdownMenuRadioGroupProps as RadixDropdownMenuRadioGroupProps,
+  DropdownMenuRadioItemProps as RadixDropdownMenuRadioItemProps,
+} from '@radix-ui/react-dropdown-menu';
 import type { BadgeColor } from '../badge/Badge/Badge.types';
 import type { ButtonStyle } from '../button/Button.types';
 import type { IconProp } from '../icons/Icon';
 import type { IconColor } from '../icons/Icon/Icon.types';
 
-export type DropdownMenuProps = ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root>;
+export type DropdownMenuProps = RadixDropdownMenuProps;
 
-export type DropdownMenuTriggerProps = ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger>;
+export type DropdownMenuTriggerProps = RadixDropdownMenuTriggerProps;
 
 export interface DropdownMenuContentProps
-  extends ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> {
+  extends RadixDropdownMenuContentProps {
   /**
    * 드롭다운 메뉴의 커스텀 너비
    * @example width={200} - 200px
@@ -58,7 +73,7 @@ export interface DropdownMenuContentProps
 export type DropdownMenuItemSize = 'default' | 'large';
 
 export interface DropdownMenuItemProps
-  extends Omit<ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item>, 'onClick'> {
+  extends Omit<RadixDropdownMenuItemProps, 'onClick'> {
   /**
    * 왼쪽 인덴트 적용 (체크박스/라디오 아이템과 정렬용)
    */
@@ -113,7 +128,7 @@ export interface DropdownMenuItemProps
 }
 
 export interface DropdownMenuLabelProps
-  extends ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> {
+  extends RadixDropdownMenuLabelProps {
   /**
    * 왼쪽 인덴트 적용 (체크박스/라디오 아이템과 정렬용)
    */
@@ -124,35 +139,25 @@ export interface DropdownMenuLabelProps
   caption?: string;
 }
 
-export type DropdownMenuSeparatorProps = ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Separator
->;
+export type DropdownMenuSeparatorProps = RadixDropdownMenuSeparatorProps;
 
 export type DropdownMenuShortcutProps = HTMLAttributes<HTMLSpanElement>;
 
 export interface DropdownMenuSubTriggerProps
-  extends ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> {
+  extends RadixDropdownMenuSubTriggerProps {
   /**
    * 왼쪽 인덴트 적용 (체크박스/라디오 아이템과 정렬용)
    */
   inset?: boolean;
 }
 
-export type DropdownMenuSubContentProps = ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.SubContent
->;
+export type DropdownMenuSubContentProps = RadixDropdownMenuSubContentProps;
 
-export type DropdownMenuGroupProps = ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Group
->;
+export type DropdownMenuGroupProps = RadixDropdownMenuGroupProps;
 
-export type DropdownMenuPortalProps = ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Portal
->;
+export type DropdownMenuPortalProps = RadixDropdownMenuPortalProps;
 
-export type DropdownMenuSubProps = ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Sub
->;
+export type DropdownMenuSubProps = RadixDropdownMenuSubProps;
 
 /**
  * DropdownMenuCaption 컴포넌트 Props
@@ -298,7 +303,7 @@ export interface MenuButtonProps extends Omit<HTMLAttributes<HTMLButtonElement>,
  * 체크박스 상태를 가지는 메뉴 아이템 (role="menuitemcheckbox")
  */
 export interface DropdownMenuCheckboxItemProps
-  extends ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.CheckboxItem> {
+  extends RadixDropdownMenuCheckboxItemProps {
   /**
    * 왼쪽 인덴트 적용
    */
@@ -316,9 +321,7 @@ export interface DropdownMenuCheckboxItemProps
 /**
  * DropdownMenuRadioGroup 컴포넌트 Props
  */
-export type DropdownMenuRadioGroupProps = ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.RadioGroup
->;
+export type DropdownMenuRadioGroupProps = RadixDropdownMenuRadioGroupProps;
 
 /**
  * DropdownMenuRadioItem 컴포넌트 Props
@@ -326,7 +329,7 @@ export type DropdownMenuRadioGroupProps = ComponentPropsWithoutRef<
  * 라디오 선택 상태를 가지는 메뉴 아이템 (role="menuitemradio")
  */
 export interface DropdownMenuRadioItemProps
-  extends ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItem> {
+  extends RadixDropdownMenuRadioItemProps {
   /**
    * 왼쪽 인덴트 적용
    */

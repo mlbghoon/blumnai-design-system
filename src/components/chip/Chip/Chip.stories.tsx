@@ -147,7 +147,7 @@ type Story = StoryObj<typeof Chip>;
 export const Default: Story = {
   args: {
     label: '칩',
-    icon: ['system', 'add'],
+    icon: RiAddLine,
     variant: 'default',
     style: 'default',
     shape: 'rounded',

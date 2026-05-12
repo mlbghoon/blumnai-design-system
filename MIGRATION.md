@@ -11,6 +11,44 @@
 
 ---
 
+## v1.10.x → v1.10.12 (`CheckboxList` / `RadioGroup` / `SwitchList` / `InputOTP` 의 `className` 타깃 변경)
+
+### 한 줄 요약
+
+> **`className` 이 이제 항상 컴포넌트의 최상위 DOM 엘리먼트에 적용됩니다.** `caption` 이 있는 `CheckboxList` / `RadioGroup` / `SwitchList`, 그리고 `InputOTP` 에서 `className` 이 붙는 위치가 바뀝니다. 대부분의 코드는 수정 불필요.
+
+### `CheckboxList` / `RadioGroup` / `SwitchList`
+
+`caption`(또는 문자열 `error` / `success`) 이 지정되면 컴포넌트는 caption 까지 포함하려고 바깥에 `<div class="flex flex-col">` 래퍼를 하나 더 렌더합니다.
+
+| | 기존 (≤ 1.10.11) | 변경 후 (1.10.12) |
+|---|---|---|
+| `caption` 없음 | `className` → group 엘리먼트 | 동일 (변화 없음) |
+| `caption` 있음 | `className` → **안쪽 group** | `className` → **바깥 래퍼** |
+
+시각적 결과는 같거나 더 나아지므로 대부분 마이그레이션이 필요 없습니다. **`caption` 을 쓰면서 `className` 으로 group 의 레이아웃 자체를 덮어쓰던 경우만** 영향을 받습니다:
+
+```tsx
+// 기존: className 이 group(RadioGroupPrimitive.Root)에 붙어서 가로 배치가 먹혔음
+<RadioGroup className="flex-row" caption="...">     // ❌ 1.10.12 부터는 바깥 래퍼에 붙음
+
+// 변경 후: 레이아웃은 prop 으로 제어
+<RadioGroup orientation="horizontal" caption="..."> // ✅
+```
+
+`CheckboxList` / `SwitchList` 의 group 레이아웃은 `listStyle` prop 으로 제어합니다.
+
+### `InputOTP`
+
+`className` 이 `input-otp` 의 **시각적으로 숨겨진 내부 `<input>`** → 라벨 + 슬롯 행 + 에러 메시지를 감싸는 **최상위 `<div>`** 로 변경. 슬롯들이 나열되는 행 컨테이너는 기존 그대로 `containerClassName`. 숨겨진 input 에 직접 className 을 주던 경우는 거의 없으므로 사실상 영향 없음.
+
+### 영향 없는 변경 (참고)
+
+- **`Table.wrapperClassName` 추가** — `Table` 의 `className` → `<table>` 동작은 그대로. 최상위 래퍼(스크롤 영역 + 페이지네이션 + 로딩 오버레이) 에 스타일을 주려면 새 `wrapperClassName` 사용. (additive, breaking 아님)
+- **Radix prop 타입 내부 정의 변경** — `ComponentPropsWithoutRef<typeof XPrimitive.Y>` → Radix export 타입(`DropdownMenuContentProps` 등) 직접 사용으로 `TS2590` 회피. 컴파일 타임 타입만 변경, 런타임/공개 API 동일.
+
+---
+
 ## v1.10.x → v1.10.6 (모든 icon prop 에 Remixicon component 사용 — 강력 권장)
 
 ### 한 줄 요약

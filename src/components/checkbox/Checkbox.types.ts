@@ -1,5 +1,7 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import type * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import type { ReactNode } from 'react';
+import type {
+  CheckboxProps as RadixCheckboxProps,
+} from '@radix-ui/react-checkbox';
 
 /**
  * Checkbox 스타일
@@ -25,7 +27,7 @@ export type CheckboxShape = 'square' | 'round';
  * Checkbox Props
  */
 export interface CheckboxProps
-  extends Omit<ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>, 'children'> {
+  extends Omit<RadixCheckboxProps, 'children'> {
   /**
    * Checkbox 라벨 텍스트 (Title)
    */

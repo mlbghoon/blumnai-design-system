@@ -12,10 +12,9 @@ const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
     const enabledItems = items.filter((item) => !item.disabled);
     const allChecked = enabledItems.length > 0 && enabledItems.every((item) => item.checked);
 
-    const containerClassName = cn(
+    const groupClassName = cn(
       'flex flex-col',
-      listStyle === 'default' && 'ds-gap-24',
-      className
+      listStyle === 'default' && 'ds-gap-24'
     );
 
     const handleItemChange = (id: string) => (checked: boolean) => {
@@ -81,7 +80,7 @@ const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
     ) : toggleAllElement;
 
     const groupElement = (
-      <div ref={ref} role="group" className={containerClassName}>
+      <div ref={ref} role="group" className={cn(groupClassName, !showCaption && className)}>
         {toggleAllBordered}
         {itemElements}
       </div>
@@ -92,7 +91,7 @@ const SwitchList = React.forwardRef<HTMLDivElement, SwitchListProps>(
     }
 
     return (
-      <div className="flex flex-col">
+      <div className={cn('flex flex-col', className)}>
         {groupElement}
         {captionElement}
       </div>

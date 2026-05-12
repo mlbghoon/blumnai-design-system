@@ -1,5 +1,9 @@
-import type { ComponentPropsWithoutRef, ReactNode, HTMLAttributes } from 'react';
-import type * as SelectPrimitive from '@radix-ui/react-select';
+import type { ReactNode, HTMLAttributes } from 'react';
+import type {
+  SelectTriggerProps as RadixSelectTriggerProps,
+  SelectContentProps as RadixSelectContentProps,
+  SelectItemProps as RadixSelectItemProps,
+} from '@radix-ui/react-select';
 
 import type { IconProp } from '../icons/Icon';
 import type { IconColor } from '../icons/Icon/Icon.types';
@@ -415,7 +419,7 @@ export interface RadixMultiSelectProps extends SelectBaseProps {
  * SelectTrigger Props
  */
 export interface SelectTriggerProps
-  extends ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> {
+  extends RadixSelectTriggerProps {
   size?: SelectSize;
   selectStyle?: SelectStyle;
   state?: 'default' | 'disabled' | 'error' | 'success';
@@ -427,7 +431,7 @@ export interface SelectTriggerProps
  * SelectContent Props
  */
 export interface SelectContentProps
-  extends ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {
+  extends RadixSelectContentProps {
   maxHeight?: number | string;
   header?: ReactNode;
   contentWidth?: string | number;
@@ -437,7 +441,7 @@ export interface SelectContentProps
  * ExtendedSelectItem Props
  */
 export interface ExtendedSelectItemProps
-  extends ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {
+  extends RadixSelectItemProps {
   selectType?: SelectType;
   leadIcon?: IconProp;
   /**

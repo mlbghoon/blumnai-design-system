@@ -9,10 +9,9 @@ import type { CheckboxListProps } from './CheckboxList.types';
 const CheckboxList = React.forwardRef<HTMLDivElement, CheckboxListProps>(
   ({ items, listStyle = 'default', checkboxStyle = 'with-shadow', name, onItemChange, error, success, caption, className }, ref) => {
     const { hasError, hasSuccess, captionText, showCaption } = resolveCaption(error, success, caption);
-    const containerClassName = cn(
+    const groupClassName = cn(
       'flex flex-col',
-      listStyle === 'default' && 'ds-gap-24',
-      className
+      listStyle === 'default' && 'ds-gap-24'
     );
 
     const handleItemChange = (id: string) => (checked: boolean | 'indeterminate') => {
@@ -53,15 +52,15 @@ const CheckboxList = React.forwardRef<HTMLDivElement, CheckboxListProps>(
 
     if (!showCaption) {
       return (
-        <div ref={ref} role="group" className={containerClassName}>
+        <div ref={ref} role="group" className={cn(groupClassName, className)}>
           {itemElements}
         </div>
       );
     }
 
     return (
-      <div className="flex flex-col">
-        <div ref={ref} role="group" className={containerClassName}>
+      <div className={cn('flex flex-col', className)}>
+        <div ref={ref} role="group" className={groupClassName}>
           {itemElements}
         </div>
         {captionElement}

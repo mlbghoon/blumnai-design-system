@@ -1,5 +1,7 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import type * as SwitchPrimitive from '@radix-ui/react-switch';
+import type { ReactNode } from 'react';
+import type {
+  SwitchProps as RadixSwitchProps,
+} from '@radix-ui/react-switch';
 
 /**
  * Switch 위치
@@ -38,7 +40,7 @@ export type SwitchSize = 'sm' | 'md' | 'lg';
  * Switch Props
  */
 export interface SwitchProps
-  extends Omit<ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>, 'children'> {
+  extends Omit<RadixSwitchProps, 'children'> {
   /**
    * Switch 라벨 텍스트 (Title)
    */

@@ -20,7 +20,7 @@ const InputOTP = React.forwardRef<
 
   return (
     <InputOTPErrorContext.Provider value={hasError}>
-      <div className="flex flex-col ds-gap-4">
+      <div className={cn('flex flex-col ds-gap-4', className)}>
         {label && (
           <span className="font-body size-sm line-height-leading-5 font-medium text-default">
             {label}
@@ -32,7 +32,7 @@ const InputOTP = React.forwardRef<
             'flex items-center ds-gap-8 has-[:disabled]:opacity-50',
             containerClassName
           )}
-          className={cn('disabled:cursor-not-allowed', className)}
+          className="disabled:cursor-not-allowed"
           {...restProps}
           aria-label={ariaLabel ?? label ?? 'One-time password'}
           aria-invalid={hasError || undefined}

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { RiAddLine, RiStarFill, RiStarLine } from '../../icons/Icon';
+import { RiAddLine, RiArrowDownSLine, RiStarFill, RiStarLine } from '../../icons/Icon';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -384,7 +384,7 @@ export const ButtonWithFeatures: Story = {
         <Divider
           type="button-center"
           buttonLabel="버튼"
-          buttonTailIcon={['arrows', 'chevron-down']}
+          buttonTailIcon={RiArrowDownSLine}
           onButtonClick={() => console.log('clicked')}
         />
       </div>
@@ -403,7 +403,7 @@ export const ButtonWithFeatures: Story = {
           type="button-center"
           buttonLabel="더 보기"
           buttonLeadIcon={RiAddLine}
-          buttonTailIcon={['arrows', 'chevron-down']}
+          buttonTailIcon={RiArrowDownSLine}
           buttonBadge="12"
           onButtonClick={() => console.log('clicked')}
         />

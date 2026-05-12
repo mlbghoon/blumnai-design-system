@@ -1,28 +1,29 @@
-import type { ButtonHTMLAttributes, ComponentPropsWithoutRef, HTMLAttributes, ReactNode, Ref } from 'react';
-import type * as DialogPrimitive from '@radix-ui/react-dialog';
+import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode, Ref } from 'react';
+import type {
+  DialogProps as RadixDialogProps,
+  DialogTriggerProps as RadixDialogTriggerProps,
+  DialogPortalProps as RadixDialogPortalProps,
+  DialogCloseProps as RadixDialogCloseProps,
+  DialogOverlayProps as RadixDialogOverlayProps,
+  DialogContentProps as RadixDialogContentProps,
+  DialogTitleProps as RadixDialogTitleProps,
+  DialogDescriptionProps as RadixDialogDescriptionProps,
+} from '@radix-ui/react-dialog';
 
-export interface DialogProps extends ComponentPropsWithoutRef<typeof DialogPrimitive.Root> {
+export interface DialogProps extends RadixDialogProps {
   children?: ReactNode;
 }
 
-export type DialogTriggerProps = ComponentPropsWithoutRef<
-  typeof DialogPrimitive.Trigger
->;
+export type DialogTriggerProps = RadixDialogTriggerProps;
 
-export type DialogPortalProps = ComponentPropsWithoutRef<
-  typeof DialogPrimitive.Portal
->;
+export type DialogPortalProps = RadixDialogPortalProps;
 
-export type DialogCloseProps = ComponentPropsWithoutRef<
-  typeof DialogPrimitive.Close
->;
+export type DialogCloseProps = RadixDialogCloseProps;
 
-export type DialogOverlayProps = ComponentPropsWithoutRef<
-  typeof DialogPrimitive.Overlay
->;
+export type DialogOverlayProps = RadixDialogOverlayProps;
 
 export interface DialogContentProps
-  extends ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+  extends RadixDialogContentProps {
   hideCloseButton?: boolean;
   disableEscapeClose?: boolean;
   disableOutsideClose?: boolean;
@@ -76,7 +77,7 @@ export interface DialogScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
   onScrollPositionChange?: (position: { x: number; y: number }) => void;
 }
 
-export interface DialogTitleProps extends ComponentPropsWithoutRef<typeof DialogPrimitive.Title> {
+export interface DialogTitleProps extends RadixDialogTitleProps {
   /**
    * 타이틀 font-weight
    * @default 'semibold'
@@ -85,9 +86,7 @@ export interface DialogTitleProps extends ComponentPropsWithoutRef<typeof Dialog
   weight?: 'medium' | 'semibold' | 'bold';
 }
 
-export type DialogDescriptionProps = ComponentPropsWithoutRef<
-  typeof DialogPrimitive.Description
->;
+export type DialogDescriptionProps = RadixDialogDescriptionProps;
 
 export interface DialogActionProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {

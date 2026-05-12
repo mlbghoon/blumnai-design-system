@@ -1,5 +1,39 @@
 # Changelog
 
+## [1.10.12] - 2026-05-12
+
+### Fixed — Radix prop 타입을 `ComponentPropsWithoutRef<typeof XPrimitive.Y>` 대신 Radix export 타입 직접 사용 (TS2590 회피)
+
+`Dialog` / `Popover` / `DropdownMenu` 등 Radix 기반 컴포넌트의 export 타입(`DropdownMenuContentProps` 등)이 `ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>` 로 정의돼 있었습니다. 이는 `ForwardRefExoticComponent` 를 풀어 `RefAttributes<HTMLDivElement>` 와 intersect 하고, Radix `*Content` 내부의 `forceMount` discriminated union 과 곱해지면서 — 엄격한 소비자 환경(Vite `moduleResolution: "bundler"`, React 19 `@types/react`, `skipLibCheck: false`)에서 `TS2590: Expression produces a union type that is too complex to represent` 를 일으켰습니다. (Vite 템플릿은 잘 터지고 Next.js 는 보통 안 터지는 차이.)
+
+수정: Radix 가 이미 export 하는 plain prop 인터페이스(`RefAttributes` intersection 없음)를 `Radix*` 별칭으로 직접 import 해서 사용. namespace value-import (`import * as XPrimitive`) 와 미사용 `ComponentPropsWithoutRef` import 제거. **런타임 동작/공개 API 동일 — 컴파일 타임 타입 정의만 변경.**
+
+적용 컴포넌트 (총 17개 `.types.ts`): `dropdown`, `menubar`, `context-menu`, `navigation-menu`, `tabs`, `radio`, `checkbox`, `switch`, `popover`, `collapsible`, `aspect-ratio`, `hover-card`, `dialog`, `alert-dialog`, `scroll-area`, `select`, `slider`. (`drawer-sheet`/vaul, `toast`/sonner, `input-otp`, `resizable` 는 동일 문제 없어 미포함. 내부 `.tsx` 의 `forwardRef<ElementRef<…>, ComponentPropsWithoutRef<…>>` 제네릭도 표준 패턴이라 미변경.)
+
+### Changed — `CheckboxList` / `RadioGroup` / `SwitchList` 의 `className` 이 항상 최상위 래퍼로 적용 (caption 있을 때 동작 변경)
+
+이 세 컴포넌트는 `caption`(또는 문자열 `error`/`success`) 이 있으면 caption 을 포함하려고 바깥에 `<div class="flex flex-col">` 래퍼를 하나 더 렌더합니다. 기존에는 `className` 이 항상 안쪽 group 엘리먼트(`role="group"` div / `RadioGroupPrimitive.Root`) 로 갔기 때문에, caption 이 있으면 컴포넌트 "전체"(group + caption)에 스타일을 줄 방법이 없었습니다.
+
+이제 `className` 은 **항상 최상위 래퍼**로 적용됩니다 — caption 이 있으면 바깥 래퍼 div, 없으면 group 엘리먼트. ⚠️ caption 을 쓰면서 `className` 으로 group 자체의 레이아웃(예: `flex-row`, gap)을 덮어쓰던 코드는 이제 그 className 이 group 이 아니라 바깥 래퍼에 붙습니다. group 레이아웃은 `orientation`(RadioGroup) / `listStyle`(CheckboxList·SwitchList) prop 으로 제어하세요. → `MIGRATION.md` 참고.
+
+- `src/components/checkbox/CheckboxList.tsx` · `src/components/radio/Radio.tsx` · `src/components/switch/SwitchList.tsx`
+
+### Changed — `InputOTP` 의 `className` 이 내부 hidden input 대신 최상위 래퍼로 적용
+
+`className` 이 `input-otp` 의 (시각적으로 숨겨진) 내부 `<input>` 으로 가던 것을, 라벨 + 슬롯 행 + 에러 메시지를 감싸는 최상위 `<div>` 로 변경. 슬롯들이 나열되는 행 컨테이너는 기존대로 `containerClassName`. (숨겨진 input 에 className 을 주던 경우는 거의 없을 것 — 사실상 영향 없음.) `InputOTPProps` 에 `className` / `containerClassName` JSDoc 추가.
+
+### Added — `Table` 에 `wrapperClassName` prop
+
+`Table` 의 `className` 은 (shadcn 관례대로) 내부 `<table>` 엘리먼트에만 적용됩니다. 스크롤 영역 + 페이지네이션 + 로딩 오버레이를 감싸는 최상위 `<div>` 에 스타일을 주려면 `wrapperClassName` 을 쓰세요. `className`→`<table>` 동작은 그대로(non-breaking).
+
+```tsx
+<Table wrapperClassName="rounded-xl shadow-card" className="text-sm" pagination ... />
+```
+
+### Changed — Storybook 스토리의 레거시 아이콘 튜플 → `Ri*` 컴포넌트 참조
+
+26개 스토리 파일에서 `leadIcon={['system','add']}` 같은 deprecated 튜플 form 을 `leadIcon={RiAddLine}` 같은 Remixicon 컴포넌트 참조로 교체(권장 사용법 시연). 스토리 로컬 타입 주석 `IconType` / `[string,string]` → `IconProp` 로, `as const` 제거, `SidebarMenuItem.stories.tsx` 의 `isValidIcon` 가드 확장. argTypes 의 `detail:` 문서 문자열(튜플 = deprecated 임을 보여주는 부분), `Icon.stories.tsx`(Icon 컴포넌트 자체의 back-compat API 시연), `IsometricIcon` / `DataGridCells` 스토리는 의도적으로 유지. **라이브러리 코드 변경 없음.**
+
 ## [1.10.11] - 2026-05-12
 
 ### Added — `DatePicker` / `DateRangePicker` / `MonthPicker` / `MonthRangePicker` 에 `hideCalendarIcon` prop

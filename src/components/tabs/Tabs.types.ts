@@ -1,5 +1,10 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import type * as TabsPrimitive from '@radix-ui/react-tabs';
+import type { ReactNode } from 'react';
+import type {
+  TabsProps as RadixTabsProps,
+  TabsListProps as RadixTabsListProps,
+  TabsTriggerProps as RadixTabsTriggerProps,
+  TabsContentProps as RadixTabsContentProps,
+} from '@radix-ui/react-tabs';
 import type { IconProp } from '../icons/Icon';
 import type { BadgeColor } from '../badge/Badge/Badge.types';
 
@@ -8,9 +13,9 @@ export type TabsShape = 'pill' | 'rounded';
 export type TabsSize = 'sm' | 'lg';
 export type TabsType = 'default' | 'fixed';
 
-export type TabsProps = ComponentPropsWithoutRef<typeof TabsPrimitive.Root>;
+export type TabsProps = RadixTabsProps;
 
-export interface TabsListProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.List> {
+export interface TabsListProps extends RadixTabsListProps {
   /** 탭 스타일 변형 */
   variant?: TabsVariant;
   /** 탭 아이템 모서리 스타일 (pill/segmented 변형에만 적용) */
@@ -62,7 +67,7 @@ export interface TabsListProps extends ComponentPropsWithoutRef<typeof TabsPrimi
   animatedIndicator?: boolean;
 }
 
-export interface TabsTriggerProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {
+export interface TabsTriggerProps extends RadixTabsTriggerProps {
   /**
    * 앞에 표시되는 아이콘.
    *
@@ -103,7 +108,7 @@ export interface TabsTriggerProps extends ComponentPropsWithoutRef<typeof TabsPr
   onClose?: (value: string) => void;
 }
 
-export interface TabsContentProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Content> {
+export interface TabsContentProps extends RadixTabsContentProps {
   /**
    * 패널 전환 애니메이션 활성화
    * @default false

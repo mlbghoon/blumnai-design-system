@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { RiAddLine, RiSearchLine, RiSettingsLine } from '../../icons/Icon';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -105,9 +106,9 @@ export const WithIcons: Story = {
       items={[
         { type: 'label', label: '액션', caption: '사용 가능' },
         { type: 'divider' },
-        { type: 'item', label: '설정', caption: '구성하기', icon: ['system', 'settings'] },
-        { type: 'item', label: '검색', caption: '항목 찾기', icon: ['system', 'search'] },
-        { type: 'item', label: '새로 추가', caption: '항목 만들기', icon: ['system', 'add'] },
+        { type: 'item', label: '설정', caption: '구성하기', icon: RiSettingsLine },
+        { type: 'item', label: '검색', caption: '항목 찾기', icon: RiSearchLine },
+        { type: 'item', label: '새로 추가', caption: '항목 만들기', icon: RiAddLine },
         { type: 'divider' },
         { type: 'text', text: '계속하려면 액션을 선택하세요.' },
       ] as TooltipItemData[]}

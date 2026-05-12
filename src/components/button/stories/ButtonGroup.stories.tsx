@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { RiAddLine, RiArrowDownSLine, RiBold, RiCloseCircleLine, RiDownloadLine, RiEyeLine, RiItalic, RiSettingsLine, RiStrikethrough, RiUnderline } from '../../icons/Icon';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -87,8 +88,8 @@ export const Default: Story = {
 export const WithIcons: Story = {
   args: {
     items: [
-      { label: '실시간 미리보기', icon: ['system', 'eye'] },
-      { icon: ['system', 'settings'], ariaLabel: 'Settings' },
+      { label: '실시간 미리보기', icon: RiEyeLine },
+      { icon: RiSettingsLine, ariaLabel: 'Settings' },
     ],
     size: 'sm',
   },
@@ -100,7 +101,7 @@ export const WithIcons: Story = {
 export const WithBadge: Story = {
   args: {
     items: [
-      { label: '다운로드', icon: ['system', 'download'], badge: '3 MB' },
+      { label: '다운로드', icon: RiDownloadLine, badge: '3 MB' },
       { label: '2K' },
     ],
     size: 'sm',
@@ -113,8 +114,8 @@ export const WithBadge: Story = {
 export const WithTailIcon: Story = {
   args: {
     items: [
-      { label: '이슈 닫기', icon: ['system', 'close-circle'], tailIcon: ['arrows', 'chevron-down'] },
-      { icon: ['system', 'settings'], ariaLabel: 'Settings' },
+      { label: '이슈 닫기', icon: RiCloseCircleLine, tailIcon: RiArrowDownSLine },
+      { icon: RiSettingsLine, ariaLabel: 'Settings' },
     ],
     size: 'sm',
   },
@@ -141,10 +142,10 @@ export const Sizes: Story = {
 export const IconOnly: Story = {
   args: {
     items: [
-      { icon: ['editor', 'bold'], ariaLabel: 'Bold' },
-      { icon: ['editor', 'italic'], ariaLabel: 'Italic' },
-      { icon: ['editor', 'underline'], ariaLabel: 'Underline' },
-      { icon: ['editor', 'strikethrough'], ariaLabel: 'Strikethrough' },
+      { icon: RiBold, ariaLabel: 'Bold' },
+      { icon: RiItalic, ariaLabel: 'Italic' },
+      { icon: RiUnderline, ariaLabel: 'Underline' },
+      { icon: RiStrikethrough, ariaLabel: 'Strikethrough' },
     ],
     size: 'sm',
   },
@@ -156,9 +157,9 @@ export const IconOnly: Story = {
 export const Disabled: Story = {
   args: {
     items: [
-      { label: 'Label', icon: ['system', 'add'], badge: '8', tailIcon: ['arrows', 'chevron-down'] },
-      { label: 'Label', icon: ['system', 'add'], badge: '8', tailIcon: ['arrows', 'chevron-down'], disabled: true },
-      { icon: ['system', 'settings'], ariaLabel: 'Settings', disabled: true },
+      { label: 'Label', icon: RiAddLine, badge: '8', tailIcon: RiArrowDownSLine },
+      { label: 'Label', icon: RiAddLine, badge: '8', tailIcon: RiArrowDownSLine, disabled: true },
+      { icon: RiSettingsLine, ariaLabel: 'Settings', disabled: true },
     ],
     size: 'sm',
   },

@@ -1,11 +1,15 @@
-import * as CollapsiblePrimitive from '@radix-ui/react-collapsible';
+import type {
+  CollapsibleProps as RadixCollapsibleProps,
+  CollapsibleTriggerProps as RadixCollapsibleTriggerProps,
+  CollapsibleContentProps as RadixCollapsibleContentProps,
+} from '@radix-ui/react-collapsible';
 
-export type CollapsibleProps = React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Root>;
+export type CollapsibleProps = RadixCollapsibleProps;
 
-export type CollapsibleTriggerProps = React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Trigger>;
+export type CollapsibleTriggerProps = RadixCollapsibleTriggerProps;
 
 export interface CollapsibleContentProps
-  extends React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Content> {
+  extends RadixCollapsibleContentProps {
   /**
    * When `true`, the content remains mounted in the DOM even when collapsed.
    * Useful for preserving form state, enabling CSS-driven animations,

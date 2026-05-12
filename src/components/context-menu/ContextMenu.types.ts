@@ -1,14 +1,29 @@
-import type { ComponentPropsWithoutRef, HTMLAttributes, ReactNode } from 'react';
-import type * as ContextMenuPrimitive from '@radix-ui/react-context-menu';
+import type { HTMLAttributes, ReactNode } from 'react';
+import type {
+  ContextMenuProps as RadixContextMenuProps,
+  ContextMenuTriggerProps as RadixContextMenuTriggerProps,
+  ContextMenuContentProps as RadixContextMenuContentProps,
+  ContextMenuItemProps as RadixContextMenuItemProps,
+  ContextMenuCheckboxItemProps as RadixContextMenuCheckboxItemProps,
+  ContextMenuRadioItemProps as RadixContextMenuRadioItemProps,
+  ContextMenuLabelProps as RadixContextMenuLabelProps,
+  ContextMenuSeparatorProps as RadixContextMenuSeparatorProps,
+  ContextMenuSubTriggerProps as RadixContextMenuSubTriggerProps,
+  ContextMenuSubContentProps as RadixContextMenuSubContentProps,
+  ContextMenuGroupProps as RadixContextMenuGroupProps,
+  ContextMenuPortalProps as RadixContextMenuPortalProps,
+  ContextMenuSubProps as RadixContextMenuSubProps,
+  ContextMenuRadioGroupProps as RadixContextMenuRadioGroupProps,
+} from '@radix-ui/react-context-menu';
 import type { IconProp } from '../icons/Icon';
 import type { IconColor } from '../icons/Icon/Icon.types';
 
-export type ContextMenuProps = ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Root>;
+export type ContextMenuProps = RadixContextMenuProps;
 
-export type ContextMenuTriggerProps = ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Trigger>;
+export type ContextMenuTriggerProps = RadixContextMenuTriggerProps;
 
 export interface ContextMenuContentProps
-  extends ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content> {
+  extends RadixContextMenuContentProps {
   /**
    * 컨텍스트 메뉴의 커스텀 너비
    * @example width={200} - 200px
@@ -28,7 +43,7 @@ export interface ContextMenuContentProps
 export type ContextMenuItemSize = 'default' | 'large';
 
 export interface ContextMenuItemProps
-  extends Omit<ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item>, 'onClick'> {
+  extends Omit<RadixContextMenuItemProps, 'onClick'> {
   /**
    * 왼쪽 인덴트 적용 (체크박스/라디오 아이템과 정렬용)
    */
@@ -83,7 +98,7 @@ export interface ContextMenuItemProps
 }
 
 export interface ContextMenuCheckboxItemProps
-  extends ComponentPropsWithoutRef<typeof ContextMenuPrimitive.CheckboxItem> {
+  extends RadixContextMenuCheckboxItemProps {
   /**
    * 왼쪽 인덴트 적용
    */
@@ -91,7 +106,7 @@ export interface ContextMenuCheckboxItemProps
 }
 
 export interface ContextMenuRadioItemProps
-  extends ComponentPropsWithoutRef<typeof ContextMenuPrimitive.RadioItem> {
+  extends RadixContextMenuRadioItemProps {
   /**
    * 왼쪽 인덴트 적용
    */
@@ -99,7 +114,7 @@ export interface ContextMenuRadioItemProps
 }
 
 export interface ContextMenuLabelProps
-  extends ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Label> {
+  extends RadixContextMenuLabelProps {
   /**
    * 왼쪽 인덴트 적용 (체크박스/라디오 아이템과 정렬용)
    */
@@ -110,39 +125,27 @@ export interface ContextMenuLabelProps
   caption?: string;
 }
 
-export type ContextMenuSeparatorProps = ComponentPropsWithoutRef<
-  typeof ContextMenuPrimitive.Separator
->;
+export type ContextMenuSeparatorProps = RadixContextMenuSeparatorProps;
 
 export type ContextMenuShortcutProps = HTMLAttributes<HTMLSpanElement>;
 
 export interface ContextMenuSubTriggerProps
-  extends ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubTrigger> {
+  extends RadixContextMenuSubTriggerProps {
   /**
    * 왼쪽 인덴트 적용 (체크박스/라디오 아이템과 정렬용)
    */
   inset?: boolean;
 }
 
-export type ContextMenuSubContentProps = ComponentPropsWithoutRef<
-  typeof ContextMenuPrimitive.SubContent
->;
+export type ContextMenuSubContentProps = RadixContextMenuSubContentProps;
 
-export type ContextMenuGroupProps = ComponentPropsWithoutRef<
-  typeof ContextMenuPrimitive.Group
->;
+export type ContextMenuGroupProps = RadixContextMenuGroupProps;
 
-export type ContextMenuPortalProps = ComponentPropsWithoutRef<
-  typeof ContextMenuPrimitive.Portal
->;
+export type ContextMenuPortalProps = RadixContextMenuPortalProps;
 
-export type ContextMenuSubProps = ComponentPropsWithoutRef<
-  typeof ContextMenuPrimitive.Sub
->;
+export type ContextMenuSubProps = RadixContextMenuSubProps;
 
-export type ContextMenuRadioGroupProps = ComponentPropsWithoutRef<
-  typeof ContextMenuPrimitive.RadioGroup
->;
+export type ContextMenuRadioGroupProps = RadixContextMenuRadioGroupProps;
 
 /**
  * ContextMenuCaption 컴포넌트 Props

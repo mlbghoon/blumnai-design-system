@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiCheckLine, RiDeleteBinLine, RiErrorWarningLine, RiImageLine, RiSearchLine, RiStarLine } from '../../icons/Icon';
 import { useState } from 'react';
 
 import { Textarea } from '../Textarea';
@@ -331,14 +332,14 @@ export const WithToolbar: Story = {
     const toolbarActions: TextareaToolbarAction[] = [
       {
         key: 'image',
-        icon: ['media', 'image'],
+        icon: RiImageLine,
         label: '이미지 생성',
         tooltip: '이미지를 생성합니다',
         onClick: () => console.log('Create image clicked'),
       },
       {
         key: 'research',
-        icon: ['system', 'search'],
+        icon: RiSearchLine,
         label: '심층 검색',
         tooltip: '심층 검색을 시작합니다',
         onClick: () => console.log('Deep research clicked'),
@@ -654,7 +655,7 @@ export const ToolbarStyles: Story = {
     const toolbarActions: TextareaToolbarAction[] = [
       {
         key: 'image',
-        icon: ['media', 'image'],
+        icon: RiImageLine,
         label: '이미지 생성',
         onClick: () => console.log('Create image'),
       },
@@ -694,7 +695,7 @@ export const ToolbarActionStyles: Story = {
     const toolbarActions: TextareaToolbarAction[] = [
       {
         key: 'generate',
-        icon: ['media', 'image'],
+        icon: RiImageLine,
         label: '이미지 생성',
         buttonStyle: 'soft',
         colorOverride: 'blue',
@@ -703,7 +704,7 @@ export const ToolbarActionStyles: Story = {
       },
       {
         key: 'delete',
-        icon: ['system', 'delete-bin'],
+        icon: RiDeleteBinLine,
         buttonStyle: 'soft',
         colorOverride: 'red',
         tooltip: '대화 삭제',
@@ -711,7 +712,7 @@ export const ToolbarActionStyles: Story = {
       },
       {
         key: 'check',
-        icon: ['system', 'check'],
+        icon: RiCheckLine,
         buttonStyle: 'soft',
         colorOverride: 'green',
         tooltip: '완료',
@@ -719,7 +720,7 @@ export const ToolbarActionStyles: Story = {
       },
       {
         key: 'warn',
-        icon: ['system', 'error-warning'],
+        icon: RiErrorWarningLine,
         buttonStyle: 'ghost',
         colorOverride: 'orange',
         tooltip: '주의 필요',
@@ -748,7 +749,7 @@ export const ToolbarActionStyles: Story = {
           onChange={(e) => setValue(e.target.value)}
           toolbarActions={colors.map((color) => ({
             key: color,
-            icon: ['system', 'star'] as TextareaToolbarAction['icon'],
+            icon: RiStarLine as TextareaToolbarAction['icon'],
             label: color,
             buttonStyle: 'soft' as const,
             colorOverride: color,

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { RiSearchLine } from '../../icons/Icon';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Input } from '../Input';
@@ -235,7 +236,7 @@ export const WithLeadIcon: Story = {
     label: '검색',
     placeholder: '무엇이든 검색하세요...',
     shortcut: '⌘K',
-    leadIcon: ['system', 'search'],
+    leadIcon: RiSearchLine,
   },
 };
 
@@ -296,7 +297,7 @@ export const SizeSmall: Story = {
     placeholder: '검색...',
     shortcut: '⌘K',
     size: 'sm',
-    leadIcon: ['system', 'search'],
+    leadIcon: RiSearchLine,
   },
 };
 
@@ -310,7 +311,7 @@ export const SizeLarge: Story = {
     placeholder: '검색...',
     shortcut: '⌘K',
     size: 'lg',
-    leadIcon: ['system', 'search'],
+    leadIcon: RiSearchLine,
   },
 };
 

@@ -1,5 +1,8 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import type * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
+import type { ReactNode } from 'react';
+import type {
+  RadioGroupProps as RadixRadioGroupProps,
+  RadioGroupItemProps as RadixRadioGroupItemProps,
+} from '@radix-ui/react-radio-group';
 
 /**
  * Radio 크기
@@ -20,7 +23,7 @@ export type RadioPosition = 'left' | 'right' | 'off';
  * RadioGroup Props
  */
 export interface RadioGroupProps
-  extends ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root> {
+  extends RadixRadioGroupProps {
   /**
    * 추가 클래스명
    */
@@ -48,7 +51,7 @@ export interface RadioGroupProps
  * Radio Props
  */
 export interface RadioProps
-  extends Omit<ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>, 'children'> {
+  extends Omit<RadixRadioGroupItemProps, 'children'> {
   /**
    * Radio 크기
    * @default 'sm'

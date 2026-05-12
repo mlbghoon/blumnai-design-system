@@ -1,9 +1,12 @@
-import type { ComponentPropsWithoutRef, ReactNode, Ref } from 'react';
-import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
+import type { ReactNode, Ref } from 'react';
+import type {
+  ScrollAreaProps as RadixScrollAreaProps,
+  ScrollAreaScrollbarProps as RadixScrollAreaScrollbarProps,
+} from '@radix-ui/react-scroll-area';
 
 export type ScrollAreaOrientation = 'vertical' | 'horizontal' | 'both';
 
-export interface ScrollAreaProps extends ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root> {
+export interface ScrollAreaProps extends RadixScrollAreaProps {
   /**
    * 스크롤 방향
    * @default 'vertical'
@@ -66,7 +69,7 @@ export interface ScrollAreaProps extends ComponentPropsWithoutRef<typeof ScrollA
 }
 
 export interface ScrollBarProps
-  extends ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar> {
+  extends RadixScrollAreaScrollbarProps {
   /**
    * 스크롤바 방향
    * @default 'vertical'

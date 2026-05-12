@@ -1,18 +1,33 @@
-import type { ComponentPropsWithoutRef, HTMLAttributes, ReactNode } from 'react';
-import type * as MenubarPrimitive from '@radix-ui/react-menubar';
+import type { HTMLAttributes, ReactNode } from 'react';
+import type {
+  MenubarProps as RadixMenubarProps,
+  MenubarMenuProps as RadixMenubarMenuProps,
+  MenubarGroupProps as RadixMenubarGroupProps,
+  MenubarTriggerProps as RadixMenubarTriggerProps,
+  MenubarContentProps as RadixMenubarContentProps,
+  MenubarItemProps as RadixMenubarItemProps,
+  MenubarCheckboxItemProps as RadixMenubarCheckboxItemProps,
+  MenubarRadioItemProps as RadixMenubarRadioItemProps,
+  MenubarLabelProps as RadixMenubarLabelProps,
+  MenubarSeparatorProps as RadixMenubarSeparatorProps,
+  MenubarSubTriggerProps as RadixMenubarSubTriggerProps,
+  MenubarSubContentProps as RadixMenubarSubContentProps,
+  MenubarSubProps as RadixMenubarSubProps,
+  MenubarRadioGroupProps as RadixMenubarRadioGroupProps,
+} from '@radix-ui/react-menubar';
 import type { IconProp } from '../icons/Icon';
 import type { IconColor } from '../icons/Icon/Icon.types';
 
-export type MenubarProps = ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>;
+export type MenubarProps = RadixMenubarProps;
 
-export type MenubarMenuProps = ComponentPropsWithoutRef<typeof MenubarPrimitive.Menu>;
+export type MenubarMenuProps = RadixMenubarMenuProps;
 
-export type MenubarGroupProps = ComponentPropsWithoutRef<typeof MenubarPrimitive.Group>;
+export type MenubarGroupProps = RadixMenubarGroupProps;
 
-export type MenubarTriggerProps = ComponentPropsWithoutRef<typeof MenubarPrimitive.Trigger>;
+export type MenubarTriggerProps = RadixMenubarTriggerProps;
 
 export interface MenubarContentProps
-  extends ComponentPropsWithoutRef<typeof MenubarPrimitive.Content> {
+  extends RadixMenubarContentProps {
   /**
    * 메뉴바 콘텐츠의 커스텀 너비
    * @example width={200} - 200px
@@ -31,7 +46,7 @@ export interface MenubarContentProps
 export type MenubarItemSize = 'default' | 'large';
 
 export interface MenubarItemProps
-  extends Omit<ComponentPropsWithoutRef<typeof MenubarPrimitive.Item>, 'onClick'> {
+  extends Omit<RadixMenubarItemProps, 'onClick'> {
   /**
    * 왼쪽 인덴트 적용 (체크박스/라디오 아이템과 정렬용)
    */
@@ -86,19 +101,19 @@ export interface MenubarItemProps
 }
 
 export interface MenubarCheckboxItemProps
-  extends ComponentPropsWithoutRef<typeof MenubarPrimitive.CheckboxItem> {
+  extends RadixMenubarCheckboxItemProps {
   /** 왼쪽 인덴트 적용 */
   inset?: boolean;
 }
 
 export interface MenubarRadioItemProps
-  extends ComponentPropsWithoutRef<typeof MenubarPrimitive.RadioItem> {
+  extends RadixMenubarRadioItemProps {
   /** 왼쪽 인덴트 적용 */
   inset?: boolean;
 }
 
 export interface MenubarLabelProps
-  extends ComponentPropsWithoutRef<typeof MenubarPrimitive.Label> {
+  extends RadixMenubarLabelProps {
   /**
    * 왼쪽 인덴트 적용 (체크박스/라디오 아이템과 정렬용)
    */
@@ -109,31 +124,23 @@ export interface MenubarLabelProps
   caption?: string;
 }
 
-export type MenubarSeparatorProps = ComponentPropsWithoutRef<
-  typeof MenubarPrimitive.Separator
->;
+export type MenubarSeparatorProps = RadixMenubarSeparatorProps;
 
 export type MenubarShortcutProps = HTMLAttributes<HTMLSpanElement>;
 
 export interface MenubarSubTriggerProps
-  extends ComponentPropsWithoutRef<typeof MenubarPrimitive.SubTrigger> {
+  extends RadixMenubarSubTriggerProps {
   /**
    * 왼쪽 인덴트 적용 (체크박스/라디오 아이템과 정렬용)
    */
   inset?: boolean;
 }
 
-export type MenubarSubContentProps = ComponentPropsWithoutRef<
-  typeof MenubarPrimitive.SubContent
->;
+export type MenubarSubContentProps = RadixMenubarSubContentProps;
 
-export type MenubarSubProps = ComponentPropsWithoutRef<
-  typeof MenubarPrimitive.Sub
->;
+export type MenubarSubProps = RadixMenubarSubProps;
 
-export type MenubarRadioGroupProps = ComponentPropsWithoutRef<
-  typeof MenubarPrimitive.RadioGroup
->;
+export type MenubarRadioGroupProps = RadixMenubarRadioGroupProps;
 
 /**
  * MenubarCaption 컴포넌트 Props

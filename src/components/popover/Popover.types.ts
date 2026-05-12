@@ -1,25 +1,27 @@
-import type { ComponentPropsWithoutRef, HTMLAttributes } from 'react';
-import type * as PopoverPrimitive from '@radix-ui/react-popover';
+import type { HTMLAttributes } from 'react';
+import type {
+  PopoverProps as RadixPopoverProps,
+  PopoverTriggerProps as RadixPopoverTriggerProps,
+  PopoverAnchorProps as RadixPopoverAnchorProps,
+  PopoverPortalProps as RadixPopoverPortalProps,
+  PopoverContentProps as RadixPopoverContentProps,
+  PopoverCloseProps as RadixPopoverCloseProps,
+  PopoverArrowProps as RadixPopoverArrowProps,
+} from '@radix-ui/react-popover';
 
-export type PopoverProps = ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>;
+export type PopoverProps = RadixPopoverProps;
 
-export type PopoverTriggerProps = ComponentPropsWithoutRef<
-  typeof PopoverPrimitive.Trigger
->;
+export type PopoverTriggerProps = RadixPopoverTriggerProps;
 
-export type PopoverAnchorProps = ComponentPropsWithoutRef<
-  typeof PopoverPrimitive.Anchor
->;
+export type PopoverAnchorProps = RadixPopoverAnchorProps;
 
-export type PopoverPortalProps = ComponentPropsWithoutRef<
-  typeof PopoverPrimitive.Portal
->;
+export type PopoverPortalProps = RadixPopoverPortalProps;
 
 /** 애니메이션 프리셋 */
 export type PopoverAnimation = 'default' | 'fade' | 'scale' | 'slide' | 'none';
 
 export interface PopoverContentProps
-  extends ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> {
+  extends RadixPopoverContentProps {
   /**
    * 팝오버의 커스텀 너비
    * @example width={400} - 400px
@@ -52,10 +54,6 @@ export interface PopoverScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
   maxHeight?: string | number;
 }
 
-export type PopoverCloseProps = ComponentPropsWithoutRef<
-  typeof PopoverPrimitive.Close
->;
+export type PopoverCloseProps = RadixPopoverCloseProps;
 
-export type PopoverArrowProps = ComponentPropsWithoutRef<
-  typeof PopoverPrimitive.Arrow
->;
+export type PopoverArrowProps = RadixPopoverArrowProps;

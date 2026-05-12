@@ -7,10 +7,11 @@ import {
   SidebarMenuItem,
 } from '../Sidebar';
 import { Icon, RiCheckLine, RiCloseLine, RiDeleteBinLine, RiEditLine, RiFileLine, RiFolderLine, RiHomeLine, RiSearchLine, RiSettingsLine, RiStarLine } from '../../icons/Icon';
+import type { IconProp } from '../../icons/Icon';
 
 type SidebarMenuItemStoryProps = {
   label: string;
-  icon: [string, string] | null;
+  icon: IconProp | null;
   isActive: boolean;
   disabled: boolean;
   badgeLabel: string;
@@ -110,7 +111,8 @@ export default meta;
 type Story = StoryObj<SidebarMenuItemStoryProps>;
 
 // Helper to validate icon
-const isValidIcon = (icon: unknown): icon is [string, string] => {
+const isValidIcon = (icon: unknown): icon is IconProp => {
+  if (typeof icon === 'function' || (typeof icon === 'object' && icon !== null && !Array.isArray(icon))) return true;
   return Array.isArray(icon) &&
     icon.length >= 2 &&
     typeof icon[0] === 'string' &&
@@ -154,7 +156,7 @@ const isValidIcon = (icon: unknown): icon is [string, string] => {
 export const Default: Story = {
   args: {
     label: '메뉴 항목',
-    icon: ['buildings', 'home'],
+    icon: RiHomeLine,
     isActive: false,
     disabled: false,
     badgeLabel: '',

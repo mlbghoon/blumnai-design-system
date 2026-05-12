@@ -18,7 +18,7 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from '../Sidebar';
-import { Icon, RiArrowLeftRightLine, RiLogoutBoxLine } from '../../icons/Icon';
+import { Icon, RiArrowLeftRightLine, RiBarChartLine, RiGroupLine, RiHomeLine, RiLogoutBoxLine, RiSettingsLine } from '../../icons/Icon';
 
 type SidebarStoryProps = {
   open: boolean;
@@ -114,10 +114,10 @@ export default meta;
 type Story = StoryObj<SidebarStoryProps>;
 
 const menuItems = [
-  { icon: ['buildings', 'home'] as const, label: '대시보드', isActive: true },
-  { icon: ['business', 'bar-chart'] as const, label: 'Analytics' },
-  { icon: ['user', 'group'] as const, label: 'Users' },
-  { icon: ['system', 'settings'] as const, label: '설정' },
+  { icon: RiHomeLine, label: '대시보드', isActive: true },
+  { icon: RiBarChartLine, label: 'Analytics' },
+  { icon: RiGroupLine, label: 'Users' },
+  { icon: RiSettingsLine, label: '설정' },
 ];
 
 /**

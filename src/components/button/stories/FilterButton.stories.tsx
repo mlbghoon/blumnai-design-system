@@ -106,7 +106,7 @@ export const Default: Story = {
     label: '필터',
     size: 'md',
     shape: 'rounded',
-    icon: ['system', 'filter'],
+    icon: RiFilterLine,
     selected: false,
     disabled: false,
     asChild: false,

@@ -1,11 +1,16 @@
-import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
+import type {
+  HoverCardProps as RadixHoverCardProps,
+  HoverCardTriggerProps as RadixHoverCardTriggerProps,
+  HoverCardContentProps as RadixHoverCardContentProps,
+  HoverCardArrowProps as RadixHoverCardArrowProps,
+} from '@radix-ui/react-hover-card';
 
-export type HoverCardProps = React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Root>;
+export type HoverCardProps = RadixHoverCardProps;
 
-export type HoverCardTriggerProps = React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger>;
+export type HoverCardTriggerProps = RadixHoverCardTriggerProps;
 
 export interface HoverCardContentProps
-  extends React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> {
+  extends RadixHoverCardContentProps {
   container?: HTMLElement | null;
   /**
    * Custom width for the hover card content.
@@ -16,4 +21,4 @@ export interface HoverCardContentProps
   width?: number | string;
 }
 
-export type HoverCardArrowProps = React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Arrow>;
+export type HoverCardArrowProps = RadixHoverCardArrowProps;

@@ -171,7 +171,7 @@ export const Default: Story = {
     destructive: false,
     disabled: false,
     inset: false,
-    leadIcon: ['document', 'file-add'],
+    leadIcon: RiFileAddLine,
     leadIconFill: false,
     tailIcon: undefined,
     tailIconFill: false,

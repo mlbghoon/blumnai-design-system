@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { RiSearchLine } from '../../icons/Icon';
+import { RiFilterLine, RiSearchLine } from '../../icons/Icon';
 
 import { Input } from '../Input';
 
@@ -262,8 +262,8 @@ export const WithIcons: Story = {
     variant: 'default',
     label: '검색',
     placeholder: '검색...',
-    leadIcon: ['system', 'search'],
-    tailIcon: ['system', 'filter'],
+    leadIcon: RiSearchLine,
+    tailIcon: RiFilterLine,
   },
 };
 

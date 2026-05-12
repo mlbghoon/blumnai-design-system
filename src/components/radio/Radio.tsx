@@ -74,7 +74,7 @@ const RadioGroup = React.forwardRef<
       className={cn(
         'flex ds-gap-12',
         orientation === 'horizontal' ? 'flex-row flex-wrap' : 'flex-col',
-        className
+        !showCaption && className
       )}
       value={currentValue}
       onValueChange={handleValueChange}
@@ -96,7 +96,7 @@ const RadioGroup = React.forwardRef<
 
   return (
     <RadioContext.Provider value={ctx}>
-      <div className="flex flex-col">
+      <div className={cn('flex flex-col', className)}>
         {groupElement}
         <InputCaption
           id={captionElId}

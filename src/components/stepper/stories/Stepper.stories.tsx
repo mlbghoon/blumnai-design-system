@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { RiCheckLine, RiPlayLine, RiSearchLine, RiSettingsLine, RiUploadLine, RiUserAddLine } from '../../icons/Icon';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Stepper } from '../Stepper';
-import type { IconType } from '../../icons/Icon/Icon.types';
+import type { IconProp } from '../../icons/Icon';
 
 const meta: Meta<typeof Stepper> = {
   title: 'Navigation/Stepper',
@@ -143,11 +144,11 @@ const meta: Meta<typeof Stepper> = {
 export default meta;
 type Story = StoryObj<typeof Stepper>;
 
-const defaultSteps: { label: string; caption: string; icon: IconType }[] = [
-  { label: 'Account', caption: 'Create your account', icon: ['user', 'user-add'] },
-  { label: 'Profile', caption: 'Set up your profile', icon: ['system', 'settings'] },
-  { label: 'Review', caption: 'Review your details', icon: ['system', 'search'] },
-  { label: 'Complete', caption: 'All done!', icon: ['system', 'check'] },
+const defaultSteps: { label: string; caption: string; icon: IconProp }[] = [
+  { label: 'Account', caption: 'Create your account', icon: RiUserAddLine },
+  { label: 'Profile', caption: 'Set up your profile', icon: RiSettingsLine },
+  { label: 'Review', caption: 'Review your details', icon: RiSearchLine },
+  { label: 'Complete', caption: 'All done!', icon: RiCheckLine },
 ];
 
 /**
@@ -244,11 +245,11 @@ export const Vertical: Story = {
  */
 export const WithIcons: Story = {
   render: () => {
-    const iconSteps: { label: string; caption: string; icon: IconType }[] = [
-      { label: 'Upload', caption: 'Select files', icon: ['system', 'upload'] },
-      { label: 'Configure', caption: 'Set options', icon: ['system', 'settings'] },
-      { label: 'Process', caption: 'Processing...', icon: ['media', 'play'] },
-      { label: 'Done', caption: 'Download result', icon: ['system', 'check'] },
+    const iconSteps: { label: string; caption: string; icon: IconProp }[] = [
+      { label: 'Upload', caption: 'Select files', icon: RiUploadLine },
+      { label: 'Configure', caption: 'Set options', icon: RiSettingsLine },
+      { label: 'Process', caption: 'Processing...', icon: RiPlayLine },
+      { label: 'Done', caption: 'Download result', icon: RiCheckLine },
     ];
 
     return (

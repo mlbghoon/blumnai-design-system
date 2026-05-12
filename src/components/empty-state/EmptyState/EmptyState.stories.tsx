@@ -93,7 +93,7 @@ type Story = StoryObj<typeof EmptyState>;
  */
 export const Default: Story = {
   args: {
-    icon: ['system', 'search'],
+    icon: RiSearchLine,
     title: '검색 결과가 없습니다',
     description: '다른 키워드로 다시 검색해 보세요.',
     variant: 'default',

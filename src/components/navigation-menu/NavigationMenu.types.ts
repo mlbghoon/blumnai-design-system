@@ -1,26 +1,27 @@
 import type React from 'react';
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import type * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
+import type { ReactNode } from 'react';
+import type {
+  NavigationMenuProps as RadixNavigationMenuProps,
+  NavigationMenuListProps as RadixNavigationMenuListProps,
+  NavigationMenuItemProps as RadixNavigationMenuItemProps,
+  NavigationMenuTriggerProps as RadixNavigationMenuTriggerProps,
+  NavigationMenuContentProps as RadixNavigationMenuContentProps,
+  NavigationMenuLinkProps as RadixNavigationMenuLinkProps,
+  NavigationMenuViewportProps as RadixNavigationMenuViewportProps,
+  NavigationMenuIndicatorProps as RadixNavigationMenuIndicatorProps,
+} from '@radix-ui/react-navigation-menu';
 import type { IconProp } from '../icons/Icon';
 
-export type NavigationMenuProps = ComponentPropsWithoutRef<
-  typeof NavigationMenuPrimitive.Root
->;
+export type NavigationMenuProps = RadixNavigationMenuProps;
 
-export type NavigationMenuListProps = ComponentPropsWithoutRef<
-  typeof NavigationMenuPrimitive.List
->;
+export type NavigationMenuListProps = RadixNavigationMenuListProps;
 
-export type NavigationMenuItemProps = ComponentPropsWithoutRef<
-  typeof NavigationMenuPrimitive.Item
->;
+export type NavigationMenuItemProps = RadixNavigationMenuItemProps;
 
-export type NavigationMenuTriggerProps = ComponentPropsWithoutRef<
-  typeof NavigationMenuPrimitive.Trigger
->;
+export type NavigationMenuTriggerProps = RadixNavigationMenuTriggerProps;
 
 export interface NavigationMenuContentProps
-  extends ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content> {
+  extends RadixNavigationMenuContentProps {
   /**
    * 콘텐츠 너비
    */
@@ -28,20 +29,16 @@ export interface NavigationMenuContentProps
 }
 
 export interface NavigationMenuLinkProps
-  extends ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Link> {
+  extends RadixNavigationMenuLinkProps {
   /**
    * 활성 상태
    */
   active?: boolean;
 }
 
-export type NavigationMenuViewportProps = ComponentPropsWithoutRef<
-  typeof NavigationMenuPrimitive.Viewport
->;
+export type NavigationMenuViewportProps = RadixNavigationMenuViewportProps;
 
-export type NavigationMenuIndicatorProps = ComponentPropsWithoutRef<
-  typeof NavigationMenuPrimitive.Indicator
->;
+export type NavigationMenuIndicatorProps = RadixNavigationMenuIndicatorProps;
 
 /**
  * 리스트 아이템 컴포넌트 Props (mega-menu용)

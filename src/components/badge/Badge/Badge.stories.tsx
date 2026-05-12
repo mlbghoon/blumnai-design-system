@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { RiAtLine } from '../../icons/Icon';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -151,7 +152,7 @@ export const Default: Story = {
     shape: 'rounded',
     border: false,
     closeIcon: false,
-    icon: ['business', 'at'],
+    icon: RiAtLine,
     image: 'https://placehold.co/12',
     className: '',
   },
@@ -183,7 +184,7 @@ export const WithIcon: Story = {
   args: {
     variant: 'icon',
     label: '배지',
-    icon: ['business', 'at'],
+    icon: RiAtLine,
     size: 'sm',
     color: 'neutral',
     shape: 'rounded',

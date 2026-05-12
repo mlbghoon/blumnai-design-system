@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { RiFolderOpenFill, RiHomeLine } from '../../icons/Icon';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -74,14 +75,14 @@ export default meta;
 type Story = StoryObj<typeof Breadcrumbs>;
 
 const sampleItems = [
-  { label: 'Home', href: '/', icon: ['document', 'folder-open', true] as const },
+  { label: 'Home', href: '/', icon: RiFolderOpenFill },
   { label: 'Products', href: '/products' },
   { label: 'Category', href: '/products/category' },
   { label: 'Current Page' },
 ];
 
 const itemsWithIcons = [
-  { label: 'Label', icon: ['document', 'folder-open', true] as const },
+  { label: 'Label', icon: RiFolderOpenFill },
   { label: 'Label' },
   { label: 'Label' },
 ];
@@ -244,7 +245,7 @@ export const WithOnClick: Story = {
       items={[
         {
           label: 'Home',
-          icon: ['buildings', 'home'],
+          icon: RiHomeLine,
           onClick: () => console.log('Home clicked'),
         },
         {

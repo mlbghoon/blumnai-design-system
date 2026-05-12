@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiExternalLinkLine, RiMoneyDollarCircleLine } from '../../icons/Icon';
 import { useState } from 'react';
 
 import { Input } from '../Input';
@@ -372,7 +373,7 @@ export const WithLeadIcon: Story = {
     placeholder: '0.00',
     prefix: '$',
     suffix: 'USD',
-    leadIcon: ['finance', 'money-dollar-circle'],
+    leadIcon: RiMoneyDollarCircleLine,
   },
 };
 
@@ -388,7 +389,7 @@ export const WithTailIcon: Story = {
     placeholder: 'your-site',
     prefix: 'https://',
     suffix: '.com',
-    tailIcon: ['system', 'external-link'],
+    tailIcon: RiExternalLinkLine,
   },
 };
 

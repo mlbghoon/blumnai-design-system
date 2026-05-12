@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { RiHomeLine, RiNotificationLine, RiSettingsLine, RiUserLine } from '../../icons/Icon';
 import { useState } from 'react';
 
 import { Select } from '../Select';
@@ -13,10 +14,10 @@ const defaultOptions: SelectOption[] = [
 ];
 
 const optionsWithIcons: SelectOption[] = [
-  { id: 'home', label: '홈', leadIcon: ['buildings', 'home'] },
-  { id: 'settings', label: '설정', leadIcon: ['system', 'settings'] },
-  { id: 'user', label: '사용자 프로필', leadIcon: ['user', 'user'] },
-  { id: 'notification', label: '알림', leadIcon: ['media', 'notification'] },
+  { id: 'home', label: '홈', leadIcon: RiHomeLine },
+  { id: 'settings', label: '설정', leadIcon: RiSettingsLine },
+  { id: 'user', label: '사용자 프로필', leadIcon: RiUserLine },
+  { id: 'notification', label: '알림', leadIcon: RiNotificationLine },
 ];
 
 const optionsWithDescriptions: SelectOption[] = [

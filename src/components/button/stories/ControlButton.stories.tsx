@@ -131,7 +131,7 @@ type Story = StoryObj<typeof ControlButton>;
  */
 export const Default: Story = {
   args: {
-    icon: ['media', 'play'],
+    icon: RiPlayLine,
     'aria-label': 'Play',
     buttonStyle: 'default',
     size: 'md',
