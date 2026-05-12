@@ -155,7 +155,7 @@ const AlertDialogDescription = React.forwardRef<
   <AlertDialogPrimitive.Description
     ref={ref}
     className={cn(
-      'font-body size-sm line-height-leading-5 text-muted',
+      'font-body size-sm line-height-leading-5 text-muted whitespace-pre-line',
       className
     )}
     {...props}

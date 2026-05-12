@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.13] - 2026-05-12
+
+### Fixed — `SimpleAlertDialog` / `AlertDialogDescription` 의 `description` 내 `\n` 이 무시되던 문제
+
+`AlertDialogDescription` 은 `<p>` 로 렌더되는데, 브라우저가 일반 `<p>` 안의 `\n` 을 공백 하나로 접어버려서 `description="줄1\n줄2"` 처럼 넘긴 줄바꿈이 표시되지 않았습니다. `whitespace-pre-line` 을 추가해 `\n` 이 줄바꿈으로 렌더되도록 수정 (다른 공백·줄바꿈 wrapping 동작은 그대로). `SimpleAlertDialog` 와 단독 `<AlertDialogDescription>` export 둘 다 적용.
+
+- `src/components/dialog/AlertDialog.tsx`
+
 ## [1.10.12] - 2026-05-12
 
 ### Fixed — Radix prop 타입을 `ComponentPropsWithoutRef<typeof XPrimitive.Y>` 대신 Radix export 타입 직접 사용 (TS2590 회피)
