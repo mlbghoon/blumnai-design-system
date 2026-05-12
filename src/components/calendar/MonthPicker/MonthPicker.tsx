@@ -55,6 +55,7 @@ export const MonthPicker = ({
   presets,
   size = 'sm',
   pickerOnly = false,
+  hideCalendarIcon = false,
   showActions = false,
   open: openProp,
   onOpenChange,
@@ -267,6 +268,7 @@ export const MonthPicker = ({
               isOpen={open}
               size={size}
               pickerOnly={pickerOnly}
+              hideCalendarIcon={hideCalendarIcon}
               minDate={minDate}
               maxDate={maxDate}
               onCalendarClick={() => !disabled && handleOpenChange(!open)}

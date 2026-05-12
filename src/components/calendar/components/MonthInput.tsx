@@ -27,6 +27,8 @@ interface MonthInputProps {
   onBlur?: () => void;
   onCalendarClick?: () => void;
   className?: string;
+  /** 우측 캘린더 아이콘 숨김 @default false */
+  hideCalendarIcon?: boolean;
 }
 
 const validateYear = (value: string): boolean => {
@@ -58,6 +60,7 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
   onBlur,
   onCalendarClick,
   className,
+  hideCalendarIcon = false,
 }, ref) => {
   // picker-level invalid = min/max 경계 밖. 훅 내부 format invalid와 externalInvalid로 합성됨
   const [boundsInvalid, setBoundsInvalid] = useState(false);
@@ -213,22 +216,24 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
         <span className="text-hint size-sm">.</span>
         {renderSegment('month')}
       </div>
-      <button
-        type="button"
-        disabled={disabled}
-        onClick={handleCalendarIconClick}
-        className={cn(
-          'flex-shrink-0 flex items-center justify-center',
-          'hover:bg-state-ghost-hover rounded-xs transition-colors',
-          disabled ? 'cursor-not-allowed' : 'cursor-pointer'
-        )}
-      >
-        <Icon
-          icon={RiCalendarLine}
-          size={sizeConfig.iconSize}
-          color={iconColor}
-        />
-      </button>
+      {!hideCalendarIcon && (
+        <button
+          type="button"
+          disabled={disabled}
+          onClick={handleCalendarIconClick}
+          className={cn(
+            'flex-shrink-0 flex items-center justify-center',
+            'hover:bg-state-ghost-hover rounded-xs transition-colors',
+            disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+          )}
+        >
+          <Icon
+            icon={RiCalendarLine}
+            size={sizeConfig.iconSize}
+            color={iconColor}
+          />
+        </button>
+      )}
     </div>
   );
 });

@@ -28,6 +28,8 @@ interface MonthRangeInputProps {
   onBlur?: () => void;
   onCalendarClick?: () => void;
   className?: string;
+  /** 우측 캘린더 아이콘 숨김 @default false */
+  hideCalendarIcon?: boolean;
 }
 
 const validateYear = (value: string): boolean => {
@@ -70,6 +72,7 @@ export const MonthRangeInput = forwardRef<HTMLDivElement, MonthRangeInputProps>(
   onBlur,
   onCalendarClick,
   className,
+  hideCalendarIcon = false,
 }, ref) => {
   const isInputFocused = useRef(false);
 
@@ -240,22 +243,24 @@ export const MonthRangeInput = forwardRef<HTMLDivElement, MonthRangeInputProps>(
           {renderSegment('toMonth')}
         </div>
       </div>
-      <button
-        type="button"
-        disabled={disabled}
-        onClick={handleCalendarIconClick}
-        className={cn(
-          'flex-shrink-0 flex items-center justify-center',
-          'hover:bg-state-ghost-hover rounded-xs transition-colors',
-          disabled ? 'cursor-not-allowed' : 'cursor-pointer'
-        )}
-      >
-        <Icon
-          icon={RiCalendarLine}
-          size={sizeConfig.iconSize}
-          color={iconColor}
-        />
-      </button>
+      {!hideCalendarIcon && (
+        <button
+          type="button"
+          disabled={disabled}
+          onClick={handleCalendarIconClick}
+          className={cn(
+            'flex-shrink-0 flex items-center justify-center',
+            'hover:bg-state-ghost-hover rounded-xs transition-colors',
+            disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+          )}
+        >
+          <Icon
+            icon={RiCalendarLine}
+            size={sizeConfig.iconSize}
+            color={iconColor}
+          />
+        </button>
+      )}
     </div>
   );
 });

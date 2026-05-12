@@ -108,6 +108,7 @@ export const DatePicker = ({
   confirmLabel = '확인',
   cancelLabel = '취소',
   pickerOnly = false,
+  hideCalendarIcon = false,
   open: openProp,
   onOpenChange,
   trigger,
@@ -278,6 +279,7 @@ export const DatePicker = ({
               hasSuccess={hasSuccess}
               isOpen={open}
               pickerOnly={pickerOnly}
+              hideCalendarIcon={hideCalendarIcon}
               dateFormat={dateFormat}
               minDate={minDate}
               maxDate={maxDate}
@@ -300,6 +302,7 @@ interface CompactRangeTriggerProps {
   hasSuccess: boolean;
   isOpen: boolean;
   dateFormat: DateFormat;
+  hideCalendarIcon?: boolean;
   onClick: () => void;
 }
 
@@ -312,6 +315,7 @@ const CompactRangeTrigger = ({
   hasSuccess,
   isOpen,
   dateFormat,
+  hideCalendarIcon = false,
   onClick,
 }: CompactRangeTriggerProps) => {
   const sizeConfig = SIZE_CONFIG[size];
@@ -364,12 +368,14 @@ const CompactRangeTrigger = ({
       >
         {displayText || dateFormat.toLowerCase()}
       </span>
-      <Icon
-        icon={RiCalendarLine}
-        size={sizeConfig.iconSize}
-        color={iconColor}
-        className="flex-shrink-0"
-      />
+      {!hideCalendarIcon && (
+        <Icon
+          icon={RiCalendarLine}
+          size={sizeConfig.iconSize}
+          color={iconColor}
+          className="flex-shrink-0"
+        />
+      )}
     </button>
   );
 };
@@ -418,6 +424,7 @@ export const DateRangePicker = ({
   cancelLabel = '취소',
   triggerVariant = 'default',
   pickerOnly = false,
+  hideCalendarIcon = false,
   open: openProp,
   onOpenChange,
   trigger,
@@ -649,6 +656,7 @@ export const DateRangePicker = ({
                 hasSuccess={hasSuccess}
                 isOpen={open}
                 dateFormat={dateFormat}
+                hideCalendarIcon={hideCalendarIcon}
                 onClick={handleOpenCalendar}
               />
             ) : (
@@ -662,6 +670,7 @@ export const DateRangePicker = ({
                 hasSuccess={hasSuccess}
                 isOpen={open}
                 pickerOnly={pickerOnly}
+                hideCalendarIcon={hideCalendarIcon}
                 dateFormat={dateFormat}
                 minDate={minDate}
                 maxDate={maxDate}

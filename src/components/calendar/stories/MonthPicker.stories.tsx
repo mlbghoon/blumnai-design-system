@@ -85,6 +85,14 @@ const meta: Meta<typeof MonthPicker> = {
         type: { summary: 'boolean' },
       },
     },
+    hideCalendarIcon: {
+      control: 'boolean',
+      description: '입력 필드 우측의 캘린더 아이콘 버튼을 숨깁니다. 기본 입력 모드에서는 아이콘이 캘린더를 여는 유일한 클릭 타깃이므로, 숨길 경우 pickerOnly / 제어 모드(open) / trigger 와 함께 사용하세요',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
     showQuickPresets: {
       control: 'boolean',
       description: '빠른 선택 프리셋 표시 여부',
@@ -143,6 +151,7 @@ export const Default: Story = {
     label: '월 선택',
     locale: 'ko',
     disabled: false,
+    hideCalendarIcon: false,
     disabledFuture: false,
     showQuickPresets: false,
     showActions: false,
@@ -158,6 +167,7 @@ export const Default: Story = {
           label={args.label}
           locale={args.locale}
           disabled={args.disabled}
+          hideCalendarIcon={args.hideCalendarIcon}
           disabledFuture={args.disabledFuture}
           showQuickPresets={args.showQuickPresets}
           showActions={args.showActions}

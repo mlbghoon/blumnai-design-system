@@ -83,6 +83,7 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
   onBlur,
   onCalendarClick,
   className,
+  hideCalendarIcon = false,
 }, ref) => {
   const segmentOrder = getSegmentOrderFromFormat(dateFormat);
   const separator = getSeparatorFromFormat(dateFormat);
@@ -353,22 +354,24 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
         <span className="text-hint size-sm">{separator}</span>
         {renderSegment(segmentOrder[2])}
       </div>
-      <button
-        type="button"
-        disabled={disabled}
-        onClick={handleCalendarIconClick}
-        className={cn(
-          'flex-shrink-0 flex items-center justify-center',
-          'hover:bg-state-ghost-hover rounded-xs transition-colors',
-          disabled ? 'cursor-not-allowed' : 'cursor-pointer'
-        )}
-      >
-        <Icon
-          icon={RiCalendarLine}
-          size={sizeConfig.iconSize}
-          color={iconColor}
-        />
-      </button>
+      {!hideCalendarIcon && (
+        <button
+          type="button"
+          disabled={disabled}
+          onClick={handleCalendarIconClick}
+          className={cn(
+            'flex-shrink-0 flex items-center justify-center',
+            'hover:bg-state-ghost-hover rounded-xs transition-colors',
+            disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+          )}
+        >
+          <Icon
+            icon={RiCalendarLine}
+            size={sizeConfig.iconSize}
+            color={iconColor}
+          />
+        </button>
+      )}
     </div>
   );
 });

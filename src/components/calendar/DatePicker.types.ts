@@ -162,6 +162,14 @@ export interface DatePickerBaseProps {
    */
   pickerOnly?: boolean;
   /**
+   * 입력 필드 우측의 캘린더 아이콘 버튼을 숨깁니다.
+   * 기본 입력 모드(`pickerOnly=false`)에서는 아이콘이 캘린더를 여는 유일한 클릭 타깃이므로,
+   * 숨길 경우 `pickerOnly`(입력 영역 클릭으로 열림), 제어 모드(`open`/`onOpenChange`), 또는
+   * `trigger` 와 함께 사용하세요.
+   * @default false
+   */
+  hideCalendarIcon?: boolean;
+  /**
    * 제어 모드 팝오버 오픈 상태. 전달 시 내부 상태 대신 이 값을 사용합니다.
    * 반드시 `onOpenChange`와 함께 사용하세요 (단독 사용 시 dev console.warn 발생, 팝오버가 닫히지 않음).
    */
@@ -260,6 +268,8 @@ export interface DatePickerInputProps {
   hasSuccess?: boolean;
   isOpen?: boolean;
   onClick?: () => void;
+  /** 우측 캘린더 아이콘 숨김 @default false */
+  hideCalendarIcon?: boolean;
 }
 
 /**
@@ -304,6 +314,8 @@ export interface DateInputProps {
   onBlur?: () => void;
   onCalendarClick?: () => void;
   className?: string;
+  /** 우측 캘린더 아이콘 숨김 @default false */
+  hideCalendarIcon?: boolean;
 }
 
 /**
@@ -329,6 +341,8 @@ export interface DateRangeInputProps {
   onBlur?: () => void;
   onCalendarClick?: () => void;
   className?: string;
+  /** 우측 캘린더 아이콘 숨김 @default false */
+  hideCalendarIcon?: boolean;
 }
 
 export type { DateRange };

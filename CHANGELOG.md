@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.10.11] - 2026-05-12
+
+### Added — `DatePicker` / `DateRangePicker` / `MonthPicker` / `MonthRangePicker` 에 `hideCalendarIcon` prop
+
+입력 필드 우측의 캘린더 아이콘 버튼을 숨기는 옵션. `TimePicker` / `TimeRangePicker` 가 이미 가지고 있던 `hideClockIcon` 과 동일한 패턴 — 캘린더 계열 4개 컴포넌트에도 추가.
+
+```tsx
+<DatePicker hideCalendarIcon pickerOnly value={date} onChange={setDate} />
+<DateRangePicker hideCalendarIcon ... />   // triggerVariant='default'/'compact' 모두 적용
+<MonthPicker hideCalendarIcon ... />
+<MonthRangePicker hideCalendarIcon ... />
+```
+
+`@default false` — 기존 동작 그대로. **주의:** 기본 입력 모드(`pickerOnly=false`)에서는 아이콘이 캘린더 팝오버를 여는 유일한 클릭 타깃이므로, `hideCalendarIcon` 만 켜면 캘린더를 클릭으로 열 수 없습니다. `pickerOnly`(입력 영역 클릭으로 열림), 제어 모드(`open`/`onOpenChange`), 또는 `trigger` 와 함께 사용하세요. (JSDoc 에 동일 안내 포함.)
+
+내부 입력 컴포넌트(`DateInput` / `DateRangeInput` / `MonthInput` / `MonthRangeInput` / `DatePickerInput`)와 `DateRangePicker` 의 compact 트리거에도 `hideCalendarIcon` prop 전달. Storybook: 4개 스토리 모두 Default 컨트롤에 `hideCalendarIcon` 추가, `DatePicker/HideCalendarIcon` 데모 스토리 추가.
+
+- `src/components/calendar/DatePicker.tsx` / `DatePicker.types.ts` — `DatePickerBaseProps` + 입력 컴포넌트 props 에 `hideCalendarIcon`, `CompactRangeTrigger` 에 조건부 렌더
+- `src/components/calendar/components/{DateInput,DateRangeInput,MonthInput,MonthRangeInput,DatePickerInput}.tsx` — 아이콘 버튼 조건부 렌더
+- `src/components/calendar/MonthPicker/MonthPicker.{tsx,types.ts}` · `MonthRangePicker/MonthRangePicker.{tsx,types.ts}` — prop 추가 + 전달
+- `src/components/calendar/stories/{DatePicker,DateRangePicker,MonthPicker,MonthRangePicker}.stories.tsx` — argTypes/args/render 에 추가, `HideCalendarIcon` 스토리
+
 ## [1.10.10] - 2026-05-11
 
 ### Fixed — `<Select searchable>` 드롭다운이 모달 `Dialog` 안에서 옵션 리스트 위 휠 스크롤이 안 되던 문제 (v1.10.9 후속)

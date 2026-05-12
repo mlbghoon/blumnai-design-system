@@ -23,6 +23,7 @@ export const DatePickerInput = forwardRef<HTMLButtonElement, DatePickerInputProp
   hasSuccess = false,
   isOpen = false,
   onClick,
+  hideCalendarIcon = false,
 }, ref) => {
   const sizeConfig = SIZE_CONFIG[size];
   const styleConfig = STYLE_CONFIG[datePickerStyle];
@@ -63,12 +64,14 @@ export const DatePickerInput = forwardRef<HTMLButtonElement, DatePickerInputProp
       <span className={textClassName}>
         {displayValue || placeholder}
       </span>
-      <Icon
-        icon={RiCalendarLine}
-        size={sizeConfig.iconSize}
-        color={iconColor}
-        className="flex-shrink-0"
-      />
+      {!hideCalendarIcon && (
+        <Icon
+          icon={RiCalendarLine}
+          size={sizeConfig.iconSize}
+          color={iconColor}
+          className="flex-shrink-0"
+        />
+      )}
     </button>
   );
 });

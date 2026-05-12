@@ -38,6 +38,13 @@ export interface MonthPickerProps {
    */
   pickerOnly?: boolean;
   /**
+   * 입력 필드 우측의 캘린더 아이콘 버튼을 숨깁니다.
+   * 기본 입력 모드(`pickerOnly=false`)에서는 아이콘이 캘린더를 여는 유일한 클릭 타깃이므로,
+   * 숨길 경우 `pickerOnly`, 제어 모드(`open`/`onOpenChange`), 또는 `trigger` 와 함께 사용하세요.
+   * @default false
+   */
+  hideCalendarIcon?: boolean;
+  /**
    * true일 때 팝오버 하단에 적용/취소 버튼이 표시되며, `onChange`는 "적용" 클릭 시에만 발생합니다.
    * 취소, 외부 클릭, ESC 등으로 닫으면 드래프트가 폐기되고 `onChange`는 발생하지 않습니다.
    * GraphQL refetch, reactive-var write 등 commit-on-apply 시맨틱이 필요한 경우 사용하세요.

@@ -99,6 +99,11 @@ const meta: Meta<StoryProps> = {
       description: '비활성화 여부',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
+    hideCalendarIcon: {
+      control: 'boolean',
+      description: '입력 필드 우측의 캘린더 아이콘 버튼을 숨깁니다. 기본 입력 모드에서는 아이콘이 캘린더를 여는 유일한 클릭 타깃이므로, 숨길 경우 pickerOnly / 제어 모드(open) / trigger 와 함께 사용하세요',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
     showQuickPresets: {
       control: 'boolean',
       description: '빠른 프리셋 표시 여부',
@@ -250,6 +255,7 @@ export const Default: Story = {
     error: '',
     success: '',
     disabled: false,
+    hideCalendarIcon: false,
     align: 'start',
   },
   parameters: {
@@ -277,6 +283,7 @@ export const Default: Story = {
         error={args.error}
         success={args.success}
         disabled={args.disabled}
+        hideCalendarIcon={args.hideCalendarIcon}
         align={args.align}
         locale={locale}
         captionLayout={args.captionLayout}

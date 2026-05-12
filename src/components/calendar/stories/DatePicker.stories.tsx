@@ -98,6 +98,11 @@ const meta: Meta<StoryProps> = {
       description: 'true로 설정하면 날짜 선택기가 비활성화되어 클릭이나 입력을 할 수 없습니다',
       table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
     },
+    hideCalendarIcon: {
+      control: 'boolean',
+      description: '입력 필드 우측의 캘린더 아이콘 버튼을 숨깁니다. 기본 입력 모드에서는 아이콘이 캘린더를 여는 유일한 클릭 타깃이므로, 숨길 경우 pickerOnly / 제어 모드(open) / trigger 와 함께 사용하세요',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
     showQuickPresets: {
       control: 'boolean',
       description: 'true로 설정하면 캘린더 옆에 오늘, 어제, 1주 전 등 빠른 날짜 선택 버튼이 표시됩니다',
@@ -230,6 +235,7 @@ export const Default: Story = {
     error: '',
     success: '',
     disabled: false,
+    hideCalendarIcon: false,
     align: 'start',
   },
   parameters: {
@@ -256,6 +262,7 @@ export const Default: Story = {
         error={args.error}
         success={args.success}
         disabled={args.disabled}
+        hideCalendarIcon={args.hideCalendarIcon}
         align={args.align}
         locale={locale}
         captionLayout={args.captionLayout}
@@ -546,6 +553,37 @@ export const PickerOnly: Story = {
           value={date}
           onChange={setDate}
           pickerOnly
+        />
+      </div>
+    );
+  },
+};
+
+/**
+ * 캘린더 아이콘 숨김 (`hideCalendarIcon`)
+ *
+ * 우측 캘린더 아이콘 버튼을 제거합니다. 기본 입력 모드에서는 아이콘이 캘린더를 여는 유일한
+ * 클릭 타깃이므로 보통 `pickerOnly`(입력 영역 클릭으로 열림)와 함께 씁니다. 두 번째 예시는
+ * 타이핑은 가능하되 아이콘만 없는 경우 — 캘린더는 외부 제어/`trigger` 로 열어야 합니다.
+ */
+export const HideCalendarIcon: Story = {
+  render: function Render() {
+    const [a, setA] = useState<Date | undefined>();
+    const [b, setB] = useState<Date | undefined>();
+    return (
+      <div className="flex flex-col ds-gap-16" style={{ width: 260 }}>
+        <DatePicker
+          label="아이콘 없음 + pickerOnly"
+          value={a}
+          onChange={setA}
+          hideCalendarIcon
+          pickerOnly
+        />
+        <DatePicker
+          label="아이콘 없음 (타이핑만)"
+          value={b}
+          onChange={setB}
+          hideCalendarIcon
         />
       </div>
     );
