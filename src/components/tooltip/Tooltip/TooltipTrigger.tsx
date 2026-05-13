@@ -259,6 +259,7 @@ export function TooltipTrigger({
         ref={setFloating}
         id={tooltipId}
         role="tooltip"
+        className="blumnai-floating-content blumnai-tooltip-content"
         style={{
           ...floatingStyles,
           zIndex: zIndex ?? defaultZIndex,

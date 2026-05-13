@@ -367,6 +367,7 @@ export const DropdownInput = forwardRef<HTMLInputElement, DropdownInputProps>(({
       <DismissableLayer
         ref={menuRef}
         className={cn(
+          'blumnai-floating-content blumnai-select-content',
           DROPDOWN_MENU_BASE,
           'fixed'
         )}

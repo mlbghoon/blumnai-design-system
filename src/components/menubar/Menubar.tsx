@@ -106,6 +106,7 @@ const MenubarContent = React.forwardRef<
         alignOffset={alignOffset}
         sideOffset={sideOffset}
         className={cn(
+          "blumnai-floating-content blumnai-menubar-content",
           "z-50 min-w-[192px] max-h-[var(--radix-menubar-content-available-height)] overflow-y-auto overflow-x-hidden scrollbar-thin rounded-lg bg-card padding-4 text-default shadow-modal-sm",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
@@ -131,6 +132,7 @@ const MenubarSubContent = React.forwardRef<
   <MenubarPrimitive.SubContent
     ref={ref}
     className={cn(
+      "blumnai-floating-content blumnai-menubar-sub-content",
       "z-50 min-w-[128px] max-h-[var(--radix-menubar-content-available-height)] overflow-y-auto overflow-x-hidden scrollbar-thin rounded-lg bg-card padding-4 text-default shadow-modal-sm",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",

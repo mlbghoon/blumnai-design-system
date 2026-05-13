@@ -272,6 +272,7 @@ const SelectContent = React.forwardRef<
         sideOffset={sideOffset}
         collisionPadding={8}
         className={cn(
+          'blumnai-floating-content blumnai-select-content',
           'relative z-[10100] min-w-[128px] overflow-y-auto overflow-x-hidden scrollbar-thin',
           'bg-card rounded-lg shadow-modal-sm',
           'data-[state=open]:animate-in data-[state=closed]:animate-out',

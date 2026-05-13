@@ -75,6 +75,7 @@ const PopoverContent = React.forwardRef<
         align={align}
         sideOffset={sideOffset}
         className={cn(
+          'blumnai-floating-content blumnai-popover-content',
           'z-50 [width:288px] rounded-lg bg-card padding-16 text-default shadow-modal-sm outline-none',
           getAnimationClasses(animation),
           'origin-[--radix-popover-content-transform-origin]',

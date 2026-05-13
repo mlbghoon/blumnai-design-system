@@ -1,5 +1,44 @@
 # Changelog
 
+## [1.10.14] - 2026-05-13
+
+### Added — overlay / floating / 모달 컨테이너에 안정적인 hook className 부여
+
+포털로 렌더되는(consumer JSX 트리 밖, 보통 `document.body`) 엘리먼트와 모달의 dim 배경·패널은 그동안 소비자가 Radix 내부 속성(`[data-radix-popper-content-wrapper]` 등)에 의존해야만 스타일링할 수 있었습니다. 이제 각 엘리먼트에 `blumnai-*` 접두 className 을 부여해 z-index 조정, 전역 폰트/리셋 재적용, `@media print` 숨김, E2E 셀렉터 등에 안정적으로 쓸 수 있습니다. 모두 **className 추가만** — 런타임 동작/공개 API 변경 없음. 소비자가 넘긴 `className` 이 항상 뒤에 와서 충돌 시 소비자 값이 이깁니다.
+
+**Overlay (dim 배경):**
+
+| Component | className |
+|---|---|
+| `Dialog` | `blumnai-overlay blumnai-dialog-overlay` |
+| `AlertDialog` / `SimpleAlertDialog` | `blumnai-overlay blumnai-alert-dialog-overlay` |
+| `Drawer` | `blumnai-overlay blumnai-drawer-overlay` |
+| `Sheet` | `blumnai-overlay blumnai-sheet-overlay` |
+
+**Floating panel (포털, `blumnai-floating-content` 공통 + 개별):**
+
+| Component | 개별 className |
+|---|---|
+| `Popover` | `blumnai-popover-content` |
+| `HoverCard` | `blumnai-hover-card-content` |
+| `Tooltip` (`TooltipTrigger`, table tooltip) | `blumnai-tooltip-content` |
+| `DropdownMenu` | `blumnai-dropdown-content` / `blumnai-dropdown-sub-content` |
+| `ContextMenu` | `blumnai-context-menu-content` / `blumnai-context-menu-sub-content` |
+| `Menubar` | `blumnai-menubar-content` / `blumnai-menubar-sub-content` |
+| `Select` / `MultiSelect` / `VirtualSelect` / `Combobox` / `DropdownInput` 메뉴 | `blumnai-select-content` |
+
+**모달 패널 / 슬롯:**
+
+| Element | className |
+|---|---|
+| `DialogContent` | `blumnai-dialog-content` |
+| `DialogHeader` / `DialogFooter` | `blumnai-dialog-header` / `blumnai-dialog-footer` |
+| `AlertDialogContent` | `blumnai-alert-dialog-content` |
+| `DrawerContent` | `blumnai-drawer-content` |
+| `SheetContent` | `blumnai-sheet-content` |
+
+**Toast (`BlumnaiToaster`):** Toaster 래퍼에 `blumnai-toast-viewport`, 개별 토스트에 `blumnai-toast`. fixed 하단 네비/쿠키 배너와 겹칠 때 `.blumnai-toast-viewport { bottom: 72px }` 처럼 조정 가능. (`className` prop 은 viewport 클래스와 머지됨.)
+
 ## [1.10.13] - 2026-05-12
 
 ### Fixed — `SimpleAlertDialog` / `AlertDialogDescription` 의 `description` 내 `\n` 이 무시되던 문제

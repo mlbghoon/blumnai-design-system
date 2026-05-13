@@ -1,5 +1,7 @@
 import { Toaster } from 'sonner';
 
+import { cn } from '@/lib/utils';
+
 import type { BlumnaiToasterProps } from './Toast.types';
 
 /**
@@ -16,12 +18,15 @@ import type { BlumnaiToasterProps } from './Toast.types';
 export const BlumnaiToaster = ({
   visibleToasts = 3,
   position = 'bottom-right',
+  className,
   ...props
 }: BlumnaiToasterProps) => {
   return (
     <Toaster
       position={position}
       visibleToasts={visibleToasts}
+      className={cn('blumnai-toast-viewport', className)}
+      toastOptions={{ className: 'blumnai-toast' }}
       {...props}
     />
   );

@@ -33,6 +33,7 @@ const AlertDialogOverlay = React.forwardRef<
   <AlertDialogPrimitive.Overlay
     ref={ref}
     className={cn(
+      'blumnai-overlay blumnai-alert-dialog-overlay',
       'fixed inset-0 z-[10000] bg-overlay',
       'data-[state=open]:animate-in data-[state=closed]:animate-out',
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
@@ -74,6 +75,7 @@ const AlertDialogContent = React.forwardRef<
         ref={composedRef}
         onEscapeKeyDown={(e) => e.preventDefault()}
         className={cn(
+          'blumnai-alert-dialog-content',
           'fixed left-[50%] top-[50%] z-[10000] grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%]',
           'ds-gap-16 bg-card padding-24 shadow-modal-lg rounded-lg',
           // Radix focus trap fallback 시 브라우저 기본 outline 이 모달 전체에

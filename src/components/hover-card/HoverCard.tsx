@@ -33,6 +33,7 @@ const HoverCardContent = React.forwardRef<
       align={align}
       sideOffset={sideOffset}
       className={cn(
+        'blumnai-floating-content blumnai-hover-card-content',
         'z-50 rounded-lg bg-card padding-16 text-default shadow-modal-sm outline-none',
         !width && '[width:256px]',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',

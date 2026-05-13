@@ -77,6 +77,7 @@ const DropdownMenuContent = React.forwardRef<
         ref={ref}
         sideOffset={sideOffset}
         className={cn(
+          "blumnai-floating-content blumnai-dropdown-content",
           "z-50 min-w-[128px] overflow-y-auto overflow-x-hidden scrollbar-thin rounded-lg bg-card padding-4 text-default shadow-modal-sm",
           !maxHeight && "max-h-[var(--radix-dropdown-menu-content-available-height)]",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
@@ -376,6 +377,7 @@ const DropdownMenuSubContent = React.forwardRef<
   <DropdownMenuPrimitive.SubContent
     ref={ref}
     className={cn(
+      "blumnai-floating-content blumnai-dropdown-sub-content",
       "z-50 min-w-[128px] overflow-hidden rounded-lg bg-card padding-4 text-default shadow-modal-sm",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",

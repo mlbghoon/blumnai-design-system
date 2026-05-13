@@ -1080,6 +1080,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                     }
                   }}
                   className={cn(
+                    'blumnai-floating-content blumnai-select-content',
                     'z-[100] min-w-[200px] max-w-[320px] overflow-hidden',
                     'bg-card border-default rounded-lg shadow-modal-sm',
                     'data-[state=open]:animate-in data-[state=closed]:animate-out',

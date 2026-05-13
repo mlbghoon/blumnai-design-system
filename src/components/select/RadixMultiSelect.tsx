@@ -683,6 +683,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                 sideOffset={4}
                 collisionPadding={8}
                 className={cn(
+                  'blumnai-floating-content blumnai-select-content',
                   'z-[100] min-w-[200px] max-w-[320px] overflow-hidden',
                   'bg-card rounded-lg shadow-modal-sm',
                   'data-[state=open]:animate-in data-[state=closed]:animate-out',

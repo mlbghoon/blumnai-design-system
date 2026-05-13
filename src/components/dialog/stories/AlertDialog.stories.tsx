@@ -162,6 +162,33 @@ export const SuccessAlert: Story = {
 };
 
 /**
+ * 여러 줄 설명
+ *
+ * `description` 에 `\n` 을 넣으면 줄바꿈으로 렌더됩니다 (`whitespace-pre-line`).
+ */
+export const MultilineDescription: Story = {
+  render: function Render() {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <>
+        <Button buttonStyle="secondary" onClick={() => setOpen(true)}>
+          여러 줄 알림 열기
+        </Button>
+        <SimpleAlertDialog
+          open={open}
+          onOpenChange={setOpen}
+          title="업로드 결과"
+          description={'총 3건 중 2건이 처리되었습니다.\n실패한 항목은 다시 시도해 주세요.\n\n· 1행: 필수 값 누락\n· 5행: 잘못된 형식'}
+          confirmLabel="확인"
+          onConfirm={() => {}}
+        />
+      </>
+    );
+  },
+};
+
+/**
  * 커스텀 너비
  *
  * `width` prop으로 다이얼로그의 너비를 조정할 수 있습니다.

@@ -72,6 +72,7 @@ export function TableTooltipProvider({ children }: TableTooltipProviderProps) {
         createPortal(
           <div
             ref={setFloating}
+            className="blumnai-floating-content blumnai-tooltip-content"
             style={{ ...floatingStyles, zIndex: 50 }}
           >
             <Tooltip maxWidth={600}>{content}</Tooltip>

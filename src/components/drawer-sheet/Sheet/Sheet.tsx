@@ -22,6 +22,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
+      "blumnai-overlay blumnai-sheet-overlay",
       "fixed inset-0 z-50 bg-overlay  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     )}
@@ -74,7 +75,7 @@ const SheetContent = React.forwardRef<
       <SheetOverlay />
       <SheetPrimitive.Content
         ref={composedRef}
-        className={cn(sheetVariants({ side }), className)}
+        className={cn("blumnai-sheet-content", sheetVariants({ side }), className)}
         onOpenAutoFocus={onOpenAutoFocus}
         {...props}
       >

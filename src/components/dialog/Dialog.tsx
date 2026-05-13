@@ -122,6 +122,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
+      'blumnai-overlay blumnai-dialog-overlay',
       'fixed inset-0 z-[10000] bg-overlay',
       'data-[state=open]:animate-in data-[state=closed]:animate-out',
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
@@ -219,6 +220,7 @@ const DialogContentInner = React.forwardRef<
           onInteractOutside?.(e);
         }}
         className={cn(
+          'blumnai-dialog-content',
           fullScreen
             ? 'fixed inset-0 z-[10000] grid w-full h-full max-w-none rounded-none ds-gap-16 padding-24 overflow-y-auto'
             // 비-fullScreen: outer 는 위치·최대높이·overflow-hidden·모서리·배경·
@@ -310,6 +312,7 @@ const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
     <div
       ref={ref}
       className={cn(
+        'blumnai-dialog-header',
         'flex flex-col ds-gap-6 text-center sm:text-left',
         'flex-shrink-0 padding-x-24',
         className,
@@ -326,6 +329,7 @@ const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
     <div
       ref={ref}
       className={cn(
+        'blumnai-dialog-footer',
         'flex flex-col-reverse ds-gap-8 sm:flex-row sm:justify-end',
         'flex-shrink-0 padding-x-24',
         className,
