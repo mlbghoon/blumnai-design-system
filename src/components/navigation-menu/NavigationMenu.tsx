@@ -178,7 +178,7 @@ NavigationMenuIndicator.displayName = 'NavigationMenuIndicator';
 const NavigationMenuListItem = React.forwardRef<
   HTMLAnchorElement,
   NavigationMenuListItemProps
->(({ className, title, description, href, icon, iconFill = false, active, children, ...props }, ref) => {
+>(({ className, title, description, href, icon, iconFill: _iconFill = false, active, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuPrimitive.Link asChild active={active}>
@@ -197,7 +197,7 @@ const NavigationMenuListItem = React.forwardRef<
             <div className="flex items-start ds-gap-12">
               {icon && (
                 <div className="flex items-center justify-center width-24 height-24 flex-shrink-0" style={{ marginTop: '1px' }}>
-                  {renderIconProp(icon, { size: 20, color: 'default-subtle', isFill: iconFill })}
+                  {renderIconProp(icon, { size: 20, color: 'default-subtle' })}
                 </div>
               )}
               <div className="flex flex-col ds-gap-2">

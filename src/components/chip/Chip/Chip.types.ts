@@ -66,9 +66,9 @@ export interface ChipProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>,
    */
   label?: string;
   /**
-   * 아이콘 타입 [카테고리, 이름] 또는 [카테고리, 이름, isFill] 형식
-   * @example icon={['system', 'add']}
-   * @example icon={['system', 'star', true]} - 채워진 아이콘
+   * 아이콘 컴포넌트 참조 (v2.0+ — direct-import only).
+   * @example icon={RiAddLine}
+   * @example icon={RiStarFill} - 채워진 아이콘
    */
   icon?: IconProp;
   /**

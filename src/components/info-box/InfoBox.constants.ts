@@ -1,3 +1,11 @@
+import {
+  RiInformationLine,
+  RiCheckboxCircleLine,
+  RiErrorWarningLine,
+  RiCloseCircleLine,
+} from '@remixicon/react';
+import type { RemixiconLikeComponent } from '../icons/Icon/Icon.types';
+
 export const INFOBOX_VARIANT_BG = {
   default: 'bg-basic-gray-subtle',
   info: 'bg-basic-blue-subtle',
@@ -22,10 +30,10 @@ export const INFOBOX_ICON_COLOR = {
   error: 'text-basic-red-accent',
 } as const;
 
-export const INFOBOX_DEFAULT_ICON: Record<string, [string, string]> = {
-  default: ['system', 'information'],
-  info: ['system', 'information'],
-  success: ['system', 'checkbox-circle'],
-  warning: ['system', 'error-warning'],
-  error: ['system', 'close-circle'],
+export const INFOBOX_DEFAULT_ICON: Record<string, RemixiconLikeComponent> = {
+  default: RiInformationLine,
+  info: RiInformationLine,
+  success: RiCheckboxCircleLine,
+  warning: RiErrorWarningLine,
+  error: RiCloseCircleLine,
 };

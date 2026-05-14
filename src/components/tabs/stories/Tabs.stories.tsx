@@ -173,36 +173,32 @@ const meta: Meta<TabsStoryProps> = {
       table: {
         type: {
           summary: 'IconProp | ReactNode',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   leadIcon={RiSettings3Line}
   leadIcon={RiStarFill}
   leadIcon={RiHeartFill}
 
-또는 tuple form (deprecated, dev console warning):
-  leadIcon={['system', 'settings']}
-  leadIcon={['system', 'star', true]}
+또는 ReactNode (이미 렌더된 JSX)
 
-또는 ReactNode (이미 렌더된 JSX)`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
         category: 'TabsTrigger',
       },
     },
     tailIcon: {
       control: 'object',
-      description: '[TabsTrigger] 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '[TabsTrigger] 뒤에 표시되는 아이콘 (Remixicon `Ri*` component)',
       table: {
         type: {
           summary: 'IconProp | ReactNode',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only):
   tailIcon={RiArrowRightLine}
   tailIcon={RiArrowDownLine}
   tailIcon={RiHeartFill}
 
-또는 tuple form (deprecated, dev console warning):
-  tailIcon={['arrows', 'arrow-right']}
-  tailIcon={['health', 'heart', true]}
+또는 ReactNode (이미 렌더된 JSX)
 
-또는 ReactNode (이미 렌더된 JSX)`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
         category: 'TabsTrigger',
       },

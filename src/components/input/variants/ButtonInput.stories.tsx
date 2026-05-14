@@ -113,33 +113,29 @@ const meta: Meta<typeof Input> = {
     },
     leadIcon: {
       control: 'object',
-      description: '입력 필드 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '입력 필드 앞에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   leadIcon={RiSearchLine}
   leadIcon={RiGlobalLine}
 
-또는 tuple form (deprecated, dev console warning):
-  leadIcon={['system', 'search']}
-  leadIcon={['business', 'global']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },
     tailIcon: {
       control: 'object',
-      description: '입력 필드 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '입력 필드 뒤에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   tailIcon={RiCloseLine}
   tailIcon={RiInformationLine}
 
-또는 tuple form (deprecated, dev console warning):
-  tailIcon={['system', 'close']}
-  tailIcon={['system', 'information']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },
@@ -159,33 +155,29 @@ const meta: Meta<typeof Input> = {
     },
     buttonLeadIcon: {
       control: 'object',
-      description: '버튼 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '버튼 앞에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   buttonLeadIcon={RiAddLine}
   buttonLeadIcon={RiSearchLine}
 
-또는 tuple form (deprecated, dev console warning):
-  buttonLeadIcon={['system', 'add']}
-  buttonLeadIcon={['system', 'search']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },
     buttonTailIcon: {
       control: 'object',
-      description: '버튼 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '버튼 뒤에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   buttonTailIcon={RiArrowRightLine}
   buttonTailIcon={RiExternalLinkLine}
 
-또는 tuple form (deprecated, dev console warning):
-  buttonTailIcon={['arrows', 'arrow-right']}
-  buttonTailIcon={['system', 'external-link']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },

@@ -3,7 +3,7 @@ import type { InputHTMLAttributes, ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/lib/spinner';
-import { Icon, renderIconProp } from '../../icons/Icon';
+import { Icon, renderIconProp, RiEyeLine, RiEyeOffLine } from '../../icons/Icon';
 import type { IconProp } from '../../icons/Icon';
 import {
   STATE_CONFIG,
@@ -295,7 +295,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(({
                 aria-label={isVisible ? 'Hide password' : 'Show password'}
               >
                 <Icon
-                  iconType={['system', isVisible ? 'eye-off' : 'eye']}
+                  icon={isVisible ? RiEyeOffLine : RiEyeLine}
                   size={sizeConfig.iconSize}
                   color={iconColor}
                 />

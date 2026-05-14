@@ -1720,10 +1720,27 @@ export interface IconPropsWithComponent extends SharedIconProps {
 }
 
 /**
- * `<Icon>` props.
+ * `<Icon>` props (v2.0+ — direct-import only).
  *
- * Provide EXACTLY ONE of:
- * - `iconType={[category, name]}` — dynamic-string API (back-compat)
- * - `icon={RiCheckLine}` — direct-import API (recommended for tree-shaking)
+ * The tuple form (`iconType={[category, name]}`) was removed in v2.0.0. Import from
+ * `@blumnai-studio/blumnai-design-system/icons/icon-legacy` if you still need it
+ * (typed as {@link LegacyIconProps} there).
+ *
+ * @example
+ * ```tsx
+ * import { Icon, RiCheckLine } from '@blumnai-studio/blumnai-design-system';
+ * <Icon icon={RiCheckLine} size={16} color="default" />
+ * ```
  */
-export type IconProps = IconPropsWithType | IconPropsWithComponent;
+export type IconProps = IconPropsWithComponent;
+
+/**
+ * Legacy `<Icon>` props supporting both the v1.x tuple form and the direct-import form.
+ *
+ * Only re-exported via `@blumnai-studio/blumnai-design-system/icons/icon-legacy`. Do not
+ * use in new code — migrate to {@link IconProps}.
+ *
+ * @deprecated use {@link IconProps} (direct-import) instead. This type stays around so the
+ * legacy entry can keep working for consumers mid-migration.
+ */
+export type LegacyIconProps = IconPropsWithType | IconPropsWithComponent;

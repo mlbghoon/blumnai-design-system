@@ -2,10 +2,10 @@ import { memo } from 'react';
 
 import { Button } from '../button';
 import type { ButtonStyle } from '../button/Button.types';
-import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 
 interface ToolbarButtonProps {
-  icon: IconTypeWithFill;
+  icon: RemixiconLikeComponent;
   tooltip: string;
   isActive?: boolean;
   onClick: () => void;

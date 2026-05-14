@@ -10,18 +10,21 @@ import {
   RiArrowDownLine,
   RiHeartFill,
   RiStarFill,
+  RiRefreshLine,
+  RiCheckboxLine,
+  RiCheckboxFill,
 } from '@remixicon/react';
 
 import * as RemixiconAll from '@remixicon/react';
 import type { ComponentType } from 'react';
 
 import { Icon } from './Icon';
-import { getIconNamesByCategory } from './ui-icon-registry';
-import { REMIXICON_EXPORT_MAP } from './remixicon-export-map';
+import { getIconNamesByCategory } from './legacy/ui-icon-registry';
+import { REMIXICON_EXPORT_MAP } from './legacy/remixicon-export-map';
+import { kebabToRegistryKey } from './shared';
 import type { RemixiconLikeComponent } from './Icon.types';
 
 const RemixiconRegistry = RemixiconAll as unknown as Record<string, ComponentType<{ size?: number | string; color?: string; className?: string }>>;
-const kebabToRegistryKey = (s: string) => s.replace(/-/g, '').toLowerCase();
 
 const iconColorOptions = [
   'default',
@@ -55,20 +58,12 @@ const meta: Meta<typeof Icon> = {
     controls: { disable: true },
   },
   argTypes: {
-    iconType: {
-      control: { type: 'object' },
-      description: '[category, name] 튜플 형식의 아이콘 타입',
+    icon: {
+      control: false,
+      description: 'Remixicon component reference (e.g., RiCheckLine, RiHeartFill).',
       table: {
         type: {
-          summary: 'IconType',
-          detail: `[category, name] 튜플 형식:
-- category: 'arrows' | 'buildings' | 'business' | 'communication' | 'design' | 'development' | 'device' | 'document' | 'editor' | 'finance' | 'food' | 'health' | 'map' | 'media' | 'others' | 'system' | 'user' | 'weather'
-- name: string (카테고리 내 아이콘 이름)
-
-예시:
-['system', 'add']
-['arrows', 'arrow-down']
-['media', 'play']`,
+          summary: 'RemixiconLikeComponent',
         },
       },
     },
@@ -79,16 +74,6 @@ const meta: Meta<typeof Icon> = {
         type: {
           summary: 'number',
           detail: '기본값: 24',
-        },
-      },
-    },
-    isFill: {
-      control: 'boolean',
-      description: 'true로 설정하면 아이콘을 채워진(fill) 스타일로 표시합니다. 기본값은 선 스타일입니다',
-      table: {
-        type: {
-          summary: 'boolean',
-          detail: '기본값: false',
         },
       },
     },
@@ -130,7 +115,7 @@ type Story = StoryObj<typeof Icon>;
  */
 export const Default: Story = {
   args: {
-    iconType: ['system', 'add'],
+    icon: RiAddLine,
     size: 24,
     disabled: false,
     className: '',
@@ -140,11 +125,10 @@ export const Default: Story = {
   },
   render: function Render(args) {
     const iconRef = useRef<SVGSVGElement>(null);
-    const iconType = args.iconType ?? (['system', 'add'] as const);
     return (
       <Icon
         ref={iconRef}
-        iconType={iconType}
+        icon={args.icon ?? RiAddLine}
         size={args.size}
         disabled={args.disabled}
         className={args.className}
@@ -272,7 +256,7 @@ export const Size: Story = {
     <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
       {[16, 20, 24, 32, 40, 48].map((size) => (
         <div key={size} style={{ textAlign: 'center' }}>
-          <Icon iconType={['system', 'add']} size={size} />
+          <Icon icon={RiAddLine} size={size} />
           <div style={{ fontSize: '12px', marginTop: '4px' }}>{size}px</div>
         </div>
       ))}
@@ -285,11 +269,11 @@ export const IsFill: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
       <div style={{ textAlign: 'center' }}>
-        <Icon iconType={['system', 'checkbox']} size={32} />
+        <Icon icon={RiCheckboxLine} size={32} />
         <div style={{ fontSize: '12px', marginTop: '4px' }}>default</div>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <Icon iconType={['system', 'checkbox']} isFill size={32} />
+        <Icon icon={RiCheckboxFill} size={32} />
         <div style={{ fontSize: '12px', marginTop: '4px' }}>fill</div>
       </div>
     </div>
@@ -305,15 +289,15 @@ export const Clickable: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
       <div style={{ textAlign: 'center' }}>
-        <Icon iconType={['system', 'refresh']} size={32} onClick={() => alert('clicked!')} />
+        <Icon icon={RiRefreshLine} size={32} onClick={() => alert('clicked!')} />
         <div style={{ fontSize: '10px', marginTop: '4px' }}>onClick</div>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <Icon iconType={['system', 'refresh']} size={32} onClick={() => alert('clicked!')} disabled />
+        <Icon icon={RiRefreshLine} size={32} onClick={() => alert('clicked!')} disabled />
         <div style={{ fontSize: '10px', marginTop: '4px' }}>disabled</div>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <Icon iconType={['system', 'refresh']} size={32} />
+        <Icon icon={RiRefreshLine} size={32} />
         <div style={{ fontSize: '10px', marginTop: '4px' }}>no onClick</div>
       </div>
     </div>
@@ -430,10 +414,10 @@ export const ApiComparison: Story = {
           Dynamic-string (back-compat)
         </h4>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <Icon iconType={['system', 'check']} size={20} color="default" />
-          <Icon iconType={['system', 'add']} size={20} color="informative" />
-          <Icon iconType={['system', 'close']} size={20} color="destructive" />
-          <Icon iconType={['health', 'heart']} isFill size={20} color="destructive" />
+          <Icon icon={RiCheckLine} size={20} color="default" />
+          <Icon icon={RiAddLine} size={20} color="informative" />
+          <Icon icon={RiCloseLine} size={20} color="destructive" />
+          <Icon icon={RiHeartFill} size={20} color="destructive" />
         </div>
       </div>
       <div>
@@ -456,27 +440,27 @@ export const Color: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
       <div style={{ textAlign: 'center' }}>
-        <Icon iconType={['system', 'add']} size={32} color="default" />
+        <Icon icon={RiAddLine} size={32} color="default" />
         <div style={{ fontSize: '10px', marginTop: '4px' }}>default</div>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <Icon iconType={['system', 'add']} size={32} color="default-subtle" />
+        <Icon icon={RiAddLine} size={32} color="default-subtle" />
         <div style={{ fontSize: '10px', marginTop: '4px' }}>subtle</div>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <Icon iconType={['system', 'add']} size={32} color="informative" />
+        <Icon icon={RiAddLine} size={32} color="informative" />
         <div style={{ fontSize: '10px', marginTop: '4px' }}>informative</div>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <Icon iconType={['system', 'add']} size={32} color="success" />
+        <Icon icon={RiAddLine} size={32} color="success" />
         <div style={{ fontSize: '10px', marginTop: '4px' }}>success</div>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <Icon iconType={['system', 'add']} size={32} color="warning" />
+        <Icon icon={RiAddLine} size={32} color="warning" />
         <div style={{ fontSize: '10px', marginTop: '4px' }}>warning</div>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <Icon iconType={['system', 'add']} size={32} color="destructive" />
+        <Icon icon={RiAddLine} size={32} color="destructive" />
         <div style={{ fontSize: '10px', marginTop: '4px' }}>destructive</div>
       </div>
     </div>

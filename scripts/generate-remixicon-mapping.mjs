@@ -27,7 +27,7 @@ const TAGS_PATH_CANDIDATES = [
   path.join(ROOT, 'scripts', 'data', 'remix-tags.json'),
 ];
 const REMIXICON_DTS = path.join(ROOT, 'node_modules/@remixicon/react/index.d.ts');
-const OUTPUT_MAP_PATH = path.join(ROOT, 'src/components/icons/Icon/remixicon-export-map.ts');
+const OUTPUT_MAP_PATH = path.join(ROOT, 'src/components/icons/Icon/legacy/remixicon-export-map.ts');
 
 // Explicit aliases (from Phase 0 audit decisions).
 // Remixicon's `font-sans-serif` is a single-variant icon (no Line/Fill suffix in export name).

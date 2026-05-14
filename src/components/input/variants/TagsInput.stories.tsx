@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { RiCodeLine } from '../../icons/Icon';
 
-import type { IconType } from '../../icons/Icon/Icon.types';
+import type { RemixiconLikeComponent } from '../../icons/Icon/Icon.types';
 import { Input } from '../Input';
 
 const meta: Meta<typeof Input> = {
@@ -114,17 +114,15 @@ const meta: Meta<typeof Input> = {
     },
     leadIcon: {
       control: 'object',
-      description: '입력 필드 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '입력 필드 앞에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   leadIcon={RiPriceTag3Line}
   leadIcon={RiHashtag}
 
-또는 tuple form (deprecated, dev console warning):
-  leadIcon={['finance', 'price-tag-3']}
-  leadIcon={['system', 'hashtag']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },
@@ -216,7 +214,7 @@ type Story = StoryObj<typeof Input>;
 export const Default: Story = {
   render: function Render(args) {
     const [tags, setTags] = useState(['React', 'TypeScript', 'Node.js']);
-    const leadIcon = 'leadIcon' in args ? (args.leadIcon as IconType | undefined) : undefined;
+    const leadIcon = 'leadIcon' in args ? (args.leadIcon as RemixiconLikeComponent | undefined) : undefined;
     const maxTags = 'maxTags' in args ? args.maxTags : undefined;
     const allowDuplicates = 'allowDuplicates' in args ? args.allowDuplicates : undefined;
     const delimiters = 'delimiters' in args ? args.delimiters : undefined;

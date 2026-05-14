@@ -17,6 +17,7 @@ import { ko } from 'date-fns/locale';
 import type { Locale } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { ControlButton } from '../button/ControlButton';
+import { RiArrowLeftSLine, RiArrowRightSLine } from '../icons/Icon';
 import { Button } from '../button/Button';
 import type { DayContext, EventCalendarProps, EventCalendarSize } from './EventCalendar.types';
 
@@ -234,14 +235,14 @@ export const EventCalendar = forwardRef<HTMLDivElement, EventCalendarProps>(
         {/* Header */}
         <div className="flex items-center padding-x-16 padding-y-12 ds-gap-8 border-b-default">
           <ControlButton
-            icon={['arrows', 'arrow-left-s']}
+            icon={RiArrowLeftSLine}
             size="sm"
             shape="rounded"
             onClick={handlePrevMonth}
             aria-label="이전 달"
           />
           <ControlButton
-            icon={['arrows', 'arrow-right-s']}
+            icon={RiArrowRightSLine}
             size="sm"
             shape="rounded"
             onClick={handleNextMonth}

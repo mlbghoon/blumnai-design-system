@@ -131,9 +131,9 @@ const DropdownMenuItem = React.forwardRef<
   inset,
   destructive,
   leadIcon,
-  leadIconFill = false,
+  leadIconFill: _leadIconFill = false,
   tailIcon,
-  tailIconFill = false,
+  tailIconFill: _tailIconFill = false,
   iconColor,
   caption,
   description,
@@ -190,7 +190,6 @@ const DropdownMenuItem = React.forwardRef<
           {renderIconProp(leadIcon, {
             size: isLarge ? 16 : 16,
             color: effectiveIconColor,
-            isFill: leadIconFill,
           })}
         </div>
       )}
@@ -219,7 +218,6 @@ const DropdownMenuItem = React.forwardRef<
           {renderIconProp(tailIcon, {
             size: 16,
             color: effectiveIconColor,
-            isFill: tailIconFill,
           })}
         </div>
       )}

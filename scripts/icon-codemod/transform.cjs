@@ -4,7 +4,9 @@
  * Two modes, applied in a single pass:
  *
  * 1. `<Icon iconType={[cat, name]} isFill? />` → `<Icon icon={Ri*Line|Fill} />`
- *    Renames the prop (`iconType` → `icon`), drops `isFill`, swaps value.
+ *    `<CellIcon iconType={[cat, name, isFill?]} />` → `<CellIcon icon={Ri*Line|Fill} />`
+ *    Renames the prop (`iconType` → `icon`), drops `isFill` (Icon only), swaps value.
+ *    CellIcon never had a separate `isFill` attribute — fill comes from the 3rd tuple element.
  *
  * 2. `<AnyComponent leadIcon={['cat','name']}>` → `<AnyComponent leadIcon={RiNameLine}>`
  *    (and `tailIcon`, `icon`, `buttonLeadIcon`, `buttonTailIcon`)
@@ -36,13 +38,21 @@ function lookupRemixiconExport(name, isFill) {
   return exportMap[key] ?? null;
 }
 
-// Props on DS components (other than <Icon>) that accept the tuple form.
+// Props on DS components (other than <Icon>/<CellIcon>) that accept the tuple form.
 const ICON_PROP_NAMES = new Set([
   'icon',
   'leadIcon',
   'tailIcon',
   'buttonLeadIcon',
   'buttonTailIcon',
+]);
+
+// Components whose v1 `iconType` prop was renamed to `icon` (with separate or inline isFill).
+// `Icon`     — separate `isFill` attribute supported; tuple may be 2- or 3-element.
+// `CellIcon` — no separate `isFill`; fill is encoded as the 3rd tuple element only.
+const ICONTYPE_COMPONENTS = new Map([
+  ['Icon', { supportsSeparateIsFillAttr: true }],
+  ['CellIcon', { supportsSeparateIsFillAttr: false }],
 ]);
 
 /**
@@ -83,34 +93,39 @@ module.exports = function transformer(file, api) {
   let modified = false;
   const importsToAdd = new Set();
 
-  // --- Mode 1: <Icon iconType={[...]}> → <Icon icon={Ri*}> ---
-  root
-    .find(j.JSXElement, {
-      openingElement: { name: { type: 'JSXIdentifier', name: 'Icon' } },
-    })
-    .forEach((path) => {
-      const opening = path.value.openingElement;
-      const attrs = opening.attributes ?? [];
+  // --- Mode 1: <Icon iconType={[...]}> / <CellIcon iconType={[...]}> → icon={Ri*} ---
+  root.find(j.JSXElement).forEach((elementPath) => {
+    const opening = elementPath.value.openingElement;
+    if (!opening.name || opening.name.type !== 'JSXIdentifier') return;
+    const elementName = opening.name.name;
 
-      const iconTypeAttr = attrs.find(
-        (attr) =>
-          attr.type === 'JSXAttribute' &&
-          attr.name.type === 'JSXIdentifier' &&
-          attr.name.name === 'iconType',
-      );
-      if (!iconTypeAttr) return;
+    const componentConfig = ICONTYPE_COMPONENTS.get(elementName);
+    if (!componentConfig) return;
 
-      const tuple = extractTuple(iconTypeAttr.value);
-      if (!tuple) return;
+    const attrs = opening.attributes ?? [];
 
-      // Check for separate isFill={...} attribute (overrides inline isFill).
-      const isFillAttr = attrs.find(
+    const iconTypeAttr = attrs.find(
+      (attr) =>
+        attr.type === 'JSXAttribute' &&
+        attr.name.type === 'JSXIdentifier' &&
+        attr.name.name === 'iconType',
+    );
+    if (!iconTypeAttr) return;
+
+    const tuple = extractTuple(iconTypeAttr.value);
+    if (!tuple) return;
+
+    let isFill = tuple.isFill;
+
+    // Only <Icon> historically allowed a separate `isFill` attribute. <CellIcon> never did.
+    let isFillAttr;
+    if (componentConfig.supportsSeparateIsFillAttr) {
+      isFillAttr = attrs.find(
         (attr) =>
           attr.type === 'JSXAttribute' &&
           attr.name.type === 'JSXIdentifier' &&
           attr.name.name === 'isFill',
       );
-      let isFill = tuple.isFill;
       if (isFillAttr) {
         if (!isFillAttr.value) {
           // `<Icon iconType={...} isFill />` — boolean shorthand
@@ -126,20 +141,21 @@ module.exports = function transformer(file, api) {
           isFill = isFillAttr.value.value === 'true' || isFillAttr.value.value === true;
         }
       }
+    }
 
-      const remixiconName = lookupRemixiconExport(tuple.name, isFill);
-      if (!remixiconName) return;
+    const remixiconName = lookupRemixiconExport(tuple.name, isFill);
+    if (!remixiconName) return;
 
-      iconTypeAttr.name = j.jsxIdentifier('icon');
-      iconTypeAttr.value = j.jsxExpressionContainer(j.identifier(remixiconName));
+    iconTypeAttr.name = j.jsxIdentifier('icon');
+    iconTypeAttr.value = j.jsxExpressionContainer(j.identifier(remixiconName));
 
-      if (isFillAttr) {
-        opening.attributes = (opening.attributes ?? []).filter((a) => a !== isFillAttr);
-      }
+    if (isFillAttr) {
+      opening.attributes = (opening.attributes ?? []).filter((a) => a !== isFillAttr);
+    }
 
-      importsToAdd.add(remixiconName);
-      modified = true;
-    });
+    importsToAdd.add(remixiconName);
+    modified = true;
+  });
 
   // --- Mode 2: <AnyComponent leadIcon/tailIcon/icon/buttonLeadIcon/buttonTailIcon={[...]}> ---
   root.find(j.JSXAttribute).forEach((path) => {

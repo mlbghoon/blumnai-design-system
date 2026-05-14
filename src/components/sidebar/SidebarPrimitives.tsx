@@ -3,7 +3,7 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import * as SeparatorPrimitive from "@radix-ui/react-separator"
 import { cva, type VariantProps } from "class-variance-authority"
-import { Icon, RiSideBarLine } from "@/components/icons/Icon";
+import { Icon, RiArrowLeftSLine, RiArrowRightSLine, RiSideBarLine } from "@/components/icons/Icon";
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn, isEditableTarget } from "@/lib/utils"
@@ -333,10 +333,10 @@ const Sidebar = React.forwardRef<
           >
             {toggleButtonIcon || (
               <Icon
-                iconType={
+                icon={
                   (effectiveState === "collapsed") !== (side === "right")
-                    ? ['arrows', 'arrow-right-s']
-                    : ['arrows', 'arrow-left-s']
+                    ? RiArrowRightSLine
+                    : RiArrowLeftSLine
                 }
                 size={14}
                 color="var(--icon-default-muted)"
@@ -452,10 +452,7 @@ const SidebarToggleButton = React.forwardRef<
     >
       {icon || (
         <Icon
-          iconType={isCollapsed
-            ? ['arrows', 'arrow-right-s']
-            : ['arrows', 'arrow-left-s']
-          }
+          icon={isCollapsed ? RiArrowRightSLine : RiArrowLeftSLine}
           size={14}
           color="var(--icon-default-muted)"
           className="group-data-[side=right]:rotate-180"

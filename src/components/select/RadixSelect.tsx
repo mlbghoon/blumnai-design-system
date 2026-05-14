@@ -1240,7 +1240,7 @@ const ExtendedSelect = React.forwardRef<HTMLDivElement, ExtendedSelectProps>(
                     </span>
                   )}
                   <Icon
-                    iconType={['arrows', isOpen ? 'arrow-up-s' : 'arrow-down-s']}
+                    icon={isOpen ? RiArrowUpSLine : RiArrowDownSLine}
                     size={sizeConfig.iconSize}
                     color={triggerIconColor}
                     className="flex-shrink-0"

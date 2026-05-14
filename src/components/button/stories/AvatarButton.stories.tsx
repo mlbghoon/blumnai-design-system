@@ -59,17 +59,15 @@ const meta: Meta<typeof AvatarButton> = {
     },
     tailIcon: {
       control: 'object',
-      description: '라벨 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '라벨 뒤에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'AvatarButtonIconType | ReactNode',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   tailIcon={RiArrowDownSLine}
   tailIcon={RiArrowDownSFill}
 
-또는 tuple form (deprecated, dev console warning):
-  tailIcon={['arrows', 'arrow-down-s']}
-  tailIcon={['arrows', 'chevron-down', true]}
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.
 
 또는 ReactNode (이미 렌더된 JSX)`,
         },

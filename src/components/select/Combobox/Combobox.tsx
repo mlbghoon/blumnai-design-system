@@ -8,9 +8,11 @@ import {
   Icon,
   renderIconProp,
   RiAddLine,
+  RiArrowDownSLine,
   RiArrowDropDownLine,
   RiArrowDropRightLine,
   RiArrowDropUpLine,
+  RiArrowUpSLine,
   RiCheckLine,
   RiCloseLine,
   RiSearchLine,
@@ -1049,7 +1051,7 @@ export const Combobox = React.forwardRef<HTMLDivElement, ComboboxProps>(
                   })}
 
                   <Icon
-                    iconType={['arrows', isOpen ? 'arrow-up-s' : 'arrow-down-s']}
+                    icon={isOpen ? RiArrowUpSLine : RiArrowDownSLine}
                     size={sizeConfig.iconSize}
                     color={iconColor}
                     className="flex-shrink-0"

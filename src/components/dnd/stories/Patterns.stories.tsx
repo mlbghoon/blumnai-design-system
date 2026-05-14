@@ -18,8 +18,16 @@ import {
   RiMoreLine,
   RiMusicLine,
   RiUploadLine,
+  RiTextBlock,
+  RiParagraph,
+  RiArrowDownLine,
+  RiArrowRightLine,
+  RiAddLine,
+  RiImageLine,
+  RiFileLine,
+  RiFolderLine,
 } from '@/components/icons';
-import type { IconType } from '@/components/icons';
+import type { RemixiconLikeComponent } from '@/components/icons';
 import { closestCorners } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { Input } from '@/components/input';
@@ -300,12 +308,12 @@ export const FormBuilder: Story = {
       setCanvasComponents((prev) => prev.filter((c) => c.id !== id));
     };
 
-    const iconMap: Record<string, IconType> = {
-      input: ['editor', 'text'],
-      textarea: ['editor', 'paragraph'],
-      select: ['arrows', 'arrow-down'],
-      checkbox: ['system', 'check'],
-      button: ['system', 'add'],
+    const iconMap: Record<string, RemixiconLikeComponent> = {
+      input: RiTextBlock,
+      textarea: RiParagraph,
+      select: RiArrowDownLine,
+      checkbox: RiCheckLine,
+      button: RiAddLine,
     };
 
     const renderFormComponent = (component: FormComponent) => {
@@ -372,7 +380,7 @@ export const FormBuilder: Story = {
             {palette.map((item) => (
               <Draggable key={item.id} id={item.id} data={{ type: item.type }}>
                 <div className="flex items-center ds-gap-8 padding-12 bg-card border-default rounded-lg shadow-sm cursor-grab hover:border-highlight transition-colors">
-                  <Icon iconType={iconMap[item.type]} size={16} className="text-muted" />
+                  <Icon icon={iconMap[item.type]} size={16} className="text-muted" />
                   <span className="size-sm font-body">{item.label}</span>
                 </div>
               </Draggable>
@@ -465,10 +473,10 @@ export const FileUploadZone: Story = {
       setUploadQueue((prev) => prev.filter((f) => f.id !== id));
     };
 
-    const fileIcons: Record<string, IconType> = {
-      image: ['media', 'image'],
-      document: ['document', 'file'],
-      other: ['document', 'file'],
+    const fileIcons: Record<string, RemixiconLikeComponent> = {
+      image: RiImageLine,
+      document: RiFileLine,
+      other: RiFileLine,
     };
 
     return (
@@ -483,7 +491,7 @@ export const FileUploadZone: Story = {
                 .map((file) => (
                   <Draggable key={file.id} id={file.id} data={{ ...file }}>
                     <div className="flex items-center ds-gap-8 padding-12 bg-card border-default rounded-lg shadow-sm cursor-grab">
-                      <Icon iconType={fileIcons[file.type]} size={20} className="text-muted" />
+                      <Icon icon={fileIcons[file.type]} size={20} className="text-muted" />
                       <div>
                         <p className="size-sm font-body">{file.name}</p>
                         <p className="size-xs text-muted font-body">{file.size}</p>
@@ -520,7 +528,7 @@ export const FileUploadZone: Story = {
                       key={file.id}
                       className="flex items-center ds-gap-8 padding-12 bg-card border-default rounded-lg"
                     >
-                      <Icon iconType={fileIcons[file.type]} size={16} className="text-muted" />
+                      <Icon icon={fileIcons[file.type]} size={16} className="text-muted" />
                       <div className="flex-1 min-w-0">
                         <p className="size-sm font-body truncate">{file.name}</p>
                         <p className="size-xs text-muted font-body">{file.size}</p>
@@ -643,7 +651,7 @@ export const TreeView: Story = {
                   className="padding-2 hover:bg-card rounded"
                 >
                   <Icon
-                    iconType={isExpanded ? ['arrows', 'arrow-down'] : ['arrows', 'arrow-right']}
+                    icon={isExpanded ? RiArrowDownLine : RiArrowRightLine}
                     size={16}
                     className="text-muted"
                   />
@@ -652,7 +660,7 @@ export const TreeView: Story = {
                 <div className="width-20" />
               )}
               <Icon
-                iconType={hasChildren ? ['document', 'folder'] : ['document', 'file']}
+                icon={hasChildren ? RiFolderLine : RiFileLine}
                 size={16}
                 className={hasChildren ? 'text-yellow-500' : 'text-muted'}
               />

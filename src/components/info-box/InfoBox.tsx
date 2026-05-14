@@ -1,9 +1,8 @@
 import { forwardRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Icon, renderIconProp, RiCloseLine } from '../icons/Icon';
+import { Icon, renderIconProp, RiCloseLine, RiArrowUpSLine, RiArrowDownSLine } from '../icons/Icon';
 import type { InfoBoxProps, InfoBoxVariant } from './InfoBox.types';
 import type { IconProp } from '../icons/Icon';
-import type { IconType } from '../icons/Icon/Icon.types';
 import {
   INFOBOX_VARIANT_BG,
   INFOBOX_INDICATOR,
@@ -42,7 +41,7 @@ export const InfoBox = forwardRef<HTMLDivElement, InfoBoxProps>(
     if (!visible) return null;
 
     const role = variant === 'warning' || variant === 'error' ? 'alert' : 'status';
-    const resolvedIcon: IconProp = icon ?? (INFOBOX_DEFAULT_ICON[variant] as IconType);
+    const resolvedIcon: IconProp = icon ?? INFOBOX_DEFAULT_ICON[variant];
     const isSubtle = styleType === 'subtle';
     const showContent = !collapsible || isOpen;
 
@@ -89,7 +88,7 @@ export const InfoBox = forwardRef<HTMLDivElement, InfoBoxProps>(
               )}
               <div className="flex-shrink-0 text-muted">
                 <Icon
-                  iconType={['arrows', isOpen ? 'arrow-up-s' : 'arrow-down-s']}
+                  icon={isOpen ? RiArrowUpSLine : RiArrowDownSLine}
                   size={16}
                 />
               </div>

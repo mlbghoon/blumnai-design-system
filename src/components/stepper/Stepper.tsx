@@ -2,7 +2,6 @@ import { forwardRef, createContext, useContext, useCallback, useMemo } from 'rea
 import { cn } from '../../lib/utils';
 import { Icon, renderIconProp, RiCheckLine } from '../icons/Icon';
 import type { IconProp } from '../icons/Icon';
-import type { IconType } from '../icons/Icon/Icon.types';
 import type {
   StepperProps,
   StepItem,
@@ -150,11 +149,10 @@ function IconIndicator({
 }) {
   const { size, color, showCheckOnCompleted, clickable } = useContext(StepperContext);
 
-  const checkIcon: IconType = ['system', 'check'];
   const showCheck = status === 'completed' && showCheckOnCompleted;
   const displayIcon: IconProp = showCheck
-    ? checkIcon
-    : icon ?? checkIcon;
+    ? RiCheckLine
+    : icon ?? RiCheckLine;
 
   const bgClass = cn(
     status === 'active' && COLOR_BG_MAP[color],

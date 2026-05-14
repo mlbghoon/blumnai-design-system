@@ -1,65 +1,35 @@
-import { forwardRef, memo, Suspense, createElement, useMemo } from 'react';
-import type { ComponentType } from 'react';
+import { forwardRef, memo, useMemo } from 'react';
 
 import type { IconColor, IconProps, RemixiconLikeComponent } from './Icon.types';
-import type { Props as IconWrapperProps } from './IconWrapper.types';
-import { getIconSync, getIconLazy, hasIcon } from './ui-icon-registry';
+import { handleLegacyTupleAtRuntime, looksLikeLegacyTuple } from './_legacyTupleGuard';
+import { resolveColor } from './shared';
 
-// Re-export Remixicon so codemod-rewritten imports of `from '../icons/Icon/Icon'` work.
-// (The DS public API is `from '@blumnai-studio/blumnai-design-system'` which goes through the
-// index files, but DS-internal imports often point at this Icon.tsx file directly.)
+// Re-export Remixicon so consumers can `import { Icon, RiCheckLine } from
+// '@blumnai-studio/blumnai-design-system/icons/icon'` in one shot. With
+// `sideEffects: ["*.css", "dist/*.css"]` in package.json, this re-export is
+// tree-shakeable: only the icons the consumer actually names are bundled.
 // eslint-disable-next-line react-refresh/only-export-components
 export * from '@remixicon/react';
 
-/** kebab-case를 소문자로 변환 (하이픈 제거): 'arrow-down' -> 'arrowdown' */
-function kebabToRegistryKey(str: string): string {
-  return str.replace(/-/g, '').toLowerCase();
-}
-
-/** CSS 변수로 변환할 색상 토큰 목록 */
-const colorTokens = new Set([
-  'default', 'default-subtle', 'default-muted', 'default-disabled',
-  'inverted-default', 'inverted-subtle', 'inverted-muted', 'inverted-disabled',
-  'white-default', 'white-subtle', 'white-muted', 'white-disabled',
-  'black-default', 'black-subtle', 'black-muted', 'black-disabled',
-  'destructive', 'informative', 'success', 'warning',
-]);
-
 /**
- * 색상 해석: 토큰은 CSS 변수로 변환, CSS 색상값은 그대로 전달
- * - 토큰: 'default' -> 'var(--icon-default)'
- * - CSS 색상: '#fff', 'rgb()' -> 그대로 사용
- */
-const resolveColor = (color: IconColor | undefined): string | undefined => {
-  if (!color) return undefined;
-  if (colorTokens.has(color)) {
-    return `var(--icon-${color})`;
-  }
-  return color;
-};
-
-/**
- * 카테고리별 UI 아이콘 컴포넌트.
+ * 카테고리별 UI 아이콘 컴포넌트 (direct-import API only).
  *
- * 두 가지 API 지원:
- * 1. **Dynamic-string (back-compat)**: `<Icon iconType={['system', 'check']} />`
- *    런타임에 registry 에서 lookup → lazy 로 `@remixicon/react` chunk 로드.
- * 2. **Direct-import (권장)**: `<Icon icon={RiCheckLine} />`
- *    Tree-shake 가능, FCP 빠름. 단, `icon` prop 은 module 최상위 import 한 안정적인 component
- *    참조여야 함 (인라인 함수 X).
+ * `icon` prop 은 module 최상위 import 한 안정적인 component 참조여야 합니다 (인라인 함수 X).
+ * Color 토큰 (`'default'` → `var(--icon-default)`), `disabled` (`cursor: not-allowed` +
+ * `pointer-events: none`), `onClick` (`cursor: pointer`) 가 자동 처리됩니다.
  *
- * 두 API 의 다른 props (size, color, className, disabled, onClick) 는 동일.
- * Color 토큰 해석 (`'default'` → `var(--icon-default)`) 은 양쪽 모두에서 작동.
+ * @example
+ * ```tsx
+ * import { Icon, RiCheckLine } from '@blumnai-studio/blumnai-design-system';
+ * <Icon icon={RiCheckLine} size={16} color="default" />
+ * ```
+ *
+ * @note tuple form (`iconType={['cat','name']}`) was removed in v2.0.0.
+ * Import from `…/icons/icon-legacy` if you need it.
  */
 export const Icon = memo(forwardRef<SVGSVGElement, IconProps>((props, ref) => {
-  // Pull all DS-specific props out of the rest-spread so they don't leak onto the
-  // underlying <svg> element as DOM attributes (which would trigger React warnings).
-  // Cast through a permissive shape because the discriminated union doesn't allow
-  // destructuring all keys directly.
   const {
-    iconType,
     icon,
-    isFill = false,
     size = 24,
     color,
     className,
@@ -67,95 +37,62 @@ export const Icon = memo(forwardRef<SVGSVGElement, IconProps>((props, ref) => {
     disabled = false,
     onClick,
     style,
+    // Allow rest props (e.g., aria-*, data-*) to pass through to the SVG element.
     ...restProps
-  } = props as Omit<IconProps, never> & {
-    iconType?: import('./Icon.types').IconType;
-    icon?: RemixiconLikeComponent;
-    isFill?: boolean;
+  } = props as IconProps & {
     focusable?: boolean | 'true' | 'false';
+    // Tolerate legacy iconType being passed at runtime (e.g., from JS / API data)
+    // so we can guard with a helpful error instead of silently dropping.
+    iconType?: unknown;
   };
 
-  // Direct-import path: render the passed component directly with token-resolved color.
-  if (icon) {
+  // Runtime guard: tuple form removed in v2.0.0.
+  if (looksLikeLegacyTuple((props as { iconType?: unknown }).iconType)) {
+    handleLegacyTupleAtRuntime('icon-prop');
     return (
-      <IconDirect
-        ref={ref}
-        component={icon}
-        size={size}
-        color={color}
-        className={className}
-        focusable={focusable}
-        disabled={disabled}
-        onClick={onClick}
-        style={style}
-        {...restProps}
+      <span
+        style={{ display: 'inline-block', width: size, height: size }}
+        aria-hidden="true"
       />
     );
   }
 
-  const fallback = (
-    <div
-      style={{
-        width: size,
-        height: size,
-        display: 'inline-block',
-      }}
-    />
-  );
-
-  if (!iconType) {
-    // Neither `iconType` nor `icon` provided. Render fallback to keep layout stable.
-    return fallback;
-  }
-
-  const [, iconName] = iconType;
-  const registryKey = kebabToRegistryKey(iconName) + (isFill ? 'fill' : '');
-
-  if (!hasIcon(registryKey)) {
-    return fallback;
-  }
-
-  const resolvedColor = resolveColor(color);
-  const focusableBool = focusable === true || focusable === 'true' ? true : focusable === false || focusable === 'false' ? false : undefined;
-
-  const cursorValue = disabled ? 'not-allowed' : onClick ? 'pointer' : undefined;
-  const mergedStyle = disabled ? { ...style, pointerEvents: 'none' as const } : style;
-
-  // 동기 경로 우선: 카테고리가 이미 로드된 경우 즉시 렌더링 (suspend 없음)
-  // 비동기 경로: 카테고리 미로드 시 lazy 컴포넌트 사용
-  const IconComponent = (getIconSync(registryKey) || getIconLazy(registryKey)) as ComponentType<IconWrapperProps> | null;
-  if (!IconComponent) {
-    return fallback;
+  if (!icon) {
+    // No icon provided — render fallback to keep layout stable.
+    return (
+      <span
+        style={{ display: 'inline-block', width: size, height: size }}
+        aria-hidden="true"
+      />
+    );
   }
 
   return (
-    <Suspense fallback={fallback}>
-      {createElement(IconComponent, {
-        ref,
-        size,
-        color: resolvedColor,
-        className,
-        focusable: focusableBool,
-        cursor: cursorValue,
-        onClick: disabled ? undefined : onClick,
-        style: mergedStyle,
-        ...restProps,
-      })}
-    </Suspense>
+    <IconDirect
+      ref={ref}
+      component={icon}
+      size={size}
+      color={color}
+      className={className}
+      focusable={focusable}
+      disabled={disabled}
+      onClick={onClick}
+      style={style}
+      {...restProps}
+    />
   );
 }));
 
 Icon.displayName = 'Icon';
 
 /**
- * Direct-import variant. Internal — not exported.
- * Wraps the user-provided component with DS-standard prop translation:
+ * Internal — renders a passed component with DS-standard prop translation:
  * - `color` token → `var(--icon-{token})`
  * - `disabled` → `cursor: not-allowed` + `pointer-events: none`
  * - `onClick` → `cursor: pointer` (when not disabled)
  *
- * Memo-friendly: the resolved style/color objects are computed via useMemo so
- * referential identity is stable across renders with the same props.
+ * Memo-friendly: resolved style/color are computed via `useMemo` so referential
+ * identity is stable across renders with the same props.
  */
 interface IconDirectProps extends Omit<React.SVGProps<SVGSVGElement>, 'children' | 'cursor' | 'color'> {
   component: RemixiconLikeComponent;

@@ -198,31 +198,29 @@ const meta: Meta<DefaultComboboxProps> = {
     },
     leadIcon: {
       control: 'object',
-      description: '트리거 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '트리거 앞에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   leadIcon={RiSearchLine}
   leadIcon={RiUserLine}
 
-또는 tuple form (deprecated, dev console warning):
-  leadIcon={['system', 'search']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },
     tailIcon: {
       control: 'object',
-      description: '라벨 뒤, 화살표 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '라벨 뒤, 화살표 앞에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   tailIcon={RiSearchLine}
   tailIcon={RiArrowDownSLine}
 
-또는 tuple form (deprecated, dev console warning):
-  tailIcon={['arrows', 'arrow-down-s']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },

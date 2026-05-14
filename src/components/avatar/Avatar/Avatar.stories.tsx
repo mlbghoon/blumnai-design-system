@@ -112,16 +112,15 @@ const meta = {
     },
     icon: {
       control: 'object',
-      description: 'status가 icon일 때 상태 배지에 표시할 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: 'status가 icon일 때 상태 배지에 표시할 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   icon={RiMoonLine}
   icon={RiCheckLine}
 
-또는 tuple form (deprecated, dev console warning):
-  icon={['weather', 'moon']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },

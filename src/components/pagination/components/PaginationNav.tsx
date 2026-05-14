@@ -1,17 +1,14 @@
 import { forwardRef } from 'react';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../../icons/Icon';
-import type { IconType } from '../../icons/Icon/Icon.types';
+import { Icon, RiArrowLeftSLine, RiArrowRightSLine } from '../../icons/Icon';
+import type { RemixiconLikeComponent } from '../../icons/Icon/Icon.types';
 import type { PaginationNavProps } from '../Pagination.types';
 
 export const PaginationNav = forwardRef<HTMLButtonElement, PaginationNavProps>(
   ({ className, direction, size = 'lg', disabled, href, onClick, iconOverride, ...props }, ref) => {
-    const iconType: IconType = iconOverride
-      ? (iconOverride as IconType)
-      : direction === 'prev'
-        ? ['arrows', 'arrow-left-s']
-        : ['arrows', 'arrow-right-s'];
+    const iconComponent: RemixiconLikeComponent = iconOverride
+      ?? (direction === 'prev' ? RiArrowLeftSLine : RiArrowRightSLine);
 
     const ariaLabel = direction === 'prev' ? '이전 페이지' : '다음 페이지';
     const navSize = size === 'sm' ? 'width-28 height-28' : 'width-32 height-32';
@@ -29,7 +26,7 @@ export const PaginationNav = forwardRef<HTMLButtonElement, PaginationNavProps>(
 
     const iconElement = (
       <Icon
-        iconType={iconType}
+        icon={iconComponent}
         size={iconSize}
         className={cn(disabled ? 'text-hint pointer-events-none' : 'text-subtle')}
       />

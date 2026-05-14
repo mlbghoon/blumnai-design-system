@@ -55,23 +55,41 @@
 
 ```bash
 npx blumnai-icon-codemod migrate ./src
+# (back-compat: 다음과 동일)
+npx blumnai-icon-codemod ./src
 ```
 
 - Static literal tuple 모두 자동 변환: `iconType={['system','check']}` → `icon={RiCheckLine}` + `Ri*` import 자동 추가
 - 모든 prop 이름 대응: `icon`, `leadIcon`, `tailIcon`, `buttonLeadIcon`, `buttonTailIcon`
-- `CellIcon iconType` → `icon` 도 처리
-- Dynamic 패턴 (`iconType={isX ? [...] : [...]}`, `iconType={getIcon()}`)은 자동 변환 안 됨 — 수동 처리 필요. 패턴별 예시 ↓
+- ✅ **`<CellIcon iconType={['cat','name']}>` → `<CellIcon icon={Ri*}>` 도 자동 처리** (prop 이름까지 변환)
+- Dynamic 패턴 (`iconType={isX ? [...] : [...]}`, `iconType={getIcon()}`, `iconType={iconMap[key]}`)은 자동 변환 안 됨 — 수동 처리 필요. 패턴별 예시 ↓
 
 #### 경로 B — Escape hatch (호환만 필요)
 
 ```bash
-npx blumnai-icon-codemod escape ./src
+# 현재 미구현 — v2.0.x 후속 패치 예정.
+# npx blumnai-icon-codemod escape ./src
 ```
 
-- Tuple 쓰는 파일의 import만 `…/icons/icon-legacy`로 재라우팅 (`Icon` → `LegacyIcon` 별칭)
+**현재(v2.0.0) 수동 escape 절차:**
+
+1. tuple 사용 파일 찾기:
+   ```bash
+   grep -rE "iconType=|leadIcon=\{\[|tailIcon=\{\[" ./src
+   ```
+2. 해당 파일의 import 경로만 변경:
+   ```diff
+   - import { Icon, IconType, IconTypeWithFill } from '@blumnai-studio/blumnai-design-system';
+   + import { Icon as LegacyIcon, IconType, IconTypeWithFill } from '@blumnai-studio/blumnai-design-system/icons/icon-legacy';
+   ```
+   해당 파일의 tuple 형 `<Icon …>` 사용은 `<LegacyIcon …>` 로 변경.
+3. `parseIconTypeWithFill` / `isIconTuple` / `preloadIcons` / `preloadIconCategory` import도 `…/icons/icon-legacy` 에서 가져오도록 변경.
+
 - 코드 본문 그대로, 동작 보장
-- **단, ~2.5MB chunk는 그대로 남습니다.** 절감 효과 없음.
-- 시간 날 때 경로 A로 옮겨갈 수 있음
+- **단, ~2.5MB chunk는 그대로 남습니다.** 절감 효과 없음
+- 시간 날 때 경로 A(`migrate`)로 옮겨가는 것을 권장
+
+> 💡 자동화된 `escape` 서브커맨드는 v2.0.x 후속 패치에서 제공 예정입니다.
 
 ### Dynamic 패턴 수동 변환 예시
 

@@ -1,10 +1,17 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import {
+  RiSearchLine,
+  RiSettings3Line,
+  RiCheckLine,
+  RiFilterLine,
+  RiDownloadLine,
+} from '@remixicon/react';
 
 import { VirtualSelect } from '../VirtualSelect';
 import { Select } from '../../select/Select';
 import type { SelectOption } from '../../select/Select.types';
-import type { IconTypeWithFill } from '../../icons/Icon/Icon.types';
+import type { RemixiconLikeComponent } from '../../icons/Icon/Icon.types';
 
 const generateOptions = (count: number): SelectOption[] =>
   Array.from({ length: count }, (_, i) => ({
@@ -20,12 +27,12 @@ const generateOptionsWithDescription = (count: number): SelectOption[] =>
   }));
 
 const generateOptionsWithIcons = (count: number): SelectOption[] => {
-  const icons: IconTypeWithFill[] = [
-    ['system', 'search'],
-    ['system', 'settings'],
-    ['system', 'check'],
-    ['system', 'filter'],
-    ['system', 'download'],
+  const icons: RemixiconLikeComponent[] = [
+    RiSearchLine,
+    RiSettings3Line,
+    RiCheckLine,
+    RiFilterLine,
+    RiDownloadLine,
   ];
   return Array.from({ length: count }, (_, i) => ({
     id: `option-${i + 1}`,

@@ -6,6 +6,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 
 import { cn } from '../../lib/utils';
 import { ControlButton } from '../button/ControlButton';
+import { RiArrowLeftLine, RiArrowRightLine } from '../icons/Icon';
 
 import type {
   CarouselApi,
@@ -222,7 +223,7 @@ export const CarouselPrevious = React.forwardRef<
   return (
     <ControlButton
       ref={ref}
-      icon={['arrows', 'arrow-left']}
+      icon={RiArrowLeftLine}
       shape="circle"
       size={size}
       disabled={isDisabled}
@@ -250,7 +251,7 @@ export const CarouselNext = React.forwardRef<
   return (
     <ControlButton
       ref={ref}
-      icon={['arrows', 'arrow-right']}
+      icon={RiArrowRightLine}
       shape="circle"
       size={size}
       disabled={isDisabled}

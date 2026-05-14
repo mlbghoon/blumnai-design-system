@@ -18,18 +18,16 @@ const meta: Meta<FileUploadStoryProps> = {
   argTypes: {
     icon: {
       control: 'object',
-      description: '[FileUploadArea] 커스텀 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '[FileUploadArea] 커스텀 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   icon={RiUploadCloud2Line}
   icon={RiFileAddLine}
   icon={RiFolderUploadFill}
 
-또는 tuple form (deprecated, dev console warning):
-  icon={['system', 'upload-cloud-2']}
-  icon={['document', 'file-add', true]}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
         category: 'FileUploadArea',
       },

@@ -40,16 +40,15 @@ const meta: Meta<InfoBoxProps> = {
     },
     icon: {
       control: 'object',
-      description: '커스텀 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated). 미지정 시 variant에 따라 기본 아이콘이 표시됩니다',
+      description: '커스텀 아이콘 (Remixicon `Ri*` component reference). 미지정 시 variant에 따라 기본 아이콘이 표시됩니다',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   icon={RiInformationLine}
   icon={RiAlertLine}
 
-또는 tuple form (deprecated, dev console warning):
-  icon={['system', 'information']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },

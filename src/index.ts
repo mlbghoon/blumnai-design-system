@@ -76,7 +76,7 @@ export type {
   PasswordVariantProps,
   PasswordStrength,
   DropdownOption,
-  IconTypeWithFill,
+  // IconTypeWithFill removed from main entry in v2.0 — import from `…/icons/icon-legacy` if needed.
 } from './components/input';
 
 export { Textarea } from './components/textarea';
@@ -859,14 +859,16 @@ export type {
 } from './components/input-otp';
 
 // =============================================================================
-// ICONS
+// ICONS (v2.0 — main entry는 direct-import only)
+//
+// Tuple form (`<Icon iconType={['cat','name']} />`)은 v2.0에서 제거됐습니다.
+// Tuple API가 필요하면 `@blumnai-studio/blumnai-design-system/icons/icon-legacy`
+// 를 import하세요. `IconType`, `IconTypeWithFill`, `parseIconTypeWithFill`,
+// `preloadIcons`, `preloadIconCategory`, `isIconTuple`, `IconCategory` 모두 거기로 이동.
 // =============================================================================
-export { Icon, preloadIconCategory, preloadIcons } from './components/icons';
+export { Icon } from './components/icons';
 export type {
   IconProps,
-  IconType,
-  IconCategory,
-  IconTypeWithFill as IconTypeWithFillFromIcon,
   RemixiconLikeComponent,
   BrandType,
   CursorType,
@@ -877,12 +879,9 @@ export type {
   IsometricView,
 } from './components/icons';
 
-// Icon-prop union + renderer utility (v1.10.6+).
-// Lets every DS icon-accepting prop receive a Remixicon component ref
-// (`RiAddLine`, `RiCheckLine`, ...) in addition to the legacy tuple form.
+// Icon-prop union + renderer utility (direct-import only — no tuple branch).
 export {
   renderIconProp,
-  isIconTuple,
   isRemixiconComponent,
 } from './components/icons/Icon';
 export type {

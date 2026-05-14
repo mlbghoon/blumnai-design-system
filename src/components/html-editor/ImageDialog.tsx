@@ -1,11 +1,13 @@
+import { RiImageLine } from '@blumnai-studio/blumnai-design-system';
 import { useState, useCallback, useRef } from 'react';
-
 import { cn } from '@/lib/utils';
+
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from '../popover';
+
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../tabs';
 import { Button } from '../button';
 import { ToolbarButton } from './ToolbarButton';
@@ -108,7 +110,7 @@ export function ImageDialog({
       <PopoverTrigger asChild>
         <span>
           <ToolbarButton
-            icon={['media', 'image']}
+            icon={RiImageLine}
             tooltip="이미지"
             isActive={open}
             onClick={() => setOpen(!open)}

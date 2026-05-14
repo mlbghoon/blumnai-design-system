@@ -1,18 +1,14 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-import type { IconType, RemixiconLikeComponent } from '../icons/Icon/Icon.types';
+import type { RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 
 /**
- * Extended icon type for Button.
+ * Icon type for Button (v2.0+ — direct-import only).
  *
- * - Tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat)
- * - Remixicon component reference like `RiCheckLine` (tree-shaking 권장)
- *
- * @example ['system', 'add']
- * @example ['system', 'add', true]
  * @example RiCheckLine
+ * @note v1.x tuple form (`['system', 'add']`) was removed in v2.0.0.
  */
-export type ButtonIconType = IconType | [...IconType, boolean] | RemixiconLikeComponent;
+export type ButtonIconType = RemixiconLikeComponent;
 
 export type ButtonStyle =
   | 'primary'
@@ -70,8 +66,8 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
    * - Remixicon component (`RiCheckLine` 등) — tree-shaking 권장
    * - ReactNode — 직접 렌더된 노드
    *
-   * @example leadIcon={['system', 'add']}
-   * @example leadIcon={['system', 'add', true]}
+   * @example leadIcon={RiAddLine}
+   * @example leadIcon={RiAddFill}
    * @example leadIcon={RiAddLine}
    */
   leadIcon?: ButtonIconType | ReactNode;
@@ -80,7 +76,7 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
    *
    * 받는 형식은 `leadIcon` 과 동일.
    *
-   * @example tailIcon={['arrows', 'arrow-right']}
+   * @example tailIcon={RiArrowRightLine}
    * @example tailIcon={RiArrowRightLine}
    */
   tailIcon?: ButtonIconType | ReactNode;

@@ -90,3 +90,8 @@ bundle-analysis.html
 # Personal test projects (local-only)
 my-stitch-blumn/
 .vercel
+
+# Bundle verification test projects (local pre-flight harness; not shipped)
+tests/bundle/*/node_modules/
+tests/bundle/*/dist/
+tests/bundle/*/package-lock.json

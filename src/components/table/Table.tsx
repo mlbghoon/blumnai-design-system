@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
-import { Icon } from '../icons/Icon';
+import { Icon, RiArrowDownSLine, RiArrowUpSLine, RiExpandUpDownLine } from '../icons/Icon';
+import type { RemixiconLikeComponent } from '../icons/Icon';
 import { Pagination } from '../pagination';
 import { Select } from '../select';
 import { ScrollArea } from '../scroll-area';
@@ -262,9 +263,9 @@ TableRow.displayName = 'TableRow';
 const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   ({ className, sortable, sortDirection, children, onClick, style, ...props }, ref) => {
     const fontSize = useTableFontSize();
-    const getSortIcon = () => {
-      if (!sortDirection) return 'expand-up-down';
-      return sortDirection === 'asc' ? 'arrow-up-s' : 'arrow-down-s';
+    const getSortIcon = (): RemixiconLikeComponent => {
+      if (!sortDirection) return RiExpandUpDownLine;
+      return sortDirection === 'asc' ? RiArrowUpSLine : RiArrowDownSLine;
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTableCellElement>) => {
@@ -303,7 +304,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
           <div className="inline-flex items-center ds-gap-4 align-middle">
             <span>{children}</span>
             <Icon
-              iconType={['arrows', getSortIcon()]}
+              icon={getSortIcon()}
               size={12}
               className={cn('shrink-0', sortDirection ? 'text-subtle' : 'text-hint')}
             />

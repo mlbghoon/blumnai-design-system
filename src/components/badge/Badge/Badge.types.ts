@@ -69,9 +69,9 @@ export interface BadgeProps extends Omit<HTMLAttributes<HTMLDivElement>, 'childr
    */
   label?: string;
   /**
-   * The icon type to display (for icon variant).
-   * @example icon={['system', 'check']}
-   * @example icon={['system', 'star', true]} - filled icon
+   * Icon component reference for icon variant (v2.0+ — direct-import only).
+   * @example icon={RiCheckLine}
+   * @example icon={RiStarFill} - filled icon
    */
   icon?: IconProp;
   /**

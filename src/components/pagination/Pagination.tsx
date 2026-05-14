@@ -1,6 +1,7 @@
 import { forwardRef, useMemo, useState, useCallback } from 'react';
 
 import { cn } from '@/lib/utils';
+import { RiArrowLeftDoubleLine, RiArrowRightDoubleLine } from '../icons/Icon';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -224,10 +225,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
       return null;
     }
 
-    const firstLastIconType = (dir: 'first' | 'last'): ['arrows', string] =>
-      dir === 'first'
-        ? ['arrows', 'arrow-left-double']
-        : ['arrows', 'arrow-right-double'];
+    const firstLastIconType = (dir: 'first' | 'last') =>
+      dir === 'first' ? RiArrowLeftDoubleLine : RiArrowRightDoubleLine;
 
     return (
       <>

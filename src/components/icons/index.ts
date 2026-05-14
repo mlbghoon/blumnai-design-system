@@ -7,8 +7,11 @@ export { FlagIcon } from './FlagIcon';
 export { IsometricIcon } from './IsometricIcon';
 
 // 타입
-export type { IconCategory, IconProps, IconType, IconTypeWithFill, RemixiconLikeComponent } from './Icon';
-export { parseIconTypeWithFill, preloadIconCategory, preloadIcons } from './Icon';
+// v2.0 — main entry는 direct-import only.
+// Tuple-related types (`IconType`, `IconTypeWithFill`, `parseIconTypeWithFill`,
+// `preloadIcons`, `preloadIconCategory`, `IconCategory`)는 v2.0에서
+// `…/icons/icon-legacy`로 이동했습니다.
+export type { IconProps, RemixiconLikeComponent } from './Icon';
 
 // Remixicon direct-import API: re-export all Ri* components for tree-shake-friendly usage.
 // Consumers: `import { RiCheckLine, RiAddFill } from '@blumnai-studio/blumnai-design-system';`

@@ -15,18 +15,16 @@ const meta: Meta<typeof EmptyState> = {
   argTypes: {
     icon: {
       control: 'object',
-      description: '빈 상태 영역 상단에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '빈 상태 영역 상단에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   icon={RiInboxLine}
   icon={RiFolderOpenLine}
   icon={RiStarFill}
 
-또는 tuple form (deprecated, dev console warning):
-  icon={['system', 'inbox']}
-  icon={['document', 'folder-open', true]}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },

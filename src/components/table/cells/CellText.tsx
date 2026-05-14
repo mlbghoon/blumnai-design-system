@@ -2,7 +2,7 @@ import { useState, useCallback, useRef, useEffect, type ReactNode } from 'react'
 
 import { cn } from '@/lib/utils';
 import { TooltipTrigger } from '../../tooltip/Tooltip/TooltipTrigger';
-import { Icon } from '../../icons/Icon';
+import { Icon, RiFileCheckLine, RiFileCopyLine } from '../../icons/Icon';
 import { useTableTooltipOptional } from '../components/useTableTooltip';
 import { useCellAlign } from '../components/useCellAlign';
 import { useTableFontSize, getTableFontClasses } from '../components/TableFontSizeContext';
@@ -110,7 +110,7 @@ export function CellText({
     >
       <span className="truncate">{displayValue}</span>
       <Icon
-        iconType={['document', copied ? 'file-check' : 'file-copy']}
+        icon={copied ? RiFileCheckLine : RiFileCopyLine}
         size={12}
         color={copied ? 'success' : 'default-subtle'}
         className={cn(

@@ -6,7 +6,11 @@ import { cva } from 'class-variance-authority';
 import { useKeyboardShortcut } from '../../hooks/use-keyboard-shortcut';
 
 import { Icon } from '../icons/Icon';
-import type { IconType } from '../icons/Icon/Icon.types';
+import { isRemixiconComponent } from '../icons/Icon';
+import {
+  handleLegacyTupleAtRuntime,
+  looksLikeLegacyTuple,
+} from '../icons/Icon/_legacyTupleGuard';
 import { Avatar } from '../avatar/Avatar/Avatar';
 import { Badge } from '../badge/Badge/Badge';
 import { cn } from '../../lib/utils';
@@ -75,13 +79,19 @@ const renderIcon = (icon: SidebarMenuItemIconType | React.ReactNode, size: numbe
   if (!icon) return null;
   if (typeof icon === 'object' && !Array.isArray(icon) && Object.keys(icon as object).length === 0) return null;
 
-  if (Array.isArray(icon) && (icon.length === 2 || icon.length === 3) && typeof icon[0] === 'string' && typeof icon[1] === 'string') {
-    const fillValue = icon[2] as boolean | string | undefined;
-    const isFill = icon.length === 3 && (fillValue === true || fillValue === 'true');
+  // v2.0 — tuple form은 제거됨. 런타임에 도달하면 다른 icon prop 경로와 동일한 가드 적용
+  // (dev에서 throw, prod에서 한 번만 console.error + fallback). 가만히 null 반환하면
+  // debug가 힘드니까 일관된 진단 메시지를 띄움.
+  if (looksLikeLegacyTuple(icon)) {
+    handleLegacyTupleAtRuntime('icon-prop');
+    return null;
+  }
+
+  // v2.0 — direct-import Ri* component reference.
+  if (isRemixiconComponent(icon)) {
     return (
       <Icon
-        iconType={[icon[0], icon[1]] as IconType}
-        isFill={isFill}
+        icon={icon}
         size={size}
         color="var(--icon-default-muted)"
       />

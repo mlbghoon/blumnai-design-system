@@ -117,13 +117,11 @@ const meta: Meta<typeof Input> = {
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   leadIcon={RiMoneyDollarCircleLine}
   leadIcon={RiSearchLine}
 
-또는 tuple form (deprecated, dev console warning):
-  leadIcon={['finance', 'money-dollar-circle']}
-  leadIcon={['system', 'star', true]}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },
@@ -133,13 +131,11 @@ const meta: Meta<typeof Input> = {
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only):
   tailIcon={RiExternalLinkLine}
   tailIcon={RiCloseLine}
 
-또는 tuple form (deprecated, dev console warning):
-  tailIcon={['system', 'external-link']}
-  tailIcon={['system', 'star', true]}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },

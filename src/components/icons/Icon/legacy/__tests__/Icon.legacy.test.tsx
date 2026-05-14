@@ -3,7 +3,7 @@ import { fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { RiCheckLine, RiCheckFill, RiAddLine } from '@remixicon/react';
 
-import { Icon } from '../Icon';
+import { Icon } from '../Icon.legacy';
 import { renderIconAndWait, preloadRemixicon } from './test-utils';
 
 beforeAll(async () => {

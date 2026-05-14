@@ -72,20 +72,18 @@ export interface TabsTriggerProps extends RadixTabsTriggerProps {
    * 앞에 표시되는 아이콘.
    *
    * 받는 형식:
-   * - tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat; dev warning)
-   * - Remixicon component (`RiSettingsLine` 등; tree-shaking 권장)
+   * - Remixicon component reference (e.g., `RiSettingsLine`)
    * - ReactNode (이미 렌더된 노드)
    *
    * @example leadIcon={RiSettingsLine}
-   * @example leadIcon={['system', 'settings']}
    * @example leadIcon={<CustomIcon />}
+   * @note v1.x tuple form was removed in v2.0.0.
    */
   leadIcon?: IconProp | ReactNode;
   /**
    * 뒤에 표시되는 아이콘. 받는 형식은 `leadIcon` 과 동일.
    *
    * @example tailIcon={RiArrowRightLine}
-   * @example tailIcon={['arrows', 'arrow-right']}
    */
   tailIcon?: IconProp | ReactNode;
   /** 배지 텍스트/숫자 */

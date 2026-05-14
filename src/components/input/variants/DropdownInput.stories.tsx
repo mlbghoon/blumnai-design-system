@@ -134,33 +134,29 @@ const meta: Meta<typeof Input> = {
     },
     leadIcon: {
       control: 'object',
-      description: '입력 필드 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '입력 필드 앞에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   leadIcon={RiSearchLine}
   leadIcon={RiUserLine}
 
-또는 tuple form (deprecated, dev console warning):
-  leadIcon={['system', 'search']}
-  leadIcon={['system', 'star', true]}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },
     tailIcon: {
       control: 'object',
-      description: '입력 필드 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '입력 필드 뒤에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   tailIcon={RiArrowDownSLine}
   tailIcon={RiCloseLine}
 
-또는 tuple form (deprecated, dev console warning):
-  tailIcon={['arrows', 'arrow-down-s']}
-  tailIcon={['system', 'close']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },

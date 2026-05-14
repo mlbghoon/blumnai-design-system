@@ -164,9 +164,10 @@ export interface PaginationNavProps extends Omit<ButtonHTMLAttributes<HTMLButton
   href?: string;
 
   /**
-   * 아이콘 타입 오버라이드 (first/last 버튼에 사용)
+   * 아이콘 컴포넌트 오버라이드 (first/last 버튼에 사용).
+   * v2.0+ — tuple form 대신 Remixicon component reference.
    */
-  iconOverride?: [string, string];
+  iconOverride?: import('../icons/Icon/Icon.types').RemixiconLikeComponent;
 }
 
 export interface PaginationEllipsisProps extends HTMLAttributes<HTMLSpanElement> {

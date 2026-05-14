@@ -77,9 +77,9 @@ const ContextMenuItem = React.forwardRef<
   inset,
   destructive,
   leadIcon,
-  leadIconFill = false,
+  leadIconFill: _leadIconFill = false,
   tailIcon,
-  tailIconFill = false,
+  tailIconFill: _tailIconFill = false,
   iconColor,
   caption,
   description,
@@ -136,7 +136,6 @@ const ContextMenuItem = React.forwardRef<
           {renderIconProp(leadIcon, {
             size: 16,
             color: effectiveIconColor,
-            isFill: leadIconFill,
           })}
         </div>
       )}
@@ -165,7 +164,6 @@ const ContextMenuItem = React.forwardRef<
           {renderIconProp(tailIcon, {
             size: 16,
             color: effectiveIconColor,
-            isFill: tailIconFill,
           })}
         </div>
       )}

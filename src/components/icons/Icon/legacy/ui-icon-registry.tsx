@@ -15,7 +15,7 @@
 import { lazy } from 'react';
 import type { ComponentType, LazyExoticComponent } from 'react';
 
-import type { IconCategory, IconType } from './Icon.types';
+import type { IconCategory, IconType } from '../Icon.types';
 import { REMIXICON_EXPORT_MAP, REMIXICON_CATEGORY_MANIFEST } from './remixicon-export-map';
 
 /** Loaded `@remixicon/react` module after the lazy chunk resolves. */

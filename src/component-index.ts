@@ -29,7 +29,7 @@ export const COMPONENT_INDEX = {
     keywords: ['icon button', 'icon only', 'edit', 'delete', 'small button', 'action button'],
     description: 'Icon-only button for compact actions',
     import: "import { ControlButton } from '@blumnai/design-system'",
-    quickUse: '<ControlButton icon={["system", "edit"]} />',
+    quickUse: '<ControlButton icon={RiEditLine} />',
   },
 
   ButtonGroup: {
@@ -515,7 +515,7 @@ export const COMPONENT_INDEX = {
     keywords: ['icon', 'symbol', 'glyph', 'svg'],
     description: 'Icon component',
     import: "import { Icon } from '@blumnai/design-system'",
-    quickUse: '<Icon iconType={["system", "check"]} size={20} />',
+    quickUse: '<Icon icon={RiCheckLine} size={20} />',
     categories: ['system', 'arrows', 'business', 'communication', 'design', 'development', 'device', 'document', 'editor', 'finance', 'food', 'health', 'logos', 'map', 'media', 'weather', 'user'],
   },
 

@@ -1,12 +1,14 @@
+import { RiFontColor } from '@blumnai-studio/blumnai-design-system';
 import { useState, useCallback } from 'react';
 import type { Editor } from '@tiptap/react';
-
 import { cn } from '@/lib/utils';
+
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from '../popover';
+
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../tabs';
 import { ToolbarButton } from './ToolbarButton';
 import { DEFAULT_COLORS } from './HtmlEditor.constants';
@@ -92,7 +94,7 @@ export function ColorPicker({
       <PopoverTrigger asChild>
         <span>
           <ToolbarButton
-            icon={['editor', 'font-color']}
+            icon={RiFontColor}
             tooltip="글꼴/배경 색상"
             isActive={open}
             onClick={() => setOpen(!open)}

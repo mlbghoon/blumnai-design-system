@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { DndContext, Draggable, Droppable } from '../index';
 import type { DroppableProps, DragEndEvent } from '../dnd.types';
-import { Icon, RiImageLine, RiText } from '@/components/icons';
+import { Icon, RiImageLine, RiText, RiCheckLine, RiAddLine } from '@/components/icons';
 
 const meta: Meta<DroppableProps> = {
   title: 'DnD/Droppable',
@@ -253,7 +253,7 @@ export const RenderProps: Story = {
                 `}
               >
                 <Icon
-                  iconType={isOver ? ['system', 'check'] : ['system', 'add']}
+                  icon={isOver ? RiCheckLine : RiAddLine}
                   size={24}
                   className={isOver ? 'text-white' : 'text-muted'}
                 />

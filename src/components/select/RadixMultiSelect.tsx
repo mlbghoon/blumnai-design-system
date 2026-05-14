@@ -3,7 +3,7 @@ import * as PopoverPrimitive from '@radix-ui/react-popover';
 
 import { cn } from '@/lib/utils';
 import { InputWrapper } from '../input/shared/InputWrapper';
-import { Icon, renderIconProp, RiCloseLine, RiSearchLine } from '../icons/Icon';
+import { Icon, renderIconProp, RiArrowDownSLine, RiArrowUpSLine, RiCloseLine, RiSearchLine } from '../icons/Icon';
 import { Avatar } from '../avatar/Avatar';
 import { Badge } from '../badge/Badge';
 import { TooltipTrigger } from '../tooltip/Tooltip/TooltipTrigger';
@@ -668,7 +668,7 @@ const MultiSelect = React.forwardRef<HTMLDivElement, RadixMultiSelectProps>(
                 })}
 
                 <Icon
-                  iconType={['arrows', isOpen ? 'arrow-up-s' : 'arrow-down-s']}
+                  icon={isOpen ? RiArrowUpSLine : RiArrowDownSLine}
                   size={sizeConfig.iconSize}
                   color={iconColor}
                   className="flex-shrink-0"

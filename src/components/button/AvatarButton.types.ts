@@ -1,18 +1,14 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-import type { IconType, RemixiconLikeComponent } from '../icons/Icon/Icon.types';
+import type { RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 
 /**
- * AvatarButton 아이콘 타입.
+ * AvatarButton 아이콘 타입 (v2.0+ — direct-import only).
  *
- * - tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat)
- * - Remixicon component (`RiArrowDownSLine` 등; tree-shaking 권장)
- *
- * @example ['arrows', 'arrow-down-s']
- * @example ['arrows', 'arrow-down-s', true]
  * @example RiArrowDownSLine
+ * @note v1.x tuple form was removed in v2.0.0.
  */
-export type AvatarButtonIconType = IconType | [...IconType, boolean] | RemixiconLikeComponent;
+export type AvatarButtonIconType = RemixiconLikeComponent;
 
 export type AvatarButtonSize = 'sm' | 'lg';
 
@@ -43,8 +39,8 @@ export interface AvatarButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonE
   label: string;
   /**
    * 라벨 뒤에 표시되는 아이콘
-   * @example tailIcon={['arrows', 'arrow-down-s']}
-   * @example tailIcon={['arrows', 'arrow-down-s', true]} - 채워진 아이콘
+   * @example tailIcon={RiArrowDownSLine}
+   * @example tailIcon={RiArrowDownSFill} - 채워진 아이콘
    */
   tailIcon?: AvatarButtonIconType | ReactNode;
   /**

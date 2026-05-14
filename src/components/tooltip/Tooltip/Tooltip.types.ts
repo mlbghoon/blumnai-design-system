@@ -22,9 +22,9 @@ export interface TooltipItemData {
    */
   indicatorColor?: string;
   /**
-   * The icon type (for item type with icon).
-   * @example icon={['system', 'info']}
-   * @example icon={['system', 'star', true]} - filled icon
+   * The icon component (for item type with icon).
+   * @example icon={RiInformationLine}
+   * @example icon={RiStarFill} - filled icon
    */
   icon?: IconProp;
   /**

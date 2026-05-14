@@ -5,7 +5,8 @@ import { SortableContext, useSortable, horizontalListSortingStrategy, arrayMove 
 import { CSS } from '@dnd-kit/utilities';
 
 import { cn } from '@/lib/utils';
-import { Icon, RiDraggable } from '../../icons/Icon';
+import { Icon, RiArrowDownSLine, RiArrowUpSLine, RiDraggable, RiExpandUpDownLine } from '../../icons/Icon';
+import type { RemixiconLikeComponent } from '../../icons/Icon';
 import { TooltipTrigger } from '../../tooltip';
 import { DndContext } from '../../dnd';
 import { useMergeRefs } from '../../../hooks/use-merge-refs';
@@ -44,9 +45,9 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
   const align = header.column.columnDef.meta?.headerAlign ?? 'center';
   const headerTooltip = header.column.columnDef.meta?.headerTooltip;
 
-  const getSortIcon = () => {
-    if (!sortDirection) return 'expand-up-down';
-    return sortDirection === 'asc' ? 'arrow-up-s' : 'arrow-down-s';
+  const getSortIcon = (): RemixiconLikeComponent => {
+    if (!sortDirection) return RiExpandUpDownLine;
+    return sortDirection === 'asc' ? RiArrowUpSLine : RiArrowDownSLine;
   };
 
   const isSticky = !!stickyInfo;
@@ -99,7 +100,7 @@ function DataGridHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
       {canSort && (
         <div className="flex items-center ds-gap-1 shrink-0">
           <Icon
-            iconType={['arrows', getSortIcon()]}
+            icon={getSortIcon()}
             size={12}
             className={sortDirection ? 'text-subtle' : 'text-hint'}
           />
@@ -165,9 +166,9 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
   const align = header.column.columnDef.meta?.headerAlign ?? 'center';
   const headerTooltip = header.column.columnDef.meta?.headerTooltip;
 
-  const getSortIcon = () => {
-    if (!sortDirection) return 'expand-up-down';
-    return sortDirection === 'asc' ? 'arrow-up-s' : 'arrow-down-s';
+  const getSortIcon = (): RemixiconLikeComponent => {
+    if (!sortDirection) return RiExpandUpDownLine;
+    return sortDirection === 'asc' ? RiArrowUpSLine : RiArrowDownSLine;
   };
 
   const isSticky = !!stickyInfo;
@@ -238,7 +239,7 @@ function SortableHeaderCell<T>({ header, stickyInfo, headerHeight, colIndex, ena
       {canSort && (
         <div className="flex items-center ds-gap-1 shrink-0">
           <Icon
-            iconType={['arrows', getSortIcon()]}
+            icon={getSortIcon()}
             size={12}
             className={sortDirection ? 'text-subtle' : 'text-hint'}
           />

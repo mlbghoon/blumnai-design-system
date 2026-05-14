@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import type { Editor } from '@tiptap/react';
+import { RiAlignLeft, RiAlignCenter, RiAlignRight, RiAlignJustify } from '@remixicon/react';
 
 import { cn } from '@/lib/utils';
 import {
@@ -9,18 +10,18 @@ import {
 } from '../popover';
 import { ToolbarButton } from './ToolbarButton';
 import { TOOLBAR_GROUP } from './HtmlEditor.constants';
-import type { IconTypeWithFill } from '../icons/Icon/Icon.types';
+import type { RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 
 interface AlignDropdownProps {
   editor: Editor;
   disabled?: boolean;
 }
 
-const ALIGN_OPTIONS: { value: string; icon: IconTypeWithFill; label: string }[] = [
-  { value: 'left', icon: ['editor', 'align-left'], label: '왼쪽 정렬' },
-  { value: 'center', icon: ['editor', 'align-center'], label: '가운데 정렬' },
-  { value: 'right', icon: ['editor', 'align-right'], label: '오른쪽 정렬' },
-  { value: 'justify', icon: ['editor', 'align-justify'], label: '양쪽 정렬' },
+const ALIGN_OPTIONS: { value: string; icon: RemixiconLikeComponent; label: string }[] = [
+  { value: 'left', icon: RiAlignLeft, label: '왼쪽 정렬' },
+  { value: 'center', icon: RiAlignCenter, label: '가운데 정렬' },
+  { value: 'right', icon: RiAlignRight, label: '오른쪽 정렬' },
+  { value: 'justify', icon: RiAlignJustify, label: '양쪽 정렬' },
 ];
 
 function getCurrentAlign(editor: Editor): string {

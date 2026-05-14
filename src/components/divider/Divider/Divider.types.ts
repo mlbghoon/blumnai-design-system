@@ -71,9 +71,9 @@ export interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chil
    */
   label?: string;
   /**
-   * 아이콘 타입 (icon-* 타입에서 사용)
-   * @example icon={['system', 'add']}
-   * @example icon={['system', 'add', true]} - 채워진 아이콘
+   * 아이콘 컴포넌트 참조 (icon-* 타입에서 사용, v2.0+ — direct-import only)
+   * @example icon={RiAddLine}
+   * @example icon={RiAddFill} - 채워진 아이콘
    */
   icon?: IconProp;
   /**
@@ -82,12 +82,12 @@ export interface DividerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chil
   buttonLabel?: string;
   /**
    * 버튼 앞에 표시되는 아이콘 (button-* 타입에서 사용)
-   * @example buttonLeadIcon={['system', 'add']}
+   * @example buttonLeadIcon={RiAddLine}
    */
   buttonLeadIcon?: ButtonIconType | ReactNode;
   /**
    * 버튼 뒤에 표시되는 아이콘 (button-* 타입에서 사용)
-   * @example buttonTailIcon={['arrows', 'chevron-down']}
+   * @example buttonTailIcon={RiArrowDownSLine}
    */
   buttonTailIcon?: ButtonIconType | ReactNode;
   /**

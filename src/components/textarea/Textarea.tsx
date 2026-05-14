@@ -1,12 +1,13 @@
+import { RiAddLine, RiMicLine, RiArrowUpLine } from '@blumnai-studio/blumnai-design-system';
 import { forwardRef, useId, useRef, useCallback, useEffect } from 'react';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
-
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/lib/spinner';
 import { Button } from '../button/Button';
 import { InputWrapper } from '../input/shared/InputWrapper';
 import { ScrollBar } from '../scroll-area/ScrollArea';
 import type { TextareaProps } from './Textarea.types';
+
 import {
   SIZE_CONFIG,
   STYLE_CONFIG,
@@ -250,7 +251,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
               variant="iconOnly"
               buttonStyle="soft"
               size="xs"
-              leadIcon={['system', 'add']}
+              leadIcon={RiAddLine}
               onClick={onAttach}
               disabled={disabled}
               aria-label="Attach file"
@@ -295,7 +296,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
             );
           })}
         </div>
-
         <div className={TOOLBAR_ACTIONS_CONTAINER}>
           {toolbarTrailing}
 
@@ -314,7 +314,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
               variant="iconOnly"
               buttonStyle="soft"
               size="xs"
-              leadIcon={['media', 'mic']}
+              leadIcon={RiMicLine}
               onClick={onVoiceInput}
               disabled={disabled}
               aria-label="Voice input"
@@ -326,7 +326,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
               variant="iconOnly"
               buttonStyle={disabled || submitDisabled ? 'soft' : 'primary'}
               size="xs"
-              leadIcon={['arrows', 'arrow-up']}
+              leadIcon={RiArrowUpLine}
               onClick={onSubmit}
               disabled={disabled || submitDisabled}
               aria-label="Submit"

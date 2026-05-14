@@ -59,18 +59,16 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     leadIcon: {
       control: 'object',
-      description: '아이템 라벨 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '아이템 라벨 앞에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   leadIcon={RiAddLine}
   leadIcon={RiFileAddLine}
   leadIcon={RiArrowRightSLine}
 
-또는 tuple form (deprecated, dev console warning):
-  leadIcon={['system', 'add']}
-  leadIcon={['document', 'file-add']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },
@@ -84,17 +82,15 @@ const meta: Meta<ContextMenuItemProps> = {
     },
     tailIcon: {
       control: 'object',
-      description: '아이템 라벨 뒤쪽에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated). 서브메뉴 화살표나 외부 링크 표시에 주로 사용됩니다',
+      description: '아이템 라벨 뒤쪽에 표시되는 아이콘 (Remixicon `Ri*` component reference). 서브메뉴 화살표나 외부 링크 표시에 주로 사용됩니다',
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   tailIcon={RiArrowRightSLine}
   tailIcon={RiExternalLinkLine}
 
-또는 tuple form (deprecated, dev console warning):
-  tailIcon={['arrows', 'arrow-right-s']}
-  tailIcon={['arrows', 'external-link']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },

@@ -1,6 +1,23 @@
+import {
+  RiBold,
+  RiItalic,
+  RiUnderline,
+  RiStrikethrough,
+  RiListUnordered,
+  RiListOrdered,
+  RiAlignLeft,
+  RiAlignCenter,
+  RiAlignRight,
+  RiAlignJustify,
+  RiLinkUnlink,
+  RiFormatClear,
+  RiArrowGoBackLine,
+  RiArrowGoForwardLine,
+  RiCodeView,
+} from '@blumnai-studio/blumnai-design-system';
+
 import { useCallback } from 'react';
 import type { Editor } from '@tiptap/react';
-
 import { cn } from '@/lib/utils';
 import { Divider } from '../divider/Divider/Divider';
 import { ScrollArea } from '../scroll-area';
@@ -75,7 +92,7 @@ export function Toolbar({
           <div className={TOOLBAR_GROUP}>
             {has('bold') && (
               <ToolbarButton
-                icon={['editor', 'bold']}
+                icon={RiBold}
                 tooltip="굵게 (Ctrl+B)"
                 isActive={editor.isActive('bold')}
                 onClick={() => editor.chain().focus().toggleBold().run()}
@@ -84,7 +101,7 @@ export function Toolbar({
             )}
             {has('italic') && (
               <ToolbarButton
-                icon={['editor', 'italic']}
+                icon={RiItalic}
                 tooltip="기울임 (Ctrl+I)"
                 isActive={editor.isActive('italic')}
                 onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -93,7 +110,7 @@ export function Toolbar({
             )}
             {has('underline') && (
               <ToolbarButton
-                icon={['editor', 'underline']}
+                icon={RiUnderline}
                 tooltip="밑줄 (Ctrl+U)"
                 isActive={editor.isActive('underline')}
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
@@ -102,7 +119,7 @@ export function Toolbar({
             )}
             {has('strikethrough') && (
               <ToolbarButton
-                icon={['editor', 'strikethrough']}
+                icon={RiStrikethrough}
                 tooltip="취소선"
                 isActive={editor.isActive('strike')}
                 onClick={() => editor.chain().focus().toggleStrike().run()}
@@ -130,7 +147,7 @@ export function Toolbar({
           <div className={TOOLBAR_GROUP}>
             {has('bulletList') && (
               <ToolbarButton
-                icon={['editor', 'list-unordered']}
+                icon={RiListUnordered}
                 tooltip="순서 없는 목록"
                 isActive={editor.isActive('bulletList')}
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -139,7 +156,7 @@ export function Toolbar({
             )}
             {has('orderedList') && (
               <ToolbarButton
-                icon={['editor', 'list-ordered']}
+                icon={RiListOrdered}
                 tooltip="순서 있는 목록"
                 isActive={editor.isActive('orderedList')}
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
@@ -159,28 +176,28 @@ export function Toolbar({
           ) : (
             <div className={TOOLBAR_GROUP}>
               <ToolbarButton
-                icon={['editor', 'align-left']}
+                icon={RiAlignLeft}
                 tooltip="왼쪽 정렬"
                 isActive={editor.isActive({ textAlign: 'left' })}
                 onClick={() => editor.chain().focus().setTextAlign('left').run()}
                 disabled={disabled}
               />
               <ToolbarButton
-                icon={['editor', 'align-center']}
+                icon={RiAlignCenter}
                 tooltip="가운데 정렬"
                 isActive={editor.isActive({ textAlign: 'center' })}
                 onClick={() => editor.chain().focus().setTextAlign('center').run()}
                 disabled={disabled}
               />
               <ToolbarButton
-                icon={['editor', 'align-right']}
+                icon={RiAlignRight}
                 tooltip="오른쪽 정렬"
                 isActive={editor.isActive({ textAlign: 'right' })}
                 onClick={() => editor.chain().focus().setTextAlign('right').run()}
                 disabled={disabled}
               />
               <ToolbarButton
-                icon={['editor', 'align-justify']}
+                icon={RiAlignJustify}
                 tooltip="양쪽 정렬"
                 isActive={editor.isActive({ textAlign: 'justify' })}
                 onClick={() => editor.chain().focus().setTextAlign('justify').run()}
@@ -208,7 +225,7 @@ export function Toolbar({
                   onInsert={onLinkInsert}
                 />
                 <ToolbarButton
-                  icon={['editor', 'link-unlink']}
+                  icon={RiLinkUnlink}
                   tooltip="링크 제거"
                   onClick={onLinkRemove}
                   disabled={disabled || !editor.isActive('link')}
@@ -233,7 +250,7 @@ export function Toolbar({
           {needsDivider() && divider}
           <div className={TOOLBAR_GROUP}>
             <ToolbarButton
-              icon={['editor', 'format-clear']}
+              icon={RiFormatClear}
               tooltip="서식 제거"
               onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()}
               disabled={disabled}
@@ -252,7 +269,6 @@ export function Toolbar({
       <ScrollArea orientation="horizontal" offsetScrollbars className="flex-1 min-w-0">
         {scrollableContent}
       </ScrollArea>
-
       {/* 고정 영역: 실행 취소/다시 실행 + 코드 뷰 — ScrollArea offsetScrollbars
           가 viewport 에 주는 10px paddingBottom 과 동일한 하단 여백을 맞춰
           toolbar 하단 정렬 일치 */}
@@ -265,14 +281,14 @@ export function Toolbar({
           {hasHistory && (
             <div className={TOOLBAR_GROUP}>
               <ToolbarButton
-                icon={['arrows', 'arrow-go-back']}
+                icon={RiArrowGoBackLine}
                 tooltip="실행 취소 (Ctrl+Z)"
                 onClick={() => editor.chain().focus().undo().run()}
                 disabled={disabled || !editor.can().chain().undo().run()}
                 inactiveStyle="ghost"
               />
               <ToolbarButton
-                icon={['arrows', 'arrow-go-forward']}
+                icon={RiArrowGoForwardLine}
                 tooltip="다시 실행 (Ctrl+Y)"
                 onClick={() => editor.chain().focus().redo().run()}
                 disabled={disabled || !editor.can().chain().redo().run()}
@@ -285,7 +301,7 @@ export function Toolbar({
               {hasHistory && divider}
               <div className={TOOLBAR_GROUP}>
                 <ToolbarButton
-                  icon={['editor', 'code-view']}
+                  icon={RiCodeView}
                   tooltip="HTML 소스 코드"
                   onClick={onCodeView}
                   disabled={disabled}

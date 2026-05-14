@@ -1,18 +1,14 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-import type { IconType, RemixiconLikeComponent } from '../icons/Icon/Icon.types';
+import type { RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 
 /**
- * LinkButton 아이콘 타입.
+ * LinkButton 아이콘 타입 (v2.0+ — direct-import only).
  *
- * - tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat)
- * - Remixicon component (`RiExternalLinkLine` 등; tree-shaking 권장)
- *
- * @example ['system', 'external-link']
- * @example ['system', 'external-link', true]
  * @example RiExternalLinkLine
+ * @note v1.x tuple form was removed in v2.0.0.
  */
-export type LinkButtonIconType = IconType | [...IconType, boolean] | RemixiconLikeComponent;
+export type LinkButtonIconType = RemixiconLikeComponent;
 
 export type LinkButtonSize = 'sm' | 'md' | 'lg';
 
@@ -44,13 +40,13 @@ export interface LinkButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonEle
   openInNewTab?: boolean;
   /**
    * 라벨 앞에 표시되는 아이콘
-   * @example leadIcon={['system', 'link']}
+   * @example leadIcon={RiLinkLine}
    */
   leadIcon?: LinkButtonIconType | ReactNode;
   /**
    * 라벨 뒤에 표시되는 아이콘
    * @default ['system', 'external-link']
-   * @example tailIcon={['system', 'external-link']}
+   * @example tailIcon={RiExternalLinkLine}
    */
   tailIcon?: LinkButtonIconType | ReactNode;
   /**

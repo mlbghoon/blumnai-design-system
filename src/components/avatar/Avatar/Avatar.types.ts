@@ -74,9 +74,9 @@ export interface AvatarProps extends Omit<HTMLAttributes<HTMLDivElement>, 'child
    */
   logoImage?: string;
   /**
-   * Icon type for icon status badge.
+   * Icon component for icon status badge (v2.0+ — direct-import only).
    * Only used when `status='icon'`.
-   * @example icon={['system', 'check']}
+   * @example icon={RiCheckLine}
    */
   icon?: IconProp;
   /**

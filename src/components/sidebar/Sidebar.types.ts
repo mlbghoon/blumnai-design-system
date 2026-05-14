@@ -1,6 +1,6 @@
 import type { ReactNode, HTMLAttributes, ButtonHTMLAttributes, ComponentProps } from 'react';
 
-import type { IconType, RemixiconLikeComponent } from '../icons/Icon/Icon.types';
+import type { RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 import type { BadgeProps } from '../badge/Badge/Badge.types';
 
 // ============================================
@@ -74,12 +74,14 @@ export type SidebarMenuItemVariant =
   | 'children';
 
 /**
- * Extended icon type for SidebarMenuItem.
+ * Icon type for SidebarMenuItem (v2.0+ — direct-import only).
  *
- * - tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat)
- * - Remixicon component (`RiHomeLine` 등; tree-shaking 권장)
+ * - Remixicon component (`RiHomeLine` 등)
+ *
+ * @note v1.x's tuple form (`['system','home']`) was removed in v2.0.0.
+ * Run `npx blumnai-icon-codemod migrate ./src` to migrate.
  */
-export type SidebarMenuItemIconType = IconType | [...IconType, boolean] | RemixiconLikeComponent;
+export type SidebarMenuItemIconType = RemixiconLikeComponent;
 
 export interface SidebarMenuItemBaseProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
   /**

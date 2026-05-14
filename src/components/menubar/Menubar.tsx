@@ -175,9 +175,9 @@ const MenubarItem = React.forwardRef<
   inset,
   destructive,
   leadIcon,
-  leadIconFill = false,
+  leadIconFill: _leadIconFill = false,
   tailIcon,
-  tailIconFill = false,
+  tailIconFill: _tailIconFill = false,
   iconColor,
   caption,
   description,
@@ -231,7 +231,7 @@ const MenubarItem = React.forwardRef<
           "flex items-center justify-center flex-shrink-0",
           isLarge ? "width-28 height-28 rounded-sm bg-muted" : "width-20 height-20"
         )}>
-          {renderIconProp(leadIcon, { size: 16, color: effectiveIconColor, isFill: leadIconFill })}
+          {renderIconProp(leadIcon, { size: 16, color: effectiveIconColor })}
         </div>
       )}
 
@@ -256,7 +256,7 @@ const MenubarItem = React.forwardRef<
 
       {tailIcon && (
         <div className="flex items-center justify-center flex-shrink-0 width-20 height-20">
-          {renderIconProp(tailIcon, { size: 16, color: effectiveIconColor, isFill: tailIconFill })}
+          {renderIconProp(tailIcon, { size: 16, color: effectiveIconColor })}
         </div>
       )}
     </MenubarPrimitive.Item>

@@ -1,5 +1,69 @@
 # Changelog
 
+## [2.0.0] - 2026-05-14
+
+### BREAKING — Icon tuple-form API 제거. 메인 entry는 direct-import only.
+
+소비자 빌드에서 발생하던 ~2.5MB `remixicon-*.js` async chunk를 제거하기 위해 메인 entry의 모든 tuple-form 아이콘 API가 제거됐습니다. Tuple API가 필요한 컨슈머는 새 `@blumnai-studio/blumnai-design-system/icons/icon-legacy` entry를 사용하세요. 자세한 마이그레이션 가이드는 [MIGRATION.md](./MIGRATION.md#v200--icon-tuple-form-제거) 참조.
+
+**검증된 효과 (Vite/Rollup):**
+- Direct-only 빌드: 144KB main bundle, **no async chunk**
+- Legacy(1.10.x) 빌드: 246KB main + **2,443KB async chunk** (~2.4MB)
+- 절감: **~2.5MB** (gzip ~450KB)
+
+### 마이그레이션 (2가지 경로)
+
+```bash
+# 경로 A (권장 — 절감)
+npx blumnai-icon-codemod migrate ./src     # tuple → component-ref 자동 변환
+
+# 경로 B (호환만, 절감 X)
+# 컨슈머 코드의 import path만 …/icons/icon-legacy로 변경
+```
+
+### Breaking changes
+
+| 영역 | Before (1.x) | After (2.0) |
+|---|---|---|
+| `Icon` props | `iconType={['system','check']}` / `isFill` | `icon={RiCheckLine}` only |
+| `renderIconProp` | tuple + component-ref + ReactNode | component-ref + ReactNode only |
+| `IconProp` 타입 | `IconTypeWithFill \| RemixiconLikeComponent` | `RemixiconLikeComponent` |
+| Button/Tabs/Tooltip/Chip/Divider/Avatar/Badge/Breadcrumbs/Input/Select/Dropdown/ContextMenu/Menubar/NavigationMenu의 `icon`/`leadIcon`/`tailIcon` 등 | tuple 수용 | component-ref + ReactNode only |
+| `CellIcon` | `iconType: IconTypeWithFill` (필수) | `icon: RemixiconLikeComponent` (필수) |
+| `IconType`, `IconTypeWithFill` 타입 | 메인 entry export | `…/icons/icon-legacy` 로 이동 |
+| `parseIconTypeWithFill`, `isIconTuple` | 메인 entry export | `…/icons/icon-legacy` 로 이동 |
+| `preloadIcons`, `preloadIconCategory` | 메인 entry export | `…/icons/icon-legacy` 로 이동 |
+| `IconCategory` | 메인 entry export | `…/icons/icon-legacy` 로 이동 |
+| 컴포넌트의 `leadIconFill`/`tailIconFill`/`iconFill` boolean props | 활성 prop | no-op (deprecated, 다음 메이저 버전에서 제거 가능) |
+
+### 런타임 가드
+
+타입은 제거됐지만 JS / `as any` / API 응답으로 tuple이 런타임에 도달할 수 있습니다. 이 경우:
+- **dev mode**: informative Error throw (codemod + escape hatch 안내)
+- **prod mode**: 보이지 않는 fallback span + `console.error` (1회)
+
+### 내부 구조 변경
+
+- `Icon.tsx` 가 direct-only로 리팩터됨. `Suspense`/`lazy`/`createElement`/registry 의존성 모두 제거. 메인 코드 path에서 `import('@remixicon/react')` 동적 import 완전 제거
+- `ui-icon-registry.tsx`, `remixicon-export-map.ts` → `src/components/icons/Icon/legacy/` 로 이동
+- 새 `legacy/Icon.legacy.tsx`, `legacy/iconProp.legacy.tsx`, `legacy/index.ts` 추가
+- DS 내부 ~25 컴포넌트의 tuple 사용을 component-ref로 마이그레이션 (codemod + 수동)
+
+### 새 sub-entry
+
+```ts
+import {
+  Icon,            // tuple + component-ref 둘 다 지원 (registry-backed)
+  renderIconProp,
+  IconType,
+  IconTypeWithFill,
+  parseIconTypeWithFill,
+  isIconTuple,
+  preloadIcons,
+  preloadIconCategory,
+} from '@blumnai-studio/blumnai-design-system/icons/icon-legacy';
+```
+
 ## [1.10.15] - 2026-05-14
 
 ### Deprecated — `iconType` tuple form 전체 (v2.0.0에서 제거 예정)

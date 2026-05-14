@@ -64,14 +64,12 @@ const meta: Meta<MenubarItemProps> = {
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   leadIcon={RiAddLine}
   leadIcon={RiFileAddLine}
   leadIcon={RiArrowRightSLine}
 
-또는 tuple form (deprecated, dev console warning):
-  leadIcon={['system', 'add']}
-  leadIcon={['document', 'file-add']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },
@@ -89,13 +87,11 @@ const meta: Meta<MenubarItemProps> = {
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only):
   tailIcon={RiArrowRightSLine}
   tailIcon={RiExternalLinkLine}
 
-또는 tuple form (deprecated, dev console warning):
-  tailIcon={['arrows', 'arrow-right-s']}
-  tailIcon={['arrows', 'external-link']}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },

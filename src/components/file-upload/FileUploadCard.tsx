@@ -1,4 +1,19 @@
 import { forwardRef, useCallback, useMemo, useState } from 'react';
+import {
+  RiImageLine,
+  RiMovieLine,
+  RiMusicLine,
+  RiFilePdfLine,
+  RiFileWordLine,
+  RiFileExcelLine,
+  RiFilePptLine,
+  RiFileZipLine,
+  RiCodeSLine,
+  RiFileTextLine,
+  RiFileLine,
+  RiRefreshLine,
+  RiCloseLine,
+} from '@remixicon/react';
 
 import { Icon } from '../icons/Icon';
 import { ControlButton } from '../button/ControlButton';
@@ -22,7 +37,7 @@ import {
 } from '../../constants/file-upload/file-upload.constants';
 
 import type { FileUploadCardProps } from './FileUpload.types';
-import type { IconType } from '../icons/Icon/Icon.types';
+import type { RemixiconLikeComponent } from '../icons/Icon/Icon.types';
 
 function formatFileSize(bytes: number): string {
   if (bytes <= 0 || !Number.isFinite(bytes)) return '0 B';
@@ -34,20 +49,20 @@ function formatFileSize(bytes: number): string {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${units[i]}`;
 }
 
-function getFileTypeIcon(mimeType: string): IconType {
-  if (mimeType.startsWith('image/')) return ['media', 'image'];
-  if (mimeType.startsWith('video/')) return ['media', 'video'];
-  if (mimeType.startsWith('audio/')) return ['media', 'music'];
-  if (mimeType === 'application/pdf') return ['document', 'file-pdf'];
-  if (mimeType.includes('word') || mimeType.includes('document')) return ['document', 'file-word'];
-  if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) return ['document', 'file-excel'];
-  if (mimeType.includes('powerpoint') || mimeType.includes('presentation')) return ['document', 'file-ppt'];
-  if (mimeType.includes('zip') || mimeType.includes('rar') || mimeType.includes('archive') || mimeType.includes('compressed') || mimeType.includes('tar') || mimeType.includes('gzip')) return ['document', 'file-zip'];
-  if (mimeType === 'application/json' || mimeType === 'application/xml' || mimeType === 'application/javascript' || mimeType === 'application/typescript') return ['development', 'code-s'];
-  if (mimeType.startsWith('text/html') || mimeType.startsWith('text/css') || mimeType.startsWith('text/javascript') || mimeType.startsWith('text/xml')) return ['development', 'code-s'];
-  if (mimeType.startsWith('text/csv')) return ['document', 'file-excel'];
-  if (mimeType.startsWith('text/')) return ['document', 'file-text'];
-  return ['document', 'file'];
+function getFileTypeIcon(mimeType: string): RemixiconLikeComponent {
+  if (mimeType.startsWith('image/')) return RiImageLine;
+  if (mimeType.startsWith('video/')) return RiMovieLine;
+  if (mimeType.startsWith('audio/')) return RiMusicLine;
+  if (mimeType === 'application/pdf') return RiFilePdfLine;
+  if (mimeType.includes('word') || mimeType.includes('document')) return RiFileWordLine;
+  if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) return RiFileExcelLine;
+  if (mimeType.includes('powerpoint') || mimeType.includes('presentation')) return RiFilePptLine;
+  if (mimeType.includes('zip') || mimeType.includes('rar') || mimeType.includes('archive') || mimeType.includes('compressed') || mimeType.includes('tar') || mimeType.includes('gzip')) return RiFileZipLine;
+  if (mimeType === 'application/json' || mimeType === 'application/xml' || mimeType === 'application/javascript' || mimeType === 'application/typescript') return RiCodeSLine;
+  if (mimeType.startsWith('text/html') || mimeType.startsWith('text/css') || mimeType.startsWith('text/javascript') || mimeType.startsWith('text/xml')) return RiCodeSLine;
+  if (mimeType.startsWith('text/csv')) return RiFileExcelLine;
+  if (mimeType.startsWith('text/')) return RiFileTextLine;
+  return RiFileLine;
 }
 
 export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
@@ -118,7 +133,7 @@ export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
       ) : (
         <div className={cn(FILE_UPLOAD_THUMBNAIL, sizeConfig.thumbnail)}>
           <Icon
-            iconType={fileTypeIcon}
+            icon={fileTypeIcon}
             size={iconSize}
             color="default-muted"
           />
@@ -157,7 +172,7 @@ export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
       <div className={FILE_UPLOAD_ACTIONS}>
         {status === 'error' && onRetry && (
           <ControlButton
-            icon={['system', 'refresh']}
+            icon={RiRefreshLine}
             size="sm"
             onClick={onRetry}
             aria-label="Retry upload"
@@ -165,7 +180,7 @@ export const FileUploadCard = forwardRef<HTMLDivElement, FileUploadCardProps>(({
         )}
         {onRemove && (
           <ControlButton
-            icon={['system', 'close']}
+            icon={RiCloseLine}
             size="sm"
             onClick={onRemove}
             aria-label="Remove file"

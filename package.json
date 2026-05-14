@@ -1,6 +1,6 @@
 {
   "name": "@blumnai-studio/blumnai-design-system",
-  "version": "1.10.15",
+  "version": "2.0.0",
   "private": false,
   "type": "module",
   "main": "./dist/index.mjs",
@@ -94,6 +94,9 @@
       ],
       "icons/icon": [
         "dist/components/icons/Icon/index.d.ts"
+      ],
+      "icons/icon-legacy": [
+        "dist/components/icons/Icon/legacy/index.d.ts"
       ],
       "icons/brand": [
         "dist/components/icons/BrandIcon/index.d.ts"
@@ -315,6 +318,10 @@
     "./icons/icon": {
       "types": "./dist/components/icons/Icon/index.d.ts",
       "import": "./dist/components/icons/Icon/index.mjs"
+    },
+    "./icons/icon-legacy": {
+      "types": "./dist/components/icons/Icon/legacy/index.d.ts",
+      "import": "./dist/components/icons/Icon/legacy/index.mjs"
     },
     "./icons/brand": {
       "types": "./dist/components/icons/BrandIcon/index.d.ts",
@@ -542,6 +549,7 @@
     "prebuild:lib": "npm run clean:thumbnail-sources && npm run generate:icons && npm run generate:file-icons && npm run generate:flag-registry && npm run generate:remixicon-mapping && npm run generate:isometric-icons && npm run generate:icon-catalog",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
+    "verify:bundle": "node tests/bundle/verify.mjs",
     "preview": "vite preview",
     "storybook": "NODE_OPTIONS='--max-old-space-size=8192' storybook dev -p 6006",
     "build-storybook": "NODE_OPTIONS='--max-old-space-size=8192' storybook build",

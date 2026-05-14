@@ -16,14 +16,13 @@ export interface BreadcrumbItem {
    */
   href?: string;
   /**
-   * 브레드크럼 아이템의 아이콘.
+   * 브레드크럼 아이템의 아이콘 (v2.0+ — direct-import only).
    *
-   * - tuple `[category, name]` / `[category, name, isFill]` (dynamic-string back-compat; dev warning)
-   * - Remixicon component (`RiHomeLine` 등; tree-shaking 권장)
+   * - Remixicon component (`RiHomeLine` 등)
    * - ReactNode (커스텀 노드)
    *
    * @example icon={RiHomeLine}
-   * @example icon={['system', 'home']}
+   * @note v1.x tuple form was removed in v2.0.0.
    */
   icon?: IconProp | ReactNode;
   /**

@@ -87,7 +87,9 @@ export interface DropdownMenuItemProps
    */
   leadIcon?: IconProp;
   /**
-   * 리드 아이콘 filled 스타일 사용 여부
+   * @deprecated v2.0.0 부터 no-op. tuple-form 아이콘이 제거되면서 더 이상 의미가 없습니다.
+   * Fill 변형은 import 이름으로 선택하세요 (예: `leadIcon={RiCheckFill}` vs `leadIcon={RiCheckLine}`).
+   * 향후 메이저 버전에서 prop 자체가 제거될 수 있습니다.
    * @default false
    */
   leadIconFill?: boolean;
@@ -96,7 +98,9 @@ export interface DropdownMenuItemProps
    */
   tailIcon?: IconProp;
   /**
-   * 테일 아이콘 filled 스타일 사용 여부
+   * @deprecated v2.0.0 부터 no-op. `tailIconFill` 대신 fill 변형 컴포넌트
+   * (예: `tailIcon={RiArrowDownSFill}`)를 직접 import하세요.
+   * 향후 메이저 버전에서 prop 자체가 제거될 수 있습니다.
    * @default false
    */
   tailIconFill?: boolean;

@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from '../select/RadixSelect';
 import { ControlButton } from '../button';
+import { RiArrowLeftSLine, RiArrowRightSLine } from '../icons/Icon';
 import type { CalendarProps, CaptionLayout } from './Calendar.types';
 
 function CalendarDayButton({
@@ -388,7 +389,7 @@ function Calendar({
         },
         PreviousMonthButton: ({ children: _children, ...props }) => (
           <ControlButton
-            icon={['arrows', 'arrow-left-s']}
+            icon={RiArrowLeftSLine}
             size="sm"
             shape="rounded"
             aria-label="Previous month"
@@ -397,7 +398,7 @@ function Calendar({
         ),
         NextMonthButton: ({ children: _children, ...props }) => (
           <ControlButton
-            icon={['arrows', 'arrow-right-s']}
+            icon={RiArrowRightSLine}
             size="sm"
             shape="rounded"
             aria-label="Next month"

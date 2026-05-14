@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
+import { RiSearchLine } from '@remixicon/react';
 import { DefaultInput } from './DefaultInput';
 
 describe('DefaultInput — loading state', () => {
   it('renders a spinner in the tail when loading=true', () => {
     const { container } = render(
-      <DefaultInput loading value="hi" tailIcon={['system', 'search']} />,
+      <DefaultInput loading value="hi" tailIcon={RiSearchLine} />,
     );
     // The Spinner renders an SVG with animate-spin class
     const spinner = container.querySelector('svg.animate-spin');
@@ -28,7 +29,7 @@ describe('DefaultInput — loading state', () => {
 
   it('hides the tail icon when loading', () => {
     const { container } = render(
-      <DefaultInput loading value="hi" tailIcon={['system', 'search']} />,
+      <DefaultInput loading value="hi" tailIcon={RiSearchLine} />,
     );
     // Spinner should be present (the only SVG in the tail slot)
     expect(container.querySelector('svg.animate-spin')).not.toBeNull();

@@ -17,12 +17,12 @@ interface ButtonGroupItemBase {
   id?: string;
   /**
    * 아이콘 (lead icon)
-   * @example icon={['system', 'settings']}
+   * @example icon={RiSettings3Line}
    */
   icon?: IconProp | ReactNode;
   /**
    * Tail icon (우측 아이콘)
-   * @example tailIcon={['arrows', 'chevron-down']}
+   * @example tailIcon={RiArrowDownSLine}
    */
   tailIcon?: IconProp | ReactNode;
   /**

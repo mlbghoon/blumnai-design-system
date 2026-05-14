@@ -58,17 +58,15 @@ const meta: Meta<typeof Divider> = {
     },
     icon: {
       control: 'object',
-      description: '아이콘 타입 (icon-* 타입에서 사용) (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '아이콘 타입 (icon-* 타입에서 사용) (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'DividerIconType',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   icon={RiStarLine}
   icon={RiHeartFill}
 
-또는 tuple form (deprecated, dev console warning):
-  icon={['system', 'star']}
-  icon={['health', 'heart', true]}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },
@@ -81,17 +79,15 @@ const meta: Meta<typeof Divider> = {
     },
     buttonLeadIcon: {
       control: 'object',
-      description: '버튼 앞에 표시되는 아이콘 (button-* 타입에서 사용) (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '버튼 앞에 표시되는 아이콘 (button-* 타입에서 사용) (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'ButtonIconType | ReactNode',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   buttonLeadIcon={RiAddLine}
   buttonLeadIcon={RiStarFill}
 
-또는 tuple form (deprecated, dev console warning):
-  buttonLeadIcon={['system', 'add']}
-  buttonLeadIcon={['system', 'star', true]}
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.
 
 또는 ReactNode (이미 렌더된 JSX)`,
         },
@@ -99,17 +95,15 @@ const meta: Meta<typeof Divider> = {
     },
     buttonTailIcon: {
       control: 'object',
-      description: '버튼 뒤에 표시되는 아이콘 (button-* 타입에서 사용) (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '버튼 뒤에 표시되는 아이콘 (button-* 타입에서 사용) (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'ButtonIconType | ReactNode',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   buttonTailIcon={RiArrowRightLine}
   buttonTailIcon={RiArrowDownSLine}
 
-또는 tuple form (deprecated, dev console warning):
-  buttonTailIcon={['arrows', 'arrow-right']}
-  buttonTailIcon={['arrows', 'chevron-down', true]}
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.
 
 또는 ReactNode (이미 렌더된 JSX)`,
         },

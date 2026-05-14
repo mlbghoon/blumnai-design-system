@@ -36,16 +36,15 @@ const meta: Meta<typeof LinkButton> = {
     },
     leadIcon: {
       control: 'object',
-      description: '라벨 앞에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '라벨 앞에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'LinkButtonIconType | ReactNode',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   leadIcon={RiLinkM}
   leadIcon={RiFileTextLine}
 
-또는 tuple form (deprecated, dev console warning):
-  leadIcon={['system', 'link']}
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.
 
 또는 ReactNode (이미 렌더된 JSX)`,
         },
@@ -53,16 +52,15 @@ const meta: Meta<typeof LinkButton> = {
     },
     tailIcon: {
       control: 'object',
-      description: '라벨 뒤에 표시되는 아이콘 (Remixicon `Ri*` component 권장, tuple form 은 deprecated)',
+      description: '라벨 뒤에 표시되는 아이콘 (Remixicon `Ri*` component reference)',
       table: {
         type: {
           summary: 'LinkButtonIconType | ReactNode',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   tailIcon={RiExternalLinkLine}
   tailIcon={RiArrowRightLine}
 
-또는 tuple form (deprecated, dev console warning):
-  tailIcon={['system', 'external-link']}
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.
 
 또는 ReactNode (이미 렌더된 JSX)
 

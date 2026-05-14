@@ -14,7 +14,17 @@ import { CellLink } from '../cells/CellLink';
 import { CellIcon } from '../cells/CellIcon';
 import { CellDate } from '../cells/CellDate';
 import { CellDateRange } from '../cells/CellDateRange';
-import type { IconTypeWithFill, IconColor } from '../../icons/Icon/Icon.types';
+import type { RemixiconLikeComponent, IconColor } from '../../icons/Icon/Icon.types';
+import {
+  RiFilePdfLine,
+  RiFileExcelLine,
+  RiImageLine,
+  RiFileWordLine,
+  RiCheckLine,
+  RiTimeLine,
+  RiCloseLine,
+  RiLoader2Line,
+} from '@remixicon/react';
 
 /**
  * DataGrid 셀 헬퍼 컴포넌트들입니다.
@@ -494,18 +504,18 @@ const iconData: IconData[] = [
   { id: '4', filename: '메모.docx', fileType: 'word', status: 'processing' },
 ];
 
-const fileTypeIconMap: Record<string, { icon: IconTypeWithFill; color: IconColor }> = {
-  pdf: { icon: ['document', 'file-pdf'], color: 'destructive' },
-  excel: { icon: ['document', 'file-excel'], color: 'success' },
-  image: { icon: ['media', 'image'], color: 'informative' },
-  word: { icon: ['document', 'file-word'], color: 'informative' },
+const fileTypeIconMap: Record<string, { icon: RemixiconLikeComponent; color: IconColor }> = {
+  pdf: { icon: RiFilePdfLine, color: 'destructive' },
+  excel: { icon: RiFileExcelLine, color: 'success' },
+  image: { icon: RiImageLine, color: 'informative' },
+  word: { icon: RiFileWordLine, color: 'informative' },
 };
 
-const statusIconMap: Record<string, { icon: IconTypeWithFill; color: IconColor; label: string }> = {
-  complete: { icon: ['system', 'check'], color: 'success', label: '완료' },
-  pending: { icon: ['system', 'time'], color: 'warning', label: '대기중' },
-  failed: { icon: ['system', 'close'], color: 'destructive', label: '실패' },
-  processing: { icon: ['system', 'loader-2'], color: 'default-subtle', label: '처리중' },
+const statusIconMap: Record<string, { icon: RemixiconLikeComponent; color: IconColor; label: string }> = {
+  complete: { icon: RiCheckLine, color: 'success', label: '완료' },
+  pending: { icon: RiTimeLine, color: 'warning', label: '대기중' },
+  failed: { icon: RiCloseLine, color: 'destructive', label: '실패' },
+  processing: { icon: RiLoader2Line, color: 'default-subtle', label: '처리중' },
 };
 
 /**
@@ -536,7 +546,7 @@ export const IconCell: StoryObj = {
         header: '유형',
         cell: ({ row }) => {
           const { icon, color } = fileTypeIconMap[row.original.fileType];
-          return <CellIcon iconType={icon} color={color} />;
+          return <CellIcon icon={icon} color={color} />;
         },
         meta: { width: '120px', align: 'center' },
       },
@@ -545,7 +555,7 @@ export const IconCell: StoryObj = {
         header: '상태',
         cell: ({ row }) => {
           const { icon, color, label } = statusIconMap[row.original.status];
-          return <CellIcon iconType={icon} color={color} label={label} />;
+          return <CellIcon icon={icon} color={color} label={label} />;
         },
         meta: { width: '120px', align: 'center' },
       },
@@ -752,7 +762,7 @@ export const AllCells: StoryObj = {
         header: '유형',
         cell: ({ row }) => {
           const { icon, color } = fileTypeIconMap[row.original.fileType];
-          return <CellIcon iconType={icon} color={color} />;
+          return <CellIcon icon={icon} color={color} />;
         },
         meta: { width: '80px', align: 'center' },
       },

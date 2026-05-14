@@ -1,3 +1,15 @@
+import {
+  RiHome2Line,
+  RiSettings3Line,
+  RiUserLine,
+  RiNotification3Line,
+  RiQuestionLine,
+  RiCheckLine,
+  RiAlertLine,
+  RiCloseLine,
+  RiInformationLine,
+  RiHeartLine,
+} from '@remixicon/react';
 import type { ComboboxOption, ComboboxOptionGroup } from '../Combobox.types';
 
 export const fruitOptions: ComboboxOption[] = [
@@ -14,19 +26,19 @@ export const fruitOptions: ComboboxOption[] = [
 ];
 
 export const iconOptions: ComboboxOption[] = [
-  { id: 'home', label: 'Home', leadIcon: ['buildings', 'home'] },
-  { id: 'settings', label: 'Settings', leadIcon: ['system', 'settings'] },
-  { id: 'profile', label: 'Profile', leadIcon: ['user', 'user'] },
-  { id: 'notifications', label: 'Notifications', leadIcon: ['others', 'bell'] },
-  { id: 'help', label: 'Help', leadIcon: ['system', 'question'] },
+  { id: 'home', label: 'Home', leadIcon: RiHome2Line },
+  { id: 'settings', label: 'Settings', leadIcon: RiSettings3Line },
+  { id: 'profile', label: 'Profile', leadIcon: RiUserLine },
+  { id: 'notifications', label: 'Notifications', leadIcon: RiNotification3Line },
+  { id: 'help', label: 'Help', leadIcon: RiQuestionLine },
 ];
 
 export const coloredIconOptions: ComboboxOption[] = [
-  { id: 'success', label: 'Success', leadIcon: ['system', 'check'], iconColor: 'success' },
-  { id: 'warning', label: 'Warning', leadIcon: ['system', 'alert'], iconColor: 'warning' },
-  { id: 'error', label: 'Error', leadIcon: ['system', 'close'], iconColor: 'destructive' },
-  { id: 'info', label: 'Info', leadIcon: ['editor', 'info-i'], iconColor: 'informative' },
-  { id: 'primary', label: 'Primary', leadIcon: ['health', 'heart'], iconColor: 'primary' },
+  { id: 'success', label: 'Success', leadIcon: RiCheckLine, iconColor: 'success' },
+  { id: 'warning', label: 'Warning', leadIcon: RiAlertLine, iconColor: 'warning' },
+  { id: 'error', label: 'Error', leadIcon: RiCloseLine, iconColor: 'destructive' },
+  { id: 'info', label: 'Info', leadIcon: RiInformationLine, iconColor: 'informative' },
+  { id: 'primary', label: 'Primary', leadIcon: RiHeartLine, iconColor: 'primary' },
 ];
 
 export const countryOptions: ComboboxOption[] = [

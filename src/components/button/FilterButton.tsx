@@ -61,7 +61,7 @@ const DISABLED_STYLE = {
  *
  * @example
  * ```tsx
- * <FilterButton label="필터" selected={hasFilters} icon={['system', 'filter']} />
+ * <FilterButton label="필터" selected={hasFilters} icon={RiFilterLine} />
  * ```
  */
 export const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(({

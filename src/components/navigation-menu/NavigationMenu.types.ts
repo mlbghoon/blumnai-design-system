@@ -62,7 +62,8 @@ export interface NavigationMenuListItemProps
    */
   icon?: IconProp;
   /**
-   * 아이콘 filled 스타일
+   * @deprecated v2.0.0 부터 no-op. Fill 변형은 import 이름으로 선택 (예: `icon={RiCheckFill}`).
+   * 향후 메이저 버전에서 prop 자체가 제거될 수 있습니다.
    * @default false
    */
   iconFill?: boolean;

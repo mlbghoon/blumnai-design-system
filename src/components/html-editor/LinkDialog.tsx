@@ -1,12 +1,14 @@
+import { RiLink } from '@blumnai-studio/blumnai-design-system';
 import { useState, useCallback } from 'react';
 import type { Editor } from '@tiptap/react';
-
 import { cn } from '@/lib/utils';
+
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from '../popover';
+
 import { Button } from '../button';
 import { ToolbarButton } from './ToolbarButton';
 
@@ -71,7 +73,7 @@ export function LinkDialog({
       <PopoverTrigger asChild>
         <span>
           <ToolbarButton
-            icon={['editor', 'link']}
+            icon={RiLink}
             tooltip="링크"
             isActive={open}
             onClick={() => open ? setOpen(false) : handleOpen()}

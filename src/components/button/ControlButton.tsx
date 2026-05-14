@@ -62,7 +62,7 @@ const DISABLED_STYLE = 'bg-transparent cursor-not-allowed';
  *
  * @example
  * ```tsx
- * <ControlButton icon={['system', 'edit']} size="md" />
+ * <ControlButton icon={RiEditLine} size="md" />
  * ```
  */
 export const ControlButton = forwardRef<HTMLButtonElement, ControlButtonProps>(({

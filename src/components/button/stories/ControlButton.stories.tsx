@@ -51,14 +51,12 @@ const meta: Meta<typeof ControlButton> = {
       table: {
         type: {
           summary: 'IconProp',
-          detail: `Remixicon component (권장, tree-shakeable):
+          detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   icon={RiAddLine}
   icon={RiSettings3Line}
   icon={RiStarFill}
 
-또는 tuple form (deprecated, dev console warning):
-  icon={['system', 'add']}
-  icon={['system', 'star', true]}`,
+NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.`,
         },
       },
     },
