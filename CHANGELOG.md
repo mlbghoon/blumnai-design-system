@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.0.1] - 2026-05-14
+
+### Docs — v2.0 publish 후 문서 표현 일치화
+
+v2.0.0 publish 이후 일부 문서에 "예정" / "임박" 등 사전 공지 표현이 잔존. 다음을 정정:
+
+- `MIGRATION.md`: 호환 매트릭스의 `2.0.x (예정)` → `2.0.x`. "publish 전 예고 문서" 문구 제거. "Breaking changes (v2.0.0 예정)" → "Breaking changes (v2.0.0)"
+- `README.md`: 상단 callout "v2.0.0 임박 — 제거 예정" → "v2.0.0 출시됨 — 제거됨"
+- 코드 변경 없음
+
 ## [2.0.0] - 2026-05-14
 
 ### BREAKING — Icon tuple-form API 제거. 메인 entry는 direct-import only.

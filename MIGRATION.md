@@ -4,7 +4,7 @@
 
 | DS 버전 | React | Node | Tailwind | 패키지 스코프 |
 |---------|-------|------|----------|--------------|
-| 2.0.x (예정) | 18+ | 20+ | v4 | `@blumnai-studio` |
+| 2.0.x   | 18+   | 20+  | v4 | `@blumnai-studio` |
 | 1.10.x  | 18+   | 20+  | v4 | `@blumnai-studio` |
 | 1.5.x   | 18+   | 20+  | v4 (DS 내부; 소비자는 v3/v4 모두 호환) | `@blumnai-studio` |
 | 1.1.x   | 18+   | 20+  | v4       | `@blumnai-studio` |
@@ -13,9 +13,7 @@
 
 ---
 
-## v2.0.0 — Icon tuple-form 제거
-
-> 본 섹션은 v2.0.0 publish 전 **예고 문서**입니다 (1.10.15 시점). 실제 publish 시점에 최종 확정.
+## v2.0.0 — Icon tuple-form 제거 (publish 완료)
 
 ### 한 줄 요약
 
@@ -36,7 +34,7 @@
 
 → **~2.5MB 절감** (gzip ~450KB)
 
-### Breaking changes (v2.0.0 예정)
+### Breaking changes (v2.0.0)
 
 | 영역 | 변경 |
 |---|---|
