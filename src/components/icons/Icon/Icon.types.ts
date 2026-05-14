@@ -1566,7 +1566,11 @@ export type IconCategory =
   | 'weather';
 
 /**
- * 타입 안전한 이름 매칭을 위한 [카테고리, 이름] 튜플 형식의 아이콘 타입
+ * 타입 안전한 이름 매칭을 위한 [카테고리, 이름] 튜플 형식의 아이콘 타입.
+ *
+ * @deprecated will be removed in v2.0.0 — use `RemixiconLikeComponent` (component refs like
+ * `RiCheckLine`) instead. Run `npx blumnai-icon-codemod ./src` to migrate. Type will move to
+ * `@blumnai-studio/blumnai-design-system/icons/icon-legacy` in v2.0.0.
  */
 export type IconType =
   | ['arrows', ArrowsIconName]
@@ -1591,13 +1595,19 @@ export type IconType =
 /**
  * IconType with optional isFill support.
  * Can be a standard IconType tuple or a 3-element tuple with isFill.
+ *
+ * @deprecated will be removed in v2.0.0 — use `RemixiconLikeComponent` instead.
+ * Run `npx blumnai-icon-codemod ./src`. Will move to `…/icons/icon-legacy` in v2.0.0.
  * @example ['system', 'add'] - regular icon
  * @example ['system', 'add', true] - filled icon
  */
 export type IconTypeWithFill = IconType | [...IconType, boolean];
 
 /**
- * Helper to parse IconTypeWithFill into iconType and isFill
+ * Helper to parse IconTypeWithFill into iconType and isFill.
+ *
+ * @deprecated will be removed in v2.0.0 — use `RemixiconLikeComponent` directly.
+ * Will move to `…/icons/icon-legacy` in v2.0.0.
  */
 export function parseIconTypeWithFill(icon: IconTypeWithFill): { iconType: IconType; isFill: boolean } {
   if (icon.length === 3 && typeof icon[2] === 'boolean') {
@@ -1654,11 +1664,17 @@ export interface SharedIconProps extends Omit<SVGProps<SVGSVGElement>, 'children
 
 /**
  * Dynamic-string API (back-compat). Resolves icon at runtime via the registry.
+ *
+ * @deprecated will be removed in v2.0.0 — migrate to `icon={Ri*}` (direct-import).
+ * Run `npx blumnai-icon-codemod ./src` to auto-migrate, or import from
+ * `@blumnai-studio/blumnai-design-system/icons/icon-legacy` as escape hatch.
+ * See MIGRATION.md.
  */
 export interface IconPropsWithType extends SharedIconProps {
   /**
    * [카테고리, 이름] 튜플 형식의 아이콘 타입
    *
+   * @deprecated removed in v2.0.0 — use `icon={Ri*}` instead. Run `npx blumnai-icon-codemod ./src`.
    * @example
    * iconType={['system', 'add']}
    * iconType={['arrows', 'arrow-down']}
@@ -1667,6 +1683,7 @@ export interface IconPropsWithType extends SharedIconProps {
   /**
    * 채워진(fill) 스타일 사용 여부
    * @default false
+   * @deprecated removed in v2.0.0 along with `iconType`.
    */
   isFill?: boolean;
   icon?: never;

@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.10.15] - 2026-05-14
+
+### Deprecated — `iconType` tuple form 전체 (v2.0.0에서 제거 예정)
+
+v2.0.0에서 **`Icon`, `<Component leadIcon={[...]} />`, `CellIcon.iconType`** 등 모든 tuple 형 (`[category, name]` / `[category, name, isFill]`) API가 제거됩니다. 이유: tuple 경로가 `import('@remixicon/react')` 동적 import 체인을 트리거해 모든 consumer 빌드에 **~2.5MB async chunk**를 생성. Component-ref API (`<Icon icon={RiCheckLine} />`)로 마이그레이션하면 청크가 사라집니다.
+
+**이 패치 (1.10.15)에서 변경된 것:**
+- consumer가 tuple 형을 사용하면 dev mode에서 `console.warn` 발생 (per-tuple 1회). v2.0.0 명시 + codemod 안내 메시지 포함
+- `IconType`, `IconTypeWithFill`, `parseIconTypeWithFill`, `IconProp`, `IconPropsWithType`, `iconType` / `isFill` 등에 `@deprecated` JSDoc 추가 → IDE에서 strikethrough 표시 + hover 시 v2.0 안내
+- `<CellIcon iconType={...}>` 사용 시 별도 dev warn (CellIcon `iconType`은 필수 prop이라 별도 알림)
+- 런타임 동작 변경 0, 타입 변경 0 (deprecation marker만)
+
+**마이그레이션 방법 (지금 권장):**
+```bash
+npx blumnai-icon-codemod ./src   # static literal tuple 자동 변환 (v2.0과 동일 도구)
+```
+또는 v2.0 출시 후 escape hatch: `import from '@blumnai-studio/blumnai-design-system/icons/icon-legacy'`
+
+**v2.0.0 timeline:** 본 1.10.15 publish 후 1-2주 deprecation 기간 → v2.0.0 publish. MIGRATION.md 참조.
+
 ## [1.10.14] - 2026-05-13
 
 ### Added — overlay / floating / 모달 컨테이너에 안정적인 hook className 부여

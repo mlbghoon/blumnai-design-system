@@ -4,10 +4,152 @@
 
 | DS 버전 | React | Node | Tailwind | 패키지 스코프 |
 |---------|-------|------|----------|--------------|
+| 2.0.x (예정) | 18+ | 20+ | v4 | `@blumnai-studio` |
+| 1.10.x  | 18+   | 20+  | v4 | `@blumnai-studio` |
 | 1.5.x   | 18+   | 20+  | v4 (DS 내부; 소비자는 v3/v4 모두 호환) | `@blumnai-studio` |
 | 1.1.x   | 18+   | 20+  | v4       | `@blumnai-studio` |
 | 1.0.x   | 18+   | 20+  | v4       | `@blumnai-studio` |
 | 0.2.x   | 18+   | 18+  | v4       | `@mlbghoon` |
+
+---
+
+## v2.0.0 — Icon tuple-form 제거
+
+> 본 섹션은 v2.0.0 publish 전 **예고 문서**입니다 (1.10.15 시점). 실제 publish 시점에 최종 확정.
+
+### 한 줄 요약
+
+> **모든 tuple 형식 아이콘 API (`iconType={['cat','name']}`, `leadIcon={[...]}`, `CellIcon.iconType`)가 제거됩니다.** Component-ref API (`<Icon icon={RiCheckLine}>`)로 마이그레이션하면 consumer 빌드에서 ~2.5MB async chunk가 사라집니다.
+
+### 왜 바꾸나
+
+- 현재 `<Icon iconType={...}>` 경로는 `import('@remixicon/react')` 동적 import에 의존
+- 이 동적 import는 어떤 DS 컴포넌트라도 `renderIconProp`을 거치면 consumer 그래프에 도달 → 빌드마다 **`remixicon-*.js` async chunk (~2.5MB)** 자동 생성
+- Component-ref API는 정적 import → tree-shaking으로 사용한 아이콘만 번들에 포함
+
+### 검증된 효과 (pre-flight measurement)
+
+| 사용 패턴 | Main bundle | Async chunk | 총합 |
+|---|---|---|---|
+| `<Icon iconType={['system','check']}>` (1.10.x) | 246KB | **2,443KB (2.4MB)** | 2,689KB |
+| `<RiCheckLine />` 직접 (v2.0 / 또는 1.10.x에서 직접 import) | 144KB | 없음 | 144KB |
+
+→ **~2.5MB 절감** (gzip ~450KB)
+
+### Breaking changes (v2.0.0 예정)
+
+| 영역 | 변경 |
+|---|---|
+| `Icon` props | `iconType` / `isFill` 제거. `icon: RemixiconLikeComponent` 만 허용 |
+| `renderIconProp` | tuple 분기 제거. component-ref + ReactNode 만 처리 |
+| `IconProp`, `IconPropsWithType`, `IconPropOrNode` | tuple 변형 제거 |
+| 컴포넌트 prop (Button/Tabs/Tooltip/Chip/Divider/Avatar/Badge/Breadcrumbs/Input/Select 등의 `icon`/`leadIcon`/`tailIcon`) | 타입에서 tuple 제거. 런타임에 tuple 받으면 dev throw + prod fallback + console.error |
+| `CellIcon` | `iconType` 필수 prop 제거 → `icon: RemixiconLikeComponent` 필수 prop으로 교체 |
+| `IconType`, `IconTypeWithFill` 타입 | `…/icons/icon-legacy` 로 이동 |
+| `parseIconTypeWithFill`, `isIconTuple` 함수 | `…/icons/icon-legacy` 로 이동 |
+| `preloadIcons`, `preloadIconCategory` | `…/icons/icon-legacy` 로 이동 |
+
+### 마이그레이션 경로
+
+#### 경로 A — Codemod (권장)
+
+```bash
+npx blumnai-icon-codemod migrate ./src
+```
+
+- Static literal tuple 모두 자동 변환: `iconType={['system','check']}` → `icon={RiCheckLine}` + `Ri*` import 자동 추가
+- 모든 prop 이름 대응: `icon`, `leadIcon`, `tailIcon`, `buttonLeadIcon`, `buttonTailIcon`
+- `CellIcon iconType` → `icon` 도 처리
+- Dynamic 패턴 (`iconType={isX ? [...] : [...]}`, `iconType={getIcon()}`)은 자동 변환 안 됨 — 수동 처리 필요. 패턴별 예시 ↓
+
+#### 경로 B — Escape hatch (호환만 필요)
+
+```bash
+npx blumnai-icon-codemod escape ./src
+```
+
+- Tuple 쓰는 파일의 import만 `…/icons/icon-legacy`로 재라우팅 (`Icon` → `LegacyIcon` 별칭)
+- 코드 본문 그대로, 동작 보장
+- **단, ~2.5MB chunk는 그대로 남습니다.** 절감 효과 없음.
+- 시간 날 때 경로 A로 옮겨갈 수 있음
+
+### Dynamic 패턴 수동 변환 예시
+
+```tsx
+// 조건부 이름
+- <Icon iconType={['system', isVisible ? 'eye-off' : 'eye']} />
++ <Icon icon={isVisible ? RiEyeOffLine : RiEyeLine} />
+
+// 함수 반환값
+- const getSortIcon = () => sorted ? 'arrow-up' : 'arrow-down';
+- <Icon iconType={['arrows', getSortIcon()]} />
++ const getSortIcon = (): RemixiconLikeComponent => sorted ? RiArrowUpLine : RiArrowDownLine;
++ <Icon icon={getSortIcon()} />
+
+// Map lookup
+- const iconNameMap = { add: 'add', remove: 'subtract' };
+- <Icon iconType={['system', iconNameMap[action]]} />
++ const iconMap = { add: RiAddLine, remove: RiSubtractLine };
++ <Icon icon={iconMap[action]} />
+```
+
+### 번들러 호환 매트릭스 (검증 결과)
+
+| Bundler | Tree-shake 동작 | 비고 |
+|---|---|---|
+| Vite (Rollup) | ✅ 검증 완료 | 144KB main, async chunk 없음 |
+| Rollup (직접) | ✅ 검증 완료 | Vite와 동일 (내부 Rollup) |
+| webpack 5 | ✅ 지원 | `sideEffects: false` 정상 인식 |
+| esbuild | ✅ 지원 | Vite의 transform 단계 |
+| webpack 4 | ⚠️ 부분 지원 | `sideEffects` 인식 약함; 마이그레이션 권장 |
+
+### 마이그레이션 전 사전 점검
+
+자기 코드에서 tuple 사용을 grep으로 확인:
+
+```bash
+# tuple 형 패턴
+grep -rE "iconType\s*=" ./src
+grep -rE "(icon|leadIcon|tailIcon|buttonLeadIcon|buttonTailIcon)\s*=\s*\{\s*\[" ./src
+
+# CellIcon iconType
+grep -rE "<CellIcon\b[^>]*iconType=" ./src
+
+# tuple 타입 import
+grep -rE "import.*\{.*(IconType|IconTypeWithFill|parseIconTypeWithFill|isIconTuple|preloadIcons|preloadIconCategory).*\}.*from\s*['\"]@blumnai-studio" ./src
+```
+
+매치 0건 = 즉시 v2.0 호환. 그대로 install + rebuild하면 ~2.5MB 청크 절감.
+
+### Heavy-icon-user (수백 개 아이콘) 가이드
+
+V2.0 이후 main bundle은 정적으로 들어가는 모든 아이콘을 포함합니다. 페이지 당 30개 정도면 무시 가능 (~9KB). 그러나 ~200개 이상이면 페이지 단위 code-splitting 권장:
+
+```tsx
+// Next.js dynamic import
+import dynamic from 'next/dynamic';
+
+const AdminToolbar = dynamic(() => import('./AdminToolbar'), {
+  ssr: true,
+});
+
+// React.lazy
+const Settings = React.lazy(() => import('./pages/Settings'));
+```
+
+각 페이지/라우트가 자기 아이콘만 로드 → main bundle 작게 유지.
+
+**임계점 가이드:**
+- <50 icons: 신경 X
+- 50–200 icons: 모니터링
+- 200+ icons: 페이지/라우트 단위 분리 권장
+
+### Rollback
+
+v2.0 publish 후 문제 발견 시:
+1. `npm install @blumnai-studio/blumnai-design-system@1.10.x` 로 pin
+2. 또는 위의 escape hatch (`…/icons/icon-legacy`)
+3. v2.0.1 핫픽스 대기
 
 ---
 

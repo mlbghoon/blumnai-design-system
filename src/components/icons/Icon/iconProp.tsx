@@ -13,10 +13,15 @@ declare const process: { env: { NODE_ENV?: string } } | undefined;
  * - `IconType` / `IconTypeWithFill` — `[category, name]` / `[category, name, isFill]` 튜플 (dynamic-string back-compat)
  * - `RemixiconLikeComponent` — `RiCheckLine` 같은 component 참조 (tree-shaking 권장)
  *
+ * @deprecated tuple form (`IconTypeWithFill`) will be removed in v2.0.0. Use a Remixicon
+ * component reference (e.g., `RiCheckLine`). Run `npx blumnai-icon-codemod ./src` to migrate.
+ * After v2.0.0 this type narrows to `RemixiconLikeComponent` only; the tuple form moves to
+ * `@blumnai-studio/blumnai-design-system/icons/icon-legacy`. See MIGRATION.md.
+ *
  * @example
- * leadIcon={['system', 'check']}
- * leadIcon={['system', 'check', true]}
- * leadIcon={RiCheckLine}
+ * leadIcon={['system', 'check']}    // ⚠️ deprecated, removed in v2.0.0
+ * leadIcon={['system', 'check', true]} // ⚠️ deprecated, removed in v2.0.0
+ * leadIcon={RiCheckLine}            // ✅ recommended
  */
 export type IconProp = IconTypeWithFill | RemixiconLikeComponent;
 
@@ -80,8 +85,11 @@ function warnLegacyIconTuple(icon: IconTypeWithFill): void {
   const tupleStr = `[${tupleParts.join(', ')}]`;
 
   console.warn(
-    `[blumnai-design-system] icon prop tuple ${tupleStr} is deprecated. ` +
-    `Replace with ${replacement}. See CHANGELOG v1.10.6 for the migration.`
+    `[blumnai-design-system] icon prop tuple ${tupleStr} is deprecated and will be removed in v2.0.0. ` +
+    `Replace with ${replacement}. ` +
+    `Run \`npx blumnai-icon-codemod ./src\` to auto-migrate, ` +
+    `or import from '@blumnai-studio/blumnai-design-system/icons/icon-legacy' as an escape hatch. ` +
+    `See MIGRATION.md.`
   );
 }
 

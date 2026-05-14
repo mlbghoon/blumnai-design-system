@@ -644,6 +644,8 @@ function AsyncForm() {
 
 ## Icons
 
+> ⚠️ **v2.0.0 will remove the tuple-form API.** `iconType={['cat','name']}`, `leadIcon={[...]}`, `CellIcon.iconType` and all tuple variants will be removed. Run `npx blumnai-icon-codemod ./src` now. v1.10.x emits dev-console warnings per unique tuple. See [MIGRATION.md](./MIGRATION.md#v200--icon-tuple-form-제거).
+
 The DS provides two equivalent APIs for `<Icon>`. **Prefer direct-import for tree-shaking** — bundles only the icons you actually use (~1KB per icon vs the legacy ~50-200KB per-category chunk).
 
 ### Direct-import API (recommended)
@@ -684,9 +686,11 @@ import { Button, Input, Chip, RiAddLine, RiSearchLine, RiHeartFill } from '@blum
 
 The legacy tuple form (`leadIcon={['system', 'add']}`) still works but emits a dev-console deprecation warning per unique tuple with the exact `Ri*` replacement to use. Production builds strip the warning.
 
-### Dynamic-string API (back-compat)
+### Dynamic-string API (back-compat, deprecated — removed in v2.0.0)
 
-Existing code using `iconType` continues to work. Behind the scenes the registry lazy-loads `@remixicon/react` once and resolves names from there.
+> ⚠️ **Removed in v2.0.0.** Migrate via `npx blumnai-icon-codemod ./src`. Existing code using `iconType` continues to work in v1.10.x with dev console warnings.
+
+Behind the scenes the registry lazy-loads `@remixicon/react` once and resolves names from there. **This causes a ~2.5MB async chunk in every consumer build** — direct-import API avoids it entirely.
 
 ```tsx
 import { Icon } from '@blumnai-studio/blumnai-design-system';
