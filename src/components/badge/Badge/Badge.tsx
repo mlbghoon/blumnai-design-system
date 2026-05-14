@@ -97,7 +97,7 @@ export const Badge = memo(forwardRef<HTMLDivElement, BadgeProps>(({
     classes.push(getBgClass(color, border));
 
     if (color === 'white') {
-      classes.push('border-solid border-[1px]');
+      classes.push('border-solid border');
     } else if (border) {
       classes.push('border-badge-default');
     }

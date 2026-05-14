@@ -62,13 +62,12 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
    * Icon to display before the label (or as the icon for iconOnly variant).
    *
    * 받는 형식:
-   * - tuple `[category, name]` / `[category, name, isFill]` — dynamic-string back-compat
    * - Remixicon component (`RiCheckLine` 등) — tree-shaking 권장
    * - ReactNode — 직접 렌더된 노드
    *
+   * @note v1.x tuple form은 v2.0.0에서 제거됐습니다.
    * @example leadIcon={RiAddLine}
    * @example leadIcon={RiAddFill}
-   * @example leadIcon={RiAddLine}
    */
   leadIcon?: ButtonIconType | ReactNode;
   /**
@@ -76,7 +75,6 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
    *
    * 받는 형식은 `leadIcon` 과 동일.
    *
-   * @example tailIcon={RiArrowRightLine}
    * @example tailIcon={RiArrowRightLine}
    */
   tailIcon?: ButtonIconType | ReactNode;

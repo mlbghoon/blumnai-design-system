@@ -55,8 +55,15 @@ export function ChartLegend({
               interactive && 'cursor-pointer hover:opacity-80 transition-opacity'
             )}
             role={interactive ? 'button' : 'listitem'}
+            tabIndex={interactive ? 0 : undefined}
             aria-pressed={interactive ? !isHidden : undefined}
             onClick={interactive ? () => onToggle?.(item.key) : undefined}
+            onKeyDown={interactive ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onToggle?.(item.key);
+              }
+            } : undefined}
             style={{ opacity: isHidden ? 0.4 : undefined }}
           >
             <div className="flex items-center ds-gap-2">

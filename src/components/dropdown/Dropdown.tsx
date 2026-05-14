@@ -188,7 +188,7 @@ const DropdownMenuItem = React.forwardRef<
           isLarge ? "width-28 height-28 rounded-sm bg-muted" : "width-20 height-20"
         )}>
           {renderIconProp(leadIcon, {
-            size: isLarge ? 16 : 16,
+            size: 16,
             color: effectiveIconColor,
           })}
         </div>

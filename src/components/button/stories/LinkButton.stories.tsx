@@ -41,8 +41,8 @@ const meta: Meta<typeof LinkButton> = {
         type: {
           summary: 'LinkButtonIconType | ReactNode',
           detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
-  leadIcon={RiLinkM}
-  leadIcon={RiFileTextLine}
+  leadIcon={RiLink}
+  leadIcon={RiExternalLinkLine}
 
 NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.
 
@@ -58,13 +58,11 @@ NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.
           summary: 'LinkButtonIconType | ReactNode',
           detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   tailIcon={RiExternalLinkLine}
-  tailIcon={RiArrowRightLine}
+  tailIcon={RiLink}
 
 NOTE: v1.x tuple form은 v2.0.0에서 제거됐습니다.
 
-또는 ReactNode (이미 렌더된 JSX)
-
-기본값: 외부 링크 아이콘`,
+또는 ReactNode (이미 렌더된 JSX)`,
         },
       },
     },

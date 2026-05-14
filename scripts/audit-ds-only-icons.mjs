@@ -27,10 +27,10 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
 const TAGS_PATH_CANDIDATES = [
-  '/tmp/remix-tags.json',
   path.join(ROOT, 'scripts', 'data', 'remix-tags.json'),
+  '/tmp/remix-tags.json',
 ];
-const REGISTRY_PATH = path.join(ROOT, 'src/components/icons/Icon/ui-icon-registry.tsx');
+const REGISTRY_PATH = path.join(ROOT, 'src/components/icons/Icon/legacy/ui-icon-registry.tsx');
 const REPORT_PATH = path.join(ROOT, 'docs/icon-audit-report.md');
 
 // ----- step 1: load Remixicon tags.json -----
@@ -42,11 +42,13 @@ async function loadTags() {
       return JSON.parse(fs.readFileSync(candidate, 'utf8'));
     }
   }
-  console.log('Fetching tags.json from Remix-Design/RemixIcon@master');
-  const res = await fetch('https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/tags.json');
-  if (!res.ok) throw new Error(`Failed to fetch tags.json: ${res.status}`);
-  const text = await res.text();
-  return JSON.parse(text);
+  throw new Error(
+    `No vendored tags.json found. Audit aborted to avoid non-deterministic results.\n` +
+    `Place a tags.json matching @remixicon/react@${process.env.npm_package_dependencies__remixicon_react ?? '4.x'} at one of:\n` +
+    TAGS_PATH_CANDIDATES.map((p) => `  - ${p}`).join('\n') +
+    `\n\nTo fetch a version-matched file manually:\n` +
+    `  curl -L https://raw.githubusercontent.com/Remix-Design/RemixIcon/v4.x/tags.json -o scripts/data/remix-tags.json`,
+  );
 }
 
 const tags = await loadTags();

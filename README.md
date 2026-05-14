@@ -79,13 +79,13 @@ import '@blumnai-studio/blumnai-design-system/styles';
 ### 컴포넌트 사용
 
 ```tsx
-import { Button, Input, Icon, Badge } from '@blumnai-studio/blumnai-design-system';
+import { Button, Input, Icon, Badge, RiAddLine } from '@blumnai-studio/blumnai-design-system';
 
 export default function MyPage() {
   return (
     <div>
       <Button buttonStyle="primary" size="md">
-        <Icon iconType={['system', 'add']} size={16} />
+        <Icon icon={RiAddLine} size={16} />
         새로 만들기
       </Button>
 
@@ -176,20 +176,20 @@ import { Button } from '@blumnai-studio/blumnai-design-system/button';
 
 ## 번들 최적화
 
-### 아이콘 로딩 방식
+### 아이콘 로딩 방식 (v2.0+)
 
-아이콘은 카테고리별 지연 로딩(lazy loading)으로 작동합니다:
+v2.0부터 모든 아이콘은 **직접 component import + tree-shaking**으로 작동합니다:
 
-1. `Icon` 컴포넌트를 import해도 아이콘 데이터는 번들에 포함되지 않습니다
-2. 아이콘이 처음 렌더링될 때 해당 카테고리만 비동기로 로드됩니다
-3. 같은 카테고리의 다른 아이콘은 캐시에서 즉시 표시됩니다
+1. `RiAddLine` 등 필요한 Remixicon 컴포넌트만 직접 import
+2. 번들러(Vite/webpack 5/Rollup/esbuild)가 미사용 아이콘을 자동 제거
+3. 메인 번들에 실제 사용한 아이콘만 포함 (개당 ~300바이트)
 
 | 임포트 방식 | 초기 번들 | 런타임 로드 |
 |------------|---------|-----------|
-| `Icon` + `iconType` prop | 컴포넌트 래퍼만 포함 (최소) | 사용 카테고리만 지연 로딩 |
-| `import { AddIcon } from '@blumnai-studio/blumnai-design-system/icons/system'` | 전체 카테고리 포함 | 없음 (정적 포함) |
+| `Icon` + `icon={Ri*}` prop (v2.0+ 권장) | 사용한 아이콘만 포함 (~300B/icon) | 없음 (정적 포함, no chunk) |
+| `…/icons/icon-legacy` (v1 호환용) | 컴포넌트 래퍼만 (최소) | `@remixicon/react` 전체 ~2.5MB async chunk |
 
-**권장**: `Icon` 컴포넌트 + `iconType` prop 사용 (자동 지연 로딩)
+**권장**: `<Icon icon={RiAddLine}>` — tree-shake로 메인 번들 최소화. v1.x의 `iconType` tuple 형식은 v2.0에서 제거됐습니다.
 
 ### 서브패스 임포트
 

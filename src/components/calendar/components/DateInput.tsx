@@ -357,10 +357,11 @@ export const DateInput = forwardRef<HTMLDivElement, DateInputProps>(({
       {!hideCalendarIcon && (
         <button
           type="button"
+          aria-label="캘린더 열기"
           disabled={disabled}
           onClick={handleCalendarIconClick}
           className={cn(
-            'flex-shrink-0 flex items-center justify-center',
+            'shrink-0 flex items-center justify-center',
             'hover:bg-state-ghost-hover rounded-xs transition-colors',
             disabled ? 'cursor-not-allowed' : 'cursor-pointer'
           )}

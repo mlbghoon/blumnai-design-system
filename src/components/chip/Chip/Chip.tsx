@@ -7,26 +7,20 @@ import type { ChipColor, ChipProps, ChipShape, ChipStyle } from './Chip.types';
 
 const getBadgeBgClass = (color: ChipColor): string => {
   if (color === 'neutral') return 'bg-badge-gray';
-  // 'black' uses the theme-flipping `--bg-badge-inverted` token so the chip
-  // stays high-contrast in both themes: solid dark on light themes, solid
-  // light on dark themes. (Plain `--bg-basic-black-accent` is theme-invariant
-  // and blends into a dark theme background.)
+  // 'black'은 라이트/다크 양쪽에서 고대비 유지를 위해 테마 반전 토큰 사용
   if (color === 'black') return '[background-color:var(--bg-badge-inverted)]';
   return `bg-badge-${color}`;
 };
 
 const getSubtleBgClass = (color: ChipColor): string => {
   if (color === 'neutral') return 'bg-basic-gray-subtle';
-  // Selected 'black': same theme-flipping bg as unselected. The selected state
-  // is signaled by the `border-darker` class added in selectedStyles.
   if (color === 'black') return '[background-color:var(--bg-badge-inverted)]';
   return `bg-basic-${color}-subtle`;
 };
 
 const getColorTextClass = (color: ChipColor): string => {
   if (color === 'neutral') return 'text-subtle';
-  // Text flips opposite of bg-badge-inverted: white on light theme (against
-  // black bg), dark on dark theme (against white bg).
+  // 'black' 배경의 반전 토큰과 짝을 이루는 반전 텍스트 색
   if (color === 'black') return '[color:var(--text-inverted-default)]';
   return `text-basic-${color}-strong`;
 };

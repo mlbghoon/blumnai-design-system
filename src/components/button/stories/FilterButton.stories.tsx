@@ -39,7 +39,7 @@ const meta: Meta<typeof FilterButton> = {
       description: '필터 버튼에 표시할 아이콘 (Remixicon `Ri*` component reference). 미지정 시 기본 필터 아이콘이 표시됩니다',
       table: {
         type: {
-          summary: 'IconType | RemixiconLikeComponent',
+          summary: 'RemixiconLikeComponent',
           detail: `Remixicon component (v2.0+ direct-import only, tree-shakeable):
   icon={RiFilter3Line}
   icon={RiEqualizerLine}

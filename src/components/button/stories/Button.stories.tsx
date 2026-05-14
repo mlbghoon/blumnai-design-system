@@ -216,10 +216,8 @@ export const Default: Story = {
     controls: { disable: false },
   },
   render: function Render(args) {
-    const isValidIcon = (icon: unknown): icon is [string, string] | [string, string, boolean] =>
-      Array.isArray(icon) && icon.length >= 2 && typeof icon[0] === 'string' && icon[0] !== '' && typeof icon[1] === 'string' && icon[1] !== '';
-    const leadIcon = isValidIcon(args.leadIcon) ? args.leadIcon : undefined;
-    const tailIcon = isValidIcon(args.tailIcon) ? args.tailIcon : undefined;
+    const leadIcon = args.leadIcon ?? undefined;
+    const tailIcon = args.tailIcon ?? undefined;
 
     return (
       <Button
@@ -687,16 +685,14 @@ export const WhiteColor: Story = {
 /**
  * Remixicon 컴포넌트 직접 전달 (tree-shakeable)
  *
- * `leadIcon` / `tailIcon` 에 `['system', 'add']` 같은 tuple 대신 `RiAddLine` 등의
- * Remixicon 컴포넌트 참조를 그대로 전달할 수 있습니다. v1.10.6+. 두 API 는 동시에
- * 지원되며 (tuple 은 dynamic-string back-compat 으로 계속 작동), 신규 코드에서는
- * tree-shaking 이점을 위해 컴포넌트 참조를 권장합니다.
+ * `leadIcon` / `tailIcon` 에 `RiAddLine` 등의 Remixicon 컴포넌트 참조를 그대로 전달합니다.
+ * v2.0+ — tuple form (`['system', 'add']`) 은 제거됐고, 모든 코드에서 컴포넌트 참조를 사용해야 합니다.
  *
  * - `import { RiCheckLine } from '@blumnai-studio/blumnai-design-system'`
  * - `<Button leadIcon={RiCheckLine}>확인</Button>`
  * - `<Button tailIcon={RiArrowRightLine}>다음</Button>`
  *
- * 같은 prop 에 ReactNode (이미 렌더된 JSX) 도 그대로 전달 가능합니다 — 기존 동작 변경 없음.
+ * 같은 prop 에 ReactNode (이미 렌더된 JSX) 도 그대로 전달 가능합니다.
  */
 export const WithRemixiconComponent: Story = {
   render: () => (
@@ -710,9 +706,8 @@ export const WithRemixiconComponent: Story = {
         <Button variant="iconOnly" leadIcon={RiAddLine} aria-label="추가" />
       </div>
       <div className="flex flex-wrap ds-gap-12 items-center justify-center">
-        {/* Mixed: tuple form 도 동시 지원 */}
-        <Button leadIcon={RiAddLine}>tuple form</Button>
-        <Button leadIcon={RiAddLine}>component form</Button>
+        <Button leadIcon={RiAddLine}>component form 1</Button>
+        <Button leadIcon={RiCheckLine}>component form 2</Button>
       </div>
     </div>
   ),

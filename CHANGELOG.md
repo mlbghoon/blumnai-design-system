@@ -286,7 +286,7 @@ import { Button, Input, RiAddLine, RiSearchLine } from '@blumnai-studio/blumnai-
 
 `leadIcon` / `tailIcon` / `icon` 같은 prop 에 tuple 을 전달하면 개발 모드에서 1회 (per unique tuple) `console.warn` 으로 마이그레이션 예시를 출력합니다. 가능한 경우 정확한 `Ri*` 컴포넌트 이름까지 매핑 테이블에서 찾아 안내합니다.
 
-```
+```text
 [blumnai-design-system] icon prop tuple ['system', 'add'] is deprecated.
 Replace with `RiAddLine` (import { RiAddLine } from '@blumnai-studio/blumnai-design-system').
 See CHANGELOG v1.10.6 for the migration.

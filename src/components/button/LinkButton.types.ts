@@ -45,7 +45,6 @@ export interface LinkButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonEle
   leadIcon?: LinkButtonIconType | ReactNode;
   /**
    * 라벨 뒤에 표시되는 아이콘
-   * @default ['system', 'external-link']
    * @example tailIcon={RiExternalLinkLine}
    */
   tailIcon?: LinkButtonIconType | ReactNode;

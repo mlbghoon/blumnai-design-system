@@ -341,7 +341,7 @@ DS 가 자체 SVG 카피본을 유지하지 않고 `@remixicon/react` 를 직접
 
 빌드 시 다음과 같은 에러:
 
-```
+```text
 Module not found: Can't resolve '@blumnai-studio/blumnai-design-system/icons/system'
 Module not found: Can't resolve '@blumnai-studio/blumnai-design-system/icons/arrows'
 ... (등 18개 카테고리)

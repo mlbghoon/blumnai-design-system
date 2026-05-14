@@ -4333,7 +4333,7 @@
       "sword",
       "target"
     ],
-    "health & medical": [
+    "health": [
       "aed",
       "aed-electrodes",
       "atom",
@@ -4943,7 +4943,7 @@
       "zoom-in",
       "zoom-out"
     ],
-    "user & faces": [
+    "user": [
       "account-box",
       "account-box-2",
       "account-circle",

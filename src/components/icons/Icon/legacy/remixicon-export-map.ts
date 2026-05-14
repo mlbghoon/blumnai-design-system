@@ -4340,7 +4340,7 @@ export const REMIXICON_CATEGORY_MANIFEST: Readonly<Record<string, readonly strin
     "sword",
     "target",
   ]),
-  "health & medical": Object.freeze([
+  "health": Object.freeze([
     "aed",
     "aed-electrodes",
     "atom",
@@ -5010,7 +5010,7 @@ export const REMIXICON_CATEGORY_MANIFEST: Readonly<Record<string, readonly strin
     "zoom-in",
     "zoom-out",
   ]),
-  "user & faces": Object.freeze([
+  "user": Object.freeze([
     "account-box",
     "account-box-2",
     "account-circle",

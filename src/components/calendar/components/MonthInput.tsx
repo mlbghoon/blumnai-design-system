@@ -211,6 +211,15 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
       <div
         className="flex items-center ds-gap-2 flex-1 min-w-0"
         onClick={pickerOnly ? handleCalendarIconClick : handleAreaClick}
+        onKeyDown={pickerOnly && !disabled ? (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onCalendarClick?.();
+          }
+        } : undefined}
+        role={pickerOnly ? 'button' : undefined}
+        tabIndex={pickerOnly && !disabled ? 0 : undefined}
+        aria-label={pickerOnly ? '캘린더 열기' : undefined}
       >
         {renderSegment('year')}
         <span className="text-hint size-sm">.</span>
@@ -219,10 +228,11 @@ export const MonthInput = forwardRef<HTMLDivElement, MonthInputProps>(({
       {!hideCalendarIcon && (
         <button
           type="button"
+          aria-label="캘린더 열기"
           disabled={disabled}
           onClick={handleCalendarIconClick}
           className={cn(
-            'flex-shrink-0 flex items-center justify-center',
+            'shrink-0 flex items-center justify-center',
             'hover:bg-state-ghost-hover rounded-xs transition-colors',
             disabled ? 'cursor-not-allowed' : 'cursor-pointer'
           )}

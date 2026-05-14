@@ -163,6 +163,7 @@ export const MonthPicker = ({
             <div className="flex items-center justify-between">
               <button
                 type="button"
+                aria-label="이전 연도"
                 onClick={() => setViewYear((y) => y - 1)}
                 className="flex items-center justify-center width-28 height-28 rounded-sm hover:bg-state-ghost-hover transition-colors"
               >
@@ -173,6 +174,7 @@ export const MonthPicker = ({
               </span>
               <button
                 type="button"
+                aria-label="다음 연도"
                 onClick={() => setViewYear((y) => y + 1)}
                 className="flex items-center justify-center width-28 height-28 rounded-sm hover:bg-state-ghost-hover transition-colors"
               >

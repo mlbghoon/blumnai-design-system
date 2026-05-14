@@ -228,10 +228,10 @@ const DialogContentInner = React.forwardRef<
             // 로 분리되어 body 만 스크롤, header·footer 는 항상 고정.
             : 'fixed left-[50%] top-[50%] z-[10000] w-full max-w-lg translate-x-[-50%] translate-y-[-50%] overflow-hidden rounded-lg flex flex-col',
           'bg-card shadow-modal-lg',
-          // Radix 가 focus trap fallback 으로 DialogContent (tabindex=-1) 에 포커스
-          // 를 떨어뜨릴 때 브라우저 기본 outline 이 모달 전체에 그려지는 시각 버그 방지.
-          // DialogContent 자체는 인터랙티브 요소가 아니므로 focus ring 은 표시하지 않음.
-          'focus:outline-none',
+          // Radix 가 focus trap fallback 으로 DialogContent (tabindex=-1) 에 포커스를 떨어뜨릴 때
+          // 브라우저 기본 outline 이 모달 전체에 그려지는 시각 버그 방지. `outline-hidden` 은
+          // 일반 렌더는 outline 제거하되 forced-colors (Windows 고대비) 모드에선 outline 보존.
+          'focus:outline-hidden',
           'duration-200',
           'data-[state=open]:animate-in data-[state=closed]:animate-out',
           'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',

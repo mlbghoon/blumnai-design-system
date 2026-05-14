@@ -13,7 +13,7 @@ export function MyTable({ rows }: { rows: Row[] }) {
       header: 'Status',
       cell: ({ row }) => {
         const isOk = row.original.status === 'ok';
-        // Static literal tuple — codemod should rewrite to `icon={Ri*Line|Fill}`.
+        // 정적 리터럴 tuple — codemod 가 `icon={Ri*Line|Fill}` 형태로 변환
         if (isOk) return <CellIcon icon={RiCheckLine} color="success" />;
         return <CellIcon icon={RiErrorWarningFill} color="warning" label="경고" />;
       },

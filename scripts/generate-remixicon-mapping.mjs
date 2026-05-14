@@ -78,9 +78,12 @@ async function loadTags() {
   for (const candidate of TAGS_PATH_CANDIDATES) {
     if (fs.existsSync(candidate)) return JSON.parse(fs.readFileSync(candidate, 'utf8'));
   }
-  const res = await fetch('https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/tags.json');
-  if (!res.ok) throw new Error(`Failed to fetch tags.json: ${res.status}`);
-  return JSON.parse(await res.text());
+  throw new Error(
+    `No vendored tags.json found. Mapping aborted to keep output deterministic across @remixicon/react versions.\n` +
+    `Place a version-matched tags.json at one of:\n` +
+    TAGS_PATH_CANDIDATES.map((p) => `  - ${p}`).join('\n') +
+    `\n\nFetch the file matching the installed @remixicon/react release tag, not master.`,
+  );
 }
 
 const tags = await loadTags();
@@ -170,11 +173,25 @@ for (const key of CRITICAL) {
 // ----- step 4: write output -----
 
 // Build category manifest (for Storybook catalog and DX) — { categoryName: [iconBaseName, ...] }
-// Uses the same DS category folder names that consumers know (lower-case, with `&` for compounds).
+// Uses the same DS category folder names that consumers know.
+//
+// CATEGORY_ALIASES handles tags.json compound names that DS publishes as a shortened
+// canonical key (e.g., 'Health & Medical' tags entry → DS 'health' folder). Keep this
+// table in sync with the registry generator so Storybook/resolver lookups stay aligned.
+const CATEGORY_ALIASES = {
+  'health & medical': 'health',
+  'user & faces': 'user',
+};
+
+const normalizeCategoryName = (raw) => {
+  const lower = raw.toLowerCase();
+  return CATEGORY_ALIASES[lower] ?? lower;
+};
+
 const categoryManifest = {};
 for (const [categoryName, entries] of Object.entries(tags)) {
   if (categoryName.startsWith('_') || typeof entries !== 'object') continue;
-  const dsCategoryName = categoryName.toLowerCase(); // Tags.json has 'Arrows', DS uses 'arrows'
+  const dsCategoryName = normalizeCategoryName(categoryName);
   categoryManifest[dsCategoryName] = Object.keys(entries).sort();
 }
 

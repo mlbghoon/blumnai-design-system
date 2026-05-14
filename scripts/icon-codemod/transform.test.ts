@@ -37,7 +37,6 @@ function loadFixturePairs(): FixturePair[] {
 }
 
 function normalize(source: string): string {
-  // Normalize trailing whitespace and line endings for comparison robustness.
   return source.replace(/\s+$/gm, '').replace(/\r\n/g, '\n').trim();
 }
 
@@ -45,8 +44,8 @@ describe('icon codemod', () => {
   const pairs = loadFixturePairs();
 
   it.each(pairs)('$name', ({ input, expected }) => {
-    // applyTransform returns '' (empty string) when the transform function returns undefined
-    // (i.e., no changes needed). In that case, the expected output should equal the input.
+    // applyTransform 이 빈 문자열을 반환하면 transform 이 undefined 를 돌려준 것 — 변경 없음.
+    // 이 경우 expected 가 input 과 동일해야 함.
     const result = applyTransform(transform, {}, { source: input, path: 'fixture.tsx' }, { parser: 'tsx' });
     const output = result === '' ? input : result;
     expect(normalize(output)).toBe(normalize(expected));
